@@ -197,6 +197,8 @@
     <div class="snote">GVM payload limit: 690 kg. Economy penalty applies above 150 kg.</div>
   </div>
 
+
+
   <div class="sblock">
     <div class="slabelwrap">
       <div class="slabel">Tyre pressure</div>
@@ -278,7 +280,7 @@
     <div class="cb" id="tip-txt">Loading...</div>
   </div>
 
-  <div class="sec">Angola &mdash; key fuel legs (loaded ~350 kg)</div>
+  <div class="sec">Example: Angola &mdash; key fuel legs (loaded ~350 kg)</div>
   <div class="ab">
     <div class="abh">Critical segments &middot; fuel used at terrain-adjusted consumption</div>
     <div class="abr"><span>Oshikango &rarr; Lubango (tarmac, ~510 km)</span><span class="abv" id="a1">-</span></div>
@@ -347,11 +349,11 @@ function upd(){
   document.getElementById('v-base-kml').textContent=base.toFixed(2)+' km/L';
   document.getElementById('v-base-l100').textContent=(100/base).toFixed(1)+' L/100km';
   var kg=parseInt(document.getElementById('sl-load').value);
-  var bar=parseFloat(document.getElementById('sl-bar').value);
+  var bar=parseFloat(document.getElementById('sl-bar').value)||2.5;
+  document.getElementById('v-bar').textContent=bar.toFixed(1)+' bar';
   var fuel=parseInt(document.getElementById('sl-fuel').value);
   var alt=parseFloat(document.getElementById('sl-alt').value)||0;
   document.getElementById('v-load').textContent=kg+' kg';
-  document.getElementById('v-bar').textContent=bar.toFixed(1)+' bar';
   document.getElementById('v-fuel').textContent=fuel+' L';
   document.getElementById('v-alt').textContent=alt.toLocaleString()+' m';
   var altPen=af(alt);
@@ -377,14 +379,16 @@ function upd(){
   var wb=document.getElementById('warn-box');
   var wt=document.getElementById('warn-txt');
   if(kg>580){wb.style.display='flex';wt.innerHTML='<strong>Payload '+kg+' kg</strong> — approaching GVM limit (690 kg). Reduce load before technical terrain if possible.';}
-  else if(bar<1.65&&AM<1.40){wb.style.display='flex';wt.innerHTML='<strong>Tyre pressure '+bar.toFixed(1)+' bar</strong> on hard terrain adds rolling resistance without traction benefit. Recommend 2.2–2.6 bar for gravel and tarmac.';}
+  else if(bar<1.65&&AM<1.10){wb.style.display='flex';wt.innerHTML='<strong>Tyre pressure '+bar.toFixed(1)+' bar</strong> on hard terrain adds rolling resistance without traction benefit. Recommend 2.2–2.6 bar for gravel and tarmac.';}
   else if(usable<30){wb.style.display='flex';wt.innerHTML='<strong>Only '+fuel+'L on board.</strong> Usable after 10L reserve: '+usable+'L. Plan your next fill stop.';}
   else{wb.style.display='none';}
   var tip=document.getElementById('tip-txt');
-  if(AM>=1.50&&AM<1.70){tip.innerHTML='<strong>Deep sand — 4L 3rd gear:</strong> Deflate to 1.2 bar, engage 4L, hold 3rd gear to maintain momentum. Avoid stopping — momentum is fuel. The 1HZ turbo builds boost smoothly in this range. Multiplier reflects disciplined 4L-3rd technique; poor sand driving can push toward ×1.6+. Tombua is last reliable fuel for the Iona circuit — carry 80–120L in jerry cans.';}
-  else if(AM>=1.40&&AM<1.60){tip.innerHTML='<strong>Rocky 4&times;4 track:</strong> 4L, slow and deliberate. Firm surface means less rolling resistance than sand — throttle variation and gear changes are the main fuel cost. Idle forward over obstacles where possible.';}
-  else if(AM>=1.20){tip.innerHTML='<strong>Gravel / corrugated terrain:</strong> Optimal pressure 2.2–2.5 bar. Cruise in 4H, maintain 1,800–2,200 RPM. Avoid lugging the 1HZ in 5th — change down to 4th until at speed.';}
-  else{tip.innerHTML='<strong>Highway running:</strong> Optimal RPM 1,800–2,200 in 5th. Altitude penalty: '+(alt>0?((af(alt)*100).toFixed(1)+'% at '+alt.toLocaleString()+'m'):'none at sea level')+'. The Terrain Tamer 5th (0.838:1) is your current ratio — the 0.711:1 overdrive kit would reduce cruise RPM by ~200 and improve economy by an estimated 0.2–0.4 km/L.';}
+  if(AM>=1.75){tip.innerHTML='<strong>Technical off-road:</strong> 4L, 1st or 2nd gear. Winching, recovery stops, extreme angles. Worst-case fuel scenario — plan stops at 55% of estimated range.';}
+  else if(AM>=1.50){tip.innerHTML='<strong>Deep sand — 4L 3rd gear:</strong> Deflate to 1.2 bar, engage 4L, hold 3rd gear to maintain momentum. Avoid stopping — momentum is fuel.';}
+  else if(AM>=1.40){tip.innerHTML='<strong>Rocky 4&times;4 track:</strong> 4L, slow and deliberate. Firm surface means less rolling resistance than sand — throttle variation and gear changes are the main fuel cost. Idle forward over obstacles where possible.';}
+  else if(AM>=1.20){tip.innerHTML='<strong>Corrugated dirt:</strong> 4H, steady pace, 1.6 bar tyre pressure.';}
+  else if(AM>=1.08){tip.innerHTML='<strong>Mixed / gravel:</strong> 4H, 2.0 bar. Rolling resistance increases on loose surfaces. Maintain smooth throttle — avoid constant acceleration and braking.';}
+  else{tip.innerHTML='<strong>Highway running:</strong> Firm surface, optimal conditions. Maintain steady throttle and cruise RPM. Altitude penalty: '+(alt>0?((af(alt)*100).toFixed(1)+'% at '+alt.toLocaleString()+'m'):'none')+'.';}
   TR.forEach(function(t,i){
     var c=cc(t.m,kg,bar);
     var r=Math.round((TANK-RES)*c);
