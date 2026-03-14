@@ -54,11 +54,11 @@
   .tbtn.active .tc{color:rgba(255,255,255,0.75)}
   .sblock{margin-bottom:8px}
   .srow{display:flex;align-items:center;gap:10px;margin-bottom:2px}
-  .slabel{font-family:'Oswald','Arial Narrow',sans-serif;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--smoke);width:22%;min-width:140px;flex-shrink:0}
+  .slabel{font-family:'Oswald','Arial Narrow',sans-serif;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--smoke);width:140px;min-width:0;flex-shrink:0}
   .srow input[type=range]{flex:1;-webkit-appearance:none;height:4px;background:var(--border);outline:none;cursor:pointer}
   input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--clay);border:2px solid var(--white);cursor:pointer}
   input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--clay);border:2px solid var(--white);cursor:pointer}
-  .sval{font-family:'Oswald','Arial Narrow',sans-serif;font-size:12px;font-weight:500;color:var(--bark);min-width:70px;text-align:right}
+  .sval{font-family:'Oswald','Arial Narrow',sans-serif;font-size:12px;font-weight:500;color:var(--bark);width:70px;min-width:0;flex-shrink:0;text-align:right}
   .snote{font-size:12px;color:var(--smoke);font-style:italic;padding-left:204px}
   .rgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:10px}
   .rc{background:var(--cream);color:var(--bark);padding:10px 14px;border-left:3px solid var(--clay)}
@@ -119,6 +119,15 @@
   @media(max-width:480px){
     .tgrid{grid-template-columns:1fr 1fr}
     .slabel{width:28%;font-size:9px}
+  }
+  @media(max-width:600px){
+    .slabel{width:100px;font-size:10px;letter-spacing:.03em}
+    .sval{width:58px;font-size:11px}
+    .srow{gap:6px}
+  }
+  @media(max-width:420px){
+    .slabel{width:80px;font-size:9px}
+    .sval{width:52px;font-size:10px}
   }
   @media print{
     .page{padding:0 24px}
@@ -387,7 +396,7 @@ upd();
 </script>
 
 <script>
-if ('serviceWorker' in navigator) {
+if ('serviceWorker' in navigator && location.hostname !== 'www.claudeusercontent.com') {
   window.addEventListener('load', function() {
     navigator.serviceWorker.register('./sw.js')
       .then(function(reg) { console.log('LC76 SW registered'); })
