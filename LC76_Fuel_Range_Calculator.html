@@ -53,12 +53,13 @@
   .tbtn .tc{font-family:'Oswald','Arial Narrow',sans-serif;font-size:9px;color:var(--smoke)}
   .tbtn.active .tc{color:rgba(255,255,255,0.75)}
   .sblock{margin-bottom:8px}
-  .srow{display:flex;align-items:center;gap:10px;margin-bottom:2px}
-  .slabel{font-family:'Oswald','Arial Narrow',sans-serif;font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--smoke);width:140px;min-width:0;flex-shrink:0}
-  .srow input[type=range]{flex:1;-webkit-appearance:none;height:4px;background:var(--border);outline:none;cursor:pointer}
+  .srow{display:flex;align-items:center;gap:12px;margin-bottom:2px}
+  .slabelwrap{display:flex;align-items:baseline;gap:10px;margin-bottom:4px}
+  .slabel{font-family:'Oswald','Arial Narrow',sans-serif;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--smoke)}
+  .srow input[type=range]{flex:1;min-width:0;-webkit-appearance:none;height:4px;background:var(--border);outline:none;cursor:pointer}
   input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--clay);border:2px solid var(--white);cursor:pointer}
   input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--clay);border:2px solid var(--white);cursor:pointer}
-  .sval{font-family:'Oswald','Arial Narrow',sans-serif;font-size:12px;font-weight:500;color:var(--bark);width:70px;min-width:0;flex-shrink:0;text-align:right}
+  .sval{font-family:'Oswald','Arial Narrow',sans-serif;font-size:14px;font-weight:600;color:var(--clay)}
   .snote{font-size:12px;color:var(--smoke);font-style:italic;padding-left:204px}
   .rgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:10px}
   .rc{background:var(--cream);color:var(--bark);padding:10px 14px;border-left:3px solid var(--clay)}
@@ -188,42 +189,40 @@
   <div class="sec" style="margin-top:0;">Conditions &mdash; <span style="font-weight:300;letter-spacing:0.05em;text-transform:none;font-size:11px;">move each slider to your current situation</span></div>
 
   <div class="sblock">
-    <div class="srow">
+    <div class="slabelwrap">
       <div class="slabel">Load &mdash; current payload</div>
-      <input type="range" min="0" max="690" step="10" value="350" id="sl-load" oninput="upd()">
       <div class="sval" id="v-load">350 kg</div>
     </div>
+    <input type="range" min="0" max="690" step="10" value="350" id="sl-load" oninput="upd()" style="width:100%">
     <div class="snote">GVM payload limit: 690 kg. Economy penalty applies above 150 kg.</div>
   </div>
 
   <div class="sblock">
-    <div class="srow">
+    <div class="slabelwrap">
       <div class="slabel">Tyre pressure</div>
-      <input type="range" min="1.1" max="2.9" step="0.1" value="2.5" id="sl-bar" oninput="upd()">
       <div class="sval" id="v-bar">2.5 bar</div>
     </div>
+    <input type="range" min="1.1" max="2.9" step="0.1" value="2.5" id="sl-bar" oninput="upd()" style="width:100%">
     <div class="snote">Hard terrain: 2.8 bar &middot; Mixed: 2.0 bar &middot; Gravel: 1.6&ndash;1.8 bar &middot; Sand: 1.2 bar</div>
   </div>
 
   <div class="sblock">
-    <div class="srow">
+    <div class="slabelwrap">
       <div class="slabel">Fuel on board</div>
-      <input type="range" min="10" max="185" step="5" value="145" id="sl-fuel" oninput="upd()">
-      <div class="sval" id="v-fuel">185 L</div>
+      <div class="sval" id="v-fuel">145 L</div>
     </div>
+    <input type="range" min="10" max="185" step="5" value="145" id="sl-fuel" oninput="upd()" style="width:100%">
     <div class="snote">Set to actual fuel load &mdash; tank + any jerry cans in use.</div>
   </div>
 
   <div class="sblock">
-    <div class="srow">
+    <div class="slabelwrap">
       <div class="slabel">Avg consumption</div>
-      <input type="range" min="4.0" max="12.0" step="0.1" value="7.26" id="sl-base" oninput="upd()">
       <div class="sval" id="v-base-kml">7.26 km/L</div>
+      <div style="font-family:'Oswald','Arial Narrow',sans-serif;font-size:10px;color:var(--clay);font-weight:500;" id="v-base-l100">13.7 L/100km</div>
     </div>
-    <div style="display:flex;justify-content:space-between;align-items:center;">
-      <div class="snote">Adjust to your recorded average. Affects all calculations.</div>
-      <div style="font-family:'Oswald','Arial Narrow',sans-serif;font-size:12px;color:var(--clay);font-weight:500;letter-spacing:0.05em;" id="v-base-l100">13.7 L/100km</div>
-    </div>
+    <input type="range" min="4.0" max="12.0" step="0.1" value="7.26" id="sl-base" oninput="upd()" style="width:100%">
+    <div class="snote">Adjust to your recorded average. Affects all calculations.</div>
   </div>
 
 </div>
