@@ -1,24 +1,16 @@
-const CACHE = 'lc76-range-v1';
-const ASSETS = [
-  './LC76_Fuel_Range_Calculator.html',
-  './manifest.json',
-  'https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap'
-];
+const CACHE = 'lc76-range-v2';
 
 self.addEventListener('install', function(e) {
   e.waitUntil(
     caches.open(CACHE).then(function(cache) {
-      // Cache the core files; Google Fonts may fail offline — that's fine
-      return cache.addAll([
-        './LC76_Fuel_Range_Calculator.html',
-        './manifest.json'
-      ]);
+      return cache.addAll(['./LC76_Fuel_Range_Calculator.html', './manifest.json']);
     })
   );
   self.skipWaiting();
 });
 
 self.addEventListener('activate', function(e) {
+  // Delete all old caches on activate
   e.waitUntil(
     caches.keys().then(function(keys) {
       return Promise.all(
@@ -31,11 +23,19 @@ self.addEventListener('activate', function(e) {
 });
 
 self.addEventListener('fetch', function(e) {
+  // Network-first: always try network, fall back to cache only if offline
   e.respondWith(
-    caches.match(e.request).then(function(cached) {
-      return cached || fetch(e.request).catch(function() {
-        // If offline and not cached, return the main app
-        return caches.match('./LC76_Fuel_Range_Calculator.html');
+    fetch(e.request).then(function(response) {
+      // Update cache with fresh response
+      var clone = response.clone();
+      caches.open(CACHE).then(function(cache) {
+        cache.put(e.request, clone);
+      });
+      return response;
+    }).catch(function() {
+      // Offline fallback
+      return caches.match(e.request).then(function(cached) {
+        return cached || caches.match('./LC76_Fuel_Range_Calculator.html');
       });
     })
   );
