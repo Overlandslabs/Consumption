@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LC76 Trip Planner">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1C1410">
+<title>LC76 Trip Fuel Planner</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --clay:#C4572A;--ochre:#D4963A;--sand:#E8D5A3;--cream:#F5EDDA;
+  --ink:#1C1410;--bark:#3D2B1A;--smoke:#6B5B4E;--white:#FDFAF4;
+  --border:rgba(61,43,26,0.15);--green-ok:#1A4731;--red-warn:#B91C1C;--amber:#92400E;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--white);color:var(--ink);font-family:'Oswald',sans-serif;font-size:15px;line-height:1.5}
+
+/* MASTHEAD */
+.masthead{background:var(--ink);color:var(--sand);padding:18px 4% 14px;position:relative;overflow:hidden}
+.masthead::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--clay),var(--ochre),transparent)}
+.ms{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--smoke);margin-bottom:8px}
+.masthead h1{font-size:clamp(22px,3.5vw,42px);font-weight:700;color:var(--cream);letter-spacing:-.01em;margin-bottom:6px;line-height:1}
+.masthead h1 em{font-style:italic;color:var(--ochre)}
+.masthead-sub{font-size:13px;color:var(--smoke);font-style:italic}
+
+/* VEHICLE BAR */
+.vbar{background:var(--bark);padding:10px 4%;display:flex;gap:20px;flex-wrap:wrap;font-size:11px;letter-spacing:.06em;color:var(--sand)}
+.vbar span{color:var(--ochre)}
+
+/* PAGE */
+.page{max-width:1100px;margin:0 auto;padding:20px 4% 60px}
+
+/* SECTION LABEL */
+.sec{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--smoke);border-bottom:1px solid var(--border);padding-bottom:4px;margin:24px 0 14px}
+.sec:first-of-type{margin-top:0}
+
+/* VEHICLE SETTINGS */
+.vsettings{background:var(--cream);border:1px solid var(--border);border-left:3px solid var(--ochre);padding:14px 18px;margin-bottom:4px}
+.vgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}
+.vfield label{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--smoke);display:block;margin-bottom:4px}
+.vfield input[type=number]{width:100%;background:var(--white);border:1px solid var(--border);padding:6px 10px;font-family:'Oswald',sans-serif;font-size:14px;font-weight:500;color:var(--bark);outline:none}
+  #v-base{width:auto;flex:1;min-width:0}
+.vfield input[type=number]:focus{border-color:var(--clay)}
+.vfield input[type=range]{width:100%;margin-top:2px}
+.vfield .vval{font-size:14px;font-weight:600;color:var(--clay);margin-top:2px}
+
+/* TRIP SETTINGS */
+.tsgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:14px}
+.tscard{background:var(--cream);border:1px solid var(--border);padding:10px 14px}
+.tscard label{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--smoke);display:block;margin-bottom:4px}
+.tscard input[type=number]{width:100%;background:var(--white);border:1px solid var(--border);padding:5px 8px;font-family:'Oswald',sans-serif;font-size:15px;font-weight:600;color:var(--bark);outline:none}
+.tscard input[type=number]:focus{border-color:var(--clay)}
+
+/* LEG TABLE */
+.leg-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:14px}
+.leg-table{width:100%;border-collapse:collapse;min-width:720px}
+.leg-table th{background:var(--ink);color:var(--ochre);font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:8px 10px;text-align:left;font-weight:500;white-space:nowrap}
+.leg-table td{padding:6px 8px;border-bottom:1px solid var(--border);vertical-align:middle}
+.leg-table tr:nth-child(even) td{background:rgba(212,150,58,0.04)}
+.leg-table tr.leg-row:hover td{background:rgba(196,87,42,0.06)}
+
+/* Leg row status colours */
+.leg-row.ok td{border-left:3px solid var(--green-ok)}
+.leg-row.warn td{border-left:3px solid var(--ochre)}
+.leg-row.crit td{border-left:3px solid var(--red-warn);background:rgba(185,28,28,0.04)!important}
+.leg-row.fill td{border-left:3px solid #1A6B99}
+
+/* Leg inputs */
+.leg-name{width:100%;background:transparent;border:none;border-bottom:1px solid var(--border);font-family:'Oswald',sans-serif;font-size:12px;color:var(--bark);padding:2px 4px;outline:none}
+.leg-name:focus{border-bottom-color:var(--clay)}
+.leg-dist{width:55px;max-width:55px;background:transparent;border:none;border-bottom:1px solid var(--border);font-family:'Oswald',sans-serif;font-size:12px;color:var(--bark);text-align:right;padding:2px 4px;outline:none}
+.leg-dist:focus{border-bottom-color:var(--clay)}
+.terrain-sel{background:var(--cream);border:1px solid var(--border);font-family:'Oswald',sans-serif;font-size:12px;color:var(--bark);padding:3px 6px;cursor:pointer;outline:none;width:100%}
+.terrain-sel:focus{border-color:var(--clay)}
+.fill-cb{width:16px;height:16px;cursor:pointer;accent-color:var(--clay)}
+.del-btn{background:none;border:none;color:var(--smoke);cursor:pointer;font-size:16px;padding:2px 6px;line-height:1}
+.del-btn:hover{color:var(--red-warn)}
+.act-btn{background:none;border:1px solid var(--border);color:var(--smoke);cursor:pointer;font-family:'Oswald',sans-serif;font-size:12px;letter-spacing:.04em;padding:3px 6px;line-height:1;white-space:nowrap}
+.act-btn:hover{background:var(--sand);color:var(--bark)}
+.act-btn.has-actual{background:var(--ochre);color:var(--white);border-color:var(--ochre)}
+
+/* Computed cells */
+.td-num{font-size:12px;font-family:'Oswald',sans-serif;text-align:right;white-space:nowrap;color:var(--smoke)}
+.td-num.good{color:var(--green-ok);font-weight:600}
+.td-num.amber{color:var(--amber);font-weight:600}
+.td-num.bad{color:var(--red-warn);font-weight:600}
+.td-fuel-bar{width:80px}
+.fuel-bar-track{height:8px;background:rgba(61,43,26,0.1);position:relative}
+.fuel-bar-fill{height:8px;position:absolute;top:0;left:0;transition:width .2s}
+
+/* BUTTONS */
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:4px}
+.btn{font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:8px 18px;cursor:pointer;border:1px solid var(--border);background:var(--cream);color:var(--bark);transition:all .15s}
+.btn:hover{background:var(--sand)}
+.btn.primary{background:var(--clay);color:var(--white);border-color:var(--clay)}
+.btn.primary:hover{background:var(--bark)}
+.btn.green{background:var(--green-ok);color:var(--white);border-color:var(--green-ok)}
+
+/* SUMMARY CARDS */
+.summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin-bottom:14px}
+.sc{background:var(--cream);border:1px solid var(--border);border-left:3px solid var(--ochre);padding:12px 14px}
+.sc.ok{border-left-color:var(--green-ok);background:#F0FDF4}
+.sc.warn{border-left-color:var(--ochre);background:#FFFBEB}
+.sc.bad{border-left-color:var(--red-warn);background:#FEF2F2}
+.sc-label{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--smoke);margin-bottom:4px}
+.sc-val{font-size:22px;font-weight:700;color:var(--bark);line-height:1;margin-bottom:2px;white-space:nowrap}
+.sc.ok .sc-val{color:var(--green-ok)}
+.sc.bad .sc-val{color:var(--red-warn)}
+.sc.warn .sc-val{color:var(--amber)}
+.sc-sub{font-size:11px;color:var(--smoke)}
+
+/* VERDICT */
+.verdict{padding:14px 18px;margin-bottom:14px;display:flex;gap:14px;align-items:flex-start;font-size:14px}
+.verdict.ok{background:#F0FDF4;border-left:4px solid var(--green-ok)}
+.verdict.warn{background:#FFFBEB;border-left:4px solid var(--ochre)}
+.verdict.bad{background:#FEF2F2;border-left:4px solid var(--red-warn)}
+.verdict-icon{font-size:20px;flex-shrink:0}
+.verdict-text{color:var(--smoke);line-height:1.6}
+.verdict-text strong{color:var(--bark)}
+
+/* FUEL PROFILE BAR */
+.profile-wrap{background:var(--cream);border:1px solid var(--border);padding:14px 18px;margin-bottom:14px}
+.profile-track{height:28px;display:flex;width:100%;margin-bottom:8px;overflow:hidden}
+.profile-seg{height:28px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600;letter-spacing:.08em;color:rgba(255,255,255,0.9);overflow:hidden;white-space:nowrap;transition:width .3s;min-width:0}
+.profile-legend{display:flex;gap:14px;flex-wrap:wrap;font-size:10px;color:var(--smoke)}
+.profile-legend-item{display:flex;align-items:center;gap:5px}
+.profile-dot{width:10px;height:10px;border-radius:50%}
+
+/* FUEL LEVEL LINE */
+.fuel-line-wrap{position:relative;height:60px;margin:10px 0 20px}
+.fuel-line-track{position:absolute;top:20px;left:0;right:0;height:4px;background:rgba(61,43,26,0.1)}
+.fuel-line-ok{position:absolute;top:20px;left:0;height:4px;background:var(--green-ok)}
+.fuel-dots{position:absolute;top:0;left:0;right:0}
+.fuel-dot{position:absolute;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:2px}
+.fuel-dot-circle{width:12px;height:12px;border-radius:50%;border:2px solid var(--white);margin-top:14px}
+.fuel-dot-label{font-size:8px;color:var(--smoke);white-space:nowrap;letter-spacing:.04em}
+
+/* FOOTER */
+footer{background:var(--ink);color:var(--smoke);padding:12px 4%;font-size:10px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;border-top:1px solid rgba(212,150,58,.2)}
+footer span{color:var(--ochre)}
+
+/* RESPONSIVE */
+@media(max-width:700px){
+  .vgrid{grid-template-columns:1fr 1fr}
+  .tsgrid{grid-template-columns:1fr 1fr}
+  .summary-grid{grid-template-columns:1fr 1fr}
+  .btn{font-size:10px;padding:7px 12px}
+}
+@media(max-width:440px){
+  .vgrid{grid-template-columns:1fr}
+  .summary-grid{grid-template-columns:1fr 1fr}
+}
+@media print{
+  footer,.btn-row{display:none}
+  .page{padding:0 16px}
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="ms">LC76 Overland Series &middot; Trip Planning</div>
+  <h1>Trip Fuel <em>Planner</em></h1>
+  <p class="masthead-sub">Multi-leg route planner &mdash; terrain-adjusted fuel budget per leg</p>
+</header>
+
+<div class="vbar">
+  <div>Vehicle: <span>LC76 SW 1HZ</span></div>
+  <div>Tank: <span>145 L</span></div>
+  <div>Jerry cans: <span>2&times; 20L</span></div>
+  <div>Total capacity: <span>185 L</span></div>
+</div>
+
+<main class="page">
+
+  <!-- VEHICLE SETTINGS -->
+  <div class="sec">Vehicle &amp; conditions</div>
+  <div class="vsettings">
+    <div class="vgrid">
+      <div class="vfield">
+        <label id="v-base-label">Baseline consumption</label>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <input type="number" id="v-base" value="7.26" min="3" max="15" step="0.01" onchange="recalc()" style="flex:1;">
+          <button onclick="toggleBaseUnit()" id="v-base-toggle" style="font-family:'Oswald',sans-serif;font-size:9px;letter-spacing:.08em;text-transform:uppercase;padding:4px 8px;background:var(--cream);border:1px solid var(--border);color:var(--smoke);cursor:pointer;white-space:nowrap;">km/L</button>
+        </div>
+      </div>
+      <div class="vfield">
+        <label>Tank capacity (L)</label>
+        <input type="number" id="v-tank" value="145" min="40" max="300" step="5" oninput="recalc()">
+      </div>
+      <div class="vfield">
+        <label>Jerry can capacity (L)</label>
+        <input type="number" id="v-jerry" value="40" min="0" max="120" step="5" oninput="recalc()">
+      </div>
+      <div class="vfield">
+        <label>Fuel reserve (L)</label>
+        <input type="number" id="v-reserve" value="10" min="0" max="30" step="5" oninput="recalc()">
+      </div>
+      <div class="vfield">
+        <label>Payload (kg)</label>
+        <input type="range" min="0" max="690" step="10" value="350" id="v-load" oninput="document.getElementById('v-load-val').textContent=this.value+' kg';recalc()">
+        <div class="vval" id="v-load-val">350 kg</div>
+      </div>
+      <div class="vfield">
+        <label>Altitude (m)</label>
+        <input type="range" min="0" max="3500" step="100" value="0" id="v-alt" oninput="document.getElementById('v-alt-val').textContent=parseInt(this.value).toLocaleString()+' m';recalc()">
+        <div class="vval" id="v-alt-val">0 m</div>
+      </div>
+      <div class="vfield">
+        <label>Fuel at trip start (L)</label>
+        <input type="number" id="t-startfuel" value="145" min="10" max="185" step="5" oninput="recalc()">
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- ROUTE LEGS -->
+  <div class="sec">Route legs</div>
+
+  <div class="leg-table-wrap">
+    <table class="leg-table" id="leg-table">
+      <thead>
+        <tr>
+          <th style="width:32px">#</th>
+          <th style="min-width:160px">From → To</th>
+          <th style="width:90px">Dist km</th>
+          <th style="width:90px">Total km</th>
+          <th style="min-width:160px">Terrain</th>
+          <th style="width:80px">Added (L)</th>
+          <th style="width:80px">Fuel used</th>
+          <th style="width:90px">Fuel left</th>
+          <th style="width:70px">Gauge</th>
+          <th style="width:80px">Actual</th>
+          <th style="width:32px"></th>
+        </tr>
+      </thead>
+      <tbody id="leg-tbody"></tbody>
+    </table>
+  </div>
+  <p style="font-size:10px;color:var(--smoke);font-style:italic;margin-bottom:14px;">&#8592; scroll for all columns on small screens</p>
+
+  <div class="btn-row">
+    <button class="btn primary" onclick="addLeg()">+ Add leg</button>
+    <button class="btn" onclick="loadAngola()">Load Angola example</button>
+    <button class="btn" onclick="clearAllLegs()">Clear all</button>
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="sec">Trip summary</div>
+  <div id="verdict-box" class="verdict ok" style="display:none">
+    <div class="verdict-icon" id="verdict-icon">&#10003;</div>
+    <div class="verdict-text" id="verdict-text"></div>
+  </div>
+  <div class="summary-grid" id="summary-grid"></div>
+
+  <!-- FUEL PROFILE -->
+  <div class="sec">Fuel level through trip</div>
+  <div class="profile-wrap">
+    <div class="profile-track" id="profile-track"></div>
+    <div class="profile-legend" id="profile-legend"></div>
+    <div class="fuel-line-wrap" id="fuel-line-wrap">
+      <div class="fuel-line-track"></div>
+      <div id="fuel-line-ok" class="fuel-line-ok"></div>
+      <div class="fuel-dots" id="fuel-dots"></div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <div>LC76 Overland Series &middot; <span>Trip Fuel Planner</span></div>
+  <div>Baseline: <span>7.26 km/L</span> &middot; LC76 SW 1HZ + Turbo + Intercooler</div>
+  <div>Estimates only &mdash; verify fuel availability before travel</div>
+</footer>
+
+<script>
+// ── Constants ──────────────────────────────────────────────────
+var REC_LOAD=350, REC_BAR=2.6;
+
+var TERRAINS=[
+  {id:'hwy',   name:'Highway tarmac',  mult:1.00, bar:2.8},
+  {id:'gravel',name:'Mixed / gravel',  mult:1.12, bar:2.0},
+  {id:'corr',  name:'Corrugated dirt', mult:1.25, bar:1.6},
+  {id:'sand',  name:'Deep sand',       mult:1.55, bar:1.2},
+  {id:'rocky', name:'Rocky 4×4 track',  mult:1.45, bar:1.6},
+  {id:'tech',  name:'Technical',       mult:1.80, bar:1.6},
+];
+
+var TERRAIN_COLORS={
+  hwy:'#1A5C2E', gravel:'#D4963A', corr:'#C4572A',
+  sand:'#8B5E0A', rocky:'#6B2D8B', tech:'#B91C1C'
+};
+
+var legs=[];
+var legId=0;
+
+// ── Calculation helpers ────────────────────────────────────────
+var baseUnit='kml';
+
+function toggleBaseUnit(){
+  var inp=document.getElementById('v-base');
+  var btn=document.getElementById('v-base-toggle');
+  var lbl=document.getElementById('v-base-label');
+  var cur=parseFloat(inp.value)||7.26;
+  if(baseUnit==='kml'){
+    baseUnit='l100';
+    inp.value=+(100/cur).toFixed(1);
+    inp.min=5;inp.max=35;inp.step=0.1;
+    btn.textContent='L/100km';
+    lbl.textContent='Baseline consumption (L/100km)';
+  } else {
+    baseUnit='kml';
+    inp.value=+(100/cur).toFixed(2);
+    inp.min=3;inp.max=15;inp.step=0.01;
+    btn.textContent='km/L';
+    lbl.textContent='Baseline consumption (km/L)';
+  }
+  recalc();
+}
+
+function gBase(){
+  var v=parseFloat(document.getElementById('v-base').value)||7.26;
+  return baseUnit==='l100'?100/v:v;
+}
+function gTank(){return parseFloat(document.getElementById('v-tank').value)||145}
+function gJerry(){return parseFloat(document.getElementById('v-jerry').value)||40}
+function gReserve(){return parseFloat(document.getElementById('v-reserve').value)||10}
+function gLoad(){return parseFloat(document.getElementById('v-load').value)||350}
+function gAlt(){return parseFloat(document.getElementById('v-alt').value)||0}
+function gStartFuel(){return parseFloat(document.getElementById('t-startfuel').value)||145}
+function gMaxFuel(){return gTank()+gJerry()}
+
+function lp(kg){return kg<=REC_LOAD?0:(kg-REC_LOAD)/690*0.12}
+function bf(bar){var d=bar-REC_BAR;return d>=0?-d*0.044:Math.abs(d)*0.116}
+function af(alt){return (alt/1000)*0.035}
+
+function consumption(terrMult, bar){
+  return gBase()*(1-lp(gLoad())-bf(bar)-af(gAlt()))/terrMult;
+}
+
+function setActual(id){
+  var l=getLegData(id);
+  if(!l)return;
+  // Toggle inline input row
+  var existing=document.getElementById('actual-row-'+id);
+  if(existing){existing.parentNode.removeChild(existing);return;}
+  var tr=document.querySelector('tr[data-id="'+id+'"]');
+  if(!tr)return;
+  var cols=tr.querySelectorAll('td').length;
+  var row=document.createElement('tr');
+  row.id='actual-row-'+id;
+  row.style.background='rgba(212,150,58,0.08)';
+  row.innerHTML='<td colspan="'+cols+'" style="padding:8px 12px;">'+
+    '<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">'+
+    '<span style="font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--smoke);">Actual gauge at end of this leg (% of 145L tank):</span>'+
+    '<input type="number" id="actual-inp-'+id+'" min="0" max="100" step="1" value="'+(l.actual!==null?Math.round(l.actual/gTank()*100):'')+'" placeholder="e.g. 75" '+
+    'style="width:90px;font-family:Oswald,sans-serif;font-size:15px;font-weight:600;color:var(--bark);border:1px solid var(--ochre);padding:4px 8px;background:var(--white);outline:none;" />'+
+    '<span style="font-size:12px;color:var(--smoke);">%</span>'+
+    '<button onclick="confirmActual('+id+')" style="font-family:Oswald,sans-serif;font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:5px 14px;background:var(--clay);color:var(--white);border:none;cursor:pointer;">Set</button>'+
+    '<button onclick="clearActual('+id+')" style="font-family:Oswald,sans-serif;font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:5px 14px;background:none;color:var(--smoke);border:1px solid var(--border);cursor:pointer;">Clear</button>'+
+    '<button onclick="closeActual('+id+')" style="font-family:Oswald,sans-serif;font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:5px 14px;background:none;color:var(--smoke);border:1px solid var(--border);cursor:pointer;">Cancel</button>'+
+    '</div></td>';
+  tr.parentNode.insertBefore(row, tr.nextSibling);
+  document.getElementById('actual-inp-'+id).focus();
+}
+
+function editDist(id){
+  var l=getLegData(id);
+  if(!l)return;
+  var cell=document.getElementById('distcell-'+id);
+  if(!cell)return;
+  var inp=document.createElement('input');
+  inp.type='number';inp.value=l.dist;inp.min=1;inp.max=2000;inp.step=10;
+  inp.style.cssText='width:60px;font-family:Oswald,sans-serif;font-size:12px;color:var(--bark);border:none;border-bottom:1px solid var(--clay);background:transparent;text-align:right;outline:none;';
+  cell.innerHTML='';cell.appendChild(inp);inp.focus();inp.select();
+  function done(){l.dist=parseFloat(inp.value)||l.dist;recalc();}
+  inp.addEventListener('blur',done);
+  inp.addEventListener('keydown',function(e){if(e.key==='Enter')inp.blur();if(e.key==='Escape'){cell.textContent=l.dist.toLocaleString()+' km';}}); 
+}
+function closeActual(id){var r=document.getElementById('actual-row-'+id);if(r)r.parentNode.removeChild(r);}
+
+function confirmActual(id){
+  var l=getLegData(id);
+  if(!l)return;
+  var inp=document.getElementById('actual-inp-'+id);
+  if(!inp)return;
+  var pct=parseFloat(inp.value);
+  if(isNaN(pct)||pct<0||pct>100){
+    inp.style.borderColor='var(--red-warn)';
+    inp.focus();
+    return;
+  }
+  // Store as litres internally, converted from %
+  l.actual=+(pct/100*gTank()).toFixed(1);
+  var row=document.getElementById('actual-row-'+id);
+  if(row)row.parentNode.removeChild(row);
+  recalc();
+}
+
+function clearActual(id){
+  var l=getLegData(id);
+  if(l)l.actual=null;
+  var row=document.getElementById('actual-row-'+id);
+  if(row)row.parentNode.removeChild(row);
+  recalc();
+}
+
+function terrainById(id){
+  return TERRAINS.find(function(t){return t.id===id})||TERRAINS[0];
+}
+
+// ── Leg management ─────────────────────────────────────────────
+function addLeg(name, dist, terrId, fill, fillTo){
+  var t=terrainById(terrId||'hwy');
+  legs.push({
+    id:++legId,
+    from:'',
+    to:'',
+    dist:dist||100,
+    terr:t.id,
+    added:0,  // litres physically added at start of this leg
+    actual:null  // null = use calculated; number = override with actual gauge reading
+  });
+  renderLegs();
+  recalc();
+}
+
+function removeLeg(id){
+  legs=legs.filter(function(l){return l.id!==id});
+  renderLegs();
+  recalc();
+}
+
+function clearAllLegs(){
+  legs=[];legId=0;
+  renderLegs();
+  recalc();
+}
+
+function loadAngola(){
+  legs=[];legId=0;
+  var angola=[
+    {name:'Oshikango → Lubango',  dist:510, terr:'hwy',   added:0},
+    {name:'Lubango → Namibe',     dist:210, terr:'gravel', added:70},
+    {name:'Namibe → Tombua',      dist:180, terr:'corr',  added:75},
+    {name:'Tombua → Iona circuit',dist:350, terr:'sand',  added:0},
+    {name:'Iona → Foz do Cunene', dist:130, terr:'tech',  added:0},
+    {name:'Cunene → Oncocua',     dist:100, terr:'rocky', added:0},
+    {name:'Oncocua → Calueque',   dist:280, terr:'corr',  added:143},
+  ];
+  angola.forEach(function(l){
+    var parts=l.name.split('→');
+    legs.push({id:++legId,from:parts[0].trim(),to:parts[1]?parts[1].trim():'',dist:l.dist,terr:l.terr,added:l.added||0,actual:null});
+  });
+  document.getElementById('t-startfuel').value=145;
+  renderLegs();
+  recalc();
+}
+
+function getLegData(id){return legs.find(function(l){return l.id===id})}
+
+function onLegChange(id, field, val){
+  var l=getLegData(id);
+  if(!l)return;
+  if(field==='from')l.from=val;
+  else if(field==='to')l.to=val;
+  else if(field==='dist'){l.dist=parseFloat(val)||0;}
+  else if(field==='terr')l.terr=val;
+  else if(field==='added'){var v=parseFloat(val);l.added=(!isNaN(v)&&v>=0)?v:0;}
+  recalc();
+}
+
+// ── Render leg table ───────────────────────────────────────────
+function renderLegs(){
+  var tbody=document.getElementById('leg-tbody');
+  tbody.innerHTML='';
+  if(legs.length===0){
+    var tr=document.createElement('tr');
+    tr.innerHTML='<td colspan="10" style="text-align:center;padding:24px;color:var(--smoke);font-size:13px;font-style:italic">No legs added. Click "+ Add leg" or "Load Angola example".</td>';
+    tbody.appendChild(tr);
+    return;
+  }
+  legs.forEach(function(l,i){
+    var tr=document.createElement('tr');
+    tr.className='leg-row';
+    tr.dataset.id=l.id;
+    var terrOpts=TERRAINS.map(function(t){
+      return '<option value="'+t.id+'"'+(t.id===l.terr?' selected':'')+'>'+t.name+'</option>';
+    }).join('');
+    tr.innerHTML=
+      '<td style="font-size:12px;color:var(--smoke);text-align:center;">'+(i+1)+'</td>'+
+      '<td style="white-space:nowrap;padding:4px 6px;">'+
+      '<input class="leg-name" style="width:65px" placeholder="From" value="'+escHtml(l.from)+'" oninput="onLegChange('+l.id+',\'from\',this.value)">'+
+      '<span style="color:var(--ochre);font-weight:700;margin:0 4px;">→</span>'+
+      '<input class="leg-name" style="width:65px" placeholder="To" value="'+escHtml(l.to)+'" oninput="onLegChange('+l.id+',\'to\',this.value)">'+
+      '</td>'+
+      '<td class="td-num" style="color:var(--smoke);cursor:pointer;" id="distcell-'+l.id+'" title="Click to edit" onclick="editDist('+l.id+')">'+l.dist.toLocaleString()+' km</td>'+
+      '<td class="td-num" id="cumkm-'+l.id+'" style="color:var(--smoke)">-</td>'+
+      '<td><select class="terrain-sel" onchange="onLegChange('+l.id+',\'terr\',this.value)">'+terrOpts+'</select></td>'+
+      
+      '<td style="text-align:right;"><input class="leg-dist" type="number" value="'+l.added+'" min="0" max="185" step="5" onchange="onLegChange('+l.id+',\'added\',this.value)" style="width:52px;" placeholder="0"></td>'+
+      '<td class="td-num" id="used-'+l.id+'">-</td>'+
+      '<td class="td-num" id="left-'+l.id+'">-</td>'+
+      '<td class="td-num" id="bar-'+l.id+'">-</td>'+
+      '<td><button class="act-btn" onclick="setActual('+l.id+')" title="Set actual gauge reading" id="actbtn-'+l.id+'">gauge</button></td>'+
+      '<td><button class="del-btn" onclick="removeLeg('+l.id+')" title="Remove leg">&times;</button></td>';
+    tbody.appendChild(tr);
+
+  });
+}
+
+function escHtml(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── Main recalculation ─────────────────────────────────────────
+function recalc(){
+  if(legs.length===0){
+    renderSummary([],0,0);
+    renderProfile([],0);
+    return;
+  }
+  var fuel=gStartFuel();
+  var maxFuel=gMaxFuel();
+  var reserve=gReserve();
+  var results=[];
+  var ok=true;
+  var totalDist=0, totalUsed=0, shortfall=0;
+  var cumKm=0;
+
+  legs.forEach(function(l){
+    var t=terrainById(l.terr);
+    var cons=consumption(t.mult, t.bar);
+    var used=+(l.dist/cons).toFixed(1);
+    var fuelBefore=fuel;
+
+    // Add fuel at start of this leg (litres poured in)
+    if(l.added>0){
+      fuel=Math.min(fuel+l.added, maxFuel);
+    }
+
+    var fuelAfter=fuel-used;
+
+    // Actual gauge override — replaces calculated fuel remaining at END of leg
+    // Next leg will start from this real number instead of the estimate
+    if(l.actual!==null){
+      fuelAfter=l.actual;
+    }
+
+    var usable=fuel-reserve;
+    var legOk=usable>=used;
+    var deficit=legOk?0:(used-usable);
+
+    cumKm+=l.dist;
+    results.push({
+      id:l.id, name:l.name, dist:l.dist, terr:l.terr,
+      name:l.from+' → '+l.to, cons:cons, used:used, fuelBefore:fuelBefore,
+      fuelAtStart:fuel, fuelAfter:fuelAfter,
+      ok:legOk, deficit:deficit, fill:l.fill, fillTo:l.fillTo,
+      cumKm:cumKm
+    });
+
+    if(!legOk){ok=false;shortfall+=deficit;}
+    fuel=Math.max(0,fuelAfter);
+    totalDist+=l.dist;
+    totalUsed+=used;
+  });
+
+  // Update leg rows
+  results.forEach(function(r){
+    var tr=document.querySelector('tr[data-id="'+r.id+'"]');
+    if(!tr)return;
+    // If actual was set, Tank % shows the actual reading directly
+    var leg=getLegData(r.id);
+    var pct=leg&&leg.actual!==null
+      ? Math.max(0,Math.min(100,leg.actual/gTank()*100))
+      : Math.max(0,Math.min(100,(r.fuelAfter/maxFuel)*100));
+    // Cap display at 100%
+    pct=Math.min(100,pct);
+    var usedEl=document.getElementById('used-'+r.id);
+    var leftEl=document.getElementById('left-'+r.id);
+    var barEl=document.getElementById('bar-'+r.id);
+    var cumEl=document.getElementById('cumkm-'+r.id);
+    if(cumEl)cumEl.textContent=r.cumKm.toLocaleString()+' km';
+    var distCell=document.getElementById('distcell-'+r.id);
+    if(distCell)distCell.textContent=r.dist.toLocaleString()+' km';
+
+
+    if(usedEl)usedEl.textContent=r.used.toFixed(1)+' L';
+    if(leftEl){
+      leftEl.textContent=r.fuelAfter>0?r.fuelAfter.toFixed(1)+' L':'EMPTY';
+      leftEl.className='td-num'+(r.fuelAfter<reserve?' bad':r.fuelAfter<reserve*2.5?' amber':' good');
+    }
+    if(barEl){
+      barEl.textContent=Math.max(0,pct).toFixed(0)+'%';
+      barEl.className='td-num'+(r.fuelAfter<reserve?' bad':r.fuelAfter<reserve*2.5?' amber':' good');
+    }
+    // Row status
+    tr.className='leg-row '+(r.added>0?'fill':r.ok?(r.fuelAfter<reserve*2?'warn':'ok'):'crit');
+    var actBtn=document.getElementById('actbtn-'+r.id);
+    if(actBtn){
+      if(leg&&leg.actual!==null){
+        actBtn.className='act-btn has-actual';
+        actBtn.title='End of leg actual: '+Math.round(leg.actual/gTank()*100)+'% / '+leg.actual.toFixed(1)+'L (click to change)';
+      } else {
+        actBtn.className='act-btn';
+        actBtn.title='Set actual gauge reading';
+      }
+    }
+  });
+
+  renderSummary(results, totalDist, totalUsed, ok, shortfall);
+  renderProfile(results, maxFuel);
+  renderFuelLine(results, maxFuel, reserve);
+}
+
+// ── Summary cards ──────────────────────────────────────────────
+function renderSummary(results, totalDist, totalUsed, ok, shortfall){
+  var sg=document.getElementById('summary-grid');
+  var vb=document.getElementById('verdict-box');
+
+  if(results.length===0){
+    sg.innerHTML='';
+    vb.style.display='none';
+    return;
+  }
+
+  var maxFuel=gMaxFuel();
+  var reserve=gReserve();
+  var fuelLeft=results.length?results[results.length-1].fuelAfter:0;
+  var critLegs=results.filter(function(r){return !r.ok});
+  var avgCons=totalDist>0?(totalUsed/totalDist*100):0;
+
+  // Verdict
+  vb.style.display='flex';
+  var vi=document.getElementById('verdict-icon');
+  var vt=document.getElementById('verdict-text');
+  if(ok){
+    vb.className='verdict ok';
+    vi.innerHTML='&#10003;';
+    vt.innerHTML='<strong>Route is viable.</strong> Fuel is sufficient for all '+results.length+' legs with '+gReserve()+'L reserve maintained. Fuel remaining at end: '+fuelLeft.toFixed(1)+'L.';
+  } else {
+    vb.className='verdict bad';
+    vi.innerHTML='&#9888;';
+    vt.innerHTML='<strong>Fuel shortfall on '+critLegs.length+' leg'+(critLegs.length>1?'s':'')+'.</strong> Total deficit: '+shortfall.toFixed(1)+'L. Increase fuel at previous fill stops or add jerry cans. Critical legs: '+critLegs.map(function(r){return r.from+' → '+r.to}).join(', ')+'.';
+  }
+
+  sg.innerHTML=
+    '<div class="sc '+(ok?'ok':'bad')+'"><div class="sc-label">Route viable</div><div class="sc-val">'+(ok?'Yes':'No')+'</div><div class="sc-sub">'+(ok?critLegs.length+' issues':critLegs.length+' critical leg'+(critLegs.length>1?'s':''))+'</div></div>'+
+    '<div class="sc"><div class="sc-label">Total distance</div><div class="sc-val">'+Math.round(totalDist).toLocaleString()+' km</div><div class="sc-sub">across '+results.length+' legs</div></div>'+
+    '<div class="sc"><div class="sc-label">Total fuel used</div><div class="sc-val">'+totalUsed.toFixed(0)+' L</div><div class="sc-sub">avg '+avgCons.toFixed(1)+' L/100km</div></div>'+
+    '<div class="sc '+(fuelLeft<reserve?'bad':fuelLeft<reserve*2?'warn':'ok')+'"><div class="sc-label">Fuel at end</div><div class="sc-val">'+Math.max(0,fuelLeft).toFixed(0)+' L</div><div class="sc-sub">'+(Math.max(0,fuelLeft/maxFuel*100)).toFixed(0)+'% of capacity</div></div>'+
+        (function(){
+  var kml=totalDist>0?(totalDist/totalUsed):0;
+  var l100=kml>0?(100/kml):0;
+  var primary=baseUnit==='l100'?l100.toFixed(1)+' L/100km':kml.toFixed(2)+' km/L';
+  var secondary=baseUnit==='l100'?kml.toFixed(2)+' km/L':l100.toFixed(1)+' L/100km';
+  return '<div class="sc" style="min-width:180px;"><div class="sc-label">Avg consumption</div><div class="sc-val">'+(totalDist>0?primary:'—')+'</div><div class="sc-sub">'+secondary+' blended</div></div>';
+})();
+}
+
+// ── Fuel profile bar ───────────────────────────────────────────
+function renderProfile(results, maxFuel){
+  var track=document.getElementById('profile-track');
+  var legend=document.getElementById('profile-legend');
+  if(results.length===0){track.innerHTML='';legend.innerHTML='';return;}
+
+  var totalDist=results.reduce(function(a,r){return a+r.dist},0);
+  var seenTerr={};
+  var segs='';
+  results.forEach(function(r){
+    var pct=(r.dist/totalDist*100).toFixed(2);
+    var col=TERRAIN_COLORS[r.terr]||'#888';
+    segs+='<div class="profile-seg" style="width:'+pct+'%;background:'+col+'" title="'+r.from+' to '+r.to+': , '+r.dist+'km"></div>';
+    seenTerr[r.terr]=col;
+  });
+  track.innerHTML=segs;
+
+  var leg='';
+  Object.keys(seenTerr).forEach(function(id){
+    var t=terrainById(id);
+    leg+='<div class="profile-legend-item"><div class="profile-dot" style="background:'+seenTerr[id]+'"></div>'+t.name+'</div>';
+  });
+  legend.innerHTML=leg;
+}
+
+// ── Fuel level line ────────────────────────────────────────────
+function renderFuelLine(results, maxFuel, reserve){
+  var dots=document.getElementById('fuel-dots');
+  var okLine=document.getElementById('fuel-line-ok');
+  if(results.length===0){dots.innerHTML='';okLine.style.width='0';return;}
+
+  // Points: start + after each leg
+  var points=[{label:'Start',fuel:gStartFuel(),fill:false}];
+  results.forEach(function(r){
+    points.push({label:r.to||r.from,fuel:Math.max(0,r.fuelAfter),fill:r.fill});
+  });
+
+  var n=points.length;
+  var html='';
+  var lastGoodPct=0;
+
+  points.forEach(function(p,i){
+    var xPct=(i/(n-1)*100).toFixed(1);
+    var fuelPct=Math.max(0,Math.min(100,p.fuel/maxFuel*100));
+    var col=p.fuel<reserve?'var(--red-warn)':p.fuel<reserve*2.5?'var(--ochre)':'var(--green-ok)';
+    if(p.fuel>=reserve)lastGoodPct=parseFloat(xPct);
+    html+='<div class="fuel-dot" style="left:'+xPct+'%">'+
+      '<div class="fuel-dot-circle" style="background:'+col+';border-color:var(--white)"></div>'+
+      '<div class="fuel-dot-label">'+p.fuel.toFixed(0)+'L</div>'+
+    '</div>';
+  });
+
+  dots.innerHTML=html;
+  okLine.style.width=lastGoodPct+'%';
+}
+
+// ── Init ───────────────────────────────────────────────────────
+renderLegs();
+recalc();
+</script>
+</body>
+</html>
