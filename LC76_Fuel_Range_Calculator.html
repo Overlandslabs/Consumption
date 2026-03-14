@@ -12,7 +12,7 @@
 <link rel="apple-touch-icon" href="icon-192.svg">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <title>LC76 Fuel Range Calculator - HZJ76R 1HZ</title>
- 
+
 <style>
   :root {
     --clay:#C4572A; --ochre:#D4963A; --sand:#E8D5A3; --cream:#F5EDDA;
@@ -143,7 +143,7 @@
 <header class="masthead">
   <div class="ms">LC76 Overland Series &middot; Field Calculator</div>
   <h1>Fuel Range <em>Calculator</em></h1>
-  <p class="masthead-sub">HZJ76R-RKMRS &middot; 1HZ 4.2L + Turbo + Intercooler &middot; Terrain-adjusted consumption estimates</p>
+  <p class="masthead-sub">Terrain-adjusted consumption estimates</p>
   <div class="mspecs">
     <div>Tank: <span>145 L</span></div>
     <div>Jerry cans: <span>2&times; 20 L</span></div>
@@ -155,7 +155,7 @@
 
 <main class="page">
 
-  <div class="sec">Fuel capacity &mdash; <span style="font-weight:300;letter-spacing:0.05em;text-transform:none;font-size:11px;">HZJ76R-RKMRS · your current vehicle configuration</span></div>
+  <div class="sec">Fuel capacity &mdash; <span style="font-weight:300;letter-spacing:0.05em;text-transform:none;font-size:11px;">Calculated for a Land Cruiser 76 SW 1HZ with low boost turbo and intercooler</span></div>
   <div class="cap-grid">
     <div class="cc"><div class="cl">Main tank</div><div class="cv">145 L</div><div class="cs">Replacement long-range tank</div></div>
     <div class="cc"><div class="cl">Jerry cans</div><div class="cv">40 L</div><div class="cs">2&times; Desert Fox 20L</div></div>
@@ -223,6 +223,16 @@
     </div>
     <input type="range" min="4.0" max="12.0" step="0.1" value="7.26" id="sl-base" oninput="upd()" style="width:100%">
     <div class="snote">Adjust to your recorded average. Affects all calculations.</div>
+  </div>
+
+  <div class="sblock">
+    <div class="slabelwrap">
+      <div class="slabel">Altitude</div>
+      <div class="sval" id="v-alt">0 m</div>
+      <div style="font-family:'Oswald','Arial Narrow',sans-serif;font-size:10px;color:var(--clay);font-weight:500;" id="v-alt-penalty">no penalty</div>
+    </div>
+    <input type="range" min="0" max="3500" step="100" value="0" id="sl-alt" oninput="upd()" style="width:100%">
+    <div class="snote">1HZ turbo+intercooler: ~3.5% penalty per 1,000m</div>
   </div>
 
 </div>
@@ -296,7 +306,7 @@
 </main>
 
 <footer>
-  <div>LC76 Overland Series &middot; <span>HZJ76R-RKMRS</span> &middot; Fuel Range Calculator</div>
+  <div>LC76 Overland Series &middot; Fuel Range Calculator</div>
   <div>Baseline: <span>7.26 km/L</span> &middot; Engine: <span>1HZ 4.2L + Turbo + Intercooler</span></div>
   <div>Estimates only &mdash; verify against actual consumption logs and always carry reserves.</div>
 </footer>
@@ -317,8 +327,9 @@ var ANG=[
 var REC_LOAD=350, REC_BAR=2.6;
 function lp(kg){return kg<=REC_LOAD?0:(kg-REC_LOAD)/MAXPAY*0.12}
 function bf(bar){var d=bar-REC_BAR;return d>=0?-d*0.044:Math.abs(d)*0.116}
+function af(alt){return (alt/1000)*0.035}  // 3.5% per 1000m for turbocharged diesel
 function getBase(){return parseFloat(document.getElementById("sl-base").value)||7.26;}
-function cc(m,kg,bar){return getBase()*(1-lp(kg)-bf(bar))/m}
+function cc(m,kg,bar){var alt=parseFloat(document.getElementById('sl-alt').value)||0; return getBase()*(1-lp(kg)-bf(bar)-af(alt))/m}
 function fmt(n){return Math.round(n).toLocaleString()}
 function fc(c){return c.toFixed(2)}
 function fl(c){return (100/c).toFixed(1)}
@@ -338,9 +349,13 @@ function upd(){
   var kg=parseInt(document.getElementById('sl-load').value);
   var bar=parseFloat(document.getElementById('sl-bar').value);
   var fuel=parseInt(document.getElementById('sl-fuel').value);
+  var alt=parseFloat(document.getElementById('sl-alt').value)||0;
   document.getElementById('v-load').textContent=kg+' kg';
   document.getElementById('v-bar').textContent=bar.toFixed(1)+' bar';
   document.getElementById('v-fuel').textContent=fuel+' L';
+  document.getElementById('v-alt').textContent=alt.toLocaleString()+' m';
+  var altPen=af(alt);
+  document.getElementById('v-alt-penalty').textContent=alt===0?'no penalty':'-'+(altPen*100).toFixed(1)+'% ('+((base*altPen)).toFixed(2)+' km/L)';
   var cons=cc(AM,kg,bar);
   var usable=fuel-RES;
   var range=Math.round(usable*cons);
@@ -369,7 +384,7 @@ function upd(){
   if(AM>=1.50&&AM<1.70){tip.innerHTML='<strong>Deep sand — 4L 3rd gear:</strong> Deflate to 1.2 bar, engage 4L, hold 3rd gear to maintain momentum. Avoid stopping — momentum is fuel. The 1HZ turbo builds boost smoothly in this range. Multiplier reflects disciplined 4L-3rd technique; poor sand driving can push toward ×1.6+. Tombua is last reliable fuel for the Iona circuit — carry 80–120L in jerry cans.';}
   else if(AM>=1.40&&AM<1.60){tip.innerHTML='<strong>Rocky 4&times;4 track:</strong> 4L, slow and deliberate. Firm surface means less rolling resistance than sand — throttle variation and gear changes are the main fuel cost. Idle forward over obstacles where possible.';}
   else if(AM>=1.20){tip.innerHTML='<strong>Gravel / corrugated terrain:</strong> Optimal pressure 2.2–2.5 bar. Cruise in 4H, maintain 1,800–2,200 RPM. Avoid lugging the 1HZ in 5th — change down to 4th until at speed.';}
-  else{tip.innerHTML='<strong>Highway running:</strong> Optimal RPM 1,800–2,200 in 5th. The Terrain Tamer 5th (0.838:1) is your current ratio — the 0.711:1 overdrive kit would reduce cruise RPM by ~200 and improve economy by an estimated 0.2–0.4 km/L.';}
+  else{tip.innerHTML='<strong>Highway running:</strong> Optimal RPM 1,800–2,200 in 5th. Altitude penalty: '+(alt>0?((af(alt)*100).toFixed(1)+'% at '+alt.toLocaleString()+'m'):'none at sea level')+'. The Terrain Tamer 5th (0.838:1) is your current ratio — the 0.711:1 overdrive kit would reduce cruise RPM by ~200 and improve economy by an estimated 0.2–0.4 km/L.';}
   TR.forEach(function(t,i){
     var c=cc(t.m,kg,bar);
     var r=Math.round((TANK-RES)*c);
