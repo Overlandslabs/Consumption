@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#1C1410">
+<title>LC76 Overland Series</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --clay:#C4572A;--ochre:#D4963A;--sand:#E8D5A3;--cream:#F5EDDA;
+  --ink:#1C1410;--bark:#3D2B1A;--smoke:#6B5B4E;--white:#FDFAF4;
+  --border:rgba(61,43,26,0.15);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--ink);color:var(--cream);font-family:'Oswald',sans-serif;min-height:100vh;overflow-x:hidden}
+
+/* BACKGROUND TEXTURE */
+body::before{
+  content:'';position:fixed;inset:0;
+  background:
+    repeating-linear-gradient(0deg,transparent,transparent 80px,rgba(212,150,58,0.03) 80px,rgba(212,150,58,0.03) 81px),
+    repeating-linear-gradient(90deg,transparent,transparent 80px,rgba(212,150,58,0.03) 80px,rgba(212,150,58,0.03) 81px);
+  pointer-events:none;z-index:0;
+}
+
+.page{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:60px 5% 80px}
+
+/* HEADER */
+.header{margin-bottom:64px;animation:fadeUp .6s ease both}
+.eyebrow{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--smoke);margin-bottom:16px}
+.title{font-size:clamp(36px,7vw,72px);font-weight:700;line-height:.95;letter-spacing:-.02em;color:var(--cream);margin-bottom:8px}
+.title em{font-style:italic;color:var(--ochre)}
+.subtitle{font-size:14px;color:var(--smoke);font-style:italic;margin-top:12px;letter-spacing:.04em}
+.divider{height:1px;background:linear-gradient(90deg,var(--clay),var(--ochre),transparent);margin:32px 0 0;width:200px}
+
+/* VEHICLE STRIP */
+.vehicle-strip{
+  background:rgba(196,87,42,0.12);
+  border:1px solid rgba(196,87,42,0.25);
+  border-left:3px solid var(--clay);
+  padding:12px 20px;
+  margin-bottom:56px;
+  display:flex;gap:24px;flex-wrap:wrap;
+  font-size:11px;letter-spacing:.08em;color:var(--smoke);
+  animation:fadeUp .6s .1s ease both;
+}
+.vehicle-strip span{color:var(--ochre)}
+
+/* TOOLS GRID */
+.tools-label{
+  font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--smoke);
+  margin-bottom:20px;animation:fadeUp .6s .15s ease both;
+}
+.tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2px;margin-bottom:48px}
+
+.tool{
+  background:rgba(245,237,218,0.04);
+  border:1px solid rgba(212,150,58,0.15);
+  padding:32px 28px;
+  text-decoration:none;
+  display:block;
+  position:relative;
+  overflow:hidden;
+  transition:all .2s ease;
+  animation:fadeUp .6s ease both;
+}
+.tool:nth-child(1){animation-delay:.2s}
+.tool:nth-child(2){animation-delay:.3s}
+.tool::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(196,87,42,0.08) 0%,transparent 60%);
+  opacity:0;transition:opacity .2s;
+}
+.tool:hover{background:rgba(245,237,218,0.07);border-color:rgba(212,150,58,0.4);transform:translateY(-2px)}
+.tool:hover::before{opacity:1}
+
+.tool-num{
+  font-size:48px;font-weight:700;color:rgba(212,150,58,0.15);
+  line-height:1;margin-bottom:20px;letter-spacing:-.03em;
+  transition:color .2s;
+}
+.tool:hover .tool-num{color:rgba(212,150,58,0.3)}
+
+.tool-name{
+  font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--smoke);margin-bottom:8px;
+}
+.tool-title{
+  font-size:clamp(20px,3vw,26px);font-weight:700;color:var(--cream);
+  line-height:1.1;margin-bottom:12px;letter-spacing:-.01em;
+}
+.tool-title em{font-style:italic;color:var(--ochre)}
+.tool-desc{font-size:12px;color:var(--smoke);line-height:1.7;margin-bottom:20px}
+.tool-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:24px}
+.tag{
+  font-size:9px;letter-spacing:.1em;text-transform:uppercase;
+  padding:3px 8px;border:1px solid rgba(212,150,58,0.25);color:var(--smoke);
+}
+.tool-cta{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:10px;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--ochre);transition:gap .2s;
+}
+.tool:hover .tool-cta{gap:12px}
+.tool-cta::after{content:'→';font-size:14px}
+
+/* FOOTER */
+footer{
+  border-top:1px solid rgba(212,150,58,0.15);
+  padding-top:24px;
+  display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:12px;
+  font-size:10px;letter-spacing:.08em;color:var(--smoke);
+  animation:fadeUp .6s .4s ease both;
+}
+footer strong{color:var(--ochre)}
+
+/* ANIMATION */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(16px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+@media(max-width:500px){
+  .page{padding:40px 5% 60px}
+  .title{font-size:36px}
+  .vehicle-strip{gap:12px}
+}
+</style>
+</head>
+<body>
+<main class="page">
+
+  <header class="header">
+    <div class="eyebrow">LC76 Overland Series</div>
+    <h1 class="title">Field <em>Tools</em></h1>
+    <p class="subtitle">HZJ76R-RKMRS &middot; 1HZ 4.2L + Turbo + Intercooler &middot; Terrain-adjusted calculations</p>
+    <div class="divider"></div>
+  </header>
+
+  <div class="vehicle-strip">
+    <div>Vehicle <span>LC76 SW 1HZ</span></div>
+    <div>Tank <span>145 L</span></div>
+    <div>Jerry cans <span>2&times; 20L</span></div>
+    <div>GVM <span>2,850 kg</span></div>
+    <div>Payload <span>690 kg</span></div>
+    <div>Baseline <span>7.26 km/L</span></div>
+  </div>
+
+  <div class="tools-label">Available tools</div>
+  <div class="tools">
+
+    <a href="LC76_Fuel_Range_Calculator.html" class="tool">
+      <div class="tool-num">01</div>
+      <div class="tool-name">Range Calculator</div>
+      <h2 class="tool-title">Fuel Range <em>Calculator</em></h2>
+      <p class="tool-desc">Terrain-adjusted consumption estimates. Set load, tyre pressure, altitude and terrain type — get instant range and consumption figures.</p>
+      <div class="tool-tags">
+        <span class="tag">6 terrain types</span>
+        <span class="tag">Altitude</span>
+        <span class="tag">Load</span>
+        <span class="tag">Tyre pressure</span>
+      </div>
+      <div class="tool-cta">Open calculator</div>
+    </a>
+
+    <a href="LC76_Trip_Fuel_Planner.html" class="tool">
+      <div class="tool-num">02</div>
+      <div class="tool-name">Trip Planner</div>
+      <h2 class="tool-title">Trip Fuel <em>Planner</em></h2>
+      <p class="tool-desc">Multi-leg route planning with per-leg terrain, fuel added and actual gauge overrides. Know before you go whether your fuel budget covers the route.</p>
+      <div class="tool-tags">
+        <span class="tag">Multi-leg</span>
+        <span class="tag">Gauge override</span>
+        <span class="tag">Angola example</span>
+        <span class="tag">Fuel budget</span>
+      </div>
+      <div class="tool-cta">Open planner</div>
+    </a>
+
+  </div>
+
+  <footer>
+    <div>LC76 Overland Series &middot; <strong>Field Tools</strong></div>
+    <div>Estimates only &mdash; verify fuel availability before travel</div>
+  </footer>
+
+</main>
+</body>
+</html>
