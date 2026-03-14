@@ -8,6 +8,8 @@
 <meta name="apple-mobile-web-app-title" content="LC76 Trip Planner">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#1C1410">
+<link rel="manifest" href="manifest-trip.json">
+<link rel="apple-touch-icon" href="icon-trip-192.svg">
 <title>LC76 Trip Fuel Planner</title>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -723,6 +725,15 @@ function renderFuelLine(results, maxFuel, reserve){
 // ── Init ───────────────────────────────────────────────────────
 renderLegs();
 recalc();
+</script>
+<script>
+if ('serviceWorker' in navigator && location.hostname !== 'www.claudeusercontent.com') {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('./sw.js')
+      .then(function(reg) { console.log('LC76 Trip SW registered'); })
+      .catch(function(err) { console.log('SW error:', err); });
+  });
+}
 </script>
 </body>
 </html>
