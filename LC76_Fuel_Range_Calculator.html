@@ -74,7 +74,6 @@
   .rbt{height:12px;background:rgba(61,43,26,.1);position:relative}
   .rbf{height:12px;background:var(--clay);position:absolute;top:0;left:0;transition:width .3s ease}
   .rbm{position:absolute;top:-5px;width:2px;height:22px;background:var(--bark);opacity:.5}
-  .rbml{position:absolute;top:20px;font-family:'Oswald','Arial Narrow',sans-serif;font-size:9px;color:var(--smoke);transform:translateX(-50%);white-space:nowrap;letter-spacing:.06em}
   .rbtk{display:flex;justify-content:space-between;margin-top:16px;font-family:'Oswald','Arial Narrow',sans-serif;font-size:9px;color:var(--smoke)}
   .call{display:flex;gap:12px;padding:12px 16px;margin:10px 0;border-left:4px solid var(--red-warn);background:#FEF2F2;font-size:13.5px}
   .call.am{border-left-color:var(--ochre);background:#FFFBEB}
@@ -157,7 +156,7 @@
 
   <div class="sec">Fuel capacity &mdash; <span style="font-weight:300;letter-spacing:0.05em;text-transform:none;font-size:11px;">Calculated for a Land Cruiser 76 SW 1HZ with low boost turbo and intercooler</span></div>
   <div class="cap-grid">
-    <div class="cc"><div class="cl">Main tank</div><div class="cv">145 L</div><div class="cs">Replacement long-range tank</div></div>
+    <div class="cc"><div class="cl">Main tank</div><div class="cv">145 L</div><div class="cs">Replacement tank</div></div>
     <div class="cc"><div class="cl">Jerry cans</div><div class="cv">40 L</div><div class="cs">2&times; Desert Fox 20L</div></div>
     <div class="cc p"><div class="cl">Total capacity</div><div class="cv">185 L</div><div class="cs">Tank + both cans</div></div>
     <div class="cc"><div class="cl">Usable</div><div class="cv">~170 L</div><div class="cs">~10L reserve always kept</div></div>
@@ -263,11 +262,11 @@
       <span>Range visualisation</span>
       <span id="rb-lbl">145L on board</span>
     </div>
-    <div id="rbt" style="position:relative;height:14px;background:rgba(61,43,26,0.12);width:100%;box-sizing:border-box;">
-      <div id="rbf" style="position:absolute;top:0;left:0;height:14px;width:0%;background:#C4572A;transition:width 0.3s ease;"></div>
-      <div id="rbm" style="position:absolute;top:-4px;width:2px;height:22px;background:#3D2B1A;opacity:0.4;left:75%;"></div>
+    <div id="rbt" style="position:relative;height:22px;background:rgba(61,43,26,0.12);width:100%;box-sizing:border-box;">
+      <div id="rbf" style="position:absolute;top:0;left:0;height:22px;width:0%;background:#C4572A;transition:width 0.3s ease;"></div>
+      <div id="rbrl" style="position:absolute;top:0;right:0;height:22px;display:flex;align-items:center;padding-right:6px;font-family:'Oswald',sans-serif;font-size:11px;font-weight:600;color:rgba(61,43,26,0.4);letter-spacing:0.06em;pointer-events:none;" id="rbrl"></div>
+      <div id="rbnl" style="position:absolute;top:0;left:0;height:22px;display:flex;align-items:center;padding-left:6px;font-family:'Oswald',sans-serif;font-size:11px;font-weight:600;color:#fff;letter-spacing:0.06em;pointer-events:none;transition:left 0.3s ease;"></div>
     </div>
-    <div id="rbml" style="font-family:Oswald,sans-serif;font-size:10px;color:#6B5B4E;margin-top:4px;letter-spacing:0.06em;"></div>
     <div class="rbtk" id="rbtk"></div>
   </div>
 
@@ -370,12 +369,20 @@ function upd(){
   var fp=Math.min(range/bmax*100,100);
   var wp=Math.min(safe/bmax*100,100);
   document.getElementById('rbf').style.width=fp.toFixed(1)+'%';
-  document.getElementById('rbm').style.left=wp.toFixed(1)+'%';
-  document.getElementById('rbml').style.left=wp.toFixed(1)+'%';
-  document.getElementById('rbml').textContent=fmt(safe)+' km — refuel search';
   document.getElementById('rb-lbl').textContent=fuel+'L on board';
+  // Show range km inside the fill bar, or to the right if bar is too narrow
+  var rbnl=document.getElementById('rbnl');
+  var rbrl=document.getElementById('rbrl');
+  if(fp>25){
+    rbnl.style.left='0';
+    rbnl.textContent=range.toLocaleString()+' km';
+    rbrl.textContent='';
+  } else {
+    rbnl.textContent='';
+    rbrl.textContent=range.toLocaleString()+' km';
+  }
   var tk=document.getElementById('rbtk');tk.innerHTML='';
-  for(var i=0;i<=4;i++){var v=Math.round(bmax/4*i);tk.innerHTML+='<span>'+v.toLocaleString()+'</span>';}
+  var steps=Math.ceil(bmax/200);for(var i=0;i<=steps;i++){var v=i*200;if(v<=bmax+50){tk.innerHTML+='<span>'+v.toLocaleString()+'</span>';}}
   var wb=document.getElementById('warn-box');
   var wt=document.getElementById('warn-txt');
   if(kg>580){wb.style.display='flex';wt.innerHTML='<strong>Payload '+kg+' kg</strong> — approaching GVM limit (690 kg). Reduce load before technical terrain if possible.';}
