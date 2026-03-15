@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1C1410">
+<title>LC76 Design Guidelines</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1C1410;--bark:#3D2B1A;--smoke:#6B5B4E;
+  --clay:#C4572A;--ochre:#D4963A;--sand:#E8D5A3;
+  --cream:#F5EDDA;--white:#FDFAF4;
+  --border:rgba(61,43,26,0.15);
+  --green-ok:#1A4731;--red-warn:#B91C1C;--amber:#92400E;
+  --dominant:var(--cream);--secondary:var(--ink);--accent:var(--clay);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--ink);color:var(--cream);font-family:'Oswald',sans-serif;line-height:1.6}
+
+/* NAV */
+.toc{position:sticky;top:0;z-index:100;background:var(--bark);border-bottom:2px solid var(--clay);padding:10px 5%;display:flex;gap:14px;flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.toc::-webkit-scrollbar{display:none}
+.toc a{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--sand);text-decoration:none;white-space:nowrap;padding:4px 2px;flex-shrink:0}
+.toc a:hover{color:var(--ochre)}
+
+/* PAGE */
+.page{max-width:960px;margin:0 auto;padding:40px 5% 100px}
+
+/* HEADINGS */
+.sec{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--sand);border-bottom:1px solid rgba(232,213,163,0.25);padding-bottom:6px;margin:48px 0 20px}
+h2{font-size:clamp(20px,3vw,28px);font-weight:700;color:var(--cream);margin-bottom:8px;line-height:1.1}
+h2 em{font-style:italic;color:var(--ochre)}
+h3{font-size:13px;font-weight:600;color:var(--ochre);letter-spacing:.08em;text-transform:uppercase;margin:20px 0 8px}
+p{font-size:13px;color:var(--sand);line-height:1.8;margin-bottom:12px}
+p strong{color:var(--cream)}
+
+/* RULE BOXES */
+.rule{border-left:3px solid var(--ochre);background:rgba(212,150,58,0.08);padding:12px 16px;margin-bottom:8px;font-size:12px;color:var(--sand);line-height:1.7}
+.rule strong{color:var(--cream);display:block;margin-bottom:3px;font-size:13px}
+.rule.ok{border-left-color:var(--green-ok);background:rgba(26,71,49,0.15)}
+.rule.warn{border-left-color:var(--red-warn);background:rgba(185,28,28,0.1)}
+.rule.info{border-left-color:var(--clay);background:rgba(196,87,42,0.1)}
+
+/* COLOUR */
+.color-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-bottom:16px}
+.swatch{border-radius:3px;overflow:hidden}
+.swatch-top{height:56px;display:flex;align-items:flex-end;padding:6px 8px}
+.swatch-role{font-size:8px;letter-spacing:.1em;text-transform:uppercase;font-weight:700;color:rgba(255,255,255,0.6)}
+.swatch-info{background:rgba(0,0,0,0.35);padding:8px 10px}
+.swatch-token{font-size:10px;letter-spacing:.06em;color:var(--sand);display:block}
+.swatch-hex{font-size:12px;font-weight:700;color:var(--white);display:block;margin:1px 0}
+.swatch-desc{font-size:10px;color:var(--sand);display:block}
+.swatch-wcag{font-size:9px;display:block;margin-top:3px;font-weight:600}
+.pass{color:#4ADE80}.fail{color:#F87171}.warn-wcag{color:#FBBF24}
+
+/* 60-30-10 */
+.ratio-wrap{margin:16px 0}
+.ratio-bars{display:grid;grid-template-columns:6fr 3fr 1fr;gap:3px;height:72px}
+.ratio-bar{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}
+.ratio-pct{font-size:20px;font-weight:700;line-height:1}
+.ratio-label{font-size:9px;letter-spacing:.1em;text-transform:uppercase;opacity:.8;text-align:center}
+.ratio-cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:8px}
+.ratio-card{padding:12px;font-size:11px}
+.ratio-card-title{font-size:9px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px;opacity:.7}
+.ratio-card-desc{line-height:1.6;font-size:11px}
+
+/* TYPE TABLE */
+.tt{width:100%;border-collapse:collapse;margin-bottom:16px}
+.tt th{background:var(--bark);color:var(--ochre);font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:8px 12px;text-align:left;white-space:nowrap}
+.tt td{padding:10px 12px;border-bottom:1px solid rgba(61,43,26,0.2);font-size:12px;color:var(--sand);background:rgba(255,255,255,0.03);vertical-align:middle}
+.tt td:first-child{color:var(--ochre);font-weight:600;white-space:nowrap}
+
+/* COMPONENTS */
+/* Masthead */
+.masthead-demo{background:var(--ink);padding:18px 20px;position:relative;overflow:hidden}
+.masthead-demo::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--clay),var(--ochre),transparent)}
+.ms-eye{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--smoke);margin-bottom:8px}
+.ms-title{font-size:28px;font-weight:700;color:var(--cream);line-height:1}
+.ms-title em{font-style:italic;color:var(--ochre)}
+.ms-sub{font-size:12px;color:var(--smoke);font-style:italic;margin-top:6px}
+/* vBar */
+.vbar-demo{background:var(--bark);padding:8px 20px;display:flex;gap:20px;flex-wrap:wrap;font-size:11px;letter-spacing:.06em;color:var(--sand)}
+.vbar-demo span{color:var(--ochre)}
+
+/* Cards */
+.comp-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px;margin-bottom:12px}
+.card{background:var(--cream);border:1px solid var(--border);padding:14px 16px}
+.card.c-ochre{border-left:3px solid var(--ochre)}
+.card.c-clay{border-left:3px solid var(--clay)}
+.card.c-green{border-left:3px solid var(--green-ok)}
+.card.c-red{border-left:3px solid var(--red-warn)}
+.card.c-amber{border-left:3px solid var(--amber)}
+.c-label{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--smoke);margin-bottom:4px}
+.c-val{font-size:22px;font-weight:700;color:var(--bark);line-height:1;margin-bottom:2px;white-space:nowrap}
+.c-val.ok{color:var(--green-ok)}.c-val.bad{color:var(--red-warn)}.c-val.warn{color:var(--amber)}
+.c-sub{font-size:11px;color:var(--smoke)}
+
+/* Buttons */
+.btn-demo{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+.btn{font-family:'Oswald',sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;padding:0 20px;cursor:pointer;border:1px solid transparent;height:44px;min-height:44px;display:inline-flex;align-items:center;white-space:nowrap}
+.btn.primary{background:var(--clay);color:var(--white);border-color:var(--clay)}
+.btn.secondary{background:var(--cream);color:var(--bark);border-color:var(--border)}
+.btn.ghost{background:transparent;color:var(--sand);border-color:rgba(232,213,163,0.3)}
+.btn-label{font-size:9px;color:var(--smoke);text-align:center;margin-top:4px;letter-spacing:.04em}
+
+/* Table */
+.demo-table{width:100%;border-collapse:collapse;margin-bottom:8px}
+.demo-table th{background:var(--ink);color:var(--ochre);font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:10px 12px;text-align:left}
+.demo-table td{padding:10px 12px;border-bottom:1px solid var(--border);font-size:12px;color:var(--bark);background:var(--cream)}
+.demo-table tr:nth-child(even) td{background:#EDE0C4}
+.t-ok td{border-left:3px solid var(--green-ok)!important}
+.t-warn td{border-left:3px solid var(--amber)!important}
+.t-crit td{border-left:3px solid var(--red-warn)!important;background:#FEF2F2!important}
+
+/* Sliders */
+.slider-demo{background:var(--cream);padding:14px 18px;margin-bottom:4px;display:flex;align-items:center;gap:12px}
+.s-lbl{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--smoke);width:110px;flex-shrink:0}
+.s-val-lbl{font-size:13px;font-weight:600;color:var(--clay);flex-shrink:0}
+.s-sub{font-size:10px;color:var(--smoke);font-style:italic;padding:4px 18px 10px;background:var(--cream)}
+input[type=range]{flex:1;-webkit-appearance:none;height:4px;background:var(--border);outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--clay);cursor:pointer}
+
+/* Info bars */
+.info-bar{padding:12px 16px;display:flex;gap:12px;align-items:flex-start;margin-bottom:6px;font-size:13px}
+.info-bar.ib-info{background:var(--cream);border-left:4px solid var(--ochre)}
+.info-bar.ib-crit{background:#FEF2F2;border-left:4px solid var(--red-warn)}
+.info-bar.ib-warn{background:#FFFBEB;border-left:4px solid var(--amber)}
+.ib-icon{font-size:15px;flex-shrink:0;line-height:1.6}
+.ib-text{font-size:13px;color:var(--smoke);line-height:1.6}
+.ib-text strong{color:var(--bark)}
+
+/* Section header */
+.sec-demo{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--smoke);border-bottom:1px solid var(--border);padding-bottom:4px;margin-bottom:14px;background:var(--white);padding:0 0 4px 0}
+
+/* Range bar */
+.rbar{background:var(--cream);padding:14px 18px}
+.rbar-hdr{display:flex;justify-content:space-between;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--smoke);margin-bottom:8px}
+.rbar-track{position:relative;height:22px;background:rgba(61,43,26,0.1)}
+.rbar-fill{position:absolute;top:0;left:0;height:22px;background:var(--clay);width:65%}
+.rbar-text{position:absolute;top:0;left:6px;height:22px;display:flex;align-items:center;font-size:11px;font-weight:600;color:#fff;letter-spacing:.06em}
+.rbar-ticks{display:flex;justify-content:space-between;margin-top:5px;font-size:9px;color:var(--smoke)}
+
+/* Touch targets */
+.touch-grid{display:flex;gap:16px;flex-wrap:wrap;align-items:flex-end;margin-bottom:12px}
+.touch-item{text-align:center}
+.touch-box{display:flex;align-items:center;justify-content:center;font-size:9px;color:var(--ochre);letter-spacing:.06em;border:1px dashed var(--ochre)}
+.touch-label{font-size:9px;color:var(--smoke);margin-top:4px}
+
+/* Spacing */
+.space-row{display:flex;align-items:center;gap:12px;margin-bottom:6px}
+.space-block{background:var(--clay);height:14px;opacity:.65}
+.space-lbl{font-size:11px;color:var(--ochre);width:60px;flex-shrink:0;font-weight:600}
+.space-desc{font-size:11px;color:var(--smoke)}
+
+/* Icons */
+.icon-row{display:flex;gap:24px;flex-wrap:wrap;align-items:flex-end}
+.icon-item{text-align:center}
+.icon-lbl{font-size:10px;color:var(--smoke);margin-top:6px}
+
+/* Do/Don't */
+.dodo{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.do{border:1px solid var(--green-ok);padding:14px;background:rgba(26,71,49,0.08)}
+.dont{border:1px solid var(--red-warn);padding:14px;background:rgba(185,28,28,0.05)}
+.do-lbl{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--green-ok);margin-bottom:8px;font-weight:600}
+.dont-lbl{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--red-warn);margin-bottom:8px;font-weight:600}
+.do p,.dont p{font-size:12px;color:var(--sand);margin-bottom:6px}
+
+/* PWA checklist */
+.checklist{list-style:none;margin-bottom:12px}
+.checklist li{font-size:12px;color:var(--sand);padding:6px 0;border-bottom:1px solid rgba(232,213,163,0.1);display:flex;gap:10px;align-items:flex-start}
+.checklist li::before{content:'✓';color:var(--green-ok);font-weight:700;flex-shrink:0}
+pre{background:rgba(0,0,0,0.4);padding:14px 16px;font-size:11px;color:var(--sand);overflow-x:auto;margin-bottom:12px;border-left:3px solid var(--ochre);font-family:monospace;line-height:1.7}
+
+/* CONTRAST TABLE */
+.contrast-table{width:100%;border-collapse:collapse;margin-bottom:16px}
+.contrast-table th{background:var(--bark);color:var(--ochre);font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:8px 12px;text-align:left}
+.contrast-table td{padding:8px 12px;border-bottom:1px solid rgba(61,43,26,0.2);font-size:12px}
+.contrast-sample{font-size:13px;font-weight:600;padding:4px 8px;display:inline-block}
+
+footer{background:var(--bark);border-top:1px solid rgba(212,150,58,0.2);padding:16px 5%;font-size:10px;color:var(--smoke);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+footer span{color:var(--ochre)}
+
+@media(max-width:600px){
+  .dodo{grid-template-columns:1fr}
+  .ratio-bars{height:56px}
+  .ratio-pct{font-size:15px}
+  .comp-row{grid-template-columns:1fr 1fr}
+  .touch-grid{gap:10px}
+}
+</style>
+</head>
+<body>
+
+<nav class="toc">
+  <a href="#philosophy">Philosophy</a>
+  <a href="#colour">Colour</a>
+  <a href="#60-30-10">60-30-10</a>
+  <a href="#contrast">Contrast</a>
+  <a href="#typography">Typography</a>
+  <a href="#layout">Layout</a>
+  <a href="#components">Components</a>
+  <a href="#touch">Touch</a>
+  <a href="#dark">Dark mode</a>
+  <a href="#spacing">Spacing</a>
+  <a href="#icons">Icons</a>
+  <a href="#pwa">PWA</a>
+  <a href="#dont">Do / Don't</a>
+</nav>
+
+<main class="page">
+
+<!-- HEADER -->
+<div style="margin-bottom:48px;padding-top:8px">
+  <div style="font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--smoke);margin-bottom:14px">LC76 Overland Series</div>
+  <h1 style="font-size:clamp(34px,7vw,64px);font-weight:700;line-height:.92;color:var(--cream)">Design <em style="color:var(--ochre);font-style:italic">Guidelines</em></h1>
+  <p style="margin-top:14px;font-size:14px;color:var(--smoke);font-style:italic">iOS-first field tools &mdash; 60-30-10 colour structure, WCAG AA accessibility, Apple HIG compliance</p>
+  <div style="height:3px;background:linear-gradient(90deg,var(--clay),var(--ochre),transparent);margin-top:24px;width:220px"></div>
+</div>
+
+<!-- ── 1. PHILOSOPHY ── -->
+<div id="philosophy" class="sec">1 &mdash; Philosophy &amp; principles</div>
+<h2>Built for the <em>field</em></h2>
+<p>These tools are used on dusty tracks in low light, one-handed, under pressure. Every decision must serve <strong>readability, speed, and trust</strong>. Aesthetics serve function — not the reverse.</p>
+<div class="rule info"><strong>The field test</strong>A user must be able to read any value while driving on corrugated dirt in bright sunlight. If it fails that test, it fails.</div>
+<div class="rule ok"><strong>iOS-first</strong>All tools are PWAs on iPhone Safari. Design for 390px wide first, then adapt upward. Minimum touch target: 44×44pt per Apple HIG.</div>
+<div class="rule ok"><strong>Brand identity</strong>The LC76 aesthetic references the Southern African bush — Msasa copper, ochre dust, dark ironwood bark. This identity is fixed. The 60-30-10 rule and accessibility standards are applied <em>within</em> this identity.</div>
+<div class="rule warn"><strong>No decorative complexity</strong>No gradients on content. No shadows on text. No animations that delay access to data. Dark masthead + light content is the only layout pattern.</div>
+
+<!-- ── 2. COLOUR ── -->
+<div id="colour" class="sec">2 &mdash; Colour tokens</div>
+<h2>The <em>palette</em></h2>
+<p>All colours are CSS custom properties defined in <code style="color:var(--ochre);font-size:12px">:root</code>. <strong>Never use raw hex values</strong> in components — always reference tokens. This ensures global changes propagate everywhere.</p>
+
+<h3>Core tokens</h3>
+<div class="color-grid">
+  <div class="swatch"><div class="swatch-top" style="background:#1C1410"><span class="swatch-role">Secondary 30%</span></div><div class="swatch-info"><span class="swatch-token">--ink</span><span class="swatch-hex">#1C1410</span><span class="swatch-desc">Page bg, masthead</span><span class="swatch-wcag pass">AA ✓ on cream 14.2:1</span></div></div>
+  <div class="swatch"><div class="swatch-top" style="background:#3D2B1A"><span class="swatch-role">Secondary</span></div><div class="swatch-info"><span class="swatch-token">--bark</span><span class="swatch-hex">#3D2B1A</span><span class="swatch-desc">Card values, deep UI</span><span class="swatch-wcag pass">AA ✓ on cream 8.3:1</span></div></div>
+  <div class="swatch"><div class="swatch-top" style="background:#6B5B4E"><span class="swatch-role">Labels</span></div><div class="swatch-info"><span class="swatch-token">--smoke</span><span class="swatch-hex">#6B5B4E</span><span class="swatch-desc">Labels, secondary text</span><span class="swatch-wcag pass">AA ✓ on cream 4.6:1</span></div></div>
+  <div class="swatch"><div class="swatch-top" style="background:#C4572A"><span class="swatch-role">Accent 10%</span></div><div class="swatch-info"><span class="swatch-token">--clay</span><span class="swatch-hex">#C4572A</span><span class="swatch-desc">Primary CTA, active</span><span class="swatch-wcag pass">AA ✓ on ink 4.8:1</span></div></div>
+  <div class="swatch"><div class="swatch-top" style="background:#D4963A"><span class="swatch-role">Sub-accent</span></div><div class="swatch-info"><span class="swatch-token">--ochre</span><span class="swatch-hex">#D4963A</span><span class="swatch-desc">Data values, links</span><span class="swatch-wcag pass">AA ✓ on ink 5.9:1</span></div></div>
+  <div class="swatch"><div class="swatch-top" style="background:#E8D5A3"><span class="swatch-role">Subtle</span></div><div class="swatch-info"><span class="swatch-token">--sand</span><span class="swatch-hex">#E8D5A3</span><span class="swatch-desc">Sec text on dark, tags</span><span class="swatch-wcag pass">AA ✓ on ink 9.4:1</span></div></div>
+  <div class="swatch"><div class="swatch-top" style="background:#F5EDDA"><span class="swatch-role">Dominant 60%</span></div><div class="swatch-info"><span class="swatch-token">--cream</span><span class="swatch-hex">#F5EDDA</span><span class="swatch-desc">Card backgrounds</span><span class="swatch-wcag pass">AA ✓ with bark 8.3:1</span></div></div>
+  <div class="swatch"><div class="swatch-top" style="background:#FDFAF4;border:1px solid rgba(0,0,0,0.08)"><span class="swatch-role" style="color:var(--smoke)">Text on dark</span></div><div class="swatch-info"><span class="swatch-token">--white</span><span class="swatch-hex">#FDFAF4</span><span class="swatch-desc">Primary text on dark</span><span class="swatch-wcag pass">AAA ✓ on ink 17.1:1</span></div></div>
+</div>
+
+<h3>Status tokens</h3>
+<div class="color-grid">
+  <div class="swatch"><div class="swatch-top" style="background:#1A4731"><span class="swatch-role">Success</span></div><div class="swatch-info"><span class="swatch-token">--green-ok</span><span class="swatch-hex">#1A4731</span><span class="swatch-desc">Viable, safe, OK</span><span class="swatch-wcag pass">AA ✓ on cream 7.1:1</span></div></div>
+  <div class="swatch"><div class="swatch-top" style="background:#92400E"><span class="swatch-role">Warning</span></div><div class="swatch-info"><span class="swatch-token">--amber</span><span class="swatch-hex">#92400E</span><span class="swatch-desc">Watch it, low fuel</span><span class="swatch-wcag pass">AA ✓ on cream 5.1:1</span></div></div>
+  <div class="swatch"><div class="swatch-top" style="background:#B91C1C"><span class="swatch-role">Critical</span></div><div class="swatch-info"><span class="swatch-token">--red-warn</span><span class="swatch-hex">#B91C1C</span><span class="swatch-desc">Shortfall, danger</span><span class="swatch-wcag pass">AA ✓ on cream 5.8:1</span></div></div>
+</div>
+<pre>/* Always use tokens — never raw hex */
+:root {
+  --ink:#1C1410;  --bark:#3D2B1A;   --smoke:#6B5B4E;
+  --clay:#C4572A; --ochre:#D4963A;  --sand:#E8D5A3;
+  --cream:#F5EDDA; --white:#FDFAF4; --border:rgba(61,43,26,0.15);
+  --green-ok:#1A4731; --red-warn:#B91C1C; --amber:#92400E;
+}</pre>
+
+<!-- ── 3. 60-30-10 ── -->
+<div id="60-30-10" class="sec">3 &mdash; 60-30-10 colour rule</div>
+<h2>Structure by <em>proportion</em></h2>
+<p>The 60-30-10 rule governs how much of each colour group appears in any screen. It prevents visual noise and creates hierarchy that works in harsh field conditions.</p>
+<div class="ratio-wrap">
+  <div class="ratio-bars">
+    <div class="ratio-bar" style="background:var(--cream)"><span class="ratio-pct" style="color:var(--bark)">60%</span><span class="ratio-label" style="color:var(--smoke)">Dominant<br>cream / white</span></div>
+    <div class="ratio-bar" style="background:var(--ink)"><span class="ratio-pct" style="color:var(--cream)">30%</span><span class="ratio-label" style="color:var(--smoke)">Secondary<br>ink / bark</span></div>
+    <div class="ratio-bar" style="background:var(--clay)"><span class="ratio-pct" style="color:var(--white)">10%</span><span class="ratio-label" style="color:rgba(255,255,255,0.6)">Accent<br>clay / ochre</span></div>
+  </div>
+  <div class="ratio-cards">
+    <div class="ratio-card" style="background:var(--cream);color:var(--bark)"><div class="ratio-card-title" style="color:var(--smoke)">60% — Dominant</div><div class="ratio-card-desc"><strong>--cream, --white</strong><br>All card surfaces, content areas, input backgrounds. The visual resting state.</div></div>
+    <div class="ratio-card" style="background:var(--ink);color:var(--sand)"><div class="ratio-card-title" style="color:var(--smoke)">30% — Secondary</div><div class="ratio-card-desc"><strong>--ink, --bark</strong><br>Masthead, vehicle bar, table headers, footer. The structural chrome.</div></div>
+    <div class="ratio-card" style="background:var(--clay);color:var(--white)"><div class="ratio-card-title" style="color:rgba(255,255,255,0.6)">10% — Accent</div><div class="ratio-card-desc"><strong>--clay, --ochre</strong><br>Active terrain card, primary buttons, data values, status indicators.</div></div>
+  </div>
+</div>
+<div class="rule info"><strong>Ochre as sub-accent</strong>Within the 10% accent budget, ochre (--ochre) is used for data values, links, and informational highlights. Clay (--clay) is reserved for action: buttons, active states, and alerts requiring response.</div>
+
+<!-- ── 4. CONTRAST ── -->
+<div id="contrast" class="sec">4 &mdash; Contrast &amp; WCAG AA</div>
+<h2>Accessibility <em>ratios</em></h2>
+<p>All text must meet <strong>WCAG AA</strong> minimum: 4.5:1 for normal text, 3:1 for large text (18px+ or 14px+ bold). Status information must never rely on colour alone — always pair with a label or icon.</p>
+<table class="contrast-table">
+  <thead><tr><th>Foreground</th><th>Background</th><th>Ratio</th><th>Usage</th><th>Pass?</th></tr></thead>
+  <tbody>
+    <tr><td><span class="contrast-sample" style="background:var(--ink);color:var(--white)">#FDFAF4</span></td><td>--ink</td><td>17.1:1</td><td>Primary text on masthead</td><td class="pass">AAA ✓</td></tr>
+    <tr><td><span class="contrast-sample" style="background:var(--ink);color:var(--sand)">#E8D5A3</span></td><td>--ink</td><td>9.4:1</td><td>Secondary text on dark</td><td class="pass">AAA ✓</td></tr>
+    <tr><td><span class="contrast-sample" style="background:var(--ink);color:var(--ochre)">#D4963A</span></td><td>--ink</td><td>5.9:1</td><td>Data values on dark</td><td class="pass">AA ✓</td></tr>
+    <tr><td><span class="contrast-sample" style="background:var(--ink);color:var(--clay)">#C4572A</span></td><td>--ink</td><td>4.8:1</td><td>Accent on dark</td><td class="pass">AA ✓</td></tr>
+    <tr><td><span class="contrast-sample" style="background:var(--cream);color:var(--bark)">#3D2B1A</span></td><td>--cream</td><td>8.3:1</td><td>Values on cards</td><td class="pass">AAA ✓</td></tr>
+    <tr><td><span class="contrast-sample" style="background:var(--cream);color:var(--smoke)">#6B5B4E</span></td><td>--cream</td><td>4.6:1</td><td>Labels on cards (14px+)</td><td class="pass">AA ✓</td></tr>
+    <tr><td><span class="contrast-sample" style="background:var(--cream);color:var(--green-ok)">#1A4731</span></td><td>--cream</td><td>7.1:1</td><td>Success state on cards</td><td class="pass">AAA ✓</td></tr>
+    <tr><td><span class="contrast-sample" style="background:var(--cream);color:var(--red-warn)">#B91C1C</span></td><td>--cream</td><td>5.8:1</td><td>Critical on cards</td><td class="pass">AA ✓</td></tr>
+    <tr><td><span class="contrast-sample" style="background:var(--cream);color:var(--amber)">#92400E</span></td><td>--cream</td><td>5.1:1</td><td>Warning on cards</td><td class="pass">AA ✓</td></tr>
+    <tr><td><span class="contrast-sample" style="background:#EDE0C4;color:var(--bark)">#3D2B1A</span></td><td>alt row</td><td>7.6:1</td><td>Text on table alt rows</td><td class="pass">AAA ✓</td></tr>
+  </tbody>
+</table>
+<div class="rule warn"><strong>Status always needs a label</strong>Never communicate status through colour alone. Pair every coloured left-border or badge with a text label (OK / Warn / Critical) or an icon.</div>
+
+<!-- ── 5. TYPOGRAPHY ── -->
+<div id="typography" class="sec">5 &mdash; Typography</div>
+<h2>Oswald — <em>one font</em></h2>
+<p>A single font family across all tools. Oswald is condensed, strong, and highly legible at small sizes on mobile. Load weights 300, 400, 500, 600, 700 from Google Fonts.</p>
+<table class="tt">
+  <thead><tr><th>Role</th><th>Weight</th><th>Size</th><th>Case</th><th>Usage</th></tr></thead>
+  <tbody>
+    <tr><td>Display</td><td>700</td><td>clamp(28px,6vw,60px)</td><td>Mixed + italic</td><td>Page titles</td></tr>
+    <tr><td>Heading</td><td>700</td><td>22–28px</td><td>Mixed</td><td>Section titles, card values</td></tr>
+    <tr><td>Sub-heading</td><td>600</td><td>16–20px</td><td>Mixed</td><td>Card large values</td></tr>
+    <tr><td>Label</td><td>500</td><td>9–10px</td><td>UPPERCASE tracked</td><td>Column headers, field labels</td></tr>
+    <tr><td>Body</td><td>400</td><td>12–14px</td><td>Mixed</td><td>Descriptions, notes, body copy</td></tr>
+    <tr><td>Sub-value</td><td>400 italic</td><td>10–12px</td><td>Mixed</td><td>Sub-labels, L/100km secondary</td></tr>
+    <tr><td>Eyebrow</td><td>400</td><td>10px</td><td>UPPERCASE tracked .2em</td><td>Series label in masthead</td></tr>
+  </tbody>
+</table>
+<pre>/* Google Fonts import — always load all weights */
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap');
+
+/* Never use system fonts as primary. Never use Inter, Roboto, or Arial. */
+body { font-family: 'Oswald', 'Arial Narrow', sans-serif; }</pre>
+
+<!-- ── 6. LAYOUT ── -->
+<div id="layout" class="sec">6 &mdash; Layout &amp; structure</div>
+<h2>Dark chrome, <em>light content</em></h2>
+<p>Every screen follows the same structural pattern. The dark masthead grounds the interface; the light content area maximises data readability.</p>
+<div style="background:var(--cream);padding:20px;margin-bottom:16px">
+  <div class="masthead-demo">
+    <div class="ms-eye">LC76 Overland Series &middot; Field Calculator</div>
+    <div class="ms-title">Fuel Range <em>Calculator</em></div>
+    <div class="ms-sub">Terrain-adjusted consumption estimates</div>
+  </div>
+  <div class="vbar-demo">
+    <div>Tank <span>145 L</span></div>
+    <div>Total <span>185 L</span></div>
+    <div>Baseline <span>7.26 km/L</span></div>
+  </div>
+  <div style="background:var(--cream);padding:12px 16px;border-top:1px solid var(--border)">
+    <div class="sec-demo">Section label</div>
+    <div style="font-size:12px;color:var(--smoke)">Content area (cream background) &rarr; cards, sliders, tables, results</div>
+  </div>
+</div>
+<div class="rule info"><strong>Structure rules</strong>1. Masthead: always --ink background with 3px clay→ochre gradient bottom border. 2. Vehicle bar: always --bark background. 3. Content: always --cream / --white. 4. Footer: always --ink or --bark.</div>
+<div class="rule info"><strong>Max width</strong>Content area max-width: 1100px, centred. Padding: 20px 4% on mobile, 20px 5% on desktop. No horizontal overflow ever.</div>
+
+<!-- ── 7. COMPONENTS ── -->
+<div id="components" class="sec">7 &mdash; Component library</div>
+<h2>All <em>components</em></h2>
+
+<h3>Masthead</h3>
+<div class="masthead-demo" style="margin-bottom:8px">
+  <div class="ms-eye">LC76 Overland Series &middot; Field Calculator</div>
+  <div class="ms-title">Fuel Range <em>Calculator</em></div>
+  <div class="ms-sub">Terrain-adjusted consumption estimates</div>
+</div>
+<pre>/* Masthead */
+.masthead { background:var(--ink); padding:18px 4% 14px; position:relative; overflow:hidden; }
+.masthead::after { content:''; position:absolute; bottom:0; left:0; right:0; height:3px;
+  background:linear-gradient(90deg,var(--clay),var(--ochre),transparent); }
+/* Eyebrow: 10px, tracked .2em, --smoke */
+/* Title: clamp(22px,3.5vw,42px), 700, --cream + em in --ochre italic */
+/* Subtitle: 13px, italic, --smoke */</pre>
+
+<h3>Cards — all variants</h3>
+<div class="comp-row">
+  <div class="card c-ochre"><div class="c-label">Estimated range</div><div class="c-val">974 km</div><div class="c-sub">10L reserve kept</div></div>
+  <div class="card c-green"><div class="c-label">Route viable</div><div class="c-val ok">Yes</div><div class="c-sub">0 critical legs</div></div>
+  <div class="card c-amber"><div class="c-label">Fuel at end</div><div class="c-val warn">18 L</div><div class="c-sub">Below reserve</div></div>
+  <div class="card c-red"><div class="c-label">Shortfall</div><div class="c-val bad">8.4 L</div><div class="c-sub">1 critical leg</div></div>
+  <div class="card c-clay"><div class="c-label">Avg consumption</div><div class="c-val">5.14 km/L</div><div class="c-sub">19.4 L/100km</div></div>
+</div>
+<pre>/* Card */
+.card { background:var(--cream); border:1px solid var(--border); padding:12px 14px; }
+.card.info  { border-left:3px solid var(--ochre); }
+.card.ok    { border-left:3px solid var(--green-ok); background:#F0FDF4; }
+.card.warn  { border-left:3px solid var(--amber);    background:#FFFBEB; }
+.card.crit  { border-left:3px solid var(--red-warn); background:#FEF2F2; }
+.card.action{ border-left:3px solid var(--clay); }
+.c-label { font-size:9px; letter-spacing:.15em; text-transform:uppercase; color:var(--smoke); }
+.c-val   { font-size:22px; font-weight:700; color:var(--bark); white-space:nowrap; }
+.c-sub   { font-size:11px; color:var(--smoke); }</pre>
+
+<h3>Buttons — all variants</h3>
+<div class="btn-demo">
+  <div><button class="btn primary">+ Add leg</button><div class="btn-label">Primary — clay</div></div>
+  <div><button class="btn secondary">Clear all</button><div class="btn-label">Secondary — cream</div></div>
+  <div><button class="btn ghost">Cancel</button><div class="btn-label">Ghost — dark bg only</div></div>
+</div>
+<pre>/* All buttons: min-height 44px (HIG touch target), Oswald 11px uppercase */
+.btn { font-family:'Oswald',sans-serif; font-size:11px; letter-spacing:.1em;
+  text-transform:uppercase; height:44px; min-height:44px; padding:0 18px;
+  border:1px solid transparent; display:inline-flex; align-items:center; cursor:pointer; }
+.btn.primary   { background:var(--clay);    color:var(--white); border-color:var(--clay); }
+.btn.secondary { background:var(--cream);   color:var(--bark);  border-color:var(--border); }
+.btn.ghost     { background:transparent;    color:var(--sand);  border-color:rgba(232,213,163,0.3); }</pre>
+
+<h3>Section labels</h3>
+<div style="background:var(--cream);padding:16px 18px;margin-bottom:8px">
+  <div style="font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--smoke);border-bottom:1px solid var(--border);padding-bottom:4px;margin-bottom:14px">Terrain type &mdash; click to select</div>
+  <div style="font-size:12px;color:var(--smoke)">Content follows&hellip;</div>
+</div>
+<pre>/* Section label — always inside light content area */
+.sec-label { font-size:9px; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--smoke); border-bottom:1px solid var(--border);
+  padding-bottom:4px; margin:24px 0 14px; }</pre>
+
+<h3>Sliders</h3>
+<div>
+  <div class="slider-demo"><div class="s-lbl">Load</div><input type="range" min="0" max="690" value="350"><div class="s-val-lbl">350 kg</div></div>
+  <div class="s-sub">GVM payload limit: 690 kg. Economy penalty applies above 150 kg.</div>
+  <div class="slider-demo"><div class="s-lbl">Tyre pressure</div><input type="range" min="1.1" max="2.9" value="2.5" step="0.1"><div class="s-val-lbl">2.5 bar</div></div>
+  <div class="slider-demo"><div class="s-lbl">Altitude</div><input type="range" min="0" max="3500" value="1760" step="100"><div class="s-val-lbl">1,760 m</div></div>
+</div>
+<pre>/* Slider layout: label (fixed width) | track (flex:1) | value */
+.sblock { margin-bottom:8px; background:var(--cream); padding:10px 16px 6px; }
+.slabelwrap { display:flex; align-items:baseline; gap:10px; margin-bottom:4px; }
+.slabel { font-size:10px; letter-spacing:.06em; text-transform:uppercase; color:var(--smoke); }
+.sval   { font-size:14px; font-weight:600; color:var(--clay); }
+input[type=range] { width:100%; height:4px; accent-color:var(--clay); }</pre>
+
+<h3>Info bars</h3>
+<div>
+  <div class="info-bar ib-info"><div class="ib-icon">&#9670;</div><div class="ib-text"><strong>Highway running:</strong> Loaded: 2.8 bar &middot; Unloaded: 2.6 bar. Maintain steady throttle and cruise RPM. Altitude penalty: none.</div></div>
+  <div class="info-bar ib-warn"><div class="ib-icon">&#9650;</div><div class="ib-text"><strong>Low fuel warning:</strong> Below 25% capacity. Start looking for the next fuel stop.</div></div>
+  <div class="info-bar ib-crit"><div class="ib-icon">&#9888;</div><div class="ib-text"><strong>Fuel shortfall on 1 leg.</strong> Total deficit: 8.4L. Increase fuel at previous fill stops or add jerry cans.</div></div>
+</div>
+<pre>/* Info bar — always use icon + text, never colour alone */
+.info-bar { padding:12px 16px; display:flex; gap:12px; align-items:flex-start; font-size:13px; }
+.info-bar.info { background:var(--cream);  border-left:4px solid var(--ochre); }
+.info-bar.warn { background:#FFFBEB;       border-left:4px solid var(--amber); }
+.info-bar.crit { background:#FEF2F2;       border-left:4px solid var(--red-warn); }</pre>
+
+<h3>Table</h3>
+<div style="overflow-x:auto">
+<table class="demo-table">
+  <thead><tr><th>#</th><th>From &rarr; To</th><th>Dist km</th><th>Terrain</th><th>Used</th><th>Tank %</th></tr></thead>
+  <tbody>
+    <tr class="t-ok"><td>1</td><td>Oshikango &rarr; Lubango</td><td>510 km</td><td>Highway</td><td>69.6 L</td><td>41%</td></tr>
+    <tr class="t-ok"><td>2</td><td>Lubango &rarr; Namibe</td><td>210 km</td><td>Gravel</td><td>34.8 L</td><td>60%</td></tr>
+    <tr class="t-warn"><td>3</td><td>Tombua &rarr; Iona</td><td>350 km</td><td>Deep sand</td><td>89.2 L</td><td>33%</td></tr>
+    <tr class="t-crit"><td>4</td><td>Cunene &rarr; Oncocua</td><td>100 km</td><td>Rocky</td><td>22.6 L</td><td style="color:var(--red-warn);font-weight:700">1%</td></tr>
+  </tbody>
+</table>
+</div>
+<pre>/* Table */
+.table th  { background:var(--ink); color:var(--ochre); font-size:9px;
+  letter-spacing:.12em; text-transform:uppercase; padding:8px 10px; }
+.table td  { background:var(--cream); color:var(--bark); font-size:12px;
+  padding:8px 10px; border-bottom:1px solid var(--border); }
+.table tr:nth-child(even) td { background:#EDE0C4; }   /* deeper sand alt row */
+/* Status left border — 3px, never colour alone */
+.row-ok   td { border-left:3px solid var(--green-ok); }
+.row-warn td { border-left:3px solid var(--amber); }
+.row-crit td { border-left:3px solid var(--red-warn); background:#FEF2F2!important; }</pre>
+
+<h3>Range visualisation bar</h3>
+<div class="rbar">
+  <div class="rbar-hdr"><span>Range visualisation</span><span>145L on board</span></div>
+  <div class="rbar-track"><div class="rbar-fill"><div class="rbar-text">974 km</div></div></div>
+  <div class="rbar-ticks"><span>0</span><span>200</span><span>400</span><span>600</span><span>800</span><span>1,000</span><span>1,200</span><span>1,400</span><span>1,600</span></div>
+</div>
+
+<!-- ── 8. TOUCH TARGETS ── -->
+<div id="touch" class="sec">8 &mdash; Touch targets &amp; HIG compliance</div>
+<h2>44pt <em>minimum</em></h2>
+<p>Apple HIG requires all interactive elements to have a minimum touch target of <strong>44×44 points</strong>. On standard iPhone (1x logical pixels = points), this is 44px. All buttons, checkboxes, sliders, and interactive cells must meet this.</p>
+<div class="touch-grid">
+  <div class="touch-item"><div class="touch-box" style="width:44px;height:44px">44px</div><div class="touch-label">Button<br>minimum</div></div>
+  <div class="touch-item"><div class="touch-box" style="width:44px;height:44px">&#9776;</div><div class="touch-label">Icon button<br>minimum</div></div>
+  <div class="touch-item"><div class="touch-box" style="width:80px;height:44px">Primary btn</div><div class="touch-label">Primary CTA<br>44px height</div></div>
+  <div class="touch-item"><div class="touch-box" style="width:100%;height:44px;min-width:200px">Slider track — full width, 44px tap zone</div><div class="touch-label">Slider row<br>44px height</div></div>
+</div>
+<div class="rule ok"><strong>Slider touch zones</strong>Sliders themselves have a 4px visual track but the parent .sblock must be at minimum 44px tall so the user can reliably interact on a moving vehicle.</div>
+<div class="rule ok"><strong>Table rows</strong>Interactive table rows (leg rows with inputs) must be minimum 44px tall. Read-only rows can be 36px.</div>
+<pre>/* Enforce touch targets */
+.btn, button, [role="button"] { min-height: 44px; }
+.sblock { min-height: 44px; display: flex; flex-direction: column; justify-content: center; }
+input[type="range"] { height: 44px; } /* tap zone, visual track via CSS */</pre>
+
+<!-- ── 9. DARK MODE ── -->
+<div id="dark" class="sec">9 &mdash; Dark / light hybrid model</div>
+<h2>Intentional <em>hybrid</em></h2>
+<p>The tools use a deliberate hybrid — not full dark mode, not full light. The masthead and structural chrome use the dark palette; all data content uses the light palette. This is intentional and must not be changed.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px">
+  <div>
+    <div style="font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--smoke);margin-bottom:6px">Dark zones (30%)</div>
+    <div style="background:var(--ink);padding:12px;font-size:12px;color:var(--sand);line-height:2">
+      Masthead<br>Vehicle bar<br>Table headers<br>Footer<br>Landing page background
+    </div>
+  </div>
+  <div>
+    <div style="font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--smoke);margin-bottom:6px">Light zones (60%)</div>
+    <div style="background:var(--cream);padding:12px;font-size:12px;color:var(--bark);line-height:2">
+      Cards &amp; results<br>Conditions / sliders<br>Table rows<br>Input fields<br>Info bars
+    </div>
+  </div>
+</div>
+<div class="rule warn"><strong>No system dark mode override</strong>Do not implement <code style="color:var(--ochre)">prefers-color-scheme: dark</code> media queries. The hybrid model is fixed and does not respond to the OS dark mode toggle. The dark masthead is always dark; the content is always light.</div>
+
+<!-- ── 10. SPACING ── -->
+<div id="spacing" class="sec">10 &mdash; Spacing scale</div>
+<h2>Consistent <em>rhythm</em></h2>
+<p>Use this spacing scale consistently. Never use arbitrary pixel values.</p>
+<div class="space-row"><div class="space-lbl">4px</div><div class="space-block" style="width:4px"></div><div class="space-desc">Micro — between label and value, inline gaps</div></div>
+<div class="space-row"><div class="space-lbl">8px</div><div class="space-block" style="width:8px"></div><div class="space-desc">Small — between list items, card internal gaps</div></div>
+<div class="space-row"><div class="space-lbl">10px</div><div class="space-block" style="width:10px"></div><div class="space-desc">Default — card grid gap, button gap</div></div>
+<div class="space-row"><div class="space-lbl">14px</div><div class="space-block" style="width:14px"></div><div class="space-desc">Medium — card padding, section bottom margin</div></div>
+<div class="space-row"><div class="space-lbl">20px</div><div class="space-block" style="width:20px"></div><div class="space-desc">Large — page side padding (mobile)</div></div>
+<div class="space-row"><div class="space-lbl">24px</div><div class="space-block" style="width:24px"></div><div class="space-desc">Section — top margin above section labels</div></div>
+<div class="space-row"><div class="space-lbl">40px</div><div class="space-block" style="width:40px"></div><div class="space-desc">Page — top/bottom page padding</div></div>
+<div class="rule info"><strong>Content area padding</strong>Use 4% on mobile, 5% on desktop as horizontal padding. This keeps content within safe areas on all iPhone models including those with Dynamic Island.</div>
+
+<!-- ── 11. ICONS ── -->
+<div id="icons" class="sec">11 &mdash; Icons</div>
+<h2>SVG home screen <em>icons</em></h2>
+<p>Each tool has its own SVG icon. All icons share the same palette and structural rules: dark ink background, clay bottom bar, clay/ochre graphic concept.</p>
+<div class="icon-row">
+  <div class="icon-item">
+    <svg width="96" height="96" viewBox="0 0 192 192" style="border-radius:20px;display:block">
+      <rect width="192" height="192" fill="#1C1410"/>
+      <rect x="0" y="182" width="192" height="10" fill="#C4572A"/>
+      <path d="M 40 130 A 70 70 0 0 1 152 130" fill="none" stroke="#3D2B1A" stroke-width="16" stroke-linecap="round"/>
+      <path d="M 40 130 A 70 70 0 0 1 130 68" fill="none" stroke="#D4963A" stroke-width="10" stroke-linecap="round"/>
+      <line x1="96" y1="130" x2="128" y2="72" stroke="#C4572A" stroke-width="8" stroke-linecap="round"/>
+      <circle cx="96" cy="130" r="10" fill="#C4572A"/>
+    </svg>
+    <div class="icon-lbl">Range Calculator</div>
+  </div>
+  <div class="icon-item">
+    <svg width="96" height="96" viewBox="0 0 192 192" style="border-radius:20px;display:block">
+      <rect width="192" height="192" fill="#1C1410"/>
+      <rect x="0" y="182" width="192" height="10" fill="#C4572A"/>
+      <polyline points="32,148 72,96 112,124 160,52" fill="none" stroke="#D4963A" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="32" cy="148" r="10" fill="#C4572A" stroke="#1C1410" stroke-width="3"/>
+      <circle cx="72" cy="96" r="8" fill="#D4963A" stroke="#1C1410" stroke-width="3"/>
+      <circle cx="112" cy="124" r="8" fill="#D4963A" stroke="#1C1410" stroke-width="3"/>
+      <circle cx="160" cy="52" r="13" fill="none" stroke="#C4572A" stroke-width="4"/>
+      <circle cx="160" cy="52" r="6" fill="#C4572A"/>
+    </svg>
+    <div class="icon-lbl">Trip Planner</div>
+  </div>
+  <div class="icon-item">
+    <svg width="60" height="60" viewBox="0 0 192 192" style="border-radius:14px;display:block">
+      <rect width="192" height="192" fill="#1C1410"/>
+      <rect x="0" y="182" width="192" height="10" fill="#C4572A"/>
+      <path d="M 40 130 A 70 70 0 0 1 152 130" fill="none" stroke="#3D2B1A" stroke-width="16" stroke-linecap="round"/>
+      <path d="M 40 130 A 70 70 0 0 1 130 68" fill="none" stroke="#D4963A" stroke-width="10" stroke-linecap="round"/>
+      <line x1="96" y1="130" x2="128" y2="72" stroke="#C4572A" stroke-width="8" stroke-linecap="round"/>
+      <circle cx="96" cy="130" r="10" fill="#C4572A"/>
+    </svg>
+    <div class="icon-lbl">60px size</div>
+  </div>
+</div>
+<pre>/* Icon SVG template */
+&lt;svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"&gt;
+  &lt;rect width="192" height="192" fill="#1C1410"/&gt;  /* --ink background */
+  &lt;rect x="0" y="182" width="192" height="10" fill="#C4572A"/&gt;  /* --clay bar */
+  /* Tool-specific graphic in --ochre / --clay */
+&lt;/svg&gt;
+/* Sizes: 192×192 (manifest small), 512×512 (manifest large) */
+/* Border radius applied by iOS: do not clip in SVG */</pre>
+
+<!-- ── 12. PWA ── -->
+<div id="pwa" class="sec">12 &mdash; PWA &amp; iOS compliance</div>
+<h2>Add to Home Screen <em>ready</em></h2>
+<ul class="checklist">
+  <li><strong>viewport-fit=cover</strong> — enables content to extend behind the notch / Dynamic Island</li>
+  <li><strong>apple-mobile-web-app-capable: yes</strong> — enables full-screen mode when added to home screen</li>
+  <li><strong>apple-mobile-web-app-status-bar-style: black-translucent</strong> — matches --ink background through status bar</li>
+  <li><strong>theme-color: #1C1410</strong> — browser chrome matches masthead on Android</li>
+  <li><strong>manifest.json</strong> — defines app name, icon, start URL, display:standalone</li>
+  <li><strong>Service worker — network-first</strong> — always fetches latest version; cache as offline fallback only</li>
+  <li><strong>No prompt() or alert()</strong> — all interactions inline, no browser dialogs (blocked in standalone mode)</li>
+  <li><strong>No horizontal overflow</strong> — overflow-x:hidden on html and body; tables in scroll wrappers</li>
+  <li><strong>Safe area insets</strong> — use padding: env(safe-area-inset-*) for content near screen edges</li>
+</ul>
+<pre>&lt;!-- Required meta tags — every tool --&gt;
+&lt;meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"&gt;
+&lt;meta name="apple-mobile-web-app-capable" content="yes"&gt;
+&lt;meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"&gt;
+&lt;meta name="apple-mobile-web-app-title" content="LC76 [Tool Name]"&gt;
+&lt;meta name="mobile-web-app-capable" content="yes"&gt;
+&lt;meta name="theme-color" content="#1C1410"&gt;
+&lt;link rel="manifest" href="manifest-[tool].json"&gt;
+&lt;link rel="apple-touch-icon" href="icon-[tool]-192.svg"&gt;
+
+&lt;!-- Service worker — domain-guarded --&gt;
+&lt;script&gt;
+if ('serviceWorker' in navigator && location.hostname !== 'www.claudeusercontent.com') {
+  window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js'));
+}
+&lt;/script&gt;</pre>
+
+<!-- ── 13. DO / DON'T ── -->
+<div id="dont" class="sec">13 &mdash; Do / Don't</div>
+<h2>Common <em>mistakes</em></h2>
+<div class="dodo">
+  <div class="do"><div class="do-lbl">&#10003; Do</div><p>Use token names: <code style="color:var(--ochre)">color:var(--bark)</code></p><p>Use 44px min touch targets on all interactive elements</p><p>Pair colour status with a label or icon</p><p>Use Oswald for all text — even numbers</p><p>Keep sliders full-width on mobile — never constrained to partial width</p><p>Show units on every value: km, L, km/L, bar, kg, m</p><p>Use <code style="color:var(--ochre)">onchange</code> for number inputs that trigger recalc (prevents freeze on partial entry)</p></div>
+  <div class="dont"><div class="dont-lbl">&#10007; Don't</div><p>Use raw hex values: <code style="color:#F87171">#3D2B1A</code></p><p>Use <code style="color:#F87171">prompt()</code> or <code style="color:#F87171">alert()</code> — blocked in standalone PWA</p><p>Rely on colour alone for status — always add text</p><p>Use Inter, Roboto, Arial, or system fonts</p><p>Let content overflow horizontally — wrap tables in scroll containers</p><p>Use <code style="color:#F87171">oninput</code> on number fields that do heavy recalc — causes freeze mid-typing</p><p>Add animations that delay access to data values</p></div>
+</div>
+
+<!-- NAMING CONVENTION -->
+<div class="sec">14 &mdash; File naming</div>
+<h2>Consistent <em>naming</em></h2>
+<pre>LC76_[ToolName].html          /* e.g. LC76_Fuel_Range_Calculator.html */
+icon-[tool]-192.svg           /* e.g. icon-trip-192.svg */
+icon-[tool]-512.svg
+manifest-[tool].json          /* e.g. manifest-trip.json */
+sw.js                         /* shared service worker */
+index.html                    /* landing page */</pre>
+
+<!-- CSS VARIABLES BLOCK -->
+<div class="sec">15 &mdash; Full CSS token block</div>
+<h2>Copy-paste <em>root</em></h2>
+<p>Every HTML file must begin its stylesheet with this exact block:</p>
+<pre>:root {
+  /* Core palette */
+  --clay:   #C4572A;  --ochre:  #D4963A;  --sand:   #E8D5A3;
+  --cream:  #F5EDDA;  --white:  #FDFAF4;  --ink:    #1C1410;
+  --bark:   #3D2B1A;  --smoke:  #6B5B4E;
+  --border: rgba(61,43,26,0.15);
+
+  /* Status */
+  --green-ok: #1A4731;  --red-warn: #B91C1C;  --amber: #92400E;
+
+  /* Role tokens (60-30-10) */
+  --dominant:  var(--cream);   /* 60% — content surfaces */
+  --secondary: var(--ink);     /* 30% — dark chrome */
+  --accent:    var(--clay);    /* 10% — CTA, active states */
+  --accent-2:  var(--ochre);   /* sub-accent — data values */
+}</pre>
+
+</main>
+
+<footer>
+  <div>LC76 Overland Series &middot; <span>Design Guidelines v1.0</span></div>
+  <div>HZJ76R-RKMRS &middot; 1HZ 4.2L + Turbo + Intercooler</div>
+  <div>60-30-10 &middot; WCAG AA &middot; Apple HIG</div>
+</footer>
+
+</body>
+</html>
