@@ -25,10 +25,10 @@ body{background:var(--white);color:var(--ink);font-family:'Oswald',sans-serif;fo
 /* MASTHEAD */
 .masthead{background:var(--ink);color:var(--sand);padding:18px 4% 14px;position:relative;overflow:hidden}
 .masthead::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--clay),var(--ochre),transparent)}
-.ms{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--smoke);margin-bottom:8px}
+.ms{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--sand);margin-bottom:8px}
 .masthead h1{font-size:clamp(22px,3.5vw,42px);font-weight:700;color:var(--cream);letter-spacing:-.01em;margin-bottom:6px;line-height:1}
 .masthead h1 em{font-style:italic;color:var(--ochre)}
-.masthead-sub{font-size:13px;color:var(--smoke);font-style:italic}
+.masthead-sub{font-size:13px;color:var(--sand);font-style:italic}
 
 /* VEHICLE BAR */
 .vbar{background:var(--bark);padding:10px 4%;display:flex;gap:20px;flex-wrap:wrap;font-size:11px;letter-spacing:.06em;color:var(--sand)}
@@ -49,6 +49,13 @@ body{background:var(--white);color:var(--ink);font-family:'Oswald',sans-serif;fo
   #v-base{width:auto;flex:1;min-width:0}
 .vfield input[type=number]:focus{border-color:var(--clay)}
 .vfield input[type=range]{width:100%;margin-top:2px}
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:4px;background:linear-gradient(to right,var(--clay) 0%,var(--clay) 50%,var(--border) 50%,var(--border) 100%);outline:none;cursor:pointer;border-radius:2px}
+  input[type=range]::-webkit-slider-runnable-track{-webkit-appearance:none;height:4px;border-radius:2px}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:22px;height:22px;border-radius:50%;background:var(--clay);border:3px solid var(--white);cursor:pointer;margin-top:-9px;box-shadow:0 1px 4px rgba(0,0,0,0.3)}
+  input[type=range]::-moz-range-track{height:4px;background:transparent;border-radius:2px}
+  input[type=range]::-moz-range-progress{height:4px;background:var(--clay);border-radius:2px}
+  input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--clay);border:3px solid var(--white);cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,0.3);border:none}
+  input[type=range]::-ms-thumb{width:22px;height:22px;border-radius:50%;background:var(--clay);border:3px solid var(--white);cursor:pointer}
 .vfield .vval{font-size:14px;font-weight:600;color:var(--clay);margin-top:2px}
 
 /* TRIP SETTINGS */
@@ -143,7 +150,7 @@ body{background:var(--white);color:var(--ink);font-family:'Oswald',sans-serif;fo
 .fuel-dot-label{font-size:8px;color:var(--smoke);white-space:nowrap;letter-spacing:.04em}
 
 /* FOOTER */
-footer{background:var(--ink);color:var(--smoke);padding:12px 4%;font-size:10px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;border-top:1px solid rgba(212,150,58,.2)}
+footer{background:var(--ink);color:var(--sand);padding:12px 4%;font-size:10px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;border-top:1px solid rgba(212,150,58,.2)}
 footer span{color:var(--ochre)}
 
 /* RESPONSIVE */
@@ -166,8 +173,8 @@ footer span{color:var(--ochre)}
 <body>
 
 <header class="masthead">
-  <div class="ms">LC76 Overland Series &middot; Trip Planning</div>
-  <h1>Trip Fuel <em>Planner</em></h1>
+  <div class="ms">LC76 SW 1HZ &middot; Trip Planner</div>
+  <h1>Trip Fuel <span style="color:var(--ochre)">Planner</span></h1>
   <p class="masthead-sub">Multi-leg route planner &mdash; terrain-adjusted fuel budget per leg</p>
 </header>
 
@@ -193,15 +200,15 @@ footer span{color:var(--ochre)}
       </div>
       <div class="vfield">
         <label>Tank capacity (L)</label>
-        <input type="number" id="v-tank" value="145" min="40" max="300" step="5" oninput="recalc()">
+        <input type="number" id="v-tank" value="145" min="40" max="300" step="5" oninput="updateSliderFill(this);recalc()">
       </div>
       <div class="vfield">
         <label>Jerry can capacity (L)</label>
-        <input type="number" id="v-jerry" value="40" min="0" max="120" step="5" oninput="recalc()">
+        <input type="number" id="v-jerry" value="40" min="0" max="120" step="5" oninput="updateSliderFill(this);recalc()">
       </div>
       <div class="vfield">
         <label>Fuel reserve (L)</label>
-        <input type="number" id="v-reserve" value="10" min="0" max="30" step="5" oninput="recalc()">
+        <input type="number" id="v-reserve" value="10" min="0" max="30" step="5" oninput="updateSliderFill(this);recalc()">
       </div>
       <div class="vfield">
         <label>Payload (kg)</label>
@@ -215,7 +222,7 @@ footer span{color:var(--ochre)}
       </div>
       <div class="vfield">
         <label>Fuel at trip start (L)</label>
-        <input type="number" id="t-startfuel" value="145" min="10" max="185" step="5" oninput="recalc()">
+        <input type="number" id="t-startfuel" value="145" min="10" max="185" step="5" oninput="updateSliderFill(this);recalc()">
       </div>
     </div>
   </div>
@@ -276,7 +283,7 @@ footer span{color:var(--ochre)}
 </main>
 
 <footer>
-  <div>LC76 Overland Series &middot; <span>Trip Fuel Planner</span></div>
+  <div>LC76 SW 1HZ &middot; <span>Trip Fuel Planner</span></div>
   <div>Baseline: <span>7.26 km/L</span> &middot; LC76 SW 1HZ + Turbo + Intercooler</div>
   <div>Estimates only &mdash; verify fuel availability before travel</div>
 </footer>
@@ -726,6 +733,21 @@ function renderFuelLine(results, maxFuel, reserve){
 // ── Init ───────────────────────────────────────────────────────
 renderLegs();
 recalc();
+
+function updateSliderFill(el){
+  var min=parseFloat(el.min)||0;
+  var max=parseFloat(el.max)||100;
+  var val=parseFloat(el.value)||0;
+  var pct=((val-min)/(max-min)*100).toFixed(1);
+  el.style.background='linear-gradient(to right,var(--clay) 0%,var(--clay) '+pct+'%,rgba(61,43,26,0.15) '+pct+'%,rgba(61,43,26,0.15) 100%)';
+}
+function initSliders(){
+  document.querySelectorAll('input[type=range]').forEach(function(el){
+    updateSliderFill(el);
+    el.addEventListener('input',function(){updateSliderFill(this);});
+  });
+}
+document.addEventListener('DOMContentLoaded', initSliders);
 </script>
 <script>
 if ('serviceWorker' in navigator && location.hostname !== 'www.claudeusercontent.com') {

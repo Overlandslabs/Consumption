@@ -205,6 +205,8 @@ footer span{color:var(--ochre)}
   <a href="#spacing">Spacing</a>
   <a href="#icons">Icons</a>
   <a href="#pwa">PWA</a>
+  <a href="#inputs">Inputs</a>
+  <a href="#conditions">Conditions</a>
   <a href="#dont">Do / Don't</a>
 </nav>
 
@@ -415,7 +417,104 @@ body { font-family: 'Oswald', 'Arial Narrow', sans-serif; }</pre>
 .slabelwrap { display:flex; align-items:baseline; gap:10px; margin-bottom:4px; }
 .slabel { font-size:10px; letter-spacing:.06em; text-transform:uppercase; color:var(--smoke); }
 .sval   { font-size:14px; font-weight:600; color:var(--clay); }
-input[type=range] { width:100%; height:4px; accent-color:var(--clay); }</pre>
+input[type=range] { width:100%; height:4px; accent-color:var(--clay); }
+
+/* iOS Safari — filled track via JS gradient */
+input[type=range] { -webkit-appearance:none; appearance:none;
+  background:linear-gradient(to right,var(--clay) 0%,var(--clay) 50%,var(--border) 50%,var(--border) 100%); }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; width:22px; height:22px;
+  border-radius:50%; background:var(--clay); border:3px solid var(--white); margin-top:-9px; }
+input[type=range]::-webkit-slider-runnable-track { height:4px; border-radius:2px; }
+
+/* updateSliderFill(el) — call on oninput AND on selT() / init */
+function updateSliderFill(el){
+  var pct=((el.value-el.min)/(el.max-el.min)*100).toFixed(1);
+  el.style.background='linear-gradient(to right,var(--clay) '+pct+'%,var(--border) '+pct+'%)';
+}</pre>
+
+<div id="inputs"></div>
+<h3>Linked number input (avg consumption)</h3>
+<p>When a slider has too coarse a step for precise entry (e.g. 0.1 steps but user needs 7.24), pair it with a number input. The <strong>input is the source of truth</strong> — the slider only moves visually. Never write the slider value back to the input.</p>
+<div style="background:var(--cream);padding:14px 18px;margin-bottom:8px">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+    <div class="s-lbl">Avg consumption (km/L)</div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <input type="number" value="7.24" step="0.01" style="width:72px;font-family:'Oswald',sans-serif;font-size:15px;font-weight:600;color:var(--bark);background:var(--sand);border:2px solid var(--clay);padding:4px 6px;text-align:right;outline:none">
+      <div style="font-size:10px;color:var(--clay);font-weight:500">13.8 L/100km</div>
+    </div>
+  </div>
+  <input type="range" min="4" max="12" step="0.1" value="7.2" style="width:100%">
+  <div style="font-size:9px;color:var(--smoke);font-style:italic;opacity:.75;padding-top:2px">Type your Fuelio average or drag the slider — both stay in sync. Affects all calculations.</div>
+</div>
+<pre>/* Input is source of truth — reads full precision */
+function getBase(){
+  var v=parseFloat(document.getElementById("inp-base").value);
+  return (!isNaN(v)&&v>=4&&v<=12)?v:parseFloat(document.getElementById("sl-base").value)||7.26;
+}
+function syncBaseFromInput(){
+  var val=parseFloat(document.getElementById("inp-base").value);
+  if(isNaN(val)||val&lt;4||val&gt;12){ inp.style.borderColor="var(--red-warn)"; return; }
+  document.getElementById("sl-base").value=Math.round(val*10)/10; // visual only
+  updateSliderFill(document.getElementById("sl-base"));
+  upd();
+}
+/* Input box: background:var(--sand); border:2px solid var(--clay) — signals editability */</pre>
+
+<div id="conditions"></div>
+<h3>Conditions section — calculator pattern</h3>
+<p>The conditions section groups all input sliders that affect the calculation. Key rules: compact spacing, consistent text sizes, <code>snote</code> at 9px italic below each slider, AC checkbox uses the same row height and label style as sliders.</p>
+<div style="background:var(--cream);padding:14px 18px;margin-bottom:8px">
+  <!-- Load slider -->
+  <div style="margin-bottom:6px">
+    <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:2px">
+      <span class="s-lbl">Load — current payload</span>
+      <span style="font-size:15px;font-weight:600;color:var(--clay)">350 kg</span>
+    </div>
+    <input type="range" min="0" max="690" value="350" style="width:100%">
+    <div style="font-size:9px;color:var(--smoke);font-style:italic;opacity:.75;padding-top:1px">GVM payload limit: 690 kg. Economy penalty applies above 150 kg.</div>
+  </div>
+  <!-- Temp slider -->
+  <div style="margin-bottom:6px">
+    <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:2px">
+      <span class="s-lbl">Outside temperature</span>
+      <span style="font-size:15px;font-weight:600;color:var(--clay)">38°C</span>
+      <span style="font-size:10px;color:var(--clay);font-weight:500">-2.6%</span>
+    </div>
+    <input type="range" min="0" max="50" step="1" value="38" style="width:100%">
+    <div style="font-size:9px;color:var(--smoke);font-style:italic;opacity:.75;padding-top:1px">Baseline 25°C — 0.2% penalty per °C above 25°C. Intercooler loses efficiency in high heat.</div>
+  </div>
+  <!-- AC checkbox -->
+  <div style="display:flex;align-items:center;gap:10px;min-height:44px;margin-bottom:2px">
+    <label style="display:flex;align-items:center;gap:8px;cursor:pointer;flex:1">
+      <input type="checkbox" checked style="width:18px;height:18px;cursor:pointer;accent-color:var(--clay);flex-shrink:0">
+      <div>
+        <span class="s-lbl">Air conditioning</span>
+        <span style="font-size:9px;color:var(--smoke);opacity:.75;margin-left:4px">+15% fuel — highest impact at low speed</span>
+      </div>
+    </label>
+    <div style="font-size:13px;font-weight:600;color:var(--clay);white-space:nowrap">-15% (AC on)</div>
+  </div>
+</div>
+<pre>/* Conditions section — spacing tokens */
+.sblock      { margin-bottom:6px; }
+.slabelwrap  { display:flex; align-items:baseline; gap:10px; margin-bottom:2px; }
+.slabel      { font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--smoke); }
+.sval        { font-size:15px; font-weight:600; color:var(--clay); }
+.snote       { font-size:9px; color:var(--smoke); font-style:italic; opacity:.75;
+               padding:0 0 2px; line-height:1.2; }
+
+/* AC checkbox row — same height as slider rows */
+.ac-row      { display:flex; align-items:center; gap:10px; min-height:44px; }
+.ac-row input[type=checkbox] { width:18px; height:18px; accent-color:var(--clay); }
+
+/* Temperature penalty formula */
+function tf(temp){ return Math.max(0,(temp-25)*0.002); } // 0.2% per °C above 25°C
+/* AC multiplier */
+function gAC(){ return document.getElementById("cb-ac").checked; }
+// In cc(): divide by 1.15 when AC on
+return getBase()*(1-lp(kg)-bf(bar)-af(alt)-tf(temp))/m / (gAC()?1.15:1.0);</pre>
+
+<div class="rule info"><strong>New calculator conditions (2026)</strong>Outside temperature (0–50°C, baseline 25°C) and air conditioning checkbox are independent variables. Temperature affects intercooler efficiency; AC affects engine load. Both are separate from terrain multipliers.</div>
 
 <h3>Info bars</h3>
 <div>
@@ -595,7 +694,8 @@ if ('serviceWorker' in navigator && location.hostname !== 'www.claudeusercontent
 <h2>Common <em>mistakes</em></h2>
 <div class="dodo">
   <div class="do"><div class="do-lbl">&#10003; Do</div><p>Use token names: <code style="color:var(--ochre)">color:var(--bark)</code></p><p>Use 44px min touch targets on all interactive elements</p><p>Pair colour status with a label or icon</p><p>Use Oswald for all text — even numbers</p><p>Keep sliders full-width on mobile — never constrained to partial width</p><p>Show units on every value: km, L, km/L, bar, kg, m</p><p>Use <code style="color:var(--ochre)">onchange</code> for number inputs that trigger recalc (prevents freeze on partial entry)</p></div>
-  <div class="dont"><div class="dont-lbl">&#10007; Don't</div><p>Use raw hex values: <code style="color:#F87171">#3D2B1A</code></p><p>Use <code style="color:#F87171">prompt()</code> or <code style="color:#F87171">alert()</code> — blocked in standalone PWA</p><p>Rely on colour alone for status — always add text</p><p>Use Inter, Roboto, Arial, or system fonts</p><p>Let content overflow horizontally — wrap tables in scroll containers</p><p>Use <code style="color:#F87171">oninput</code> on number fields that do heavy recalc — causes freeze mid-typing</p><p>Add animations that delay access to data values</p></div>
+  <div class="dont"><div class="dont-lbl">&#10007; Don't</div><p>Use raw hex values: <code style="color:#F87171">#3D2B1A</code></p><p>Use <code style="color:#F87171">prompt()</code> or <code style="color:#F87171">alert()</code> — blocked in standalone PWA</p><p>Rely on colour alone for status — always add text</p><p>Use Inter, Roboto, Arial, or system fonts</p><p>Let content overflow horizontally — wrap tables in scroll containers</p><p>Use <code style="color:#F87171">oninput</code> on number fields that do heavy recalc — causes freeze mid-typing</p><p>Add animations that delay access to data values</p>
+      <p>Write slider value back to a linked number input — the input is source of truth, slider is visual only</p></div>
 </div>
 
 <!-- NAMING CONVENTION -->
