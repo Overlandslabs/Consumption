@@ -75,7 +75,7 @@
   .rcv{font-family:'Oswald','Arial Narrow',sans-serif;font-size:28px;font-weight:700;color:var(--clay);line-height:1;margin-bottom:2px}
   
   .rcs{font-size:12px;color:var(--smoke)}
-  .rbar{background:var(--cream);border:1px solid var(--border);padding:10px 14px;margin-bottom:8px;overflow:visible}
+  .rbar{background:var(--cream);border:1px solid var(--border);border-left:3px solid var(--clay);padding:10px 14px;margin-bottom:8px;overflow:visible}
   .rbh{display:flex;justify-content:space-between;font-family:'Oswald','Arial Narrow',sans-serif;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--smoke);margin-bottom:6px}
   .rbt{height:12px;background:rgba(61,43,26,.1);position:relative}
   .rbf{height:12px;background:var(--clay);position:absolute;top:0;left:0;transition:width .3s ease}
@@ -302,8 +302,6 @@
     </div>
     <div class="rbtk" id="rbtk"></div>
   </div>
-  <div id="speed-note" style="font-size:11px;color:var(--smoke);padding:5px 2px 8px;font-style:italic;"></div>
-
   <div id="warn-box" class="call" style="display:none">
     <div class="ci">&#9888;</div>
     <div class="cb" id="warn-txt"></div>
@@ -408,10 +406,6 @@ function selT(el){
   document.querySelectorAll('.tbtn').forEach(function(t){t.classList.remove('active')});
   el.classList.add('active');
   AM=parseFloat(el.dataset.mult);
-  // Update implied speed note
-  var idx=['1.00','1.12','1.25','1.55','1.45','1.80'].indexOf(el.dataset.mult);
-  var sn=document.getElementById('speed-note');
-  if(sn&&idx>=0){sn.textContent='Implied speed: '+TR[idx].spd+' — '+TR[idx].why+'.';}
   var bar=parseFloat(el.dataset.bar);
   var barEl=document.getElementById('sl-bar');
   barEl.value=bar;
@@ -514,11 +508,7 @@ function initSliders(){
     el.addEventListener('input',function(){updateSliderFill(this);});
   });
 }
-document.addEventListener('DOMContentLoaded', function(){
-  initSliders();
-  var sn=document.getElementById('speed-note');
-  if(sn)sn.textContent='Implied speed: '+TR[0].spd+' — '+TR[0].why+'.';
-});
+document.addEventListener('DOMContentLoaded', initSliders);
 </script>
 
 <script>
