@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LC76 Library">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1C1410">
+<link rel="manifest" href="manifest-ref.json">
+<link rel="apple-touch-icon" href="icon-ref-192.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Lithium Battery Systems — Training Guide · LC76 SW 1HZ</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1A1208;--paper:#F7F2E8;--rule:#D4C8A8;
+  --amber:#5C3A0A;--green:#1A4A3C;--blue:#1A3A5C;--purple:#3A1A5C;
+  --red:#8B1A1A;--teal:#1A4A4A;--orange:#7A3A00;
+  --heat:#C84B0A;--sun:#B87800;--muted:#8A7E68;
+  --bg-amber:#FDF0DC;--bg-green:#E8F2EE;--bg-blue:#E3EAF4;
+  --bg-purple:#EEE3F4;--bg-red:#F4E3E3;--bg-teal:#E3F4F0;--bg-orange:#FBF0E0;
+
+  /* LC76 Design System tokens */
+  --clay:#C4572A;--ochre:#D4963A;--sand:#E8D5A3;--cream:#F5EDDA;
+  --ink:#1C1410;--bark:#3D2B1A;--smoke:#6B5B4E;--white:#FDFAF4;
+  --green-ok:#1A4731;--red-warn:#B91C1C;--amber:#92400E;
+  --dominant:var(--cream);--secondary:var(--ink);--accent:var(--clay);--accent-2:var(--ochre);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',sans-serif;font-size:13.5px;line-height:1.7;}
+
+/* HEADER */
+.hdr{background:var(--ink);padding:38px 50px 30px;position:relative;overflow:hidden;}
+.hdr::before{content:'';position:absolute;top:-80px;right:-80px;width:360px;height:360px;border:55px solid rgba(232,146,10,.07);border-radius:50%;}
+.hdr::after{content:'';position:absolute;bottom:-55px;left:260px;width:200px;height:200px;border:32px solid rgba(26,74,60,.12);border-radius:50%;}
+.hdr-eye{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.28em;color:#E8920A;text-transform:uppercase;margin-bottom:10px;}
+.hdr-title{font-family:'DM Serif Display',serif;font-size:33px;line-height:1.12;color:#fff;margin-bottom:7px;}
+.hdr-title em{font-style:italic;color:#F4BF60;}
+.hdr-sub{font-size:11.5px;color:#8A8070;font-family:'IBM Plex Mono',monospace;margin-bottom:18px;}
+.hdr-chips{display:flex;gap:8px;flex-wrap:wrap;}
+.chip{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:3px;padding:3px 10px;font-size:10px;font-family:'IBM Plex Mono',monospace;color:#ccc;}
+.chip span{color:#F4BF60;font-weight:600;}
+
+/* TOC */
+.toc{background:#141008;border-top:1px solid rgba(255,255,255,.07);padding:18px 50px 22px;}
+.toc-title{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:#E8920A;margin-bottom:12px;}
+.toc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;}
+.toc-item{display:flex;align-items:flex-start;gap:8px;text-decoration:none;color:#bbb;font-size:10.5px;font-family:'IBM Plex Mono',monospace;padding:5px 7px;border-radius:3px;transition:background .15s,color .15s;}
+.toc-item:hover{background:rgba(255,255,255,.07);color:#F4BF60;}
+.toc-num{font-size:9px;color:#E8920A;font-weight:600;flex:0 0 auto;margin-top:1px;}
+
+/* EXPORT BAR */
+.xbar{background:#fff;border-bottom:1px solid var(--rule);padding:9px 50px;display:flex;align-items:center;gap:10px;}
+.xbar-lbl{font-size:11px;color:var(--muted);font-family:'IBM Plex Mono',monospace;}
+.xbtn{background:var(--green);color:#fff;border:none;padding:6px 16px;font-family:'IBM Plex Sans',sans-serif;font-size:11.5px;font-weight:500;cursor:pointer;border-radius:3px;display:flex;align-items:center;gap:6px;transition:background .15s;}
+.xbtn:hover{background:#0f2e24;}
+.xbtn svg{width:13px;height:13px;}
+
+/* BODY */
+.body{padding:28px 50px 56px;}
+
+/* CHAPTER */
+.chapter{margin-bottom:32px;}
+.ch-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
+.ch-title{font-family:'DM Serif Display',serif;font-size:24px;color:var(--ink);margin-bottom:2px;}
+.ch-title em{font-style:italic;}
+.ch-rule{border:none;border-top:2px solid var(--rule);margin-bottom:20px;}
+.ch-intro{font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:16px;max-width:860px;}
+
+/* SECTION LABELS */
+.slbl{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;margin-top:28px;}
+.srule{border:none;border-top:1px solid var(--rule);margin-bottom:16px;}
+
+/* SYMBOL GRID */
+.sym-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin-bottom:22px;}
+.sym-cell{background:var(--paper);padding:16px 18px;}
+.sym-cell.amber{background:var(--bg-amber);}
+.sym-cell.green{background:var(--bg-green);}
+.sym-cell.blue{background:var(--bg-blue);}
+.sym-cell.purple{background:var(--bg-purple);}
+.sym-cell.red{background:var(--bg-red);}
+.sym-cell.teal{background:var(--bg-teal);}
+.sym-cell.orange{background:var(--bg-orange);}
+.sym-symbol{font-family:'DM Serif Display',serif;font-size:36px;line-height:1;margin-bottom:4px;}
+.sym-name{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
+.sym-full{font-weight:600;font-size:13px;color:var(--ink);margin-bottom:4px;}
+.sym-desc{font-size:11px;color:var(--muted);line-height:1.55;}
+.sym-formula{font-family:'IBM Plex Mono',monospace;font-size:10.5px;background:rgba(0,0,0,.06);padding:2px 7px;border-radius:2px;display:inline-block;margin-top:4px;color:var(--ink);}
+
+/* INFO / WARN / TIP BOXES */
+.ibox{border-left:4px solid var(--blue);background:var(--bg-blue);padding:14px 20px;border-radius:0 3px 3px 0;margin-bottom:18px;}
+.ibox-t{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--blue);margin-bottom:5px;}
+.ibox-b{font-size:12.5px;line-height:1.78;color:var(--ink);}
+.ibox-b strong{color:var(--blue);}
+
+.wbox{border-left:4px solid var(--heat);background:var(--bg-red);padding:14px 20px;border-radius:0 3px 3px 0;margin-bottom:18px;}
+.wbox-t{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--heat);margin-bottom:5px;}
+.wbox-b{font-size:12.5px;line-height:1.78;color:var(--ink);}
+.wbox-b strong{color:var(--heat);}
+
+.gbox{border-left:4px solid var(--green);background:var(--bg-green);padding:14px 20px;border-radius:0 3px 3px 0;margin-bottom:18px;}
+.gbox-t{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--green);margin-bottom:5px;}
+.gbox-b{font-size:12.5px;line-height:1.78;color:var(--ink);}
+.gbox-b strong{color:var(--green);}
+
+.abox{border-left:4px solid var(--amber);background:var(--bg-amber);padding:14px 20px;border-radius:0 3px 3px 0;margin-bottom:18px;}
+.abox-t{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--amber);margin-bottom:5px;}
+.abox-b{font-size:12.5px;line-height:1.78;color:var(--ink);}
+.abox-b strong{color:var(--amber);}
+
+.pbox{border-left:4px solid var(--purple);background:var(--bg-purple);padding:14px 20px;border-radius:0 3px 3px 0;margin-bottom:18px;}
+.pbox-t{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--purple);margin-bottom:5px;}
+.pbox-b{font-size:12.5px;line-height:1.78;color:var(--ink);}
+.pbox-b strong{color:var(--purple);}
+
+/* FORMULA DISPLAY */
+.formula-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin-bottom:22px;}
+.fc{padding:18px 20px;}
+.fc.fa{background:var(--bg-amber);}
+.fc.fg{background:var(--bg-green);}
+.fc.fb{background:var(--bg-blue);}
+.fc.fp{background:var(--bg-purple);}
+.fc.ft{background:var(--bg-teal);}
+.fc.fr{background:var(--bg-red);}
+.f-name{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.f-eq{font-family:'DM Serif Display',serif;font-size:22px;color:var(--ink);line-height:1;margin-bottom:6px;}
+.f-exp{font-size:11px;color:var(--muted);line-height:1.55;}
+.f-ex{font-family:'IBM Plex Mono',monospace;font-size:10.5px;background:rgba(0,0,0,.07);padding:3px 8px;border-radius:2px;display:inline-block;margin-top:5px;color:var(--ink);}
+
+/* OHMS TRIANGLE */
+.ohm-tri{display:flex;align-items:center;gap:28px;margin-bottom:22px;flex-wrap:wrap;}
+.ohm-box{background:var(--ink);color:#fff;padding:22px 28px;border-radius:4px;text-align:center;font-family:'IBM Plex Mono',monospace;min-width:200px;}
+.ohm-title{font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:#E8920A;margin-bottom:12px;}
+.ohm-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:2px;}
+.ohm-top{grid-column:1/-1;background:#F4BF60;color:var(--ink);padding:10px;text-align:center;font-size:20px;font-weight:600;border-radius:2px 2px 0 0;}
+.ohm-bl{background:rgba(255,255,255,.12);padding:10px;text-align:center;font-size:20px;border-radius:0 0 0 2px;}
+.ohm-br{background:rgba(255,255,255,.08);padding:10px;text-align:center;font-size:20px;border-radius:0 0 2px 0;}
+.ohm-sub{font-size:9px;display:block;margin-top:2px;opacity:.65;}
+.ohm-desc{flex:1;min-width:280px;}
+.ohm-rule{font-size:12.5px;line-height:1.8;color:var(--ink);}
+.ohm-rule li{margin-left:18px;margin-bottom:4px;}
+
+/* LOAD TABLE */
+.ltable{width:100%;border-collapse:collapse;font-size:12.5px;border:1px solid var(--rule);margin-bottom:22px;}
+.ltable th{padding:9px 12px;text-align:left;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.07em;border-right:1px solid rgba(255,255,255,.08);}
+.ltable th.hk{background:var(--ink);color:#fff;}
+.ltable th.ha{background:var(--amber);color:#fff;}
+.ltable th.hg{background:var(--green);color:#fff;}
+.ltable th.hb{background:var(--blue);color:#fff;}
+.ltable th.ht{background:var(--teal);color:#fff;}
+.ltable td{padding:8px 12px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);font-size:12px;}
+.ltable tr:nth-child(even) td{background:rgba(0,0,0,.02);}
+.ltable tr:last-child td{border-bottom:none;}
+.ltable td.item{font-weight:500;}
+.ltable td.m{font-family:'IBM Plex Mono',monospace;}
+.ltable .sr td{background:var(--bg-amber);font-weight:600;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--amber);}
+.ltable .gr td{background:var(--ink);color:#F4BF60;font-family:'IBM Plex Mono',monospace;font-weight:700;}
+.ltable td.tot{color:var(--amber);font-weight:700;font-family:'IBM Plex Mono',monospace;}
+.ltable td.ag{color:#1A7A40;font-weight:600;font-family:'IBM Plex Mono',monospace;}
+.ltable td.ah{color:var(--heat);font-weight:600;font-family:'IBM Plex Mono',monospace;}
+
+/* DO / DON'T GRIDS */
+.dodont{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:22px;}
+.do-card{border:1px solid #4A9A6A;border-radius:3px;overflow:hidden;}
+.dont-card{border:1px solid #C84B0A;border-radius:3px;overflow:hidden;}
+.do-head{background:#1A4A3C;color:#fff;padding:10px 16px;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;display:flex;align-items:center;gap:8px;}
+.dont-head{background:var(--heat);color:#fff;padding:10px 16px;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;display:flex;align-items:center;gap:8px;}
+.do-body{padding:0;}
+.do-item{display:flex;gap:10px;align-items:flex-start;padding:9px 16px;border-bottom:1px solid rgba(74,154,106,.2);font-size:12px;line-height:1.55;}
+.dont-item{display:flex;gap:10px;align-items:flex-start;padding:9px 16px;border-bottom:1px solid rgba(200,75,10,.15);font-size:12px;line-height:1.55;}
+.do-item:last-child,.dont-item:last-child{border-bottom:none;}
+.do-icon{color:#1A7A40;font-size:14px;flex:0 0 auto;margin-top:1px;}
+.dont-icon{color:var(--heat);font-size:14px;flex:0 0 auto;margin-top:1px;}
+.di-label{font-weight:600;font-size:12px;}
+.di-note{font-size:11px;color:var(--muted);margin-top:2px;line-height:1.5;}
+
+/* SoC METER */
+.soc-container{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:22px;}
+.soc-card{border:1px solid var(--rule);border-radius:3px;overflow:hidden;}
+.soc-head{padding:11px 16px;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:#fff;}
+.soc-head.ha{background:var(--amber);}
+.soc-head.hg{background:var(--green);}
+.soc-body{padding:14px 16px;}
+.soc-bar-wrap{margin-bottom:14px;}
+.soc-bar-label{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:5px;font-family:'IBM Plex Mono',monospace;}
+.soc-bar-track{height:22px;background:rgba(0,0,0,.07);border-radius:3px;overflow:hidden;position:relative;}
+.soc-segment{height:100%;display:inline-flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:9px;color:#fff;font-weight:600;float:left;}
+.seg-red{background:#B00000;}
+.seg-orange{background:#C84B0A;}
+.seg-yellow{background:#B87800;}
+.seg-lime{background:#4A8A1A;}
+.seg-green{background:#1A6A3C;}
+.soc-zones{margin-top:10px;}
+.soc-zone-row{display:flex;align-items:flex-start;gap:10px;padding:6px 0;border-bottom:1px solid var(--rule);font-size:12px;}
+.soc-zone-row:last-child{border-bottom:none;}
+.soc-dot{width:12px;height:12px;border-radius:50%;flex:0 0 auto;margin-top:2px;}
+.soc-zone-label{font-weight:600;font-size:11.5px;}
+.soc-zone-desc{font-size:11px;color:var(--muted);line-height:1.5;}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin-bottom:22px;}
+.sc{background:var(--paper);padding:15px 18px;position:relative;}
+.sc.a{background:var(--bg-amber);}
+.sc.g{background:var(--bg-green);}
+.sc.b{background:var(--bg-blue);}
+.sc.p{background:var(--bg-purple);}
+.sc.r{background:var(--bg-red);}
+.sc.t{background:var(--bg-teal);}
+.sv{font-family:'DM Serif Display',serif;font-size:26px;color:var(--ink);line-height:1;}
+.sv .u{font-size:11px;font-family:'IBM Plex Mono',monospace;color:var(--muted);margin-left:2px;}
+.sl{font-size:10.5px;color:var(--muted);margin-top:3px;}
+.sbadge{position:absolute;top:9px;right:11px;font-size:8.5px;font-family:'IBM Plex Mono',monospace;letter-spacing:.07em;padding:2px 6px;border-radius:2px;text-transform:uppercase;color:#fff;}
+.ba{background:var(--amber);}
+.bg{background:var(--green);}
+.bb{background:var(--blue);}
+.bp{background:var(--purple);}
+.br{background:var(--red);}
+.bh{background:var(--heat);}
+
+/* TWO COLUMNS */
+.cols2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:22px;}
+.card{border:1px solid var(--rule);border-radius:2px;overflow:hidden;}
+.card-hd{padding:12px 17px;display:flex;align-items:center;justify-content:space-between;}
+.card-hd.ha{background:var(--amber);}
+.card-hd.hg{background:var(--green);}
+.card-hd.hb{background:var(--blue);}
+.card-hd.hp{background:var(--purple);}
+.card-hd.ht{background:var(--teal);}
+.card-hn{font-family:'DM Serif Display',serif;font-size:15px;color:#fff;}
+.card-hs{font-size:9px;color:rgba(255,255,255,.55);font-family:'IBM Plex Mono',monospace;margin-top:1px;letter-spacing:.07em;text-transform:uppercase;}
+.card-ic{font-size:22px;}
+.row{display:flex;justify-content:flex-start;align-items:flex-start;padding:8px 17px;border-bottom:1px solid var(--rule);font-size:12px;}
+.row:last-child{border-bottom:none;}
+.row:nth-child(even){background:rgba(0,0,0,.02);}
+.rl{color:var(--muted);font-size:11px;flex:0 0 44%;}
+.rv{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:11.5px;color:var(--ink);flex:1;}
+.rv.a{color:var(--amber);}
+.rv.g{color:#1A7A40;}
+.rv.b{color:var(--blue);}
+.rv.h{color:var(--heat);}
+.rv.p{color:var(--purple);}
+
+/* SYSTEM DIAGRAM */
+.sysdiag{background:var(--ink);color:#ccc;font-family:'IBM Plex Mono',monospace;font-size:11.5px;line-height:2;padding:20px 26px;border-radius:3px;margin-bottom:22px;}
+.sysdiag .dt{color:#F4BF60;font-size:9px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:12px;}
+.sysdiag .dc{color:#8FBD9E;}
+.sysdiag .da{color:#F4BF60;}
+.sysdiag .dr{color:#FF9A7A;}
+.sysdiag .db{color:#9AB8E0;}
+.sysdiag .dp{color:#D0A0FF;}
+
+/* CALC WORKED EXAMPLE */
+.calc-box{background:var(--ink);border-radius:3px;padding:20px 24px;margin-bottom:22px;}
+.calc-title{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:#E8920A;margin-bottom:14px;}
+.calc-step{display:flex;gap:14px;margin-bottom:12px;align-items:flex-start;}
+.calc-step:last-child{margin-bottom:0;}
+.calc-num{background:#E8920A;color:var(--ink);width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;flex:0 0 auto;}
+.calc-body{font-size:12px;color:#ccc;line-height:1.65;}
+.calc-body strong{color:#F4BF60;}
+.calc-body .eq{font-family:'IBM Plex Mono',monospace;background:rgba(255,255,255,.08);padding:2px 8px;border-radius:2px;color:#fff;display:inline-block;margin:2px 0;}
+
+/* COMPONENT COMPARISON */
+.chem-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin-bottom:22px;}
+.chem-cell{padding:14px 16px;}
+.chem-cell.best{background:var(--bg-green);}
+.chem-cell.ok{background:var(--bg-amber);}
+.chem-cell.avoid{background:var(--bg-red);}
+.chem-name{font-weight:600;font-size:13px;margin-bottom:3px;}
+.chem-badge{display:inline-block;font-size:8.5px;font-family:'IBM Plex Mono',monospace;padding:1px 6px;border-radius:2px;color:#fff;margin-left:6px;vertical-align:middle;}
+.chem-badge.gb{background:#1A7A40;}
+.chem-badge.ab{background:var(--amber);}
+.chem-badge.rb{background:#B00000;}
+.chem-prop{font-size:11px;color:var(--muted);line-height:1.6;margin-top:4px;}
+
+/* FOOTER */
+.footer{border-top:1px solid var(--rule);padding:14px 50px;display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--muted);background:rgba(0,0,0,.02);}
+
+/* Responsive */
+@media(max-width:900px){
+  .toc-grid{grid-template-columns:1fr 1fr;}
+  .sym-grid{grid-template-columns:1fr 1fr;}
+  .formula-strip{grid-template-columns:1fr 1fr;}
+  .dodont,.cols2,.soc-container{grid-template-columns:1fr;}
+  .hdr,.body,.toc,.xbar,.footer{padding-left:20px;padding-right:20px;}
+  .stats{grid-template-columns:1fr 1fr;}
+  .chem-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════ HEADER ══════════════════ -->
+<div class="hdr">
+  <div class="hdr-eye">Technical Training Document · v1 · March 2026</div>
+  <div class="hdr-title">LC76 SW 1HZ — <em>How It All Works</em></div>
+  <div class="hdr-sub">Electricity Fundamentals · Load Calculation · State of Charge · Do's &amp; Don'ts · LC76 Overland Context</div>
+  <div class="hdr-chips">
+    <div class="chip">Audience: <span>First-time lithium battery owners</span></div>
+    <div class="chip">Context: <span>12V overland / off-grid</span></div>
+    <div class="chip">Chemistry: <span>LiFePO4 focus</span></div>
+    <div class="chip">Level: <span>Beginner → Intermediate</span></div>
+  </div>
+</div>
+
+<!-- ══════════════════ TOC ══════════════════ -->
+<div class="toc">
+  <div class="toc-title">Table of Contents</div>
+  <div class="toc-grid">
+    <a class="toc-item" href="#ch1"><span class="toc-num">01</span>Electricity Fundamentals &amp; Symbols</a>
+    <a class="toc-item" href="#ch2"><span class="toc-num">02</span>The Key Formulas You Need</a>
+    <a class="toc-item" href="#ch3"><span class="toc-num">03</span>Battery Types &amp; Why LiFePO4</a>
+    <a class="toc-item" href="#ch4"><span class="toc-num">04</span>How a 12V System Is Wired</a>
+    <a class="toc-item" href="#ch5"><span class="toc-num">05</span>Understanding Load &amp; Daily Draw</a>
+    <a class="toc-item" href="#ch6"><span class="toc-num">06</span>State of Charge — What's Left in the Tank</a>
+    <a class="toc-item" href="#ch7"><span class="toc-num">07</span>Charging Sources Explained</a>
+    <a class="toc-item" href="#ch8"><span class="toc-num">08</span>The Do's &amp; Don'ts — Full Guide</a>
+    <a class="toc-item" href="#ch9"><span class="toc-num">09</span>SA Overland: Heat, Dust &amp; Vibration</a>
+    <a class="toc-item" href="#ch11"><span class="toc-num">11</span>Wild Camp Energy Planning</a>
+    <a class="toc-item" href="#ch10"><span class="toc-num">10</span>Quick Reference &amp; Cheat Sheet</a>
+  </div>
+</div>
+
+<!-- ══════════════════ EXPORT BAR ══════════════════ -->
+<div class="xbar">
+  <span class="xbar-lbl">Save this document:</span>
+  <button class="xbtn" onclick="downloadHTML()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    Download as HTML File
+  </button>
+</div>
+
+<div class="body">
+
+<!-- ══════════════════════════════════════════════════
+     CHAPTER 1 — ELECTRICITY FUNDAMENTALS
+══════════════════════════════════════════════════ -->
+<div class="chapter" id="ch1">
+  <div class="ch-label">Chapter 01</div>
+  <div class="ch-title">Electricity Fundamentals <em>&amp; Symbols</em></div>
+  <hr class="ch-rule">
+  <p class="ch-intro">Before you can understand a battery system, you need to understand the language of electricity. These six concepts — and their symbols — are everything. If you understand Volts, Amps, Watts, Watt-hours, Amp-hours, and Ohms, you can work out almost any electrical problem your overland build will ever throw at you.</p>
+
+  <div class="slbl">The Six Core Electrical Symbols</div>
+  <hr class="srule">
+  <div class="sym-grid">
+    <div class="sym-cell amber">
+      <div class="sym-symbol" style="color:var(--amber)">V</div>
+      <div class="sym-name">Symbol: V</div>
+      <div class="sym-full">Volts — Electrical Pressure</div>
+      <div class="sym-desc">Voltage is the "pressure" that pushes electricity through a circuit. Like water pressure in a pipe — higher voltage = more push. Your battery stores energy at 12.8V (LiFePO4 nominal).</div>
+      <div class="sym-formula">12V system = 12.8V battery</div>
+    </div>
+    <div class="sym-cell green">
+      <div class="sym-symbol" style="color:var(--green)">A</div>
+      <div class="sym-name">Symbol: A (or I)</div>
+      <div class="sym-full">Amps — Electrical Flow Rate</div>
+      <div class="sym-desc">Amperage is the rate at which electricity flows. Like the volume of water flowing through a pipe per second. Your fridge might draw 3–4A continuously. Your winch might draw 300A briefly.</div>
+      <div class="sym-formula">A = W ÷ V</div>
+    </div>
+    <div class="sym-cell blue">
+      <div class="sym-symbol" style="color:var(--blue)">W</div>
+      <div class="sym-name">Symbol: W</div>
+      <div class="sym-full">Watts — Power (rate of energy use)</div>
+      <div class="sym-desc">Watts measure how much power a device uses at any moment. A 45W fridge uses 45 watts of power while running. This is the most common number on appliance labels.</div>
+      <div class="sym-formula">W = V × A</div>
+    </div>
+    <div class="sym-cell purple">
+      <div class="sym-symbol" style="color:var(--purple)">Wh</div>
+      <div class="sym-name">Symbol: Wh</div>
+      <div class="sym-full">Watt-hours — Energy Over Time</div>
+      <div class="sym-desc">Watt-hours measure how much total energy is used or stored over time. A 45W fridge running for 10 hours uses 450 Wh. Battery capacity is often expressed in Wh — your 300Ah battery stores 3,840 Wh.</div>
+      <div class="sym-formula">Wh = W × hours</div>
+    </div>
+    <div class="sym-cell teal">
+      <div class="sym-symbol" style="color:var(--teal)">Ah</div>
+      <div class="sym-name">Symbol: Ah</div>
+      <div class="sym-full">Amp-hours — Capacity Over Time</div>
+      <div class="sym-desc">Amp-hours measure how much current a battery can deliver over time. A 300Ah battery can deliver 1A for 300 hours, or 10A for 30 hours, or 300A for 1 hour. This is the most important number for battery sizing.</div>
+      <div class="sym-formula">Ah = A × hours</div>
+    </div>
+    <div class="sym-cell red">
+      <div class="sym-symbol" style="color:var(--red)">Ω</div>
+      <div class="sym-name">Symbol: Ω (Omega)</div>
+      <div class="sym-full">Ohms — Electrical Resistance</div>
+      <div class="sym-desc">Resistance is how much a wire, component, or connection opposes the flow of electricity. High resistance causes voltage drop and heat. Thin cables and corroded terminals have high resistance — dangerous in high-current systems.</div>
+      <div class="sym-formula">R = V ÷ A</div>
+    </div>
+    <div class="sym-cell amber">
+      <div class="sym-symbol" style="color:var(--orange)">%</div>
+      <div class="sym-name">Symbol: SoC or %</div>
+      <div class="sym-full">State of Charge — % Full</div>
+      <div class="sym-desc">State of Charge is how full your battery is, expressed as a percentage. 100% = fully charged. 0% = fully empty (never do this with LiFePO4 — stop at 20%). Your BMV-712 monitor shows this at all times.</div>
+      <div class="sym-formula">SoC = (Ah remaining ÷ Ah total) × 100</div>
+    </div>
+    <div class="sym-cell green">
+      <div class="sym-symbol" style="color:var(--teal)">DoD</div>
+      <div class="sym-name">Symbol: DoD or %</div>
+      <div class="sym-full">Depth of Discharge — How Much Used</div>
+      <div class="sym-desc">The flip side of SoC — how much of the battery's capacity has been used. DoD = 100% − SoC. LiFePO4 should not regularly exceed 80% DoD (SoC below 20%). Daily DoD matters hugely for battery longevity — but only when you are cycling the battery daily. At 77 Ah/day your 300Ah runs at 26% daily DoD (~10.5 years full-time) and the 200Ah at 38.5% (~6.7 years full-time). These figures assume daily expedition use (365 cycles/year). At one week per month (~85 cycles/year), both batteries outlast the vehicle — longevity becomes a non-factor and battery size is chosen purely for autonomy per trip.</div>
+      <div class="sym-formula">DoD = 100% − SoC%</div>
+    </div>
+  </div>
+
+  <div class="abox">
+    <div class="abox-t">Real-world analogy — Water in a Tank</div>
+    <div class="abox-b">Think of your battery as a water tank. <strong>Volts = water pressure</strong> (how hard the water pushes). <strong>Amps = flow rate</strong> (how fast water pours). <strong>Watts = power</strong> (pressure × flow). <strong>Amp-hours = tank size</strong> (how much water is stored). <strong>SoC = how full the tank is</strong>. The BMV-712 monitor is the gauge on the side of the tank that tells you exactly how much water is left.</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     CHAPTER 2 — KEY FORMULAS
+══════════════════════════════════════════════════ -->
+<div class="chapter" id="ch2">
+  <div class="ch-label">Chapter 02</div>
+  <div class="ch-title">The Key Formulas <em>You Need</em></div>
+  <hr class="ch-rule">
+  <p class="ch-intro">You only need to remember four formulas to work out any calculation in your 12V system. These let you convert between Watts, Amps, Volts, and hours — which means you can work out the draw of any appliance, how long your battery will last, and how many solar panels you need.</p>
+
+  <!-- Ohm's Law triangle -->
+  <div class="slbl">Ohm's Law — The Master Triangle</div>
+  <hr class="srule">
+  <div class="ohm-tri">
+    <div class="ohm-box">
+      <div class="ohm-title">Ohm's Law Triangle</div>
+      <div class="ohm-grid">
+        <div class="ohm-top">V<span class="ohm-sub">Volts</span></div>
+        <div class="ohm-bl">I (A)<span class="ohm-sub">Amps</span></div>
+        <div class="ohm-br">R (Ω)<span class="ohm-sub">Ohms</span></div>
+      </div>
+      <div style="margin-top:12px;font-size:10px;color:rgba(255,255,255,.5);">Cover what you want to find</div>
+    </div>
+    <div class="ohm-desc">
+      <div class="ohm-rule">
+        <p style="margin-bottom:10px;">The triangle tells you every combination:</p>
+        <ul>
+          <li><strong>V = I × R</strong> &nbsp;→&nbsp; Volts = Amps × Ohms</li>
+          <li><strong>I = V ÷ R</strong> &nbsp;→&nbsp; Amps = Volts ÷ Ohms</li>
+          <li><strong>R = V ÷ I</strong> &nbsp;→&nbsp; Ohms = Volts ÷ Amps</li>
+        </ul>
+        <p style="margin-top:10px;font-size:12px;color:var(--muted);">Cover the symbol you want to find with your thumb — the remaining two show you the formula. Most overland electrical problems involve V and A, with R explaining why things get hot or why voltage drops over a long cable run.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Power & Energy formulas -->
+  <div class="slbl">Power &amp; Energy Formulas</div>
+  <hr class="srule">
+  <div class="formula-strip">
+    <div class="fc fa">
+      <div class="f-name">Watts from Volts &amp; Amps</div>
+      <div class="f-eq">W = V × A</div>
+      <div class="f-exp">Multiply volts by amps to get watts. This is how you find the power draw of any 12V device.</div>
+      <div class="f-ex">12V × 4A = 48W (fridge at 12V drawing 4A)</div>
+    </div>
+    <div class="fc fg">
+      <div class="f-name">Amps from Watts &amp; Volts</div>
+      <div class="f-eq">A = W ÷ V</div>
+      <div class="f-exp">Divide watts by voltage to get amps. Use this to find how much current any appliance draws from your 12V battery.</div>
+      <div class="f-ex">45W ÷ 12V = 3.75A (fridge current draw)</div>
+    </div>
+    <div class="fc fb">
+      <div class="f-name">Watt-hours from Watts &amp; Time</div>
+      <div class="f-eq">Wh = W × h</div>
+      <div class="f-exp">Multiply watts by hours of use to get total energy consumed. Watt-hours is how battery capacity is measured in some specs.</div>
+      <div class="f-ex">45W × 8h = 360 Wh used</div>
+    </div>
+    <div class="fc fp">
+      <div class="f-name">Amp-hours from Amps &amp; Time</div>
+      <div class="f-eq">Ah = A × h</div>
+      <div class="f-exp">Multiply amps by hours to get Amp-hours. This is the most important formula for battery sizing — it tells you how much of your battery a device uses per day.</div>
+      <div class="f-ex">3.75A × 8h = 30 Ah drawn</div>
+    </div>
+    <div class="fc ft">
+      <div class="f-name">Converting Wh to Ah</div>
+      <div class="f-eq">Ah = Wh ÷ V</div>
+      <div class="f-exp">Divide watt-hours by system voltage to convert to amp-hours. Essential when comparing specs that use different units.</div>
+      <div class="f-ex">3,840 Wh ÷ 12V = 320 Ah battery</div>
+    </div>
+    <div class="fc fa">
+      <div class="f-name">Time Remaining from Ah</div>
+      <div class="f-eq">h = Ah ÷ A</div>
+      <div class="f-exp">Divide available amp-hours by current draw to find how many hours your battery will last. The BMV-712 calculates this automatically.</div>
+      <div class="f-ex">154 Ah left ÷ 10A draw = 15.4 hrs</div>
+    </div>
+  </div>
+
+  <!-- Worked example -->
+  <div class="slbl">Worked Example — Calculating Your Fridge's Daily Draw</div>
+  <hr class="srule">
+  <div class="calc-box">
+    <div class="calc-title">Step-by-step: National Luna 52L Weekender in SA heat (38°C ambient)</div>
+    <div class="calc-step">
+      <div class="calc-num">1</div>
+      <div class="calc-body"><strong>Find the wattage on the label or spec sheet.</strong> National Luna 52L Weekender compressor fridge: <span class="eq">~45W when running</span></div>
+    </div>
+    <div class="calc-step">
+      <div class="calc-num">2</div>
+      <div class="calc-body"><strong>Convert Watts to Amps:</strong> <span class="eq">A = W ÷ V = 2.0A avg mid-speed ÷ 1 = 2.0A</span> — the BD35F draws between 1.2A (low speed) and 2.8A (high speed).</div>
+    </div>
+    <div class="calc-step">
+      <div class="calc-num">3</div>
+      <div class="calc-body"><strong>Apply the duty cycle.</strong> A fridge doesn't run 24/7 — its compressor cycles on and off. At 25°C the duty cycle is ~40%. At SA summer 38°C ambient, it rises to ~65%. So effective running time = <span class="eq">24h × 65% = 15.6h/day</span></div>
+    </div>
+    <div class="calc-step">
+      <div class="calc-num">4</div>
+      <div class="calc-body"><strong>Calculate daily Ah draw:</strong> <span class="eq">Ah = A × h = 3.75A × 15.6h = 58.5 Ah/day</span> — but we use ~45W avg (slightly higher due to startup current) so in practice closer to <span class="eq">45.0 Ah/day in SA heat.</span></div>
+    </div>
+    <div class="calc-step">
+      <div class="calc-num">5</div>
+      <div class="calc-body"><strong>Check against battery capacity:</strong> 300Ah battery, usable 80% = <span class="eq">240 Ah usable.</span> The fridge alone uses <span class="eq">45.0 ÷ 240 = 28%</span> of usable capacity per day. Manageable — leaving 72% for everything else.</div>
+    </div>
+    <div class="calc-step">
+      <div class="calc-num">6</div>
+      <div class="calc-body"><strong>Compare with a 200Ah battery:</strong> Usable = 160 Ah. Fridge uses <span class="eq">45.0 ÷ 160 = 42%</span> of usable capacity — and that's just the fridge, before phones, fans, or lights. See the problem?</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     CHAPTER 3 — BATTERY TYPES
+══════════════════════════════════════════════════ -->
+<div class="chapter" id="ch3">
+  <div class="ch-label">Chapter 03</div>
+  <div class="ch-title">Battery Types <em>&amp; Why LiFePO4</em></div>
+  <hr class="ch-rule">
+  <p class="ch-intro">Not all batteries are equal. There are three main types used in overland and off-grid applications. Understanding their differences explains why you're spending more upfront on LiFePO4 — and why it's worth every rand in the long run, especially in the SA heat.</p>
+
+  <div class="slbl">Chemistry Comparison</div>
+  <hr class="srule">
+  <div class="chem-grid">
+    <div class="chem-cell best">
+      <div class="chem-name">LiFePO4 (Lithium Iron Phosphate) <span class="chem-badge gb">RECOMMENDED</span></div>
+      <div class="chem-prop"><strong>Nominal voltage:</strong> 12.8V (4× 3.2V cells)<br><strong>Usable capacity:</strong> 80–90% of rated Ah<br><strong>Cycle life:</strong> 3,000–5,000+ cycles<br><strong>Weight:</strong> ~29–32 kg for 300Ah; ~24 kg for 200Ah (vs 50+ kg for AGM)<br><strong>Charge speed:</strong> Fast — accepts 0.5C charge rate<br><strong>Self-discharge:</strong> &lt;3%/month<br><strong>Thermal stability:</strong> Excellent — safest lithium chemistry<br><strong>SA heat performance:</strong> Best of all options<br><strong>Price:</strong> R14,500–R18,500 for 300Ah<br><strong>Why choose it:</strong> Long life, light weight, high efficiency, safe, ideal for overlanding. The flat discharge voltage curve means full power until nearly empty.</div>
+    </div>
+    <div class="chem-cell ok">
+      <div class="chem-name">AGM (Absorbent Glass Mat Lead-Acid) <span class="chem-badge ab">LEGACY OPTION</span></div>
+      <div class="chem-prop"><strong>Nominal voltage:</strong> 12.6–12.8V<br><strong>Usable capacity:</strong> Only 50% of rated Ah (100Ah AGM = 50Ah usable)<br><strong>Cycle life:</strong> 400–600 cycles (deep cycle)<br><strong>Weight:</strong> ~28 kg per 100Ah — very heavy<br><strong>Charge speed:</strong> Slow — must not charge above 0.2C<br><strong>Self-discharge:</strong> 3–8%/month<br><strong>Thermal stability:</strong> OK but degrades fast above 35°C<br><strong>SA heat performance:</strong> Poor — loses capacity and life rapidly above 35°C<br><strong>Price:</strong> R1,800–R3,500 per 100Ah<br><strong>Why it falls short:</strong> Only half the usable capacity means you need 2× the battery to match LiFePO4. In SA heat, life drops to 200–300 cycles. False economy.</div>
+    </div>
+    <div class="chem-cell avoid">
+      <div class="chem-name">NMC / NCA Lithium (Other Li-Ion types) <span class="chem-badge rb">NOT FOR OVERLAND</span></div>
+      <div class="chem-prop"><strong>Nominal voltage:</strong> 3.6–3.7V per cell<br><strong>Usable capacity:</strong> High — 90%+ of rated<br><strong>Cycle life:</strong> 500–2,000 cycles<br><strong>Weight:</strong> Lightest option<br><strong>SA heat performance:</strong> Poor — thermal runaway risk above 40°C<br><strong>Safety:</strong> Significantly higher fire risk than LiFePO4<br><strong>Why avoid:</strong> NMC/NCA chemistry can enter thermal runaway in the heat conditions common on SA overland routes. LiFePO4 is thermally stable by comparison. Never use laptop-type lithium cells in a vehicle battery system.</div>
+    </div>
+  </div>
+
+  <div class="slbl">LiFePO4 Voltage Chart — What the Numbers Mean</div>
+  <hr class="srule">
+  <div class="stats">
+    <div class="sc a"><div class="sbadge ba">100% SoC</div><div class="sv">14.6<span class="u">V</span></div><div class="sl">Fully charged (absorption/charge voltage). Never leave at this voltage — float to 13.5V after.</div></div>
+    <div class="sc g"><div class="sbadge bg">Resting</div><div class="sv">13.3<span class="u">V</span></div><div class="sl">~100% SoC at rest (30 min after charging stops). This is the healthy resting voltage.</div></div>
+    <div class="sc b"><div class="sbadge bb">50% SoC</div><div class="sv">13.1–13.2<span class="u">V</span></div><div class="sl">Half-full at rest. The LiFePO4 voltage curve is very flat — voltage changes little between 80% and 20% SoC.</div></div>
+    <div class="sc p"><div class="sbadge bp">20% SoC</div><div class="sv">12.8–13.0<span class="u">V</span></div><div class="sl">20% — your low SoC alarm threshold. Below here, stop draining and recharge. Matches "battery low" warning.</div></div>
+    <div class="sc" style="background:#FFF0EC;"><div class="sbadge bh">Cutoff</div><div class="sv">10.0–10.5<span class="u">V</span></div><div class="sl">BMS hard cutoff. Battery disconnects to protect cells. You've gone too far — recharge immediately.</div></div>
+  </div>
+
+  <div class="wbox">
+    <div class="wbox-t">⚠ The Flat Voltage Problem</div>
+    <div class="wbox-b">Unlike lead-acid batteries, LiFePO4 voltage barely changes as it discharges — it stays around 13.0–13.2V from 80% SoC all the way down to 20% SoC. This means <strong>you cannot use a voltage meter alone to tell how full your battery is.</strong> You must use a coulomb-counting battery monitor like the Victron BMV-712. This is why the BMV-712 is not optional — it's essential.</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     CHAPTER 4 — HOW THE SYSTEM IS WIRED
+══════════════════════════════════════════════════ -->
+<div class="chapter" id="ch4">
+  <div class="ch-label">Chapter 04</div>
+  <div class="ch-title">How a 12V System <em>Is Wired</em></div>
+  <hr class="ch-rule">
+  <p class="ch-intro">A complete overland 12V lithium system has six layers, each with a specific job. Understanding what each component does — and where it sits in the circuit — lets you troubleshoot problems and make sure your installation is safe.</p>
+
+  <div class="slbl">System Flow Diagram</div>
+  <hr class="srule">
+  <div class="sysdiag">
+    <div class="dt">LC76 Secondary Battery System — Charging Flow</div>
+    <span class="db">[ SOLAR BLANKET 200W ]</span> ──Anderson SB50──────────────►<span class="dc"> REDARC BCDC1225D </span>(solar MPPT input)
+    <br>
+    <span class="dr">[ LC76 STARTER BATTERY 12V ]</span> ──6mm² cable + 30A fuse──────►<span class="dc"> REDARC BCDC1225D </span>(DC-DC input)
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ 25A regulated LiFePO4 charge output
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;▼
+    <span class="dp">[ SHORE POWER AC 230V ]</span> ──► Victron Blue Smart IP65 25A ─────►<span class="da"> [ Victron Smart 300Ah LiFePO4 + BMS ] </span>◄─── ANL 150A fuse ─── Victron BMV-712 shunt
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ ALL loads must pass through shunt
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;▼
+    <span class="dc">Freedom Distribution Board 8-way</span>
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;├──<span class="da"> National Luna 52L Weekender fridge </span>(dedicated 15A circuit)
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;├──<span class="da"> Built-in compressor </span>(dedicated 25A circuit)
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;├──<span class="da"> 2× portable fans </span>(4.5W internal battery · charged ~2h/day · 5A circuit)
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;├──<span class="da"> LED interior lighting </span>(5A circuit)
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;├──<span class="da"> USB-C PD 65W port </span>(MacBook Air M1 + 2× iPhones)
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;├──<span class="da"> USB-A × 2 (2× iPhones + Garmin Nüvi) Nüvi)
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;└──<span class="da"> 12V cig socket </span>(general backup)
+  </div>
+
+  <div class="slbl">What Each Component Does</div>
+  <hr class="srule">
+  <div class="cols2">
+    <div class="card">
+      <div class="card-hd hg"><div><div class="card-hn">Battery + BMS</div><div class="card-hs">The heart of the system</div></div><div class="card-ic">🔋</div></div>
+      <div class="row"><span class="rl">What it does</span><span class="rv">Stores all the electrical energy for your camp and devices</span></div>
+      <div class="row"><span class="rl">BMS stands for</span><span class="rv">Battery Management System</span></div>
+      <div class="row"><span class="rl">BMS job</span><span class="rv g">Protects cells from overcharge, over-discharge, over-current, and temperature extremes</span></div>
+      <div class="row"><span class="rl">BMS triggers</span><span class="rv h">Disconnects if V too high, V too low, current too high, or temp out of range</span></div>
+      <div class="row"><span class="rl">Where faults appear</span><span class="rv">Battery suddenly cuts out — BMS has tripped. Usually resets on its own once conditions normalise.</span></div>
+      <div class="row"><span class="rl">Victron Smart 300Ah BMS rating</span><span class="rv a">100A continuous / 200A peak</span></div>
+    </div>
+    <div class="card">
+      <div class="card-hd ha"><div><div class="card-hn">DC-DC Charger</div><div class="card-hs">Alternator isolation charger</div></div><div class="card-ic">⚡</div></div>
+      <div class="row"><span class="rl">What it does</span><span class="rv">Charges auxiliary battery safely from vehicle alternator while driving</span></div>
+      <div class="row"><span class="rl">Why not just a relay?</span><span class="rv h">A relay (VSR) can't provide the correct LiFePO4 charge profile. Leaves battery undercharged.</span></div>
+      <div class="row"><span class="rl">Why DC-DC?</span><span class="rv g">Regulates voltage and current precisely. Provides correct 14.2–14.2V LiFePO4 absorption (14.6V absolute max).</span></div>
+      <div class="row"><span class="rl">REDARC BCDC1225D</span><span class="rv g">Built-in solar MPPT — one device handles alternator DC-DC (driving) OR solar blanket (stationary) — whichever source is active</span></div>
+      <div class="row"><span class="rl">Output per 2hr drive</span><span class="rv a">~46 Ah into battery</span></div>
+      <div class="row"><span class="rl">Starter battery protection</span><span class="rv g">Yes — DC-DC won't flatten your starter battery</span></div>
+    </div>
+    <div class="card">
+      <div class="card-hd hb"><div><div class="card-hn">Battery Monitor (BMV-712)</div><div class="card-hs">The fuel gauge for your battery</div></div><div class="card-ic">📊</div></div>
+      <div class="row"><span class="rl">What it does</span><span class="rv">Counts Ah in and Ah out to tell you exactly how full your battery is</span></div>
+      <div class="row"><span class="rl">Why voltage alone fails</span><span class="rv h">LiFePO4 flat voltage curve makes voltage-based SoC unreliable (see Chapter 3)</span></div>
+      <div class="row"><span class="rl">Method used</span><span class="rv g">Coulomb counting — counts every Amp-hour in and out</span></div>
+      <div class="row"><span class="rl">Displays</span><span class="rv">SoC %, Voltage, Current (A), Ah consumed, Time remaining, Power (W)</span></div>
+      <div class="row"><span class="rl">Critical for</span><span class="rv g">Knowing how much capacity you have before a 2–3 day wild camp with no shore power</span></div>
+      <div class="row"><span class="rl">Shunt rating</span><span class="rv a">500A — handles compressor + fridge simultaneous draw</span></div>
+    </div>
+    <div class="card">
+      <div class="card-hd hp"><div><div class="card-hn">Shore Power Charger</div><div class="card-hs">AC mains charging at campsites</div></div><div class="card-ic">🔌</div></div>
+      <div class="row"><span class="rl">What it does</span><span class="rv">Converts 230V AC from campsite power to 12V DC to charge your battery</span></div>
+      <div class="row"><span class="rl">Victron Blue Smart 25A</span><span class="rv g">IP65 rated, handles 90–265V input (SA campsite power fluctuations safe)</span></div>
+      <div class="row"><span class="rl">Charge time (300Ah from 50%)</span><span class="rv a">~6–7 hours overnight</span></div>
+      <div class="row"><span class="rl">LiFePO4 profile</span><span class="rv g">Correct — 14.2V absorption then 13.5V float. Will not overcharge.</span></div>
+      <div class="row"><span class="rl">SA tip</span><span class="rv h">Always use a surge-protected extension lead at SA campsites — power quality varies</span></div>
+      <div class="row"><span class="rl">When to use</span><span class="rv">Every time shore power is available — top up to 100% to start wild camps fully charged</span></div>
+    </div>
+  </div>
+
+  <div class="ibox">
+    <div class="ibox-t">Why the shunt must be in series with ALL loads</div>
+    <div class="ibox-b">The BMV-712 shunt is a precision resistor that measures all current flowing in and out of the battery. <strong>Every single load — fridge, fans, USB chargers, lights — must wire through the negative side of this shunt.</strong> If any load bypasses the shunt, the BMV-712 will give incorrect SoC readings. When installing, the rule is: only ONE wire goes from the battery negative terminal — to the shunt. Everything else connects to the other side of the shunt.</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     CHAPTER 5 — UNDERSTANDING LOAD & DAILY DRAW
+══════════════════════════════════════════════════ -->
+<div class="chapter" id="ch5">
+  <div class="ch-label">Chapter 05</div>
+  <div class="ch-title">Understanding Load <em>&amp; Daily Draw</em></div>
+  <hr class="ch-rule">
+  <p class="ch-intro">Your "load" is the total demand all your appliances and devices place on the battery per day. Getting this number right is the single most important step in sizing a battery system correctly. Most first-time buyers underestimate their load — which is why undersized batteries are so common.</p>
+
+  <div class="slbl">Your Actual Daily Load — LC76 Accessory Breakdown</div>
+  <hr class="srule">
+  <table class="ltable">
+    <thead>
+      <tr>
+        <th class="hk">Accessory</th>
+        <th class="hk">Watts</th>
+        <th class="hk">Hours/day (SA)</th>
+        <th class="ha">Daily Ah Draw</th>
+        <th class="hk">% of Total Load</th>
+        <th class="hk">How to calculate</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="sr"><td colspan="6">COOLING (largest load — SA heat amplifies this)</td></tr>
+      <tr>
+        <td class="item">National Luna 52L Weekender (Danfoss BD35F)</td>
+        <td class="m">~33W avg (BD35F: 1.2–2.8A)</td>
+        <td class="m">~16.4h (55% duty @ 38°C)</td>
+        <td class="tot">45.0 Ah</td>
+        <td class="ah">55%</td>
+        <td>BD35F nameplate:: 1.2A low / 2.8A high. At 38°C SA, mid-speed ~55% duty. Pre-cool to 4°C on shore power before camp to save 10–15 Ah on Day 1.</td>
+      </tr>
+      <tr class="sr"><td colspan="6">PHONES &amp; NAVIGATION</td></tr>
+      <tr>
+        <td class="item">iPhone 1 (USB-C)</td><td class="m">20W</td><td class="m">1.5h</td><td class="tot">2.5 Ah</td><td>2%</td><td>20W ÷ 12V = 1.67A × 1.5h = 2.5 Ah</td>
+      </tr>
+      <tr>
+        <td class="item">iPhone 2 (USB-C)</td><td class="m">20W</td><td class="m">1.5h</td><td class="tot">2.5 Ah</td><td>2%</td><td>Same as above</td>
+      </tr>
+      <tr>
+        <td class="item">Garmin Nüvi (cig lighter)</td><td class="m">5W</td><td class="m">6h</td><td class="tot">2.5 Ah</td><td>2%</td><td>5W ÷ 12V = 0.42A × 6h = 2.5 Ah</td>
+      </tr>
+      <tr class="sr"><td colspan="6">COMPUTING &amp; PHOTOGRAPHY</td></tr>
+      <tr>
+        <td class="item">MacBook Air M1</td><td class="m">30W charge + 8W use</td><td class="m">2h charge + 2h active</td><td class="tot">6.7 Ah</td><td>6%</td><td>(30W × 2h + 8W × 2h) ÷ 12V = (60+16) ÷ 12 = 6.3 Ah</td>
+      </tr>
+      <tr>
+        <td class="item">Camera batteries (dual charger)</td><td class="m">16W</td><td class="m">2h</td><td class="tot">2.7 Ah</td><td>2%</td><td>16W ÷ 12V = 1.33A × 2h = 2.67 Ah</td>
+      </tr>
+      <tr class="sr"><td colspan="6">COMFORT &amp; LIGHTING</td></tr>
+      <tr>
+        <td class="item">Interior LED lighting</td><td class="m">15W</td><td class="m">4h</td><td class="tot">5.0 Ah</td><td>4%</td><td>15W ÷ 12V = 1.25A × 4h = 5 Ah</td>
+      </tr>
+      <tr>
+        <td class="item">Portable fan 1 (12V brushless, internal battery)</td><td class="m">4.5W</td><td class="m">~2h daytime charge</td><td class="tot">0.75 Ah</td><td>1%</td><td>Fans run overnight on their own internal battery — not wired to aux battery during use. Topped up from aux battery during the day: 4.5W ÷ 12V = 0.375A × 2h = 0.75 Ah/day.</td>
+      </tr>
+      <tr>
+        <td class="item">Portable fan 2 (12V brushless, internal battery)</td><td class="m">4.5W</td><td class="m">~2h daytime charge</td><td class="tot">0.75 Ah</td><td>1%</td><td>Same as above. Combined daily charge draw: 1.5 Ah for both fans.</td>
+      </tr>
+      <tr>
+        <td class="item">Misc accessories</td><td class="m">10W avg</td><td class="m">3h</td><td class="tot">2.5 Ah</td><td>2%</td><td>10W ÷ 12V = 0.83A × 3h = 2.5 Ah</td>
+      </tr>
+      <tr class="sr"><td colspan="6">VEHICLE SYSTEMS</td></tr>
+      <tr>
+        <td class="item">Built-in compressor (tyre inflation)</td><td class="m">216W peak</td><td class="m">20 min/day</td><td class="tot">6.0 Ah</td><td>5%</td><td>18A × 0.33h = 6 Ah (burst load)</td>
+      </tr>
+      <tr class="gr">
+        <td colspan="3">TOTAL DAILY DRAW</td>
+        <td>~77 Ah/day</td>
+        <td>100%</td>
+        <td>SA range: 65–90 Ah depending on temperature.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="abox">
+    <div class="abox-t">How to calculate ANY appliance's daily Ah draw — 3 steps</div>
+    <div class="abox-b">
+      <strong>Step 1:</strong> Find the wattage (on the label, spec sheet, or search online). If only amps are listed: W = A × 12.<br>
+      <strong>Step 2:</strong> Convert to amps: A = W ÷ 12<br>
+      <strong>Step 3:</strong> Multiply by hours used per day: Ah = A × hours<br><br>
+      <strong>Example for a new device — 30W camp speaker used 4 hours/day:</strong> 30 ÷ 12 = 2.5A × 4h = 10 Ah/day. Add this to your load total.
+    </div>
+  </div>
+
+  <div class="wbox">
+    <div class="wbox-t">⚠ The SA Heat Multiplier — Fridge Warning</div>
+    <div class="wbox-b">At 25°C, most compressor fridges run at 35–45% duty cycle (on 35–45% of the time). At 38°C SA ambient, this rises to 60–70%. At 42°C Kalahari heat, up to 75%. <strong>This means your fridge uses nearly double the power in summer SA heat vs European-rated specs.</strong> Always use the SA summer duty cycle when calculating your load. Pre-cooling the fridge to 4°C on shore power the night before can save 10–15 Ah on day one.</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     CHAPTER 6 — STATE OF CHARGE
+══════════════════════════════════════════════════ -->
+<div class="chapter" id="ch6">
+  <div class="ch-label">Chapter 06</div>
+  <div class="ch-title">State of Charge — <em>What's Left in the Tank</em></div>
+  <hr class="ch-rule">
+  <p class="ch-intro">Knowing how much charge remains in your battery is critical — especially when you're 3 days into a wild camp with no shore power. There are three ways to measure SoC, with very different levels of accuracy. Understanding each one helps you use the BMV-712 correctly and avoid nasty surprises.</p>
+
+  <div class="slbl">Three Ways to Measure State of Charge</div>
+  <hr class="srule">
+  <div class="cols2">
+    <div class="card">
+      <div class="card-hd hb"><div><div class="card-hn">Method 1: Voltage</div><div class="card-hs">UNRELIABLE for LiFePO4 — use only as backup</div></div><div class="card-ic">⚡</div></div>
+      <div class="row"><span class="rl">How it works</span><span class="rv">Measure battery voltage with a multimeter or from the BMV display</span></div>
+      <div class="row"><span class="rl">The problem</span><span class="rv h">LiFePO4 voltage barely changes from 20% to 90% SoC (stays 13.0–13.2V)</span></div>
+      <div class="row"><span class="rl">When it works</span><span class="rv a">At the top (above 13.3V) and bottom (below 12.8V) — not in between</span></div>
+      <div class="row"><span class="rl">Accuracy</span><span class="rv h">±30% SoC error is common in the 20–90% range</span></div>
+      <div class="row"><span class="rl">When to use it</span><span class="rv">Only when BMV-712 is unavailable. Always rest battery 30+ min before reading.</span></div>
+      <div class="row"><span class="rl">Verdict</span><span class="rv h">Not reliable for daily camp use. Use as a sanity check only.</span></div>
+    </div>
+    <div class="card">
+      <div class="card-hd hg"><div><div class="card-hn">Method 2: Coulomb Counting</div><div class="card-hs">BEST METHOD — BMV-712 uses this</div></div><div class="card-ic">📊</div></div>
+      <div class="row"><span class="rl">How it works</span><span class="rv g">Counts every Amp-hour in and out via the 500A shunt — like a fuel counter</span></div>
+      <div class="row"><span class="rl">Accuracy</span><span class="rv g">±2–3% — highly accurate for daily use</span></div>
+      <div class="row"><span class="rl">Displays on BMV-712</span><span class="rv g">SoC %, Ah remaining, Time to empty, Current (A), Voltage (V)</span></div>
+      <div class="row"><span class="rl">Limitation</span><span class="rv a">Needs calibration after full charge — BMV auto-calibrates when battery reaches 100%</span></div>
+      <div class="row"><span class="rl">Best practice</span><span class="rv g">Fully charge battery (shore power or long drive) every 7–10 days to recalibrate BMV</span></div>
+      <div class="row"><span class="rl">Verdict</span><span class="rv g">This is what you use daily. Trust the BMV-712 number.</span></div>
+    </div>
+  </div>
+
+  <!-- SoC zones -->
+  <div class="slbl">LiFePO4 SoC Zones — What to Do at Each Level</div>
+  <hr class="srule">
+  <div class="soc-container">
+    <div class="soc-card">
+      <div class="soc-head ha">300Ah Battery — Ah Remaining vs SoC</div>
+      <div class="soc-body">
+        <div class="soc-bar-wrap">
+          <div class="soc-bar-label"><span>0%</span><span>20%</span><span>50%</span><span>80%</span><span>100%</span></div>
+          <div class="soc-bar-track">
+            <div class="soc-segment seg-red" style="width:20%">0–20%</div>
+            <div class="soc-segment seg-yellow" style="width:10%">20–30</div>
+            <div class="soc-segment seg-lime" style="width:30%">30–60%</div>
+            <div class="soc-segment seg-green" style="width:40%">60–100%</div>
+          </div>
+        </div>
+        <div class="soc-zones">
+          <div class="soc-zone-row"><div class="soc-dot" style="background:#B00000;"></div><div><div class="soc-zone-label">0–20% — NEVER GO HERE (0–48 Ah)</div><div class="soc-zone-desc">BMS will cut out to protect cells. Permanent capacity damage possible. This is below the 80% DoD limit. Usable floor = 20% SoC = 60 Ah remaining.</div></div></div>
+          <div class="soc-zone-row"><div class="soc-dot" style="background:#C84B0A;"></div><div><div class="soc-zone-label">20–30% — DANGER ZONE (48–72 Ah)</div><div class="soc-zone-desc">Low SoC alarm should trigger at 30% (72 Ah). Time to drive, find shore power, or reduce load immediately. Do not run fridge + fans together below this point.</div></div></div>
+          <div class="soc-zone-row"><div class="soc-dot" style="background:#B87800;"></div><div><div class="soc-zone-label">30–60% — CAUTION ZONE (72–144 Ah)</div><div class="soc-zone-desc">Operating on reserves. Monitor BMV time-remaining display. Plan recharge. On a wild camp, 30% is your "we must drive tomorrow" signal.</div></div></div>
+          <div class="soc-zone-row"><div class="soc-dot" style="background:#1A6A3C;"></div><div><div class="soc-zone-label">60–100% — HEALTHY ZONE (144–240 Ah)</div><div class="soc-zone-desc">Comfortable operating range. All appliances running normally. Solar and DC-DC charging comfortably offset daily draw when battery is in this zone.</div></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="soc-card">
+      <div class="soc-head hg">BMV-712 Readings — What to Do When You See Them</div>
+      <div class="soc-body">
+        <div class="soc-zones">
+          <div class="soc-zone-row"><div class="soc-dot" style="background:#1A6A3C;"></div><div><div class="soc-zone-label">100% SoC — Fully charged</div><div class="soc-zone-desc">Voltage 14.2–14.4V while charging, drops to 13.3–13.5V at rest. BMV resets Ah counter. Good time to confirm BMV is calibrated correctly.</div></div></div>
+          <div class="soc-zone-row"><div class="soc-dot" style="background:#4A8A1A;"></div><div><div class="soc-zone-label">80–99% — Excellent</div><div class="soc-zone-desc">Best operating state. Cells are healthiest here. If solar is producing and load is low, try to keep battery in this zone as much as possible.</div></div></div>
+          <div class="soc-zone-row"><div class="soc-dot" style="background:#B87800;"></div><div><div class="soc-zone-label">50–80% — Normal operating range</div><div class="soc-zone-desc">Perfectly fine for daily operation. Time remaining display is useful here — at 10A total draw from 60% SoC (144Ah), BMV should show ~14 hours remaining.</div></div></div>
+          <div class="soc-zone-row"><div class="soc-dot" style="background:#C84B0A;"></div><div><div class="soc-zone-label">30–50% — Plan your recharge</div><div class="soc-zone-desc">Note which day of wild camp you're on. Is a drive planned tomorrow? How much solar is forecast? Reduce non-essential loads (fans on lower speed, lights off earlier).</div></div></div>
+          <div class="soc-zone-row"><div class="soc-dot" style="background:#B00000;"></div><div><div class="soc-zone-label">Below 30% — Act immediately</div><div class="soc-zone-desc">BMV alarm triggers. Switch off fans, reduce lighting. Prioritise fridge above all other loads. Drive at least 2 hours or connect shore power as soon as possible.</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="calc-box">
+    <div class="calc-title">Worked example — How to calculate time remaining manually</div>
+    <div class="calc-step">
+      <div class="calc-num">1</div>
+      <div class="calc-body"><strong>Read the BMV-712.</strong> It shows: <span class="eq">SoC: 62%</span> &nbsp; <span class="eq">Current: −9.5A</span> &nbsp; <span class="eq">Voltage: 13.14V</span></div>
+    </div>
+    <div class="calc-step">
+      <div class="calc-num">2</div>
+      <div class="calc-body"><strong>Calculate Ah remaining:</strong> 62% of 300Ah = <span class="eq">0.62 × 300 = 186 Ah total remaining</span>. But usable floor is 20% = 60 Ah. So <span class="eq">usable Ah left = 186 − 60 = 126 Ah</span>.</div>
+    </div>
+    <div class="calc-step">
+      <div class="calc-num">3</div>
+      <div class="calc-body"><strong>Calculate time to alarm (30% SoC = 90 Ah):</strong> To reach 30%, you have <span class="eq">186 − 90 = 96 Ah</span> before alarm. At 9.5A draw: <span class="eq">96 ÷ 9.5 = 10.1 hours</span>. The BMV shows this automatically in the "Time remaining" field.</div>
+    </div>
+    <div class="calc-step">
+      <div class="calc-num">4</div>
+      <div class="calc-body"><strong>Check solar contribution:</strong> Solar adding 6A (daytime), net draw = <span class="eq">9.5 − 6 = 3.5A net</span>. New time to 30% alarm: <span class="eq">96 ÷ 3.5 = 27.4 hours</span>. Solar makes a huge difference to how long your battery lasts!</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     CHAPTER 7 — CHARGING SOURCES
+══════════════════════════════════════════════════ -->
+<div class="chapter" id="ch7">
+  <div class="ch-label">Chapter 07</div>
+  <div class="ch-title">Charging Sources <em>Explained</em></div>
+  <hr class="ch-rule">
+  <p class="ch-intro">Your battery can be recharged from three sources: the vehicle alternator (via REDARC DC-DC), the solar blanket (via MPPT), and shore power (via Victron Blue Smart charger). Understanding what each source can and cannot do is key to managing your energy budget over a multi-day wild camp. All three charge sources operate identically regardless of whether you have a 200Ah or 300Ah battery — the only difference is how long a full recharge takes.</p>
+
+  <div class="slbl">Recharge Source Comparison</div>
+  <hr class="srule">
+  <table class="ltable">
+    <thead>
+      <tr>
+        <th class="hk">Source</th>
+        <th class="ha">Charge Rate</th>
+        <th class="hg">Ah/Day (typical)</th>
+        <th class="hb">SA Availability</th>
+        <th class="ht">Best Use Case</th>
+        <th class="hk">Limitations</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="item">Hardkor 200W Solar Blanket + MPPT</td>
+        <td class="m">~12–14A (peak)</td>
+        <td class="ag">60–72 Ah/day</td>
+        <td>Excellent — 5.5–6.5 peak sun hrs SA avg</td>
+        <td>Primary daily top-up at camp. Runs silently all day.</td>
+        <td>75% efficiency of rigid panel. Partial shade drops output dramatically. Zero output at night.</td>
+      </tr>
+      <tr>
+        <td class="item">REDARC BCDC1225D (alternator)</td>
+        <td class="m">25A constant</td>
+        <td class="ag">~46 Ah per 2hr drive</td>
+        <td>Available any time vehicle is running</td>
+        <td>Driving days — game drives, daily transits. Quick top-up before wild camp period.</td>
+        <td>Only charges while engine is on. LC76 1HZ 80A alternator. 25A DC-DC = 31% alt load — correct sizing. Drive at 1,500+ RPM for full 25A output.</td>
+      </tr>
+      <tr>
+        <td class="item">Best day: DC-DC drive (2hr) then deploy blanket (4h sun)</td>
+        <td class="m">~89 Ah total</td>
+        <td class="ag">+12 Ah net</td>
+        <td>Blanket stationary only — packed while driving</td>
+        <td>Solar and DC-DC are mutually exclusive. Deploy blanket immediately on arrival at camp to maximise stationary charging hours. Best realistic daily input = ~89 Ah.</td>
+        <td>Solar CANNOT run while vehicle is moving. Blanket must be packed and stowed during all drive time. Connect blanket via Anderson SB50 when parked.</td>
+      </tr>
+      <tr>
+        <td class="item">Victron Blue Smart IP65 25A (shore power)</td>
+        <td class="m">25A constant</td>
+        <td class="ag">Full charge overnight</td>
+        <td>Variable — many remote SA camps lack power</td>
+        <td>Always use when available. 300Ah from 50%: ~4.8 hrs. 200Ah from 50%: ~3.2 hrs.</td>
+        <td>SA campsite power unreliable — always use with surge-protected extension lead.</td>
+      </tr>
+      <tr>
+        <td class="item">Solar only — overcast/Drakensberg</td>
+        <td class="m">~3–6A</td>
+        <td class="ah">20–35 Ah/day</td>
+        <td>Winter Western Cape, mist belt, overcast days</td>
+        <td>Covers 84% of the 77 Ah daily draw. Stationary-only drain is just 12 Ah/day — excellent for fixed-base camps.</td>
+        <td>Cloud cover can drop Hardkor blanket output to 20% of rated capacity.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="gbox">
+    <div class="gbox-t">✓ All charge sources work identically with 200Ah or 300Ah — only charge time differs</div>
+    <div class="gbox-b">The REDARC BCDC1225D, Victron Blue Smart, and solar MPPT all output the same current and use the same LiFePO4 charge profile regardless of battery size. No settings changes are needed on any charger when choosing between 200Ah and 300Ah. The only installation step that differs is programming the correct capacity into the <strong>Victron BMV-712</strong> — a one-time setting in the VictronConnect app.<br><br>
+    <strong>Charge time from 50% SoC:</strong>
+    <table class="ltable" style="margin-top:8px;">
+      <thead><tr><th class="hk">Source</th><th class="ha">300Ah (150 Ah deficit)</th><th class="hg">200Ah (100 Ah deficit)</th></tr></thead>
+      <tbody>
+        <tr><td class="item">Shore power — Victron Blue Smart 25A</td><td class="m">~4.8 hrs</td><td class="ag">~3.2 hrs</td></tr>
+        <tr><td class="item">DC-DC only — driving (23 Ah/hr net)</td><td class="m">~6.5 hrs driving</td><td class="ag">~4.3 hrs driving</td></tr>
+        <tr><td class="item">Solar only (65 Ah/day stationary)</td><td class="m">~2.3 days</td><td class="ag">~1.5 days</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="gbox">
+    <div class="gbox-t">Solar Tip — The Hardkor 200W Blanket</div>
+    <div class="gbox-b">The Hardkor solar blanket is flexible and rolls up — perfect for overlanding. But unlike rigid panels on a roof rack, it must be laid flat on a surface in full sun for maximum output. Even partial shading — from an antenna, roof rack bar, or tree shadow — can reduce output by 40–70% depending on the cell design. When camping: <strong>lay the blanket fully unfolded on a flat surface or vehicle roof with no shade crossing it</strong>. In summer, angle it slightly toward the north (SA is southern hemisphere) for the morning hours when the sun is still low.</div>
+  </div>
+
+  <div class="slbl">Understanding the LiFePO4 Charge Profile</div>
+  <hr class="srule">
+  <div class="ibox">
+    <div class="ibox-t">Three Charging Stages — Bulk, Absorption, Float</div>
+    <div class="ibox-b">
+      <strong>Stage 1 — Bulk (0–80% SoC):</strong> Charger delivers maximum current. REDARC pushes 25A, solar pushes up to 14A. Battery voltage rises slowly. This is the fastest charging phase — you're "filling the tank quickly at the bottom."<br><br>
+      <strong>Stage 2 — Absorption (80–100% SoC):</strong> Voltage has reached 14.2V (LiFePO4 target). Charger holds voltage constant and current tapers down automatically. Filling the "top of the tank" slowly. This is why the last 20% takes longer to charge than the first 80%.<br><br>
+      <strong>Stage 3 — Float (100% SoC):</strong> Charger drops to 13.5V to maintain charge without overcharging. LiFePO4 batteries don't actually need float — many experts recommend removing charge entirely at 100% rather than floating. Victron's LiFePO4 preset handles this correctly.
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     CHAPTER 8 — DO'S AND DON'TS
+══════════════════════════════════════════════════ -->
+<div class="chapter" id="ch8">
+  <div class="ch-label">Chapter 08</div>
+  <div class="ch-title">The Do's <em>&amp; Don'ts — Full Guide</em></div>
+  <hr class="ch-rule">
+  <p class="ch-intro">Most battery system problems come from a small set of mistakes. These rules cover every critical scenario — from installation to daily operation to long-term care. Follow the Do's and avoid the Don'ts and your Victron Smart 300Ah will last well over 10 years in SA conditions.</p>
+
+  <div class="slbl">Installation Do's &amp; Don'ts</div>
+  <hr class="srule">
+  <div class="dodont">
+    <div class="do-card">
+      <div class="do-head"><span class="do-icon">✓</span> INSTALLATION DO'S</div>
+      <div class="do-body">
+        <div class="do-item"><span class="do-icon">✓</span><div><div class="di-label">Use tinned copper marine-grade lugs on ALL connections</div><div class="di-note">Standard copper corrodes in SA humidity (especially Mozambique and coastal routes). Tinned copper resists oxidation. Crimp with a proper ratchet crimper — not pliers.</div></div></div>
+        <div class="do-item"><span class="do-icon">✓</span><div><div class="di-label">Apply adhesive-lined heat shrink over every lug</div><div class="di-note">Dual-wall heat shrink creates a waterproof seal. Apply with a heat gun. This prevents moisture ingress at the lug/cable interface — the most common corrosion point.</div></div></div>
+        <div class="do-item"><span class="do-icon">✓</span><div><div class="di-label">Mount battery on 20mm anti-vibration foam</div><div class="di-note">Corrugated Botswana D-roads cause significant vibration. Anti-vibe foam prevents cell compression fatigue and protects the BMS PCB from shock damage.</div></div></div>
+        <div class="do-item"><span class="do-icon">✓</span><div><div class="di-label">Install an ANL 150A fuse within 300mm of the battery positive terminal</div><div class="di-note">This is your last line of defense against a cable fire if a short circuit occurs. Must be the first component on the positive cable from the battery.</div></div></div>
+        <div class="do-item"><span class="do-icon">✓</span><div><div class="di-label">Install a manual battery isolator on the main positive cable</div><div class="di-note">Allows you to disconnect the entire system in emergency, during storage, or when working on wiring. The Victron 275A isolator is ideal.</div></div></div>
+        <div class="do-item"><span class="do-icon">✓</span><div><div class="di-label">Wire ALL loads through the BMV-712 shunt</div><div class="di-note">Every negative wire from every load must connect to the load side of the shunt — not directly to the battery. If a load bypasses the shunt, SoC readings will be wrong.</div></div></div>
+        <div class="do-item"><span class="do-icon">✓</span><div><div class="di-label">Use correctly rated cable size for each circuit</div><div class="di-note">Main battery cable: 16mm² (6 AWG). DC-DC to alternator: 6mm² (10 AWG). Solar blanket cable: 4mm² (12 AWG). Undersized cable = heat = voltage drop = fire risk.</div></div></div>
+        <div class="do-item"><span class="do-icon">✓</span><div><div class="di-label">Ventilate the battery compartment</div><div class="di-note">LiFePO4 generates heat during charging and heavy discharge. The battery compartment should not be fully sealed — allow air movement to dissipate heat, especially in SA 38–45°C ambient.</div></div></div>
+      </div>
+    </div>
+    <div class="dont-card">
+      <div class="dont-head"><span class="dont-icon">✗</span> INSTALLATION DON'TS</div>
+      <div class="do-body">
+        <div class="dont-item"><span class="dont-icon">✗</span><div><div class="di-label">Don't use push-fit or crimp connectors on main power cables</div><div class="di-note">Push-in connectors and cheap bullet connectors have high resistance under high current. They heat up, burn, and fail. Only use proper compression lugs on all main power connections.</div></div></div>
+        <div class="dont-item"><span class="dont-icon">✗</span><div><div class="di-label">Don't use a VSR/relay charger instead of DC-DC</div><div class="di-note">Voltage Sensing Relays connect the batteries when voltage rises above a threshold. They can't provide the correct LiFePO4 charge voltage (14.2V) and leave the battery chronically undercharged.</div></div></div>
+        <div class="dont-item"><span class="dont-icon">✗</span><div><div class="di-label">Don't route cables in sharp bends or next to sharp metal edges</div><div class="di-note">Cable insulation that rubs against bodywork or a sharp bracket will eventually chafe through. This is a common cause of mysterious electrical faults and short circuits. Use grommets everywhere cables pass through metalwork.</div></div></div>
+        <div class="dont-item"><span class="dont-icon">✗</span><div><div class="di-label">Don't seal the battery box completely airtight</div><div class="di-note">Heat buildup in a sealed box in SA conditions accelerates cell degradation significantly. Some LiFePO4 batteries can also off-gas trace amounts if a cell is stressed — ventilation is essential.</div></div></div>
+        <div class="dont-item"><span class="dont-icon">✗</span><div><div class="di-label">Don't connect loads directly to the battery positive without a fuse</div><div class="di-note">Every circuit must be individually fused. An unfused circuit is a potential fire. The ANL main fuse protects the main cable; each branch circuit needs its own ATC/AFS blade fuse.</div></div></div>
+        <div class="dont-item"><span class="dont-icon">✗</span><div><div class="di-label">Don't mix positive and negative cables in the same bundle</div><div class="di-note">Run positive and negative cables side by side but keep them separate and identifiable. Colour code: red = positive, black = negative. Never swap or confuse polarity — reverse polarity will destroy components instantly.</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slbl">Daily Operation Do's &amp; Don'ts</div>
+  <hr class="srule">
+  <div class="dodont">
+    <div class="do-card">
+      <div class="do-head"><span class="do-icon">✓</span> DAILY OPERATION DO'S</div>
+      <div class="do-body">
+        <div class="do-item"><span class="do-icon">✓</span><div><div class="di-label">Check the BMV-712 SoC every morning</div><div class="di-note">Make it a habit. Before the day starts: look at SoC %, note Ah remaining, check if solar is already producing. 60 seconds of daily monitoring prevents nasty surprises at 11pm.</div></div></div>
+        <div class="do-item"><span class="do-icon">✓</span><div><div class="di-label">Set a low SoC alarm at 30% on the BMV-712</div><div class="di-note">30% on a 300Ah battery = 90 Ah remaining = roughly 18 hours at your average draw with no recharge. This gives you enough time to plan a drive or find shore power before things get critical.</div></div></div>
+        <div class="do-item"><span class="do-icon">✓</span><div><div class="di-label">Pre-cool the fridge on shore power the night before a wild camp</div><div class="di-note">Getting the fridge to 2–4°C before you leave on a wild camp reduces the compressor duty cycle by 10–20% on day one — saving 10–15 Ah when your budget is tightest.</div></div></div>
+        <div class="do-item"><span class="do-icon">✓</span><div><div class="di-label">Run the compressor (tyre inflation) while the engine is on</div><div class="di-note">The compressor draws ~18–20A for 20 minutes per session. Running it while driving means the REDARC DC-DC charger offsets this draw from the alternator, rather than hitting the battery directly.</div></div></div>
+        <div class="do-item"><span class="do-icon">✓</span><div><div class="di-label">Charge MacBook Air and phones in one evening session</div><div class="di-note">Stagger charging: MacBook, iPhones, fans, and camera batteries all have their own internal batteries — charge them in sequence over the evening rather than all at once. Avoid running all USB loads simultaneously with the fridge compressor.</div></div></div>
+        <div class="do-item"><span class="do-icon">✓</span><div><div class="di-label">Fully charge battery at least every 7–10 days</div><div class="di-note">LiFePO4 benefits from occasional full charges to 100% to allow cell balancing. The BMS balances cells at the top of charge. This also recalibrates the BMV-712 coulomb counter.</div></div></div>
+      </div>
+    </div>
+    <div class="dont-card">
+      <div class="dont-head"><span class="dont-icon">✗</span> DAILY OPERATION DON'TS</div>
+      <div class="do-body">
+        <div class="dont-item"><span class="dont-icon">✗</span><div><div class="di-label">Don't discharge below 20% SoC (60 Ah on 300Ah battery)</div><div class="di-note">Every deep discharge below 20% stresses the cells and accelerates capacity fade. The BMS will hard-cut at around 10% (10.5V). Aim to never go below 25–30% in regular use.</div></div></div>
+        <div class="dont-item"><span class="dont-icon">✗</span><div><div class="di-label">Don't rely on voltage alone to judge battery level</div><div class="di-note">A LiFePO4 battery at 50% SoC and at 80% SoC can show almost identical voltage (13.1–13.2V) at rest. Always use the BMV-712 SoC reading — not voltage — to make operational decisions.</div></div></div>
+        <div class="dont-item"><span class="dont-icon">✗</span><div><div class="di-label">Don't park the vehicle so the solar blanket is in shade</div><div class="di-note">Even partial shading of one cell string in the Hardkor blanket drops total output significantly. Park with the blanket-side of the roof in full sun. A 20% shaded blanket can lose 40%+ of output.</div></div></div>
+        <div class="dont-item"><span class="dont-icon">✗</span><div><div class="di-label">Don't run all high-draw devices simultaneously at low SoC</div><div class="di-note">Running fridge + compressor + fans + charging MacBook simultaneously below 30% SoC at night means your battery could drop from 30% to 15% in under 2 hours. Prioritise fridge above all else at low SoC.</div></div></div>
+        <div class="dont-item"><span class="dont-icon">✗</span><div><div class="di-label">Don't leave the battery fully discharged for more than 24 hours</div><div class="di-note">If the BMS trips due to low voltage, recharge as soon as possible. LiFePO4 cells held at very low voltage for extended periods can suffer permanent capacity loss from copper dissolution in the electrolyte.</div></div></div>
+        <div class="dont-item"><span class="dont-icon">✗</span><div><div class="di-label">Don't ignore the BMV-712 "Time remaining" display going below 5 hours</div><div class="di-note">5 hours at typical overnight draw means you'll hit the alarm before sunrise. This is your final warning. Switch off fans (run one instead of two), reduce lighting, and plan to drive early morning.</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slbl">Temperature &amp; SA-Specific Do's &amp; Don'ts</div>
+  <hr class="srule">
+  <div class="dodont">
+    <div class="do-card">
+      <div class="do-head"><span class="do-icon">✓</span> TEMPERATURE DO'S</div>
+      <div class="do-body">
+        <div class="do-item"><span class="do-icon">✓</span><div><div class="di-label">Ventilate the battery compartment in SA heat</div><div class="di-note">The battery bay must allow airflow. Charge current in a sealed box at 42°C ambient can raise internal temperature to 55–60°C. Above 55°C, LiFePO4 degradation rate increases sharply.</div></div></div>
+        <div class="do-item"><span class="do-icon">✓</span><div><div class="di-label">Schedule charging for evening or early morning in extreme heat</div><div class="di-note">In Kalahari or Namibian conditions above 40°C, the battery charges more efficiently and safely at cooler night temperatures. Shore power overnight is ideal in these conditions.</div></div></div>
+        <div class="do-item"><span class="do-icon">✓</span><div><div class="di-label">Verify BMS cold-charge cutoff before Lesotho/Drakensberg trips</div><div class="di-note">The Victron Smart 300Ah BMS must have the low-temperature charge cutoff set at +5°C. Check this in the BMS settings or confirm with your installer before any winter highland trip.</div></div></div>
+        <div class="do-item"><span class="do-icon">✓</span><div><div class="di-label">Allow engine to warm up before DC-DC charging engages in cold</div><div class="di-note">In sub-zero Lesotho mornings, run the engine for 3–5 minutes before the REDARC DC-DC begins charging. This ensures the alternator is at full output and the battery is slightly warmed from self-heating.</div></div></div>
+        <div class="do-item"><span class="do-icon">✓</span><div><div class="di-label">Apply dielectric grease to all terminals before coastal trips</div><div class="di-note">Namibia coast, Mozambique, and Maputaland salt air corrodes battery terminals rapidly. Dielectric grease (silicone-based) applied to all terminal connections before each coastal trip significantly extends terminal life.</div></div></div>
+      </div>
+    </div>
+    <div class="dont-card">
+      <div class="dont-head"><span class="dont-icon">✗</span> TEMPERATURE DON'TS</div>
+      <div class="do-body">
+        <div class="dont-item"><span class="dont-icon">✗</span><div><div class="di-label">Don't charge LiFePO4 below 0°C — ever</div><div class="di-note">Charging a LiFePO4 cell below 0°C causes lithium metal plating on the anode — permanent, irreversible capacity loss and potential safety risk. The BMS should prevent this, but verify the cutoff is set correctly before cold trips.</div></div></div>
+        <div class="dont-item"><span class="dont-icon">✗</span><div><div class="di-label">Don't store the battery at 100% SoC in hot conditions for extended periods</div><div class="di-note">Storing at 100% SoC in a hot vehicle (parked in the Lowveld sun at 45°C) for weeks accelerates calendar aging. If storing the vehicle, charge to 50–60% SoC and disconnect loads.</div></div></div>
+        <div class="dont-item"><span class="dont-icon">✗</span><div><div class="di-label">Don't discharge a cold battery rapidly</div><div class="di-note">Drawing high current from a very cold LiFePO4 battery (below −10°C) can cause temporary BMS tripping and accelerated cell degradation. Discharge is allowed below 0°C — it's charging that must be prevented.</div></div></div>
+        <div class="dont-item"><span class="dont-icon">✗</span><div><div class="di-label">Don't position the battery directly against the metal firewall in the LC76</div><div class="di-note">The firewall and floor of the cargo area conduct heat. Elevate the battery on rubber mounts with an air gap underneath to reduce heat transfer from the vehicle body in SA summer conditions.</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     CHAPTER 9 — SA OVERLAND CONTEXT
+══════════════════════════════════════════════════ -->
+<div class="chapter" id="ch9">
+  <div class="ch-label">Chapter 09</div>
+  <div class="ch-title">SA Overland: <em>Heat, Dust &amp; Vibration</em></div>
+  <hr class="ch-rule">
+  <p class="ch-intro">Southern Africa presents a unique set of challenges for battery systems that don't exist in European or temperate-climate overland builds. The combination of sustained extreme heat, corrugated roads, dust, humidity in coastal regions, and remote off-grid operation demands a higher standard of installation and maintenance.</p>
+
+  <div class="slbl">SA-Specific Challenges &amp; Mitigations</div>
+  <hr class="srule">
+  <table class="ltable">
+    <thead>
+      <tr>
+        <th class="hk">Challenge</th>
+        <th class="hk">Where It Occurs</th>
+        <th class="ha">Impact on Battery System</th>
+        <th class="hg">Mitigation</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="item">Sustained ambient heat 38–45°C</td>
+        <td>Kalahari, Namibia, Lowveld, Richtersveld</td>
+        <td class="ah">−20 to −25% cycle life. Fridge duty cycle +25–35%. Battery bay can reach 50–55°C.</td>
+        <td class="ag">Ventilated bay. Evening/AM charging. Pre-cool fridge. Park in shade. Low DoD operating strategy.</td>
+      </tr>
+      <tr>
+        <td class="item">Corrugated gravel roads</td>
+        <td>Botswana D-roads, Caprivi Strip, KAZA circuit</td>
+        <td class="ah">Cell compression fatigue −5 to −8% cumulative. Cable joint failure. BMS PCB vibration damage.</td>
+        <td class="ag">20mm anti-vibe foam all faces. Rigid battery box. Crimped marine lugs. Re-torque bolts every 2,000 km on gravel.</td>
+      </tr>
+      <tr>
+        <td class="item">Coastal salt air humidity 80–95% RH</td>
+        <td>Mozambique, Namibia coast, Maputaland</td>
+        <td class="ah">Terminal corrosion. BMS PCB failure. Cable insulation degradation.</td>
+        <td class="ag">Marine-grade tinned copper lugs. Conformal coat BMS PCB. Dielectric grease all terminals. Sealed terminal cover.</td>
+      </tr>
+      <tr>
+        <td class="item">Dust ingress into electronics</td>
+        <td>All gravel/sand routes</td>
+        <td class="ah">REDARC, BMV, and BMS fan/vent blockage. PCB contamination. Premature fan failure.</td>
+        <td class="ag">IP65/IP67 rated components (REDARC BCDC1225D is IP67). Sealed battery enclosure. Clean vents at each service.</td>
+      </tr>
+      <tr>
+        <td class="item">Extreme thermal cycling (hot day, cold night)</td>
+        <td>Namib desert, Richtersveld, Northern Namibia</td>
+        <td class="ah">Repeated expansion/contraction accelerates cell SEI layer growth. Cable joint fatigue.</td>
+        <td class="ag">Insulate battery bay sides. Marine-grade flexible cable. Avoid charging at peak mid-day heat.</td>
+      </tr>
+      <tr>
+        <td class="item">Cold charging risk (winter highlands)</td>
+        <td>Lesotho highlands, Drakensberg, high Namibia</td>
+        <td class="ah">Charging below 0°C causes lithium plating — permanent cell damage and fire risk.</td>
+        <td class="ag">Verify BMS cold cutoff at +5°C. Warm engine before DC-DC engages. Self-heating BMS battery preferred for regular highland use.</td>
+      </tr>
+      <tr>
+        <td class="item">3–5 day fully off-grid wild camps</td>
+        <td>Fish River, Mana Pools, remote Botswana</td>
+        <td class="ah">Battery depth of discharge compounds daily. No recovery charge available.</td>
+        <td class="ag">300Ah minimum. BMV-712 daily monitoring. 2hr daily drive minimum. Reduce load to fridge + essential only if SoC below 40%.</td>
+      </tr>
+      <tr>
+        <td class="item">Unstable campsite power (SA grid)</td>
+        <td>Many SA public campsites</td>
+        <td class="ah">Voltage spikes can damage charger. Poor earthing causes noise on BMV readings.</td>
+        <td class="ag">Victron Blue Smart IP65 handles 90–265V input safely. Use surge-protected extension lead. Check earth pin continuity before connecting.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="pbox">
+    <div class="pbox-t">Maintenance Schedule — SA Overland</div>
+    <div class="pbox-b">
+      <strong>Before every trip:</strong> Check BMV SoC and voltage at rest. Inspect all visible cable connections for corrosion or chafing. Verify battery is secure in its mount (vibration can loosen bolts). Check solar blanket connector pins for corrosion. Apply dielectric grease to terminals if going coastal.<br><br>
+      <strong>Every 2,000 km on corrugated roads:</strong> Re-torque all battery terminal bolts and cable connections. Inspect cables for chafing against bodywork. Check that anti-vibration foam is intact.<br><br>
+      <strong>Every 6 months / start of season:</strong> Perform a full charge to 100% (recalibrates BMV). Inspect all terminals. Clean REDARC BCDC vents with compressed air. Check BMV-712 settings — verify SoC alarm at 30% is active. Review REDARC LiFePO4 charge profile is still correctly set (firmware updates can reset settings).<br><br>
+      <strong>After every coastal trip (Mozambique / Namibia coast):</strong> Wipe all terminals with a dry cloth. Re-apply dielectric grease. Inspect for any white corrosion build-up. Check Anderson connector pins on solar blanket cable.
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     CHAPTER 11 — WILD CAMP ENERGY PLANNING
+══════════════════════════════════════════════════ -->
+<div class="chapter" id="ch11">
+  <div class="ch-label">Chapter 11</div>
+  <div class="ch-title">Wild Camp <em>Energy Planning</em></div>
+  <hr class="ch-rule">
+  <p class="ch-intro">Remote SA wild camps have no shore power. Everything depends on solar (stationary) and DC-DC (driving). This chapter gives you the exact numbers to answer three questions every day: How long can we stay? How much must we drive? How long is the transit drive home?</p>
+
+  <div class="slbl">The Three Wild Camp Questions</div>
+  <hr class="srule">
+
+  <div class="do-dont" style="display:grid;grid-template-columns:1fr;gap:0;">
+    <div class="do-item" style="background:rgba(26,106,60,.08);border-left:3px solid var(--grn);padding:12px 16px;margin-bottom:2px;">
+      <span class="do-icon">①</span>
+      <div>
+        <div class="di-label">How many days can we stay on solar alone (no driving)?</div>
+        <div class="di-note"><strong>300Ah:</strong> 5 full days before the BMV alarm triggers at 30%. On Day 5 you're at 32% — still safe but plan a drive.<br>
+        <strong>200Ah:</strong> Only 3 days before approaching alarm on Day 3. Alarm triggers Day 4 at 18% — critically low.<br>
+        <em>Daily deficit on solar only: −12 Ah/day (77 Ah load − 65 Ah solar = 12 Ah drawn from battery).</em></div>
+      </div>
+    </div>
+    <div class="do-item" style="background:rgba(26,106,60,.08);border-left:3px solid var(--grn);padding:12px 16px;margin-bottom:2px;">
+      <span class="do-icon">②</span>
+      <div>
+        <div class="di-label">How much must we drive each day to stay sustainable?</div>
+        <div class="di-note">
+          <strong>Net gain per drive hour vs stationary: +14.2 Ah</strong> (25A DC-DC minus 10.8 Ah solar lost per hour).<br>
+          <strong>Break-even:</strong> ~3 hours/day — battery neither gains nor loses across the day.<br>
+          <strong>Recommended discipline: 2 hours/day</strong> — keeps 300Ah above 75% SoC for up to 6 days with no shore power.<br><br>
+          <table class="dtable" style="font-size:11px;">
+            <thead><tr><th>Daily drive</th><th>3-day result</th><th>4-day result</th><th>5-day result</th><th>6-day result</th></tr></thead>
+            <tbody>
+              <tr><td>No driving</td><td>59% ✓</td><td class="h" style="color:#B87800;">45% ⚠</td><td class="h" style="color:#B87800;">32% ⚠</td><td class="h" style="color:#B00000;">18% 🔴</td></tr>
+              <tr><td>1 hr/day</td><td class="g">73% ✓</td><td class="g">64% ✓</td><td class="g">55% ✓</td><td class="h" style="color:#B87800;">46% ⚠</td></tr>
+              <tr><td><strong>2 hrs/day ✓</strong></td><td class="g"><strong>87%</strong></td><td class="g"><strong>83%</strong></td><td class="g"><strong>79%</strong></td><td class="g"><strong>75%</strong></td></tr>
+              <tr><td>3 hrs/day</td><td class="g">~100%</td><td class="g">~100%</td><td class="g">~100%</td><td class="g">~100%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="do-item" style="background:rgba(26,106,60,.08);border-left:3px solid var(--grn);padding:12px 16px;">
+      <span class="do-icon">③</span>
+      <div>
+        <div class="di-label">How long must we drive on transit day to recover to 100%?</div>
+        <div class="di-note">Net charge rate while driving: <strong>~20.6A</strong> (25A DC-DC − 4.4A average load draw).<br>Deploying the solar blanket at the new camp for 3h of remaining sun adds ~32 Ah and cuts transit drive time.<br><br>
+          <table class="dtable" style="font-size:11px;">
+            <thead><tr><th>Departure SoC</th><th>Driving only</th><th>Drive + 3h solar at new camp</th></tr></thead>
+            <tbody>
+              <tr><td style="color:var(--grn);">80%</td><td class="g">2.9 hrs</td><td class="g">1.3 hrs + solar</td></tr>
+              <tr><td>70%</td><td class="g">3.9 hrs</td><td class="g">2.5 hrs + solar</td></tr>
+              <tr><td>60%</td><td class="h" style="color:#B87800;">5.8 hrs</td><td class="h" style="color:#B87800;">4.3 hrs + solar</td></tr>
+              <tr><td>50%</td><td class="h" style="color:#B87800;">7.3 hrs</td><td class="h" style="color:#B87800;">5.7 hrs + solar</td></tr>
+              <tr><td style="color:#B00000;">30% 🔴</td><td class="h" style="color:#B00000;font-weight:700">9.1 hrs</td><td class="h" style="color:#B00000;">7.7 hrs + solar</td></tr>
+            </tbody>
+          </table>
+          <strong>Key insight:</strong> Reaching 100% in a single transit day is only realistic if you depart at 70%+. Arriving at 70–80% then deploying the blanket is the practical goal. Full recovery completes the next morning with solar.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="slbl" style="margin-top:24px;">Optional Enhancement — Terrain Tamer 110A Alternator (1HZ Engine)</div>
+  <hr class="srule">
+  <div class="wbox">
+    <div class="wbox-t">LC76 1HZ Stock: 80A Alternator · Optional Upgrade: Terrain Tamer 110A (Part 27060-17250TT)</div>
+    <div class="wbox-b">
+      <strong>Stock config (80A + 25A REDARC):</strong> 47A combined draw = 59% of alternator — well within limits. Break-even 31 min/day. Transit from 50% takes 6.5 hrs.<br><br>
+      <strong>Upgraded config (110A + 30A REDARC BCDC1230D):</strong> 52A = 47% of alternator — very comfortable. Break-even drops to ~2.1hrs/day. Transit from 50% takes 5.9hrs. 58A free headroom for winch + spotlights + A/C.<br><br>
+      <strong>SA availability:</strong> TTG Offroad 4x4 (Pretoria, official distributor) · Terrain Tamer Bellville (Cape Town warehouse).<br>
+      <strong>Note:</strong> The sealed alternator kit is only for VDJ V8 engines. The 1HZ 110A unit is a standard (unsealed) Denso bolt-in unit.<br>
+      <strong>Upgrade premium:</strong> ~R6,300–R9,500 total (alternator + BCDC1230D + wiring + installation).<br><br>
+      <em>Recommended for fixed-base camps of 4+ days or vehicles running heavy auxiliary loads. Not essential for rolling camp travel style with regular 2hr+ daily drives.</em>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     CHAPTER 10 — QUICK REFERENCE CHEAT SHEET
+══════════════════════════════════════════════════ -->
+<div class="chapter" id="ch10">
+  <div class="ch-label">Chapter 10</div>
+  <div class="ch-title">Quick Reference <em>Cheat Sheet</em></div>
+  <hr class="ch-rule">
+  <p class="ch-intro">Everything you need on one page for daily use in the field. Bookmark this chapter. Print it and put it in your vehicle's document pouch.</p>
+
+  <div class="slbl">Electrical Symbols at a Glance</div>
+  <hr class="srule">
+  <table class="ltable">
+    <thead><tr><th class="hk">Symbol</th><th class="hk">Name</th><th class="ha">Unit</th><th class="hg">Formula</th><th class="hb">Overland Example</th></tr></thead>
+    <tbody>
+      <tr><td class="m" style="font-size:16px;font-weight:700;">V</td><td class="item">Volt</td><td class="m">V</td><td class="m">V = A × Ω</td><td>Battery resting at 13.2V = ~50% SoC on LiFePO4</td></tr>
+      <tr><td class="m" style="font-size:16px;font-weight:700;">A (or I)</td><td class="item">Ampere (Amp)</td><td class="m">A</td><td class="m">A = W ÷ V</td><td>Fridge draws 3.75A. Winch draws 300A peak.</td></tr>
+      <tr><td class="m" style="font-size:16px;font-weight:700;">W</td><td class="item">Watt</td><td class="m">W</td><td class="m">W = V × A</td><td>45W fridge. 200W solar blanket. 30W MacBook charger.</td></tr>
+      <tr><td class="m" style="font-size:16px;font-weight:700;">Wh</td><td class="item">Watt-hour</td><td class="m">Wh</td><td class="m">Wh = W × h</td><td>300Ah battery = 3,840 Wh total stored energy</td></tr>
+      <tr><td class="m" style="font-size:16px;font-weight:700;">Ah</td><td class="item">Amp-hour</td><td class="m">Ah</td><td class="m">Ah = A × h</td><td>300Ah battery. Daily draw of 77 Ah. Usable: 240 Ah (80% DoD).</td></tr>
+      <tr><td class="m" style="font-size:16px;font-weight:700;">Ω (R)</td><td class="item">Ohm</td><td class="m">Ω</td><td class="m">R = V ÷ A</td><td>Corroded terminal has high Ω → voltage drop → heat → fire risk.</td></tr>
+      <tr><td class="m" style="font-size:16px;font-weight:700;">SoC %</td><td class="item">State of Charge</td><td class="m">%</td><td class="m">SoC = Ah left ÷ Ah total × 100</td><td>BMV-712 shows 62% SoC = 186 Ah remaining in 300Ah battery.</td></tr>
+      <tr><td class="m" style="font-size:16px;font-weight:700;">DoD %</td><td class="item">Depth of Discharge</td><td class="m">%</td><td class="m">DoD = 100 − SoC</td><td>62% SoC = 38% DoD. Aim for max 80% DoD (20% SoC) on LiFePO4.</td></tr>
+      <tr><td class="m" style="font-size:16px;font-weight:700;">C rate</td><td class="item">Charge/discharge rate</td><td class="m">C</td><td class="m">C = A ÷ Ah</td><td>25A charge on 300Ah = 0.083C (gentle). 300A winch = 1C (acceptable short burst).</td></tr>
+    </tbody>
+  </table>
+
+  <div class="slbl">The 5 Most Important Numbers for Your System</div>
+  <hr class="srule">
+  <div class="stats">
+    <div class="sc a"><div class="sbadge ba">Battery</div><div class="sv">300<span class="u">Ah</span></div><div class="sl">Total nominal capacity. Usable = 240 Ah (80% DoD). Never go below 60 Ah (20% SoC).</div></div>
+    <div class="sc g"><div class="sbadge bg">Daily load</div><div class="sv">120<span class="u">Ah/day</span></div><div class="sl">Your actual daily draw in SA conditions. 2 full days autonomy on 240 Ah usable.</div></div>
+    <div class="sc b"><div class="sbadge bb">Solar yield</div><div class="sv">65<span class="u">Ah/day</span></div><div class="sl">Hardkor 200W blanket at 6hr SA peak sun. 54% of daily load offset by solar alone.</div></div>
+    <div class="sc p"><div class="sbadge bp">DC-DC yield</div><div class="sv">48<span class="u">Ah/2hr</span></div><div class="sl">REDARC BCDC1225D at 25A × 2hr drive. Solar blanket packed while driving — cannot run simultaneously. Deploy blanket on arrival at camp for additional 65 Ah stationary.</div></div>
+    <div class="sc t" style="background:var(--bg-teal);"><div class="sbadge" style="background:var(--teal);">Alarm</div><div class="sv">30<span class="u">% SoC</span></div><div class="sl">Set BMV-712 alarm here = 90 Ah remaining. Time to drive or reduce load.</div></div>
+  </div>
+
+  <div class="slbl">Instant Diagnostic — When Something Goes Wrong</div>
+  <hr class="srule">
+  <table class="ltable">
+    <thead><tr><th class="hk">Symptom</th><th class="ha">Likely Cause</th><th class="hg">What to Do</th></tr></thead>
+    <tbody>
+      <tr><td class="item">Battery suddenly cuts out (BMS trip)</td><td>Over-discharge, over-current, or over-temperature triggered BMS cutoff</td><td class="ag">Disconnect all loads. Check BMV voltage. If above 12.8V, BMS may auto-reset. If below 12V, connect shore power or drive immediately. If over-temp, allow battery to cool 30 min.</td></tr>
+      <tr><td class="item">BMV-712 shows SoC dropping faster than expected</td><td>BMV not calibrated, load higher than expected, or a load is bypassing the shunt</td><td class="ag">Verify all negative wires run through shunt. Do a full charge to recalibrate BMV. Check if any new load was added that isn't going through shunt.</td></tr>
+      <tr><td class="item">Solar not charging (REDARC shows no solar input)</td><td>Anderson connector not plugged in, partial shading, cable fault, or blown solar fuse</td><td class="ag">Check Anderson connector. Confirm blanket is in full sun. Check 20A solar fuse. Measure voltage at blanket output with a multimeter — should be 18–24V in sun.</td></tr>
+      <tr><td class="item">DC-DC not charging while driving</td><td>REDARC not receiving starter battery voltage, fuse blown, or charge inhibit from BMS (battery full)</td><td class="ag">Check 30A fuse on alternator cable. Confirm ignition wire connected to REDARC. If battery is above 13.8V, charger correctly not charging (battery full — normal behaviour).</td></tr>
+      <tr><td class="item">Fridge not running in morning (unexpected)</td><td>Battery depleted overnight to BMS cutoff, or fridge connection fault</td><td class="ag">Check BMV SoC. If below 15%, BMS tripped — connect charger urgently. Restock fridge and run engine immediately. If BMV shows 50%+ SoC, check fridge fuse and cable connection.</td></tr>
+      <tr><td class="item">Voltage drop (devices cutting out at low load)</td><td>Undersized cable, corroded terminal, or loose connection causing high resistance</td><td class="ag">Check all terminal connections for heat or corrosion. Measure voltage at battery vs at the device — difference greater than 0.3V indicates a resistance problem in the cables or connections.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="gbox">
+    <div class="gbox-t">The Golden Rule of LiFePO4 Overland Operation</div>
+    <div class="gbox-b">
+      <strong>Check the BMV-712 every morning. Know your number. Plan your day.</strong><br><br>
+      If SoC is above 70% → You're in great shape. Solar (stationary) gives 65 Ah; DC-DC (driving) gives 48 Ah — not both at once. Best day: 91 Ah in.<br>
+      If SoC is 50–70% → Normal. Check tomorrow's plan. Is a drive available to top up?<br>
+      If SoC is 30–50% → Caution. Reduce non-essential loads. Plan a 2-hour drive today.<br>
+      If SoC is below 30% → Act now. Reduce to fridge + essential only. Drive or find shore power within 12 hours.<br>
+      If SoC is below 20% → Emergency. Switch off everything except fridge. Drive immediately.
+    </div>
+  </div>
+
+  <div class="fnote">
+    <strong>Document Notes:</strong> All values are practical estimates for Southern African overland conditions. Fridge duty cycle figures based on National Luna 52L Weekender specifications at 38°C ambient. Solar yield based on Hardkor 200W flexible blanket at 75% efficiency of rated wattage, 6h peak sun hours (SA average). LiFePO4 cycle life figures from CATL Grade A cell datasheets. SA heat degradation factor 0.70× applied to lab cycle life. Victron 12.8V/300Ah Smart LiFePO4, REDARC BCDC1225D, Victron BMV-712 Smart, Victron Blue Smart IP65 12V/25A, and Freedom Distribution Board are the referenced products. All costs are ZAR estimates for SA market March 2026. This document is for educational purposes — consult a qualified auto-electrician for installation.
+  </div>
+
+</div><!-- end body -->
+
+<div class="footer">
+  <span>Lithium Battery Systems Training Guide · LC76 SW · Southern Africa Overland · March 2026</span>
+  <span>Victron · Freedom Won · REDARC · LiFePO4 Focus · Prepared for LC76 build</span>
+</div>
+
+<script>
+function downloadHTML() {
+  const html = document.documentElement.outerHTML;
+  const blob = new Blob([html], {type: 'text/html'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'LC76_Battery_Training_Guide.html';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+</script>
+<script>
+if('serviceWorker' in navigator && location.hostname !== 'www.claudeusercontent.com'){
+  window.addEventListener('load',function(){
+    navigator.serviceWorker.register('./sw.js')
+      .then(function(r){console.log('LC76 SW registered');})
+      .catch(function(e){console.log('SW error:',e);});
+  });
+}
+</script>
+</body>
+</html>

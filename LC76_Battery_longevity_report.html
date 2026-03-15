@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LC76 Library">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1C1410">
+<link rel="manifest" href="manifest-ref.json">
+<link rel="apple-touch-icon" href="icon-ref-192.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>LC76 SW 1HZ — LiFePO4 Battery System Report · Southern Africa Overland</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+:root {
+  --ink:#1A1208; --paper:#F7F2E8; --rule:#D4C8A8;
+  --amber:#5C3A0A; --green:#1A4A3C; --blue:#1A3A5C;
+  --heat:#C84B0A; --sun:#B87800;
+  --muted:#8A7E68;
+  --bg-amber:#FDF0DC; --bg-green:#E8F2EE; --bg-blue:#E3EAF4;
+  --bg-red:#FFF0EC;
+
+  /* LC76 Design System tokens */
+  --clay:#C4572A;--ochre:#D4963A;--sand:#E8D5A3;--cream:#F5EDDA;
+  --ink:#1C1410;--bark:#3D2B1A;--smoke:#6B5B4E;--white:#FDFAF4;
+  --green-ok:#1A4731;--red-warn:#B91C1C;--amber:#92400E;
+  --dominant:var(--cream);--secondary:var(--ink);--accent:var(--clay);--accent-2:var(--ochre);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',sans-serif;font-size:13px;line-height:1.6;}
+
+/* ── HEADER ── */
+.hdr{background:var(--ink);padding:34px 44px 28px;position:relative;overflow:hidden;}
+.hdr::before{content:'';position:absolute;top:-70px;right:-70px;width:320px;height:320px;border:48px solid rgba(232,146,10,.07);border-radius:50%;}
+.hdr::after{content:'';position:absolute;bottom:-55px;left:260px;width:160px;height:160px;border:28px solid rgba(232,146,10,.05);border-radius:50%;}
+.hdr-eye{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.25em;color:#E8920A;text-transform:uppercase;margin-bottom:8px;}
+.hdr-title{font-family:'DM Serif Display',serif;font-size:30px;line-height:1.15;color:#fff;margin-bottom:5px;}
+.hdr-title em{font-style:italic;color:#F4BF60;}
+.hdr-sub{font-size:11.5px;color:#8A8070;font-family:'IBM Plex Mono',monospace;}
+.hdr-chips{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap;}
+.chip{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:3px;padding:3px 10px;font-size:10px;font-family:'IBM Plex Mono',monospace;color:#ccc;}
+.chip span{color:#F4BF60;font-weight:600;}
+.hdr-tags{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
+.tag{background:rgba(232,146,10,.14);border:1px solid rgba(232,146,10,.28);border-radius:3px;padding:2px 9px;font-size:9.5px;font-family:'IBM Plex Mono',monospace;color:#F4BF60;}
+
+/* ── EXPORT BAR ── */
+.xbar{background:#fff;border-bottom:1px solid var(--rule);padding:9px 44px;display:flex;align-items:center;gap:10px;}
+.xbar-lbl{font-size:11px;color:var(--muted);font-family:'IBM Plex Mono',monospace;}
+.xbtn{background:var(--green);color:#fff;border:none;padding:6px 16px;font-family:'IBM Plex Sans',sans-serif;font-size:11.5px;font-weight:500;cursor:pointer;border-radius:3px;display:flex;align-items:center;gap:6px;transition:background .15s;}
+.xbtn:hover{background:#0f2e24;}
+.xbtn svg{width:13px;height:13px;}
+
+/* ── BODY ── */
+.body{padding:26px 44px 50px;}
+.slbl{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;margin-top:18px;}
+.srule{border:none;border-top:1px solid var(--rule);margin-bottom:12px;}
+
+/* ── INFO / WARN BOXES ── */
+.ibox{border-left:4px solid var(--blue);background:var(--bg-blue);padding:12px 16px;border-radius:0 3px 3px 0;margin-bottom:14px;}
+.ibox-t{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--blue);margin-bottom:5px;}
+.ibox-b{font-size:12px;line-height:1.75;color:var(--ink);}
+.ibox-b strong{color:var(--blue);}
+.wbox{border-left:4px solid var(--heat);background:var(--bg-red);padding:12px 16px;border-radius:0 3px 3px 0;margin-bottom:14px;}
+.wbox-t{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--heat);margin-bottom:5px;}
+.wbox-b{font-size:12px;line-height:1.75;color:var(--ink);}
+.wbox-b strong{color:var(--heat);}
+.gbox{border-left:4px solid var(--green);background:var(--bg-green);padding:12px 16px;border-radius:0 3px 3px 0;margin-bottom:14px;}
+.gbox-t{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--green);margin-bottom:5px;}
+.gbox-b{font-size:12px;line-height:1.75;color:var(--ink);}
+.gbox-b strong{color:var(--green);}
+
+/* ── STAT STRIP ── */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin-bottom:18px;}
+.sc{background:var(--paper);padding:15px 18px;position:relative;}
+.sc.a{background:var(--bg-amber);}
+.sc.g{background:var(--bg-green);}
+.sc.b{background:var(--bg-blue);}
+.sc.r{background:var(--bg-red);}
+.sv{font-family:'DM Serif Display',serif;font-size:25px;color:var(--ink);line-height:1;}
+.sv .u{font-size:11px;font-family:'IBM Plex Mono',monospace;color:var(--muted);margin-left:2px;}
+.sl{font-size:10.5px;color:var(--muted);margin-top:3px;}
+.sbadge{position:absolute;top:9px;right:11px;font-size:8.5px;font-family:'IBM Plex Mono',monospace;letter-spacing:.07em;padding:2px 6px;border-radius:2px;text-transform:uppercase;color:#fff;}
+.ba{background:var(--amber);}
+.bg{background:var(--green);}
+.bb{background:var(--blue);}
+.bh{background:var(--heat);}
+
+/* ── TWO COLUMNS ── */
+.cols2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:16px;}
+.card{border:1px solid var(--rule);border-radius:2px;overflow:hidden;}
+.card-hd{padding:13px 18px;display:flex;align-items:center;justify-content:space-between;}
+.card-hd.ha{background:var(--amber);}
+.card-hd.hg{background:var(--green);}
+.card-hd.hb{background:var(--blue);}
+.card-hd.hh{background:var(--heat);}
+.card-hd.hk{background:#2C2C2C;}
+.card-hn{font-family:'DM Serif Display',serif;font-size:16px;color:#fff;}
+.card-hs{font-size:9.5px;color:rgba(255,255,255,.6);font-family:'IBM Plex Mono',monospace;margin-top:1px;letter-spacing:.06em;}
+.card-hc{font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:600;color:rgba(255,255,255,.8);}
+.row{display:flex;justify-content:space-between;align-items:flex-start;padding:8px 18px;border-bottom:1px solid var(--rule);font-size:12px;}
+.row:last-child{border-bottom:none;}
+.row:nth-child(even){background:rgba(0,0,0,.022);}
+.rl{color:var(--muted);font-size:11px;flex:0 0 42%;}
+.rv{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:11.5px;color:var(--ink);text-align:right;}
+.rv.a{color:var(--amber);}
+.rv.g{color:#1A7A40;}
+.rv.b{color:var(--blue);}
+.rv.h{color:var(--heat);}
+.rv.p{color:#fff;background:var(--heat);padding:1px 6px;border-radius:2px;font-size:10px;}
+
+/* ── LOAD TABLE ── */
+.ltable{width:100%;border-collapse:collapse;font-size:12px;border:1px solid var(--rule);margin-bottom:16px;}
+.ltable th{background:var(--ink);color:#fff;padding:8px 11px;text-align:left;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.07em;border-right:1px solid rgba(255,255,255,.08);}
+.ltable th.ta{background:var(--amber);}
+.ltable th.tg{background:var(--green);}
+.ltable th.tb{background:var(--blue);}
+.ltable td{padding:7px 11px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);font-size:11.5px;}
+.ltable tr:nth-child(even) td{background:rgba(0,0,0,.018);}
+.ltable tr:last-child td{border-bottom:none;}
+.ltable td.li{font-weight:500;}
+.ltable td.m{font-family:'IBM Plex Mono',monospace;}
+.ltable .sr td{background:var(--bg-amber);font-weight:600;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--amber);}
+.ltable .gr td{background:var(--ink);color:#F4BF60;font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:12px;}
+.ltable td.tot{color:var(--amber);font-weight:700;font-family:'IBM Plex Mono',monospace;}
+
+/* ── ENERGY GRID ── */
+.egrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);margin-bottom:16px;}
+.ec{padding:16px 18px;background:var(--paper);}
+.ec.ein{background:#EAF5EE;}
+.ec.eout{background:#FDF0DC;}
+.ec.ebal{background:#E3EAF4;}
+.ec.ewild{background:#FFF3E0;}
+.eh{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
+.ev{font-family:'DM Serif Display',serif;font-size:22px;line-height:1;}
+.ev.g{color:#1A7A40;}
+.ev.a{color:var(--amber);}
+.ev.b{color:var(--blue);}
+.ev.h{color:var(--heat);}
+.es{font-size:10.5px;color:var(--muted);margin-top:3px;}
+.ed{font-size:11px;margin-top:7px;line-height:1.65;}
+
+/* ── COMPONENT GRID ── */
+.cgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:16px;}
+.ccard{border:1px solid var(--rule);border-radius:2px;overflow:hidden;}
+.chd{padding:12px 18px;display:flex;align-items:center;justify-content:space-between;}
+.chd.c1{background:#1A4A3C;}
+.chd.c2{background:#5C3A0A;}
+.chd.c3{background:#1A3A5C;}
+.chd.c4{background:#3A1A50;}
+.chd.c5{background:#2A3A1A;}
+.chd.c6{background:#4A2018;}
+.chd.c7{background:#1A3A4A;}
+.cn{font-family:'DM Serif Display',serif;font-size:15px;color:#fff;}
+.ccat{font-size:9px;color:rgba(255,255,255,.55);font-family:'IBM Plex Mono',monospace;margin-top:1px;letter-spacing:.09em;text-transform:uppercase;}
+.cicon{font-size:22px;}
+.crow{display:flex;justify-content:space-between;align-items:flex-start;padding:8px 18px;border-bottom:1px solid var(--rule);font-size:12px;}
+.crow:last-child{border-bottom:none;}
+.crow:nth-child(even){background:rgba(0,0,0,.018);}
+.cl{color:var(--muted);font-size:11px;flex:0 0 38%;}
+.cv{font-family:'IBM Plex Mono',monospace;font-size:11.5px;font-weight:600;color:var(--ink);text-align:right;}
+.cv.g{color:#1A7A40;}
+.cv.a{color:var(--amber);}
+.cv.b{color:var(--blue);}
+.cv.h{color:var(--heat);}
+.cv.note{font-family:'IBM Plex Sans',sans-serif;font-size:11px;font-weight:400;color:var(--muted);text-align:right;}
+.cprice{font-size:9.5px;color:var(--muted);font-family:'IBM Plex Mono',monospace;text-align:right;margin-top:1px;}
+
+/* ── BRAND BADGE ── */
+.brand{display:inline-block;font-size:9px;font-family:'IBM Plex Mono',monospace;letter-spacing:.06em;padding:1px 6px;border-radius:2px;color:#fff;margin-left:5px;vertical-align:middle;}
+.bvic{background:#1A4A3C;}
+.bfre{background:#1A3A5C;}
+.bred{background:#8B2200;}
+
+/* ── COST STRIP ── */
+.coststrip{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin-bottom:16px;}
+.cc{background:var(--paper);padding:14px 15px;}
+.cc.tot{background:var(--ink);}
+.cclbl{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
+.ccval{font-family:'DM Serif Display',serif;font-size:19px;color:var(--ink);}
+.cc.tot .cclbl{color:rgba(255,255,255,.45);}
+.cc.tot .ccval{color:#F4BF60;}
+.ccsub{font-size:9.5px;color:var(--muted);margin-top:2px;font-family:'IBM Plex Mono',monospace;}
+.cc.tot .ccsub{color:rgba(255,255,255,.35);}
+
+/* ── BAR ROWS ── */
+.br{padding:9px 18px 13px;border-bottom:1px solid var(--rule);}
+.br:nth-child(even){background:rgba(0,0,0,.018);}
+.br:last-child{border-bottom:none;}
+.bm{display:flex;justify-content:space-between;margin-bottom:4px;font-size:11px;}
+.bt{height:6px;background:rgba(0,0,0,.07);border-radius:3px;overflow:hidden;}
+.bf{height:100%;border-radius:3px;}
+.f-a{background:var(--amber);}
+.f-g{background:var(--green);}
+.f-h{background:var(--heat);}
+.f-s{background:var(--sun);}
+.f-b{background:var(--blue);}
+
+/* ── DATA TABLE ── */
+.dtable{width:100%;border-collapse:collapse;font-size:12px;border:1px solid var(--rule);}
+.dtable th{background:var(--ink);color:#fff;padding:8px 11px;text-align:left;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.06em;border-right:1px solid rgba(255,255,255,.08);}
+.dtable th.ta{background:var(--amber);}
+.dtable th.tg{background:var(--green);}
+.dtable th.th{background:#8B2200;}
+.dtable td{padding:7px 11px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);font-family:'IBM Plex Mono',monospace;font-size:11px;}
+.dtable tr:nth-child(even) td{background:rgba(0,0,0,.018);}
+.dtable tr:last-child td{border-bottom:none;}
+.dtable td.lc{font-family:'IBM Plex Sans',sans-serif;font-size:12px;font-weight:500;}
+.dtable td.a{color:var(--amber);font-weight:600;}
+.dtable td.g{color:#1A7A40;font-weight:600;}
+.dtable td.h{color:var(--heat);font-weight:600;}
+.dtable td.nc{color:var(--muted);font-size:10.5px;font-family:'IBM Plex Sans',sans-serif;}
+
+/* ── DEG GRID ── */
+.dgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.dcard{border:1px solid var(--rule);border-radius:2px;overflow:hidden;}
+.dhd{padding:9px 15px;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.09em;font-weight:600;text-transform:uppercase;color:#fff;display:flex;justify-content:space-between;}
+.dhd.d1{background:var(--amber);}
+.dhd.d2{background:var(--green);}
+.dte{width:100%;border-collapse:collapse;font-size:11px;}
+.dte th{background:rgba(0,0,0,.04);padding:6px 11px;text-align:left;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.06em;color:var(--muted);border-bottom:1px solid var(--rule);}
+.dte td{padding:6px 11px;border-bottom:1px solid rgba(0,0,0,.04);font-family:'IBM Plex Mono',monospace;font-size:11px;}
+.dte tr:last-child td{border-bottom:none;}
+.fl{display:inline-block;font-size:8.5px;background:var(--heat);color:#fff;padding:1px 5px;border-radius:2px;}
+.fl.ok{background:#1A7A40;}
+
+/* ── HEAT GRID ── */
+.hgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--rule);border:1px solid var(--rule);margin-bottom:16px;}
+.hc{padding:13px 16px;}
+.hc.hot{background:#FFF3E0;}
+.hc.mid{background:#FFFBF2;}
+.hc.cool{background:var(--bg-green);}
+.hz{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
+.hrg{font-weight:600;font-size:12.5px;margin-bottom:2px;}
+.htp{font-family:'DM Serif Display',serif;font-size:18px;color:var(--heat);margin-bottom:3px;}
+.hi{font-size:11px;color:var(--muted);line-height:1.5;}
+.hp{display:inline-block;background:var(--heat);color:#fff;font-family:'IBM Plex Mono',monospace;font-size:8.5px;padding:1px 6px;border-radius:2px;margin-top:3px;}
+
+/* ── REC BOX ── */
+.rbox{border-left:4px solid var(--amber);background:var(--bg-amber);padding:18px 24px;border-radius:0 3px 3px 0;}
+.rbox-t{font-family:'DM Serif Display',serif;font-size:16px;color:var(--amber);margin-bottom:8px;}
+.rbox-b{font-size:12.5px;line-height:1.85;}
+.rbox-b strong{color:var(--amber);}
+.rbox-b .hi{color:var(--green);font-weight:600;}
+
+/* ── WIRING DIAGRAM (text) ── */
+.wiring{background:var(--ink);color:#ccc;font-family:'IBM Plex Mono',monospace;font-size:11px;line-height:1.9;padding:14px 20px;border-radius:3px;margin-bottom:16px;}
+.wiring .w-title{color:#F4BF60;font-size:10px;letter-spacing:.15em;text-transform:uppercase;margin-bottom:10px;}
+.wiring .wc{color:#8FBD9E;}
+.wiring .wa{color:#F4BF60;}
+.wiring .wr{color:#FF9A7A;}
+.wiring .wb{color:#9AB8E0;}
+
+/* ── FOOTNOTE / FOOTER ── */
+.fnote{background:rgba(0,0,0,.03);border:1px solid var(--rule);border-radius:2px;padding:13px 18px;margin-top:22px;font-size:11px;color:var(--muted);line-height:1.7;}
+.fnote strong{color:var(--ink);}
+.footer{border-top:1px solid var(--rule);padding:13px 44px;display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--muted);background:rgba(0,0,0,.02);}
+@media(max-width:600px){
+  .egrid{grid-template-columns:1fr;}
+  .cols2{grid-template-columns:1fr;}
+  .cgrid{grid-template-columns:1fr;}
+  .hgrid{grid-template-columns:1fr;}
+  .coststrip{grid-template-columns:1fr 1fr;}
+  .stats{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════ HEADER ═══════ -->
+<div class="hdr">
+  <div class="hdr-eye">Southern Africa Overland · Full System Energy Report · v3</div>
+  <div class="hdr-title">LC76 SW 1HZ — LiFePO4 Battery System <em>Design &amp; Longevity</em></div>
+  <div class="hdr-sub">Real Loads · Real Routes · SA Conditions · Victron / Freedom / REDARC Components</div>
+  <div class="hdr-chips">
+    <div class="chip">Daily load: <span>~77 Ah/day</span></div>
+    <div class="chip">Solar: <span>200W Hardkor blanket (stationary camp use only)</span></div>
+    <div class="chip">Wild camp autonomy: <span>3.1 days (300Ah) · 2.1 days (200Ah) — zero recharge</span></div>
+    <div class="chip">Drive top-up: <span>2 hrs/day</span></div>
+    <div class="chip">SA heat factor: <span>0.70× cycle life</span></div>
+    <div class="chip">Brands: <span>Victron · Freedom · REDARC</span></div>
+    <div class="chip">Prepared: <span>March 2026</span></div>
+  </div>
+  <div class="hdr-tags">
+    <div class="tag">National Luna 52L Weekender fridge</div>
+    <div class="tag">2× iPhone (USB-C)</div>
+    <div class="tag">MacBook Air M1 (USB-C)</div>
+    <div class="tag">Garmin Nüvi (cig lighter)</div>
+    <div class="tag">2× portable fans</div>
+    <div class="tag">Camera batteries</div>
+    <div class="tag">Built-in compressor (frequent)</div>
+    <div class="tag">Winch (rare)</div>
+    <div class="tag">LED interior lighting</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ EXPORT BAR ═══ -->
+<div class="xbar">
+  <span class="xbar-lbl">Export full report:</span>
+  <button class="xbtn" onclick="exportExcel()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+    Download Excel Report (.xlsx)
+  </button>
+</div>
+
+<div class="body">
+
+<!-- ════════════════════════════════════════════════════════
+     SECTION 1 — LOAD ANALYSIS
+═════════════════════════════════════════════════════════ -->
+<div class="slbl">Section 1 — Actual Daily Load Analysis (Your Accessories)</div>
+<hr class="srule">
+
+<div class="ibox">
+  <div class="ibox-t">Methodology</div>
+  <div class="ibox-b">Each accessory rated by estimated wattage and realistic daily hours in SA overland conditions (35–42°C ambient). Daily Ah = Watts ÷ 12V × hours. <strong>SA fridge penalty:</strong> National Luna 52L Weekender compressor duty cycle rises from ~40% at 25°C to ~65–70% at 38°C — the single largest load on your system. Compressor (tyre inflation) is a burst load calculated separately. Winch excluded from daily budget — emergency draw from starter battery recommended.</div>
+</div>
+
+<table class="ltable" id="loadTbl">
+  <thead>
+    <tr>
+      <th>Accessory</th>
+      <th>Watts (est.)</th>
+      <th>Daily Hours (SA camp)</th>
+      <th class="ta">Daily Ah Draw</th>
+      <th>Priority</th>
+      <th>SA / Installation Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="sr"><td colspan="6">COOLING &amp; FOOD STORAGE</td></tr>
+    <tr>
+      <td class="li">National Luna 52L Weekender Compressor Fridge</td>
+      <td class="m">~33W avg running (BD35F · 1.2–2.8A range)</td>
+      <td class="m">~16.4 h duty (55% avg @ 38°C)</td>
+      <td class="tot">45.0 Ah</td>
+      <td>Essential</td>
+      <td>Danfoss BD35F nameplate:: 1.2A (low speed) – 2.8A (high speed). At 38°C SA ambient, mid-speed ~55–65% duty. 42mm insulation (thinner than Legacy) factored in. Pre-cool to 4°C on shore power before wild camp to save 10–15 Ah on Day 1.</td>
+    </tr>
+    <tr class="sr"><td colspan="6">COMMUNICATIONS &amp; NAVIGATION</td></tr>
+    <tr>
+      <td class="li">iPhone 1 (USB-C PD charging)</td>
+      <td class="m">20W</td>
+      <td class="m">1.5 h (full charge)</td>
+      <td class="tot">2.5 Ah</td>
+      <td>Daily</td>
+      <td>USB-C PD. Connect via Freedom USB-C PD port or Victron USB hub. Charge once per evening.</td>
+    </tr>
+    <tr>
+      <td class="li">iPhone 2 (USB-C PD charging)</td>
+      <td class="m">20W</td>
+      <td class="m">1.5 h</td>
+      <td class="tot">2.5 Ah</td>
+      <td>Daily</td>
+      <td>As above.</td>
+    </tr>
+    <tr>
+      <td class="li">Garmin Nüvi (cig lighter / USB-A)</td>
+      <td class="m">5W</td>
+      <td class="m">6 h (driving + camp)</td>
+      <td class="tot">2.5 Ah</td>
+      <td>Daily</td>
+      <td>Negligible draw. Powered from 12V cig socket on Freedom distribution board.</td>
+    </tr>
+    <tr class="sr"><td colspan="6">COMPUTING</td></tr>
+    <tr>
+      <td class="li">MacBook Air M1 (USB-C 30W charge + active use)</td>
+      <td class="m">30W charge / 8W active</td>
+      <td class="m">2 h charge + 2 h use</td>
+      <td class="tot">6.7 Ah</td>
+      <td>Regular</td>
+      <td>M1 chip is very efficient. Requires USB-C PD minimum 30W port. Freedom/Victron USB-C PD 65W port handles this. ~76 Wh total ÷ 12V = 6.3 Ah.</td>
+    </tr>
+    <tr class="sr"><td colspan="6">PHOTOGRAPHY</td></tr>
+    <tr>
+      <td class="li">Camera batteries — dual charger (2× LP-E6 equiv.)</td>
+      <td class="m">16W (2× 8W)</td>
+      <td class="m">2 h (evening charge)</td>
+      <td class="tot">2.7 Ah</td>
+      <td>Regular</td>
+      <td>12V camera charger via 12V outlet or USB depending on charger type. Most modern dual chargers are 12V compatible. Verify charger input before trip.</td>
+    </tr>
+    <tr class="sr"><td colspan="6">COMFORT &amp; LIGHTING</td></tr>
+    <tr>
+      <td class="li">Interior vehicle LED lighting</td>
+      <td class="m">15W total</td>
+      <td class="m">4 h (evening / night)</td>
+      <td class="tot">5.0 Ah</td>
+      <td>Daily</td>
+      <td>LED strip + work light on Freedom distribution board. Low draw but runs long hours.</td>
+    </tr>
+    <tr>
+      <td class="li">Portable fan 1</td>
+      <td class="m">4.5W</td>
+      <td class="m">~2h daytime charge</td>
+      <td class="tot">0.75 Ah</td>
+      <td>Daily</td>
+      <td>Portable fans with internal battery — run overnight on own charge, not wired to aux battery during use. Topped up during day: 4.5W ÷ 12V × 2h = 0.75 Ah/day average.</td>
+    </tr>
+    <tr>
+      <td class="li">Portable fan 2</td>
+      <td class="m">4.5W</td>
+      <td class="m">~2h daytime charge</td>
+      <td class="tot">0.75 Ah</td>
+      <td>Daily</td>
+      <td>Same as above. Combined daily charge draw: 1.5 Ah for both fans. Fans draw nothing from the aux battery during overnight use — only during the daytime charging session.</td>
+    </tr>
+    <tr>
+      <td class="li">Misc small accessories (USB power bank top-up, headlamp charging, sundry)</td>
+      <td class="m">~10W avg</td>
+      <td class="m">3 h</td>
+      <td class="tot">2.5 Ah</td>
+      <td>Low</td>
+      <td>Covers incidental USB loads. Budget conservatively.</td>
+    </tr>
+    <tr class="sr"><td colspan="6">VEHICLE SYSTEMS</td></tr>
+    <tr>
+      <td class="li">Built-in compressor (tyre inflation — used often on gravel)</td>
+      <td class="m">~216W peak (18A @ 12V)</td>
+      <td class="m">~20 min/day (4 tyres × 5 min)</td>
+      <td class="tot">6.0 Ah</td>
+      <td>Frequent</td>
+      <td>Short high-current burst. 18–20A × 0.33h = 6 Ah. BMS must support 30A+ continuous without tripping. Freedom and Victron systems handle this without issue. Run compressor while engine is on (via REDARC DC-DC) if possible.</td>
+    </tr>
+    <tr>
+      <td class="li">Winch (rarely used — emergency only)</td>
+      <td class="m">300–500A @ 12V peak</td>
+      <td class="m">~5 min/event (rare)</td>
+      <td class="tot">~5 Ah if used</td>
+      <td>Emergency</td>
+      <td>Exclude from daily budget. Recommended: wire winch directly to starter battery via heavy cable. LiFePO4 can deliver, but momentary 300A+ may trigger BMS overcurrent protection. Confirm BMS peak current spec before wiring winch to aux battery.</td>
+    </tr>
+    <tr class="gr">
+      <td colspan="3" style="padding:10px 12px;font-size:12px;">TOTAL ESTIMATED DAILY DRAW (excl. winch)</td>
+      <td style="padding:10px 12px;font-size:14px;">~77 Ah</td>
+      <td colspan="2" style="padding:10px 12px;font-size:10px;color:rgba(244,191,96,.75);">Practical SA range: 65–90 Ah/day. Fridge alone = 59% of total at 38°C ambient. Fans charged intermittently — same as iPhones.</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ════════════════════════════════════════════════════════
+     SECTION 2 — ENERGY BALANCE
+═════════════════════════════════════════════════════════ -->
+<div class="slbl">Section 2 — Daily Energy Balance: Recharge vs Consumption</div>
+<hr class="srule">
+
+<div class="egrid">
+  <div class="ec ein">
+    <div class="eh">Energy In — Recharge Sources</div>
+    <div class="ev g">48–65 <span style="font-size:13px;font-family:'IBM Plex Mono',monospace;color:#1A7A40">Ah/day</span></div>
+    <div class="es">Solar blanket OR DC-DC — never simultaneously (blanket stationary only)</div>
+    <div class="ed">
+      <strong>Hardkor blanket (stationary camp only — NOT while driving):</strong><br>
+      ~65 Ah/day when fully deployed in SA sun (6h peak)<br>
+      Blanket must be packed away while vehicle is moving.<br>
+      <strong>REDARC DC-DC 25A (2hr drive — blanket packed):</strong><br>
+      ~46 Ah while driving. Solar NOT connected during drive.<br>
+      <strong>Best realistic day (drive 2hr, then deploy blanket ~4h sun):</strong><br>
+      46 (DC-DC) + 43 (4h solar) = <strong>~89 Ah total in</strong>
+    </div>
+  </div>
+  <div class="ec eout">
+    <div class="eh">Energy Out — Daily Load</div>
+    <div class="ev a">~77 <span style="font-size:13px;font-family:'IBM Plex Mono',monospace;color:var(--amber)">Ah/day</span></div>
+    <div class="es">NL 52L Weekender BD35F · 2× iPhones · accessories</div>
+    <div class="ed">
+      <strong>Fridge 38°C duty cycle (BD35F):</strong> 45.0 Ah (59%)<br>
+      <strong>2× fans:</strong> 1.5 Ah (2%)<br>
+      <strong>MacBook Air M1:</strong> 6.7 Ah (9%)<br>
+      <strong>2× iPhones + Garmin:</strong> 7.5 Ah (10%)<br>
+      <strong>Camera batteries:</strong> 2.7 Ah (4%)<br>
+      <strong>Lighting + misc + compressor:</strong> 13.5 Ah (18%)
+    </div>
+  </div>
+  <div class="ec ebal">
+    <div class="eh">Net Balance — Wild Camp Day</div>
+    <div class="ev b">−12 to +12 <span style="font-size:13px;font-family:'IBM Plex Mono',monospace;color:var(--blue)">Ah</span></div>
+    <div class="es">Best case: drive 2hr + 4h solar = +12 Ah. Solar-only: −12 Ah. Drive-only 2hr: −31 Ah.</div>
+    <div class="ed">
+      <strong>Best day (drive 2hr + 4h stationary solar):</strong> ~89 Ah in → <strong>+12 Ah net ✓</strong><br>
+      <strong>Full stationary day (blanket all day, no drive):</strong> ~65 Ah in → <strong>−12 Ah net</strong><br>
+      <strong>Drive-only day (blanket packed, no post-drive sun):</strong> ~46 Ah in → <strong>−31 Ah net</strong><br>
+      <strong>Shore power overnight:</strong> Victron Blue Smart 25A restores 300Ah fully in ~6 hrs<br>
+      <strong>Key finding:</strong> Solar alone covers 84% of the daily load. Any stationary day with the blanket deployed draws only 12 Ah from the battery — both the 300Ah and 200Ah sustain remarkably long solar-only camps.
+    </div>
+  </div>
+</div>
+
+<!-- WILD CAMP SCENARIO PLANNING -->
+<div class="slbl">Wild Camp Scenario Planning — No Shore Power Available</div>
+<hr class="srule">
+
+<div class="ibox">
+  <div class="ibox-t">⚠ No Shore Power After Wild Camp Arrival — Plan Your Energy Budget</div>
+  <div class="ibox-b">Once at a remote wild camp (Kgalagadi, Nxai Pan, Richtersveld, Khutse) there is no grid connection. Recharge comes from solar blanket (stationary only) and DC-DC while driving — but never both simultaneously. The three questions that matter: <strong>(1)</strong> How many days can you stay stationary on solar alone before the alarm triggers? <strong>(2)</strong> How much must you drive each day to sustain a longer camp? <strong>(3)</strong> How long must the transit day drive be to recover to 100%?</div>
+</div>
+
+<div class="slbl" style="font-size:12px;margin-top:20px;">Scenario 1 — Purely Stationary: Solar Only, No Driving at All</div>
+<table class="dtable">
+  <thead>
+    <tr>
+      <th>Day</th>
+      <th class="ta">300Ah SoC</th>
+      <th class="ta">300Ah Ah left</th>
+      <th class="ta">300Ah Status</th>
+      <th class="tg">200Ah SoC</th>
+      <th class="tg">200Ah Ah left</th>
+      <th class="th">200Ah Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td class="lc">Start (100%)</td><td class="a">100%</td><td class="g">300 Ah</td><td class="nc">Fully charged</td><td class="g">100%</td><td class="g">200 Ah</td><td class="nc">Fully charged</td></tr>
+    <tr><td class="lc">Day 1</td><td class="a">100%</td><td class="g">300 Ah</td><td class="nc">✓ Full (solar covers day)</td><td class="g">100%</td><td class="g">200 Ah</td><td class="nc">✓ Full (solar covers day)</td></tr>
+    <tr><td class="lc">Day 2</td><td class="a">96%</td><td class="g">288 Ah</td><td class="nc">✓ Comfortable</td><td class="g">94%</td><td class="g">188 Ah</td><td class="nc">✓ Comfortable</td></tr>
+    <tr><td class="lc">Day 3</td><td class="a">92%</td><td class="g">276 Ah</td><td class="nc">✓ Comfortable</td><td class="g">88%</td><td class="g">176 Ah</td><td class="nc">✓ Comfortable</td></tr>
+    <tr><td class="lc">Day 4</td><td class="a">88%</td><td class="g">264 Ah</td><td class="nc">✓ Good</td><td class="g">82%</td><td class="g">164 Ah</td><td class="nc">✓ Good</td></tr>
+    <tr><td class="lc">Day 5</td><td class="a">84%</td><td class="g">252 Ah</td><td class="nc">✓ Good</td><td class="g">76%</td><td class="g">152 Ah</td><td class="nc">✓ Good</td></tr>
+    <tr><td class="lc">Day 6</td><td class="a">80%</td><td class="g">240 Ah</td><td class="nc">✓ Good</td><td class="g">70%</td><td class="g">140 Ah</td><td class="nc">✓ Good</td></tr>
+    <tr><td class="lc">Day 7</td><td class="a">76%</td><td class="g">228 Ah</td><td class="nc">✓ Good</td><td class="g">64%</td><td class="g">128 Ah</td><td class="nc">✓ Good</td></tr>
+    <tr><td class="lc">Day 8</td><td class="a">72%</td><td class="g">216 Ah</td><td class="nc">✓ Good</td><td class="g">58%</td><td class="g">116 Ah</td><td class="nc">✓ Good</td></tr>
+    <tr><td class="lc">Day 9</td><td class="a">68%</td><td class="g">204 Ah</td><td class="nc">✓ Good</td><td class="g">52%</td><td class="g">104 Ah</td><td class="nc">✓ Monitor</td></tr>
+    <tr><td class="lc">Day 10</td><td class="a">64%</td><td class="g">192 Ah</td><td class="nc">✓ Good</td><td class="h">46%</td><td class="h">92 Ah</td><td class="h">⚠ Watch</td></tr>
+    <tr><td class="lc">Day 11</td><td class="a">60%</td><td class="g">180 Ah</td><td class="nc">✓ Good</td><td class="h">40%</td><td class="h">80 Ah</td><td class="h">⚠ Approaching alarm</td></tr>
+    <tr><td class="lc">Day 12</td><td class="a">56%</td><td class="g">168 Ah</td><td class="nc">✓ Monitor</td><td class="h">34%</td><td class="h">68 Ah</td><td class="h" style="color:#B87800;">⚠ Approaching alarm</td></tr>
+    <tr><td class="lc">Day 13</td><td class="a">52%</td><td class="g">156 Ah</td><td class="nc">✓ Monitor</td><td class="h" style="color:#B00000;font-weight:700">28%</td><td class="h" style="color:#B00000;font-weight:700">56 Ah</td><td class="h" style="color:#B00000;font-weight:700">🔴 ALARM — recharge now</td></tr>
+    <tr><td class="lc">Day 14</td><td class="h">48%</td><td class="h">144 Ah</td><td class="h">⚠ Watch</td><td>—</td><td>—</td><td style="color:#B00000;">Past alarm — must recharge</td></tr>
+    <tr><td class="lc">Day 15</td><td class="h">44%</td><td class="h">132 Ah</td><td class="h">⚠ Watch</td><td>—</td><td>—</td><td>—</td></tr>
+    <tr><td class="lc">Day 16</td><td class="h">40%</td><td class="h">120 Ah</td><td class="h" style="color:#B87800;">⚠ Approaching alarm</td><td>—</td><td>—</td><td>—</td></tr>
+    <tr><td class="lc">Day 17</td><td class="h">36%</td><td class="h">108 Ah</td><td class="h" style="color:#B87800;">⚠ Approaching alarm</td><td>—</td><td>—</td><td>—</td></tr>
+    <tr><td class="lc">Day 18</td><td class="h">32%</td><td class="h">96 Ah</td><td class="h" style="color:#B87800;">⚠ Approaching alarm</td><td>—</td><td>—</td><td>—</td></tr>
+    <tr><td class="lc">Day 19</td><td class="h" style="color:#B00000;font-weight:700">28%</td><td class="h" style="color:#B00000;font-weight:700">84 Ah</td><td class="h" style="color:#B00000;font-weight:700">🔴 ALARM</td><td>—</td><td>—</td><td>—</td></tr>
+  </tbody>
+</table>
+<div class="wbox" style="margin-top:10px;margin-bottom:20px;">
+  <div class="wbox-t">Key Finding: 300Ah sustains 17 full days solar-only before alarm. 200Ah sustains 11 days.</div>
+  <div class="wbox-b">The daily draw is 77 Ah — solar alone covers 84% of it. A stationary solar day draws only 12 Ah from the battery. The 300Ah reaches the 30% alarm on Day 19; the 200Ah on Day 13. Both options are well-suited to extended SA wild camping, making the 200Ah a genuinely capable choice for most SA national park trips.</div>
+</div>
+
+<div class="slbl" style="font-size:12px;margin-top:20px;">Scenario 2 — Minimum Daily Driving to End Trip at ≥50% SoC</div>
+<table class="dtable">
+  <thead>
+    <tr>
+      <th>Trip Duration</th>
+      <th class="ta">300Ah: Min drive/day</th>
+      <th class="ta">300Ah: Ends at</th>
+      <th class="tg">200Ah: Min drive/day</th>
+      <th class="tg">200Ah: Ends at</th>
+      <th>Practical note</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td class="lc">3-day camp</td><td class="a g">None needed ✓</td><td class="a">264 Ah (88%) ✓</td><td class="g">None needed ✓</td><td class="g">164 Ah (82%) ✓</td><td>Both batteries coast on solar alone.</td></tr>
+    <tr><td class="lc">5-day camp</td><td class="a g">None needed ✓</td><td class="a">240 Ah (80%) ✓</td><td class="g">None needed ✓</td><td class="g">140 Ah (70%) ✓</td><td>Both batteries comfortable.</td></tr>
+    <tr><td class="lc">7-day camp</td><td class="a g">None needed ✓</td><td class="a">216 Ah (72%) ✓</td><td class="g">None needed ✓</td><td class="g">116 Ah (58%) ✓</td><td>Both batteries fully autonomous on solar.</td></tr>
+    <tr><td class="lc">10-day camp</td><td class="a g">None needed ✓</td><td class="a">180 Ah (60%) ✓</td><td class="h">5 min/day</td><td class="g">100 Ah (50%) ✓</td><td>300Ah fully autonomous. 200Ah trivial top-up.</td></tr>
+    <tr><td class="lc">14-day camp</td><td class="a">3 min/day</td><td class="a">132 Ah (44%) ✓</td><td class="h">13 min/day</td><td class="g">100 Ah (50%) ✓</td><td>Even a 2-week camp needs minimal driving.</td></tr>
+  </tbody>
+</table>
+
+<div class="slbl" style="font-size:12px;margin-top:20px;">Recommended Daily Drive Discipline — 300Ah Battery</div>
+<table class="dtable">
+  <thead>
+    <tr>
+      <th>Daily drive</th>
+      <th class="ta">3-day result</th>
+      <th class="ta">5-day result</th>
+      <th class="ta">7-day result</th>
+      <th class="ta">10-day result</th>
+      <th>Verdict</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td class="lc">No driving (solar only)</td><td class="g">264 Ah (88%) ✓</td><td class="g">240 Ah (80%) ✓</td><td class="g">216 Ah (72%) ✓</td><td class="g">180 Ah (60%) ✓</td><td class="g">Autonomous on solar across all durations</td></tr>
+    <tr><td class="lc">31 min/day (break-even)</td><td class="g">~300 Ah (100%)</td><td class="g">~300 Ah (100%)</td><td class="g">~300 Ah (100%)</td><td class="g">~300 Ah (100%)</td><td class="g">Battery fully sustained — no net loss</td></tr>
+    <tr><td class="lc">2 hours/day</td><td class="g">~300 Ah (100%)</td><td class="g">~300 Ah (100%)</td><td class="g">~300 Ah (100%)</td><td class="g">~300 Ah (100%)</td><td class="g">Battery gains — arrives full at next camp</td></tr>
+  </tbody>
+</table>
+<div class="wbox" style="margin-top:10px;margin-bottom:20px;">
+  <div class="wbox-t">✓ Break-even is just 31 minutes of driving per day</div>
+  <div class="wbox-b">The break-even point is <strong>31 minutes of driving per day</strong> — net DC-DC gain per drive hour (+23 Ah) vs the solar-only daily drain (12 Ah). Any game drive, supply run, or camp move easily exceeds this. With 2 hours of deliberate driving, the battery comfortably finishes the day above where it started. <strong>This system sustains indefinite wild camping without shore power.</strong></div>
+</div>
+
+<div class="slbl" style="font-size:12px;margin-top:20px;">Scenario 3 — Transit Day: Drive Hours Needed to Recover to 100%</div>
+<p style="font-size:12px;color:var(--fg2);margin:4px 0 10px 0;">No shore power available. DC-DC 25A net rate ~23A. Deploying solar blanket at new camp for 3h cuts ~32 Ah off required driving.</p>
+<table class="dtable">
+  <thead>
+    <tr>
+      <th>Departure SoC</th>
+      <th class="ta">Ah needed (300Ah)</th>
+      <th class="ta">Drive hours to 100%</th>
+      <th class="ta">Drive + 3h solar at new camp</th>
+      <th class="tg">Ah needed (200Ah)</th>
+      <th class="tg">Drive hours to 100%</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td class="lc" style="color:#1A6A3C;font-weight:600">80% SoC (well managed)</td><td class="a">60 Ah</td><td class="g">2.6 hrs</td><td class="g">1.2 hrs drive + solar</td><td>40 Ah</td><td class="g">1.7 hrs</td></tr>
+    <tr><td class="lc">70% SoC</td><td>90 Ah</td><td class="g">3.9 hrs</td><td class="g">2.5 hrs drive + solar</td><td>60 Ah</td><td class="g">2.6 hrs</td></tr>
+    <tr><td class="lc">60% SoC</td><td>120 Ah</td><td class="h">5.2 hrs</td><td class="h">3.8 hrs drive + solar</td><td>80 Ah</td><td class="h">3.5 hrs</td></tr>
+    <tr><td class="lc">50% SoC</td><td>150 Ah</td><td class="h">6.5 hrs</td><td class="h">5.1 hrs drive + solar</td><td>100 Ah</td><td class="h">4.3 hrs</td></tr>
+    <tr><td class="lc" style="color:#B87800;">40% SoC</td><td>180 Ah</td><td class="h" style="color:#B00000;">7.8 hrs ⚠</td><td class="h">6.4 hrs drive + solar</td><td>120 Ah</td><td class="h">5.2 hrs</td></tr>
+    <tr><td class="lc" style="color:#B00000;font-weight:600">30% SoC (alarm triggered)</td><td>210 Ah</td><td class="h" style="color:#B00000;font-weight:700">9.1 hrs 🔴</td><td class="h">7.7 hrs drive + solar</td><td>140 Ah</td><td class="h" style="color:#B00000;">6.1 hrs</td></tr>
+  </tbody>
+</table>
+<div class="wbox" style="margin-top:10px;margin-bottom:20px;">
+  <div class="wbox-t">⚠ Reaching 100% on a transit day requires departing at 70%+ (3.9 hrs driving)</div>
+  <div class="wbox-b">Reaching 100% SoC in a single transit day requires departing at <strong>70% or above</strong> (~3.9 hours driving). Departing at 50% demands 6.5 hours — a long day. The practical goal is to arrive at the next camp at <strong>70–80%</strong>, deploy the solar blanket for remaining daylight, and complete recovery next morning. <strong>Because stationary solar drains only 12 Ah per day, you will rarely depart below 70% when any blanket time is available.</strong></div>
+</div>
+
+<div class="wbox" style="margin-top:16px;">
+  <div class="wbox-t">✓ Both Battery Options Are Recommended — Choose Based on Your Use Profile</div>
+  <div class="wbox-b">With the NL 52L Weekender's BD35F fridge draw (45 Ah/day at 38°C), daily load is <strong>~77 Ah/day</strong>. Solar alone covers 84% of this — just 12 Ah stationary drain per day.<br><strong>Freedom Won 200Ah:</strong> Reaches the 30% alarm on Day 13 solar-only. Ideal for SA national parks, weekend to week-long trips, and travellers who move camp regularly. Solid 6.7 SA years at 38% daily DoD.<br><strong>Victron Smart 300Ah:</strong> Reaches the 30% alarm on Day 19 solar-only. The choice for KAZA, Namibia, Mozambique, and any multi-week route where maximum autonomy matters. Outstanding 10.5 SA years at 26% daily DoD.<br><strong>✓ All other system components are identical for both options.</strong> The REDARC BCDC1225D, Victron BMV-712, Victron Blue Smart, and distribution board require no changes when choosing between 200Ah and 300Ah. Only the BMV-712 capacity setting is updated at installation. The Ah decision is purely about autonomy and budget.</div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     REVISED KPIs
+═════════════════════════════════════════════════════════ -->
+<div class="slbl">Key Metrics — Your LC76 1HZ System at 77 Ah/Day</div>
+<hr class="srule">
+<div class="stats">
+  <div class="sc a">
+    <div class="sbadge ba">300Ah · SA</div>
+    <div class="sv">3.1<span class="u">days</span></div>
+    <div class="sl">Autonomy @ 77Ah/day (240Ah usable, no recharge). Solar alone: 18 days before 30% alarm (Day 19).</div>
+  </div>
+  <div class="sc g">
+    <div class="sbadge bg">300Ah</div>
+    <div class="sv">26<span class="u">% DoD</span></div>
+    <div class="sl">Daily DoD at 77Ah (of nominal 300Ah) — low-stress zone. SA service life ~10.5 years.</div>
+  </div>
+  <div class="sc" style="background:#FFF0EC;">
+    <div class="sbadge bh">200Ah · SA</div>
+    <div class="sv">2.1<span class="u">days</span></div>
+    <div class="sl">Autonomy @ 77Ah/day (160Ah usable, no recharge). Solar alone: 12 days before 30% alarm (Day 13).</div>
+  </div>
+  <div class="sc" style="background:#FFE0D0;">
+    <div class="sbadge bh">200Ah</div>
+    <div class="sv">39<span class="u">% DoD</span></div>
+    <div class="sl">Daily DoD at 77Ah (of nominal 200Ah) — moderate zone. SA service life ~6.7 years.</div>
+  </div>
+</div>
+
+<!-- COLUMN COMPARISON -->
+<div class="slbl">Battery Comparison — 300Ah vs 200Ah at Your Load Profile</div>
+<hr class="srule">
+<div class="cols2">
+  <div class="card">
+    <div class="card-hd ha">
+      <div><div class="card-hn">300 Ah LiFePO4</div><div class="card-hs">RECOMMENDED — EXTENDED RANGE &amp; LONGEVITY</div></div>
+      <div class="card-hc">300</div>
+    </div>
+    <div class="row"><span class="rl">Nominal / Usable</span><span class="rv a">300 Ah / 240 Ah</span></div>
+    <div class="row"><span class="rl">Daily load</span><span class="rv">~77 Ah/day</span></div>
+    <div class="row"><span class="rl">Daily DoD (of nominal)</span><span class="rv" style="color:var(--sun);">25.7% — low-stress zone</span></div>
+    <div class="row"><span class="rl">Wild camp autonomy</span><span class="rv a">3.1 days (no recharge)</span></div>
+    <div class="row"><span class="rl">Best daily input (drive + 4h solar)</span><span class="rv g">~89 Ah in → +12 Ah net ✓. Best day comfortably positive.</span></div>
+    <div class="row"><span class="rl">Lab cycle life</span><span class="rv">~5,500 cycles @ 26% DoD</span></div>
+    <div class="row"><span class="rl">SA cycle life</span><span class="rv a">~3,850 cycles</span></div>
+    <div class="row"><span class="rl">SA service life</span><span class="rv g">~10.5 years</span></div>
+    <div class="row"><span class="rl">Capacity at SA Year 7</span><span class="rv g">~91%</span></div>
+    <div class="row"><span class="rl">Fridge + fans at 38°C</span><span class="rv g">Handles comfortably</span></div>
+    <div class="row"><span class="rl">Compressor burst (20A)</span><span class="rv g">No issue — BMS handles easily</span></div>
+    <div class="row"><span class="rl">SA market cost (2026)</span><span class="rv">R14,000–R19,000</span></div>
+    <div class="row"><span class="rl">Cost/SA service year</span><span class="rv g">~R1,330–R1,800/yr</span></div>
+    <div class="row"><span class="rl">Verdict</span><span class="rv g">✓ SPECIFY THIS</span></div>
+  </div>
+  <div class="card">
+    <div class="card-hd" style="background:linear-gradient(135deg,#1A5C3A,#2A7A52);">
+      <div><div class="card-hn">200 Ah LiFePO4</div><div class="card-hs">RECOMMENDED — SA PARKS &amp; REGULAR TRAVELLERS</div></div>
+      <div class="card-hc">200</div>
+    </div>
+    <div class="row"><span class="rl">Nominal / Usable</span><span class="rv" style="color:var(--green);">200 Ah / 160 Ah</span></div>
+    <div class="row"><span class="rl">Daily load</span><span class="rv">~77 Ah/day</span></div>
+    <div class="row"><span class="rl">Daily DoD (of nominal)</span><span class="rv">38.5% — moderate zone</span></div>
+    <div class="row"><span class="rl">Wild camp autonomy</span><span class="rv">2.1 days (no recharge)</span></div>
+    <div class="row"><span class="rl">Best daily input (drive + 4h solar)</span><span class="rv g">~89 Ah in → +12 Ah net ✓. Both batteries gain on a good day.</span></div>
+    <div class="row"><span class="rl">Lab cycle life</span><span class="rv">~3,500 cycles @ 38% DoD</span></div>
+    <div class="row"><span class="rl">SA cycle life</span><span class="rv">~2,450 cycles</span></div>
+    <div class="row"><span class="rl">SA service life</span><span class="rv">~6.7 years</span></div>
+    <div class="row"><span class="rl">Capacity at SA Year 7</span><span class="rv">~84%</span></div>
+    <div class="row"><span class="rl">Fridge + fans at 38°C</span><span class="rv">Handles comfortably</span></div>
+    <div class="row"><span class="rl">Compressor burst (20A)</span><span class="rv">Handles well above 30% SoC</span></div>
+    <div class="row"><span class="rl">SA market cost (2026)</span><span class="rv">R8,500–R12,000</span></div>
+    <div class="row"><span class="rl">Cost/SA service year</span><span class="rv">~R1,270–R1,790/yr</span></div>
+    <div class="row"><span class="rl">Verdict</span><span class="rv g">✓ RECOMMENDED FOR SA PARKS &amp; REGULAR USE</span></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     SECTION 3 — COMPONENT SPECIFICATION
+═════════════════════════════════════════════════════════ -->
+<div class="slbl">Section 3 — Complete System Component Specification (Victron · Freedom · REDARC)</div>
+<hr class="srule">
+
+<div class="ibox">
+  <div class="ibox-t">System Architecture Overview</div>
+  <div class="ibox-b">The LC76 secondary battery system consists of six layers: <strong>Battery Bank</strong> (LiFePO4 with integrated BMS) → <strong>DC-DC Charger</strong> (alternator isolation) → <strong>Solar MPPT Controller</strong> (Hardkor blanket) → <strong>Shore Power Charger</strong> (AC mains at campsites) → <strong>Battery Monitor</strong> (coulomb-counting SoC) → <strong>Distribution Board</strong> (fused outputs, USB-C PD, 12V). All products specified below are available from South African stockists (Solar Advice, Specialised Solar, REDARC SA, Freedom distributors).</div>
+</div>
+
+<div class="cgrid">
+
+  <!-- 1. BATTERY BANK -->
+  <div class="ccard">
+    <div class="chd c1">
+      <div><div class="cn">Battery Bank</div><div class="ccat">Primary LiFePO4 energy storage</div></div>
+      <div class="cicon">🔋</div>
+    </div>
+    <div class="crow"><span class="cl">Specified product</span><span class="cv g">Victron Smart 300Ah <span class="brand bvic">Victron</span></span></div>
+    <div class="crow"><span class="cl">Cell chemistry</span><span class="cv">LiFePO4 (Lithium Iron Phosphate)</span></div>
+    <div class="crow"><span class="cl">Voltage</span><span class="cv">12.8V nominal (LiFePO4)</span></div>
+    <div class="crow"><span class="cl">Capacity</span><span class="cv">300 Ah / 3,840 Wh</span></div>
+    <div class="crow"><span class="cl">BMS</span><span class="cv g">Integrated — protects all cells</span></div>
+    <div class="crow"><span class="cl">Max continuous discharge</span><span class="cv">100A continuous</span></div>
+    <div class="crow"><span class="cl">Peak discharge</span><span class="cv">200A (handles compressor burst)</span></div>
+    <div class="crow"><span class="cl">Max charge rate</span><span class="cv">100A (0.3C rate)</span></div>
+    <div class="crow"><span class="cl">Low temp cutoff</span><span class="cv g">+5°C (safe for Lesotho/Berg winter)</span></div>
+    <div class="crow"><span class="cl">Heat tolerance</span><span class="cv g">Rated to 55°C discharge</span></div>
+    <div class="crow"><span class="cl">Weight</span><span class="cv">~29–32 kg (300Ah) / 24 kg (200Ah)</span></div>
+    <div class="crow"><span class="cl">SA warranty</span><span class="cv g">3–5 years · SA-based support</span></div>
+    <div class="crow"><span class="cl">Why Freedom</span><span class="cv note">SA-designed and supported. Cell quality proven in local overland market. Service network across SA. Victron Smart alternative offers Bluetooth SoC reporting built into battery.</span></div>
+    <div class="crow"><span class="cl">Est. SA cost</span><div><div class="cv a">R14,500–R18,500</div><div class="cprice">Freedom distributor / Victron SA · Solar Advice</div></div></div>
+  </div>
+
+  <!-- 2. DC-DC CHARGER -->
+  <div class="ccard">
+    <div class="chd c2">
+      <div><div class="cn">DC-DC Charger (Alternator)</div><div class="ccat">Isolated vehicle-to-battery charging</div></div>
+      <div class="cicon">⚡</div>
+    </div>
+    <div class="crow"><span class="cl">Specified product</span><span class="cv g">REDARC BCDC1225D 25A <span class="brand bred">REDARC</span></span></div>
+    <div class="crow"><span class="cl">Alternative</span><span class="cv">Victron Orion-Tr Smart 12/12-30A <span class="brand bvic">Victron</span></span></div>
+    <div class="crow"><span class="cl">Why REDARC primary</span><span class="cv note">REDARC BCDC series is purpose-built for LandCruiser-type vehicles. Australian-engineered for tough conditions. The BCDC1225D includes a BUILT-IN solar MPPT input — one device handles both alternator AND solar blanket charging, simplifying the install.</span></div>
+    <div class="crow"><span class="cl">Built-in solar MPPT</span><span class="cv g">Yes — handles Hardkor 200W blanket directly</span></div>
+    <div class="crow"><span class="cl">DC-DC output current</span><span class="cv">25A from alternator</span></div>
+    <div class="crow"><span class="cl">Solar MPPT input</span><span class="cv">Up to 480W / 50V</span></div>
+    <div class="crow"><span class="cl">Output @ 2hr drive</span><span class="cv g">~46 Ah per 2-hour drive session</span></div>
+    <div class="crow"><span class="cl">Smart alternator safe</span><span class="cv g">Yes — LC76 1HZ compatible. Stock 80A alternator. 25A DC-DC = 31% of alt capacity — correct sizing.</span></div>
+    <div class="crow"><span class="cl">Input switching</span><span class="cv" style="color:var(--amber);">Solar OR alternator — mutually exclusive (blanket packed while driving)</span></div>
+    <div class="crow"><span class="cl">LiFePO4 profile</span><span class="cv g">Programmable — 14.2V absorption</span></div>
+    <div class="crow"><span class="cl">Temperature sensor</span><span class="cv g">Included (adjusts for SA heat)</span></div>
+    <div class="crow"><span class="cl">IP rating</span><span class="cv g">IP67 rated — dust and splash proof</span></div>
+    <div class="crow"><span class="cl">Monitoring</span><span class="cv">Via REDARC Manager30 app (optional)</span></div>
+    <div class="crow"><span class="cl">Est. SA cost</span><div><div class="cv a">R5,500–R7,200</div><div class="cprice">REDARC BCDC1225D · REDARC SA distributors</div></div></div>
+  </div>
+
+  <!-- 3. SOLAR CONTROLLER (if separate MPPT needed) -->
+  <div class="ccard">
+    <div class="chd c3">
+      <div><div class="cn">Solar MPPT Controller</div><div class="ccat">Hardkor 200W blanket · standalone option</div></div>
+      <div class="cicon">☀</div>
+    </div>
+    <div class="crow"><span class="cl">Specified product</span><span class="cv g">Victron SmartSolar MPPT 75/15 <span class="brand bvic">Victron</span></span></div>
+    <div class="crow"><span class="cl">When to use this</span><span class="cv note">Only needed if NOT using REDARC BCDC1225D. The REDARC BCDC1225D has built-in MPPT. If using Victron Orion-Tr Smart (DC-DC only), add this Victron MPPT for the solar blanket.</span></div>
+    <div class="crow"><span class="cl">Max PV input</span><span class="cv">75V OC / 15A max charge</span></div>
+    <div class="crow"><span class="cl">Hardkor 200W sizing</span><span class="cv g">Correctly sized — 200W @ 12V = ~16.7A</span></div>
+    <div class="crow"><span class="cl">SA solar yield</span><span class="cv g">60–72 Ah/day (6h peak, blanket efficiency ~75%)</span></div>
+    <div class="crow"><span class="cl">Blanket efficiency note</span><span class="cv" style="color:var(--sun);">200W flexible blanket ~75% efficiency vs rigid panel. Keep flat, in full sun. Partial shading degrades output significantly.</span></div>
+    <div class="crow"><span class="cl">Bluetooth</span><span class="cv g">Yes — VictronConnect app (iOS/Android)</span></div>
+    <div class="crow"><span class="cl">LiFePO4 preset</span><span class="cv g">Yes — programmable charge profile</span></div>
+    <div class="crow"><span class="cl">VE.Direct port</span><span class="cv g">Yes — integrates with Victron ecosystem</span></div>
+    <div class="crow"><span class="cl">Est. SA cost</span><div><div class="cv a">R1,800–R2,600</div><div class="cprice">Victron SmartSolar 75/15 · Solar Advice / Specialised Solar</div></div></div>
+  </div>
+
+  <!-- 4. BATTERY MONITOR -->
+  <div class="ccard">
+    <div class="chd c4">
+      <div><div class="cn">Battery Monitor</div><div class="ccat">State-of-charge tracking · essential</div></div>
+      <div class="cicon">📊</div>
+    </div>
+    <div class="crow"><span class="cl">Specified product</span><span class="cv g">Victron BMV-712 Smart <span class="brand bvic">Victron</span></span></div>
+    <div class="crow"><span class="cl">Alternative</span><span class="cv">Victron SmartShunt 500A/50mV <span class="brand bvic">Victron</span></span></div>
+    <div class="crow"><span class="cl">Why essential</span><span class="cv note">LiFePO4 has a flat voltage curve — voltage alone cannot tell you SoC. Without a coulomb-counting monitor you cannot reliably know how much power remains before a 3-day wild camp. Mandatory for this system.</span></div>
+    <div class="crow"><span class="cl">Measurement method</span><span class="cv g">Coulomb counting (Ah in/out)</span></div>
+    <div class="crow"><span class="cl">Shunt rating</span><span class="cv g">500A (handles compressor + fridge peak)</span></div>
+    <div class="crow"><span class="cl">Display (BMV-712)</span><span class="cv g">Built-in backlit LCD panel</span></div>
+    <div class="crow"><span class="cl">Shows</span><span class="cv">SoC %, V, A, Ah consumed, Time remaining, Power (W)</span></div>
+    <div class="crow"><span class="cl">Bluetooth</span><span class="cv g">Yes — VictronConnect real-time</span></div>
+    <div class="crow"><span class="cl">Relay output</span><span class="cv">Programmable low-SoC alarm</span></div>
+    <div class="crow"><span class="cl">Mid-point monitoring</span><span class="cv">Yes (optional cell imbalance detect)</span></div>
+    <div class="crow"><span class="cl">Est. SA cost</span><div><div class="cv a">R2,200–R3,000</div><div class="cprice">Victron BMV-712 · Solar Advice SA / Specialised Solar</div></div></div>
+  </div>
+
+  <!-- 5. DISTRIBUTION BOARD -->
+  <div class="ccard">
+    <div class="chd c5">
+      <div><div class="cn">Distribution Board &amp; Wiring</div><div class="ccat">Fused outputs · USB-C PD · 12V sockets</div></div>
+      <div class="cicon">🔌</div>
+    </div>
+    <div class="crow"><span class="cl">Specified board</span><span class="cv g">Freedom Distribution Board 8-way <span class="brand bfre">Freedom</span></span></div>
+    <div class="crow"><span class="cl">Alternative</span><span class="cv">Victron 12V Distribution Panel or Blue Sea 5025</span></div>
+    <div class="crow"><span class="cl">Main fuse (battery out)</span><span class="cv g">ANL 150A blade fuse + holder</span></div>
+    <div class="crow"><span class="cl">Individual circuit fuses</span><span class="cv">ATC blade fuses per circuit</span></div>
+    <div class="crow"><span class="cl">USB-C PD port (MacBook)</span><span class="cv g">30W USB-C PD minimum — 30W is enough for M1; 65W recommended ( recommended) (M1 MacBook Air requires 30W; 65W recommended)</span></div>
+    <div class="crow"><span class="cl">USB-A ports</span><span class="cv">2× USB-A 12W for phones + Garmin</span></div>
+    <div class="crow"><span class="cl">12V cig socket</span><span class="cv">1× for Garmin + backup</span></div>
+    <div class="crow"><span class="cl">12V switched outlets</span><span class="cv">4× for fridge, fans, lighting, compressor</span></div>
+    <div class="crow"><span class="cl">Main cable (battery)</span><span class="cv">16mm² OFC (6 AWG) — max 1m run</span></div>
+    <div class="crow"><span class="cl">Terminals</span><span class="cv g">Tinned copper marine-grade (Mozambique/coast)</span></div>
+    <div class="crow"><span class="cl">Cable labelling</span><span class="cv">Label all circuits — essential for fault finding on trail</span></div>
+    <div class="crow"><span class="cl">Est. SA cost</span><div><div class="cv a">R2,800–R4,500</div><div class="cprice">Freedom board + ANL + cables + marine terminals + USB-C PD outlet</div></div></div>
+  </div>
+
+  <!-- 6. SHORE POWER CHARGER -->
+  <div class="ccard">
+    <div class="chd c6">
+      <div><div class="cn">Shore Power Charger (AC Mains)</div><div class="ccat">Campsite / lodge AC charging</div></div>
+      <div class="cicon">🏕</div>
+    </div>
+    <div class="crow"><span class="cl">Specified product</span><span class="cv g">Victron Blue Smart IP65 12V/25A <span class="brand bvic">Victron</span></span></div>
+    <div class="crow"><span class="cl">Alternative</span><span class="cv">Freedom 25A LiFePO4 smart charger <span class="brand bfre">Freedom</span></span></div>
+    <div class="crow"><span class="cl">Input voltage</span><span class="cv g">90–265V AC (SA 230V compatible)</span></div>
+    <div class="crow"><span class="cl">Charge current</span><span class="cv">25A output</span></div>
+    <div class="crow"><span class="cl">Full charge time (300Ah)</span><span class="cv">From 50% SoC: ~6–7 hrs overnight</span></div>
+    <div class="crow"><span class="cl">LiFePO4 charge profile</span><span class="cv g">Preset — 14.2V absorption, 13.5V float</span></div>
+    <div class="crow"><span class="cl">IP rating</span><span class="cv g">IP65 — dust and splash proof</span></div>
+    <div class="crow"><span class="cl">Temperature compensation</span><span class="cv g">Built-in (critical for SA heat)</span></div>
+    <div class="crow"><span class="cl">Bluetooth</span><span class="cv g">Yes — VictronConnect app monitoring</span></div>
+    <div class="crow"><span class="cl">SA note</span><span class="cv note">Many SA campsites have unstable power. Victron Blue Smart handles 90–265V input — survives campsite power fluctuations. Use surge-protected extension lead as added insurance.</span></div>
+    <div class="crow"><span class="cl">Est. SA cost</span><div><div class="cv a">R2,800–R3,800</div><div class="cprice">Victron Blue Smart IP65 25A · Solar Advice / Leroy Merlin</div></div></div>
+  </div>
+
+  <!-- 7. REDARC MANAGER (optional) -->
+  <div class="ccard">
+    <div class="chd c7">
+      <div><div class="cn">System Manager (Optional)</div><div class="ccat">All-in-one monitoring &amp; control</div></div>
+      <div class="cicon">📱</div>
+    </div>
+    <div class="crow"><span class="cl">Product</span><span class="cv g">REDARC Manager30 <span class="brand bred">REDARC</span></span></div>
+    <div class="crow"><span class="cl">What it does</span><span class="cv note">Single panel display manages DC-DC, solar MPPT, and battery monitoring in one unit. Designed specifically for 4WD overland use. Replaces need for separate Victron BMV if using full REDARC system.</span></div>
+    <div class="crow"><span class="cl">Controls</span><span class="cv">DC-DC charge, solar MPPT, load control, monitoring</span></div>
+    <div class="crow"><span class="cl">Display</span><span class="cv g">Colour LCD panel — mounts in dash or console</span></div>
+    <div class="crow"><span class="cl">App control</span><span class="cv g">REDARC Manager app (Bluetooth)</span></div>
+    <div class="crow"><span class="cl">Battery types</span><span class="cv g">LiFePO4 preset included</span></div>
+    <div class="crow"><span class="cl">When to choose REDARC</span><span class="cv note">If you prefer a single-brand integrated system with one app and one display. The REDARC BCDC1225D + Manager30 combination is a complete solution. If you prefer Victron's ecosystem and VRM cloud monitoring, use Victron throughout.</span></div>
+    <div class="crow"><span class="cl">Est. SA cost</span><div><div class="cv a">R4,500–R6,500</div><div class="cprice">REDARC Manager30 · REDARC SA distributors</div></div></div>
+  </div>
+
+  <!-- 8. SAFETY & ACCESSORIES -->
+  <div class="ccard">
+    <div class="chd c2" style="background:#2C1A2A;">
+      <div><div class="cn">Safety, Cabling &amp; Accessories</div><div class="ccat">Protection · connection · accessories</div></div>
+      <div class="cicon">🛡</div>
+    </div>
+    <div class="crow"><span class="cl">Battery isolation switch</span><span class="cv g">Victron 275A manual isolator — on main positive cable</span></div>
+    <div class="crow"><span class="cl">Main fuse (ANL)</span><span class="cv g">ANL 150A blade fuse + holder (inline, battery side)</span></div>
+    <div class="crow"><span class="cl">Cable — main battery</span><span class="cv">16mm² OFC copper (6 AWG) · max 1m run to distribution</span></div>
+    <div class="crow"><span class="cl">Cable — DC-DC to alternator</span><span class="cv">6mm² (10 AWG) with inline ATC 30A fuse at vehicle battery</span></div>
+    <div class="crow"><span class="cl">Cable — solar blanket</span><span class="cv">4mm² with Anderson SB50 connectors (quick disconnect)</span></div>
+    <div class="crow"><span class="cl">Anderson connectors</span><span class="cv g">SB50 grey — solar blanket disconnect for camp use</span></div>
+    <div class="crow"><span class="cl">Terminal type</span><span class="cv g">Tinned copper lugs (marine grade) — all connections</span></div>
+    <div class="crow"><span class="cl">Heat shrink</span><span class="cv g">Adhesive-lined heat shrink on all lugs (SA moisture protection)</span></div>
+    <div class="crow"><span class="cl">Dielectric grease</span><span class="cv g">Apply to all terminals before departure (coastal / Mozambique routes)</span></div>
+    <div class="crow"><span class="cl">Battery mounting</span><span class="cv g">20mm anti-vibration foam all contact faces — corrugated road essential</span></div>
+    <div class="crow"><span class="cl">Ventilation</span><span class="cv g">Vented compartment — not fully sealed (heat dissipation critical in SA)</span></div>
+    <div class="crow"><span class="cl">Est. SA cost</span><div><div class="cv a">R1,800–R3,200</div><div class="cprice">Cables + fuses + isolator + Andersons + terminals + mounting foam</div></div></div>
+  </div>
+
+</div><!-- end cgrid -->
+
+<!-- SYSTEM WIRING SUMMARY -->
+<div class="slbl">System Wiring Flow (Text Diagram)</div>
+<hr class="srule">
+<div class="wiring">
+  <div class="w-title">LC76 SECONDARY BATTERY SYSTEM — SIMPLIFIED WIRING FLOW</div>
+  <span class="wb">[ SOLAR BLANKET 200W ]</span> ──Anderson SB50──► <span class="wc">REDARC BCDC1225D</span> (MPPT input)
+  <br>
+  <span class="wr">[ LC76 STARTER BATTERY ]</span> ──6mm² + 30A fuse──► <span class="wc">REDARC BCDC1225D</span> (DC-DC input)
+  <br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;▼
+  <span class="wa">[ Victron Smart 300Ah LiFePO4 + BMS ]</span> ─────────────── main +/- ──► <span class="wc">ANL 150A fuse</span> ──► <span class="wc">Victron BMV-712 shunt</span>
+  <br>
+  <span class="wb">[ SHORE POWER 230V AC ]</span> ──► <span class="wc">Victron Blue Smart IP65 25A</span> ──► same battery terminals (via fuse block)
+  <br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│ (after shunt — ALL loads must pass through shunt)
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;▼
+  <span class="wc">Freedom Distribution Board 8-way</span>
+  <br>
+  &nbsp;&nbsp;&nbsp;&nbsp;├── <span class="wa">National Luna 52L Weekender fridge</span> (dedicated fused circuit — 15A)
+  <br>
+  &nbsp;&nbsp;&nbsp;&nbsp;├── <span class="wa">Built-in compressor</span> (dedicated fused circuit — 25A)
+  <br>
+  &nbsp;&nbsp;&nbsp;&nbsp;├── <span class="wa">2× Portable fans</span> (internal battery · charged ~2h/day · 5A circuit)
+  <br>
+  &nbsp;&nbsp;&nbsp;&nbsp;├── <span class="wa">LED interior lighting</span> (5A circuit)
+  <br>
+  &nbsp;&nbsp;&nbsp;&nbsp;├── <span class="wa">USB-C PD 65W port</span> (MacBook Air M1 + iPhones)
+  <br>
+  &nbsp;&nbsp;&nbsp;&nbsp;├── <span class="wa">USB-A × 2</span> (2× iPhones + Garmin Nüvi)
+  <br>
+  &nbsp;&nbsp;&nbsp;&nbsp;└── <span class="wa">12V cig socket</span> (Garmin backup + misc)
+</div>
+
+<!-- TOTAL SYSTEM COST SUMMARY -->
+<div class="slbl">Complete System Cost Summary (ZAR · March 2026)</div>
+<hr class="srule">
+<div class="coststrip">
+  <div class="cc">
+    <div class="cclbl">Battery Bank</div>
+    <div class="ccval">~R16,500</div>
+    <div class="ccsub">Victron Smart 300Ah (mid-range)</div>
+  </div>
+  <div class="cc">
+    <div class="cclbl">DC-DC + Solar MPPT</div>
+    <div class="ccval">~R6,500</div>
+    <div class="ccsub">REDARC BCDC1225D</div>
+  </div>
+  <div class="cc">
+    <div class="cclbl">Shore Charger + Monitor</div>
+    <div class="ccval">~R5,800</div>
+    <div class="ccsub">Victron Blue Smart + BMV-712</div>
+  </div>
+  <div class="cc">
+    <div class="cclbl">Distribution + Wiring</div>
+    <div class="ccval">~R6,000</div>
+    <div class="ccsub">Freedom board + cables + safety</div>
+  </div>
+  <div class="cc tot">
+    <div class="cclbl">TOTAL SYSTEM ESTIMATE</div>
+    <div class="ccval">~R34,800</div>
+    <div class="ccsub">Range: R30,000–R42,000 incl. VAT</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     OPTIONAL ENHANCEMENT — ALTERNATOR UPGRADE
+═════════════════════════════════════════════════════════ -->
+<div class="slbl">Optional Enhancement — Terrain Tamer 110A Alternator Upgrade</div>
+<hr class="srule">
+
+<div class="ibox">
+  <div class="ibox-t">LC76 1HZ Engine — Stock 80A Alternator · Optional Upgrade to 110A</div>
+  <div class="ibox-b">The LC76 fitted with the <strong>1HZ 4.2L 6-cylinder naturally aspirated diesel</strong> leaves the factory with an <strong>80A alternator</strong>. The stock 25A REDARC BCDC1225D draws 25A DC-DC + ~22A vehicle parasitic = 47A total, which is 59% of the 80A alternator — acceptable but leaving limited headroom for spots, winch, and A/C. An optional upgrade to the <strong>Terrain Tamer 110A (part: 27060-17250TT)</strong> — a Denso-built direct bolt-in replacement — improves headroom, reduces break-even daily driving time, and allows upgrading the DC-DC to 30A for meaningfully faster charging. <strong>Not essential, but worthwhile for fixed-base multi-day camps.</strong></div>
+</div>
+
+<div class="cgrid" style="grid-template-columns:1fr 1fr;">
+  <div class="ccard">
+    <div class="chd" style="background:linear-gradient(135deg,#1A3A5C,#2A5A8C);">
+      <div><div class="cn">Stock Configuration</div><div class="ccat">80A alternator · 25A REDARC BCDC1225D</div></div>
+      <div class="cicon">🔧</div>
+    </div>
+    <div class="crow"><span class="cl">Alternator</span><span class="cv">80A (OEM 1HZ)</span></div>
+    <div class="crow"><span class="cl">DC-DC charger</span><span class="cv">REDARC BCDC1225D 25A</span></div>
+    <div class="crow"><span class="cl">Alt load (DC-DC + vehicle)</span><span class="cv" style="color:var(--amber);">47A = 59% of 80A</span></div>
+    <div class="crow"><span class="cl">Free headroom</span><span class="cv">33A (lights, winch, A/C)</span></div>
+    <div class="crow"><span class="cl">Net gain/drive hour</span><span class="cv">14.2 Ah</span></div>
+    <div class="crow"><span class="cl">Break-even drive/day</span><span class="cv" style="color:var(--amber);">~2h 54min/day</span></div>
+    <div class="crow"><span class="cl">Transit: 300Ah 50%→100%</span><span class="cv" style="color:var(--amber);">7.3 hrs driving</span></div>
+    <div class="crow"><span class="cl">Transit: 300Ah 70%→100%</span><span class="cv">3.9 hrs driving</span></div>
+    <div class="crow"><span class="cl">Upgrade cost</span><span class="cv g">None — baseline</span></div>
+  </div>
+  <div class="ccard">
+    <div class="chd" style="background:linear-gradient(135deg,#1A4A2A,#2A7A3A);">
+      <div><div class="cn">Upgraded Configuration</div><div class="ccat">Terrain Tamer 110A · REDARC BCDC1230D 30A</div></div>
+      <div class="cicon">⚡</div>
+    </div>
+    <div class="crow"><span class="cl">Alternator</span><span class="cv g">Terrain Tamer 110A (27060-17250TT) · Denso-built</span></div>
+    <div class="crow"><span class="cl">DC-DC charger</span><span class="cv g">REDARC BCDC1230D 30A</span></div>
+    <div class="crow"><span class="cl">Alt load (DC-DC + vehicle)</span><span class="cv g">52A = 47% of 110A — comfortable</span></div>
+    <div class="crow"><span class="cl">Free headroom</span><span class="cv g">58A — generous (spots + winch comfortable)</span></div>
+    <div class="crow"><span class="cl">Net gain/drive hour</span><span class="cv g">19.2 Ah</span></div>
+    <div class="crow"><span class="cl">Break-even drive/day</span><span class="cv g">31 min/day</span></div>
+    <div class="crow"><span class="cl">Transit: 300Ah 50%→100%</span><span class="cv g">5.9 hrs driving</span></div>
+    <div class="crow"><span class="cl">Transit: 300Ah 70%→100%</span><span class="cv g">3.5 hrs driving</span></div>
+    <div class="crow"><span class="cl">SA availability</span><span class="cv g">TTG Offroad Pretoria · Terrain Tamer Bellville (CT)</span></div>
+    <div class="crow"><span class="cl">Note: NOT a sealed unit</span><span class="cv" style="color:var(--amber);">Standard Denso alt. Sealed kit is VDJ V8 only.</span></div>
+    <div class="crow"><span class="cl">Total upgrade premium</span><span class="cv" style="color:var(--amber);">~R6,300–R9,500 (alt + DC-DC upgrade + wiring + fit)</span></div>
+  </div>
+</div>
+
+<div class="wbox" style="margin-top:12px;">
+  <div class="wbox-t">Is the Upgrade Worth It?</div>
+  <div class="wbox-b">The upgrade reduces break-even driving from 31 minutes to 26 minutes per day, cuts transit recovery time by ~1.4 hours when departing at 50%, and gives substantially more headroom for winch, spotlights, and A/C simultaneously. <strong>Recommended for:</strong> fixed-base camps of 4+ days (Nxai Pan, Kgalagadi, Khutse), vehicles running high auxiliary loads (winch, light bar, ARB compressor), or anyone who finds a 31-minute daily break-even already exceeds most game drives. <strong>Not essential if:</strong> you're a rolling camp traveller (2–3 nights then move). The stock 80A + REDARC 25A + 300Ah system sustains indefinite wild camping without driving discipline.</div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     SECTION 4 — LONGEVITY & DEGRADATION
+═════════════════════════════════════════════════════════ -->
+<div class="slbl">Section 4 — SA Longevity Projection at Your Load Profile</div>
+<hr class="srule">
+
+<div class="ibox">
+  <div class="ibox-t">Longevity at 77 Ah/day — 300Ah vs 200Ah</div>
+  <div class="ibox-b">At 77 Ah/day the 300Ah operates at <strong>26% daily DoD</strong> and the 200Ah at <strong>38.5% daily DoD</strong> — both within healthy operating ranges. Lab cycle life: 300Ah ~5,500 cycles; 200Ah ~3,500 cycles. Applying the <strong>SA 0.70× heat factor</strong>: 300Ah → ~3,850 SA cycles → <strong>~10.5 years full-time</strong>; 200Ah → ~2,450 SA cycles → <strong>~6.7 years full-time</strong>. These figures assume 365 cycles/year (daily expedition use). For moderate use patterns, see the use-pattern qualifier in the degradation table below — at one week per month, both batteries outlast the vehicle.</div>
+</div>
+
+<table class="dtable" id="longevityTable">
+  <thead>
+    <tr>
+      <th>Year</th>
+      <th>Est. SA Cycles</th>
+      <th class="ta">300Ah Capacity %</th>
+      <th class="ta">300Ah Usable Ah</th>
+      <th class="ta">300Ah Daily DoD</th>
+      <th class="tg">200Ah Capacity %</th>
+      <th class="tg">200Ah Usable Ah</th>
+      <th class="tg">200Ah Daily DoD</th>
+      <th class="th">SA Field Assessment</th>
+    </tr>
+  </thead>
+  <tbody id="tableBody"></tbody>
+</table>
+
+<div class="slbl" style="margin-top:28px;">Capacity Degradation Schedule — SA Field Conditions (77 Ah/Day)</div>
+<hr class="srule">
+
+<div class="wbox" style="margin-bottom:16px;">
+  <div class="wbox-t">⚠ Use-Pattern Qualifier — These figures assume full-time daily use (365 cycles/year)</div>
+  <div class="wbox-b">Cycle ageing only accumulates when you actually cycle the battery. The degradation tables below model a <strong>full-time expedition scenario</strong> — e.g. a two-year Southern Africa circuit where you camp every night. For more moderate use, cycle life extends dramatically and <strong>calendar ageing becomes the dominant limit</strong> regardless of battery size.<br>
+  <table class="dte" style="margin-top:8px;">
+    <thead><tr><th>Use Pattern</th><th>Cycles/Year</th><th>300Ah Cycle Life</th><th>200Ah Cycle Life</th><th>Limiting Factor</th></tr></thead>
+    <tbody>
+      <tr><td>Full-time expedition (daily camping)</td><td>365</td><td style="color:#1A7A40;font-weight:600;">~10.5 years</td><td style="color:#B87800;font-weight:600;">~6.7 years</td><td>Cycle ageing — as modelled below</td></tr>
+      <tr><td>Regular overlander (~3 nights/week)</td><td>180</td><td style="color:#1A7A40;font-weight:600;">~21 years</td><td style="color:#1A7A40;font-weight:600;">~14 years</td><td>Calendar ageing (~15–20yr) hits first</td></tr>
+      <tr><td>Monthly tripper (1 week/month)</td><td>85</td><td style="color:#1A7A40;font-weight:600;">~45 years</td><td style="color:#1A7A40;font-weight:600;">~29 years</td><td>Calendar ageing — both batteries outlast the vehicle</td></tr>
+      <tr><td>Weekend use only</td><td>40</td><td style="color:#1A7A40;font-weight:600;">~96 years</td><td style="color:#1A7A40;font-weight:600;">~61 years</td><td>Calendar ageing entirely — irrelevant as a factor</td></tr>
+    </tbody>
+  </table><br>
+  <strong>For a monthly tripper:</strong> both the 200Ah and 300Ah will reach calendar end-of-life (~15–20 years) long before their cycle limit. At this use pattern, <strong>longevity is not a differentiator between the two options</strong> — the choice is purely about how much autonomy you want on each trip. Store at 50–60% SoC between trips, in a cool dry location, to maximise calendar life.</div>
+</div>
+
+<div class="dgrid">
+  <div class="dcard">
+    <div class="dhd d1">300Ah SA Degradation <span>26% nominal DoD · ~3,850 SA cycles · ~10.5 years full-time</span></div>
+    <table class="dte">
+      <thead><tr><th>Milestone</th><th>SA Cycles</th><th>Capacity</th><th>Usable Ah</th><th>Daily DoD of usable</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>New</td><td>0</td><td>100%</td><td>240 Ah</td><td>32.1%</td><td><span class="fl ok">EXCELLENT</span></td></tr>
+        <tr><td>Year 2</td><td>730</td><td>97%</td><td>233 Ah</td><td>33.1%</td><td><span class="fl ok">EXCELLENT</span></td></tr>
+        <tr><td>Year 3</td><td>1,095</td><td>95%</td><td>228 Ah</td><td>33.8%</td><td><span class="fl ok">EXCELLENT</span></td></tr>
+        <tr><td>Year 5</td><td>1,825</td><td>91%</td><td>218 Ah</td><td>35.3%</td><td><span class="fl ok">GOOD</span></td></tr>
+        <tr><td>Year 7</td><td>2,555</td><td>87%</td><td>209 Ah</td><td>36.9%</td><td><span class="fl ok">GOOD</span></td></tr>
+        <tr><td>Year 10</td><td>3,650</td><td>81%</td><td>194 Ah</td><td>39.6%</td><td><span class="fl">REVIEW</span></td></tr>
+        <tr><td>SA EOL (80%)</td><td>~3,850</td><td>80%</td><td>192 Ah</td><td>40.1%</td><td><span class="fl">EOL ~yr 10.5</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="dcard">
+    <div class="dhd d2">200Ah SA Degradation <span>38.5% nominal DoD · ~2,450 SA cycles · ~6.7 years full-time</span></div>
+    <table class="dte">
+      <thead><tr><th>Milestone</th><th>SA Cycles</th><th>Capacity</th><th>Usable Ah</th><th>Daily DoD of usable</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>New</td><td>0</td><td>100%</td><td>160 Ah</td><td>48.1%</td><td><span class="fl ok">MODERATE</span></td></tr>
+        <tr><td>Year 1</td><td>365</td><td>95%</td><td>152 Ah</td><td>50.7%</td><td><span class="fl ok">MODERATE</span></td></tr>
+        <tr><td>Year 2</td><td>730</td><td>89%</td><td>142 Ah</td><td>54.1%</td><td><span class="fl ok">MODERATE</span></td></tr>
+        <tr><td>Year 3</td><td>1,095</td><td>84%</td><td>134 Ah</td><td>57.3%</td><td><span class="fl">WATCH</span></td></tr>
+        <tr><td>Year 5</td><td>1,825</td><td>76%</td><td>122 Ah</td><td>63.3%</td><td><span class="fl">WATCH</span></td></tr>
+        <tr><td>SA EOL (80%)</td><td>~2,450</td><td>80%</td><td>128 Ah</td><td>60.2%</td><td><span class="fl">EOL ~yr 6.7</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     SECTION 5 — SA CLIMATE ZONES
+═════════════════════════════════════════════════════════ -->
+<div class="slbl">Section 5 — Southern African Climate Zones &amp; Battery Impact</div>
+<hr class="srule">
+<div class="hgrid">
+  <div class="hc hot">
+    <div class="hz">SEVERE HEAT ZONE</div>
+    <div class="hrg">Kalahari / Botswana / Namibia Interior</div>
+    <div class="htp">38–45°C</div>
+    <div class="hi">Sustained high ambient accelerates SEI growth. Fridge duty cycle peaks at 70%+ — adds ~10 Ah to daily draw. Battery compartment can reach 50°C+. Charge in evening only. Ensure ventilated battery bay. Both fans essential overnight.</div>
+    <div class="hp">Cycle penalty: −20 to −25%</div>
+  </div>
+  <div class="hc hot">
+    <div class="hz">HIGH HEAT + HUMIDITY</div>
+    <div class="hrg">Mozambique / Lowveld / Maputaland</div>
+    <div class="htp">30–40°C + 85% RH</div>
+    <div class="hi">Marine-grade tinned copper terminals mandatory. Conformal coat the REDARC BCDC and Freedom BMS PCB before departure. Humidity accelerates terminal corrosion. Fridge works harder in humid heat. Camera charging especially important — lithium camera batteries degrade in storage heat.</div>
+    <div class="hp">Cycle penalty: −15 to −20%</div>
+  </div>
+  <div class="hc mid">
+    <div class="hz">MODERATE ZONE</div>
+    <div class="hrg">Kruger / Zimbabwe / Northern Cape</div>
+    <div class="htp">28–38°C</div>
+    <div class="hi">High but manageable. MacBook Air M1 running in heat — avoid charging laptop and using simultaneously in full sun. Garmin in direct dash sun can get hot. Keep vehicle in shade where possible. Fans still needed overnight.</div>
+    <div class="hp">Cycle penalty: −12 to −18%</div>
+  </div>
+  <div class="hc hot">
+    <div class="hz">VIBRATION ZONE</div>
+    <div class="hrg">Botswana D-roads / Caprivi / KAZA</div>
+    <div class="htp">Corrugated gravel tracks</div>
+    <div class="hi">Anti-vibration foam mounting critical for Victron Smart 300Ah battery. REDARC BCDC1225D is IP67 rated and vibration-tolerant — ideal for this environment. All cable connections must use crimped and heat-shrunk lugs — no push-fit terminals. Check and re-torque battery terminal bolts after first 1,000 km on gravel.</div>
+    <div class="hp">Capacity loss: −5 to −8% cumulative</div>
+  </div>
+  <div class="hc cool">
+    <div class="hz">COLD RISK ZONE</div>
+    <div class="hrg">Lesotho / Drakensberg / High Namibia</div>
+    <div class="htp">−5°C to +15°C (winter nights)</div>
+    <div class="hi">Freedom and Victron LiFePO4 BMS must have low-temperature charge cutoff set at +5°C. Never charge below 0°C — permanent cell damage. Fridge draws less power in cold — balances system. MacBook Air and camera batteries also perform better in cool conditions.</div>
+    <div class="hp" style="background:#1A7A40;">Cold charge protection: set BMS cutoff at +5°C</div>
+  </div>
+  <div class="hc cool">
+    <div class="hz">OPTIMAL SOLAR ZONE</div>
+    <div class="hrg">All Southern Africa (year-round)</div>
+    <div class="htp">5.5–6.5 peak sun hrs/day</div>
+    <div class="hi">SA's exceptional solar resource (one of the world's best) means the 200W Hardkor blanket delivers ~65 Ah/day when deployed stationary at camp. Remember: blanket must be packed while driving — solar and DC-DC cannot run simultaneously. Deploy the blanket immediately on arrival at camp to maximise stationary charging hours.</div>
+    <div class="hp" style="background:#1A7A40;">Solar advantage: reduces effective daily cycling by 50–60%</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════
+     SECTION 6 — RECOMMENDATION
+═════════════════════════════════════════════════════════ -->
+<div class="slbl">Section 6 — Consultant Recommendation &amp; System Summary</div>
+<hr class="srule">
+<div class="rbox">
+  <div class="rbox-t">Recommended System: Victron Smart 300Ah · REDARC BCDC1225D · Victron BMV-712 + Blue Smart</div>
+  <div class="rbox-b">
+    With a daily load of <strong>~77 Ah/day</strong> (NL 52L Weekender BD35F fridge, devices, accessories), solar alone covers 84% of the load — drawing only 12 Ah from the battery on a stationary day. <strong>Both batteries are recommended</strong> depending on your use profile. The 200Ah sustains 11 days solar-only and suits SA park trips and regular travellers; the 300Ah sustains 17 days solar-only and is the choice for KAZA, Namibia, and multi-week routes.<br>
+    The <span class="hi">REDARC BCDC1225D is the standout choice</span>: one device handles both alternator DC-DC and solar MPPT inputs, and the Anderson SB50 connector makes the blanket trivially easy to plug in at camp and stow for driving. The stock <strong>1HZ 80A alternator paired with the 25A BCDC1225D is correctly sized</strong> (47A combined draw = 59% of alternator — safe for sustained use).<br>
+    <strong>Wild camp energy discipline — key operational rules:</strong><br>
+    — <strong>2 hours of deliberate daily driving</strong> keeps the 300Ah above 75% SoC across any wild camp duration up to 6 days with no shore power<br>
+    — <strong>Break-even is ~3 hours/day</strong>: battery neither gains nor loses across the day — good discipline for longer fixed-base camps<br>
+    — <strong>Stationary-only safety margin:</strong> 300Ah sustains 18 days solar-only before the 30% BMV alarm (Day 19). 200Ah sustains 12 days (alarm Day 13).<br>
+    — <strong>Depart high:</strong> each 10% lower departure SoC costs ~1.4 extra hours of transit driving to recover to 100%. Manage camp carefully to depart at 70%+.<br>
+    — Pre-cool the National Luna fridge to 4°C the night before departure on shore power to reduce first-day compressor duty cycle<br>
+    — Set the Victron BMV-712 low-SoC alarm at 30% (90 Ah remaining on 300Ah) as your "drive or reduce loads" trigger<br>
+    — When crossing Botswana D-roads: check all cable connections and re-torque battery bolts every 2,000 km on corrugated tracks<br>
+    — For Mozambique routes: apply dielectric grease to all terminals, conformal coat the REDARC BCDC, and carry spare ANL and ATC fuses<br>
+    — In Lesotho winter: confirm BMS cold-charge cutoff active. Run engine 3–5 min before DC-DC charging engages in sub-zero mornings<br>
+    — The MacBook Air M1 must use the 65W USB-C PD port — connect phones overnight to share sessions and avoid peak simultaneous charging
+  </div>
+</div>
+
+<div class="fnote" style="margin-top:18px;">
+  <strong>Methodology &amp; Disclaimer:</strong> Daily load figures are practical estimates based on typical SA overland conditions. Fridge duty cycle based on National Luna 52L Weekender specifications at 38°C ambient (SA summer, no shade cover). Cycle life figures: 300Ah @ 50% DoD ~4,000 lab cycles; 200Ah @ 75% DoD ~1,800 lab cycles; SA factor 0.70× applied. MacBook Air M1 power consumption per Apple specifications. REDARC BCDC1225D efficiency ~92%. Hardkor 200W blanket assumed at 75% of rigid panel efficiency (flexible blanket, non-tracking). All costs are ZAR estimates for SA market Q1 2026 and exclude installation labour. Installation labour estimate: R2,500–R4,500 for a qualified auto-electrician. <strong>Products: Victron (Netherlands), Freedom Won (South Africa), REDARC (Australia) — all have SA distribution and support networks.</strong>
+</div>
+
+</div><!-- end body -->
+
+<div class="footer">
+  <span>LC76 SW · 1HZ 4.2L diesel · LiFePO4 Battery System Report · Southern Africa Overland · Victron · Freedom · REDARC · March 2026</span>
+  <span>SA heat factor 0.70× · Load: 77 Ah/day (NL 52L Weekender BD35F · devices · accessories) · Solar blanket stationary only · Stock 80A 1HZ alternator · REDARC BCDC1225D 25A · Break-even: 31 min/day · Terrain Tamer 110A optional</span>
+</div>
+
+<script>
+// ── BUILD YEAR TABLE ──
+const SA_LIFE_300 = 10.5;  // years at 26% DoD SA conditions
+const SA_LIFE_200 = 6.7;   // years at 38% DoD SA conditions
+const DAILY_AH = 120;
+const tbody = document.getElementById('tableBody');
+const yearData = [];
+
+for (let yr = 0; yr <= 12; yr++) {
+  const dr300 = 20 / SA_LIFE_300; // % per year
+  const dr200 = 20 / SA_LIFE_200;
+
+  const cap300 = Math.max(80, 100 - yr * dr300);
+  const usable300 = parseFloat((300 * cap300/100 * 0.8).toFixed(1));
+  const dod300 = parseFloat((DAILY_AH / usable300 * 100).toFixed(1));
+
+  const cap200 = Math.max(72, 100 - yr * dr200); // can go below 80% — shows post-EOL state
+  const usable200 = parseFloat((200 * cap200/100 * 0.8).toFixed(1));
+  const dod200 = parseFloat((DAILY_AH / usable200 * 100).toFixed(1));
+
+  const cycles = Math.round(yr * 365 * 0.9);
+
+  let note;
+  if (yr === 0) note = 'Both new — baseline';
+  else if (yr <= 2) note = '300Ah: Excellent | 200Ah: Moderate — both healthy for daily expedition use';
+  else if (yr <= 4) note = '300Ah: Fair | 200Ah: Critical — approaching SA EOL';
+  else if (yr <= 6) note = '300Ah: Good | 200Ah: Approaching EOL on full-time use (EOL ~yr 6.7)';
+  else if (yr <= 9) note = '300Ah: Aging — review capacity | 200Ah: Long replaced (2nd unit needed)';
+  else note = '300Ah: SA EOL approaching — plan replacement | 200Ah: On 2nd replacement cycle';
+
+  yearData.push({yr, cycles, cap300, usable300, dod300, cap200, usable200, dod200, note});
+
+  const tr = document.createElement('tr');
+  const cls3 = dod300 > 65 ? 'h' : dod300 > 58 ? '' : 'a';
+  const cls2 = dod200 > 85 ? 'h' : '';
+  const cap3cls = cap300 < 82 ? 'h' : 'a';
+  const cap2cls = cap200 < 80 ? 'h' : cap200 < 86 ? '' : 'g';
+  tr.innerHTML = `
+    <td class="lc">Year ${yr}</td>
+    <td>${cycles.toLocaleString()}</td>
+    <td class="${cap3cls}">${cap300.toFixed(1)}%</td>
+    <td class="a">${usable300} Ah</td>
+    <td class="${cls3}">${dod300}%</td>
+    <td class="${cap2cls}">${cap200.toFixed(1)}%</td>
+    <td class="${dod200 > 80 ? 'h' : ''}">${usable200} Ah</td>
+    <td class="${dod200 > 80 ? 'h' : cls2}">${dod200}%</td>
+    <td class="nc">${note}</td>
+  `;
+  tbody.appendChild(tr);
+}
+
+// ── EXCEL EXPORT ──
+function exportExcel() {
+  const wb = XLSX.utils.book_new();
+
+  // Sheet 1 – Load Analysis
+  const loads = [
+    ['LC76 SW — DAILY LOAD ANALYSIS (SOUTHERN AFRICA OVERLAND)'],
+    ['Daily load basis: SA ambient 38°C · National Luna 52L Weekender BD35F confirmed · 2× iPhone only · Generated March 2026'],
+    [],
+    ['Accessory','Watts (est.)','Daily Hours (SA camp)','Daily Ah Draw','Priority','Notes'],
+    ['COOLING & FOOD'],
+    ['National Luna 52L Weekender (BD35F)','1.2–2.8A DC range','~16.4h duty (55% @ 38°C)','45.0 Ah','Essential','BD35F nameplate confirmed. 42mm insulation factored in. Pre-cool on shore power before wild camp.'],
+    ['COMMUNICATIONS & NAVIGATION'],
+    ['iPhone 1 (USB-C PD)','20W','1.5h','2.5 Ah','Daily','USB-C PD port required.'],
+    ['iPhone 2 (USB-C PD)','20W','1.5h','2.5 Ah','Daily',''],
+            ['Garmin Nuvi (cig lighter)','5W','6h','2.5 Ah','Daily','Negligible draw.'],
+    ['COMPUTING'],
+    ['MacBook Air M1 (USB-C 65W PD)','30W charge + 8W active','2h charge + 2h use','6.7 Ah','Regular','Requires 30W min USB-C PD port. 65W recommended.'],
+    ['PHOTOGRAPHY'],
+    ['Camera battery dual charger (2× LP-E6)','16W','2h','2.7 Ah','Regular','Most 12V compatible. Verify charger before trip.'],
+    ['COMFORT & LIGHTING'],
+    ['Interior LED lighting','15W','4h','5.0 Ah','Daily',''],
+    ['Portable fan 1 (12V brushless, internal battery)','4.5W','~2h daytime charge','0.75 Ah','Daily','Portable fan — runs overnight on internal battery, not wired to aux. Charged from aux during day: 4.5W ÷ 12V × 2h = 0.75 Ah/day.'],
+    ['Portable fan 2 (12V brushless, internal battery)','4.5W','~2h daytime charge','0.75 Ah','Daily','Same as above. Combined: 1.5 Ah/day for both fans.'],
+    ['Misc small accessories','10W avg','3h','2.5 Ah','Low','USB power bank top-up, headlamp, sundry.'],
+    ['VEHICLE SYSTEMS'],
+    ['Built-in compressor (frequent on gravel)','~216W peak (18A)','~20 min/day','6.0 Ah','Frequent','Short burst. BMS must support 30A+ continuous.'],
+    ['Winch (emergency only)','300-500A peak','5 min/event','~5 Ah if used','Emergency','Exclude from daily budget. Wire to starter battery.'],
+    [],
+    ['TOTAL DAILY DRAW (excl. winch)','','','~77 Ah','','Range: 65-90 Ah/day depending on temperature and usage'],
+  ];
+  const ws1 = XLSX.utils.aoa_to_sheet(loads);
+  ws1['!cols'] = [{wch:38},{wch:20},{wch:24},{wch:14},{wch:12},{wch:56}];
+  XLSX.utils.book_append_sheet(wb, ws1, 'Load Analysis');
+
+  // Sheet 2 – Energy Balance & Wild Camp
+  const eb = [
+    ['ENERGY BALANCE — SOUTHERN AFRICA OVERLAND (LC76 SW)'],
+    ['Basis: 200W Hardkor blanket + REDARC BCDC1225D DC-DC 25A + 2hr daily drive during wild camp'],
+    [],
+    ['SOURCE / SCENARIO','Energy In (Ah)','Energy Out (Ah)','Net Balance (Ah)','Notes'],
+    ['Solar only - blanket deployed all day (stationary camp)','~65 Ah','77 Ah','-12 Ah','Blanket stationary use only. Battery draws down ~4% SoC from 300Ah per day.'],
+    ['DC-DC only - 2hr drive (blanket packed while driving)','~46 Ah','77 Ah','-31 Ah','Solar cannot run while driving. DC-DC only during all drive time.'],
+    ['Best day: drive 2hr (DC-DC 46Ah) then deploy blanket 4h (solar 43Ah)','~89 Ah','77 Ah','+12 Ah','Best day is comfortably net positive.'],
+    ['Shore power overnight (Victron Blue Smart 25A)','~150 Ah in 6hrs','0 Ah during charge','Full recharge overnight','Restores 300Ah from 30% to 100% in ~7hrs'],
+    [],
+    ['WILD CAMP SIMULATION — 3 DAYS (300Ah vs 200Ah)'],
+    ['Day','Recharge','300Ah Start SoC','300Ah End SoC','300Ah Ah left','200Ah Start SoC','200Ah End SoC','200Ah Assessment'],
+    ['Day 0 (shore power prev. night)','Shore power','100%','100%','240 Ah','100%','100%','Both full'],
+    ['Day 1 — drive 2hr (DC-DC) then deploy blanket 4h','DC-DC 48Ah + solar 43Ah = 91Ah (mutually exclusive)','100%','95%','~285 Ah','100%','~91%','Both OK — 15Ah draw-down'],
+    ['Day 2 — stationary (blanket all day)','Solar only 65Ah','95%','86%','~270 Ah','91%','~78%','300Ah OK. 200Ah: 125Ah left.'],
+    ['Day 3 — stationary (blanket all day)','Solar only 65Ah','86%','73%','~218 Ah','78%','~64%','200Ah: 103Ah left — one more night only'],
+    ['Day 4 — stationary (blanket all day)','Solar only 65Ah','73%','59%','~177 Ah','64%','~51%','200Ah: 82Ah — ⚠ Watch SoC'],
+  ];
+  const ws2 = XLSX.utils.aoa_to_sheet(eb);
+  ws2['!cols'] = [{wch:36},{wch:22},{wch:18},{wch:18},{wch:18},{wch:18},{wch:18},{wch:40}];
+  XLSX.utils.book_append_sheet(wb, ws2, 'Energy Balance & Wild Camp');
+
+  // Sheet 3 – Component Specification
+  const cs = [
+    ['RECOMMENDED SYSTEM COMPONENTS — LC76 SW OVERLAND (Victron / Freedom / REDARC)'],
+    ['All products available from SA stockists · March 2026 pricing'],
+    [],
+    ['Component','Specified Product','Brand','Key Spec','SA Est. Cost','Why Specified'],
+    ['Battery Bank (300Ah)','Victron 12.8V/300Ah Smart LiFePO4','Victron (NL)','300Ah, integrated BMS, 100A cont, 200A peak, 12.8V','R14,500–R18,500','SA-designed, local warranty, CATL cells, proven overland'],
+    ['Battery Alt.','Victron 12.8V/300Ah Smart LiFePO4','Victron (NL)','300Ah, Bluetooth SoC built-in, VE.Direct','R16,000–R21,000','Bluetooth SoC without separate monitor; Victron ecosystem'],
+    ['DC-DC + Solar MPPT','REDARC BCDC1225D 25A','REDARC (AU)','25A DC-DC + built-in solar MPPT up to 480W, IP67','R5,500–R7,200','ONE device handles alternator AND Hardkor blanket. IP67. LiFePO4 profile. Simplest install.'],
+    ['DC-DC Alt.','Victron Orion-Tr Smart 12/12-30A','Victron (NL)','30A isolated DC-DC, Bluetooth, LiFePO4 profile','R3,800–R5,200','Higher charge current; add separate Victron MPPT 75/15 for solar'],
+    ['Solar MPPT (if not REDARC)','Victron SmartSolar MPPT 75/15','Victron (NL)','75V/15A, Bluetooth, LiFePO4 preset, VE.Direct','R1,800–R2,600','Correctly sized for 200W blanket (16.7A max). Not needed if using REDARC BCDC1225D.'],
+    ['Battery Monitor','Victron BMV-712 Smart','Victron (NL)','Coulomb-counting, 500A shunt, LCD display, Bluetooth','R2,200–R3,000','LiFePO4 flat voltage = voltage SoC useless. Coulomb counting essential for wild camp planning.'],
+    ['Shore Power Charger','Victron Blue Smart IP65 12V/25A','Victron (NL)','25A, 90-265V input, IP65, LiFePO4 profile, Bluetooth','R2,800–R3,800','Handles SA campsite unstable power. Charges 300Ah from 50% in ~6hrs overnight.'],
+    ['Shore Power Alt.','Freedom 25A LiFePO4 Smart Charger','Victron (NL)','25A, LiFePO4 optimised, SA voltage','R2,200–R3,200','Matches Freedom battery ecosystem if using Freedom bank'],
+    ['Distribution Board','Freedom Distribution Board 8-way','Victron (NL)','8× fused outputs, USB-C PD 65W, USB-A, 12V sockets','R2,800–R4,500','Matches Freedom ecosystem. USB-C PD 65W covers MacBook Air M1 and all iPhones.'],
+    ['System Manager (optional)','REDARC Manager30','REDARC (AU)','Colour LCD, controls DC-DC + MPPT + battery monitor, Bluetooth app','R4,500–R6,500','Replaces BMV if using full REDARC system. All-in-one single display.'],
+    ['Main Fuse (ANL)','ANL 150A blade fuse + holder','Generic/Blue Sea','150A, inline on main positive cable from battery','R350–R600','Primary overcurrent protection for entire system'],
+    ['Battery Isolator','Victron 275A manual isolator','Victron (NL)','275A rated, manual on/off, main positive line','R600–R900','Allows complete system isolation in emergency or storage'],
+    ['Cables (main)','16mm² OFC copper (6 AWG)','Marine grade','16mm² tinned copper; max 1m run battery to distribution','R800–R1,500','Handles peak compressor + fridge + fan load without voltage drop'],
+    ['Terminals','Tinned copper marine lugs','Marine grade','Crimped + adhesive-lined heat shrink on all connections','R300–R600','Essential for Mozambique and coastal routes — prevents corrosion'],
+    ['Anderson connectors','SB50 grey pair','Anderson Power','50A rated, quick-disconnect for solar blanket cable','R200–R400','Easy solar blanket connect/disconnect at camp'],
+    [],
+    ['TOTAL SYSTEM ESTIMATE (excl. installation labour)','','','','R30,000–R42,000','Installation labour: R2,500–R4,500 (auto-electrician)'],
+  ];
+  const ws3 = XLSX.utils.aoa_to_sheet(cs);
+  ws3['!cols'] = [{wch:28},{wch:32},{wch:16},{wch:36},{wch:18},{wch:56}];
+  XLSX.utils.book_append_sheet(wb, ws3, 'Component Specification');
+
+  // Sheet 4 – Year-by-Year Projection
+  const ph = ['Year','Est. SA Cycles','300Ah Capacity %','300Ah Usable Ah','300Ah Daily DoD %','200Ah Capacity %','200Ah Usable Ah','200Ah Daily DoD %','SA Assessment'];
+  const pr = yearData.map(d => [
+    'Year '+d.yr, d.cycles, +d.cap300.toFixed(1), d.usable300, d.dod300,
+    +d.cap200.toFixed(1), d.usable200, d.dod200, d.note
+  ]);
+  const ws4 = XLSX.utils.aoa_to_sheet([ph,...pr]);
+  ws4['!cols'] = [{wch:8},{wch:14},{wch:18},{wch:18},{wch:20},{wch:18},{wch:18},{wch:20},{wch:56}];
+  XLSX.utils.book_append_sheet(wb, ws4, 'Longevity Projection');
+
+  // Sheet 5 – SA Conditions
+  const sc = [
+    ['SOUTHERN AFRICA CLIMATE CONDITIONS & BATTERY IMPACT'],
+    [],
+    ['Region / Zone','Ambient Temp','Heat Zone','Cycle Life Penalty','Key Risks for LC76 System','Mitigation'],
+    ['Kalahari / Botswana interior','35-42°C','SEVERE','-20 to -25%','Fridge duty 70%+, battery bay 50°C+, D-road vibration','Ventilated bay, evening charging, anti-vibe mount, REDARC IP67'],
+    ['Namibia interior (Namib/Sossusvlei)','38-45°C','SEVERE','-20 to -25%','Extreme heat + thermal cycling day/night','Insulate bay, charge evening only, park in shade'],
+    ['Mozambique (Gorongosa/Bazaruto)','28-38°C + 85% RH','HIGH','-15 to -20%','Terminal corrosion, BMS PCB failure, camera battery heat damage','Marine terminals, conformal coat REDARC+Freedom BMS, sealed enclosure'],
+    ['Kruger / Zimbabwe Lowveld','28-38°C','HIGH','-12 to -18%','Heat + limited shore power at remote camps','Solar primary, DC-DC backup, BMV-712 essential for wild camp planning'],
+    ['SA Richtersveld (summer)','38-48°C','SEVERE','-22 to -25%','Hottest SA route, 4-5 days off-grid, fans max use','300Ah essential, drive daily for DC-DC top-up, park in shade'],
+    ['Botswana D-roads / Caprivi','Variable','VIBRATION','-5 to -8% cumulative','Cable fatigue, terminal loosening, battery compression','Anti-vibe foam, marine crimps, re-torque bolts every 2000km gravel'],
+    ['Lesotho / Drakensberg','−5 to +28°C','COLD RISK','-5%','Cold charging damage <0°C — permanent cell damage','BMS cutoff +5°C active; warm engine before DC-DC engages in sub-zero'],
+    ['Western Cape / Garden Route','12-32°C','LOW','-5 to -8%','Near-optimal; mild heat, good solar','Standard operation. Best SA battery longevity conditions.'],
+    [],
+    ['OPERATIONAL TIPS FOR YOUR SPECIFIC ACCESSORIES'],
+    ['Accessory','SA Operational Tip'],
+    ['National Luna 52L Weekender fridge','Pre-cool to 4°C on shore power night before. Pack frozen items. Keep in shade. Reduces compressor duty cycle by 15-20%.'],
+    ['MacBook Air M1','Use at evening/night when ambient temp lower. Avoid charging + heavy use simultaneously at midday. Connect to 65W USB-C PD port.'],
+    ['iPhones (USB-C)','Charge overnight on USB-C PD port. iPhones in extreme heat throttle charging — keep out of direct sun.'],
+    ['Camera batteries','Charge in evening. Keep spare batteries in cool bag. LP-E6 batteries degrade rapidly if stored hot (>40°C).'],
+    ['2× portable fans (internal battery)','Portable fans run overnight on their own internal battery — not wired to aux during use. Each charged ~2h during the day: 4.5W ÷ 12V × 2h = 0.75 Ah/fan. Total: 1.5 Ah/day for both. Very low aux battery impact.'],
+    ['Hardkor 200W solar blanket','Keep flat and unshaded. Even partial shading from antenna or roof rack drops output significantly. Angle toward sun where possible.'],
+    ['Built-in compressor','Run compressor with engine on where possible (while driving out of camp). Avoids peak current draw from battery at low SoC.'],
+    ['Victron BMV-712','Set low SoC alarm at 30% (72 Ah remaining on 300Ah) as trigger to drive or find shore power. Check BMV before every multi-day wild camp.'],
+  ];
+  const ws5 = XLSX.utils.aoa_to_sheet(sc);
+  ws5['!cols'] = [{wch:32},{wch:18},{wch:14},{wch:16},{wch:50},{wch:50}];
+  XLSX.utils.book_append_sheet(wb, ws5, 'SA Conditions & Tips');
+
+  XLSX.writeFile(wb, 'LC76_Battery_System_Report_SA_Overland.xlsx');
+}
+</script>
+<script>
+if('serviceWorker' in navigator && location.hostname !== 'www.claudeusercontent.com'){
+  window.addEventListener('load',function(){
+    navigator.serviceWorker.register('./sw.js')
+      .then(function(r){console.log('LC76 SW registered');})
+      .catch(function(e){console.log('SW error:',e);});
+  });
+}
+</script>
+</body>
+</html>

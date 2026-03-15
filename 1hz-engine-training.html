@@ -1,0 +1,2300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LC76 Library">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1C1410">
+<link rel="manifest" href="manifest-ref.json">
+<link rel="apple-touch-icon" href="icon-ref-192.svg">
+<meta name="viewport" content="width=device-width,initial-scale=1.0, viewport-fit=cover">
+<title>HZJ76R-RKMRS · 1HZ Engine & Drivetrain — Field Training Manual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+<style>
+:root{
+  --clay:#C4572A;--ochre:#D4963A;--sand:#E8D5A3;--cream:#F5EDDA;
+  --ink:#1C1410;--bark:#3D2B1A;--smoke:#6B5B4E;--white:#FDFAF4;
+  --border:rgba(61,43,26,0.15);
+  --green-ok:#1A4731;--red-warn:#B91C1C;--amber:#92400E;
+  --dominant:var(--cream);--secondary:var(--ink);--accent:var(--clay);--accent-2:var(--ochre);
+}
+
+:root{
+  --ink:#0d0e12;--paper:#f5f0e8;--paper2:#ede8de;--rule:#c8c0b0;
+  --amber:#b86800;--amber2:#e07800;--amber-lt:#fff3d6;
+  --steel:#3a4050;--steelmd:#6a7080;--steellt:#a8b0bc;
+  --tip-bg:#f0f4f0;--tip-line:#8ab09a;--tip-txt:#1a4a24;
+  --warn:#8a2800;--warn-bg:#fff0ec;--warn-bdr:#c04030;
+  --turbo:#1a3060;--turbo2:#2a60c0;--turbo-lt:#e8f0ff;
+  --fluid:#1a3a1a;--fluid2:#2a7a2a;--fluid-lt:#e8f5e8;
+  --mono:'IBM Plex Mono',monospace;--sans:'IBM Plex Sans',sans-serif;--display:'Bebas Neue',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.6}
+
+/* COVER */
+.cover{background:var(--ink);color:var(--paper);padding:28px 52px 24px;position:relative;overflow:hidden;border-bottom:4px solid var(--amber)}
+.cover::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(0deg,transparent,transparent 38px,rgba(255,255,255,.022) 38px,rgba(255,255,255,.022) 39px),repeating-linear-gradient(90deg,transparent,transparent 38px,rgba(255,255,255,.022) 38px,rgba(255,255,255,.022) 39px);pointer-events:none}
+.cover-eyebrow{font-family:var(--mono);font-size:.60rem;letter-spacing:.20em;color:var(--amber2);text-transform:uppercase;margin-bottom:10px}
+.cover-title{font-family:var(--display);font-size:clamp(2rem,5vw,3.4rem);letter-spacing:.04em;line-height:.92;color:#fff;margin-bottom:2px}
+.cover-title span{color:var(--amber2)}
+.cover-sub{font-family:var(--display);font-size:clamp(0.9rem,2vw,1.2rem);letter-spacing:.12em;color:var(--steellt);margin-bottom:4px}
+.cover-vin{font-family:var(--mono);font-size:.62rem;letter-spacing:.12em;color:rgba(255,200,100,.7);margin-bottom:12px;padding-left:2px}
+.cover-mods{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}
+.mod-tag{font-family:var(--mono);font-size:.52rem;letter-spacing:.09em;padding:2px 7px;border:1px solid var(--turbo2);color:#90b8f8;background:rgba(42,96,192,.15);text-transform:uppercase}
+.cover-specs{display:flex;flex-wrap:wrap;gap:8px 28px;border-top:1px solid rgba(255,255,255,.12);padding-top:14px}
+.spec-item{display:flex;flex-direction:column;gap:1px}
+.spec-label{font-family:var(--mono);font-size:.48rem;letter-spacing:.16em;color:var(--steelmd);text-transform:uppercase}
+.spec-val{font-family:var(--mono);font-size:.66rem;color:var(--amber2);letter-spacing:.04em}
+
+
+/* NAV */
+.toc-bar{background:var(--steel);padding:8px 20px;display:flex;align-items:center;gap:4px;flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:none;position:sticky;top:0;z-index:100;border-bottom:3px solid var(--amber);white-space:nowrap}
+.toc-bar::-webkit-scrollbar{display:none}
+.toc-label{font-family:var(--mono);font-size:.54rem;letter-spacing:.20em;color:var(--steellt);text-transform:uppercase;margin-right:4px;flex-shrink:0}
+.toc-link{font-family:var(--mono);font-size:.55rem;color:rgba(255,255,255,.38);text-decoration:none;padding:2px 5px;border:1px solid transparent;transition:all .14s;white-space:nowrap;letter-spacing:.03em}
+.toc-link:hover,.toc-link.active{color:var(--amber2);border-color:rgba(224,120,0,.35);background:rgba(224,120,0,.07)}
+.toc-link.turbo-mod{color:rgba(144,184,248,.5)}
+.toc-link.turbo-mod:hover,.toc-link.turbo-mod.active{color:#90b8f8;border-color:rgba(42,96,192,.5);background:rgba(42,96,192,.1)}
+.print-btn{margin-left:auto;font-family:var(--mono);font-size:.56rem;letter-spacing:.12em;color:var(--paper);background:none;border:1px solid rgba(255,255,255,.2);padding:5px 12px;cursor:pointer;transition:all .14s;text-transform:uppercase;flex-shrink:0}
+.print-btn:hover{border-color:var(--amber2);color:var(--amber2)}
+
+/* SECTION HEADERS */
+.section-header{background:var(--paper2);border-top:3px solid var(--amber);border-bottom:1px solid var(--rule);padding:11px 52px 13px;display:block;margin-top:18px}
+.section-header.sec-turbo{background:#e8f0ff;border-top-color:var(--turbo2)}
+.section-header.sec-fluid{background:#e8f5e8;border-top-color:var(--fluid2)}
+.section-num{font-family:var(--mono);font-size:.58rem;font-weight:600;letter-spacing:.20em;color:white;background:var(--amber);padding:3px 10px;display:inline-block;margin-bottom:8px;text-transform:uppercase}
+.section-header.sec-turbo .section-num{background:var(--turbo2)}
+.section-header.sec-fluid .section-num{background:var(--fluid2)}
+.section-name{font-family:var(--display);font-size:2.0rem;letter-spacing:.10em;color:var(--ink);text-transform:uppercase;display:block}
+.section-desc{font-family:var(--mono);font-size:.58rem;color:var(--steelmd);letter-spacing:.09em;display:block;margin-top:5px}
+
+/* COMPONENT CARDS */
+.components-grid{padding:0 52px}
+.component{border-bottom:1px solid var(--rule);padding:18px 0;display:block;scroll-margin-top:160px}
+.component:last-child{border-bottom:none}
+.component.comp-turbo{background:rgba(42,96,192,.03);}
+.component.comp-fluid{background:rgba(42,122,42,.03);}
+
+.comp-index{display:block;margin-bottom:3px}
+.comp-num{font-family:var(--mono);font-size:.54rem;font-weight:500;letter-spacing:.12em;color:white;background:var(--amber);padding:2px 7px;display:inline-block;margin-bottom:4px;vertical-align:middle}
+.comp-turbo .comp-num{background:var(--turbo2)}
+.comp-fluid .comp-num{background:var(--fluid2)}
+.comp-glyph{display:none}
+
+.comp-header{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:3px}
+.comp-name{font-family:var(--display);font-size:1.15rem;letter-spacing:.06em;color:var(--ink);line-height:1}
+.comp-code{font-family:var(--mono);font-size:.56rem;letter-spacing:.08em;color:var(--amber);background:var(--amber-lt);padding:2px 8px;border-left:2px solid var(--amber);white-space:nowrap;flex-shrink:0}
+.comp-turbo .comp-code{color:var(--turbo2);background:var(--turbo-lt);border-left-color:var(--turbo2)}
+.comp-fluid .comp-code{color:var(--fluid2);background:var(--fluid-lt);border-left-color:var(--fluid2)}
+
+.comp-location{display:flex;align-items:center;gap:7px;margin-bottom:8px}
+.loc-pill{font-family:var(--mono);font-size:.56rem;letter-spacing:.09em;color:var(--steel);background:var(--paper2);border:1px solid var(--rule);padding:3px 10px 3px 7px;display:flex;align-items:center;gap:6px}
+.loc-pill::before{content:'\25C9';color:var(--amber);font-size:.68rem}
+.comp-turbo .loc-pill::before{color:var(--turbo2)}
+.comp-fluid .loc-pill::before{color:var(--fluid2)}
+
+.comp-body{display:grid;grid-template-columns:1fr 1fr;gap:10px 18px}
+.comp-desc-block{background:#fafbfc;border:1px solid var(--rule);border-top:3px solid var(--steelmd);border-left:4px solid var(--steelmd);padding:13px 15px}
+.comp-tip-block{background:#f0f4f0;border:1px solid #8ab09a;border-top:3px solid #2a6634;border-left:4px solid #2a6634;padding:13px 15px}
+
+.block-label{font-family:var(--mono);font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;font-weight:600;margin-bottom:7px;display:flex;align-items:center;gap:6px}
+.comp-desc-block .block-label{color:var(--steelmd)}
+.comp-desc-block .block-label::before{content:'\25B8';color:var(--steelmd)}
+.comp-tip-block .block-label{color:#1a4a24}
+.comp-tip-block .block-label::before{content:'\25B8';color:#1a4a24}
+
+.comp-desc-block p{font-family:var(--sans);font-size:.72rem;font-weight:400;line-height:1.72;color:#2a2f3a}
+.comp-tip-block p{font-family:var(--sans);font-size:.72rem;font-weight:400;line-height:1.72;color:#1a2a1e}
+
+.comp-warn{margin-top:10px;padding:8px 11px;background:#fff8f6;border:1px solid #c04030;border-left:4px solid #8a2800;display:flex;align-items:flex-start;gap:7px}
+.warn-icon{font-size:.85rem;color:var(--warn);flex-shrink:0;margin-top:1px}
+.warn-text{font-family:var(--mono);font-size:.60rem;color:#5a1800;line-height:1.5;letter-spacing:.02em;font-weight:500}
+
+/* QUICK REF TABLE */
+.ref-section{margin:40px 52px;border:1px solid var(--rule)}
+.ref-hdr{background:var(--ink);padding:13px 18px;display:flex;align-items:center;gap:12px}
+.ref-hdr h2{font-family:var(--display);font-size:1.3rem;letter-spacing:.12em;color:var(--amber2)}
+.ref-hdr span{font-family:var(--mono);font-size:.56rem;color:var(--steellt);letter-spacing:.11em}
+.ref-table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:.68rem}
+.ref-table th{background:var(--paper2);padding:8px 13px;text-align:left;font-size:.52rem;letter-spacing:.15em;text-transform:uppercase;color:var(--steelmd);border-bottom:2px solid var(--rule);font-weight:500}
+.ref-table td{padding:7px 13px;border-bottom:1px solid var(--rule);vertical-align:top;line-height:1.45}
+.ref-table tr:last-child td{border-bottom:none}
+.ref-table tr:nth-child(even) td{background:var(--paper2)}
+.td-num{color:var(--amber);font-size:.64rem;font-weight:500}
+.td-name{color:var(--ink);font-weight:500}
+.td-loc{color:var(--steelmd);font-size:.61rem}
+.td-critical{display:inline-block;font-size:.50rem;letter-spacing:.08em;padding:2px 6px;background:var(--warn-bg);color:var(--warn);border:1px solid var(--warn-bdr)}
+.td-spare{display:inline-block;font-size:.50rem;letter-spacing:.08em;padding:2px 6px;background:rgba(30,80,40,.08);color:#2a6634;border:1px solid #88c090}
+
+/* FLUID CAPACITY TABLE */
+.fluid-table-section{margin:0 52px 32px;border:1px solid var(--rule)}
+.fluid-table-hdr{background:var(--fluid);padding:12px 18px;display:flex;align-items:center;gap:12px}
+.fluid-table-hdr h2{font-family:var(--display);font-size:1.2rem;letter-spacing:.12em;color:#90d890}
+.fluid-table-hdr span{font-family:var(--mono);font-size:.54rem;color:rgba(144,216,144,.6);letter-spacing:.10em}
+.fluid-table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:.68rem}
+.fluid-table th{background:rgba(42,122,42,.12);padding:7px 13px;text-align:left;font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;color:var(--fluid2);border-bottom:2px solid #88c090;font-weight:500}
+.fluid-table td{padding:7px 13px;border-bottom:1px solid rgba(42,122,42,.15);vertical-align:middle;line-height:1.4}
+.fluid-table tr:last-child td{border-bottom:none}
+.fluid-table tr:nth-child(even) td{background:rgba(42,122,42,.04)}
+.ft-system{color:var(--ink);font-weight:500;font-size:.70rem}
+.ft-cap{color:var(--fluid2);font-weight:500}
+.ft-spec{color:var(--steelmd);font-size:.63rem}
+.ft-change{color:#8a6000;font-size:.60rem}
+
+/* FOOTER */
+.footer{margin-top:40px;background:var(--ink);color:rgba(255,255,255,.30);padding:20px 52px;display:flex;align-items:center;justify-content:space-between;font-family:var(--mono);font-size:.56rem;letter-spacing:.11em;border-top:3px solid var(--amber)}
+.footer-title{color:var(--amber2);font-size:.64rem}
+
+@media(max-width:700px){
+  .comp-body{grid-template-columns:1fr}
+  .components-grid{padding:0 16px}
+  .cover{padding:30px 18px}
+  .section-header{padding:12px 16px;flex-wrap:wrap}
+  .section-desc{display:none}
+  .toc-bar{padding:6px 12px}
+  .component{display:block}
+  .ref-section,.fluid-table-section{margin:20px 16px}
+  .footer{padding:16px 16px;flex-direction:column;gap:8px;text-align:center}
+}
+@media print{
+  /* Hide nav */
+  .toc-bar{display:none!important}
+
+  /* Force background colours to print */
+  .cover,.comp-tip-block,.comp-desc-block,.section-header,.ref-hdr,
+  .fluid-table-hdr,.fluid-table th,.comp-warn{
+    -webkit-print-color-adjust:exact;print-color-adjust:exact}
+
+  /* Page setup */
+  @page{margin:15mm 12mm}
+  body{font-size:90%}
+
+  /* Cover: keep together, page break after */
+  .cover{page-break-after:always;break-after:page}
+
+  /* Section header: always starts on a new page */
+  .section-header{
+    page-break-before:always;break-before:page;
+    page-break-after:avoid;break-after:avoid;
+    page-break-inside:avoid;break-inside:avoid;
+    margin-top:0}
+
+  /* Quick reference and fluid table headers: also start on new page */
+  .ref-hdr,.fluid-table-hdr{
+    page-break-before:always;break-before:page}
+
+  /* Everything else: let content flow freely across pages */
+  .component,.comp-body,.comp-desc-block,.comp-tip-block{
+    page-break-inside:auto;break-inside:auto}
+
+  /* Only protect very short atomic units */
+  .comp-header,.comp-location,.block-label{
+    page-break-after:avoid;break-after:avoid;
+    page-break-inside:avoid;break-inside:avoid}
+
+  /* Tables */
+  .fluid-table tr,.ref-table tr{page-break-inside:avoid;break-inside:avoid}
+  .fluid-table thead,.ref-table thead{display:table-header-group}
+
+  /* Footer */
+  .footer{page-break-before:avoid;break-before:avoid;margin-top:16px}
+
+  /* Tighten spacing for print */
+  .component{padding:10px 0}
+  .components-grid{padding:0}
+}
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="cover">
+  <div class="cover-eyebrow">Toyota Land Cruiser 70 Series &nbsp;&middot;&nbsp; Vehicle-Specific Field Reference &nbsp;&middot;&nbsp; Bush Mechanics</div>
+  <div class="cover-title">Toyota <span>1HZ</span></div>
+  <div class="cover-sub">Engine &amp; Drivetrain Training Manual</div>
+  <div class="cover-vin">Model: HZJ76R-RKMRS &nbsp;&nbsp;·&nbsp;&nbsp; 2007–2016 &nbsp;&nbsp;·&nbsp;&nbsp; Right-Hand Drive &nbsp;&nbsp;·&nbsp;&nbsp; 5-Speed Manual Gearbox (R151F) &nbsp;&nbsp;·&nbsp;&nbsp; Part-Time 4-Wheel Drive</div>
+  <div class="cover-mods">
+    <span class="mod-tag">&#9654; Aftermarket Turbocharger</span>
+    <span class="mod-tag">&#9654; Intercooler (Charge Air Cooler)</span>
+    <span class="mod-tag">&#9654; Boost Compensator</span>
+    <span class="mod-tag">&#9654; Safari Snorkel</span>
+    <span class="mod-tag">&#9654; Terrain Tamer Heavy-Duty 5th Gear (R151F)</span>
+    <span class="mod-tag">&#9654; Terrain Tamer Heavy-Duty Clutch</span>
+    <span class="mod-tag">&#9654; Standard 1HZ Engine Otherwise</span>
+  </div>
+  <div class="cover-specs">
+    <div class="spec-item"><span class="spec-label">Engine</span><span class="spec-val">1HZ · 4163cc · Naturally Aspirated + Turbo</span></div>
+    <div class="spec-item"><span class="spec-label">Bore × Stroke</span><span class="spec-val">94mm × 100mm</span></div>
+    <div class="spec-item"><span class="spec-label">Compression Ratio</span><span class="spec-val">22:1</span></div>
+    <div class="spec-item"><span class="spec-label">Injection System</span><span class="spec-val">Bosch / Denso Mechanical Inline Pump</span></div>
+    <div class="spec-item"><span class="spec-label">Camshaft Drive</span><span class="spec-val">Gear Train — No Timing Belt</span></div>
+    <div class="spec-item"><span class="spec-label">Engine Oil</span><span class="spec-val">11.3 Litres · API CF-4 / CI-4</span></div>
+    <div class="spec-item"><span class="spec-label">Coolant System</span><span class="spec-val">10.9 Litres · Toyota Long Life Coolant — 50/50 with distilled water</span></div>
+    <div class="spec-item"><span class="spec-label">Gearbox (R151F)</span><span class="spec-val">2.2 Litres · Castrol Transmax Manual 75W-90 · Terrain Tamer HD 5th Gear</span></div>
+    <div class="spec-item"><span class="spec-label">Clutch</span><span class="spec-val">Terrain Tamer Heavy-Duty Clutch Kit</span></div>
+    <div class="spec-item"><span class="spec-label">Transfer Case</span><span class="spec-val">2.1 Litres · Castrol Transmax Manual 75W-90</span></div>
+    <div class="spec-item"><span class="spec-label">Front Differential</span><span class="spec-val">2.6 Litres · Castrol Transmax Axle EPX 85W-140</span></div>
+    <div class="spec-item"><span class="spec-label">Rear Differential</span><span class="spec-val">2.4 Litres · Castrol Transmax Axle EPX 85W-140</span></div>
+    <div class="spec-item"><span class="spec-label">Fuel Tank</span><span class="spec-val">145 Litres · Diesel Only</span></div>
+    <div class="spec-item"><span class="spec-label">Recommended Boost</span><span class="spec-val">7–10 psi (1HZ safe limit)</span></div>
+  </div>
+</div>
+
+<div class="toc-bar">
+  <span class="toc-label">Jump to:</span>
+  <a href="#s1c1" class="toc-link">1.1&nbsp;Engine Block</a>
+<a href="#s1c2" class="toc-link">1.2&nbsp;Oil Sump</a>
+<a href="#s1c3" class="toc-link">1.3&nbsp;Crankshaft & Main Bearings</a>
+<a href="#s1c4" class="toc-link">1.4&nbsp;Pistons & Connecting Rods</a>
+<a href="#s1c5" class="toc-link">1.5&nbsp;Oil Pump</a>
+<a href="#s1c6" class="toc-link">1.6&nbsp;Flywheel</a>
+<a href="#s2c1" class="toc-link">2.1&nbsp;Head Gasket</a>
+<a href="#s2c2" class="toc-link">2.2&nbsp;Cylinder Head</a>
+<a href="#s2c3" class="toc-link">2.3&nbsp;Push Rods & Rocker Arms</a>
+<a href="#s2c4" class="toc-link">2.4&nbsp;Valve Cover</a>
+<a href="#s3c1" class="toc-link">3.1&nbsp;Timing Gear Cover</a>
+<a href="#s3c2" class="toc-link">3.2&nbsp;Crankshaft Pulley & V-Belts</a>
+<a href="#s3c3" class="toc-link">3.3&nbsp;Camshaft</a>
+<a href="#s4c1" class="toc-link">4.1&nbsp;Water Pump</a>
+<a href="#s4c2" class="toc-link">4.2&nbsp;Fan & Viscous Clutch</a>
+<a href="#s4c3" class="toc-link">4.3&nbsp;Thermostat</a>
+<a href="#s4c4" class="toc-link">4.4&nbsp;Coolant Hoses</a>
+<a href="#s4c5" class="toc-link">4.5&nbsp;Radiator</a>
+<a href="#s4c6" class="toc-link">4.6&nbsp;Coolant Overflow</a>
+<a href="#s4c7" class="toc-link">4.7&nbsp;Engine Oil Cooler</a>
+<a href="#s5c1" class="toc-link">5.1&nbsp;Fuel Lift Pump</a>
+<a href="#s5c2" class="toc-link">5.2&nbsp;Fuel Filter</a>
+<a href="#s5c3" class="toc-link">5.3&nbsp;Injection Pump</a>
+<a href="#s5c4" class="toc-link">5.4&nbsp;Boost Compensator</a>
+<a href="#s5c5" class="toc-link">5.5&nbsp;High-Pressure Fuel Lines ×6</a>
+<a href="#s5c6" class="toc-link">5.6&nbsp;Injectors ×6</a>
+<a href="#s6c1" class="toc-link">6.1&nbsp;Glow Plugs + Copper Bus Bar</a>
+<a href="#s6c2" class="toc-link">6.2&nbsp;Alternator</a>
+<a href="#s6c3" class="toc-link">6.3&nbsp;Starter Motor</a>
+<a href="#s7c1" class="toc-link">7.1&nbsp;Safari Snorkel</a>
+<a href="#s7c2" class="toc-link">7.2&nbsp;Air Filter</a>
+<a href="#s7c3" class="toc-link">7.3&nbsp;Intake Manifold</a>
+<a href="#s7c4" class="toc-link">7.4&nbsp;Turbocharger</a>
+<a href="#s7c5" class="toc-link">7.5&nbsp;Intercooler</a>
+<a href="#s7c6" class="toc-link">7.6&nbsp;Exhaust Manifold</a>
+<a href="#s8c1" class="toc-link">8.1&nbsp;Oil Filter</a>
+<a href="#s9c1" class="toc-link">9.1&nbsp;Engine Oil — Dipstick & Filler</a>
+<a href="#s9c2" class="toc-link">9.2&nbsp;Coolant Reservoir</a>
+<a href="#s9c3" class="toc-link">9.3&nbsp;Brake & Clutch Fluid Reservoir</a>
+<a href="#s9c4" class="toc-link">9.4&nbsp;Power Steering Fluid Reservoir</a>
+<a href="#s9c5" class="toc-link">9.5&nbsp;Windscreen Washer Fluid Reservoir</a>
+<a href="#s10c1" class="toc-link">10.1&nbsp;Manual Gearbox — R151F 5-Speed</a>
+<a href="#s10c2" class="toc-link">10.2&nbsp;Transfer Case</a>
+<a href="#s10c3" class="toc-link">10.3&nbsp;Front Differential</a>
+<a href="#s10c4" class="toc-link">10.4&nbsp;Rear Differential</a>
+<a href="#s10c5" class="toc-link">10.5&nbsp;Fuel Tank</a>
+<a href="#s11c1" class="toc-link">§11&nbsp;Drivetrain</a>
+<a href="#s11c1" class="toc-link">11.1&nbsp;Clutch Assembly</a>
+<a href="#s11c2" class="toc-link">11.2&nbsp;Transfer Case</a>
+<a href="#s11c3" class="toc-link">11.3&nbsp;Rear Propshaft</a>
+<a href="#s11c4" class="toc-link">11.4&nbsp;Front Propshaft</a>
+<a href="#s11c5" class="toc-link">11.5&nbsp;Birfield CV Joints</a>
+<a href="#s11c6" class="toc-link">11.6&nbsp;Free-Wheeling Hubs</a>
+<a href="#s11c7" class="toc-link">11.7&nbsp;Front Axle Shafts</a>
+<a href="#s11c8" class="toc-link">11.8&nbsp;Rear Axle Shafts</a>
+<a href="#s11c9" class="toc-link">11.9&nbsp;Wheel Bearings</a>
+<a href="#s12c1" class="toc-link">§12&nbsp;Brakes</a>
+<a href="#s12c1" class="toc-link">12.1&nbsp;Front Discs &amp; Calipers</a>
+<a href="#s12c2" class="toc-link">12.2&nbsp;Rear Drums &amp; Wheel Cylinders</a>
+<a href="#s12c3" class="toc-link">12.3&nbsp;Brake Master Cylinder</a>
+<a href="#s12c4" class="toc-link">12.4&nbsp;Brake Lines &amp; Hoses</a>
+<a href="#s12c5" class="toc-link">12.5&nbsp;Handbrake</a>
+<a href="#s13c1" class="toc-link">§13&nbsp;Steering</a>
+<a href="#s13c1" class="toc-link">13.1&nbsp;Steering Box</a>
+<a href="#s13c2" class="toc-link">13.2&nbsp;Power Steering Pump</a>
+<a href="#s13c3" class="toc-link">13.3&nbsp;Drag Link &amp; Tie Rod</a>
+<a href="#s13c4" class="toc-link">13.4&nbsp;Steering Damper</a>
+<a href="#s14c1" class="toc-link">§14&nbsp;Suspension</a>
+<a href="#s14c1" class="toc-link">14.1&nbsp;Front Coil Springs (OME 859)</a>
+<a href="#s14c2" class="toc-link">14.2&nbsp;Front Shocks (OME N181)</a>
+<a href="#s14c3" class="toc-link">14.3&nbsp;Rear Leaf Springs (OME CS058R)</a>
+<a href="#s14c4" class="toc-link">14.4&nbsp;Rear Shocks (OME 63111)</a>
+<a href="#s14c5" class="toc-link">14.5&nbsp;Bump Stops</a>
+</div>
+
+
+<div class="section-header">
+  <span class="section-num">01</span>
+  <span class="section-name">Block & Bottom End</span>
+  <span class="section-desc">Foundation casting · crankshaft · pistons · oil pump · flywheel</span>
+</div>
+<div class="components-grid">
+  <div class="component" id="s1c1">
+    <div class="comp-index">
+      <span class="comp-num">1.1</span>
+      <span class="comp-glyph">ENGINE·BLOCK</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Engine Block</span>
+        <span class="comp-code">CAST IRON · 4163cc · INLINE-6 · 94mm BORE × 100mm STROKE</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Centre of engine bay — structural foundation to which all components mount</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The foundation of the entire engine: a single sand-cast iron casting containing all six cylinder bores (94mm diameter), the main oil galleries, coolant passages, seven main bearing housings, and all mounting faces. The prominent ribbing on both exterior sides is structural — each web separates adjacent cylinders and adds rigidity. This block is renowned for robustness; examples with 500,000+ km on the original casting are common. With the turbo fitted to your vehicle, the block's inherent strength is an asset — it handles modest boost well without internal modification.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>Inspect external faces for oil seeping from the block-to-sump joint and around the pressed-in core plugs on the sides of the block. A weeping core plug can be replaced in the field with a brass plug, hammer, and punch. Always carry Permatex RTV Ultra Grey. With a turbo fitted, monitor oil condition closely — turbo heat accelerates oil breakdown, so stick to the service interval strictly.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="component" id="s1c2">
+    <div class="comp-index">
+      <span class="comp-num">1.2</span>
+      <span class="comp-glyph">OIL·SUMP·(PAN)</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Oil Sump (Pan)</span>
+        <span class="comp-code">PRESSED STEEL · 11.3L TOTAL OIL SYSTEM CAPACITY (WITH COOLER & FILTER)</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Bolted under the engine block — lowest point of the engine</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The pressed-steel pan bolted to the underside of the block is the oil reservoir. Toyota's official capacity for the HZJ76 1HZ with filter is 11.3 litres — larger than commonly cited figures because this includes the oil cooler circuit. The drain plug faces straight down. Off-road this is one of the most vulnerable components — a direct rock strike can crack the pan or shear the drain plug boss. Your vehicle should have or should urgently have a steel bash plate.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>Always fit a proper steel bash plate before any serious off-road use. A cracked sump can be patched temporarily with JB Weld Steel Stick or Araldite Steel — clean and degrease with brake cleaner first. Not permanent, but holds enough pressure to limp to a workshop. A sheared drain plug boss can be repaired with a Helicoil thread insert. Use Shell Rimula R4 X 15W-40.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="component" id="s1c3">
+    <div class="comp-index">
+      <span class="comp-num">1.3</span>
+      <span class="comp-glyph">CRANKSHAFT·AND·MAIN·BEARINGS</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Crankshaft & Main Bearings</span>
+        <span class="comp-code">FORGED STEEL · 7 MAIN BEARINGS · 100mm STROKE · INLINE-6 FIRING ORDER 1-5-3-6-2-4</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Inside the engine block — runs the full length of the block in the seven main bearing housings</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The forged steel crankshaft converts the linear up-and-down motion of the six pistons into rotational output. Seven main journal bearings support it along the block; six offset big-end journals connect to the connecting rods. The 100mm stroke is relatively long, producing strong low-end torque characteristic of the 1HZ. Firing order is 1-5-3-6-2-4. Crankshaft failure is extremely rare — the bottom end is one of the most reliable diesel assemblies ever made. Main bearing wear shows as a deep, rhythmic thud that worsens under load.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>A deep rumbling knock from the bottom of the engine that worsens under load means main or big-end bearing wear — caused almost exclusively by running on low or contaminated oil. This is not a field repair. If you hear this knock, minimise engine load, check and maintain oil level, and drive the minimum distance possible to a workshop. The best prevention: clean oil on schedule, and never run the engine low on oil. With a turbo, oil condition deteriorates faster — don't stretch intervals.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="component" id="s1c4">
+    <div class="comp-index">
+      <span class="comp-num">1.4</span>
+      <span class="comp-glyph">PISTONS·AND·CONNECTING·RODS</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Pistons & Connecting Rods</span>
+        <span class="comp-code">CAST ALUMINIUM PISTONS · FORGED STEEL CON-RODS · 22:1 COMPRESSION RATIO</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Inside the cylinder bores — connected to the crankshaft via the connecting rods</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>Six cast aluminium pistons travel up and down inside the cylinder bores, each connected to the crankshaft by a forged steel connecting rod. The 22:1 compression ratio is very high — it generates enough heat from compressing air alone to ignite diesel without a spark plug. The piston crown has a small recess that aligns with the swirl pre-chamber when at top dead centre. Three piston rings per piston: two compression rings and one oil scraper ring. With the turbo fitted to your engine, the pistons and rods are under greater thermal and mechanical load than the stock NA engine — conservative boost levels (7–10 psi) protect them.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>Blue exhaust smoke, especially on startup or during engine braking, indicates oil burning in the combustion chamber — worn piston rings or valve stem seals. Track oil consumption: more than 1 litre per 2,000 km indicates significant ring wear and an overhaul is approaching. With a turbo, a small amount of blue smoke from a worn turbo shaft seal can mimic this — check the turbo oil return line and turbo shaft play first before assuming piston ring failure.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="component" id="s1c5">
+    <div class="comp-index">
+      <span class="comp-num">1.5</span>
+      <span class="comp-glyph">OIL·PUMP</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Oil Pump</span>
+        <span class="comp-code">GEAR-TYPE · DRIVEN FROM CRANKSHAFT NOSE · BEHIND THE TIMING COVER</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Inside the front of the engine — driven directly off the crankshaft nose, concealed behind the timing cover</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The gear-type oil pump is driven directly off the crankshaft nose. It draws oil from the sump and forces it under pressure (typically 3.5–5.0 bar at operating temperature) through the oil galleries to all bearings, the camshaft, valve train, and the turbocharger oil supply line. A pressure relief valve limits maximum pressure. The turbocharger on your vehicle depends entirely on engine oil pressure for its bearing lubrication — if oil pressure drops, the turbo bearing fails within seconds.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>A sudden oil pressure loss while driving means STOP IMMEDIATELY. First check the oil level — low level is the most common cause. True pump failure will be accompanied by noise within seconds as bearings run dry. With a turbo: after every run, allow the engine to idle for 2–3 minutes before shutdown. This lets engine oil cool the turbo bearing before oil flow stops — shutting down immediately from hard running bakes oil residue in the turbo housing, causing bearing failure over time.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="component" id="s1c6">
+    <div class="comp-index">
+      <span class="comp-num">1.6</span>
+      <span class="comp-glyph">FLYWHEEL</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Flywheel</span>
+        <span class="comp-code">CAST IRON · RING GEAR FOR STARTER MOTOR · CLUTCH FRICTION FACE</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Rear of the engine — bolted to the crankshaft rear flange — connects engine to the clutch/gearbox</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The heavy cast iron flywheel bolts to the rear of the crankshaft. Its mass stores rotational energy between power strokes, smoothing the delivery from 6 cylinders. The outer circumference carries a toothed ring gear that the starter motor's pinion engages for cranking. The flat face provides the friction surface for the clutch disc. Ring gear teeth can wear or chip over time, causing a grinding or whirring sound when starting. Your vehicle has been fitted with a Terrain Tamer heavy-duty clutch kit — this significantly increases clamping force and friction material durability over the standard clutch, which is important given the additional torque load from the turbocharger and the demands of loaded off-road touring.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>If the starter motor spins but doesn't crank the engine (whirring without firing), ring gear teeth may be worn. Rotating the engine slightly by rocking it in gear moves a fresh ring gear section into position — a reliable temporary fix. The 1HZ bump-starts well in 2nd gear — the flywheel's mass helps the initial compression stroke. Select 2nd, complete the glow plug pre-heat cycle, build to 20+ km/h, then clutch-drop sharply.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="section-header">
+  <span class="section-num">02</span>
+  <span class="section-name">Cylinder Head & Valve Train</span>
+  <span class="section-desc">Head gasket · combustion chambers · pushrods & rockers · valve cover</span>
+</div>
+<div class="components-grid">
+  <div class="component" id="s2c1">
+    <div class="comp-index">
+      <span class="comp-num">2.1</span>
+      <span class="comp-glyph">HEAD·GASKET</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Head Gasket</span>
+        <span class="comp-code">MULTI-LAYER STEEL/COMPOSITE · BETWEEN BLOCK DECK AND HEAD · 12-BOLT CLAMPING</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Clamped between the top face of the engine block and the bottom face of the cylinder head</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The head gasket seals three circuits simultaneously: the combustion chambers (pressures exceeding 1,000 bar at injection), the coolant passages, and the oil galleries. On the 1HZ this is the only recognised reliability concern, and it fails exclusively when the engine is overheated. With a turbo fitted on your vehicle, intake temperatures are higher and combustion pressures are elevated — keeping the cooling system in perfect condition is even more critical. The gasket is a multi-layer steel composite; correct torque in the specified crossing pattern is essential.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>Three warning signs of a failing head gasket: (1) white steam from the exhaust indicating coolant in combustion; (2) bubbles in the coolant reservoir indicating combustion gases entering the coolant; (3) milky, mayonnaise-like deposit under the oil filler cap. Any single sign means stop immediately. Never re-torque head bolts as a cure — a properly torqued and undamaged gasket does not need re-torquing. Carry a coolant combustion test strip in your kit.</p>
+        <div class="comp-warn">
+          <span class="warn-icon">&#9888;</span>
+          <span class="warn-text">CRITICAL: This engine's head gasket only fails when overheated. Monitor the temperature gauge constantly. With the turbo producing additional heat, the cooling system must be in perfect condition at all times.</span>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="component" id="s2c2">
+    <div class="comp-index">
+      <span class="comp-num">2.2</span>
+      <span class="comp-glyph">CYLINDER·HEAD</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Cylinder Head</span>
+        <span class="comp-code">CAST IRON · INDIRECT INJECTION SWIRL CHAMBERS · 12 HEAD BOLTS/STUDS</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Bolted to the top of the engine block — contains the valves, springs, pre-chambers, and coolant passages</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The cast iron head bolts to the block with 12 high-tensile studs and forms the top of each combustion chamber. The 1HZ uses indirect injection: each cylinder has a swirl pre-combustion chamber (Ricardo Comet type) machined into the head, into which fuel is sprayed. The fuel ignites in the pre-chamber and the burning charge expands into the main cylinder — producing smooth, quiet combustion without extremely high injection pressure. The camshaft runs in the block (OHV layout) and operates the valves via pushrods and rocker arms through passages in the head.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>White or steam-like exhaust smoke means coolant is entering the combustion chamber — stop the engine immediately. Running even briefly risks hydrolocking (water does not compress — a connecting rod will bend) or cracking the head. Let it cool completely before assessing. A compression test across all 6 cylinders plus a coolant pressure test confirms the diagnosis.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="component" id="s2c3">
+    <div class="comp-index">
+      <span class="comp-num">2.3</span>
+      <span class="comp-glyph">PUSH·RODS·AND·ROCKER</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Push Rods & Rocker Arms</span>
+        <span class="comp-code">STEEL PUSH RODS · CAST IRON ROCKER SHAFT · ADJUSTABLE CLEARANCES: 0.25mm IN / 0.30mm EX COLD</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Pushrods run vertically through the engine from camshaft followers up through the block and head to the rocker arms</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The 1HZ is OHV (overhead valve): the camshaft sits in the block, and each cam lobe pushes a lifter, which pushes a hollow steel pushrod upward to a rocker arm on the rocker shaft. The rocker arm pivots and opens the valve. 12 valves total — 1 inlet and 1 exhaust per cylinder. Valve clearances are adjustable with a locknut and adjuster screw on each rocker arm. Correct specification: 0.25mm inlet, 0.30mm exhaust, measured cold. These clearances drift over time and should be checked every 40,000 km or after any head work.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>A rhythmic ticking from the top of the engine that follows engine speed indicates excessive valve clearance. Valve adjustment is achievable in the field: remove the valve cover, rotate engine to TDC on each cylinder in firing order (1-5-3-6-2-4), adjust each pair with a feeler gauge and ring spanner. Tight clearances cause burnt valves over time; loose clearances cause ticking. A full valve check and adjustment takes about 2 hours with basic tools.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="component" id="s2c4">
+    <div class="comp-index">
+      <span class="comp-num">2.4</span>
+      <span class="comp-glyph">VALVE·COVER</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Valve Cover</span>
+        <span class="comp-code">PRESSED STEEL · LOW FLAT PROFILE · 14–16 PERIMETER BOLTS · OIL FILLER CAP LOCATED HERE</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Top of the engine — bolted over the cylinder head covering the entire rocker shaft assembly</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The long, flat, black pressed-steel cover is the most visually distinctive feature of the 1HZ — recognisable immediately by its low profile and many small bolts around the full perimeter. It encloses the rocker arms, rocker shaft, upper ends of the pushrods, and valve springs. A rubber gasket seals the cover to the head. A crankcase breather port vents blow-by gases. The oil filler cap is located here. Valve cover removal is required for valve clearance adjustment — easy access with basic tools.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>A weeping valve cover gasket drips engine oil directly onto the hot exhaust manifold below — a genuine fire risk with the manifold at up to 600°C. A replacement rubber gasket costs almost nothing and takes 20 minutes. If unavailable, clean the surfaces thoroughly and apply a continuous thin bead of Permatex black RTV around the full perimeter. Tighten all bolts evenly in a crossing pattern.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="section-header">
+  <span class="section-num">03</span>
+  <span class="section-name">Timing & Drive System</span>
+  <span class="section-desc">Gear-driven cam · crankshaft pulley · V-belt accessories</span>
+</div>
+<div class="components-grid">
+  <div class="component" id="s3c1">
+    <div class="comp-index">
+      <span class="comp-num">3.1</span>
+      <span class="comp-glyph">TIMING·GEAR·COVER</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Timing Gear Cover</span>
+        <span class="comp-code">CAST IRON COVER · GEAR-DRIVEN CAMSHAFT — NO TIMING BELT, NO TIMING CHAIN</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Front face of the engine — large cast iron cover across the entire engine nose</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>This large cast iron cover seals the timing gear train on the engine nose. Unlike most modern diesel engines, the 1HZ uses meshing steel gears — crankshaft gear, camshaft gear, and injection pump gear — to synchronise valve timing and fuel delivery. No rubber belt or chain to break, jump, or stretch. The gears last the life of the engine with proper lubrication. The front crankshaft oil seal is pressed into this cover. The oil pump also sits behind this cover, driven from the crankshaft nose.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>The gear-driven cam is the 1HZ's greatest single reliability advantage for remote travel — no timing belt failure is possible. Oil dripping from behind the crankshaft pulley indicates a worn front crank seal (inside this cover). It is a slow leak, not immediately dangerous — monitor oil level and plan a seal replacement at the next workshop opportunity. Seal replacement requires a crankshaft pulley puller; it is a workshop job, not a trailside fix. See <strong>3.3 Camshaft</strong> for the gear mesh, backlash, and camshaft wear details that are only accessible once this cover is removed.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="component" id="s3c2">
+    <div class="comp-index">
+      <span class="comp-num">3.2</span>
+      <span class="comp-glyph">CRANKSHAFT·PULLEY·AND·V-BELTS</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Crankshaft Pulley & V-Belts</span>
+        <span class="comp-code">MULTI-GROOVE PULLEY · TWO V-BELTS · DRIVES ALTERNATOR, WATER PUMP & POWER STEERING</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Very front of the engine — bolted to the crankshaft nose — belt-driven accessories run from here</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>Bolted directly to the crankshaft nose, this large multi-groove pulley is the power takeoff point for all belt-driven accessories. Two V-belts run from here: one drives the water pump (and power steering pump on your vehicle), and another drives the alternator. The pulley also functions as a harmonic balancer, damping torsional vibration. At 3,800 rpm the belts run at high speed — inspect condition and tension at every service stop. Correct tension: approximately 10mm of deflection under firm thumb pressure at mid-span.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>Always carry at least two spare V-belts — both sizes. A snapped water pump belt stops the cooling system and you have minutes before overheating. A snapped alternator belt begins draining the battery. Field belt replacement takes 5 minutes with spares. Too tight wears bearings; too loose causes slipping and squealing. On your turbocharged engine, the alternator belt also carries higher load due to the electric fan controller on some intercooler setups.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="component" id="s3c3">
+    <div class="comp-index"><span class="comp-num">3.3</span></div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Camshaft</span>
+        <span class="comp-code">GEAR-DRIVEN · IN-BLOCK OHV · CAST IRON · DRIVEN AT HALF CRANKSHAFT SPEED · 6 LOBES</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Inside the engine block — runs the full length of the block in the camshaft gallery — driven by the timing gear train at the engine nose</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The 1HZ camshaft is a long cast iron shaft running the full length of the block, sitting in the camshaft gallery just above the crankshaft. It rotates at exactly half crankshaft speed, driven by the steel timing gear at the front of the engine. Six raised lobes — one per cylinder — push against the base of the pushrods at the correct moment in each cylinder's cycle, opening the intake and exhaust valves via the rocker arms above. The cam is timed to the crankshaft and injection pump through the meshing gear set, ensuring valves open in precise relation to piston position. The camshaft is lubricated by pressurised engine oil fed through drillings in the block — it relies entirely on oil for survival. Unlike overhead cam engines, the 1HZ cam is deep inside the block and cannot be inspected without engine disassembly; its condition is judged indirectly through oil pressure readings, engine noise, and exhaust behaviour.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>Camshaft lobe wear is a known 1HZ failure on high-mileage or oil-neglected engines. The first sign is a tapping or ticking from the valve train that cannot be eliminated by rocker arm adjustment — one or more lobes have flattened and the pushrod no longer lifts as far as it should. A cylinder that consistently runs cold on a thermal scan, or one with low compression, is often a worn cam lobe reducing valve lift. The timing gear mesh backlash increases with wear — a rattling or clunking from the timing cover area on start-up or under load can indicate timing gear wear before cam wear becomes critical. The most important preventive measure is simple: never run the engine low on oil, and change the oil on schedule. The camshaft bearings are pressure-fed and are the first item destroyed if oil pressure drops — within minutes of running dry, the cam journal surfaces score irreparably. Use Shell Rimula R4 X 15W-40 and check the dipstick daily in remote conditions.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<div class="section-header">
+  <span class="section-num">04</span>
+  <span class="section-name">Cooling System</span>
+  <span class="section-desc">Water pump · fan · thermostat · hoses · radiator · overflow · oil cooler</span>
+</div>
+<div class="components-grid">
+  <div class="component" id="s4c1">
+    <div class="comp-index">
+      <span class="comp-num">4.1</span>
+      <span class="comp-glyph">WATER·PUMP</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Water Pump</span>
+        <span class="comp-code">BELT-DRIVEN CENTRIFUGAL PUMP · MECHANICAL FACE SEAL · WEEP HOLE EARLY WARNING</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Front of engine block — intake/driver's side — bolted to block nose, V-belt driven from crank pulley</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>Driven continuously by a V-belt from the crankshaft pulley, the water pump forces coolant through the entire cooling circuit. A centrifugal impeller draws cool coolant from the radiator bottom tank via the lower hose and pushes it through the block, head, and out through the thermostat housing to the radiator top tank. The pump runs on a sealed bearing with a mechanical face seal. A small intentional weep hole in the pump body drips coolant when the seal begins to fail — this is the engineered early warning system.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>Coolant dripping from the weep hole under the pump means the seal is failing — plan replacement before a complete failure strands you. A squealing noise from the front of the engine at startup indicates a worn pump bearing. Carry a spare water pump and gasket on long trips. Pump replacement requires removing the fan, belt, and about 4 bolts — achievable in the field in approximately one hour.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="component" id="s4c2">
+    <div class="comp-index">
+      <span class="comp-num">4.2</span>
+      <span class="comp-glyph">FAN·AND·VISCOUS·CLUTCH</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Fan & Viscous Clutch</span>
+        <span class="comp-code">6-BLADE FAN · THERMOSTATICALLY CONTROLLED VISCOUS CLUTCH · CRITICAL AT LOW ROAD SPEED</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Front of engine — bolted to the water pump shaft — faces the radiator</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>A large six-bladed fan mounts to the water pump shaft via a viscous clutch hub containing silicone fluid that changes viscosity with temperature. When cool, the clutch slips and the fan spins slowly; when hot, the clutch engages firmly and pulls large volumes of air through the radiator. This is especially important during slow off-road driving when there is no ram-air through the grille. With a turbo fitted, your engine generates more heat — the fan clutch must function correctly or overheating will occur during technical low-speed off-road work.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>Field test: with the engine cold, grip the fan and try to spin it — moderate resistance expected. When hot after driving, it should be very difficult to spin by hand. A clutch that spins freely when hot has failed. Symptoms: fine at highway speed, overheats during slow off-road work. This failure mode mimics a blocked radiator or failed thermostat — test the fan first before assuming those are the cause.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="component" id="s4c3">
+    <div class="comp-index">
+      <span class="comp-num">4.3</span>
+      <span class="comp-glyph">THERMOSTAT</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Thermostat</span>
+        <span class="comp-code">WAX-PELLET VALVE · OPENS AT 82°C · PASSIVE DEVICE — NO ELECTRONICS</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Front of the cylinder head — inside the thermostat housing — upper coolant hose connection point</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>A wax-pellet valve inside the thermostat housing at the front of the cylinder head. Below 82°C, it stays closed and coolant recirculates within the engine only, speeding warm-up. Once the coolant reaches 82°C, the pellet expands, opening the valve and allowing flow to the radiator. This keeps the engine between 82–90°C. Entirely passive — no sensors or electronics. With a turbo fitted, it is important the engine reaches operating temperature quickly for efficient running — a stuck-open thermostat causes sluggish warm-up and poor cold-start performance.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>If you suspect a stuck-closed thermostat (rapid overheating from cold start), remove it entirely and run without it temporarily — the engine will run slightly cool but will not overheat. A thermostat is small, cheap, and weightless — carry one as a standard spare. Replacement takes 15 minutes. Changing the coolant regularly prevents scale buildup around the thermostat valve seat.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="component" id="s4c4">
+    <div class="comp-index">
+      <span class="comp-num">4.4</span>
+      <span class="comp-glyph">COOLANT·HOSES</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Coolant Hoses</span>
+        <span class="comp-code">EPDM RUBBER · UPPER HOSE (HEAD TO RADIATOR TOP) + LOWER HOSE (RADIATOR BOTTOM TO PUMP)</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Upper: thermostat housing to radiator top tank. Lower: radiator bottom tank to water pump inlet</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>Two main rubber hoses form the external coolant circuit. Upper hose carries hot coolant from the thermostat housing to the radiator top tank. Lower hose returns cooled coolant from the radiator bottom to the water pump inlet. Both are EPDM rubber with wire reinforcement, secured by hose clamps. Rubber degrades over time — it hardens, softens, and eventually splits or collapses internally. A blown hose is the most common cause of unexpected roadside overheating across all vehicle types. Carry both hoses as spares.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>A small split can be temporarily repaired: let the engine cool, release system pressure by loosening the radiator cap, wrap the split tightly with self-amalgamating tape or three layers of duct tape, then add a hose clamp either side. This reduces pressure but is sufficient to drive carefully to a workshop. Squeeze all hoses at every service stop — a soft, spongy hose is close to failure. A collapsed lower hose (internal lining peeling) causes intermittent overheating that vanishes when the engine stops — easy to misdiagnose.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="component" id="s4c5">
+    <div class="comp-index">
+      <span class="comp-num">4.5</span>
+      <span class="comp-glyph">RADIATOR</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Radiator</span>
+        <span class="comp-code">ALUMINIUM CORE · CROSS-FLOW DESIGN · 10.9L COOLANT SYSTEM CAPACITY (MT, STANDARD)</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Very front of the engine bay — behind the front grille — connected to engine by upper and lower hoses</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The radiator is a heat exchanger: hot coolant flows through hundreds of thin aluminium tubes, and air passing through the fin matrix removes heat. The HZJ76 1HZ cooling system holds 10.9 litres of coolant (manual transmission, standard — no rear heater). The cross-flow design moves coolant from the top tank across to the bottom tank. In dusty or muddy conditions, the core progressively blocks, drastically reducing efficiency even with correct coolant levels. Toyota specification: 50% coolant concentrate / 50% distilled water.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>Flush the radiator core with a garden hose from the engine side outward at every service when on dusty tracks. Small pinhole leaks can be treated with radiator stop-leak. Before condemning the radiator for overheating, check fan clutch, thermostat, and water pump first — they are individually far more likely causes. A dedicated external transmission cooler fitted in front of the radiator can restrict airflow — check this if overheating occurred after an aftermarket fitment.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="component" id="s4c6">
+    <div class="comp-index">
+      <span class="comp-num">4.6</span>
+      <span class="comp-glyph">COOLANT·OVERFLOW·/·EXPANSION</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Coolant Overflow / Expansion Tank</span>
+        <span class="comp-code">TRANSLUCENT PLASTIC · CONNECTED TO RADIATOR PRESSURE CAP OVERFLOW PORT</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Engine bay — typically passenger/exhaust side — connected to the radiator overflow port by a small hose</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The translucent plastic overflow tank collects coolant that expands out of the radiator as the engine warms up, then draws it back in as the engine cools — maintaining a sealed, full system. The marks on the tank (LOW / FULL or MIN / MAX) show the correct coolant level when cold. This is the correct place to check coolant level on a daily basis — never remove the radiator cap on a hot engine. The tank also makes it immediately visible if coolant is being lost from the system.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>Check the coolant level in the overflow tank at every morning departure. A slow drop in level over days/weeks indicates a small leak — find it before it becomes a large leak. If the tank is consistently empty but you can't find a leak, suspect a small head gasket seep (combustion gases pushing coolant out overnight). A combustion gas test strip in the tank will confirm. Carry 2 litres of pre-mixed coolant concentrate as part of your standard bush kit.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="component" id="s4c7">
+    <div class="comp-index">
+      <span class="comp-num">4.7</span>
+      <span class="comp-glyph">ENGINE·OIL·COOLER</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Engine Oil Cooler</span>
+        <span class="comp-code">SHELL-AND-TUBE COOLER · COOLANT-COOLED · IN THE OIL CIRCUIT · PART OF 11.3L TOTAL OIL CAPACITY</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">On the engine block — in the oil circuit between the oil pump and the oil filter</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The HZJ76 1HZ is fitted with an engine oil cooler as a factory component — this is why the total oil system capacity is 11.3 litres (significantly more than engines without one). The oil cooler uses engine coolant to cool the engine oil via a small heat exchanger. This keeps oil temperature under control, which is especially beneficial on your turbocharged engine where oil also flows through and cools the turbocharger bearing housing. Failure of the oil cooler is rare but can cause oil contamination if the internal separator fails — resulting in oil in the coolant (oily, cloudy coolant) or coolant in the oil.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>If you notice oily deposits in the coolant reservoir, or coolant contamination in the engine oil (without head gasket failure symptoms), suspect the oil cooler separator has failed — this is a workshop repair. With a turbo fitted, the oil cooler is working harder than stock — inspect the coolant regularly for oily contamination and the oil for a milky appearance. Do not confuse this with the more common head gasket failure; a compression test will differentiate them.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="section-header">
+  <span class="section-num">05</span>
+  <span class="section-name">Fuel System</span>
+  <span class="section-desc">Lift pump · filter · injection pump · boost compensator · HP lines · injectors</span>
+</div>
+<div class="components-grid">
+  <div class="component" id="s5c1">
+    <div class="comp-index">
+      <span class="comp-num">5.1</span>
+      <span class="comp-glyph">FUEL·LIFT·PUMP</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Fuel Lift Pump</span>
+        <span class="comp-code">MECHANICAL DIAPHRAGM PUMP · DRIVEN BY CAM ON THE CAMSHAFT · LOW-PRESSURE FEED</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Intake/driver's side of engine block — mid-height — driven by an eccentric cam on the camshaft</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The fuel lift pump is a mechanical diaphragm pump bolted to the side of the engine block and driven by a small eccentric cam on the camshaft. It draws diesel fuel from the tank at low pressure and pushes it forward to the fuel filter and then to the injection pump. It operates at only 0.2–0.3 bar — just enough to keep the filter and injection pump fed. It also includes a manual priming lever on the pump body. If the lift pump diaphragm fails, fuel supply to the injection pump is interrupted and the engine will run poorly or not start, even with a perfect injection pump.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>A failed lift pump is often misdiagnosed as an injection pump fault. Test it simply: disconnect the outlet line going to the filter and crank the engine briefly — you should see a pulse of fuel from the pump outlet. If no fuel, suspect the lift pump or a blocked inlet strainer. The manual priming lever on the pump body lets you pre-prime the system by hand after running dry. A spare lift pump is a small, cheap, and potentially trip-saving item to carry.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="component" id="s5c2">
+    <div class="comp-index">
+      <span class="comp-num">5.2</span>
+      <span class="comp-glyph">FUEL·FILTER·/·WATER</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Fuel Filter / Water Separator</span>
+        <span class="comp-code">SPIN-ON CANISTER · MANUAL PRIMER LEVER ON TOP · TRANSPARENT WATER SEPARATOR BOWL</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Intake/driver's side engine bay — in-line between lift pump and injection pump</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The fuel filter has two jobs: trap solid particles before they reach the injection pump, and separate water from the fuel using a transparent separator bowl at the base. Water in diesel is common in remote areas (tank condensation, contaminated fuel) and will rapidly destroy the precision components in the injection pump. The assembly includes a manual primer lever on the top, used to pressurize the fuel system after a filter change or after running dry — both situations introduce air that will prevent starting.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>A clogged or water-contaminated filter is the most common cause of remote non-starts on the 1HZ. Carry at least two spare filters. After fitting a new filter or running dry: pump the primer lever on the filter housing until it becomes firm and hard to press (system is pressurised). Then briefly crack the bleed screw on the injection pump body until fuel (not air) dribbles out, then close it. The engine should now start. This 3-minute bleed procedure is the most important bush mechanic skill on this engine.</p>
+        <div class="comp-warn">
+          <span class="warn-icon">&#9888;</span>
+          <span class="warn-text">CRITICAL SKILL: Bleeding air from the fuel system after running dry or filter change is essential knowledge. Failure to bleed = no-start. Learn this procedure before departure and practice it at home.</span>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="component" id="s5c3">
+    <div class="comp-index">
+      <span class="comp-num">5.3</span>
+      <span class="comp-glyph">INJECTION·PUMP·(BOSCH/DENSO)</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Injection Pump (Bosch/Denso)</span>
+        <span class="comp-code">6-ELEMENT MECHANICAL INLINE PUMP · ZERO ELECTRONICS · GEAR-DRIVEN AT HALF ENGINE SPEED</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Intake/driver's side of engine — mid-block height — driven from the timing gear train</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The Bosch (or Denso, depending on year) inline injection pump contains six individual pumping elements — one per cylinder — each with a precision-ground barrel and plunger. As the pump shaft rotates at half engine speed (via the timing gears), each plunger compresses a metered charge of diesel above 100 bar and fires it through the high-pressure line to the corresponding injector. Fuel delivery is controlled by rotating the plungers via a rack linked to the accelerator. No electronics — entirely mechanical. With the turbo and boost compensator fitted to your vehicle, the pump has been specifically configured to match the turbo's output.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>Never adjust the injection timing or maximum fuel delivery stop without a dial gauge and workshop manual — incorrect settings cause permanent damage. The bleed screw on the pump body is the critical air-purging point after all fuel system work. A loud ticking from the pump at idle suggests a failed delivery valve — a specialist pump technician repair. If the pump has been configured for your turbo, only have it readjusted by a technician who understands the boost compensator setup.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="component" id="s5c4">
+    <div class="comp-index">
+      <span class="comp-num">5.4</span>
+      <span class="comp-glyph">BOOST·COMPENSATOR</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Boost Compensator</span>
+        <span class="comp-code">DIAPHRAGM ACTUATED · PIPE FROM INTAKE MANIFOLD (POST-INTERCOOLER) TO PUMP GOVERNOR</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Mounted on top of the injection pump governor housing — connected by a small pipe to the intake manifold</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>Your observation is exactly correct. The boost compensator is a small canister mounted on top of the injection pump's governor housing, containing a rubber diaphragm and a spring-loaded push rod. A small pipe connects it to the intake manifold post-intercooler. When the turbo is not producing boost (idle, low load), the spring holds the diaphragm up and the push rod limits fuel delivery — preventing over-fuelling and smoke. As turbo boost builds in the intake manifold, the pressure pushes the diaphragm down, moving the push rod and allowing the injection pump to deliver proportionally more fuel matched to the increased air volume. Without this device, the engine would produce black smoke and excessive EGT under boost with no corresponding power gain.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>A leaking or failed boost compensator diaphragm means the pump cannot increase fuel delivery under boost — the engine will feel flat and sluggish when the turbo spools up, as if the turbo isn't doing anything. Test by disconnecting the manifold hose at the compensator and briefly applying 10–15 psi with a bicycle pump to the port — you should feel resistance from the diaphragm. No resistance means a failed diaphragm. A spare diaphragm kit is small and very worth carrying. Do not adjust the compensator spring preload without understanding the implications for smoke and EGT.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="component" id="s5c5">
+    <div class="comp-index">
+      <span class="comp-num">5.5</span>
+      <span class="comp-glyph">HIGH-PRESSURE·FUEL·LINES·×6</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">High-Pressure Fuel Lines ×6</span>
+        <span class="comp-code">HARDENED STEEL PIPE · OPERATES AT 100+ BAR · PRECISION-CALIBRATED LENGTH PER CYLINDER</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Run from the injection pump delivery valves up and across to each injector — visible along the top of the engine</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>Six individual hardened steel pipes carry high-pressure diesel from the pump's six delivery valves to each cylinder's injector. These are precision-calibrated to an exact internal diameter and specific length per cylinder — the pressure waves travelling through these lines contribute to injection timing. Changing the pipe length alters timing on that cylinder. The distinctive curved loops allow for thermal expansion without stress concentration. Compression fittings seal each end connection.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>A leaking HP line sprays atomised diesel onto the exhaust manifold at 100+ bar — at that pressure the mist is fine enough to ignite immediately. This is a serious fire risk. If you find a leaking line and cannot replace it, isolate that cylinder by removing the delivery valve at the pump and plugging the port — the engine will run roughly on 5 cylinders but can move. Never bend, shorten, or substitute HP lines with any other tubing. Carry two spare lines in your kit.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="component" id="s5c6">
+    <div class="comp-index">
+      <span class="comp-num">5.6</span>
+      <span class="comp-glyph">INJECTORS·×6</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Injectors ×6</span>
+        <span class="comp-code">INDIRECT TYPE · SPRING-LOADED PINTLE NOZZLE · OPENING PRESSURE ~115–120 BAR</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">One per cylinder — screwed into the cylinder head — tips point into the swirl pre-chamber</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>Each injector is a spring-loaded needle valve that opens when pump pressure exceeds approximately 115–120 bar. The needle lifts and atomises diesel into a fine cone-shaped spray into the swirl pre-chamber. The spring closes the needle sharply when pump pressure drops at end of injection, giving a clean cut-off. A copper sealing washer between injector and head is replaced at each service. With a turbo, injectors work harder and wear faster than on a stock NA engine — condition them regularly.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>To identify a misfiring cylinder in the field: with the engine idling, use a spanner to carefully loosen the HP line banjo bolt at the pump for each cylinder in turn. When you loosen the dead cylinder's line, idle quality will not change. For a healthy cylinder, the idle will stumble noticeably. Re-tighten each before moving to the next. Carry one spare injector, tested by a calibration bench before departure.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="section-header">
+  <span class="section-num">06</span>
+  <span class="section-name">Electrical & Starting</span>
+  <span class="section-desc">Glow plugs · alternator · starter motor</span>
+</div>
+<div class="components-grid">
+  <div class="component" id="s6c1">
+    <div class="comp-index">
+      <span class="comp-num">6.1</span>
+      <span class="comp-glyph">GLOW·PLUGS·+·COPPER</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Glow Plugs + Copper Bus Bar</span>
+        <span class="comp-code">PENCIL-TYPE GLOW PLUGS ×6 · COPPER BUS BAR LINK · GLOW RELAY TIMER CONTROL</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">One per cylinder — threaded into the cylinder head — all six linked by the copper bus bar along the top of the head</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>One pencil-type glow plug per cylinder protrudes into the swirl pre-combustion chamber. When the key is turned to preheat, the glow relay supplies 12V to all six simultaneously via the copper bus bar. Each plug heats to approximately 850°C within seconds, warming the pre-chamber air for reliable cold ignition. The relay determines preheat duration based on engine coolant temperature — typically 5–15 seconds from cold. Not needed once the engine is warm.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>Hard cold starts almost always indicate a failed glow relay or dead individual plugs. The relay kills all six when it fails — test it first (it is cheap and easy to replace). Individual plugs can be tested with a clamp ammeter on the supply wire during preheat — approximately 6A per plug, zero current = dead plug. Carry 2–3 spare plugs and one spare relay. Individual plugs are accessible with a deep 10mm or 12mm socket.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="component" id="s6c2">
+    <div class="comp-index">
+      <span class="comp-num">6.2</span>
+      <span class="comp-glyph">ALTERNATOR</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Alternator</span>
+        <span class="comp-code">12V · ~80A OUTPUT · BELT-DRIVEN · NO ECU DEPENDENCY · CHARGES BATTERY WHILE RUNNING</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Front of engine — exhaust/passenger side — belt-driven from crankshaft pulley</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The alternator generates AC electricity, rectifies it to 12V DC, and regulates to 13.8–14.4V to charge the battery and power all 12V loads. Because the 1HZ has no ECU, electrical demand is modest. The alternator powers lights, glow plug circuit, cooling relays, fridge, radio, and accessory circuits. An internal voltage regulator maintains output. A dead alternator means running on battery reserve — typically 30–60 minutes before the lift pump loses voltage.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>The battery warning light on the dash is the alternator alert. If it illuminates, check the belt first. With a voltmeter: 13.8–14.4V at battery terminals = charging correctly; 12.4V or falling = not charging. If the alternator dies with the engine running, shed all non-essential loads immediately and drive toward help — 30–45 minutes of battery reserve maximum.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="component" id="s6c3">
+    <div class="comp-index">
+      <span class="comp-num">6.3</span>
+      <span class="comp-glyph">STARTER·MOTOR</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Starter Motor</span>
+        <span class="comp-code">12V PRE-ENGAGED SOLENOID · HIGH TORQUE FOR 22:1 COMPRESSION · REAR-LOWER BLOCK</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Rear-lower of the engine block — solenoid pushes pinion to engage the flywheel ring gear</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The starter is a high-torque motor that cranks the engine. A solenoid triggered by the ignition key simultaneously closes the heavy-current circuit and pushes the pinion forward to mesh with the flywheel ring gear. The 1HZ demands a high-quality starter because cranking 22:1 compression across 6 cylinders requires significant torque. The pre-engaged design ensures the pinion meshes before full current flows, preventing tooth damage.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>A single click with no cranking usually indicates a flat battery or faulty solenoid — not a failed starter motor. The 1HZ bump-starts very well in 2nd gear: select 2nd, complete the full glow plug preheat cycle, build speed on a slope or with a tow rope, then drop the clutch sharply. Maintain a quality battery — it is your primary insurance against remote non-starts.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="section-header">
+  <span class="section-num">07</span>
+  <span class="section-name">Air Intake, Turbo & Exhaust</span>
+  <span class="section-desc">Snorkel · air filter · intake · turbocharger · intercooler · exhaust</span>
+</div>
+<div class="components-grid">
+  <div class="component" id="s7c1">
+    <div class="comp-index">
+      <span class="comp-num">7.1</span>
+      <span class="comp-glyph">SAFARI·SNORKEL</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Safari Snorkel</span>
+        <span class="comp-code">RAISED AIR INTAKE · FITTED YOUR VEHICLE · ROUTES INTAKE AIR FROM ABOVE THE BONNET LINE</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">External — mounted on the A-pillar or guard — routes air from above the bonnet down to the air filter housing</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>A safari snorkel raises the air intake point from the standard engine bay location to a point above the bonnet line, typically at windscreen height. This provides two critical benefits: (1) Water crossing — it allows the vehicle to wade through water well above the standard intake height before the risk of hydrolocking the engine through water ingestion. (2) Dust — the intake point is above the heavy dust cloud that travels at ground and wheel level; the air drawn in is significantly cleaner, extending air filter life dramatically. On your turbocharged engine, the snorkel must be a good quality sealed unit — any leak or crack in the snorkel body bypasses filtration and feeds unfiltered air directly to the turbo.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>Inspect the entire snorkel body, its mounting to the vehicle, and all rubber jointing and clamps at every service. A cracked snorkel body, especially where it exits the engine bay, is a common failure point that is completely invisible unless specifically checked. Any leak in the snorkel introduces unfiltered air — in a turbo engine this also means the air reaches the compressor wheel at high velocity, accelerating wear. The snorkel inlet facing forward increases intake pressure slightly, which marginally benefits a NA engine but is more meaningful on a turbo — never block or restrict the inlet.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="component" id="s7c2">
+    <div class="comp-index">
+      <span class="comp-num">7.2</span>
+      <span class="comp-glyph">AIR·FILTER</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Air Filter</span>
+        <span class="comp-code">DRY PAPER ELEMENT · PRE-CLEANER RECOMMENDED · DAILY CHECK IN DUSTY CONDITIONS</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Inside the air filter housing — connected to the snorkel body and the turbocharger intake</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>All intake air passes through a dry paper filter element before reaching the turbocharger. On your turbocharged engine, the air filter is even more critical than on an NA engine — the turbo compressor wheel spins at up to 100,000 rpm, and any dust particle ingested acts like a sandblaster on the compressor blades. The snorkel on your vehicle significantly reduces the amount of coarse dust reaching the filter, extending service intervals. A blocked filter on a turbo engine causes the turbo to work harder to pull air through, increasing intake temperature and reducing boost.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>In Kalahari or Namibian dust, a filter can block within 100km even with a snorkel. Symptoms: power loss, black exhaust, rising exhaust temperatures. Inspect every morning. Never run without the filter element installed — a few minutes of dusty air causes extensive compressor wheel damage on a turbo. Inspect the entire intake path from snorkel to turbo inlet: any cracked rubber hose, loose clamp, or split snorkel body bypasses all filtration and feeds grit directly to the turbo at high velocity.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="component" id="s7c3">
+    <div class="comp-index">
+      <span class="comp-num">7.3</span>
+      <span class="comp-glyph">INTAKE·MANIFOLD</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Intake Manifold</span>
+        <span class="comp-code">CAST IRON · 6 RUNNERS · RECEIVES COMPRESSED COOLED AIR FROM INTERCOOLER OUTLET</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Intake/driver's side of engine — bolted to the cylinder head intake face — receives air from the intercooler outlet</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The cast iron intake manifold distributes air from the intercooler outlet into the six individual inlet ports in the cylinder head. On your turbocharged engine, this air arrives compressed and cooled — denser than atmospheric air — so each cylinder receives more oxygen than a naturally aspirated engine, allowing more fuel to be burned and producing more power. The boost compensator hose taps off this manifold to sense boost pressure. An intake manifold pressure (boost) gauge connected here is a useful addition for monitoring turbo performance.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>An air leak at the intake manifold gasket or any joint between the intercooler and the head introduces unfiltered, unmetered air and creates a lean condition under boost — showing as flat power delivery and excessive exhaust smoke. Spray brake cleaner or soapy water around all intake gasket joints with the engine under load — a change in idle or stumble pinpoints the leak. With a turbo, pressurised manifold air will hiss audibly from even a small leak under boost.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="component" id="s7c4">
+    <div class="comp-index">
+      <span class="comp-num">7.4</span>
+      <span class="comp-glyph">TURBOCHARGER</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Turbocharger</span>
+        <span class="comp-code">AFTERMARKET FITMENT · CENTRIFUGAL COMPRESSOR · EXHAUST-GAS DRIVEN · OIL-LUBRICATED BEARING</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Bolted to the exhaust manifold — oil feed from the engine lubrication circuit — air outlet to intercooler</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The turbocharger is driven by exhaust gas flowing through its turbine housing. The turbine wheel spins the compressor wheel (on the same shaft) at up to 100,000 rpm, compressing intake air before it enters the engine. This allows the engine to ingest more air per cycle than it could naturally, enabling more fuel to be burned and producing more power and torque. The compressor outlet feeds compressed air to the intercooler. The turbo bearing is lubricated entirely by engine oil supplied via a feed line from the engine oil circuit and drained via a return line to the sump. Recommended boost for a 1HZ: 7–10 psi for long-term reliability.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>The turbo's only enemy is oil starvation and heat soak. Always allow the engine to idle for 2–3 minutes before shutting down after any hard work — this lets oil circulate through the turbo bearing and dissipate heat before flow stops. Shutting down immediately from high load bakes oil residue in the housing, causing bearing failure over time. A turbo making a high-pitched whine or with a smoky exhaust when cool has bearing wear — inspect the shaft for play by pushing/pulling radially. Oil leaks from the turbo seals coat the intake piping with an oily film — check intercooler pipes regularly.</p>
+        <div class="comp-warn">
+          <span class="warn-icon">&#9888;</span>
+          <span class="warn-text">IMPORTANT: Never rev and immediately shut down a turbocharged engine. The 2–3 minute idle-down after hard use is not optional — it is what keeps the turbo alive.</span>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="component" id="s7c5">
+    <div class="comp-index">
+      <span class="comp-num">7.5</span>
+      <span class="comp-glyph">INTERCOOLER·(CHARGE·AIR·COOLER)</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Intercooler (Charge Air Cooler)</span>
+        <span class="comp-code">AIR-TO-AIR HEAT EXCHANGER · AFTERMARKET FITMENT · BETWEEN TURBO OUTLET AND INTAKE MANIFOLD</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Engine bay — typically front-mounted behind the grille, or top-mounted — between the turbo compressor outlet and the intake manifold</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>Air compressed by the turbocharger becomes hot — compression heat raises intake air temperature significantly, which reduces its density and partially undoes the benefit of compression. The intercooler is a heat exchanger that cools the compressed air before it enters the engine. Cooler, denser air means more oxygen per cylinder, allowing more fuel to be burned cleanly and producing more power with lower exhaust gas temperatures. It also reduces the thermal load on the engine components. The intercooler is connected to the turbo outlet and the intake manifold by rubber hoses and aluminium pipes.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>Inspect all intercooler hoses and pipe clamps regularly — boost pressure makes any loose connection blow off under load (a dramatic and sudden power loss accompanied by a loud pop or hiss). Check the intercooler core for damage at the same time as the radiator. An oily film inside the intercooler pipes or on the core inlet indicates turbo seal wear (oil blowing past the compressor seal). This oil then enters the engine and causes smoke — a turbo rebuild is approaching. Carry a few spare hose clamps and self-amalgamating tape for intercooler hose emergencies.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="component" id="s7c6">
+    <div class="comp-index">
+      <span class="comp-num">7.6</span>
+      <span class="comp-glyph">EXHAUST·MANIFOLD</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Exhaust Manifold</span>
+        <span class="comp-code">CAST IRON · 6-PORT COLLECTOR · SURFACE TEMP TO 600°C · CONNECTS TO TURBO TURBINE INLET</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Exhaust/passenger side of engine — bolted to the cylinder head exhaust face — outlet connects to the turbo turbine housing</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The cast iron exhaust manifold collects burned combustion gases from all six exhaust ports and channels them into the turbocharger turbine inlet (replacing the standard exhaust downpipe connection). Exhaust gas is the energy source that drives the turbo. Surface temperatures reach 600°C under heavy load — keep all rubber hoses, fuel lines, boost compensator hose, and wiring well clear. The manifold bolts to the head on studs; heat cycling loosens or snaps these over time. Reading exhaust smoke: white/steam = coolant in combustion (head gasket); blue = oil burning; black = over-fuelling or restricted air.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>A ticking sound from the exhaust side when cold, disappearing when warm, indicates a cracked manifold or blown exhaust port gasket — the thermal expansion when hot seals the gap temporarily. High-temperature exhaust repair putty can patch a crack temporarily; wrap it in exhaust bandage to hold it. On a turbo engine, a cracked manifold before the turbine inlet also causes a drop in turbo boost because exhaust gas is escaping instead of driving the turbine. If boost pressure is noticeably down, check the manifold as well as the boost compensator and intercooler hoses.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="section-header">
+  <span class="section-num">08</span>
+  <span class="section-name">Lubrication</span>
+  <span class="section-desc">Oil filter · pressure circuit</span>
+</div>
+<div class="components-grid">
+  <div class="component" id="s8c1">
+    <div class="comp-index">
+      <span class="comp-num">8.1</span>
+      <span class="comp-glyph">OIL·FILTER</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Oil Filter</span>
+        <span class="comp-code">TOYOTA SPIN-ON CARTRIDGE (ORANGE) · BYPASS VALVE AT 69 kPa · CHANGE WITH EVERY OIL SERVICE</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Intake/driver's side — lower-mid block — easily accessible spin-on orange canister</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The distinctive Toyota orange spin-on cartridge filters engine oil as the pressure pump circulates it. Oil passes from outside-in through a pleated paper element trapping particles down to approximately 10 microns. An internal anti-drain-back valve prevents oil draining into the sump when stopped, ensuring immediate lubrication at startup. An internal bypass valve opens at 69 kPa differential — if the element fully clogs, oil continues to circulate (unfiltered) rather than starving the engine. Change at every oil service — 5,000 km or 6 months on a stock engine; consider 4,000 km on your turbocharged engine due to higher thermal load on the oil.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>A sudden drop in oil pressure while driving means STOP IMMEDIATELY. Check the oil level first — low level is the most common cause. If the level is correct, look for external leaks: a loose oil filter, damaged sump gasket. A loose oil filter is a quick field fix: hand-tighten firmly plus 3/4 turn. With a turbo, use a high-quality filter — the turbo oil feed circuit passes through the filter, and a cheap filter that bypasses early will allow contaminated oil to reach the turbo bearing.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="section-header">
+  <span class="section-num">09</span>
+  <span class="section-name">Engine Bay Fluid Reservoirs</span>
+  <span class="section-desc">Engine oil · coolant · brake/clutch · power steering · washer</span>
+</div>
+<div class="components-grid">
+  <div class="component" id="s9c1">
+    <div class="comp-index">
+      <span class="comp-num">9.1</span>
+      <span class="comp-glyph">ENGINE·OIL·—·DIPSTICK</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Engine Oil — Dipstick & Filler</span>
+        <span class="comp-code">11.3L TOTAL CAPACITY (OIL COOLER + FILTER) · API CF-4 OR CI-4 RECOMMENDED WITH TURBO</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Dipstick: intake/driver's side of engine block — low position. Oil filler cap: top of the valve cover</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The engine oil serves multiple functions: lubricating all moving bearings and surfaces, cooling the turbocharger bearing, providing hydraulic function to the valve train, and carrying combustion contaminants to the filter. Total system capacity on your HZJ76 1HZ (with oil cooler and filter) is 11.3 litres per the Toyota Owner's Manual. The dipstick has MIN and MAX marks; the difference between them is typically 1 litre. Your specified oil is Shell Rimula R4 X 15W-40 — a heavy-duty diesel engine oil well suited to turbocharged applications.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>Check the oil level every single morning before departure — this is the single most important daily check. Low oil kills bearings; oil contaminated with coolant (milky appearance) indicates a head gasket problem; oil contaminated with fuel (thin, smells of diesel) indicates injector or lift pump issues. With a turbo, change oil at or before 5,000 km — turbo heat accelerates oil breakdown. Always carry at least 2 litres of oil as reserve. The turbo bearing is destroyed within 30 seconds of oil pressure loss.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="component" id="s9c2">
+    <div class="comp-index">
+      <span class="comp-num">9.2</span>
+      <span class="comp-glyph">COOLANT·RESERVOIR·(OVERFLOW·BOTTLE)</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Coolant Reservoir (Overflow Bottle)</span>
+        <span class="comp-code">10.9L SYSTEM CAPACITY (MT STANDARD) · 50% COOLANT / 50% DISTILLED WATER</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Engine bay — typically passenger/exhaust side — translucent plastic bottle connected to radiator overflow port</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The coolant overflow bottle maintains a closed, full cooling system. As the engine warms, expanding coolant flows from the radiator into the bottle; as it cools, it is drawn back in. The level should sit between the MIN and MAX marks when cold. Toyota HZJ76 cooling system capacity: 10.9 litres (manual transmission, standard — without rear heater). Specification: Toyota Long Life Coolant mixed 50/50 with distilled water. Never use tap water — mineral deposits build up inside the cooling system and block passages.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>Check the level every morning before departure. A level that drops consistently without an obvious external leak suggests a slow internal leak (head gasket or oil cooler). Pre-mixed coolant is available in 5L bottles — carry one as a standard spare. Never remove the radiator pressure cap on a hot engine — the system is pressurised to approximately 1 bar and hot coolant will erupt. If you must open a hot system, wrap the cap with a thick cloth and turn slowly to release pressure before removing.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="component" id="s9c3">
+    <div class="comp-index">
+      <span class="comp-num">9.3</span>
+      <span class="comp-glyph">BRAKE·AND·CLUTCH·FLUID</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Brake & Clutch Fluid Reservoir</span>
+        <span class="comp-code">SHARED RESERVOIR · DOT 4 BRAKE FLUID · HYGROSCOPIC — ABSORBS MOISTURE OVER TIME</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Engine bay — upper firewall, driver's side — small clear reservoir near the brake booster</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>A single reservoir feeds both the hydraulic brake master cylinder and the hydraulic clutch master cylinder (which share the same fluid circuit on the HZJ76). Specification: DOT 4 brake fluid. DOT 4 is a glycol-ether based fluid that is hygroscopic — it absorbs moisture from the atmosphere over time. Absorbed moisture lowers the fluid's boiling point; under heavy or prolonged braking, this can cause vapour lock (the fluid boils and the pedal goes to the floor with no braking force). The reservoir has MIN and MAX marks; the level drops slightly as brake pads wear (the fluid fills the increasing caliper piston volume).</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>Check the level at every service. A low level with new brake pads suggests a leak somewhere in the circuit — find it before it becomes total brake failure. Change the fluid completely every 2 years regardless of appearance — the moisture content cannot be judged by colour alone. Carry a small bottle of DOT 4 fluid. Off-road: hard repeated braking on descents overheats the fluid — use low range and engine braking to keep the brakes cool on long steep descents. Never mix DOT 4 with DOT 5 (silicone-based) — the two are incompatible.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="component" id="s9c4">
+    <div class="comp-index">
+      <span class="comp-num">9.4</span>
+      <span class="comp-glyph">POWER·STEERING·FLUID·RESERVOIR</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Power Steering Fluid Reservoir</span>
+        <span class="comp-code">1.3L CAPACITY · TOYOTA POWER STEERING FLUID (PSF) · BELT-DRIVEN HYDRAULIC PUMP</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Engine bay — typically passenger/exhaust side — small reservoir connected to the power steering pump</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The power steering pump is belt-driven from the crankshaft pulley (same belt circuit as the water pump on most configurations). It provides hydraulic assistance to the steering rack, significantly reducing the steering effort required for the heavy front axle and large tyres typical on a loaded HZJ76. Reservoir capacity: 1.3 litres. Specification: ATF Dexron II (automatic transmission fluid) (PSF) — do not substitute with ATF or hydraulic oil unless specifically approved; the seals in the pump and rack are calibrated for PSF viscosity.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>A groaning or whining noise when turning, especially at low speed with the wheel on full lock, indicates either low fluid level or a worn pump. Check the level at every service; the reservoir has MIN and MAX marks. Always check with the engine warm — power steering fluid expands with temperature. A leaking power steering rack is visible as oily staining under the front of the vehicle at the centre of the steering rack housing. If the power steering belt breaks, you still have steering — just very heavy. Do not let a low-power-steering fluid situation continue — the pump will be damaged.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="component" id="s9c5">
+    <div class="comp-index">
+      <span class="comp-num">9.5</span>
+      <span class="comp-glyph">WINDSCREEN·WASHER·FLUID·RESERVOIR</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Windscreen Washer Fluid Reservoir</span>
+        <span class="comp-code">2.5L CAPACITY (FRONT) · CONNECT FRONT AND REAR SYSTEMS · USE PROPER WASHER FLUID</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Engine bay — typically passenger side front corner — translucent plastic bottle with pump motor</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The windscreen washer reservoir holds 2.5 litres for the front system. The electric pump is activated by the wiper stalk. In remote areas, the primary function becomes dust and mud removal from the windscreen — visibility on dusty corrugated tracks degrades very quickly without a working washer system. Use proper windscreen washer fluid concentrate, not plain water — the detergents in washer fluid are critical for cutting through oily road grime and diesel exhaust deposits that water alone will smear.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>Fill the washer reservoir at every fuel stop when on dusty tracks — 2.5 litres can be exhausted in a single dusty day. Carry a 5L bottle of washer concentrate diluted 1:10 as a refill. In very cold conditions, use a concentrate with antifreeze properties. The pump motor is a common failure point on high-mileage vehicles — it is a small inline motor replaceable with basic tools. Clean the washer nozzles with a pin if they block — a common issue when dust packs into the jets.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="section-header">
+  <span class="section-num">10</span>
+  <span class="section-name">Drivetrain Fluids</span>
+  <span class="section-desc">R151F gearbox · transfer case · front diff · rear diff · fuel tank</span>
+</div>
+<div class="components-grid">
+  <div class="component" id="s10c1">
+    <div class="comp-index">
+      <span class="comp-num">10.1</span>
+      <span class="comp-glyph">MANUAL·GEARBOX·—·R151F</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Manual Gearbox — R151F 5-Speed</span>
+        <span class="comp-code">2.2L · TOYOTA GEAR OIL API Castrol Transmax Manual 75W-90 · FILL PLUG = CHECK PLUG (AT FILL HOLE LEVEL)</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Under the vehicle — attached to the back of the engine — shift lever enters cabin through floor tunnel</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The R151F is a 5-speed manual gearbox fitted to your HZJ76R. Your vehicle has been fitted with a Terrain Tamer heavy-duty 5th gear replacement — this addresses the known weakness of the standard 5th gear set, which is the most commonly failing gear in the R151F under heavy touring loads. Fluid capacity: 2.2 litres. Your specified fluid: Castrol Transmax Manual 75W-90. The fill and check plug are typically on the side of the gearbox — oil should be level with this hole when cold. Change interval: every 40,000 km or 2 years.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>A gearbox that shifts notchily or is reluctant to engage certain gears is often simply running on old or incorrect oil. Draining and refilling with fresh Castrol Transmax Manual 75W-90 often resolves this. An oil level check requires getting under the vehicle with the correct square-drive plug tool — do this at every major service. Carry 3 litres of Castrol Transmax Manual 75W-90 as a spare for remote emergencies; a cracked case or blown seal can lose all the oil rapidly. A gearbox running dry will fail completely within minutes.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="component" id="s10c2">
+    <div class="comp-index">
+      <span class="comp-num">10.2</span>
+      <span class="comp-glyph">TRANSFER·CASE</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Transfer Case</span>
+        <span class="comp-code">2.1L (W/O PTO) · TOYOTA GEAR OIL Castrol Transmax Manual 75W-90 · PART-TIME 4WD: 2H / 4H / 4L</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Under the vehicle — attached directly to the rear of the gearbox — lever in cabin selects 2H/4H/4L</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The transfer case splits drive between the front and rear axles and provides the 4L reduction ratio for off-road work. Fluid capacity: 2.1 litres (without PTO port). Your specified fluid: Castrol Transmax Manual 75W-90. The HZJ76R is part-time 4WD: 2H is used on normal roads (rear-wheel drive only), 4H and 4L engage the front axle for off-road. The transfer case fluid is under considerable load in 4L — keep the level correct. Change interval: every 40,000 km or 2 years.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>Engage 4WD only on loose surfaces, sand, mud, or gravel — using 4WD on hard dry pavement causes driveline wind-up, which can damage the transfer case, gearbox, or driveshafts. When returning from off-road to tarmac, switch back to 2H promptly. If 4H engagement becomes difficult or grinds, stop, roll back and forth slightly, then try again — the front and rear drive speeds must equalise for smooth engagement. Check the transfer case level and gearbox level with the same service procedure.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="component" id="s10c3">
+    <div class="comp-index">
+      <span class="comp-num">10.3</span>
+      <span class="comp-glyph">FRONT·DIFFERENTIAL</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Front Differential</span>
+        <span class="comp-code">2.6L · TOYOTA HYPOID GEAR OIL Castrol Transmax Axle EPX 85W-140 · OPEN DIFF (STANDARD)</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Under the front of the vehicle — inside the front axle housing — fills via plug on differential pumpkin</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The front differential distributes drive torque equally between the left and right front wheels (open differential, standard fitment). Fluid capacity: 2.6 litres. Toyota specification: Castrol Transmax Axle EPX 85W-140. Note: front differentials on part-time 4WD vehicles only receive drive when 4WD is engaged — the front diff is not working during normal 2H driving, but the fluid still circulates as the axle shafts rotate when freewheeling. Change interval: every 40,000 km. After any deep water crossing, change the differential oil immediately — water will have entered past the hub seals.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>After any water crossing where the diff was submerged, drain and replace the oil as soon as possible — even a small amount of water emulsifies the gear oil and causes rapid bearing and gear wear. The tell-tale: drained oil that looks milky, foamy, or watery. Carry 3 litres of Castrol Transmax Axle EPX 85W-140 for field diff oil changes after deep crossings. The fill/check plug should be opened first before the drain plug — confirming you can refill before draining is basic but sometimes forgotten.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="component" id="s10c4">
+    <div class="comp-index">
+      <span class="comp-num">10.4</span>
+      <span class="comp-glyph">REAR·DIFFERENTIAL</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Rear Differential</span>
+        <span class="comp-code">2.4L (STD OPEN DIFF) · CASTROL TRANSMAX AXLE EPX 85W-140 · REAR IS ALWAYS DRIVEN</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Under the rear of the vehicle — inside the rear axle housing — fills via plug on differential pumpkin</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The rear differential distributes drive torque between the left and right rear wheels and is always engaged during driving (even in 2H). Fluid capacity: 2.4 litres (standard open differential). Toyota specification: Castrol Transmax Axle EPX 85W-140. The rear diff is under higher load than the front in most driving situations (it drives the vehicle in 2H and shares drive in 4WD). Change interval: every 40,000 km. Same rule as front diff: after any deep water crossing, change the oil immediately.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>The rear diff is one of the most important and overlooked fluid checks. Check the level at every major service — many failures occur simply from neglected leaking seals. The axle shaft seals and pinion seal are the most common leak points; identifiable by oily staining on the inside of the wheel rims or under the diff housing. A leaking seal replaced early costs almost nothing; a seized differential from running dry costs thousands. Carry 3L of Castrol Transmax Axle EPX 85W-140 for emergencies and post-water-crossing changes.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="component" id="s10c5">
+    <div class="comp-index">
+      <span class="comp-num">10.5</span>
+      <span class="comp-glyph">FUEL·TANK</span>
+    </div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Fuel Tank</span>
+        <span class="comp-code">145L CAPACITY · DIESEL ONLY · RANGE APPROX 900–1000km ON-ROAD</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Under the vehicle — typically below the rear load area — single main tank (HZJ76R standard)</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The HZJ76R has been fitted with a 145-litre fuel tank — significantly larger than the standard 90-litre unit. Toyota specification: diesel fuel (EN590 or equivalent). With the 1HZ's typical fuel consumption of 12–14L/100km on-road (rising to 15–18L/100km loaded with hard off-road work), the extended tank gives an on-road range of approximately 900–1,000 km on a full tank. With the turbo fitted, fuel consumption under load is slightly higher than stock due to the boost compensator enabling proportionally greater fuel delivery under boost. The extended range significantly reduces the need for jerry cans on long remote routes — though always carry at least 10L as emergency reserve.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>Fill the tank completely at every opportunity when heading into remote areas. Diesel from unknown sources in remote towns may contain water, sediment, or old/degraded fuel — if quality is uncertain, add a diesel fuel conditioner/biocide to prevent biological growth in the tank. A blocked fuel pick-up strainer inside the tank causes intermittent fuel starvation that worsens as the tank empties. If the engine runs well with a full tank but stumbles and cuts out when running low, the strainer is suspect — it must be cleaned with the tank dropped.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<div class="section-header">
+  <span class="section-num">SECTION 11</span>
+  <span class="section-name">Drivetrain — Mechanical Components</span>
+  <span class="section-desc">Clutch · propshafts · Birfields · hubs · axles · bearings · transfer case</span>
+</div>
+<div class="components-grid">
+
+  <div class="component" id="s11c1">
+    <div class="comp-index"><span class="comp-num">11.1</span></div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Clutch Assembly</span>
+        <span class="comp-code">TERRAIN TAMER HEAVY-DUTY · PRESSURE PLATE + DISC + RELEASE BEARING · HYDRAULIC ACTUATION</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Between engine flywheel and gearbox input shaft — inside the bellhousing, accessed by separating engine and gearbox</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The clutch connects and disconnects engine power from the gearbox. Three components work together: the pressure plate bolts to the flywheel and clamps the disc; the friction disc sits between flywheel and pressure plate and transmits drive via its friction material; the release bearing disengages the clutch when the pedal is pressed. Your Terrain Tamer heavy-duty clutch kit uses a stronger pressure plate spring and more durable friction material than standard, better handling the additional torque load from the turbocharger and the demands of loaded off-road touring. The HZJ76R uses hydraulic clutch actuation — a master cylinder at the pedal sends fluid to a slave cylinder at the bellhousing, pushing the release bearing.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>Clutch slip is the primary failure mode: under load (pulling a hill in 3rd, for example) the engine revs rise but vehicle speed does not increase proportionally. A burning smell from beneath the vehicle confirms it. A dragging clutch (difficulty selecting gears, crunching) usually means a hydraulic problem — check fluid level in the shared brake/clutch reservoir first. Clutch adjustment is not possible on hydraulic systems — if the pedal bites very high or very low, check for air in the hydraulic line. The Terrain Tamer clutch is rated for significantly higher loads than stock — if it is slipping, check for oil contamination from a rear crank seal leak before condemning the clutch itself.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="component" id="s11c2">
+    <div class="comp-index"><span class="comp-num">11.2</span></div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Transfer Case</span>
+        <span class="comp-code">PART-TIME 4WD · 2H / 4H / 4L · GEAR REDUCTION IN 4L · HIGH/LOW RANGE SELECTOR</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Bolted directly behind the R151F gearbox — two output shafts: front and rear propshaft — floor-mounted selector lever</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The transfer case is the heart of the 4WD system. In 2H (two-wheel high range), drive passes only to the rear propshaft — the front axle is completely disconnected. Selecting 4H (four-wheel high range) mechanically locks the front and rear outputs together so both axles receive equal drive — used on loose or slippery surfaces. Selecting 4L (four-wheel low range) additionally engages a planetary gear set that reduces the output speed by approximately 2.5:1 relative to the gearbox output, multiplying torque dramatically for rock crawling, steep climbs, and recoveries. The internal gear set and shift forks are lubricated by the oil in the transfer case (2.1L, Castrol Transmax Manual 75W-90 — see Section 10.2).</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>Never use 4H or 4L on dry hard surfaces — the front and rear axles are locked together and on tarmac they want to rotate at slightly different speeds (especially cornering). This causes driveline wind-up, which stresses the transfer case, gearbox output, and propshaft UJs. If the transfer case becomes difficult or impossible to shift, stop, drive forward and back a short distance to release wind-up, then try again. 4L to 4H and back must be done with the vehicle at a complete stop. 2H to 4H can be done on the move up to 80 km/h. A grinding or popping sound when engaging 4H indicates worn shift forks — do not force it.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="component" id="s11c3">
+    <div class="comp-index"><span class="comp-num">11.3</span></div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Rear Propshaft</span>
+        <span class="comp-code">TWO-PIECE STEEL SHAFT · UNIVERSAL JOINTS EACH END · SLIP YOKE · ALWAYS DRIVEN IN 2H AND 4WD</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Under the vehicle — from the transfer case rear output flange to the rear differential input pinion flange</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The rear propshaft transmits rotational torque from the transfer case to the rear differential at all times. It accommodates the relative movement between the body-mounted transfer case and the axle-mounted differential through its two universal joints (UJs) — cross-shaped bearing assemblies that allow the shaft to operate at an angle as the rear axle moves up and down on the suspension. A slip yoke in the shaft allows it to change in length as the axle articulates. The rear propshaft is always spinning in 2H driving — it is the highest-wear propshaft on the vehicle.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>A vibration that increases with vehicle speed and is felt through the floor typically indicates a worn rear UJ. Confirm by feeling each UJ by hand with the engine off and handbrake off — there should be zero rotational play. Any clunk or click in the joint means it needs replacing. Greaseable UJs (with a nipple) should be greased at every service. A clunking sound when pulling away from a standstill, especially on loose ground, is often a loose propshaft flange bolt — check and torque all four bolts at each end. Carry a spare UJ — they can be replaced in the field with basic tools.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="component" id="s11c4">
+    <div class="comp-index"><span class="comp-num">11.4</span></div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Front Propshaft</span>
+        <span class="comp-code">STEEL SHAFT · UJ EACH END · ONLY DRIVEN IN 4H AND 4L · DOUBLE-CARDAN OR STANDARD UJ AT TRANSFER END</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Under the front of the vehicle — from the transfer case front output flange to the front differential input pinion flange</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The front propshaft connects the transfer case front output to the front differential, transmitting drive only when 4WD is engaged (4H or 4L). When in 2H it rotates with the front axle but carries no drive torque. The front propshaft operates at a sharper angle than the rear due to the front differential's position — some variants use a double-cardan (CV-style) joint at the transfer end to handle this angle more smoothly. Same UJ and slip-yoke construction as the rear shaft.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>Front propshaft UJ wear often goes unnoticed because it only transmits load in 4WD. Check it at every service regardless — it will let you down during a recovery or a water crossing when you need 4WD most. A vibration felt only in 4H that disappears in 2H points specifically to the front propshaft or front axle. If a front UJ fails in 4WD, the shaft can drop and dig into the ground at speed — a serious situation. The front propshaft can be removed entirely in the field if it fails and you need to continue in 2H. Mark and torque all flange bolts correctly on reassembly.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="component" id="s11c5">
+    <div class="comp-index"><span class="comp-num">11.5</span></div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Birfield Constant Velocity Joints (Front)</span>
+        <span class="comp-code">BIRFIELD CV JOINT · GREASE-PACKED IN BIRFIELD CUP · INNER END OF EACH FRONT AXLE SHAFT</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Inside the front axle housing — one each side — where the axle shaft meets the differential side gear output</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The Birfield joint (a ball-bearing type CV joint) is one of the most discussed components on the 70 Series. It allows the front axle shaft to transmit drive to the front wheel while the wheel steers left and right and the suspension articulates. Unlike a standard UJ, a CV joint maintains constant velocity through its operating angle — essential for a steered axle. The joint consists of a series of large steel balls running in curved grooves, all packed in a substantial quantity of moly-based grease sealed inside the axle knuckle. The joint relies entirely on its grease for lubrication — there is no external oil supply to the Birfield.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>A clicking or clunking sound when turning on full lock in 4WD is the classic Birfield failure symptom. It indicates the balls have worn or the grease has been lost through a torn seal. Birfield replacement is a significant job — the knuckle must be disassembled — but it is achievable in the field with the right tools and is documented extensively on IH8MUD. Critically, the Birfield cups must be repacked with the correct moly-based grease (Toyota Birfield grease or equivalent) at every front axle service — never use standard bearing grease. Carry a spare Birfield joint or a full front knuckle rebuild kit on serious expeditions.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="component" id="s11c6">
+    <div class="comp-index"><span class="comp-num">11.6</span></div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Free-Wheeling Hubs (Front)</span>
+        <span class="comp-code">AUTO FREE-WHEELING WITH MANUAL LOCK OVERRIDE · CONNECT / DISCONNECT FRONT AXLE SHAFTS FROM WHEELS</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Centre of each front wheel — bolted to the outer end of the front axle stub shaft — accessible from outside the vehicle</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>Your vehicle has automatic free-wheeling hubs with a manual lock-out override. In 2H with hubs in AUTO, the hubs disconnect the front axle shafts from the front wheels — the wheels spin but the entire front axle, Birfield joints, and front propshaft remain stationary. This reduces wear and slightly improves fuel economy. When 4WD is engaged, the forward motion of the vehicle causes the auto hubs to lock — connecting the axle shafts to the wheels. The manual LOCK position bypasses the auto mechanism and locks the hub directly — use this when you want to ensure 4WD engagement is positive (e.g. before a water crossing or difficult section).</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>Auto hubs are a common failure point — the internal engagement mechanism can stick or fail, meaning the hub does not lock when 4WD is selected and you have no drive to the front wheels. Always set hubs to LOCK manually before any serious off-road section, water crossing, or recovery — do not rely on the auto mechanism when it matters most. To reset auto hubs after 4WD use, select 2H, reverse approximately 3 metres — this mechanically releases the auto engagement. If a hub fails completely locked, you can drive in 2H with it locked — you will hear a slight hum but it will not damage anything short-term. Carry one spare hub assembly.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="component" id="s11c7">
+    <div class="comp-index"><span class="comp-num">11.7</span></div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Front Axle Shafts</span>
+        <span class="comp-code">SOLID STEEL SHAFTS · SPLINED EACH END · ONE PER SIDE · INNER: BIRFIELD · OUTER: STUB/HUB</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Inside the front axle housing — one each side — from Birfield joint at inner end to hub at outer end</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>Each front axle shaft transmits drive from the Birfield CV joint at the differential end to the front wheel hub. The inner splined end engages the Birfield joint; the outer end engages the stub axle which the wheel hub bolts to. The shaft also carries lateral and braking loads from the wheel. Front axle shaft breakage is less common than on the rear because the Birfield joint absorbs some angular shock, but it does occur under high torque loads in extreme articulation.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>A broken front axle shaft is identified by complete loss of drive to that wheel — the wheel simply freewheels even with hubs locked and 4WD engaged. The vehicle can still be driven in 2H with a broken front shaft — the rear axle is unaffected. Shaft removal requires disassembling the front knuckle. Spline wear (the shaft slips rather than transmits drive) is a slower failure showing as intermittent drive loss on full articulation. Carry one spare front axle shaft on expeditions into remote terrain.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="component" id="s11c8">
+    <div class="comp-index"><span class="comp-num">11.8</span></div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Rear Axle Shafts</span>
+        <span class="comp-code">FULL-FLOATING DESIGN · REMOVABLE WITHOUT DISTURBING BEARINGS · SPLINED HUB END</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Inside the rear axle housing — one each side — from differential side gear to rear wheel hub flange</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The 70 Series uses a full-floating rear axle design — the rear axle shafts transmit only torque, not vehicle weight. The wheel hub runs on two tapered roller bearings and is supported by the axle tube regardless of whether the shaft is present. This means a broken rear axle shaft can be removed in the field in under 10 minutes without the vehicle dropping — one of the great advantages of the full-floating design. The shaft inner end splines into the differential side gear; the outer end flange bolts to the wheel hub with 4–6 bolts.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>A broken rear axle shaft shows as sudden loss of drive to that wheel. With a full-floating axle you can remove the broken shaft (6–8 bolts at the flange), refit the hub plate to seal the axle tube, and drive on — the wheel stays on and carries the vehicle weight on the bearings. This is one of the most important field repairs to know. Carry at least one spare rear axle shaft — they are the most commonly broken drivetrain component in serious off-road use, particularly on rocky terrain with wheel spin followed by sudden traction. After any recovery where wheels spun aggressively, check all 6 hub flange bolts for tightness.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="component" id="s11c9">
+    <div class="comp-index"><span class="comp-num">11.9</span></div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Wheel Bearings (Front &amp; Rear)</span>
+        <span class="comp-code">FRONT: TAPERED ROLLER · ADJUSTABLE PRELOAD · REAR: TAPERED ROLLER · FULL-FLOAT DESIGN</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Front: inside each front hub, one inner and one outer bearing per side. Rear: inside each rear hub, one inner and one outer bearing per side</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>Tapered roller bearings at all four corners support the vehicle's weight and all lateral and braking forces through the wheels. The front bearings run on the stub axle and are adjusted for preload at assembly — too tight causes overheating and premature failure; too loose causes wheel wobble and accelerated wear. The rear bearings run on the axle tube housing and use the same tapered roller design. Both front and rear bearings are serviceable (not sealed for life) — they are packed with bearing grease, and the grease requires replacement at major service intervals or whenever water contamination is suspected.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>A failing wheel bearing produces a distinctive low rumble or growl that changes pitch with vehicle speed and often varies when you gently steer left or right (loading/unloading the bearing). With the vehicle jacked up and supported, grip the tyre at 9 and 3 o'clock and push/pull to feel for play — any movement indicates a loose or worn bearing. After any water crossing deep enough to submerge the hubs, repack all wheel bearings — water defeats the grease seal rapidly and bearing failure follows within a few hundred kilometres. Carry bearing grease and the correct spanners to set preload.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════ SECTION 12 BRAKES -->
+<div class="section-header">
+  <span class="section-num">12</span>
+  <span class="section-name">Brakes</span>
+  <span class="section-desc">Front discs · rear drums · master cylinder · brake lines · handbrake</span>
+</div>
+<div class="components-grid">
+
+  <div class="component" id="s12c1">
+    <div class="comp-index"><span class="comp-num">12.1</span></div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Front Brake Discs &amp; Calipers</span>
+        <span class="comp-code">VENTED DISC · SINGLE-PISTON SLIDING CALIPER · HYDRAULIC ACTUATION · ONE EACH SIDE</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Behind each front wheel — caliper clamps over the disc rotor which is bolted to the front hub</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The front brakes handle the majority of braking force — weight transfer under braking loads the front axle heavily, so the front brakes do approximately 70% of the work. The vented disc rotor spins with the wheel hub; when the brake pedal is pressed, hydraulic pressure from the master cylinder pushes the caliper piston inward, clamping the brake pads against both sides of the disc. Friction converts kinetic energy to heat. Vented discs (two faces with internal air passages between them) dissipate heat faster than solid discs — essential given the weight and load capacity of the HZJ76R. The caliper is a sliding type — one piston pushes the inner pad, and reaction force slides the caliper body to pull the outer pad in simultaneously.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>Brake pad thickness can be checked visually through the caliper without removing the wheel — the outer pad is visible. Minimum thickness is approximately 2mm of friction material. A high-pitched squealing under light braking is the wear indicator contacting the disc — replace soon. A grinding metal-on-metal sound means pads are completely worn and the disc is being destroyed — stop and replace immediately. After any deep water crossing, brakes may feel spongy or ineffective until heat dries the wet pads — pump the pedal a few times immediately after exiting water. Carry one set of front brake pads on any serious expedition.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="component" id="s12c2">
+    <div class="comp-index"><span class="comp-num">12.2</span></div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Rear Brake Drums &amp; Wheel Cylinders</span>
+        <span class="comp-code">DRUM BRAKE · HYDRAULIC WHEEL CYLINDER · LEADING/TRAILING SHOE · SELF-ADJUSTING</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Inside each rear wheel — drum bolts to rear hub and spins with it; shoes are fixed to the axle backing plate</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The rear HZJ76R uses drum brakes — a large cast iron drum rotates with the wheel while curved friction shoes are pressed outward against the inside of the drum by a hydraulic wheel cylinder. Hydraulic pressure from the master cylinder pushes both pistons of the wheel cylinder outward, forcing the shoes against the drum. The self-adjusting mechanism uses the handbrake cable actuation to periodically take up slack as shoes wear. Drum brakes are inherently less efficient than discs at dissipating heat but are well-suited to the rear of a heavy off-road vehicle — they are more effective as a parking/handbrake, and are more tolerant of mud and water ingress than exposed disc/caliper setups.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>After water crossings, rear drum brakes trap water inside — they take significantly longer to dry and regain full effectiveness than front discs. After exiting deep water, drive slowly with very light brake application for 100–200 metres to generate heat and expel water. A spongy or low pedal combined with fluid loss from one rear wheel indicates a failed wheel cylinder — the rubber cups inside split and fluid weeps out. Inspect the inside of the rear wheels at every service for brake fluid contamination of the shoes (appears as black oily staining). A contaminated shoe cannot be cleaned — replace in pairs per axle. Carry one set of rear brake shoes.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="component" id="s12c3">
+    <div class="comp-index"><span class="comp-num">12.3</span></div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Brake Master Cylinder</span>
+        <span class="comp-code">TANDEM MASTER CYLINDER · DUAL CIRCUIT · FIREWALL-MOUNTED · FEEDS FRONT AND REAR INDEPENDENTLY</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Engine bay — mounted on the firewall directly in front of the brake pedal — reservoir on top (shared with clutch)</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The master cylinder converts mechanical pedal force into hydraulic pressure and distributes it to all four brakes. It is a tandem design — two pistons in series in a single bore — creating two completely independent hydraulic circuits. The front circuit feeds the front calipers; the rear circuit feeds the rear wheel cylinders. This dual-circuit design is a critical safety feature: if one circuit fails (a line ruptures or a caliper seal fails), the other circuit continues to function and the vehicle retains partial braking. The reservoir on top is shared with the clutch hydraulic system and contains DOT 4 brake fluid. The brake booster (vacuum or hydraulic) is mounted between the pedal and the master cylinder, multiplying pedal force.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>A brake pedal that slowly sinks to the floor under steady pressure (pedal fade) while the fluid level is correct indicates a failing master cylinder — the internal seals are bypassing under pressure. This is a safety-critical failure — do not continue driving. A sudden drop in fluid level means fluid is going somewhere: inspect all four wheels for leaks at calipers and wheel cylinders, and check for wet brake lines under the vehicle. Top up with DOT 4 only — never mix fluid types. Air in the system causes a spongy pedal that cannot be resolved by adding fluid — the system must be bled. Change the fluid fully every two years as DOT 4 absorbs moisture over time, lowering its boiling point and increasing the risk of vapour lock under heavy braking.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="component" id="s12c4">
+    <div class="comp-index"><span class="comp-num">12.4</span></div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Brake Lines &amp; Flexible Hoses</span>
+        <span class="comp-code">STEEL HARD LINES · RUBBER FLEXIBLE HOSES AT EACH CORNER · DOT 4 · HIGH-PRESSURE HYDRAULIC CIRCUIT</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Steel lines run along the chassis — flexible rubber hoses bridge between chassis and each moving axle or caliper</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>Hydraulic pressure generated at the master cylinder is transmitted to each brake via a network of rigid steel lines along the chassis and flexible rubber hoses at each wheel. The flexible hoses are necessary to allow wheel movement and steering without the line kinking or fracturing. Steel brake lines carry the fluid from the master cylinder to a point near each axle; flexible hoses bridge from there to the caliper or wheel cylinder. The system operates at very high pressure — over 100 bar under heavy braking — so line condition is critical.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>Inspect flexible hoses carefully at every service — look for surface cracking, swelling (a hose that bulges under pressure can expand rather than transmit pressure, causing a spongy pedal), and any contact wear where the hose might rub against suspension components during full articulation. Off-road use greatly accelerates hose wear. Steel hard lines rust from the outside in harsh environments — inspect along the chassis rails for rust bubbling and pinhole corrosion, especially at the chassis clamps where moisture is trapped. A burst flexible hose in the field can be temporarily managed by clamping it off (blocking that circuit) if the dual-circuit system keeps the other axle's brakes operational — enough to limp to safety.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="component" id="s12c5">
+    <div class="comp-index"><span class="comp-num">12.5</span></div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Handbrake (Parking Brake)</span>
+        <span class="comp-code">MECHANICAL CABLE-ACTUATED · OPERATES REAR DRUMS INDEPENDENTLY OF HYDRAULICS · FLOOR-MOUNTED LEVER</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Floor-mounted lever between the seats — cables run under the vehicle to the rear brake backing plates</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The handbrake mechanically locks the rear wheels through a completely independent cable system — it does not rely on the hydraulic brake circuit in any way. Pulling the handbrake lever pulls a cable that runs to a splitter and then to a cable at each rear drum, mechanically expanding the shoes against the drum. This independence from the hydraulics means the handbrake remains functional even if the hydraulic system fails completely. On a hill start in 4L, the handbrake holds the vehicle while the clutch is engaged — essential technique on steep climbs with a loaded vehicle.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>Handbrake cables are exposed under the vehicle and are vulnerable to mud, creek crossings, and rock damage. A handbrake that needs excessive lever travel to hold the vehicle on a slope means the cables are stretched or the rear shoes are worn — the self-adjuster only operates through normal brake use, not handbrake application, so manual shoe adjustment may be needed. After a water crossing, do not leave the handbrake applied while parked — wet drum shoes can bond to the drum as they dry. Use a gear and wheel chocks instead. In very cold conditions, a wet handbrake cable can freeze in the applied position — apply very briefly and release, parking in gear instead.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═════════════════════════════════════════════════ SECTION 13 STEERING -->
+<div class="section-header">
+  <span class="section-num">13</span>
+  <span class="section-name">Steering</span>
+  <span class="section-desc">Steering box · power steering pump · drag link · tie rod · steering damper</span>
+</div>
+<div class="components-grid">
+
+  <div class="component" id="s13c1">
+    <div class="comp-index"><span class="comp-num">13.1</span></div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Steering Box</span>
+        <span class="comp-code">RECIRCULATING BALL · POWER-ASSISTED · CHASSIS-MOUNTED · PITMAN ARM OUTPUT · HIGH-RATIO GEARING</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Driver's side of the engine bay — mounted on the chassis rail — steering column enters top, pitman arm exits bottom to drag link</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The HZJ76R uses a recirculating ball steering box — a rugged, time-proven design well-suited to heavy off-road use. Inside the box, a worm shaft (connected to the steering column) rotates a nut that rides on a circuit of ball bearings, converting rotational steering input into lateral movement of a sector shaft. The sector shaft rotates the pitman arm, which connects via the drag link to the front axle steering. Power assistance is provided by a hydraulic ram integrated into the box — fed from the power steering pump. The recirculating ball design is more tolerant of shock loads and debris than rack-and-pinion steering, which is why it is standard on heavy off-road platforms.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>Steering box preload (the amount of resistance in the steering) is adjustable via a lock nut and adjuster on the top of the box. Excessive play (more than 20–30mm of steering wheel free movement before the wheels begin to turn) often means the box preload has backed off and can be corrected in the field with a socket and screwdriver. Do not over-tighten — the box should feel smooth and consistent through its range, not stiff in the centre. Heavy steering that requires effort even at low speed with the engine running indicates a power steering problem (pump, fluid, or a seized box), not a preload issue. A knocking or clunking through the steering wheel on corrugations is more likely the steering damper or drag link ball joints, not the box itself.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="component" id="s13c2">
+    <div class="comp-index"><span class="comp-num">13.2</span></div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Power Steering Pump</span>
+        <span class="comp-code">VANE-TYPE HYDRAULIC PUMP · BELT-DRIVEN FROM CRANKSHAFT · FEEDS STEERING BOX · ATF DEXRON II</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Front of the engine — belt-driven from the crankshaft pulley — reservoir typically mounted on or near the pump</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The power steering pump is a belt-driven vane pump that generates hydraulic pressure to assist the steering box. As the impeller spins, vanes fling outward and trap fluid between them, building pressure in the outlet circuit. A flow control valve limits maximum pressure to protect the steering box seals. Fluid (ATF Dexron II on your vehicle) is drawn from the reservoir, pressurised, sent to the steering box, and returned to the reservoir. The pump is driven by the same V-belt system as the alternator and water pump — a snapped belt will disable both the power steering and charging at the same time.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>A whining or moaning sound that increases with steering input (especially on full lock) indicates a low fluid level or air in the power steering circuit — check the reservoir immediately. Foamy or discoloured fluid means moisture contamination or a failing pump — drain and refill with fresh ATF Dexron II. If the power steering pump fails or the belt snaps, the vehicle can still be driven and steered — the steering will be very heavy, especially at low speed and on rough ground, but it is manageable for a careful driver. In this situation, avoid full lock if possible as the steering effort at full lock without power assist is extreme. Carry 500ml of ATF Dexron II as a spare.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="component" id="s13c3">
+    <div class="comp-index"><span class="comp-num">13.3</span></div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Drag Link &amp; Tie Rod</span>
+        <span class="comp-code">FORGED STEEL RODS · BALL JOINTS EACH END · DRAG LINK: STEERING BOX TO KNUCKLE · TIE ROD: KNUCKLE TO KNUCKLE</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Under the front of the vehicle — drag link runs longitudinally from pitman arm to driver's side knuckle; tie rod runs laterally between both front knuckles</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The drag link transmits the steering movement from the pitman arm (output of the steering box) to the driver's side front steering knuckle, turning that front wheel. The tie rod then connects both front steering knuckles laterally, ensuring both wheels turn simultaneously and by the same amount (toe geometry). Both are solid forged steel rods with ball-and-socket joints (ball joints) at each end — these joints allow articulation in multiple planes while transmitting push and pull loads. The front suspension on the 76 Series uses a solid axle, which means the entire drag link and tie rod assembly moves with the axle as the suspension articulates.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>The drag link and tie rod ball joints are exposed under the vehicle and are the most vulnerable steering components to rock strikes. After any rocky section, inspect both rods for bending and check all four ball joints for play by gripping the rod and trying to move it — there should be zero movement. A bent tie rod causes immediate toe-in or toe-out misalignment — you will feel the vehicle pulling and see accelerated tyre wear. A bent drag link causes steering wander and off-centre steering wheel. In the field, a slightly bent tie rod can be carefully straightened with a large adjustable wrench or Hi-Lift jack as a lever — get it straight enough to drive to a workshop. Grease all four ball joint nipples at every service.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="component" id="s13c4">
+    <div class="comp-index"><span class="comp-num">13.4</span></div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Steering Damper</span>
+        <span class="comp-code">HYDRAULIC DAMPER · MOUNTS BETWEEN FRONT AXLE AND CHASSIS · ABSORBS STEERING KICK-BACK AND SHIMMY</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Under the front of the vehicle — mounts horizontally between a bracket on the front axle and the chassis or drag link</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The steering damper is essentially a small shock absorber mounted horizontally in the steering linkage. It absorbs sudden lateral forces from the wheels — rocks, corrugations, and rough crossings — before they travel up through the drag link and tie rod to the steering wheel. Without a damper, a rock strike to the front tyre would send a violent kick through the steering wheel. On a heavy vehicle like the 76 Series running larger tyres and a lift kit, the steering damper is especially important — more unsprung weight and more tyre sidewall increases the forces the steering system must absorb.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>A failed or worn steering damper is identifiable by a shimmy or wobble in the steering wheel at certain speeds (often 80–100 km/h on corrugated roads), or by violent kick-back when a front wheel hits a rock or pothole. To check condition, remove the damper and push/pull it by hand — a good damper has consistent resistance through its travel; a worn one is loose and free. A broken or missing steering damper does not immediately stop the vehicle from being driven, but it makes rough terrain significantly more dangerous and fatiguing. Replace if leaking or weak — it is a direct safety item. With a 2-inch lift and larger tyres, upgrading to a heavy-duty damper is worthwhile.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════════ SECTION 14 SUSPENSION -->
+<div class="section-header">
+  <span class="section-num">14</span>
+  <span class="section-name">Suspension</span>
+  <span class="section-desc">Old Man Emu 2-inch lift · OME 859 coils · N181 / 63111 Nitrocharger Plus shocks · CS058R rear leaves · bump stops</span>
+</div>
+<div class="components-grid">
+
+  <div class="component" id="s14c1">
+    <div class="comp-index"><span class="comp-num">14.1</span></div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Front Coil Springs</span>
+        <span class="comp-code">OLD MAN EMU 859 · MEDIUM / CONSTANT 400KG LOAD RATING · 40–50MM (2-INCH) LIFT · FITTED BY 4X4 MEGAWORLD</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Between the front axle spring perch and the chassis spring tower — one each side — surrounding the front shock absorber</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The front coil springs support the vehicle weight at the front axle and absorb vertical road inputs. Your OME 859 springs are rated for a constant 400 kg additional load — designed for a fully-equipped touring vehicle carrying a bull bar, winch, spare tyres, water, and expedition equipment. The 40–50 mm lift raises the chassis relative to the axle, providing increased clearance for the front axle and differentials. Coil springs store energy when compressed (wheel hits a bump) and release it as they extend — the shock absorber controls the rate of that release. The spring rate (stiffness) of the OME 859 is specifically chosen to work with the N181 Nitrocharger Plus shock absorbers as a matched system.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>A vehicle that has sagged back toward stock height after years of loaded touring may have fatigued coil springs — coil springs do settle slightly over time. Check ride height by measuring from axle centre to the chassis in a consistent location, loaded and unloaded, and compare both sides. Unequal ride height side-to-side (more than 15 mm) can indicate a sagged or broken spring. A broken coil spring often produces a clunking sound on rough ground and may sit visibly lower on one side. On a remote trip a broken front coil spring is driveable carefully at reduced speed, but the reduced travel and altered geometry risk damaging the shock or bumpstop. Inspect springs visually at each service for cracks at the ends where coil spring failure typically initiates.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="component" id="s14c2">
+    <div class="comp-index"><span class="comp-num">14.2</span></div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Front Shock Absorbers</span>
+        <span class="comp-code">OLD MAN EMU NITROCHARGER PLUS N181 · NITROGEN-CHARGED · TWIN-TUBE · MATCHED TO OME 859 COIL SPRINGS</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Between the front axle and the chassis — one each side — upper mount to chassis, lower mount to front axle bracket</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>Shock absorbers (dampers) control the rate at which the spring compresses and extends. Without a shock absorber, the vehicle would bounce uncontrollably after every bump. The OME Nitrocharger Plus N181 uses a nitrogen-charged twin-tube design — the nitrogen pre-charge prevents cavitation (aeration of the oil) under the repeated high-speed cycling of off-road driving. As the shock absorber's piston moves through the oil, small valves (shims) flex open and closed, converting kinetic energy to heat. The N181 valving is specifically tuned to complement the OME 859 coil spring rate — they are designed as a paired system and should always be replaced together. The Nitrocharger Plus specification provides firmer damping suited to heavy touring loads.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>A shock absorber that is leaking oil externally (dark wet staining on the body) is failing — the seal has broken down. A leaking shock can still function partially but will fade quickly under repeated use. Test shock condition by pushing firmly down on each corner of the vehicle and releasing — the vehicle should rise once and settle. If it bounces two or more times, the shock on that corner is worn. Hot shocks after driving (they should be warm, not painfully hot) indicate they are working hard — normal on corrugated tracks. Mounting bolts at the top and bottom should be checked for tightness at every service — vibration works them loose. Check the rubber bushings at each mount for cracking and deterioration.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="component" id="s14c3">
+    <div class="comp-index"><span class="comp-num">14.3</span></div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Rear Leaf Springs</span>
+        <span class="comp-code">OLD MAN EMU CS058R · MULTI-LEAF PACK · MEDIUM / CONSTANT 400KG · 40–50MM LIFT · FITTED BY 4X4 MEGAWORLD</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Under the rear of the vehicle — mounted longitudinally between the chassis spring hangers — axle sits in the spring saddle at the centre</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The HZJ76R uses a live-axle leaf spring rear suspension — the same fundamental design as the original Land Cruiser and proven over decades of hard use. Multiple layers of steel spring leaves are clamped together; the top (main) leaf is the longest and bears most of the load, with progressively shorter leaves beneath adding stiffness under heavy loads. The spring assembly is fixed to the chassis at the front eye and a sliding shackle at the rear (allowing the spring to change length as it flattens under load). The rear axle housing sits in a saddle at the centre of the spring pack and is clamped by U-bolts. Your OME CS058R springs provide a constant 400 kg additional load capacity — important given water, fuel, tools, camping gear and roof loads on a touring 76 Series.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>The most common rear suspension failure in serious off-road use is a broken spring leaf — usually the main leaf or top second leaf, fracturing at the U-bolt clamp area where stress concentrates. A broken main leaf is identifiable by one rear corner sitting noticeably lower and a change in handling characteristics. Check U-bolt torque at every major service — loose U-bolts allow the axle to shift and can cause the centre bolt (which locates the axle on the spring) to shear. A sheared centre bolt allows the axle to walk sideways — very dangerous. Carry two spare U-bolts and the correct nuts. Check spring hangers and shackles for cracks, especially the rear shackle which is highly stressed under articulation. Lubricate the rear shackle pin at every service.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="component" id="s14c4">
+    <div class="comp-index"><span class="comp-num">14.4</span></div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Rear Shock Absorbers</span>
+        <span class="comp-code">OLD MAN EMU NITROCHARGER PLUS 63111 · NITROGEN-CHARGED · TWIN-TUBE · MATCHED TO CS058R LEAF SPRINGS</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Behind the rear axle — one each side — upper mount to chassis bracket, lower mount to rear axle bracket</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>The rear OME Nitrocharger Plus 63111 shock absorbers damp the movement of the rear leaf spring suspension. The rear shocks work harder than the front on a loaded touring 76 Series — the rear carries water, fuel, camping gear, and often a full roof load, meaning the rear springs are compressed close to their rated load most of the time. The 63111 Nitrocharger Plus is valved specifically for this application and matched to the CS058R leaf spring rate. The nitrogen charge prevents fade under sustained corrugated driving — a critical requirement on long outback corrugated roads where standard shocks begin to overheat and lose damping after 30–60 minutes of hard corrugations.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>Rear shocks take significantly more abuse than the fronts on a loaded touring vehicle. The classic sign of worn rear shocks is a wallowing or porpoising sensation on corrugated roads — the rear bounces repeatedly and cannot settle. Carry your typical touring load when testing: shocks that feel adequate empty may be overwhelmed loaded. The lower mounting on rear shocks is very exposed to rock strikes and water — check the lower bracket and bolt for damage after rocky sections. If a rear shock is leaking badly or completely failed, the vehicle is still driveable but handling and control on rough ground will be significantly compromised — keep speed down. Shock absorbers have no user-serviceable internal components — replacement is the only remedy.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="component" id="s14c5">
+    <div class="comp-index"><span class="comp-num">14.5</span></div>
+    <div class="comp-content">
+      <div class="comp-header">
+        <span class="comp-name">Bump Stops</span>
+        <span class="comp-code">RUBBER / POLYURETHANE COMPRESSION BUFFERS · FRONT AND REAR · CHASSIS-MOUNTED · LIMIT MAXIMUM SUSPENSION TRAVEL</span>
+      </div>
+      <div class="comp-location">
+        <span class="loc-pill">Front: on the chassis above the front axle — Rear: on the chassis above the rear axle housing — contact the axle at full compression</span>
+      </div>
+      <div class="comp-body">
+        <div class="comp-desc-block">
+          <div class="block-label">What It Does</div>
+          <p>Bump stops are the final mechanical limit of suspension travel — when the suspension compresses fully, the bump stop contacts the axle housing and prevents the shock absorber, spring, or wheel from striking the chassis, body, or wheel arch. They are made from rubber or progressive-rate polyurethane and are designed to absorb the final impact progressively rather than as a hard stop. With a 2-inch lift, the suspension has more travel before the bump stop engages — this is generally desirable for off-road articulation, but it means the bump stop must now handle larger impacts when it does contact, and the extended geometry must be checked to ensure no other binding occurs (brake lines, shock shaft bottoming out, etc.) at full compression.</p>
+        </div>
+        <div class="comp-tip-block">
+          <div class="block-label">Bush Mechanic Tip</div>
+          <p>A sharp bottoming-out thud from the suspension when hitting a large dip or drop-off indicates the bump stop is being contacted hard — either the stop is worn and has lost its progressive quality, or the vehicle is being loaded beyond the spring rating and bottoming out regularly. Inspect bump stops for splitting, cracking, or compression set (the rubber has permanently deformed and is shorter than it should be). A compressed or missing bump stop allows the suspension to bottom hard against the chassis — damaging the shock absorber shaft, crimping brake lines, and potentially bending chassis components. After fitting a lift kit, inspect all bump stops and ensure adequate clearance to brake hoses and ABS wiring at full compression. Polyurethane bump stop extensions are a worthwhile upgrade to adjust the contact point after a lift.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FLUID CAPACITY QUICK REFERENCE -->
+<div class="fluid-table-section">
+  <div class="fluid-table-hdr">
+    <h2>Fluid Capacities &amp; Specifications</h2>
+    <span>HZJ76R-RKMRS · From Toyota Owner's Manual (official figures)</span>
+  </div>
+  <table class="fluid-table">
+    <thead>
+      <tr><th>System</th><th>Capacity</th><th>Toyota Specification</th><th>Change Interval</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="ft-system">Engine Oil (with cooler &amp; filter)</td><td class="ft-cap">11.3 L</td><td class="ft-spec">Shell Rimula R4 X 15W-40</td><td class="ft-change">5,000 km / 6 months (4,000 km with turbo)</td></tr>
+      <tr><td class="ft-system">Cooling System (MT, standard)</td><td class="ft-cap">10.9 L</td><td class="ft-spec">Toyota Long Life Coolant — 50/50 with distilled water</td><td class="ft-change">Every 2 years or 40,000 km</td></tr>
+      <tr><td class="ft-system">Brake &amp; Clutch Fluid (shared)</td><td class="ft-cap">Top-up only</td><td class="ft-spec">DOT 4 Brake Fluid</td><td class="ft-change">Replace fully every 2 years</td></tr>
+      <tr><td class="ft-system">Power Steering Fluid</td><td class="ft-cap">1.3 L</td><td class="ft-spec">ATF Dexron II</td><td class="ft-change">Check monthly, replace if discoloured</td></tr>
+      <tr><td class="ft-system">Windscreen Washer (front)</td><td class="ft-cap">2.5 L</td><td class="ft-spec">Washer fluid concentrate + water</td><td class="ft-change">Refill at every fuel stop on dusty tracks</td></tr>
+      <tr><td class="ft-system">Manual Gearbox R151F</td><td class="ft-cap">2.2 L</td><td class="ft-spec">Castrol Transmax Manual 75W-90</td><td class="ft-change">Every 40,000 km / 2 years</td></tr>
+      <tr><td class="ft-system">Transfer Case (w/o PTO)</td><td class="ft-cap">2.1 L</td><td class="ft-spec">Castrol Transmax Manual 75W-90</td><td class="ft-change">Every 40,000 km / 2 years</td></tr>
+      <tr><td class="ft-system">Front Differential</td><td class="ft-cap">2.6 L</td><td class="ft-spec">Castrol Transmax Axle EPX 85W-140</td><td class="ft-change">40,000 km · Immediately after any water crossing</td></tr>
+      <tr><td class="ft-system">Rear Differential (standard)</td><td class="ft-cap">2.4 L</td><td class="ft-spec">Castrol Transmax Axle EPX 85W-140</td><td class="ft-change">40,000 km · Immediately after any water crossing</td></tr>
+      <tr><td class="ft-system">Fuel Tank (Extended)</td><td class="ft-cap">145 L</td><td class="ft-spec">Diesel only · EN590 or equivalent</td><td class="ft-change">Fill before remote sections · carry 20L jerry</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- COMPONENT QUICK REFERENCE TABLE -->
+<div class="ref-section">
+  <div class="ref-hdr">
+    <h2>Component Quick Reference</h2>
+    <span>All 69 components · Location summary · Field carry priority</span>
+  </div>
+  <table class="ref-table">
+    <thead>
+      <tr><th>Ref</th><th>Component</th><th>Location</th><th>Field Priority / Spares</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="td-num">1.1</td><td class="td-name">Engine Block</td><td class="td-loc">Centre of engine bay</td><td><span class="td-spare">Monitor · carry RTV sealant</span></td></tr>
+<tr><td class="td-num">1.2</td><td class="td-name">Oil Sump (Pan)</td><td class="td-loc">Bolted under the engine block</td><td><span class="td-spare">Bash plate essential · RTV + JB Weld</span></td></tr>
+<tr><td class="td-num">1.3</td><td class="td-name">Crankshaft & Main Bearings</td><td class="td-loc">Inside the engine block</td><td><span class="td-spare">Oil on schedule — only prevention</span></td></tr>
+<tr><td class="td-num">1.4</td><td class="td-name">Pistons & Connecting Rods</td><td class="td-loc">Inside the cylinder bores</td><td><span class="td-spare">Track oil consumption — monitor</span></td></tr>
+<tr><td class="td-num">1.5</td><td class="td-name">Oil Pump</td><td class="td-loc">Inside the front of the engine</td><td><span class="td-spare">Check oil pressure daily</span></td></tr>
+<tr><td class="td-num">1.6</td><td class="td-name">Flywheel</td><td class="td-loc">Rear of the engine</td><td><span class="td-spare">Carry flywheel ring gear tip</span></td></tr>
+<tr><td class="td-num">2.1</td><td class="td-name">Head Gasket</td><td class="td-loc">Clamped between the top face of the engine block and the bottom f</td><td><span class="td-critical">CRITICAL — never overheat</span></td></tr>
+<tr><td class="td-num">2.2</td><td class="td-name">Cylinder Head</td><td class="td-loc">Bolted to the top of the engine block</td><td><span class="td-spare">Carry coolant test strips</span></td></tr>
+<tr><td class="td-num">2.3</td><td class="td-name">Push Rods & Rocker Arms</td><td class="td-loc">Pushrods run vertically through the engine from camshaft follower</td><td><span class="td-spare">Know valve clearance procedure</span></td></tr>
+<tr><td class="td-num">2.4</td><td class="td-name">Valve Cover</td><td class="td-loc">Top of the engine</td><td><span class="td-spare">Carry valve cover gasket + RTV</span></td></tr>
+<tr><td class="td-num">3.1</td><td class="td-name">Timing Gear Cover</td><td class="td-loc">Front face of the engine</td><td><span class="td-spare">Monitor front crank seal — carry oil</span></td></tr>
+<tr><td class="td-num">3.2</td><td class="td-name">Crankshaft Pulley & V-Belts</td><td class="td-loc">Very front of the engine</td><td><span class="td-spare">Carry 2× V-belts both sizes</span></td></tr>
+<tr><td class="td-num">3.3</td><td class="td-name">Camshaft</td><td class="td-loc">Inside the engine block — full length of block</td><td><span class="td-spare">Check oil daily — worn lobe = low compression on that cylinder</span></td></tr>
+<tr><td class="td-num">4.1</td><td class="td-name">Water Pump</td><td class="td-loc">Front of engine block</td><td><span class="td-spare">Carry spare water pump + gasket</span></td></tr>
+<tr><td class="td-num">4.2</td><td class="td-name">Fan & Viscous Clutch</td><td class="td-loc">Front of engine</td><td><span class="td-spare">Test viscous clutch regularly</span></td></tr>
+<tr><td class="td-num">4.3</td><td class="td-name">Thermostat</td><td class="td-loc">Front of the cylinder head</td><td><span class="td-spare">Carry spare thermostat</span></td></tr>
+<tr><td class="td-num">4.4</td><td class="td-name">Coolant Hoses</td><td class="td-loc">Upper: thermostat housing to radiator top tank. Lower: radiator b</td><td><span class="td-spare">Carry upper + lower hose + clamps</span></td></tr>
+<tr><td class="td-num">4.5</td><td class="td-name">Radiator</td><td class="td-loc">Very front of the engine bay</td><td><span class="td-spare">Carry radiator stop-leak + 2L coolant</span></td></tr>
+<tr><td class="td-num">4.6</td><td class="td-name">Coolant Overflow / Expansion Tank</td><td class="td-loc">Engine bay</td><td><span class="td-spare">Carry 2L pre-mixed coolant</span></td></tr>
+<tr><td class="td-num">4.7</td><td class="td-name">Engine Oil Cooler</td><td class="td-loc">On the engine block</td><td><span class="td-spare">Monitor for oil/coolant cross-contamination</span></td></tr>
+<tr><td class="td-num">5.1</td><td class="td-name">Fuel Lift Pump</td><td class="td-loc">Intake/driver's side of engine block</td><td><span class="td-spare">Carry spare lift pump</span></td></tr>
+<tr><td class="td-num">5.2</td><td class="td-name">Fuel Filter / Water Separator</td><td class="td-loc">Intake/driver's side engine bay</td><td><span class="td-critical">CRITICAL — carry 2× spare filters</span></td></tr>
+<tr><td class="td-num">5.3</td><td class="td-name">Injection Pump (Bosch/Denso)</td><td class="td-loc">Intake/driver's side of engine</td><td><span class="td-spare">Know bleed procedure</span></td></tr>
+<tr><td class="td-num">5.4</td><td class="td-name">Boost Compensator</td><td class="td-loc">Mounted on top of the injection pump governor housing</td><td><span class="td-spare">Carry spare diaphragm kit</span></td></tr>
+<tr><td class="td-num">5.5</td><td class="td-name">High-Pressure Fuel Lines ×6</td><td class="td-loc">Run from the injection pump delivery valves up and across to each</td><td><span class="td-spare">Carry 2× spare HP lines</span></td></tr>
+<tr><td class="td-num">5.6</td><td class="td-name">Injectors ×6</td><td class="td-loc">One per cylinder</td><td><span class="td-spare">Carry 1× tested spare injector</span></td></tr>
+<tr><td class="td-num">6.1</td><td class="td-name">Glow Plugs + Copper Bus Bar</td><td class="td-loc">One per cylinder</td><td><span class="td-spare">Carry spare plugs + relay</span></td></tr>
+<tr><td class="td-num">6.2</td><td class="td-name">Alternator</td><td class="td-loc">Front of engine</td><td><span class="td-spare">Carry spare V-belt + voltmeter</span></td></tr>
+<tr><td class="td-num">6.3</td><td class="td-name">Starter Motor</td><td class="td-loc">Rear-lower of the engine block</td><td><span class="td-spare">Maintain battery — know bump-start</span></td></tr>
+<tr><td class="td-num">7.1</td><td class="td-name">Safari Snorkel</td><td class="td-loc">External</td><td><span class="td-spare">Inspect all joints + body at every service</span></td></tr>
+<tr><td class="td-num">7.2</td><td class="td-name">Air Filter</td><td class="td-loc">Inside the air filter housing</td><td><span class="td-spare">Carry 2× spare filter elements</span></td></tr>
+<tr><td class="td-num">7.3</td><td class="td-name">Intake Manifold</td><td class="td-loc">Intake/driver's side of engine</td><td><span class="td-spare">Black RTV for intake gaskets</span></td></tr>
+<tr><td class="td-num">7.4</td><td class="td-name">Turbocharger</td><td class="td-loc">Bolted to the exhaust manifold</td><td><span class="td-critical">2-3 min idle after hard use — essential</span></td></tr>
+<tr><td class="td-num">7.5</td><td class="td-name">Intercooler (Charge Air Cooler)</td><td class="td-loc">Engine bay</td><td><span class="td-spare">Carry spare hose clamps + self-amalg tape</span></td></tr>
+<tr><td class="td-num">7.6</td><td class="td-name">Exhaust Manifold</td><td class="td-loc">Exhaust/passenger side of engine</td><td><span class="td-spare">Carry exhaust repair putty</span></td></tr>
+<tr><td class="td-num">8.1</td><td class="td-name">Oil Filter</td><td class="td-loc">Intake/driver's side</td><td><span class="td-spare">Carry 1× spare oil filter</span></td></tr>
+<tr><td class="td-num">9.1</td><td class="td-name">Engine Oil — Dipstick & Filler</td><td class="td-loc">Dipstick: intake/driver's side of engine block</td><td><span class="td-spare">Carry 2L engine oil · CF-4 or CI-4</span></td></tr>
+<tr><td class="td-num">9.2</td><td class="td-name">Coolant Reservoir (Overflow Bottle)</td><td class="td-loc">Engine bay</td><td><span class="td-spare">Carry 2L pre-mixed coolant</span></td></tr>
+<tr><td class="td-num">9.3</td><td class="td-name">Brake & Clutch Fluid Reservoir</td><td class="td-loc">Engine bay</td><td><span class="td-spare">Carry 250ml DOT 4 brake fluid</span></td></tr>
+<tr><td class="td-num">9.4</td><td class="td-name">Power Steering Fluid Reservoir</td><td class="td-loc">Engine bay</td><td><span class="td-spare">Carry 250ml ATF Dexron II (automatic transmission fluid)</span></td></tr>
+<tr><td class="td-num">9.5</td><td class="td-name">Windscreen Washer Fluid Reservoir</td><td class="td-loc">Engine bay</td><td><span class="td-spare">Carry 2L washer fluid concentrate</span></td></tr>
+<tr><td class="td-num">10.1</td><td class="td-name">Manual Gearbox — R151F 5-Speed</td><td class="td-loc">Under the vehicle</td><td><span class="td-spare">Carry 3L Castrol Transmax Manual 75W-90</span></td></tr>
+<tr><td class="td-num">10.2</td><td class="td-name">Transfer Case</td><td class="td-loc">Under the vehicle</td><td><span class="td-spare">Carry 3L Castrol Transmax Manual 75W-90</span></td></tr>
+<tr><td class="td-num">10.3</td><td class="td-name">Front Differential</td><td class="td-loc">Under the front of the vehicle</td><td><span class="td-spare">Carry 3L Castrol Transmax Axle EPX 85W-140 — change after water</span></td></tr>
+<tr><td class="td-num">10.4</td><td class="td-name">Rear Differential</td><td class="td-loc">Under the rear of the vehicle</td><td><span class="td-spare">Carry 3L Castrol Transmax Axle EPX 85W-140 — change after water</span></td></tr>
+<tr><td class="td-num">10.5</td><td class="td-name">Fuel Tank</td><td class="td-loc">Under the vehicle</td><td><span class="td-spare">Fill full before remote — carry 20L jerry</span></td></tr>
+<tr><td class="td-num">11.1</td><td class="td-name">Clutch Assembly</td><td class="td-loc">Bellhousing — between engine and gearbox</td><td><span class="td-spare">Terrain Tamer HD — check for slip or drag</span></td></tr>
+<tr><td class="td-num">11.2</td><td class="td-name">Transfer Case</td><td class="td-loc">Behind R151F gearbox — floor selector</td><td><span class="td-spare">No 4WD on dry tar — check for wind-up</span></td></tr>
+<tr><td class="td-num">11.3</td><td class="td-name">Rear Propshaft</td><td class="td-loc">Transfer case → rear differential</td><td><span class="td-spare">Carry spare UJ — check flange bolts</span></td></tr>
+<tr><td class="td-num">11.4</td><td class="td-name">Front Propshaft</td><td class="td-loc">Transfer case → front differential</td><td><span class="td-spare">Can be removed if failed — continue in 2H</span></td></tr>
+<tr><td class="td-num">11.5</td><td class="td-name">Birfield CV Joints</td><td class="td-loc">Inside front axle knuckles</td><td><span class="td-spare">Carry rebuild kit — moly grease only</span></td></tr>
+<tr><td class="td-num">11.6</td><td class="td-name">Free-Wheeling Hubs</td><td class="td-loc">Centre of each front wheel</td><td><span class="td-spare">Lock manually before serious terrain</span></td></tr>
+<tr><td class="td-num">11.7</td><td class="td-name">Front Axle Shafts</td><td class="td-loc">Inside front axle housing</td><td><span class="td-spare">Carry one spare shaft</span></td></tr>
+<tr><td class="td-num">11.8</td><td class="td-name">Rear Axle Shafts</td><td class="td-loc">Inside rear axle housing</td><td><span class="td-spare">Full-float: remove & drive on — carry spare</span></td></tr>
+<tr><td class="td-num">11.9</td><td class="td-name">Wheel Bearings</td><td class="td-loc">Inside all four hubs</td><td><span class="td-spare">Repack after water crossing — carry grease</span></td></tr>
+<tr><td class="td-num">12.1</td><td class="td-name">Front Discs &amp; Calipers</td><td class="td-loc">Behind each front wheel</td><td><span class="td-spare">Carry one set of front brake pads</span></td></tr>
+<tr><td class="td-num">12.2</td><td class="td-name">Rear Drums &amp; Wheel Cylinders</td><td class="td-loc">Inside each rear wheel</td><td><span class="td-spare">Carry one set of rear brake shoes</span></td></tr>
+<tr><td class="td-num">12.3</td><td class="td-name">Brake Master Cylinder</td><td class="td-loc">Engine bay — firewall</td><td><span class="td-spare">DOT 4 only — change every 2 years</span></td></tr>
+<tr><td class="td-num">12.4</td><td class="td-name">Brake Lines &amp; Hoses</td><td class="td-loc">Chassis and each wheel corner</td><td><span class="td-spare">Inspect flex hoses at every service</span></td></tr>
+<tr><td class="td-num">12.5</td><td class="td-name">Handbrake</td><td class="td-loc">Floor lever — cables to rear drums</td><td><span class="td-spare">Don't leave applied after water crossings</span></td></tr>
+<tr><td class="td-num">13.1</td><td class="td-name">Steering Box</td><td class="td-loc">Driver's side engine bay — chassis rail</td><td><span class="td-spare">Check preload if steering feels vague</span></td></tr>
+<tr><td class="td-num">13.2</td><td class="td-name">Power Steering Pump</td><td class="td-loc">Front of engine — belt driven</td><td><span class="td-spare">Carry 500ml ATF Dexron II</span></td></tr>
+<tr><td class="td-num">13.3</td><td class="td-name">Drag Link &amp; Tie Rod</td><td class="td-loc">Under front of vehicle</td><td><span class="td-spare">Inspect for bending after rocky sections</span></td></tr>
+<tr><td class="td-num">13.4</td><td class="td-name">Steering Damper</td><td class="td-loc">Horizontal — front axle to chassis</td><td><span class="td-spare">Replace if steering shimmy develops</span></td></tr>
+<tr><td class="td-num">14.1</td><td class="td-name">Front Coil Springs (OME 859)</td><td class="td-loc">Front axle to chassis spring towers</td><td><span class="td-spare">Inspect coil ends for cracks at service</span></td></tr>
+<tr><td class="td-num">14.2</td><td class="td-name">Front Shocks (OME N181)</td><td class="td-loc">Front axle to chassis — inside coil</td><td><span class="td-spare">Check for oil leaks and mount bolt torque</span></td></tr>
+<tr><td class="td-num">14.3</td><td class="td-name">Rear Leaf Springs (OME CS058R)</td><td class="td-loc">Under rear of vehicle — longitudinal</td><td><span class="td-spare">Carry 2× U-bolts and nuts</span></td></tr>
+<tr><td class="td-num">14.4</td><td class="td-name">Rear Shocks (OME 63111)</td><td class="td-loc">Behind rear axle — axle to chassis</td><td><span class="td-spare">Check lower bracket after rocky terrain</span></td></tr>
+<tr><td class="td-num">14.5</td><td class="td-name">Bump Stops</td><td class="td-loc">Chassis above front and rear axles</td><td><span class="td-spare">Inspect for compression set — check clearances</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="footer">
+  <div>
+    <div class="footer-title">HZJ76R-RKMRS FIELD TRAINING MANUAL</div>
+    Toyota Land Cruiser 76 Series · 1HZ 4.2L Diesel + Turbo · Intercooler · Safari Snorkel · Terrain Tamer 5th Gear &amp; Clutch · R151F 5-Speed Manual · Part-Time 4-Wheel Drive
+  </div>
+  <div style="text-align:right">
+    10 Sections &nbsp;&middot;&nbsp; 69 Components &nbsp;&middot;&nbsp; Rev 2.0<br>
+    Vehicle-specific · Fluid specs from Toyota Owner's Manual
+  </div>
+</div>
+
+<script>
+const links=document.querySelectorAll('.toc-link');
+const comps=document.querySelectorAll('.component');
+const nav=document.querySelector('.toc-bar');
+function updateScrollMargin(){
+  const h=nav.offsetHeight+20;
+  document.querySelectorAll('.component').forEach(el=>el.style.scrollMarginTop=h+'px');
+}
+updateScrollMargin();
+window.addEventListener('resize',updateScrollMargin);
+
+document.querySelectorAll('.toc-link').forEach(a=>{
+  a.addEventListener('click',function(e){
+    e.preventDefault();
+    e.stopPropagation();
+    var href=this.getAttribute('href');
+    var t=document.querySelector(href);
+    if(t){
+      var navH=nav.offsetHeight;
+      var top=t.getBoundingClientRect().top+window.scrollY-(navH+20);
+      // Use scrollTo with smooth, fallback to scrollIntoView for iOS PWA
+      try{
+        window.scrollTo({top:top,behavior:'smooth'});
+      }catch(err){
+        t.scrollIntoView({behavior:'smooth',block:'start'});
+      }
+    }
+    return false;
+  });
+});
+// Colour turbo and fluid section nav links
+['s7c1','s7c2','s7c3','s7c4','s7c5','s7c6','s9c1','s9c2','s9c3','s9c4','s9c5','s10c1','s10c2','s10c3','s10c4','s10c5','s11c1','s11c2','s11c3','s11c4','s11c5','s11c6','s11c7','s11c8','s11c9','s12c1','s12c2','s12c3','s12c4','s12c5','s13c1','s13c2','s13c3','s13c4','s14c1','s14c2','s14c3','s14c4','s14c5'].forEach(id=>{
+  const l=document.querySelector(`[href="#${id}"]`);
+  if(l&&(id.startsWith('s7')||id.startsWith('s9')||id.startsWith('s10')))l.classList.add('turbo-mod');
+});
+window.addEventListener('scroll',()=>{
+  let cur='';
+  comps.forEach(c=>{if(c.getBoundingClientRect().top<120)cur='#'+c.id;});
+  links.forEach(l=>l.classList.toggle('active',l.getAttribute('href')===cur));
+});
+</script>
+<script>
+if('serviceWorker' in navigator && location.hostname !== 'www.claudeusercontent.com'){
+  window.addEventListener('load',function(){
+    navigator.serviceWorker.register('./sw.js')
+      .then(function(r){console.log('LC76 SW registered');})
+      .catch(function(e){console.log('SW error:',e);});
+  });
+}
+</script>
+</body>
+</html>

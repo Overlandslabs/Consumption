@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LC76 Library">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1C1410">
+<link rel="manifest" href="manifest-ref.json">
+<link rel="apple-touch-icon" href="icon-ref-192.svg">
+<meta name="viewport" content="width=device-width,initial-scale=1.0, viewport-fit=cover">
+<title>HZJ76R-RKMRS · Pre-Departure Checklist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Sans:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --clay:#C4572A;--ochre:#D4963A;--sand:#E8D5A3;--cream:#F5EDDA;
+  --ink:#1C1410;--bark:#3D2B1A;--smoke:#6B5B4E;--white:#FDFAF4;
+  --border:rgba(61,43,26,0.15);
+  --green-ok:#1A4731;--red-warn:#B91C1C;--amber:#92400E;
+  --dominant:var(--cream);--secondary:var(--ink);--accent:var(--clay);--accent-2:var(--ochre);
+}
+
+:root{
+  --ink:#0d0e12;--paper:#f5f0e8;--paper2:#ede8de;--rule:#c8c0b0;
+  --amber:#b86800;--amber2:#e07800;
+  --steel:#3a4050;--steelmd:#6a7080;--steellt:#a8b0bc;
+  --mono:'IBM Plex Mono',monospace;--sans:'IBM Plex Sans',sans-serif;--display:'Bebas Neue',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.5}
+
+/* COVER */
+.cover{background:var(--ink);color:var(--paper);padding:10px 36px;border-bottom:4px solid var(--amber)}
+.cover-eyebrow{font-family:var(--mono);font-size:.58rem;letter-spacing:.18em;color:var(--amber2);text-transform:uppercase;margin-bottom:2px}
+.cover-title{font-family:var(--display);font-size:clamp(2rem,4vw,3rem);letter-spacing:.04em;line-height:.92;color:#fff;margin-bottom:1px}
+.cover-title span{color:var(--amber2)}
+.cover-sub{font-family:var(--display);font-size:1.1rem;letter-spacing:.12em;color:var(--steellt);margin-bottom:1px}
+.cover-vin{font-family:var(--mono);font-size:.58rem;letter-spacing:.10em;color:rgba(255,200,100,.7)}
+
+/* NAV */
+.toc-bar{background:var(--steel);padding:7px 36px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;position:sticky;top:0;z-index:100;border-bottom:3px solid var(--amber)}
+.toc-label{font-family:var(--mono);font-size:.50rem;letter-spacing:.18em;color:var(--steellt);text-transform:uppercase;margin-right:4px;flex-shrink:0}
+.toc-link{font-family:var(--mono);font-size:.50rem;color:rgba(255,255,255,.45);text-decoration:none;padding:2px 5px;border:1px solid transparent;transition:all .12s;white-space:nowrap}
+.toc-link:hover{color:var(--tl,var(--amber2));border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.06)}
+.print-btn{margin-left:auto;font-family:var(--mono);font-size:.52rem;letter-spacing:.12em;color:var(--paper);background:none;border:1px solid rgba(255,255,255,.2);padding:4px 10px;cursor:pointer;transition:all .12s;text-transform:uppercase;flex-shrink:0}
+.print-btn:hover{border-color:var(--amber2);color:var(--amber2)}
+.reset-btn{font-family:var(--mono);font-size:.52rem;letter-spacing:.10em;color:rgba(255,255,255,.5);background:none;border:1px solid rgba(255,255,255,.15);padding:4px 10px;cursor:pointer;transition:all .12s;text-transform:uppercase;flex-shrink:0}
+.reset-btn:hover{color:#fff;border-color:rgba(255,255,255,.4)}
+
+/* ZONE HEADERS */
+.zone-header{display:flex;align-items:center;gap:10px;padding:7px 36px;border-left:5px solid var(--amber);background:var(--paper2);border-bottom:1px solid var(--rule);margin-top:8px;scroll-margin-top:50px}
+.zone-badge{font-family:var(--mono);font-size:.60rem;font-weight:600;color:#fff;padding:3px 9px;letter-spacing:.14em}
+.zone-name{font-family:var(--display);font-size:1.6rem;letter-spacing:.10em;color:var(--ink)}
+.zone-count{font-family:var(--mono);font-size:.52rem;color:var(--steelmd);margin-left:auto;letter-spacing:.08em}
+
+/* CHECKLIST ROWS */
+.zone-body{padding:0 36px}
+.cl-row{display:flex;align-items:flex-start;gap:12px;padding:7px 0;border-bottom:1px solid var(--rule)}
+.cl-row:last-child{border-bottom:none}
+.cl-critical{background:rgba(139,32,0,.03)}
+
+.cl-check{width:20px;height:20px;min-width:20px;border:2px solid var(--rule);cursor:pointer;transition:all .12s;margin-top:2px;position:relative;border-radius:2px}
+.cl-check.checked{background:var(--amber);border-color:var(--amber)}
+.cl-check.checked::after{content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:.75rem;font-weight:700}
+
+.cl-content{flex:1}
+.cl-item-head{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:3px}
+.cl-cat{font-family:var(--mono);font-size:.46rem;letter-spacing:.12em;text-transform:uppercase;padding:1px 5px;border:1px solid;white-space:nowrap;font-weight:600}
+.cl-item-name{font-family:var(--sans);font-size:.88rem;font-weight:600;color:var(--ink)}
+.crit-badge{font-family:var(--mono);font-size:.44rem;letter-spacing:.12em;color:#8a2000;background:#fff4f0;border:1px solid #c04030;padding:1px 5px;text-transform:uppercase;font-weight:600}
+.cl-detail{font-family:var(--sans);font-size:.78rem;color:#3a4050;line-height:1.5}
+
+/* PROGRESS BAR */
+.progress-bar-wrap{position:sticky;top:42px;z-index:99;background:var(--ink);padding:4px 36px;display:flex;align-items:center;gap:10px}
+.progress-bar{flex:1;height:4px;background:rgba(255,255,255,.1);border-radius:2px}
+.progress-fill{height:100%;background:var(--amber2);border-radius:2px;transition:width .3s;width:0%}
+.progress-label{font-family:var(--mono);font-size:.50rem;color:var(--steellt);letter-spacing:.10em;white-space:nowrap}
+
+/* ── PRINT STYLES ─────────────────────────────────────────── */
+@media print{
+  @page{margin:10mm 8mm;size:A4}
+  .toc-bar,.progress-bar-wrap,.cl-detail,.print-btn,.reset-btn,.zone-count{display:none!important}
+  .cover{padding:6px 20px;page-break-after:avoid}
+  .cover-title{font-size:1.8rem}
+  .zone-header{margin-top:4px;padding:4px 20px;scroll-margin-top:0;page-break-after:avoid}
+  .zone-name{font-size:1.1rem}
+  .zone-body{padding:0 20px}
+  .cl-row{padding:3px 0;page-break-inside:avoid}
+  .cl-check{width:13px;height:13px;min-width:13px;border:1.5px solid #888;border-radius:1px}
+  .cl-check.checked{background:none!important}
+  .cl-check.checked::after{display:none}
+  .cl-item-name{font-size:.78rem}
+  .cl-cat{display:none}
+  .crit-badge{font-size:.42rem}
+  body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .cl-critical{background:rgba(139,32,0,.06)!important}
+}
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="cover">
+  <div class="cover-eyebrow">Pre-Departure Checklist</div>
+  <div class="cover-title">Walk-Around <span>Sequence</span></div>
+  <div class="cover-sub">HZJ76R-RKMRS &nbsp;&middot;&nbsp; 68 Items &nbsp;&middot;&nbsp; 37 Critical</div>
+  <div class="cover-vin">VIN: JTEEB71J207007860 &nbsp;&middot;&nbsp; Engine: 1HZ0633958 &nbsp;&middot;&nbsp; Reg: CAA 430 689</div>
+</div>
+
+<div class="toc-bar">
+  <span class="toc-label">Zones</span>
+  <a href="javascript:void(0)" onclick="document.getElementById('zoneA').scrollIntoView({behavior:'smooth'});return false;" class="toc-link" style="--tl:#8a2000">A. Engine Bay</a>
+<a href="javascript:void(0)" onclick="document.getElementById('zoneB').scrollIntoView({behavior:'smooth'});return false;" class="toc-link" style="--tl:#0a4a6a">B. Front of Vehicle</a>
+<a href="javascript:void(0)" onclick="document.getElementById('zoneC').scrollIntoView({behavior:'smooth'});return false;" class="toc-link" style="--tl:#1a3a1a">C. Driver Side</a>
+<a href="javascript:void(0)" onclick="document.getElementById('zoneD').scrollIntoView({behavior:'smooth'});return false;" class="toc-link" style="--tl:#4a3200">D. Rear of Vehicle</a>
+<a href="javascript:void(0)" onclick="document.getElementById('zoneE').scrollIntoView({behavior:'smooth'});return false;" class="toc-link" style="--tl:#3a2060">E. Passenger Side</a>
+<a href="javascript:void(0)" onclick="document.getElementById('zoneF').scrollIntoView({behavior:'smooth'});return false;" class="toc-link" style="--tl:#1a3a40">F. Roof Rack</a>
+<a href="javascript:void(0)" onclick="document.getElementById('zoneG').scrollIntoView({behavior:'smooth'});return false;" class="toc-link" style="--tl:#3a3000">G. Cab Interior</a>
+<a href="javascript:void(0)" onclick="document.getElementById('zoneH').scrollIntoView({behavior:'smooth'});return false;" class="toc-link" style="--tl:#3a1a00">H. Pre-Start & Electrical</a>
+<a href="javascript:void(0)" onclick="document.getElementById('zoneI').scrollIntoView({behavior:'smooth'});return false;" class="toc-link" style="--tl:#2a2a2a">I. Final Pre-Departure</a>
+
+  <button class="reset-btn" onclick="resetAll()">&#9635; Reset</button>
+  <button class="print-btn" onclick="window.print()">&#9113; Print</button>
+</div>
+
+<div class="progress-bar-wrap">
+  <div class="progress-bar"><div class="progress-fill" id="prog-fill"></div></div>
+  <span class="progress-label" id="prog-label">0 / 68 checked</span>
+</div>
+
+
+<div class="zone-header" id="zoneA" style="border-left-color:#8a2000;background:#fff4f0">
+  <span class="zone-badge" style="background:#8a2000">A</span>
+  <span class="zone-name">Engine Bay</span>
+  <span class="zone-count">12 items</span>
+</div>
+<div class="zone-body">
+
+      <div class="cl-row cl-critical">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#8a2000;background:#fff4f0;border-color:#8a2000">Fluids</span>
+            <span class="cl-item-name">Engine oil level</span>
+            <span class="crit-badge">CRITICAL</span>
+          </div>
+          <p class="cl-detail">Check dipstick — between min and max. Top up Shell Rimula R4 X 15W-40 if needed. Note any drop since last check.</p>
+        </div>
+      </div>
+      <div class="cl-row cl-critical">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#8a2000;background:#fff4f0;border-color:#8a2000">Fluids</span>
+            <span class="cl-item-name">Coolant level</span>
+            <span class="crit-badge">CRITICAL</span>
+          </div>
+          <p class="cl-detail">Check overflow tank — should be between MIN and MAX cold. Top up Toyota LLC 50/50 if needed. Check for sweet smell or residue around cap.</p>
+        </div>
+      </div>
+      <div class="cl-row cl-critical">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#8a2000;background:#fff4f0;border-color:#8a2000">Fluids</span>
+            <span class="cl-item-name">Brake & clutch fluid</span>
+            <span class="crit-badge">CRITICAL</span>
+          </div>
+          <p class="cl-detail">Check reservoir — should be at MAX. Any drop indicates a leak. DOT 4 only.</p>
+        </div>
+      </div>
+      <div class="cl-row ">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#8a2000;background:#fff4f0;border-color:#8a2000">Fluids</span>
+            <span class="cl-item-name">Power steering fluid</span>
+            
+          </div>
+          <p class="cl-detail">Check reservoir with engine off — should be at FULL cold mark. ATF Dexron II.</p>
+        </div>
+      </div>
+      <div class="cl-row ">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#8a2000;background:#fff4f0;border-color:#8a2000">Fluids</span>
+            <span class="cl-item-name">Washer bottle</span>
+            
+          </div>
+          <p class="cl-detail">Top up. Not critical but useful on dusty tracks.</p>
+        </div>
+      </div>
+      <div class="cl-row cl-critical">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#8a2000;background:#fff4f0;border-color:#8a2000">Visual</span>
+            <span class="cl-item-name">V-belts</span>
+            <span class="crit-badge">CRITICAL</span>
+          </div>
+          <p class="cl-detail">Check tension and condition — no cracking, glazing or fraying. Press mid-span — should deflect 8–10mm.</p>
+        </div>
+      </div>
+      <div class="cl-row cl-critical">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#8a2000;background:#fff4f0;border-color:#8a2000">Visual</span>
+            <span class="cl-item-name">Coolant hoses</span>
+            <span class="crit-badge">CRITICAL</span>
+          </div>
+          <p class="cl-detail">Squeeze both hoses — firm but pliable. Check clamps are tight. No seeping or staining.</p>
+        </div>
+      </div>
+      <div class="cl-row cl-critical">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#8a2000;background:#fff4f0;border-color:#8a2000">Visual</span>
+            <span class="cl-item-name">Fuel lines</span>
+            <span class="crit-badge">CRITICAL</span>
+          </div>
+          <p class="cl-detail">Check for diesel smell or seeping around injection pump, filter, and injector return lines.</p>
+        </div>
+      </div>
+      <div class="cl-row ">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#8a2000;background:#fff4f0;border-color:#8a2000">Visual</span>
+            <span class="cl-item-name">Air filter</span>
+            
+          </div>
+          <p class="cl-detail">Check pre-cleaner on snorkel — clear of debris. Check filter condition if recently in dusty conditions.</p>
+        </div>
+      </div>
+      <div class="cl-row cl-critical">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#8a2000;background:#fff4f0;border-color:#8a2000">Visual</span>
+            <span class="cl-item-name">Oil leaks</span>
+            <span class="crit-badge">CRITICAL</span>
+          </div>
+          <p class="cl-detail">Check underneath for fresh oil — sump, gearbox, transfer case. Any fresh drips must be investigated.</p>
+        </div>
+      </div>
+      <div class="cl-row ">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#8a2000;background:#fff4f0;border-color:#8a2000">Visual</span>
+            <span class="cl-item-name">Battery terminals</span>
+            
+          </div>
+          <p class="cl-detail">Clean, tight, no corrosion. Check both main and aux battery connections.</p>
+        </div>
+      </div>
+      <div class="cl-row ">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#8a2000;background:#fff4f0;border-color:#8a2000">Visual</span>
+            <span class="cl-item-name">ARB compressor</span>
+            
+          </div>
+          <p class="cl-detail">Check mounting and air line connections are secure.</p>
+        </div>
+      </div>
+</div>
+
+<div class="zone-header" id="zoneB" style="border-left-color:#0a4a6a;background:#e8f4ff">
+  <span class="zone-badge" style="background:#0a4a6a">B</span>
+  <span class="zone-name">Front of Vehicle</span>
+  <span class="zone-count">5 items</span>
+</div>
+<div class="zone-body">
+
+      <div class="cl-row cl-critical">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#0a4a6a;background:#e8f4ff;border-color:#0a4a6a">Tyres</span>
+            <span class="cl-item-name">Front tyre pressures</span>
+            <span class="crit-badge">CRITICAL</span>
+          </div>
+          <p class="cl-detail">Check both front tyres — on-road: 2.4 bar (35 psi). Adjust for terrain. Check for cuts, bulges or embedded objects.</p>
+        </div>
+      </div>
+      <div class="cl-row cl-critical">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#0a4a6a;background:#e8f4ff;border-color:#0a4a6a">Tyres</span>
+            <span class="cl-item-name">Front tyre condition</span>
+            <span class="crit-badge">CRITICAL</span>
+          </div>
+          <p class="cl-detail">Inspect tread and sidewalls visually. Check for slow puncture — compare height to rear tyres.</p>
+        </div>
+      </div>
+      <div class="cl-row ">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#0a4a6a;background:#e8f4ff;border-color:#0a4a6a">Recovery</span>
+            <span class="cl-item-name">Winch & bull bar</span>
+            
+          </div>
+          <p class="cl-detail">Check winch hook is secured and line is neatly spooled. ARB bumper bolts tight. Shackles on bull bar if fitted.</p>
+        </div>
+      </div>
+      <div class="cl-row ">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#0a4a6a;background:#e8f4ff;border-color:#0a4a6a">Lights</span>
+            <span class="cl-item-name">Front lights</span>
+            
+          </div>
+          <p class="cl-detail">Check headlights, park lights, indicators and IPF spotlights — all operational.</p>
+        </div>
+      </div>
+      <div class="cl-row ">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#0a4a6a;background:#e8f4ff;border-color:#0a4a6a">Visual</span>
+            <span class="cl-item-name">Skid plate</span>
+            
+          </div>
+          <p class="cl-detail">Check mid skid plate is secure — no loose bolts or damage from previous trip.</p>
+        </div>
+      </div>
+</div>
+
+<div class="zone-header" id="zoneC" style="border-left-color:#1a3a1a;background:#e8f5e8">
+  <span class="zone-badge" style="background:#1a3a1a">C</span>
+  <span class="zone-name">Driver Side</span>
+  <span class="zone-count">5 items</span>
+</div>
+<div class="zone-body">
+
+      <div class="cl-row ">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#1a3a1a;background:#e8f5e8;border-color:#1a3a1a">Visual</span>
+            <span class="cl-item-name">Driver door & mirror</span>
+            
+          </div>
+          <p class="cl-detail">Door hinges and seals intact. Mirror adjusted and secure.</p>
+        </div>
+      </div>
+      <div class="cl-row ">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#1a3a1a;background:#e8f5e8;border-color:#1a3a1a">Tyres</span>
+            <span class="cl-item-name">Driver side tyres</span>
+            
+          </div>
+          <p class="cl-detail">Re-confirm front tyre checked. Visual on rear driver tyre.</p>
+        </div>
+      </div>
+      <div class="cl-row cl-critical">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#1a3a1a;background:#e8f5e8;border-color:#1a3a1a">Suspension</span>
+            <span class="cl-item-name">Rear leaf springs driver side</span>
+            <span class="crit-badge">CRITICAL</span>
+          </div>
+          <p class="cl-detail">Check U-bolts — grab and try to rotate. Check spring leaves for cracks.</p>
+        </div>
+      </div>
+      <div class="cl-row cl-critical">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#1a3a1a;background:#e8f5e8;border-color:#1a3a1a">Visual</span>
+            <span class="cl-item-name">Fuel tank</span>
+            <span class="crit-badge">CRITICAL</span>
+          </div>
+          <p class="cl-detail">Check extended 145L tank — no seeping around fittings or tank guard. Fuel level noted.</p>
+        </div>
+      </div>
+      <div class="cl-row ">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#1a3a1a;background:#e8f5e8;border-color:#1a3a1a">Recovery</span>
+            <span class="cl-item-name">Side step & body</span>
+            
+          </div>
+          <p class="cl-detail">Check side step secure. No loose body panels or damage that could foul tyres.</p>
+        </div>
+      </div>
+</div>
+
+<div class="zone-header" id="zoneD" style="border-left-color:#4a3200;background:#fff8e8">
+  <span class="zone-badge" style="background:#4a3200">D</span>
+  <span class="zone-name">Rear of Vehicle</span>
+  <span class="zone-count">10 items</span>
+</div>
+<div class="zone-body">
+
+      <div class="cl-row cl-critical">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#4a3200;background:#fff8e8;border-color:#4a3200">Tyres</span>
+            <span class="cl-item-name">Spare tyre</span>
+            <span class="crit-badge">CRITICAL</span>
+          </div>
+          <p class="cl-detail">Check spare tyre pressure — same as road tyres (2.4 bar). Check it is properly mounted and locking nut is in the cab.</p>
+        </div>
+      </div>
+      <div class="cl-row cl-critical">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#4a3200;background:#fff8e8;border-color:#4a3200">Recovery</span>
+            <span class="cl-item-name">MaxTrax</span>
+            <span class="crit-badge">CRITICAL</span>
+          </div>
+          <p class="cl-detail">Both MaxTrax boards present and mounted securely on rear door or carrier.</p>
+        </div>
+      </div>
+      <div class="cl-row cl-critical">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#4a3200;background:#fff8e8;border-color:#4a3200">Recovery</span>
+            <span class="cl-item-name">Recovery kit</span>
+            <span class="crit-badge">CRITICAL</span>
+          </div>
+          <p class="cl-detail">Snatch rope, tow rope, shackles (metal + soft), tree protector, pulley block, line dampener, spade, PPE — all present.</p>
+        </div>
+      </div>
+      <div class="cl-row cl-critical">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#4a3200;background:#fff8e8;border-color:#4a3200">Recovery</span>
+            <span class="cl-item-name">Hi-Lift jack + base plate</span>
+            <span class="crit-badge">CRITICAL</span>
+          </div>
+          <p class="cl-detail">Present, pin secured, handle attached. Base plate stowed.</p>
+        </div>
+      </div>
+      <div class="cl-row ">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#4a3200;background:#fff8e8;border-color:#4a3200">Recovery</span>
+            <span class="cl-item-name">Bottle jack + hydraulic jack</span>
+            
+          </div>
+          <p class="cl-detail">Both present and accessible.</p>
+        </div>
+      </div>
+      <div class="cl-row cl-critical">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#4a3200;background:#fff8e8;border-color:#4a3200">Load</span>
+            <span class="cl-item-name">Load security</span>
+            <span class="crit-badge">CRITICAL</span>
+          </div>
+          <p class="cl-detail">Check all cargo is secured — nothing loose that can shift under braking or on rough terrain. Heavy items low and forward.</p>
+        </div>
+      </div>
+      <div class="cl-row cl-critical">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#4a3200;background:#fff8e8;border-color:#4a3200">Camp</span>
+            <span class="cl-item-name">Roof rack load</span>
+            <span class="crit-badge">CRITICAL</span>
+          </div>
+          <p class="cl-detail">All roof rack items strapped — table, accessories. Nothing can work loose at speed.</p>
+        </div>
+      </div>
+      <div class="cl-row ">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#4a3200;background:#fff8e8;border-color:#4a3200">Lights</span>
+            <span class="cl-item-name">Rear lights</span>
+            
+          </div>
+          <p class="cl-detail">Check brake lights, reverse lights, indicators and number plate light — all operational.</p>
+        </div>
+      </div>
+      <div class="cl-row ">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#4a3200;background:#fff8e8;border-color:#4a3200">Tow</span>
+            <span class="cl-item-name">Tow bar</span>
+            
+          </div>
+          <p class="cl-detail">H/D gooseneck tow bar — check locking pin if not towing. Check hitch ball nut if towing.</p>
+        </div>
+      </div>
+      <div class="cl-row ">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#4a3200;background:#fff8e8;border-color:#4a3200">Recovery</span>
+            <span class="cl-item-name">Jerricans / fuel canisters</span>
+            
+          </div>
+          <p class="cl-detail">2× Desert Fox 20L — filled if needed. Caps tight. Stowed securely.</p>
+        </div>
+      </div>
+</div>
+
+<div class="zone-header" id="zoneE" style="border-left-color:#3a2060;background:#f0ecff">
+  <span class="zone-badge" style="background:#3a2060">E</span>
+  <span class="zone-name">Passenger Side</span>
+  <span class="zone-count">4 items</span>
+</div>
+<div class="zone-body">
+
+      <div class="cl-row ">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#3a2060;background:#f0ecff;border-color:#3a2060">Tyres</span>
+            <span class="cl-item-name">Passenger side tyres</span>
+            
+          </div>
+          <p class="cl-detail">Visual check front and rear — tread, sidewalls, pressure confirmed.</p>
+        </div>
+      </div>
+      <div class="cl-row cl-critical">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#3a2060;background:#f0ecff;border-color:#3a2060">Suspension</span>
+            <span class="cl-item-name">Rear leaf springs passenger side</span>
+            <span class="crit-badge">CRITICAL</span>
+          </div>
+          <p class="cl-detail">Check U-bolts and spring condition — same as driver side.</p>
+        </div>
+      </div>
+      <div class="cl-row cl-critical">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#3a2060;background:#f0ecff;border-color:#3a2060">Visual</span>
+            <span class="cl-item-name">Snorkel</span>
+            <span class="crit-badge">CRITICAL</span>
+          </div>
+          <p class="cl-detail">Check snorkel intake is clear of debris, mud, bird nests. Pre-cleaner clear.</p>
+        </div>
+      </div>
+      <div class="cl-row ">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#3a2060;background:#f0ecff;border-color:#3a2060">Visual</span>
+            <span class="cl-item-name">Passenger door & mirror</span>
+            
+          </div>
+          <p class="cl-detail">Door and seal intact. Mirror adjusted.</p>
+        </div>
+      </div>
+</div>
+
+<div class="zone-header" id="zoneF" style="border-left-color:#1a3a40;background:#e8f5f8">
+  <span class="zone-badge" style="background:#1a3a40">F</span>
+  <span class="zone-name">Roof Rack</span>
+  <span class="zone-count">3 items</span>
+</div>
+<div class="zone-body">
+
+      <div class="cl-row cl-critical">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#1a3a40;background:#e8f5f8;border-color:#1a3a40">Camp</span>
+            <span class="cl-item-name">Roof rack structure</span>
+            <span class="crit-badge">CRITICAL</span>
+          </div>
+          <p class="cl-detail">Check all rack mounting bolts — grab and try to move the rack. No movement.</p>
+        </div>
+      </div>
+      <div class="cl-row ">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#1a3a40;background:#e8f5f8;border-color:#1a3a40">Camp</span>
+            <span class="cl-item-name">Aluminium table</span>
+            
+          </div>
+          <p class="cl-detail">Table is folded and secured to rack underside. Nothing loose.</p>
+        </div>
+      </div>
+      <div class="cl-row ">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#1a3a40;background:#e8f5f8;border-color:#1a3a40">Electrical</span>
+            <span class="cl-item-name">Solar panels (if deployed)</span>
+            
+          </div>
+          <p class="cl-detail">Hardkorr 200W portable panels — stowed and strapped. Cables not trailing.</p>
+        </div>
+      </div>
+</div>
+
+<div class="zone-header" id="zoneG" style="border-left-color:#3a3000;background:#fffae8">
+  <span class="zone-badge" style="background:#3a3000">G</span>
+  <span class="zone-name">Cab Interior</span>
+  <span class="zone-count">12 items</span>
+</div>
+<div class="zone-body">
+
+      <div class="cl-row cl-critical">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#3a3000;background:#fffae8;border-color:#3a3000">Navigation</span>
+            <span class="cl-item-name">GPS / maps</span>
+            <span class="crit-badge">CRITICAL</span>
+          </div>
+          <p class="cl-detail">GPS powered and updated. Paper maps for the route in the cab. Offline maps downloaded.</p>
+        </div>
+      </div>
+      <div class="cl-row cl-critical">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#3a3000;background:#fffae8;border-color:#3a3000">Documentation</span>
+            <span class="cl-item-name">Vehicle documents</span>
+            <span class="crit-badge">CRITICAL</span>
+          </div>
+          <p class="cl-detail">Registration, insurance, roadworthy, permits — all present and in date.</p>
+        </div>
+      </div>
+      <div class="cl-row cl-critical">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#3a3000;background:#fffae8;border-color:#3a3000">Documentation</span>
+            <span class="cl-item-name">Passports & visas</span>
+            <span class="crit-badge">CRITICAL</span>
+          </div>
+          <p class="cl-detail">All passports present. Visas checked for validity and correct country.</p>
+        </div>
+      </div>
+      <div class="cl-row cl-critical">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#3a3000;background:#fffae8;border-color:#3a3000">Documentation</span>
+            <span class="cl-item-name">Emergency contacts list</span>
+            <span class="crit-badge">CRITICAL</span>
+          </div>
+          <p class="cl-detail">Printed list of emergency contacts, nearest hospital, recovery contacts for the route.</p>
+        </div>
+      </div>
+      <div class="cl-row cl-critical">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#3a3000;background:#fffae8;border-color:#3a3000">Navigation</span>
+            <span class="cl-item-name">Communication device</span>
+            <span class="crit-badge">CRITICAL</span>
+          </div>
+          <p class="cl-detail">Satellite communicator / PLB — charged and registered. Test check-in sent.</p>
+        </div>
+      </div>
+      <div class="cl-row cl-critical">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#3a3000;background:#fffae8;border-color:#3a3000">Medical</span>
+            <span class="cl-item-name">First aid kit</span>
+            <span class="crit-badge">CRITICAL</span>
+          </div>
+          <p class="cl-detail">Kit is present, stocked and accessible. Check expiry on critical medications.</p>
+        </div>
+      </div>
+      <div class="cl-row cl-critical">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#3a3000;background:#fffae8;border-color:#3a3000">Medical</span>
+            <span class="cl-item-name">Personal medications</span>
+            <span class="crit-badge">CRITICAL</span>
+          </div>
+          <p class="cl-detail">All personal medications packed — sufficient supply for trip duration plus 3 days.</p>
+        </div>
+      </div>
+      <div class="cl-row cl-critical">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#3a3000;background:#fffae8;border-color:#3a3000">Food & Water</span>
+            <span class="cl-item-name">Drinking water</span>
+            <span class="crit-badge">CRITICAL</span>
+          </div>
+          <p class="cl-detail">Minimum 4L per person per day. Check containers sealed and accessible.</p>
+        </div>
+      </div>
+      <div class="cl-row ">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#3a3000;background:#fffae8;border-color:#3a3000">Food & Water</span>
+            <span class="cl-item-name">Food supply</span>
+            
+          </div>
+          <p class="cl-detail">Provisioned for trip duration plus 2 days emergency reserve.</p>
+        </div>
+      </div>
+      <div class="cl-row ">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#3a3000;background:#fffae8;border-color:#3a3000">Electrical</span>
+            <span class="cl-item-name">National Luna fridge 52L</span>
+            
+          </div>
+          <p class="cl-detail">Powered on, set to correct temperature, loaded and sealed. Check contents.</p>
+        </div>
+      </div>
+      <div class="cl-row cl-critical">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#3a3000;background:#fffae8;border-color:#3a3000">Electrical</span>
+            <span class="cl-item-name">Spare tyre locking key</span>
+            <span class="crit-badge">CRITICAL</span>
+          </div>
+          <p class="cl-detail">In glovebox or cab — not in cargo that could become inaccessible.</p>
+        </div>
+      </div>
+      <div class="cl-row ">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#3a3000;background:#fffae8;border-color:#3a3000">Tools</span>
+            <span class="cl-item-name">Spares box accessible</span>
+            
+          </div>
+          <p class="cl-detail">Know where the spares box is. Critical items (oil, coolant, V-belts) accessible without unpacking everything.</p>
+        </div>
+      </div>
+</div>
+
+<div class="zone-header" id="zoneH" style="border-left-color:#3a1a00;background:#fff0e8">
+  <span class="zone-badge" style="background:#3a1a00">H</span>
+  <span class="zone-name">Pre-Start & Electrical</span>
+  <span class="zone-count">10 items</span>
+</div>
+<div class="zone-body">
+
+      <div class="cl-row cl-critical">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#3a1a00;background:#fff0e8;border-color:#3a1a00">Electrical</span>
+            <span class="cl-item-name">Aux battery voltage</span>
+            <span class="crit-badge">CRITICAL</span>
+          </div>
+          <p class="cl-detail">Check BM2000 monitor — aux battery should show 12.6V+ rested. If below 12.2V, investigate before departure.</p>
+        </div>
+      </div>
+      <div class="cl-row ">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#3a1a00;background:#fff0e8;border-color:#3a1a00">Electrical</span>
+            <span class="cl-item-name">Victron Cyrix isolator</span>
+            
+          </div>
+          <p class="cl-detail">Check isolator is armed — LED indicator on. Both batteries will charge once engine starts.</p>
+        </div>
+      </div>
+      <div class="cl-row ">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#3a1a00;background:#fff0e8;border-color:#3a1a00">Electrical</span>
+            <span class="cl-item-name">Sinetech inverter</span>
+            
+          </div>
+          <p class="cl-detail">Set correctly — on standby or off for driving. Not drawing load unnecessarily.</p>
+        </div>
+      </div>
+      <div class="cl-row ">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#3a1a00;background:#fff0e8;border-color:#3a1a00">Electrical</span>
+            <span class="cl-item-name">TPMS system</span>
+            
+          </div>
+          <p class="cl-detail">Steel Mate Solar TPMS — all 4 sensors reading. Note baseline pressures.</p>
+        </div>
+      </div>
+      <div class="cl-row ">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#3a1a00;background:#fff0e8;border-color:#3a1a00">Electrical</span>
+            <span class="cl-item-name">All electrics off</span>
+            
+          </div>
+          <p class="cl-detail">Check lights, fridge draw, inverter load — nothing unnecessary draining battery before start.</p>
+        </div>
+      </div>
+      <div class="cl-row cl-critical">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#3a1a00;background:#fff0e8;border-color:#3a1a00">Start</span>
+            <span class="cl-item-name">Glow plug preheat</span>
+            <span class="crit-badge">CRITICAL</span>
+          </div>
+          <p class="cl-detail">Allow full preheat cycle before cranking — especially cold mornings. Wait for glow light to extinguish.</p>
+        </div>
+      </div>
+      <div class="cl-row cl-critical">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#3a1a00;background:#fff0e8;border-color:#3a1a00">Start</span>
+            <span class="cl-item-name">Engine start & idle</span>
+            <span class="crit-badge">CRITICAL</span>
+          </div>
+          <p class="cl-detail">Start engine. Allow to idle 2–3 minutes. Check for warning lights, unusual smoke or noises.</p>
+        </div>
+      </div>
+      <div class="cl-row cl-critical">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#3a1a00;background:#fff0e8;border-color:#3a1a00">Start</span>
+            <span class="cl-item-name">Oil pressure warning</span>
+            <span class="crit-badge">CRITICAL</span>
+          </div>
+          <p class="cl-detail">Oil pressure light should extinguish within 3 seconds of start. If it stays on — stop immediately.</p>
+        </div>
+      </div>
+      <div class="cl-row ">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#3a1a00;background:#fff0e8;border-color:#3a1a00">Start</span>
+            <span class="cl-item-name">Alternator output</span>
+            
+          </div>
+          <p class="cl-detail">Check voltmeter — should read 13.8–14.4V at idle. Confirms alternator charging.</p>
+        </div>
+      </div>
+      <div class="cl-row cl-critical">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#3a1a00;background:#fff0e8;border-color:#3a1a00">Brakes</span>
+            <span class="cl-item-name">Brake pedal</span>
+            <span class="crit-badge">CRITICAL</span>
+          </div>
+          <p class="cl-detail">Press brake pedal firmly — should be firm, not spongy or sinking. Check handbrake holds.</p>
+        </div>
+      </div>
+</div>
+
+<div class="zone-header" id="zoneI" style="border-left-color:#2a2a2a;background:#f0f0f0">
+  <span class="zone-badge" style="background:#2a2a2a">I</span>
+  <span class="zone-name">Final Pre-Departure</span>
+  <span class="zone-count">7 items</span>
+</div>
+<div class="zone-body">
+
+      <div class="cl-row cl-critical">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#2a2a2a;background:#f0f0f0;border-color:#2a2a2a">Final</span>
+            <span class="cl-item-name">Walk-around complete</span>
+            <span class="crit-badge">CRITICAL</span>
+          </div>
+          <p class="cl-detail">Confirm all zones A–H checked. Nothing left on roof, bonnet or behind tyres.</p>
+        </div>
+      </div>
+      <div class="cl-row ">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#2a2a2a;background:#f0f0f0;border-color:#2a2a2a">Final</span>
+            <span class="cl-item-name">Doors & windows</span>
+            
+          </div>
+          <p class="cl-detail">All doors closed and latched. Windows up or set as preferred. Roof hatch closed.</p>
+        </div>
+      </div>
+      <div class="cl-row cl-critical">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#2a2a2a;background:#f0f0f0;border-color:#2a2a2a">Final</span>
+            <span class="cl-item-name">Route confirmed</span>
+            <span class="crit-badge">CRITICAL</span>
+          </div>
+          <p class="cl-detail">Route for the day confirmed. First fuel stop identified. Camp location known.</p>
+        </div>
+      </div>
+      <div class="cl-row ">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#2a2a2a;background:#f0f0f0;border-color:#2a2a2a">Final</span>
+            <span class="cl-item-name">Departure time noted</span>
+            
+          </div>
+          <p class="cl-detail">Note departure time for ETA calculations and emergency reference.</p>
+        </div>
+      </div>
+      <div class="cl-row ">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#2a2a2a;background:#f0f0f0;border-color:#2a2a2a">Final</span>
+            <span class="cl-item-name">Hub locks</span>
+            
+          </div>
+          <p class="cl-detail">If entering 4WD terrain — hubs locked before departure, not on the track.</p>
+        </div>
+      </div>
+      <div class="cl-row ">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#2a2a2a;background:#f0f0f0;border-color:#2a2a2a">Final</span>
+            <span class="cl-item-name">Phone charged</span>
+            
+          </div>
+          <p class="cl-detail">Driver phone at 100% — emergency contact and backup navigation.</p>
+        </div>
+      </div>
+      <div class="cl-row cl-critical">
+        <div class="cl-check" onclick="this.classList.toggle('checked')"></div>
+        <div class="cl-content">
+          <div class="cl-item-head">
+            <span class="cl-cat" style="color:#2a2a2a;background:#f0f0f0;border-color:#2a2a2a">Final</span>
+            <span class="cl-item-name">Check in</span>
+            <span class="crit-badge">CRITICAL</span>
+          </div>
+          <p class="cl-detail">Check in with an off-route contact — confirm route, expected check-in times, emergency protocol.</p>
+        </div>
+      </div>
+</div>
+
+
+<script>
+const total = 68;
+function updateProgress(){
+  const checked = document.querySelectorAll('.cl-check.checked').length;
+  document.getElementById('prog-fill').style.width = (checked/total*100)+'%';
+  document.getElementById('prog-label').textContent = checked+' / '+total+' checked';
+}
+document.querySelectorAll('.cl-check').forEach(el=>{
+  el.addEventListener('click',updateProgress);
+});
+function resetAll(){
+  document.querySelectorAll('.cl-check.checked').forEach(el=>el.classList.remove('checked'));
+  updateProgress();
+}
+</script>
+<script>
+if('serviceWorker' in navigator && location.hostname !== 'www.claudeusercontent.com'){
+  window.addEventListener('load',function(){
+    navigator.serviceWorker.register('./sw.js')
+      .then(function(r){console.log('LC76 SW registered');})
+      .catch(function(e){console.log('SW error:',e);});
+  });
+}
+</script>
+</body>
+</html>

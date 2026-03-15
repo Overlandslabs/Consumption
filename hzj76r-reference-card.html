@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LC76 Library">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1C1410">
+<link rel="manifest" href="manifest-ref.json">
+<link rel="apple-touch-icon" href="icon-ref-192.svg">
+<meta name="viewport" content="width=device-width,initial-scale=1, viewport-fit=cover">
+<title>HZJ76R-RKMRS — Vehicle Reference Card</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --clay:#C4572A;--ochre:#D4963A;--sand:#E8D5A3;--cream:#F5EDDA;
+  --ink:#1C1410;--bark:#3D2B1A;--smoke:#6B5B4E;--white:#FDFAF4;
+  --border:rgba(61,43,26,0.15);
+  --green-ok:#1A4731;--red-warn:#B91C1C;--amber:#92400E;
+  --dominant:var(--cream);--secondary:var(--ink);--accent:var(--clay);--accent-2:var(--ochre);
+}
+
+:root{
+  --ink:#0d0e12;
+  --paper:#f5f0e8;
+  --paper2:#edeae0;
+  --amber:#b86800;
+  --amber2:#e07800;
+  --rule:#d4cfc4;
+  --steeldk:#2a2f3a;
+  --steelmd:#6a7080;
+  --steellt:#9aa0ae;
+  --green:#1e5c2a;
+  --green-lt:#f0f4f0;
+  --green-bdr:#8ab09a;
+  --blue:#1e3a6a;
+  --blue-lt:#eef2f8;
+  --red:#8a2800;
+  --red-lt:#fff4f0;
+  --display:'Bebas Neue',sans-serif;
+  --mono:'IBM Plex Mono',monospace;
+  --sans:'IBM Plex Sans',sans-serif;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:12px;line-height:1.5}
+
+/* ── HEADER ── */
+.page-header{
+  background:var(--ink);
+  color:white;
+  padding:14px 20px 12px;
+  border-bottom:4px solid var(--amber2);
+  display:flex;
+  align-items:flex-end;
+  justify-content:space-between;
+  gap:16px;
+}
+.header-left{}
+.header-title{font-family:var(--display);font-size:2.4rem;letter-spacing:.06em;color:white;line-height:1}
+.header-title span{color:var(--amber2)}
+.header-sub{font-family:var(--mono);font-size:.58rem;letter-spacing:.16em;color:rgba(255,200,100,.7);margin-top:3px}
+.header-right{text-align:right}
+.rego-block{font-family:var(--display);font-size:1.6rem;letter-spacing:.10em;color:var(--amber2);line-height:1}
+.rego-label{font-family:var(--mono);font-size:.48rem;letter-spacing:.20em;color:var(--steellt);text-transform:uppercase;margin-top:2px}
+
+/* ── GRID LAYOUT ── */
+.card-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:0;
+  padding:12px 12px 0 12px;
+  gap:10px;
+}
+
+/* ── CARD ── */
+.card{
+  background:white;
+  border:1px solid var(--rule);
+  border-top:3px solid var(--steelmd);
+}
+.card.green{border-top-color:var(--green)}
+.card.amber{border-top-color:var(--amber)}
+.card.blue{border-top-color:var(--blue)}
+.card.red{border-top-color:var(--red)}
+.card.span2{grid-column:span 2}
+.card.span3{grid-column:span 3}
+
+.card-title{
+  font-family:var(--mono);
+  font-size:.50rem;
+  font-weight:600;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--steelmd);
+  padding:7px 10px 5px;
+  border-bottom:1px solid var(--rule);
+  background:var(--paper2);
+}
+.card.green .card-title{color:var(--green);background:var(--green-lt)}
+.card.amber .card-title{color:var(--amber);background:#fdf5ea}
+.card.blue .card-title{color:var(--blue);background:var(--blue-lt)}
+.card.red .card-title{color:var(--red);background:var(--red-lt)}
+
+.card-body{padding:8px 10px;display:flex;flex-direction:column;gap:5px}
+
+/* ── ROW ── */
+.row{display:flex;justify-content:space-between;align-items:baseline;gap:6px;border-bottom:1px solid #eee;padding-bottom:4px}
+.row:last-child{border-bottom:none;padding-bottom:0}
+.row-label{font-family:var(--mono);font-size:.58rem;color:var(--steelmd);flex-shrink:0;min-width:90px}
+.row-val{font-family:var(--mono);font-size:.62rem;font-weight:500;color:var(--steeldk);text-align:right}
+.row-val.amber{color:var(--amber2);font-weight:600}
+.row-val.green{color:var(--green);font-weight:600}
+.row-val.note{font-size:.52rem;font-weight:400;color:var(--steelmd);font-style:italic}
+
+/* ── INLINE GRID (fluids, mods) ── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:5px 14px}
+.three-col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:5px 10px}
+
+/* ── FLUID ITEM ── */
+.fluid-item{border-bottom:1px solid #eee;padding-bottom:4px}
+.fluid-item:last-child{border-bottom:none}
+.f-label{font-family:var(--mono);font-size:.50rem;color:var(--steelmd);text-transform:uppercase;letter-spacing:.12em}
+.f-spec{font-family:var(--mono);font-size:.60rem;font-weight:600;color:var(--steeldk);margin-top:1px}
+.f-cap{font-family:var(--mono);font-size:.50rem;color:var(--steelmd)}
+
+/* ── TAG LIST ── */
+.tag-list{display:flex;flex-wrap:wrap;gap:4px;padding:8px 10px}
+.tag{font-family:var(--mono);font-size:.50rem;letter-spacing:.06em;padding:2px 7px;border:1px solid var(--rule);background:var(--paper2);color:var(--steeldk)}
+.tag.green{border-color:var(--green-bdr);background:var(--green-lt);color:var(--green)}
+.tag.amber{border-color:var(--amber);background:#fdf5ea;color:var(--amber)}
+.tag.blue{border-color:#7090c0;background:var(--blue-lt);color:var(--blue)}
+
+/* ── WARN NOTE ── */
+.warn-note{
+  background:var(--paper2);
+  border-left:3px solid var(--steeldk);
+  border-top:1px solid var(--rule);
+  padding:7px 10px;
+  font-family:var(--sans);
+  font-size:.60rem;
+  color:var(--steeldk);
+  line-height:1.6;
+}
+.warn-note strong{font-weight:600}
+
+/* ── SECTION DIVIDER ── */
+.section-strip{
+  grid-column:span 3;
+  background:var(--ink);
+  color:var(--amber2);
+  font-family:var(--display);
+  font-size:1.1rem;
+  letter-spacing:.14em;
+  padding:5px 10px 4px;
+  border-left:4px solid var(--amber2);
+}
+
+/* ── FOOTER ── */
+.page-footer{
+  background:var(--ink);
+  color:rgba(255,255,255,.3);
+  font-family:var(--mono);
+  font-size:.48rem;
+  letter-spacing:.10em;
+  padding:8px 20px;
+  display:flex;
+  justify-content:space-between;
+  border-top:2px solid var(--amber);
+  margin-top:4px;
+}
+
+/* ── PRINT ── */
+@media print{
+  @page{margin:8mm;size:A4 portrait}
+  body{font-size:11px}
+  .section-strip{page-break-before:auto}
+  .card{page-break-inside:avoid}
+  .page-header,.page-footer{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .card-title,.section-strip{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .tag,.warn-note{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- ═══════════ HEADER ═══════════ -->
+<div class="page-header">
+  <div class="header-left">
+    <div class="header-title">Toyota <span>Land Cruiser</span> 76 Series</div>
+    <div class="header-sub">HZJ76R-RKMRS &nbsp;·&nbsp; 1HZ 4.2L Diesel + Turbo + Intercooler &nbsp;·&nbsp; 5-Speed Manual &nbsp;·&nbsp; Part-Time 4WD &nbsp;·&nbsp; Beige 4E9</div>
+  </div>
+  <div class="header-right">
+    <div class="rego-block">CAA 430 689</div>
+    <div class="rego-label">Western Cape Registration</div>
+  </div>
+</div>
+
+<!-- ═══════════ GRID ═══════════ -->
+<div class="card-grid">
+
+  <!-- ── IDENTITY ── -->
+  <div class="section-strip">Vehicle Identity</div>
+
+  <div class="card amber">
+    <div class="card-title">▸ Identification Numbers</div>
+    <div class="card-body">
+      <div class="row"><span class="row-label">VIN</span><span class="row-val">JTEEB71J207007860</span></div>
+      <div class="row"><span class="row-label">Engine No.</span><span class="row-val">1HZ0633958</span></div>
+      <div class="row"><span class="row-label">MM Code</span><span class="row-val">60078101</span></div>
+      <div class="row"><span class="row-label">Model Code</span><span class="row-val">HZJ76R-RKMRS</span></div>
+      <div class="row"><span class="row-label">Year</span><span class="row-val">2009</span></div>
+      <div class="row"><span class="row-label">Colour</span><span class="row-val">Beige 4E9 / Gray FG10</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">▸ Engine Specifications</div>
+    <div class="card-body">
+      <div class="row"><span class="row-label">Engine</span><span class="row-val">1HZ · 4164cc · 6-Cyl</span></div>
+      <div class="row"><span class="row-label">Bore × Stroke</span><span class="row-val">94mm × 100mm</span></div>
+      <div class="row"><span class="row-label">Compression</span><span class="row-val">22.4:1</span></div>
+      <div class="row"><span class="row-label">Injection</span><span class="row-val">Indirect · Swirl Chamber</span></div>
+      <div class="row"><span class="row-label">Cam Drive</span><span class="row-val">Gear Train — No Belt</span></div>
+      <div class="row"><span class="row-label">EGR</span><span class="row-val green">None — Pre-2002 Build</span></div>
+      <div class="row"><span class="row-label">Management</span><span class="row-val">Fully Mechanical</span></div>
+    </div>
+  </div>
+
+  <div class="card green">
+    <div class="card-title">▸ Power — Stock vs. Tuned</div>
+    <div class="card-body">
+      <div class="row"><span class="row-label">Stock Output</span><span class="row-val">96 kW / 285 Nm</span></div>
+      <div class="row"><span class="row-label">Low Boost Turbo</span><span class="row-val">118 kW / 373 Nm</span></div>
+      <div class="row"><span class="row-label">Fitted By</span><span class="row-val">SAC in 2011 @ 38,429 km</span></div>
+      <div class="row"><span class="row-label">Intercooler</span><span class="row-val">SAC fitted 02/2012</span></div>
+      <div class="row"><span class="row-label">Snorkel</span><span class="row-val">Safari Snorkel</span></div>
+    </div>
+  </div>
+
+  <!-- ── DIMENSIONS & GEOMETRY ── -->
+  <div class="section-strip">Dimensions &amp; Geometry</div>
+
+  <div class="card">
+    <div class="card-title">▸ Body Dimensions</div>
+    <div class="card-body">
+      <div class="row"><span class="row-label">Wheelbase</span><span class="row-val">2,730 mm</span></div>
+      <div class="row"><span class="row-label">Overall Length</span><span class="row-val">4,890 mm</span></div>
+      <div class="row"><span class="row-label">Overall Width</span><span class="row-val">1,870 mm</span></div>
+      <div class="row"><span class="row-label">Overall Height</span><span class="row-val">~1,920 mm (w/ rack)</span></div>
+      <div class="row"><span class="row-label">Front Track</span><span class="row-val">1,520 mm</span></div>
+      <div class="row"><span class="row-label">Rear Track</span><span class="row-val">1,425 mm <span class="note">(95mm narrower)</span></span></div>
+    </div>
+  </div>
+
+  <div class="card green">
+    <div class="card-title">▸ Off-Road Geometry</div>
+    <div class="card-body">
+      <div class="row"><span class="row-label">Ground Clearance</span><span class="row-val">~275 mm (w/ 2" lift)</span></div>
+      <div class="row"><span class="row-label">Approach Angle</span><span class="row-val">~42° (w/ ARB bar)</span></div>
+      <div class="row"><span class="row-label">Departure Angle</span><span class="row-val">~25° (w/ towbar)</span></div>
+      <div class="row"><span class="row-label">Ramp / Belly</span><span class="row-val">~23°</span></div>
+      <div class="row"><span class="row-label">Wading Depth</span><span class="row-val">~800 mm (w/ snorkel)</span></div>
+      <div class="row"><span class="row-label">Lift</span><span class="row-val">OME 40–50 mm (2")</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">▸ Weights &amp; Capacity</div>
+    <div class="card-body">
+      <div class="row"><span class="row-label">Kerb Weight</span><span class="row-val">~2,160 kg</span></div>
+      <div class="row"><span class="row-label">GVM</span><span class="row-val">2,850 kg</span></div>
+      <div class="row"><span class="row-label">Payload</span><span class="row-val">~690 kg</span></div>
+      <div class="row"><span class="row-label">Tow (braked)</span><span class="row-val">3,500 kg</span></div>
+      <div class="row"><span class="row-label">Tow (unbraked)</span><span class="row-val">750 kg</span></div>
+      <div class="row"><span class="row-label">Fuel Tank</span><span class="row-val">Replacement 145 L</span></div>
+    </div>
+  </div>
+
+  <!-- ── FLUIDS ── -->
+  <div class="section-strip">Fluids &amp; Capacities</div>
+
+  <div class="card green span2">
+    <div class="card-title">▸ Engine Bay Fluids &nbsp;·&nbsp; Owner Recommendation</div>
+    <div class="card-body two-col">
+      <div class="fluid-item">
+        <div class="f-label">Engine Oil</div>
+        <div class="f-spec">Shell Rimula R4 X 15W-40</div>
+        <div class="f-cap">11.3 L (with filter) &mdash; buy 12L for change + top-up reserve</div>
+      </div>
+      <div class="fluid-item">
+        <div class="f-label">Coolant</div>
+        <div class="f-spec">Toyota Long Life Coolant</div>
+        <div class="f-cap">10.9 L · 50/50 distilled water</div>
+      </div>
+      <div class="fluid-item">
+        <div class="f-label">Brake &amp; Clutch Fluid</div>
+        <div class="f-spec">DOT 4</div>
+        <div class="f-cap">Shared reservoir · top-up only</div>
+      </div>
+      <div class="fluid-item">
+        <div class="f-label">Power Steering</div>
+        <div class="f-spec">ATF Dexron II</div>
+        <div class="f-cap">1.3 L</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card amber">
+    <div class="card-title">▸ Drivetrain Fluids &nbsp;·&nbsp; Owner Recommendation</div>
+    <div class="card-body">
+      <div class="fluid-item">
+        <div class="f-label">Gearbox R151F</div>
+        <div class="f-spec">Castrol Transmax Manual 75W-90</div>
+        <div class="f-cap">2.2 L</div>
+      </div>
+      <div class="fluid-item">
+        <div class="f-label">Transfer Case</div>
+        <div class="f-spec">Castrol Transmax Manual 75W-90</div>
+        <div class="f-cap">2.1 L</div>
+      </div>
+      <div class="fluid-item">
+        <div class="f-label">Front &amp; Rear Differentials</div>
+        <div class="f-spec">Castrol Transmax Axle EPX 85W-140</div>
+        <div class="f-cap">Front 2.6 L · Rear 2.4 L</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SUSPENSION & WHEELS ── -->
+  <div class="section-strip">Suspension, Wheels &amp; Tyres</div>
+
+  <div class="card green">
+    <div class="card-title">▸ Suspension — Old Man Emu</div>
+    <div class="card-body">
+      <div class="row"><span class="row-label">System</span><span class="row-val">OME Medium · 400 kg constant</span></div>
+      <div class="row"><span class="row-label">Fitted By</span><span class="row-val">4x4 Megaworld</span></div>
+      <div class="row"><span class="row-label">Lift</span><span class="row-val">40–50 mm (2 inch)</span></div>
+      <div class="row"><span class="row-label">Front Springs</span><span class="row-val">OME Coil 859</span></div>
+      <div class="row"><span class="row-label">Rear Springs</span><span class="row-val">OME Leaf CS058R</span></div>
+      <div class="row"><span class="row-label">Front Shocks</span><span class="row-val">OME Nitrocharger+ N181</span></div>
+      <div class="row"><span class="row-label">Rear Shocks</span><span class="row-val">OME Nitrocharger+ 63111</span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">▸ Wheels &amp; Tyres</div>
+    <div class="card-body">
+      <div class="row"><span class="row-label">Tyre Size</span><span class="row-val">265/70 R16</span></div>
+      <div class="row"><span class="row-label">Tyre Brand</span><span class="row-val">Maxxis AT811-03</span></div>
+      <div class="row"><span class="row-label">Rims</span><span class="row-val">Standard OEM 16"</span></div>
+      <div class="row"><span class="row-label">TPMS</span><span class="row-val">Steel Mate Solar (internal)</span></div>
+
+    </div>
+  </div>
+
+  <div class="card blue">
+    <div class="card-title">▸ Drivetrain</div>
+    <div class="card-body">
+      <div class="row"><span class="row-label">Gearbox</span><span class="row-val">R151F · 5-Speed Manual</span></div>
+      <div class="row"><span class="row-label">5th Gear</span><span class="row-val">Replacement — Terrain Tamer</span></div>
+      <div class="row"><span class="row-label">Clutch</span><span class="row-val">Replacement Clutch — Terrain Tamer</span></div>
+      <div class="row"><span class="row-label">4WD</span><span class="row-val">Part-Time · 2H / 4H / 4L</span></div>
+      <div class="row"><span class="row-label">Front Hubs</span><span class="row-val">Auto + Manual Lock</span></div>
+    </div>
+  </div>
+
+  <!-- ── ELECTRICAL ── -->
+  <div class="section-strip">Electrical System &amp; Camp Setup</div>
+
+  <div style="grid-column:span 3;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+
+    <div class="card green" style="grid-column:span 2;">
+      <div class="card-title">▸ Camp Setup</div>
+      <div class="card-body two-col">
+        <div class="fluid-item">
+          <div class="f-label">Roof Rack</div>
+          <div class="f-spec">African Out + Top Rail + Ladder</div>
+        </div>
+        <div class="fluid-item">
+          <div class="f-label">Table</div>
+          <div class="f-spec">Aluminium under Roof Rack</div>
+        </div>
+        <div class="fluid-item">
+          <div class="f-label">Storage</div>
+          <div class="f-spec">Double Drawer + Fridge Pull-out</div>
+        </div>
+        <div class="fluid-item">
+          <div class="f-label">Seat Covers</div>
+          <div class="f-spec">Canvas — Escape</div>
+        </div>
+        <div class="fluid-item">
+          <div class="f-label">Cooking</div>
+          <div class="f-spec">5L Gas + Twin Top Cast Iron Cooker</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card blue">
+      <div class="card-title">▸ Dual Battery &amp; Power System</div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">Aux Battery</span><span class="row-val">105 Ah</span></div>
+        <div class="row"><span class="row-label">Isolator</span><span class="row-val">Victron Cyrix 120A 12/24V</span></div>
+        <div class="row"><span class="row-label">Monitor</span><span class="row-val">BM2000 Dual Battery</span></div>
+        <div class="row"><span class="row-label">Inverter</span><span class="row-val">Sinetech 1200W / 12V</span></div>
+      </div>
+    </div>
+
+  </div>
+
+
+  <div class="section-strip">Recovery, Armour &amp; Accessories</div>
+
+  <div style="grid-column:span 3;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+
+    <div class="card amber">
+      <div class="card-title">▸ Fitted Recovery</div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">Winch</span><span class="row-val">T-Max 9500 lbs</span></div>
+        <div class="row"><span class="row-label">Bull Bar</span><span class="row-val">ARB Bumper</span></div>
+        <div class="row"><span class="row-label">Skid Plate</span><span class="row-val">Mid Skid Plate</span></div>
+        <div class="row"><span class="row-label">Tow Bar</span><span class="row-val">H/D Gooseneck Detach</span></div>
+        <div class="row"><span class="row-label">Recovery Boards</span><span class="row-val">2× MaxTrax</span></div>
+        <div class="row"><span class="row-label">Compressor</span><span class="row-val">ARB vehicle mounted</span></div>
+      </div>
+    </div>
+
+    <div class="card amber">
+      <div class="card-title">▸ Recovery Gear</div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">Shackles</span><span class="row-val">Metal &amp; soft shackles</span></div>
+        <div class="row"><span class="row-label">Tow Rope</span><span class="row-val">Standard tow rope</span></div>
+        <div class="row"><span class="row-label">Snatch Rope</span><span class="row-val">Kinetic recovery rope</span></div>
+        <div class="row"><span class="row-label">Tree Protector</span><span class="row-val">Winch tree saver</span></div>
+        <div class="row"><span class="row-label">Pulley Block</span><span class="row-val">Snatch block</span></div>
+        <div class="row"><span class="row-label">Line Dampener</span><span class="row-val">Winch line dampener</span></div>
+        <div class="row"><span class="row-label">Spade</span><span class="row-val">Recovery spade</span></div>
+        <div class="row"><span class="row-label">PPE</span><span class="row-val">Leather gloves · safety glasses</span></div>
+        <div class="row"><span class="row-label">Jack</span><span class="row-val">Hydraulic &amp; bottle jack</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">▸ Other Accessories</div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">Compressor</span><span class="row-val">T-Max portable</span></div>
+        <div class="row"><span class="row-label">Battery Charger</span><span class="row-val">DEFA SmartCharge</span></div>
+        <div class="row"><span class="row-label">Fuel Canisters</span><span class="row-val">2× Desert Fox 20L</span></div>
+        <div class="row"><span class="row-label">Spotlights</span><span class="row-val">IPF 800 Extreme</span></div>
+        <div class="row"><span class="row-label">Solar Panels</span><span class="row-val">Hardkorr 200W Portable</span></div>
+        <div class="row"><span class="row-label">Tyre Inflation</span><span class="row-val">Indeflate 2-Hose Unit</span></div>
+        <div class="row"><span class="row-label">Jump Start</span><span class="row-val">ARB Portable lithium jump pack</span></div>
+        <div class="row"><span class="row-label">Jump Start</span><span class="row-val">Heavy duty jumper cables</span></div>
+        <div class="row"><span class="row-label">Seed Net</span><span class="row-val">SecureTech Radiator · 800×1000 mm</span></div>
+      </div>
+    </div>
+
+  </div>
+
+
+
+  <!-- ── KNOWN ISSUES ── -->
+</div><!-- end card-grid -->
+
+<div class="section-strip" style="margin:0 12px">Known Issues</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;padding:10px 12px 12px;background:var(--paper)">
+  <div class="card" style="grid-column:span 3">
+    <div class="card-body three-col">
+      <div class="warn-note">
+        <strong>Rear Track Width</strong><br>
+        Rear track ~95–100 mm narrower than front. Options: -55 offset rear rims, wheel spacers, or TrueTrac correction.
+      </div>
+      <div class="warn-note">
+        <strong>Castor Correction</strong><br>
+        Incorrectly set by Johan Tyre. Corrected by Conrad at Suspension City, Maitland.
+      </div>
+      <div class="warn-note">
+        <strong>5th Gear Weakness</strong><br>
+        OEM 5th gear known failure point. Terrain Tamer HD fitted. Avoid low-RPM in 5th — change to 4th until at cruising speed.
+      </div>
+      <div class="warn-note">
+        <strong>Head Gasket (1HZ)</strong><br>
+        Never overheat. White exhaust smoke = coolant in combustion. Stop immediately. Check level every morning.
+      </div>
+      <div class="warn-note">
+        <strong>Valve Clearance &amp; Pump Timing</strong><br>
+        Critical for performance on 1HZ. Requires specialist — half a degree on pump timing makes a significant difference.
+      </div>
+      <div class="warn-note">
+        <strong>Terrain Tamer 5th Gear Upgrade</strong><br>
+        0.711:1 reduction ratio kit available. Reduces RPM at cruise, improves fuel economy vs current OEM-ratio 0.838:1.
+      </div>
+    </div>
+  </div>
+  </div>
+
+<div class="page-footer">
+  <span>HZJ76R-RKMRS &nbsp;·&nbsp; VIN: JTEEB71J207007860 &nbsp;·&nbsp; Engine: 1HZ0633958 &nbsp;·&nbsp; Reg: CAA 430 689</span>
+</div>
+
+<script>
+if('serviceWorker' in navigator && location.hostname !== 'www.claudeusercontent.com'){
+  window.addEventListener('load',function(){
+    navigator.serviceWorker.register('./sw.js')
+      .then(function(r){console.log('LC76 SW registered');})
+      .catch(function(e){console.log('SW error:',e);});
+  });
+}
+</script>
+</body>
+</html>
