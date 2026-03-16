@@ -47,11 +47,11 @@ body{background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',sans-s
 .tag{background:rgba(232,146,10,.14);border:1px solid rgba(232,146,10,.28);border-radius:3px;padding:2px 9px;font-size:9.5px;font-family:'IBM Plex Mono',monospace;color:#F4BF60;}
 
 /* ── EXPORT BAR ── */
-.xbar{background:#fff;border-bottom:1px solid var(--rule);padding:9px 44px;display:flex;align-items:center;gap:10px;}
-.xbar-lbl{font-size:11px;color:var(--muted);font-family:'IBM Plex Mono',monospace;}
-.xbtn{background:var(--green);color:#fff;border:none;padding:6px 16px;font-family:'IBM Plex Sans',sans-serif;font-size:11.5px;font-weight:500;cursor:pointer;border-radius:3px;display:flex;align-items:center;gap:6px;transition:background .15s;}
-.xbtn:hover{background:#0f2e24;}
-.xbtn svg{width:13px;height:13px;}
+
+
+
+
+
 
 /* ── BODY ── */
 .body{padding:26px 44px 50px;}
@@ -268,7 +268,7 @@ body{background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',sans-s
   .hdr-tags{overflow-x:auto!important;-webkit-overflow-scrolling:touch!important;flex-wrap:nowrap!important;padding-bottom:4px!important;scrollbar-width:none!important}
   .hdr-tags::-webkit-scrollbar{display:none!important}
   .chip,.tag{font-size:8px!important;padding:2px 6px!important}
-  .xbar{padding:7px 14px!important}
+  
   .body{padding:14px 14px 32px!important}
   .slbl{margin-top:14px!important}
   .stats{display:grid!important;grid-template-columns:1fr 1fr!important;align-items:start!important}
@@ -319,10 +319,7 @@ body{background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',sans-s
   .chip,.tag{font-size:7.5px!important;padding:1px 5px!important}
 
   /* Hide interactive elements */
-  .xbar,.xbtn{display:none!important}
-
-  /* Body */
-  .body{padding:8px 16px 16px!important}
+  
 
   /* Section labels — biggest space waster */
   .slbl{margin-top:8px!important;margin-bottom:4px!important}
@@ -366,45 +363,55 @@ body{background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',sans-s
 
   .br{padding:5px 8px 6px!important}
 }
+
+/* ── STANDARD HEADER ─────────────────────────────────── */
+.std-header{
+  background:var(--ink,#0d0e12);
+  border-bottom:4px solid var(--amber2,#e07800);
+  padding:14px 20px 12px;
+  position:relative;
+}
+.std-eyebrow{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:.48rem;
+  letter-spacing:.28em;
+  text-transform:uppercase;
+  color:var(--steellt,#9aa0ae);
+  margin-bottom:6px;
+}
+.std-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:2.4rem;
+  letter-spacing:.06em;
+  color:#e07800;
+  line-height:1;
+}
+.std-sub{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:.54rem;
+  letter-spacing:.12em;
+  color:rgba(255,200,100,.65);
+  margin-top:5px;
+}
+@media(max-width:600px){
+  .std-header{padding:12px 14px 10px}
+  .std-title{font-size:clamp(1.6rem,6vw,2.4rem)}
+  .std-sub{font-size:.46rem;letter-spacing:.08em}
+  .std-eyebrow{font-size:.42rem}
+}
+
 </style>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 </head>
 <body>
 
 <!-- ═══════════════════════════════════════ HEADER ═══════ -->
-<div class="hdr">
-  <div class="hdr-eye">Southern Africa Overland · Full System Energy Report · v3</div>
-  <div class="hdr-title">LC76 SW 1HZ — LiFePO4 Battery System <em>Design &amp; Longevity</em></div>
-  <div class="hdr-sub">Real Loads · Real Routes · SA Conditions · Victron / Freedom / REDARC Components</div>
-  <div class="hdr-chips">
-    <div class="chip">Daily load: <span>~77 Ah/day</span></div>
-    <div class="chip">Solar: <span>200W Hardkor blanket (stationary camp use only)</span></div>
-    <div class="chip">Wild camp autonomy: <span>3.1 days (300Ah) · 2.1 days (200Ah) — zero recharge</span></div>
-    <div class="chip">Drive top-up: <span>2 hrs/day</span></div>
-    <div class="chip">SA heat factor: <span>0.70× cycle life</span></div>
-    <div class="chip">Brands: <span>Victron · Freedom · REDARC</span></div>
-    <div class="chip">Prepared: <span>March 2026</span></div>
-  </div>
-  <div class="hdr-tags">
-    <div class="tag">National Luna 52L Weekender fridge</div>
-    <div class="tag">2× iPhone (USB-C)</div>
-    <div class="tag">MacBook Air M1 (USB-C)</div>
-    <div class="tag">Garmin Nüvi (cig lighter)</div>
-    <div class="tag">2× portable fans</div>
-    <div class="tag">Camera batteries</div>
-    <div class="tag">Built-in compressor (frequent)</div>
-    <div class="tag">Winch (rare)</div>
-    <div class="tag">LED interior lighting</div>
-  </div>
+<div class="std-header">
+  <div class="std-eyebrow">Overland Series</div>
+  <div class="std-title">LiFePO4 Longevity Report</div>
+  <div class="std-sub">2009 LC76 SW 1HZ &nbsp;&middot;&nbsp; Battery System Design &amp; Longevity &nbsp;&middot;&nbsp; Southern Africa</div>
 </div>
 
-<!-- ═══════════════════════════════════════ EXPORT BAR ═══ -->
-<div class="xbar">
-  <span class="xbar-lbl">Export full report:</span>
-  <button class="xbtn" onclick="exportExcel()">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
-    Download Excel Report (.xlsx)
-  </button>
-</div>
 
 <div class="body">
 
@@ -1290,133 +1297,6 @@ for (let yr = 0; yr <= 12; yr++) {
   tbody.appendChild(tr);
 }
 
-// ── EXCEL EXPORT ──
-function exportExcel() {
-  const wb = XLSX.utils.book_new();
-
-  // Sheet 1 – Load Analysis
-  const loads = [
-    ['LC76 SW — DAILY LOAD ANALYSIS (SOUTHERN AFRICA OVERLAND)'],
-    ['Daily load basis: SA ambient 38°C · National Luna 52L Weekender BD35F confirmed · 2× iPhone only · Generated March 2026'],
-    [],
-    ['Accessory','Watts (est.)','Daily Hours (SA camp)','Daily Ah Draw','Priority','Notes'],
-    ['COOLING & FOOD'],
-    ['National Luna 52L Weekender (BD35F)','1.2–2.8A DC range','~16.4h duty (55% @ 38°C)','45.0 Ah','Essential','BD35F nameplate confirmed. 42mm insulation factored in. Pre-cool on shore power before wild camp.'],
-    ['COMMUNICATIONS & NAVIGATION'],
-    ['iPhone 1 (USB-C PD)','20W','1.5h','2.5 Ah','Daily','USB-C PD port required.'],
-    ['iPhone 2 (USB-C PD)','20W','1.5h','2.5 Ah','Daily',''],
-            ['Garmin Nuvi (cig lighter)','5W','6h','2.5 Ah','Daily','Negligible draw.'],
-    ['COMPUTING'],
-    ['MacBook Air M1 (USB-C 65W PD)','30W charge + 8W active','2h charge + 2h use','6.7 Ah','Regular','Requires 30W min USB-C PD port. 65W recommended.'],
-    ['PHOTOGRAPHY'],
-    ['Camera battery dual charger (2× LP-E6)','16W','2h','2.7 Ah','Regular','Most 12V compatible. Verify charger before trip.'],
-    ['COMFORT & LIGHTING'],
-    ['Interior LED lighting','15W','4h','5.0 Ah','Daily',''],
-    ['Portable fan 1 (12V brushless, internal battery)','4.5W','~2h daytime charge','0.75 Ah','Daily','Portable fan — runs overnight on internal battery, not wired to aux. Charged from aux during day: 4.5W ÷ 12V × 2h = 0.75 Ah/day.'],
-    ['Portable fan 2 (12V brushless, internal battery)','4.5W','~2h daytime charge','0.75 Ah','Daily','Same as above. Combined: 1.5 Ah/day for both fans.'],
-    ['Misc small accessories','10W avg','3h','2.5 Ah','Low','USB power bank top-up, headlamp, sundry.'],
-    ['VEHICLE SYSTEMS'],
-    ['Built-in compressor (frequent on gravel)','~216W peak (18A)','~20 min/day','6.0 Ah','Frequent','Short burst. BMS must support 30A+ continuous.'],
-    ['Winch (emergency only)','300-500A peak','5 min/event','~5 Ah if used','Emergency','Exclude from daily budget. Wire to starter battery.'],
-    [],
-    ['TOTAL DAILY DRAW (excl. winch)','','','~77 Ah','','Range: 65-90 Ah/day depending on temperature and usage'],
-  ];
-  const ws1 = XLSX.utils.aoa_to_sheet(loads);
-  ws1['!cols'] = [{wch:38},{wch:20},{wch:24},{wch:14},{wch:12},{wch:56}];
-  XLSX.utils.book_append_sheet(wb, ws1, 'Load Analysis');
-
-  // Sheet 2 – Energy Balance & Wild Camp
-  const eb = [
-    ['ENERGY BALANCE — SOUTHERN AFRICA OVERLAND (LC76 SW)'],
-    ['Basis: 200W Hardkor blanket + REDARC BCDC1225D DC-DC 25A + 2hr daily drive during wild camp'],
-    [],
-    ['SOURCE / SCENARIO','Energy In (Ah)','Energy Out (Ah)','Net Balance (Ah)','Notes'],
-    ['Solar only - blanket deployed all day (stationary camp)','~65 Ah','77 Ah','-12 Ah','Blanket stationary use only. Battery draws down ~4% SoC from 300Ah per day.'],
-    ['DC-DC only - 2hr drive (blanket packed while driving)','~46 Ah','77 Ah','-31 Ah','Solar cannot run while driving. DC-DC only during all drive time.'],
-    ['Best day: drive 2hr (DC-DC 46Ah) then deploy blanket 4h (solar 43Ah)','~89 Ah','77 Ah','+12 Ah','Best day is comfortably net positive.'],
-    ['Shore power overnight (Victron Blue Smart 25A)','~150 Ah in 6hrs','0 Ah during charge','Full recharge overnight','Restores 300Ah from 30% to 100% in ~7hrs'],
-    [],
-    ['WILD CAMP SIMULATION — 3 DAYS (300Ah vs 200Ah)'],
-    ['Day','Recharge','300Ah Start SoC','300Ah End SoC','300Ah Ah left','200Ah Start SoC','200Ah End SoC','200Ah Assessment'],
-    ['Day 0 (shore power prev. night)','Shore power','100%','100%','240 Ah','100%','100%','Both full'],
-    ['Day 1 — drive 2hr (DC-DC) then deploy blanket 4h','DC-DC 48Ah + solar 43Ah = 91Ah (mutually exclusive)','100%','95%','~285 Ah','100%','~91%','Both OK — 15Ah draw-down'],
-    ['Day 2 — stationary (blanket all day)','Solar only 65Ah','95%','86%','~270 Ah','91%','~78%','300Ah OK. 200Ah: 125Ah left.'],
-    ['Day 3 — stationary (blanket all day)','Solar only 65Ah','86%','73%','~218 Ah','78%','~64%','200Ah: 103Ah left — one more night only'],
-    ['Day 4 — stationary (blanket all day)','Solar only 65Ah','73%','59%','~177 Ah','64%','~51%','200Ah: 82Ah — ⚠ Watch SoC'],
-  ];
-  const ws2 = XLSX.utils.aoa_to_sheet(eb);
-  ws2['!cols'] = [{wch:36},{wch:22},{wch:18},{wch:18},{wch:18},{wch:18},{wch:18},{wch:40}];
-  XLSX.utils.book_append_sheet(wb, ws2, 'Energy Balance & Wild Camp');
-
-  // Sheet 3 – Component Specification
-  const cs = [
-    ['RECOMMENDED SYSTEM COMPONENTS — LC76 SW OVERLAND (Victron / Freedom / REDARC)'],
-    ['All products available from SA stockists · March 2026 pricing'],
-    [],
-    ['Component','Specified Product','Brand','Key Spec','SA Est. Cost','Why Specified'],
-    ['Battery Bank (300Ah)','Victron 12.8V/300Ah Smart LiFePO4','Victron (NL)','300Ah, integrated BMS, 100A cont, 200A peak, 12.8V','R14,500–R18,500','SA-designed, local warranty, CATL cells, proven overland'],
-    ['Battery Alt.','Victron 12.8V/300Ah Smart LiFePO4','Victron (NL)','300Ah, Bluetooth SoC built-in, VE.Direct','R16,000–R21,000','Bluetooth SoC without separate monitor; Victron ecosystem'],
-    ['DC-DC + Solar MPPT','REDARC BCDC1225D 25A','REDARC (AU)','25A DC-DC + built-in solar MPPT up to 480W, IP67','R5,500–R7,200','ONE device handles alternator AND Hardkor blanket. IP67. LiFePO4 profile. Simplest install.'],
-    ['DC-DC Alt.','Victron Orion-Tr Smart 12/12-30A','Victron (NL)','30A isolated DC-DC, Bluetooth, LiFePO4 profile','R3,800–R5,200','Higher charge current; add separate Victron MPPT 75/15 for solar'],
-    ['Solar MPPT (if not REDARC)','Victron SmartSolar MPPT 75/15','Victron (NL)','75V/15A, Bluetooth, LiFePO4 preset, VE.Direct','R1,800–R2,600','Correctly sized for 200W blanket (16.7A max). Not needed if using REDARC BCDC1225D.'],
-    ['Battery Monitor','Victron BMV-712 Smart','Victron (NL)','Coulomb-counting, 500A shunt, LCD display, Bluetooth','R2,200–R3,000','LiFePO4 flat voltage = voltage SoC useless. Coulomb counting essential for wild camp planning.'],
-    ['Shore Power Charger','Victron Blue Smart IP65 12V/25A','Victron (NL)','25A, 90-265V input, IP65, LiFePO4 profile, Bluetooth','R2,800–R3,800','Handles SA campsite unstable power. Charges 300Ah from 50% in ~6hrs overnight.'],
-    ['Shore Power Alt.','Freedom 25A LiFePO4 Smart Charger','Victron (NL)','25A, LiFePO4 optimised, SA voltage','R2,200–R3,200','Matches Freedom battery ecosystem if using Freedom bank'],
-    ['Distribution Board','Freedom Distribution Board 8-way','Victron (NL)','8× fused outputs, USB-C PD 65W, USB-A, 12V sockets','R2,800–R4,500','Matches Freedom ecosystem. USB-C PD 65W covers MacBook Air M1 and all iPhones.'],
-    ['System Manager (optional)','REDARC Manager30','REDARC (AU)','Colour LCD, controls DC-DC + MPPT + battery monitor, Bluetooth app','R4,500–R6,500','Replaces BMV if using full REDARC system. All-in-one single display.'],
-    ['Main Fuse (ANL)','ANL 150A blade fuse + holder','Generic/Blue Sea','150A, inline on main positive cable from battery','R350–R600','Primary overcurrent protection for entire system'],
-    ['Battery Isolator','Victron 275A manual isolator','Victron (NL)','275A rated, manual on/off, main positive line','R600–R900','Allows complete system isolation in emergency or storage'],
-    ['Cables (main)','16mm² OFC copper (6 AWG)','Marine grade','16mm² tinned copper; max 1m run battery to distribution','R800–R1,500','Handles peak compressor + fridge + fan load without voltage drop'],
-    ['Terminals','Tinned copper marine lugs','Marine grade','Crimped + adhesive-lined heat shrink on all connections','R300–R600','Essential for Mozambique and coastal routes — prevents corrosion'],
-    ['Anderson connectors','SB50 grey pair','Anderson Power','50A rated, quick-disconnect for solar blanket cable','R200–R400','Easy solar blanket connect/disconnect at camp'],
-    [],
-    ['TOTAL SYSTEM ESTIMATE (excl. installation labour)','','','','R30,000–R42,000','Installation labour: R2,500–R4,500 (auto-electrician)'],
-  ];
-  const ws3 = XLSX.utils.aoa_to_sheet(cs);
-  ws3['!cols'] = [{wch:28},{wch:32},{wch:16},{wch:36},{wch:18},{wch:56}];
-  XLSX.utils.book_append_sheet(wb, ws3, 'Component Specification');
-
-  // Sheet 4 – Year-by-Year Projection
-  const ph = ['Year','Est. SA Cycles','300Ah Capacity %','300Ah Usable Ah','300Ah Daily DoD %','200Ah Capacity %','200Ah Usable Ah','200Ah Daily DoD %','SA Assessment'];
-  const pr = yearData.map(d => [
-    'Year '+d.yr, d.cycles, +d.cap300.toFixed(1), d.usable300, d.dod300,
-    +d.cap200.toFixed(1), d.usable200, d.dod200, d.note
-  ]);
-  const ws4 = XLSX.utils.aoa_to_sheet([ph,...pr]);
-  ws4['!cols'] = [{wch:8},{wch:14},{wch:18},{wch:18},{wch:20},{wch:18},{wch:18},{wch:20},{wch:56}];
-  XLSX.utils.book_append_sheet(wb, ws4, 'Longevity Projection');
-
-  // Sheet 5 – SA Conditions
-  const sc = [
-    ['SOUTHERN AFRICA CLIMATE CONDITIONS & BATTERY IMPACT'],
-    [],
-    ['Region / Zone','Ambient Temp','Heat Zone','Cycle Life Penalty','Key Risks for LC76 System','Mitigation'],
-    ['Kalahari / Botswana interior','35-42°C','SEVERE','-20 to -25%','Fridge duty 70%+, battery bay 50°C+, D-road vibration','Ventilated bay, evening charging, anti-vibe mount, REDARC IP67'],
-    ['Namibia interior (Namib/Sossusvlei)','38-45°C','SEVERE','-20 to -25%','Extreme heat + thermal cycling day/night','Insulate bay, charge evening only, park in shade'],
-    ['Mozambique (Gorongosa/Bazaruto)','28-38°C + 85% RH','HIGH','-15 to -20%','Terminal corrosion, BMS PCB failure, camera battery heat damage','Marine terminals, conformal coat REDARC+Freedom BMS, sealed enclosure'],
-    ['Kruger / Zimbabwe Lowveld','28-38°C','HIGH','-12 to -18%','Heat + limited shore power at remote camps','Solar primary, DC-DC backup, BMV-712 essential for wild camp planning'],
-    ['SA Richtersveld (summer)','38-48°C','SEVERE','-22 to -25%','Hottest SA route, 4-5 days off-grid, fans max use','300Ah essential, drive daily for DC-DC top-up, park in shade'],
-    ['Botswana D-roads / Caprivi','Variable','VIBRATION','-5 to -8% cumulative','Cable fatigue, terminal loosening, battery compression','Anti-vibe foam, marine crimps, re-torque bolts every 2000km gravel'],
-    ['Lesotho / Drakensberg','−5 to +28°C','COLD RISK','-5%','Cold charging damage <0°C — permanent cell damage','BMS cutoff +5°C active; warm engine before DC-DC engages in sub-zero'],
-    ['Western Cape / Garden Route','12-32°C','LOW','-5 to -8%','Near-optimal; mild heat, good solar','Standard operation. Best SA battery longevity conditions.'],
-    [],
-    ['OPERATIONAL TIPS FOR YOUR SPECIFIC ACCESSORIES'],
-    ['Accessory','SA Operational Tip'],
-    ['National Luna 52L Weekender fridge','Pre-cool to 4°C on shore power night before. Pack frozen items. Keep in shade. Reduces compressor duty cycle by 15-20%.'],
-    ['MacBook Air M1','Use at evening/night when ambient temp lower. Avoid charging + heavy use simultaneously at midday. Connect to 65W USB-C PD port.'],
-    ['iPhones (USB-C)','Charge overnight on USB-C PD port. iPhones in extreme heat throttle charging — keep out of direct sun.'],
-    ['Camera batteries','Charge in evening. Keep spare batteries in cool bag. LP-E6 batteries degrade rapidly if stored hot (>40°C).'],
-    ['2× portable fans (internal battery)','Portable fans run overnight on their own internal battery — not wired to aux during use. Each charged ~2h during the day: 4.5W ÷ 12V × 2h = 0.75 Ah/fan. Total: 1.5 Ah/day for both. Very low aux battery impact.'],
-    ['Hardkor 200W solar blanket','Keep flat and unshaded. Even partial shading from antenna or roof rack drops output significantly. Angle toward sun where possible.'],
-    ['Built-in compressor','Run compressor with engine on where possible (while driving out of camp). Avoids peak current draw from battery at low SoC.'],
-    ['Victron BMV-712','Set low SoC alarm at 30% (72 Ah remaining on 300Ah) as trigger to drive or find shore power. Check BMV before every multi-day wild camp.'],
-  ];
-  const ws5 = XLSX.utils.aoa_to_sheet(sc);
-  ws5['!cols'] = [{wch:32},{wch:18},{wch:14},{wch:16},{wch:50},{wch:50}];
-  XLSX.utils.book_append_sheet(wb, ws5, 'SA Conditions & Tips');
-
-  XLSX.writeFile(wb, 'LC76_Battery_System_Report_SA_Overland.xlsx');
-}
 </script>
 <script>
 if('serviceWorker' in navigator && location.hostname !== 'www.claudeusercontent.com'){

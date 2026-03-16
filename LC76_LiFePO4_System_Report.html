@@ -66,11 +66,11 @@ body{background:var(--paper);color:var(--coal);font-family:'Nunito Sans',sans-se
 .toc-num{color:var(--copper-lt);font-size:9px;font-weight:600;flex:0 0 auto;}
 
 /* ── XBAR ── */
-.xbar{display:none}
-.xbar-lbl{font-size:11px;color:var(--muted);font-family:'JetBrains Mono',monospace;}
-.xbtn{display:inline-flex;align-items:center;gap:7px;padding:7px 18px;font-family:'Nunito Sans',sans-serif;font-size:12px;font-weight:700;cursor:pointer;border-radius:var(--r);border:none;transition:all .15s;}
-.xbtn-html{background:var(--teal);color:#fff;}
-.xbtn-html:hover{background:#0a4e44;}
+
+
+
+
+
 
 /* ── BODY ── */
 .body{padding:20px 32px 32px;}
@@ -269,7 +269,7 @@ body{background:var(--paper);color:var(--coal);font-family:'Nunito Sans',sans-se
 
 
 @media(max-width:960px){
-  .hero,.body,.toc,.xbar,.footer{padding-left:20px!important;padding-right:20px!important}
+  .hero,.body,.toc,
   .comp-grid,.cols2{display:block!important}
   .comp-grid>*,.cols2>*{display:block!important;width:100%!important;margin-bottom:12px!important}
   .toc-grid{display:grid!important;grid-template-columns:1fr 1fr!important}
@@ -321,7 +321,7 @@ body{background:var(--paper);color:var(--coal);font-family:'Nunito Sans',sans-se
   .toc-item a{padding:7px 10px!important;font-size:11px!important}
   .wiring,.wflow{font-size:8px!important;white-space:pre!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch!important}
   .wiring,.wiring-block,.wflow{padding:10px 12px!important;font-size:10px!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch!important}
-  .xbar{display:none}
+  
 
   .cfg-hdr{padding:14px 14px 12px!important}
 }
@@ -346,10 +346,7 @@ body{background:var(--paper);color:var(--coal);font-family:'Nunito Sans',sans-se
   .toc-item{padding:4px 6px!important;font-size:8.5px!important}
 
   /* Hide interactive elements */
-  .xbar,.xbtn{display:none!important}
-
-  /* Body */
-  .body{padding:8px 16px 16px!important}
+  
 
   /* Section labels — biggest space waster */
   .slbl{margin-top:8px!important;margin-bottom:4px!important}
@@ -443,26 +440,7 @@ body{background:var(--paper);color:var(--coal);font-family:'Nunito Sans',sans-se
 </head>
 <body>
 
-<!-- ═══════════════════════════ HERO ═══════════════════════════ -->
-<div class="std-header">
-  <div class="std-eyebrow">Overland Series</div>
-  <div class="std-title">LiFePO4 System Components</div>
-  <div class="std-sub">2009 LC76 SW 1HZ &nbsp;&middot;&nbsp; Victron &nbsp;&middot;&nbsp; Freedom Won &nbsp;&middot;&nbsp; REDARC</div>
-</div>
 
-<!-- ═══════════════════════════ TOC ═══════════════════════════ -->
-<div class="toc">
-  <div class="toc-title">Contents</div>
-  <div class="toc-grid">
-    <a class="toc-link" href="#s1"><span class="toc-num">01</span>System Requirements</a>
-    <a class="toc-link" href="#s2"><span class="toc-num">02</span>Config A — Premium Classic</a>
-    <a class="toc-link" href="#s3"><span class="toc-num">03</span>Config B — Egon DC Hub</a>
-    <a class="toc-link" href="#s4"><span class="toc-num">04</span>Head-to-Head Comparison</a>
-    <a class="toc-link" href="#s5"><span class="toc-num">05</span>Pricing Sheets</a>
-  </div>
-</div>
-
-<!-- ═══════════════════════════ EXPORT ═══════════════════════════ -->
 
 <div class="body">
 
@@ -1226,18 +1204,6 @@ body{background:var(--paper);color:var(--coal);font-family:'Nunito Sans',sans-se
 </div>
 
 <script>
-function downloadHTML() {
-  const html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
-  const blob = new Blob([html], {type: 'text/html;charset=utf-8'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'LC76_LiFePO4_System_Report_SA.html';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-}
 </script>
 <script>
 if('serviceWorker' in navigator && location.hostname !== 'www.claudeusercontent.com'){

@@ -53,11 +53,11 @@ body{background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',sans-s
 .toc-num{font-size:9px;color:#E8920A;font-weight:600;flex:0 0 auto;margin-top:1px;}
 
 /* EXPORT BAR */
-.xbar{background:#fff;border-bottom:1px solid var(--rule);padding:9px 50px;display:flex;align-items:center;gap:10px;}
-.xbar-lbl{font-size:11px;color:var(--muted);font-family:'IBM Plex Mono',monospace;}
-.xbtn{background:var(--green);color:#fff;border:none;padding:6px 16px;font-family:'IBM Plex Sans',sans-serif;font-size:11.5px;font-weight:500;cursor:pointer;border-radius:3px;display:flex;align-items:center;gap:6px;transition:background .15s;}
-.xbtn:hover{background:#0f2e24;}
-.xbtn svg{width:13px;height:13px;}
+
+
+
+
+
 
 /* BODY */
 .body{padding:28px 50px 56px;}
@@ -290,7 +290,7 @@ body{background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',sans-s
   .toc{padding:12px 14px!important}
   .toc-grid{display:block!important}
   .toc-item{display:block!important;width:100%!important;box-sizing:border-box!important;margin-bottom:4px!important}
-  .xbar{padding:7px 14px!important}
+  
   .body{padding:14px 14px 32px!important}
   .chapter{margin-bottom:22px!important}
   .ch-title{font-size:20px!important}
@@ -353,10 +353,7 @@ body{background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',sans-s
   .toc-grid{display:grid!important;grid-template-columns:repeat(4,1fr)!important;gap:3px!important}
 
   /* Hide interactive / screen-only elements */
-  .xbar,.xbtn{display:none!important}
-
-  /* Body — tight padding */
-  .body{padding:8px 16px 16px!important}
+  
 
   /* Section labels — the biggest space waster */
   .slbl{margin-top:8px!important;margin-bottom:4px!important}
@@ -414,21 +411,53 @@ body{background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',sans-s
   .row{padding:3px 6px!important}
   .soc-bar-wrap{margin-bottom:5px!important}
 }
+
+/* ── STANDARD HEADER ─────────────────────────────────── */
+.std-header{
+  background:var(--ink,#0d0e12);
+  border-bottom:4px solid var(--amber2,#e07800);
+  padding:14px 20px 12px;
+  position:relative;
+}
+.std-eyebrow{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:.48rem;
+  letter-spacing:.28em;
+  text-transform:uppercase;
+  color:var(--steellt,#9aa0ae);
+  margin-bottom:6px;
+}
+.std-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:2.4rem;
+  letter-spacing:.06em;
+  color:#e07800;
+  line-height:1;
+}
+.std-sub{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:.54rem;
+  letter-spacing:.12em;
+  color:rgba(255,200,100,.65);
+  margin-top:5px;
+}
+@media(max-width:600px){
+  .std-header{padding:12px 14px 10px}
+  .std-title{font-size:clamp(1.6rem,6vw,2.4rem)}
+  .std-sub{font-size:.46rem;letter-spacing:.08em}
+  .std-eyebrow{font-size:.42rem}
+}
+
 </style>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 </head>
 <body>
 
 <!-- ══════════════════ HEADER ══════════════════ -->
-<div class="hdr">
-  <div class="hdr-eye">Technical Training Document · v1 · March 2026</div>
-  <div class="hdr-title">LC76 SW 1HZ — <em>How It All Works</em></div>
-  <div class="hdr-sub">Electricity Fundamentals · Load Calculation · State of Charge · Do's &amp; Don'ts · LC76 Overland Context</div>
-  <div class="hdr-chips">
-    <div class="chip">Audience: <span>First-time lithium battery owners</span></div>
-    <div class="chip">Context: <span>12V overland / off-grid</span></div>
-    <div class="chip">Chemistry: <span>LiFePO4 focus</span></div>
-    <div class="chip">Level: <span>Beginner → Intermediate</span></div>
-  </div>
+<div class="std-header">
+  <div class="std-eyebrow">Overland Series</div>
+  <div class="std-title">LiFePO4 Battery Training</div>
+  <div class="std-sub">2009 LC76 SW 1HZ &nbsp;&middot;&nbsp; Training Manual</div>
 </div>
 
 <!-- ══════════════════ TOC ══════════════════ -->
@@ -449,14 +478,6 @@ body{background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',sans-s
   </div>
 </div>
 
-<!-- ══════════════════ EXPORT BAR ══════════════════ -->
-<div class="xbar">
-  <span class="xbar-lbl">Save this document:</span>
-  <button class="xbtn" onclick="downloadHTML()">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-    Download as HTML File
-  </button>
-</div>
 
 <div class="body">
 
@@ -1379,18 +1400,6 @@ body{background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',sans-s
 </div>
 
 <script>
-function downloadHTML() {
-  const html = document.documentElement.outerHTML;
-  const blob = new Blob([html], {type: 'text/html'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'LC76_Battery_Training_Guide.html';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-}
 </script>
 <script>
 if('serviceWorker' in navigator && location.hostname !== 'www.claudeusercontent.com'){

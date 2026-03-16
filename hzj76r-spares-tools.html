@@ -53,8 +53,8 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 .toc-label{font-family:var(--mono);font-size:.54rem;letter-spacing:.20em;color:var(--steellt);text-transform:uppercase;margin-right:4px;flex-shrink:0}
 .toc-link{font-family:var(--mono);font-size:.54rem;color:rgba(255,255,255,.38);text-decoration:none;padding:2px 5px;border:1px solid transparent;transition:all .14s;white-space:nowrap;letter-spacing:.03em}
 .toc-link:hover{color:var(--tl,var(--amber2));border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.06)}
-.print-btn{margin-left:auto;font-family:var(--mono);font-size:.56rem;letter-spacing:.12em;color:var(--paper);background:none;border:1px solid rgba(255,255,255,.2);padding:5px 12px;cursor:pointer;transition:all .14s;text-transform:uppercase;flex-shrink:0}
-.print-btn:hover{border-color:var(--amber2);color:var(--amber2)}
+
+
 
 /* SECTION HEADERS */
 .section-header{background:var(--paper2);border-top:3px solid var(--amber);border-bottom:1px solid var(--rule);padding:6px 36px 8px;display:block;margin-top:4px;scroll-margin-top:52px}
@@ -107,7 +107,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 /* PRINT */
 @media print{
   @page{margin:12mm 10mm;size:A4}
-  .toc-bar,.print-btn{display:none}
+  .toc-bar,
   .section-header{margin-top:0}
   .section-header:first-of-type{page-break-before:avoid}
   
@@ -146,23 +146,60 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
   .block-label{font-size:.46rem!important}
   .ref-table,.fluid-table,.spec-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;font-size:10px}
   .ref-table th,.ref-table td{padding:5px 7px}
-  .print-btn{display:none!important}
+  
   .footer{padding:10px 12px;flex-wrap:wrap;font-size:9px}
 
   .comp-code{white-space:normal!important;flex-shrink:1!important;word-break:break-word!important}
   .oem-pn{white-space:normal!important;flex-shrink:1!important;word-break:break-all!important}
   .comp-header{flex-wrap:wrap!important;align-items:flex-start!important}
 }
+
+/* ── STANDARD HEADER ─────────────────────────────────── */
+.std-header{
+  background:var(--ink,#0d0e12);
+  border-bottom:4px solid var(--amber2,#e07800);
+  padding:14px 20px 12px;
+  position:relative;
+}
+.std-eyebrow{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:.48rem;
+  letter-spacing:.28em;
+  text-transform:uppercase;
+  color:var(--steellt,#9aa0ae);
+  margin-bottom:6px;
+}
+.std-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:2.4rem;
+  letter-spacing:.06em;
+  color:#e07800;
+  line-height:1;
+}
+.std-sub{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:.54rem;
+  letter-spacing:.12em;
+  color:rgba(255,200,100,.65);
+  margin-top:5px;
+}
+@media(max-width:600px){
+  .std-header{padding:12px 14px 10px}
+  .std-title{font-size:clamp(1.6rem,6vw,2.4rem)}
+  .std-sub{font-size:.46rem;letter-spacing:.08em}
+  .std-eyebrow{font-size:.42rem}
+}
+
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
 <!-- COVER -->
-<div class="cover">
-  <div class="cover-title">Bush Spares &amp; <span>Tools List</span></div>
-  <div class="cover-sub">1HZ 4.2L Diesel (with low boost turbo &amp; intercooler)</div>
-  <div class="cover-vin">HZJ76R-RKMRS &nbsp;&middot;&nbsp; VIN: JTEEB71J207007860 &nbsp;&middot;&nbsp; Engine: 1HZ0633958 &nbsp;&middot;&nbsp; Reg: CAA 430 689</div>
+<div class="std-header">
+  <div class="std-eyebrow">Overland Series</div>
+  <div class="std-title">Bush Spares &amp; Tools</div>
+  <div class="std-sub">2009 LC76 SW 1HZ &nbsp;&middot;&nbsp; Field Spares &amp; Tools List</div>
 </div>
 
 <!-- NAV -->
@@ -177,8 +214,6 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 <a href="javascript:void(0)" onclick="document.getElementById('sec7').scrollIntoView({behavior:'smooth'});return false;" class="toc-link" style="--tl:#3a3000">7. Seals, Gaskets & Consumables</a>
 <a href="javascript:void(0)" onclick="document.getElementById('sec8').scrollIntoView({behavior:'smooth'});return false;" class="toc-link" style="--tl:#1a3a40">8. Hand Tools</a>
 <a href="javascript:void(0)" onclick="document.getElementById('sec9').scrollIntoView({behavior:'smooth'});return false;" class="toc-link" style="--tl:#3a1a00">9. Specialised & Recovery Tools</a>
-
-  <button class="print-btn" onclick="window.print()">&#9113; Print / PDF</button>
 </div>
 
 
