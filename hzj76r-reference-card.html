@@ -108,8 +108,8 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 /* ── ROW ── */
 .row{display:flex;justify-content:space-between;align-items:baseline;gap:6px;border-bottom:1px solid #eee;padding-bottom:4px}
 .row:last-child{border-bottom:none;padding-bottom:0}
-.row-label{font-family:var(--mono);font-size:.58rem;color:var(--steelmd);flex-shrink:0;min-width:90px}
-.row-val{font-family:var(--mono);font-size:.62rem;font-weight:500;color:var(--steeldk);text-align:right}
+.row-label{font-family:var(--mono);font-size:.58rem;color:var(--steelmd);flex-shrink:0;min-width:80px}
+.row-val{font-family:var(--mono);font-size:.62rem;font-weight:500;color:var(--steeldk);text-align:left}
 .row-val.amber{color:var(--amber2);font-weight:600}
 .row-val.green{color:var(--green);font-weight:600}
 .row-val.note{font-size:.52rem;font-weight:400;color:var(--steelmd);font-style:italic}
@@ -172,8 +172,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 }
 
 /* ── PRINT ── */
-@media print{
-  @page{margin:8mm;size:A4 portrait}
+
   body{font-size:11px}
   .section-strip{page-break-before:auto}
   .card{page-break-inside:avoid}
@@ -202,8 +201,6 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
   .two-col,.three-col{display:block!important}
   .two-col>*,.three-col>*{display:block;width:100%;box-sizing:border-box;margin-bottom:4px}
   .fluid-table,.ref-table,.spec-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;font-size:10px}
-  .inline-grid-3col{display:block!important}
-  .inline-grid-3col>*{display:block!important;width:100%!important;box-sizing:border-box!important;margin-bottom:8px!important}
   .known-issues-strip{margin:0 10px!important}
   .known-issues-grid{display:block!important;padding:0 10px 10px!important}
   .known-issues-card{display:block!important;width:100%!important}
@@ -213,11 +210,35 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 }
 
 /* inline grid sections */
-.inline-grid-3col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
+.inline-grid-3col{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;grid-column:span 3;}
 /* known issues */
 .known-issues-strip{margin:0 12px}
-.known-issues-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;padding:10px 12px 12px;background:var(--paper)}
+.known-issues-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;padding:10px 12px 12px;background:var(--paper);grid-column:span 3}
 .known-issues-card{grid-column:span 3}
+
+/* 2-column variant for sections with 2 cards */
+.inline-grid-2col{display:grid;grid-template-columns:1fr 1fr;gap:10px;grid-column:span 3;}
+
+/* print */
+@media print{
+  @page{margin:10mm;size:A4 portrait}
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  body{font-size:10.5px}
+  .page-header{background:var(--ink)!important;padding:8px 14px}
+  .section-strip{background:var(--ink)!important;color:var(--amber2)!important;page-break-after:avoid;margin-bottom:0}
+  .card-grid{display:grid!important;grid-template-columns:1fr 1fr 1fr!important;gap:8px!important;padding:8px!important}
+  .inline-grid-3col{display:grid!important;grid-template-columns:1fr 1fr 1fr!important;gap:8px!important}
+  .inline-grid-2col{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important}
+  .known-issues-grid{display:grid!important;grid-template-columns:1fr 1fr 1fr!important;gap:8px!important;padding:8px!important}
+  .three-col{display:grid!important;grid-template-columns:1fr 1fr 1fr!important;gap:4px!important}
+  .two-col{display:grid!important;grid-template-columns:1fr 1fr!important;gap:4px!important}
+  .card{page-break-inside:avoid;border:1px solid #ccc!important;border-top:2px solid currentColor!important}
+  .card-title{padding:4px 8px;font-size:9px}
+  .card-body{padding:4px 8px}
+  .row{padding:2px 0;font-size:10px}
+  .warn-note{padding:6px 8px;font-size:10px}
+  .page-footer{border-top:1px solid #ccc;padding:6px 14px;font-size:9px}
+}
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
@@ -321,7 +342,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 
   <div class="card green span2">
     <div class="card-title">▸ Engine Bay Fluids &nbsp;·&nbsp; Owner Recommendation</div>
-    <div class="card-body two-col">
+    <div class="card-body">
       <div class="fluid-item">
         <div class="f-label">Engine Oil</div>
         <div class="f-spec">Shell Rimula R4 X 15W-40</div>
@@ -407,31 +428,16 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
   <!-- ── ELECTRICAL ── -->
   <div class="section-strip">Electrical System &amp; Camp Setup</div>
 
-  <div class="inline-grid-3col">
+  <div class="inline-grid-2col">
 
     <div class="card green">
       <div class="card-title">▸ Camp Setup</div>
-      <div class="card-body two-col">
-        <div class="fluid-item">
-          <div class="f-label">Roof Rack</div>
-          <div class="f-spec">African Out + Top Rail + Ladder</div>
-        </div>
-        <div class="fluid-item">
-          <div class="f-label">Table</div>
-          <div class="f-spec">Aluminium under Roof Rack</div>
-        </div>
-        <div class="fluid-item">
-          <div class="f-label">Storage</div>
-          <div class="f-spec">Double Drawer + Fridge Pull-out</div>
-        </div>
-        <div class="fluid-item">
-          <div class="f-label">Seat Covers</div>
-          <div class="f-spec">Canvas — Escape</div>
-        </div>
-        <div class="fluid-item">
-          <div class="f-label">Cooking</div>
-          <div class="f-spec">5L Gas + Twin Top Cast Iron Cooker</div>
-        </div>
+      <div class="card-body">
+        <div class="row"><span class="row-label">Roof Rack</span><span class="row-val">African Out + Top Rail + Ladder</span></div>
+        <div class="row"><span class="row-label">Table</span><span class="row-val">Aluminium under Roof Rack</span></div>
+        <div class="row"><span class="row-label">Storage</span><span class="row-val">Double Drawer + Fridge Pull-out</span></div>
+        <div class="row"><span class="row-label">Seat Covers</span><span class="row-val">Canvas — Escape</span></div>
+        <div class="row"><span class="row-label">Cooking</span><span class="row-val">5L Gas + Twin Top Cast Iron Cooker</span></div>
       </div>
     </div>
 
