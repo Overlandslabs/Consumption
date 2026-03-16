@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="LC76 Library">
@@ -16,65 +16,113 @@
 :root{
   --clay:#C4572A;--ochre:#D4963A;--sand:#E8D5A3;--cream:#F5EDDA;
   --ink:#1C1410;--bark:#3D2B1A;--smoke:#6B5B4E;--white:#FDFAF4;
-  --border:rgba(61,43,26,0.15);
-  --green-ok:#1A4731;--red-warn:#B91C1C;--amber:#92400E;
-  --dominant:var(--cream);--secondary:var(--ink);--accent:var(--clay);--accent-2:var(--ochre);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--ink);color:var(--cream);font-family:'Oswald',sans-serif;min-height:100vh;overflow-x:hidden}
-body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 80px,rgba(212,150,58,0.03) 80px,rgba(212,150,58,0.03) 81px),repeating-linear-gradient(90deg,transparent,transparent 80px,rgba(212,150,58,0.03) 80px,rgba(212,150,58,0.03) 81px);pointer-events:none;z-index:0}
-.page{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:56px 5% 80px}
-.eyebrow{font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:var(--smoke);margin-bottom:14px;animation:fadeUp .6s ease both}
-h1{font-size:clamp(34px,7vw,68px);font-weight:700;line-height:.95;color:var(--cream);animation:fadeUp .6s .05s ease both}
-h1 em{font-style:italic;color:var(--ochre)}
-.subtitle{font-size:14px;color:var(--smoke);font-style:italic;margin-top:12px;animation:fadeUp .6s .1s ease both}
-.divider{height:1px;background:linear-gradient(90deg,var(--clay),var(--ochre),transparent);margin:26px 0 44px;width:200px;animation:fadeUp .6s .12s ease both}
-.vehicle-strip{background:rgba(196,87,42,0.1);border:1px solid rgba(196,87,42,0.2);border-left:3px solid var(--clay);padding:12px 20px;margin-bottom:52px;display:flex;gap:20px;flex-wrap:wrap;font-size:11px;letter-spacing:.08em;color:var(--smoke);animation:fadeUp .6s .15s ease both}
-.vehicle-strip span{color:var(--ochre)}
-.section-label{font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--sand);border-bottom:1px solid rgba(232,213,163,0.2);padding-bottom:6px;margin-bottom:10px}
-.section-desc{font-size:12px;color:var(--smoke);margin-bottom:18px;line-height:1.6}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:2px;margin-bottom:44px}
-/* Field tool cards */
-.card{background:rgba(245,237,218,0.04);border:1px solid rgba(212,150,58,0.15);padding:28px 24px;text-decoration:none;display:block;position:relative;overflow:hidden;transition:all .2s ease;animation:fadeUp .6s ease both}
-.card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(196,87,42,0.08) 0%,transparent 60%);opacity:0;transition:opacity .2s}
-.card:hover{background:rgba(245,237,218,0.07);border-color:rgba(212,150,58,0.4);transform:translateY(-2px)}
-.card:hover::before{opacity:1}
-/* Reference cards — visually distinct */
-.card.ref{background:rgba(245,237,218,0.02);border:1px solid rgba(212,150,58,0.09);padding:18px 20px}
-.card.ref:hover{background:rgba(245,237,218,0.05);border-color:rgba(212,150,58,0.28)}
-.card-num{font-size:40px;font-weight:700;color:rgba(212,150,58,0.12);line-height:1;margin-bottom:14px;letter-spacing:-.03em;transition:color .2s}
-.card:hover .card-num{color:rgba(212,150,58,0.25)}
-.card.ref .card-num{font-size:14px;font-weight:600;color:rgba(212,150,58,0.4);margin-bottom:6px;letter-spacing:.1em}
-.card-type{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--smoke);margin-bottom:6px}
-.card.ref .card-type{font-size:9px;margin-bottom:4px}
-.card-title{font-size:clamp(16px,2.5vw,21px);font-weight:700;color:var(--cream);line-height:1.1;margin-bottom:10px}
-.card-title em{font-style:italic;color:var(--ochre)}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 80px,rgba(212,150,58,.03) 80px,rgba(212,150,58,.03) 81px),repeating-linear-gradient(90deg,transparent,transparent 80px,rgba(212,150,58,.03) 80px,rgba(212,150,58,.03) 81px);pointer-events:none;z-index:0}
+
+/* LAYOUT */
+.page{position:relative;z-index:1;max-width:960px;margin:0 auto;padding:52px 5% 72px}
+
+/* HEADER */
+.eyebrow{font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:var(--smoke);margin-bottom:12px}
+h1{font-size:clamp(32px,7vw,64px);font-weight:700;line-height:.95;color:var(--cream);letter-spacing:-.01em}
+h1 .accent{color:var(--clay)}
+.subtitle{font-size:13px;color:var(--sand);margin-top:10px;letter-spacing:.04em;font-weight:300}
+.divider{height:2px;background:linear-gradient(90deg,var(--clay),var(--ochre),transparent);margin:22px 0 38px;width:180px}
+
+/* VEHICLE STRIP */
+.vehicle-strip{background:rgba(196,87,42,.08);border:1px solid rgba(196,87,42,.2);border-left:3px solid var(--clay);padding:11px 18px;margin-bottom:44px;display:flex;gap:18px;flex-wrap:wrap;font-size:11px;letter-spacing:.07em;color:var(--smoke)}
+.vehicle-strip span{color:var(--ochre);font-weight:500}
+
+/* SECTION LABELS */
+.section-label{font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--clay);border-bottom:1px solid rgba(196,87,42,.25);padding-bottom:8px;margin-bottom:8px;font-weight:600}
+.section-desc{font-size:12px;color:var(--smoke);margin-bottom:20px;line-height:1.65;font-weight:300}
+
+/* GRIDS */
+.grid{display:grid;gap:2px;margin-bottom:40px}
+.tools-grid{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.ref-grid{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+
+/* CARDS */
+.card{background:rgba(245,237,218,.04);border:1px solid rgba(212,150,58,.15);padding:0;text-decoration:none;display:block;position:relative;overflow:hidden;transition:background .2s,border-color .2s,transform .2s}
+.card:hover{background:rgba(245,237,218,.07);border-color:rgba(212,150,58,.4);transform:translateY(-2px)}
+.card.tool{border-top:3px solid var(--clay)}
+.card-inner{padding:24px 22px 20px}
+
+/* Badge */
+.card-badge{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.card-num{font-size:11px;font-weight:700;letter-spacing:.18em;color:var(--clay);background:rgba(196,87,42,.12);padding:3px 9px;border:1px solid rgba(196,87,42,.3)}
+.card-type{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--smoke)}
+
+/* Card title — sand, no italic, consistent */
+.card-title{font-size:clamp(17px,2.5vw,22px);font-weight:700;color:var(--sand);line-height:1.1;margin-bottom:10px;letter-spacing:.01em}
+.card-desc{font-size:12px;color:var(--smoke);line-height:1.65;margin-bottom:14px;font-weight:300}
+.card-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:16px}
+.tag{font-size:9px;letter-spacing:.08em;text-transform:uppercase;padding:3px 7px;border:1px solid rgba(212,150,58,.2);color:var(--smoke);font-weight:400}
+
+/* CTA bar */
+.cta{min-height:44px;display:flex;align-items:center;gap:8px;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ochre);border-top:1px solid rgba(196,87,42,.2);padding:0 22px;transition:background .2s,gap .2s}
+.card:hover .cta{background:rgba(196,87,42,.08);gap:14px}
+.cta::after{content:'→';font-size:14px}
+
+/* REFERENCE CARDS */
+.card.ref{background:rgba(245,237,218,.02);border:1px solid rgba(212,150,58,.1)}
+.card.ref:hover{background:rgba(245,237,218,.05);border-color:rgba(212,150,58,.3)}
+.card.ref .card-inner{padding:16px 18px 0}
+.card.ref .card-badge{margin-bottom:8px}
+.card.ref .card-num{font-size:10px;color:var(--ochre);background:rgba(212,150,58,.12);border-color:rgba(212,150,58,.35);letter-spacing:.12em;padding:2px 8px}
+.card.ref .card-type{font-size:8.5px}
 .card.ref .card-title{font-size:14px;font-weight:600;margin-bottom:6px}
-.card-desc{font-size:12px;color:var(--smoke);line-height:1.65;margin-bottom:16px}
 .card.ref .card-desc{font-size:11px;margin-bottom:10px}
-.card-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:16px}
-.tag{font-size:9px;letter-spacing:.08em;text-transform:uppercase;padding:3px 7px;border:1px solid rgba(212,150,58,0.2);color:var(--smoke)}
-.cta{min-height:44px;display:inline-flex;align-items:center;gap:8px;font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--ochre);transition:gap .2s}
-.card:hover .cta{gap:12px}
-.cta::after{content:'\2192';font-size:13px}
-.card.ref .cta{font-size:9px;min-height:36px;color:rgba(212,150,58,0.65)}
-/* Stagger animations */
-.tools-grid .card:nth-child(1){animation-delay:.2s}.tools-grid .card:nth-child(2){animation-delay:.27s}
-.ref-grid .card:nth-child(1){animation-delay:.3s}.ref-grid .card:nth-child(2){animation-delay:.35s}
-.ref-grid .card:nth-child(3){animation-delay:.4s}.ref-grid .card:nth-child(4){animation-delay:.45s}
-.ref-grid .card:nth-child(5){animation-delay:.5s}.ref-grid .card:nth-child(6){animation-delay:.55s}
-.ref-grid .card:nth-child(7){animation-delay:.6s}
-footer{border-top:1px solid rgba(212,150,58,0.15);padding-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;font-size:10px;letter-spacing:.08em;color:var(--smoke);animation:fadeUp .6s .65s ease both}
+.card.ref .card-tags{margin-bottom:12px}
+.card.ref .cta{min-height:40px;font-size:9px;padding:0 18px}
+
+/* FOOTER */
+footer{border-top:1px solid rgba(212,150,58,.15);padding-top:18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;font-size:10px;letter-spacing:.08em;color:var(--smoke)}
 footer strong{color:var(--ochre)}
-@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
-@media(max-width:500px){.page{padding:34px 5% 56px}h1{font-size:32px}.vehicle-strip{gap:10px}.grid{grid-template-columns:1fr}}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.eyebrow{animation:fadeUp .5s ease both}
+h1{animation:fadeUp .5s .05s ease both}
+.subtitle{animation:fadeUp .5s .1s ease both}
+.divider{animation:fadeUp .5s .12s ease both}
+.vehicle-strip{animation:fadeUp .5s .15s ease both}
+.tools-grid .card:nth-child(1){animation:fadeUp .5s .25s ease both}
+.tools-grid .card:nth-child(2){animation:fadeUp .5s .32s ease both}
+.ref-grid .card:nth-child(1){animation:fadeUp .5s .38s ease both}
+.ref-grid .card:nth-child(2){animation:fadeUp .5s .42s ease both}
+.ref-grid .card:nth-child(3){animation:fadeUp .5s .46s ease both}
+.ref-grid .card:nth-child(4){animation:fadeUp .5s .50s ease both}
+.ref-grid .card:nth-child(5){animation:fadeUp .5s .54s ease both}
+.ref-grid .card:nth-child(6){animation:fadeUp .5s .58s ease both}
+.ref-grid .card:nth-child(7){animation:fadeUp .5s .62s ease both}
+
+/* MOBILE */
+@media(max-width:600px){
+  .page{padding:32px 4% 56px}
+  h1{font-size:clamp(28px,8.5vw,42px)}
+  .subtitle{font-size:12px}
+  .divider{margin:18px 0 28px}
+  .vehicle-strip{gap:8px;font-size:10px;padding:9px 14px;margin-bottom:32px}
+  .section-desc{font-size:11px}
+  .tools-grid,.ref-grid{grid-template-columns:1fr}
+  .card.tool .card-inner{padding:18px 16px 0}
+  .card-title{font-size:18px}
+  .cta{min-height:48px;padding:0 16px}
+  .card.ref .card-inner{padding:14px 14px 0}
+  .card.ref .card-title{font-size:13px}
+  .card.ref .cta{min-height:44px;padding:0 14px}
+  footer{flex-direction:column;align-items:flex-start;gap:4px;font-size:9px}
+}
 </style>
 </head>
 <body>
 <main class="page">
 
   <div class="eyebrow">LC76 Overland Series</div>
-  <h1>Field <em>Tools</em> &amp; References</h1>
+  <h1>Field <span class="accent">Tools</span> &amp; References</h1>
   <p class="subtitle">HZJ76R-RKMRS &middot; 1HZ 4.2L + Turbo + Intercooler &middot; Southern Africa</p>
   <div class="divider"></div>
 
@@ -92,26 +140,34 @@ footer strong{color:var(--ochre)}
   <p class="section-desc">Live calculators for use in the field. Terrain-adjusted and condition-aware. Installable on iPhone home screen.</p>
   <div class="grid tools-grid">
 
-    <a href="LC76_Fuel_Range_Calculator.html" class="card">
-      <div class="card-num">01</div>
-      <div class="card-type">Range Calculator</div>
-      <h2 class="card-title">Fuel Range <em>Calculator</em></h2>
-      <p class="card-desc">Terrain-adjusted consumption. Set load, tyre pressure, altitude, temperature and AC load &mdash; get instant range and consumption figures for your current conditions.</p>
-      <div class="card-tags">
-        <span class="tag">6 terrains</span><span class="tag">Altitude</span>
-        <span class="tag">Temperature</span><span class="tag">AC load</span>
+    <a href="LC76_Fuel_Range_Calculator.html" class="card tool">
+      <div class="card-inner">
+        <div class="card-badge">
+          <span class="card-num">01</span>
+          <span class="card-type">Range Calculator</span>
+        </div>
+        <h2 class="card-title">Fuel Range Calculator</h2>
+        <p class="card-desc">Terrain-adjusted consumption. Set load, tyre pressure, altitude, temperature and AC load &mdash; get instant range and consumption figures for your current conditions.</p>
+        <div class="card-tags">
+          <span class="tag">6 terrains</span><span class="tag">Altitude</span>
+          <span class="tag">Temperature</span><span class="tag">AC load</span>
+        </div>
       </div>
       <div class="cta">Open calculator</div>
     </a>
 
-    <a href="LC76_Trip_Fuel_Planner.html" class="card">
-      <div class="card-num">02</div>
-      <div class="card-type">Trip Planner</div>
-      <h2 class="card-title">Trip Fuel <em>Planner</em></h2>
-      <p class="card-desc">Multi-leg route planning with per-leg terrain, litres added and actual gauge overrides. Know before you go whether your fuel budget covers the full route.</p>
-      <div class="card-tags">
-        <span class="tag">Multi-leg</span><span class="tag">Gauge override</span>
-        <span class="tag">Angola route</span><span class="tag">Fuel budget</span>
+    <a href="LC76_Trip_Fuel_Planner.html" class="card tool">
+      <div class="card-inner">
+        <div class="card-badge">
+          <span class="card-num">02</span>
+          <span class="card-type">Trip Planner</span>
+        </div>
+        <h2 class="card-title">Trip Fuel Planner</h2>
+        <p class="card-desc">Multi-leg route planning with per-leg terrain, litres added and actual gauge overrides. Know before you go whether your fuel budget covers the full route.</p>
+        <div class="card-tags">
+          <span class="tag">Multi-leg</span><span class="tag">Gauge override</span>
+          <span class="tag">Angola route</span><span class="tag">Fuel budget</span>
+        </div>
       </div>
       <div class="cta">Open planner</div>
     </a>
@@ -124,65 +180,72 @@ footer strong{color:var(--ochre)}
   <div class="grid ref-grid">
 
     <a href="hzj76r-reference-card.html" class="card ref">
-      <div class="card-num">R1</div>
-      <div class="card-type">Reference Card</div>
-      <h2 class="card-title">Vehicle <em>Reference Card</em></h2>
-      <p class="card-desc">Complete specs on one page &mdash; engine, drivetrain, dimensions, weights, fluids and service intervals.</p>
-      <div class="card-tags"><span class="tag">Specs</span><span class="tag">Fluids</span><span class="tag">Dimensions</span></div>
+      <div class="card-inner">
+        <div class="card-badge"><span class="card-num">R1</span><span class="card-type">Reference Card</span></div>
+        <h2 class="card-title">Vehicle Reference Card</h2>
+        <p class="card-desc">Complete specs on one page &mdash; engine, drivetrain, dimensions, weights, fluids and service intervals.</p>
+        <div class="card-tags"><span class="tag">Specs</span><span class="tag">Fluids</span><span class="tag">Dimensions</span></div>
+      </div>
       <div class="cta">Open</div>
     </a>
 
     <a href="hzj76r-departure-checklist.html" class="card ref">
-      <div class="card-num">R2</div>
-      <div class="card-type">Checklist</div>
-      <h2 class="card-title">Pre-Departure <em>Checklist</em></h2>
-      <p class="card-desc">Systematic pre-departure inspection covering mechanical, electrical, recovery gear and supplies.</p>
-      <div class="card-tags"><span class="tag">Pre-trip</span><span class="tag">Interactive</span><span class="tag">Printable</span></div>
+      <div class="card-inner">
+        <div class="card-badge"><span class="card-num">R2</span><span class="card-type">Checklist</span></div>
+        <h2 class="card-title">Pre-Departure Checklist</h2>
+        <p class="card-desc">Systematic pre-departure inspection covering mechanical, electrical, recovery gear and supplies.</p>
+        <div class="card-tags"><span class="tag">Pre-trip</span><span class="tag">Interactive</span><span class="tag">Printable</span></div>
+      </div>
       <div class="cta">Open</div>
     </a>
 
     <a href="hzj76r-spares-tools.html" class="card ref">
-      <div class="card-num">R3</div>
-      <div class="card-type">Spares &amp; Tools</div>
-      <h2 class="card-title">Bush Spares <em>&amp; Tools</em></h2>
-      <p class="card-desc">Field spares and tools list with quantities, container locations and rationale for each item carried.</p>
-      <div class="card-tags"><span class="tag">Spares</span><span class="tag">Tools</span><span class="tag">Recovery</span></div>
+      <div class="card-inner">
+        <div class="card-badge"><span class="card-num">R3</span><span class="card-type">Spares &amp; Tools</span></div>
+        <h2 class="card-title">Bush Spares &amp; Tools</h2>
+        <p class="card-desc">Field spares and tools list with quantities, container locations and rationale for each item carried.</p>
+        <div class="card-tags"><span class="tag">Spares</span><span class="tag">Tools</span><span class="tag">Recovery</span></div>
+      </div>
       <div class="cta">Open</div>
     </a>
 
     <a href="1hz-engine-training.html" class="card ref">
-      <div class="card-num">R4</div>
-      <div class="card-type">Training Manual</div>
-      <h2 class="card-title">1HZ Engine <em>Training</em></h2>
-      <p class="card-desc">Field training manual covering the 1HZ engine and drivetrain &mdash; systems, maintenance and troubleshooting.</p>
-      <div class="card-tags"><span class="tag">1HZ engine</span><span class="tag">Drivetrain</span><span class="tag">Maintenance</span></div>
+      <div class="card-inner">
+        <div class="card-badge"><span class="card-num">R4</span><span class="card-type">Training Manual</span></div>
+        <h2 class="card-title">1HZ Engine Training</h2>
+        <p class="card-desc">Field training manual covering the 1HZ engine and drivetrain &mdash; systems, maintenance and troubleshooting.</p>
+        <div class="card-tags"><span class="tag">1HZ engine</span><span class="tag">Drivetrain</span><span class="tag">Maintenance</span></div>
+      </div>
       <div class="cta">Open</div>
     </a>
 
     <a href="LC76_Battery_Training_Guide.html" class="card ref">
-      <div class="card-num">R5</div>
-      <div class="card-type">Battery Training</div>
-      <h2 class="card-title">LiFePO4 Battery <em>Training</em></h2>
-      <p class="card-desc">Lithium battery system training guide &mdash; chemistry, charging, BMS, maintenance and field diagnostics.</p>
-      <div class="card-tags"><span class="tag">LiFePO4</span><span class="tag">BMS</span><span class="tag">Charging</span></div>
+      <div class="card-inner">
+        <div class="card-badge"><span class="card-num">R5</span><span class="card-type">Battery Training</span></div>
+        <h2 class="card-title">LiFePO4 Battery Training</h2>
+        <p class="card-desc">Lithium battery system training guide &mdash; chemistry, charging, BMS, maintenance and field diagnostics.</p>
+        <div class="card-tags"><span class="tag">LiFePO4</span><span class="tag">BMS</span><span class="tag">Charging</span></div>
+      </div>
       <div class="cta">Open</div>
     </a>
 
     <a href="LC76_Battery_longevity_report.html" class="card ref">
-      <div class="card-num">R6</div>
-      <div class="card-type">System Report</div>
-      <h2 class="card-title">Battery Longevity <em>Report</em></h2>
-      <p class="card-desc">LiFePO4 longevity analysis for Southern Africa overland conditions &mdash; heat, vibration and charge cycles.</p>
-      <div class="card-tags"><span class="tag">Longevity</span><span class="tag">Southern Africa</span><span class="tag">Analysis</span></div>
+      <div class="card-inner">
+        <div class="card-badge"><span class="card-num">R6</span><span class="card-type">System Report</span></div>
+        <h2 class="card-title">Battery Longevity Report</h2>
+        <p class="card-desc">LiFePO4 longevity analysis for Southern Africa overland conditions &mdash; heat, vibration and charge cycles.</p>
+        <div class="card-tags"><span class="tag">Longevity</span><span class="tag">Southern Africa</span><span class="tag">Analysis</span></div>
+      </div>
       <div class="cta">Open</div>
     </a>
 
     <a href="LC76_LiFePO4_System_Report.html" class="card ref">
-      <div class="card-num">R7</div>
-      <div class="card-type">Component Report</div>
-      <h2 class="card-title">LiFePO4 System <em>Report</em></h2>
-      <p class="card-desc">Installed component specification report &mdash; battery, BMS, charger, wiring and system architecture.</p>
-      <div class="card-tags"><span class="tag">Components</span><span class="tag">Wiring</span><span class="tag">BMS</span></div>
+      <div class="card-inner">
+        <div class="card-badge"><span class="card-num">R7</span><span class="card-type">Component Report</span></div>
+        <h2 class="card-title">LiFePO4 System Report</h2>
+        <p class="card-desc">Installed component specification report &mdash; battery, BMS, charger, wiring and system architecture.</p>
+        <div class="card-tags"><span class="tag">Components</span><span class="tag">Wiring</span><span class="tag">BMS</span></div>
+      </div>
       <div class="cta">Open</div>
     </a>
 
