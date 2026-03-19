@@ -29,11 +29,11 @@
   --green-ok:#1A4731;--red-warn:#B91C1C;--amber:#92400E;
   --dominant:var(--cream);--secondary:var(--ink);--accent:var(--clay);--accent-2:var(--ochre);
 }
-*{margin:0;padding:0;box-sizing:border-box;}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 body{background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',sans-serif;font-size:13px;line-height:1.6;}
 
 /* ── HEADER ── */
-.hdr{background:var(--ink);padding:34px 44px 28px;position:relative;overflow:hidden;}
+.hdr{background:var(--ink);padding:34px 44px 28px;position:sticky;top:0;z-index:100;overflow:hidden;}
 .hdr::before{content:'';position:absolute;top:-70px;right:-70px;width:320px;height:320px;border:48px solid rgba(232,146,10,.07);border-radius:50%;}
 .hdr::after{content:'';position:absolute;bottom:-55px;left:260px;width:160px;height:160px;border:28px solid rgba(232,146,10,.05);border-radius:50%;}
 .hdr-eye{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.25em;color:#E8920A;text-transform:uppercase;margin-bottom:8px;}
@@ -369,7 +369,9 @@ body{background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',sans-s
   background:var(--ink,#0d0e12);
   border-bottom:4px solid var(--amber2,#e07800);
   padding:14px 20px 12px;
-  position:relative;
+  position:sticky;
+  top:0;
+  z-index:100;
 }
 .std-eyebrow{
   font-family:'IBM Plex Mono',monospace;
@@ -400,6 +402,27 @@ body{background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',sans-s
   .std-eyebrow{font-size:.42rem}
 }
 
+
+  @media(max-width:768px){
+    body{font-size:14px;padding:0.5rem;}
+    .hdr{padding:1.5rem 1rem 1rem;}
+    h1{font-size:1.8rem;}
+    h2{font-size:1.5rem;}
+    h3{font-size:1.2rem;}
+    .page,main,.body{padding:1rem;}
+    .grid{grid-template-columns:1fr;gap:1rem;}
+    table{font-size:0.85rem;}
+    th,td{padding:0.5rem 0.3rem;}
+    .cap-grid,.tgrid,.rgrid{grid-template-columns:repeat(2,1fr);}
+  }
+  @media(max-width:480px){
+    body{font-size:13px;}
+    h1{font-size:1.5rem;}
+    h2{font-size:1.3rem;}
+    .hdr{padding:1rem 0.75rem 0.75rem;}
+    .page,main{padding:0.75rem;}
+    .cap-grid,.tgrid,.rgrid{grid-template-columns:1fr;}
+  }
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 </head>

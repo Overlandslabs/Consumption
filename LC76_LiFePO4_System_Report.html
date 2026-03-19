@@ -31,12 +31,12 @@
   --green-ok:#1A4731;--red-warn:#B91C1C;--amber:#92400E;
   --dominant:var(--cream);--secondary:var(--ink);--accent:var(--clay);--accent-2:var(--ochre);
 }
-*{margin:0;padding:0;box-sizing:border-box;}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html{scroll-behavior:smooth;}
 body{background:var(--paper);color:var(--coal);font-family:'Nunito Sans',sans-serif;font-size:13.5px;line-height:1.7;}
 
 /* ── HERO ── */
-.hero{background:var(--coal);min-height:240px;padding:40px 56px 0;position:relative;overflow:hidden;}
+.hero{background:var(--coal);min-height:240px;padding:40px 56px 0;position:sticky;top:0;z-index:100;overflow:hidden;}
 .hero-grain{position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;opacity:.4;}
 .hero-ring1{position:absolute;top:-120px;right:-120px;width:520px;height:520px;border:2px solid rgba(184,106,26,.12);border-radius:50%;}
 .hero-ring2{position:absolute;top:-60px;right:-60px;width:380px;height:380px;border:2px solid rgba(184,106,26,.08);border-radius:50%;}
@@ -58,7 +58,7 @@ body{background:var(--paper);color:var(--coal);font-family:'Nunito Sans',sans-se
 .cfg-label-b{display:inline-flex;align-items:center;gap:6px;background:var(--teal);color:#fff;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;padding:3px 10px;border-radius:2px;}
 
 /* ── TOC ── */
-.toc{background:var(--smoke);padding:12px 32px 14px;border-bottom:1px solid rgba(255,255,255,.05);}
+.toc{background:var(--smoke);padding:12px 32px 14px;border-bottom:1px solid rgba(255,255,255,.05);position:sticky;top:240px;z-index:99;}
 .toc-title{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.22em;color:var(--copper-lt);text-transform:uppercase;margin-bottom:12px;}
 .toc-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:2px;}
 .toc-link{display:flex;align-items:flex-start;gap:7px;text-decoration:none;color:#999;font-size:10.5px;font-family:'JetBrains Mono',monospace;padding:5px 7px;border-radius:3px;transition:all .15s;line-height:1.35;}
@@ -204,7 +204,7 @@ body{background:var(--paper);color:var(--coal);font-family:'Nunito Sans',sans-se
 .dtable td.nc{color:var(--muted);font-size:11px;}
 
 /* ── COMPARISON TABLE ── */
-.comp-table-wrap{border:1px solid var(--rule);border-radius:var(--r);overflow:auto;-webkit-overflow-scrolling:touch;margin-bottom:16px;}
+.comp-table-wrap{border:1px solid var(--rule);border-radius:var(--r);overflow:auto;-webkit-overflow-scrolling:touch;-webkit-overflow-scrolling:touch;margin-bottom:16px;}
 .comp-table{width:100%;border-collapse:collapse;font-size:12px;}
 .comp-table th{padding:10px 14px;text-align:left;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.07em;}
 .comp-table th.hprop{background:var(--coal);color:#888;width:28%;}
@@ -435,6 +435,27 @@ body{background:var(--paper);color:var(--coal);font-family:'Nunito Sans',sans-se
 }
 
 
+
+  @media(max-width:768px){
+    body{font-size:14px;padding:0.5rem;}
+    .masthead,.hero{padding:1.5rem 1rem 1rem;}
+    h1{font-size:1.8rem;}
+    h2{font-size:1.5rem;}
+    h3{font-size:1.2rem;}
+    .page,main{padding:1rem;}
+    .grid{grid-template-columns:1fr;gap:1rem;}
+    table{font-size:0.85rem;}
+    th,td{padding:0.5rem 0.3rem;}
+    .cap-grid,.tgrid,.rgrid{grid-template-columns:repeat(2,1fr);}
+  }
+  @media(max-width:480px){
+    body{font-size:13px;}
+    h1{font-size:1.5rem;}
+    h2{font-size:1.3rem;}
+    .masthead,.hero{padding:1rem 0.75rem 0.75rem;}
+    .page,main{padding:0.75rem;}
+    .cap-grid,.tgrid,.rgrid{grid-template-columns:1fr;}
+  }
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 </head>
@@ -464,11 +485,11 @@ body{background:var(--paper);color:var(--coal);font-family:'Nunito Sans',sans-se
 <div class="toc">
   <div class="toc-title">Jump to Section</div>
   <div class="toc-grid">
-    <a href="#s1" class="toc-link"><span class="toc-num">01</span> System Requirements</a>
-    <a href="#s2" class="toc-link"><span class="toc-num">02</span> Config A — Premium Classic</a>
-    <a href="#s3" class="toc-link"><span class="toc-num">03</span> Config B — Egon Hub</a>
-    <a href="#s4" class="toc-link"><span class="toc-num">04</span> Head-to-Head</a>
-    <a href="#s5" class="toc-link"><span class="toc-num">05</span> Pricing Sheets</a>
+    <a href="javascript:void(0)" onclick="document.getElementById('s1').scrollIntoView({behavior:'smooth'});return false;" class="toc-link"><span class="toc-num">01</span> System Requirements</a>
+    <a href="javascript:void(0)" onclick="document.getElementById('s2').scrollIntoView({behavior:'smooth'});return false;" class="toc-link"><span class="toc-num">02</span> Config A — Premium Classic</a>
+    <a href="javascript:void(0)" onclick="document.getElementById('s3').scrollIntoView({behavior:'smooth'});return false;" class="toc-link"><span class="toc-num">03</span> Config B — Egon Hub</a>
+    <a href="javascript:void(0)" onclick="document.getElementById('s4').scrollIntoView({behavior:'smooth'});return false;" class="toc-link"><span class="toc-num">04</span> Head-to-Head</a>
+    <a href="javascript:void(0)" onclick="document.getElementById('s5').scrollIntoView({behavior:'smooth'});return false;" class="toc-link"><span class="toc-num">05</span> Pricing Sheets</a>
   </div>
 </div>
 
@@ -1233,21 +1254,6 @@ body{background:var(--paper);color:var(--coal);font-family:'Nunito Sans',sans-se
   <span>Freedom Won · Victron · REDARC · Egon · <span class="acc">Hardkor 200W Solar</span></span>
 </div>
 
-<script>
-// Handle TOC anchor links with smooth scrolling
-document.addEventListener('DOMContentLoaded', function() {
-  document.querySelectorAll('.toc-link').forEach(function(link) {
-    link.addEventListener('click', function(e) {
-      e.preventDefault();
-      const targetId = this.getAttribute('href').substring(1);
-      const targetEl = document.getElementById(targetId);
-      if (targetEl) {
-        targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    });
-  });
-});
-</script>
 <script>
 if('serviceWorker' in navigator && location.hostname !== 'www.claudeusercontent.com'){
   window.addEventListener('load',function(){

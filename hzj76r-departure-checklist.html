@@ -28,11 +28,11 @@
   --steel:#3a4050;--steelmd:#6a7080;--steellt:#a8b0bc;
   --mono:'IBM Plex Mono',monospace;--sans:'IBM Plex Sans',sans-serif;--display:'Bebas Neue',sans-serif;
 }
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.5}
 
 /* COVER */
-.cover{background:var(--ink);color:var(--paper);padding:10px 36px;border-bottom:4px solid var(--amber)}
+.cover{background:var(--ink);color:var(--paper);padding:10px 36px;border-bottom:4px solid var(--amber);position:sticky;top:0;z-index:100}
 .cover-eyebrow{font-family:var(--mono);font-size:.58rem;letter-spacing:.18em;color:var(--amber2);text-transform:uppercase;margin-bottom:2px}
 .cover-title{font-family:var(--display);font-size:clamp(2rem,4vw,3rem);letter-spacing:.04em;line-height:.92;color:#fff;margin-bottom:1px}
 .cover-title span{color:var(--amber2)}
@@ -40,7 +40,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 .cover-vin{font-family:var(--mono);font-size:.58rem;letter-spacing:.10em;color:rgba(255,200,100,.7)}
 
 /* NAV */
-.toc-bar{background:var(--steel);padding:7px 36px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;position:sticky;top:0;z-index:100;border-bottom:3px solid var(--amber)}
+.toc-bar{background:var(--steel);padding:7px 36px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;border-bottom:3px solid var(--amber)}
 .toc-label{font-family:var(--mono);font-size:.50rem;letter-spacing:.18em;color:var(--steellt);text-transform:uppercase;margin-right:4px;flex-shrink:0}
 .toc-link{font-family:var(--mono);font-size:.50rem;color:rgba(255,255,255,.45);text-decoration:none;padding:2px 5px;border:1px solid transparent;transition:all .12s;white-space:nowrap}
 .toc-link:hover{color:var(--tl,var(--amber2));border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.06)}
@@ -73,7 +73,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 .cl-detail{font-family:var(--sans);font-size:.78rem;color:#3a4050;line-height:1.5}
 
 /* PROGRESS BAR */
-.progress-bar-wrap{position:sticky;top:42px;z-index:99;background:var(--ink);padding:4px 36px;display:flex;align-items:center;gap:10px}
+.progress-bar-wrap{background:var(--ink);padding:4px 36px;display:flex;align-items:center;gap:10px;margin-bottom:8px}
 .progress-bar{flex:1;height:4px;background:rgba(255,255,255,.1);border-radius:2px}
 .progress-fill{height:100%;background:var(--amber2);border-radius:2px;transition:width .3s;width:0%}
 .progress-label{font-family:var(--mono);font-size:.50rem;color:var(--steellt);letter-spacing:.10em;white-space:nowrap}
@@ -117,15 +117,17 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
   .cl-label{font-size:12px}
   .cl-note{font-size:11px}
   
-  table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;-webkit-overflow-scrolling:touch}
 }
+
+/* ── STICKY NAVIGATION UNIT ─────────────────────────────────── */
+.sticky-nav-unit{position:sticky;top:0;z-index:100;}
 
 /* ── STANDARD HEADER ─────────────────────────────────── */
 .std-header{
   background:var(--ink,#0d0e12);
   border-bottom:4px solid var(--amber2,#e07800);
   padding:14px 20px 12px;
-  position:relative;
 }
 .std-eyebrow{
   font-family:'IBM Plex Mono',monospace;
@@ -156,11 +158,34 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
   .std-eyebrow{font-size:.42rem}
 }
 
+
+  @media(max-width:768px){
+    body{font-size:14px;padding:0.5rem;}
+    .masthead,.hero{padding:1.5rem 1rem 1rem;}
+    h1{font-size:1.8rem;}
+    h2{font-size:1.5rem;}
+    h3{font-size:1.2rem;}
+    .page,main{padding:1rem;}
+    .grid{grid-template-columns:1fr;gap:1rem;}
+    table{font-size:0.85rem;}
+    th,td{padding:0.5rem 0.3rem;}
+    .cap-grid,.tgrid,.rgrid{grid-template-columns:repeat(2,1fr);}
+  }
+  @media(max-width:480px){
+    body{font-size:13px;}
+    h1{font-size:1.5rem;}
+    h2{font-size:1.3rem;}
+    .masthead,.hero{padding:1rem 0.75rem 0.75rem;}
+    .page,main{padding:0.75rem;}
+    .cap-grid,.tgrid,.rgrid{grid-template-columns:1fr;}
+  }
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
+<!-- STICKY HEADER + NAV UNIT -->
+<div class="sticky-nav-unit">
 <div class="std-header">
   <div class="std-eyebrow">Overland Series</div>
   <div class="std-title">Pre-Departure Checklist</div>
@@ -181,12 +206,16 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 
   <button class="reset-btn" onclick="resetAll()">&#9635; Reset</button>
 </div>
+</div>
 
 <div class="progress-bar-wrap">
   <div class="progress-bar"><div class="progress-fill" id="prog-fill"></div></div>
   <span class="progress-label" id="prog-label">0 / 68 checked</span>
 </div>
 
+<div style="background:var(--ink);color:var(--amber2);font-family:var(--display);font-size:1.3rem;letter-spacing:.14em;padding:10px 36px;margin:20px 0 12px;border-left:4px solid var(--amber2)">
+  Inspection Zones &amp; Checklist
+</div>
 
 <div class="zone-header" id="zoneA" style="border-left-color:#8a2000;background:#fff4f0">
   <span class="zone-badge" style="background:#8a2000">A</span>

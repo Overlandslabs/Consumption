@@ -34,7 +34,7 @@
 body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.6}
 
 /* COVER */
-.cover{background:var(--ink);color:var(--paper);padding:10px 36px 10px;position:relative;overflow:hidden;border-bottom:4px solid var(--amber)}
+.cover{background:var(--ink);color:var(--paper);padding:10px 36px 10px;border-bottom:4px solid var(--amber);position:sticky;top:0;z-index:100;overflow:hidden}
 .cover::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(0deg,transparent,transparent 38px,rgba(255,255,255,.022) 38px,rgba(255,255,255,.022) 39px),repeating-linear-gradient(90deg,transparent,transparent 38px,rgba(255,255,255,.022) 38px,rgba(255,255,255,.022) 39px);pointer-events:none}
 .cover-eyebrow{font-family:var(--mono);font-size:.60rem;letter-spacing:.20em;color:var(--amber2);text-transform:uppercase;margin-bottom:2px}
 .cover-title{font-family:var(--display);font-size:clamp(2rem,5vw,3.4rem);letter-spacing:.04em;line-height:.92;color:#fff;margin-bottom:1px}
@@ -49,7 +49,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 .spec-val{font-family:var(--mono);font-size:.66rem;color:var(--amber2);letter-spacing:.04em}
 
 /* NAV */
-.toc-bar{background:var(--steel);padding:8px 36px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;position:sticky;top:0;z-index:100;border-bottom:3px solid var(--amber)}
+.toc-bar{background:var(--steel);padding:8px 36px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;border-bottom:3px solid var(--amber)}
 .toc-label{font-family:var(--mono);font-size:.54rem;letter-spacing:.20em;color:var(--steellt);text-transform:uppercase;margin-right:4px;flex-shrink:0}
 .toc-link{font-family:var(--mono);font-size:.54rem;color:rgba(255,255,255,.38);text-decoration:none;padding:2px 5px;border:1px solid transparent;transition:all .14s;white-space:nowrap;letter-spacing:.03em}
 .toc-link:hover{color:var(--tl,var(--amber2));border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.06)}
@@ -57,7 +57,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 
 
 /* SECTION HEADERS */
-.section-header{background:var(--paper2);border-top:3px solid var(--amber);border-bottom:1px solid var(--rule);padding:6px 36px 8px;display:block;margin-top:4px;scroll-margin-top:52px}
+.section-header{background:var(--paper2);border-top:3px solid var(--amber);border-bottom:1px solid var(--rule);padding:6px 36px 8px;display:block;margin-top:4px;scroll-margin-top:120px}
 .section-num{font-family:var(--mono);font-size:.58rem;font-weight:600;letter-spacing:.20em;color:white;background:var(--amber);padding:2px 8px;display:inline-block;margin-bottom:3px;text-transform:uppercase}
 .section-name{font-family:var(--display);font-size:2.0rem;letter-spacing:.10em;color:var(--ink);text-transform:uppercase;display:block}
 .section-desc{font-family:var(--mono);font-size:.58rem;color:var(--steelmd);letter-spacing:.09em;display:block;margin-top:3px}
@@ -141,10 +141,10 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
   .comp-code,.comp-loc{font-size:.44rem!important}
   .comp-header{gap:6px!important;margin-bottom:2px!important}
   .comp-body{display:block!important}
-  .comp-body>*{display:block!important;width:100%!important;box-sizing:border-box!important;margin-bottom:6px!important}
+  .comp-body>*{display:block!important;width:100%!important;box-sizing:border-box!important;-webkit-tap-highlight-color:transparent;margin-bottom:6px!important}
   .comp-desc-block,.comp-tip-block,.comp-warn{padding:8px 12px!important}
   .block-label{font-size:.46rem!important}
-  .ref-table,.fluid-table,.spec-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;font-size:10px}
+  .ref-table,.fluid-table,.spec-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;-webkit-overflow-scrolling:touch;font-size:10px}
   .ref-table th,.ref-table td{padding:5px 7px}
   
   .footer{padding:10px 12px;flex-wrap:wrap;font-size:9px}
@@ -154,12 +154,14 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
   .comp-header{flex-wrap:wrap!important;align-items:flex-start!important}
 }
 
+/* ── STICKY NAVIGATION UNIT ─────────────────────────────────── */
+.sticky-nav-unit{position:sticky;top:0;z-index:100;}
+
 /* ── STANDARD HEADER ─────────────────────────────────── */
 .std-header{
   background:var(--ink,#0d0e12);
   border-bottom:4px solid var(--amber2,#e07800);
   padding:14px 20px 12px;
-  position:relative;
 }
 .std-eyebrow{
   font-family:'IBM Plex Mono',monospace;
@@ -190,11 +192,34 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
   .std-eyebrow{font-size:.42rem}
 }
 
+
+  @media(max-width:768px){
+    body{font-size:14px;padding:0.5rem;}
+    .masthead,.hero{padding:1.5rem 1rem 1rem;}
+    h1{font-size:1.8rem;}
+    h2{font-size:1.5rem;}
+    h3{font-size:1.2rem;}
+    .page,main{padding:1rem;}
+    .grid{grid-template-columns:1fr;gap:1rem;}
+    table{font-size:0.85rem;}
+    th,td{padding:0.5rem 0.3rem;}
+    .cap-grid,.tgrid,.rgrid{grid-template-columns:repeat(2,1fr);}
+  }
+  @media(max-width:480px){
+    body{font-size:13px;}
+    h1{font-size:1.5rem;}
+    h2{font-size:1.3rem;}
+    .masthead,.hero{padding:1rem 0.75rem 0.75rem;}
+    .page,main{padding:0.75rem;}
+    .cap-grid,.tgrid,.rgrid{grid-template-columns:1fr;}
+  }
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
+<!-- STICKY HEADER + NAV UNIT -->
+<div class="sticky-nav-unit">
 <!-- COVER -->
 <div class="std-header">
   <div class="std-eyebrow">Overland Series</div>
@@ -214,6 +239,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 <a href="javascript:void(0)" onclick="document.getElementById('sec7').scrollIntoView({behavior:'smooth'});return false;" class="toc-link" style="--tl:#3a3000">7. Seals, Gaskets & Consumables</a>
 <a href="javascript:void(0)" onclick="document.getElementById('sec8').scrollIntoView({behavior:'smooth'});return false;" class="toc-link" style="--tl:#1a3a40">8. Hand Tools</a>
 <a href="javascript:void(0)" onclick="document.getElementById('sec9').scrollIntoView({behavior:'smooth'});return false;" class="toc-link" style="--tl:#3a1a00">9. Specialised & Recovery Tools</a>
+</div>
 </div>
 
 
