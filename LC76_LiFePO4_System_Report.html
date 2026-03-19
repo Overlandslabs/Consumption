@@ -36,7 +36,7 @@ html{scroll-behavior:smooth;}
 body{background:var(--paper);color:var(--coal);font-family:'Nunito Sans',sans-serif;font-size:13.5px;line-height:1.7;}
 
 /* ── HERO ── */
-.hero{background:var(--coal);min-height:320px;padding:52px 56px 0;position:relative;overflow:hidden;}
+.hero{background:var(--coal);min-height:240px;padding:40px 56px 0;position:relative;overflow:hidden;}
 .hero-grain{position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;opacity:.4;}
 .hero-ring1{position:absolute;top:-120px;right:-120px;width:520px;height:520px;border:2px solid rgba(184,106,26,.12);border-radius:50%;}
 .hero-ring2{position:absolute;top:-60px;right:-60px;width:380px;height:380px;border:2px solid rgba(184,106,26,.08);border-radius:50%;}
@@ -44,8 +44,8 @@ body{background:var(--paper);color:var(--coal);font-family:'Nunito Sans',sans-se
 .hero-eyebrow{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.28em;color:var(--copper-lt);text-transform:uppercase;margin-bottom:12px;}
 .hero-title{font-family:'Playfair Display',serif;font-size:42px;line-height:1.08;color:#fff;font-weight:700;margin-bottom:8px;}
 .hero-title em{font-style:italic;color:var(--copper-lt);}
-.hero-sub{font-family:'Nunito Sans',sans-serif;font-size:13px;color:#7A7060;margin-bottom:28px;}
-.hero-meta{display:flex;gap:8px;flex-wrap:wrap;padding-bottom:28px;}
+.hero-sub{font-family:'Nunito Sans',sans-serif;font-size:13px;color:#7A7060;margin-bottom:20px;}
+.hero-meta{display:flex;gap:8px;flex-wrap:wrap;padding-bottom:20px;}
 .hchip{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:var(--r);padding:4px 12px;font-size:10px;font-family:'JetBrains Mono',monospace;color:#bbb;}
 .hchip span{color:var(--copper-lt);font-weight:600;}
 /* config colour bands at bottom of hero */
@@ -440,7 +440,37 @@ body{background:var(--paper);color:var(--coal);font-family:'Nunito Sans',sans-se
 </head>
 <body>
 
+<div class="hero">
+  <div class="hero-grain"></div>
+  <div class="hero-ring1"></div>
+  <div class="hero-ring2"></div>
+  <div class="hero-ring3"></div>
+  <div class="hero-eyebrow">Technical Report</div>
+  <h1 class="hero-title">LiFePO4 System <em>Component Report</em></h1>
+  <div class="hero-sub">LC76 SW 1HZ · Southern Africa Overland Conditions</div>
+  <div class="hero-meta">
+    <div class="hchip">77 Ah/day <span>load</span></div>
+    <div class="hchip">200W <span>solar</span></div>
+    <div class="hchip">300Ah <span>battery</span></div>
+    <div class="hchip">Config A <span>Freedom</span></div>
+    <div class="hchip">Config B <span>Egon Hub</span></div>
+  </div>
+  <div class="hero-bands">
+    <div style="background:var(--copper);"></div>
+    <div style="background:var(--teal);"></div>
+  </div>
+</div>
 
+<div class="toc">
+  <div class="toc-title">Jump to Section</div>
+  <div class="toc-grid">
+    <a href="#s1" class="toc-link"><span class="toc-num">01</span> System Requirements</a>
+    <a href="#s2" class="toc-link"><span class="toc-num">02</span> Config A — Premium Classic</a>
+    <a href="#s3" class="toc-link"><span class="toc-num">03</span> Config B — Egon Hub</a>
+    <a href="#s4" class="toc-link"><span class="toc-num">04</span> Head-to-Head</a>
+    <a href="#s5" class="toc-link"><span class="toc-num">05</span> Pricing Sheets</a>
+  </div>
+</div>
 
 <div class="body">
 
@@ -1204,6 +1234,19 @@ body{background:var(--paper);color:var(--coal);font-family:'Nunito Sans',sans-se
 </div>
 
 <script>
+// Handle TOC anchor links with smooth scrolling
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.toc-link').forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      const targetId = this.getAttribute('href').substring(1);
+      const targetEl = document.getElementById(targetId);
+      if (targetEl) {
+        targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+});
 </script>
 <script>
 if('serviceWorker' in navigator && location.hostname !== 'www.claudeusercontent.com'){
