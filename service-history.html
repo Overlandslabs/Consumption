@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Service History">
+<meta name="theme-color" content="#0d0e12">
+<title>Service History - 2009 LC76 1HZ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=Oswald:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0d0e12;--paper:#dad2c0;--paper2:#edeae0;--amber:#b86800;--amber2:#e07800;--rule:#d4cfc4;--steeldk:#2a2f3a;--steelmd:#6a7080;--red-warn:#B91C1C;--green-ok:#059669;--green-field:#10b981;}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{font-family:'Oswald',sans-serif;background:var(--paper);color:var(--steeldk);line-height:1.6;-webkit-font-smoothing:antialiased;}
+header{background:var(--ink);color:white;padding:2rem 2rem 0 2rem;border-bottom:4px solid var(--amber2);position:sticky;top:0;z-index:100;box-shadow:0 4px 12px rgba(0,0,0,0.15);}
+.header-title{font-family:'Bebas Neue',sans-serif;font-size:3rem;letter-spacing:2px;margin-bottom:0.5rem;}
+.header-title .accent{color:var(--amber2);}
+.header-subtitle{font-family:'IBM Plex Mono',monospace;font-size:0.85rem;color:var(--amber);margin-bottom:1.5rem;}
+.field-update-bar{background:var(--green-field);color:white;padding:1rem 2rem;display:flex;gap:1rem;align-items:center;flex-wrap:wrap;position:sticky;top:136px;z-index:99;box-shadow:0 2px 8px rgba(0,0,0,0.1);}
+.field-update-bar button{font-family:'IBM Plex Mono',monospace;font-size:0.85rem;padding:0.75rem 1.2rem;border:2px solid white;background:transparent;color:white;cursor:pointer;font-weight:600;transition:all 0.2s;min-height:44px;border-radius:4px;}
+.field-update-bar button:active{background:white;color:var(--green-field);transform:scale(0.98);}
+.field-update-bar .count{font-family:'IBM Plex Mono',monospace;font-size:0.85rem;padding:0.6rem 1.2rem;background:rgba(255,255,255,0.2);border-radius:4px;}
+.status-bar{background:var(--steeldk);color:white;padding:1.5rem 2rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1.5rem;}
+.status-item{text-align:center;}
+.status-value{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--amber2);display:block;}
+.status-label{font-family:'IBM Plex Mono',monospace;font-size:0.7rem;text-transform:uppercase;letter-spacing:1px;opacity:0.8;line-height:1.3;}
+main{max-width:1400px;margin:0 auto;padding:2rem;}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;margin-bottom:2rem;}
+.card{background:white;border:2px solid var(--rule);border-radius:8px;overflow:hidden;}
+.card-header{background:var(--paper2);padding:1rem 1.5rem;border-bottom:2px solid var(--rule);}
+.card-title{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--steeldk);margin-bottom:0.25rem;}
+.card-why{font-family:'Oswald',sans-serif;font-size:0.8rem;font-style:italic;color:var(--steelmd);font-weight:300;line-height:1.4;}
+.card-body{padding:1.5rem;}
+.card-body p{margin-bottom:0.75rem;font-size:0.95rem;}
+.card-body p:last-child{margin-bottom:0;}
+.status-ok{color:var(--green-ok);}
+.status-warn{color:var(--amber2);}
+.status-critical{color:var(--red-warn);font-weight:600;}
+.card.alert{border-color:var(--red-warn);border-width:3px;}
+.card.alert .card-header{background:var(--red-warn);color:white;}
+.card.alert .card-title{color:white;}
+.card.alert .card-why{color:rgba(255,255,255,0.95);}
+.table-card{background:white;border:2px solid var(--rule);border-radius:8px;overflow:hidden;margin-bottom:2rem;}
+.table-card-header{background:var(--paper2);padding:1.5rem;border-bottom:2px solid var(--rule);}
+.table-card-title{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--steeldk);}
+.search-box{margin-top:1rem;width:100%;max-width:400px;}
+.search-box input{width:100%;padding:0.75rem 1rem;font-family:'IBM Plex Mono',monospace;font-size:0.9rem;border:2px solid var(--rule);border-radius:4px;background:white;min-height:44px;}
+.search-box input:focus{outline:none;border-color:var(--amber2);}
+.table-wrapper{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+table{width:100%;border-collapse:collapse;font-size:0.85rem;}
+thead{background:var(--ink);color:var(--amber2);position:sticky;top:0;}
+th{padding:1rem 0.75rem;text-align:left;font-family:'IBM Plex Mono',monospace;font-size:0.7rem;text-transform:uppercase;letter-spacing:1px;font-weight:600;}
+td{padding:0.75rem;border-bottom:1px solid var(--rule);}
+tbody tr:active{background:var(--paper2);}
+.badge{display:inline-block;padding:0.25rem 0.5rem;border-radius:4px;font-family:'IBM Plex Mono',monospace;font-size:0.7rem;font-weight:600;}
+.badge-new{background:var(--green-field);color:white;}
+.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:1000;align-items:center;justify-content:center;padding:1rem;}
+.modal.active{display:flex;}
+.modal-content{background:white;padding:2rem;border-radius:8px;max-width:600px;width:100%;max-height:90vh;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.modal-title{font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--steeldk);margin-bottom:1.5rem;}
+.form-group{margin-bottom:1.5rem;}
+.form-group label{display:block;font-family:'IBM Plex Mono',monospace;font-size:0.85rem;color:var(--steeldk);margin-bottom:0.5rem;font-weight:600;}
+.form-group input,.form-group textarea{width:100%;padding:0.75rem;font-family:'Oswald',sans-serif;font-size:1rem;border:2px solid var(--rule);border-radius:4px;min-height:44px;}
+.form-group input:focus,.form-group textarea:focus{outline:none;border-color:var(--amber2);}
+.form-actions{display:flex;gap:1rem;justify-content:flex-end;margin-top:2rem;}
+.btn{font-family:'IBM Plex Mono',monospace;font-size:0.9rem;padding:0.75rem 1.5rem;border:2px solid var(--ink);background:var(--ink);color:white;cursor:pointer;font-weight:600;transition:all 0.2s;border-radius:4px;min-height:44px;}
+.btn:active{background:transparent;color:var(--ink);transform:scale(0.98);}
+.btn-secondary{background:transparent;color:var(--ink);}
+.btn-secondary:active{background:var(--ink);color:white;}
+h2{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;margin:2rem 0 1rem 0;color:var(--steeldk);}
+@media(max-width:768px){
+header{padding:1.5rem 1rem 0 1rem;}
+.header-title{font-size:2.2rem;}
+.header-subtitle{font-size:0.75rem;margin-bottom:1rem;}
+.field-update-bar{padding:0.75rem 1rem;gap:0.5rem;top:116px;}
+.field-update-bar button{font-size:0.75rem;padding:0.6rem 1rem;}
+.status-bar{grid-template-columns:repeat(2,1fr);padding:1rem;gap:1rem;}
+.status-value{font-size:1.4rem;}
+.status-label{font-size:0.65rem;}
+main{padding:1rem;}
+.card-grid{grid-template-columns:1fr;gap:1rem;}
+.card-title{font-size:1.2rem;}
+.card-why{font-size:0.75rem;}
+.card-body{padding:1rem;}
+.card-body p{font-size:0.9rem;}
+h2{font-size:1.8rem;margin:1.5rem 0 0.75rem 0;}
+.table-card-header{padding:1rem;}
+.table-card-title{font-size:1.5rem;}
+.search-box{max-width:100%;}
+th{padding:0.75rem 0.5rem;font-size:0.65rem;}
+td{padding:0.6rem 0.5rem;font-size:0.8rem;}
+.modal-content{padding:1.5rem;max-height:85vh;}
+.form-group{margin-bottom:1.25rem;}
+}
+@media(max-width:480px){
+.header-title{font-size:1.8rem;}
+.status-bar{grid-template-columns:1fr;}
+.status-item{text-align:left;}
+th,td{font-size:0.75rem;padding:0.5rem 0.4rem;}
+}
+</style>
+</head>
+<body>
+<header>
+<div class="header-title">Service <span class="accent">History</span></div>
+<div class="header-subtitle">2009 LC76 SW 1HZ · 296,000 km · 16 Years · <span id="totalServicesHeader">259</span> Services</div>
+</header>
+
+<div class="field-update-bar">
+<button onclick="openAddServiceModal()">+ Add Service</button>
+<button id="exportBtn" onclick="exportNewServices()" style="display:none;">↓ Export</button>
+<button id="clearBtn" onclick="clearNewServices()" style="display:none;">Clear</button>
+<span class="count" id="newServiceCount" style="display:none;"></span>
+</div>
+
+<div class="status-bar">
+<div class="status-item"><span class="status-value">296,000 km</span><span class="status-label">Current Odometer</span></div>
+<div class="status-item"><span class="status-value">Service 295k</span><span class="status-label">Last Service<br>19/01/2026 @ 293,949</span></div>
+<div class="status-item"><span class="status-value">R 732k</span><span class="status-label">Total Investment</span></div>
+<div class="status-item"><span class="status-value" id="totalServicesStatus">259</span><span class="status-label">Service Records</span></div>
+</div>
+
+<main>
+<div class="card-grid">
+<div class="card alert">
+<div class="card-header"><div class="card-title">🌡️ EGT Warning System</div></div>
+<div class="card-body">
+<p><strong>Current alarm: 600°C</strong></p>
+<p><span class="status-warn">⚠️</span> Safe limit is 650-700°C <em>pre-turbo</em></p>
+<p>If sensor is <em>post-turbo</em>, add ~150°C to estimate pre-turbo temp</p>
+<p><strong>Aluminum pistons melt at 650°C</strong></p>
+</div>
+</div>
+</div>
+
+<h2>Critical System Status</h2>
+<div class="card-grid">
+<div class="card">
+<div class="card-header">
+<div class="card-title">🌡️ EGT & Turbo Monitoring</div>
+<div class="card-why">1HZ lacks oil-cooled pistons. Sustained EGT >650°C causes cracked heads and melted pistons.</div>
+</div>
+<div class="card-body">
+<p><span class="status-ok">✓</span> EGT Gauge: Madman pyrometer</p>
+<p><span class="status-ok">✓</span> Safe limits: ≤550°C sustained | ≤650°C bursts</p>
+<p><span class="status-ok">✓</span> Boost gauge installed</p>
+<p><span class="status-warn">⚠️</span> Boost: 10-15 psi (target 7-10)</p>
+<p><span class="status-ok">✓</span> Intercooler installed</p>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header">
+<div class="card-title">🌡️ Cooling System</div>
+<div class="card-why">1HZ prone to overheating when turbocharged. Causes cracked heads (most expensive failure).</div>
+</div>
+<div class="card-body">
+<p><span class="status-ok">✓</span> Radiator: Nov 2024 (31,653 km)</p>
+<p><span class="status-ok">✓</span> Radiator cap: Apr 2025 (22,977 km)</p>
+<p><span class="status-ok">✓</span> Coolant: Jan 2026 (2,051 km)</p>
+<p><span class="status-critical">❌</span> Water pump: NO RECORD</p>
+<p><span class="status-critical">❌</span> Thermostat: NO RECORD</p>
+<p><span class="status-critical">❌</span> Viscous fan: NEVER CHECKED</p>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header">
+<div class="card-title">💨 Turbo & Boost</div>
+<div class="card-why">Monitor EGT and boost. Overboost destroys head gasket.</div>
+</div>
+<div class="card-body">
+<p><span class="status-ok">✓</span> SAC turbo install: 2011</p>
+<p><span class="status-ok">✓</span> Turbo recon: Aug 2023 @ 224,406</p>
+<p><span class="status-ok">✓</span> Km since recon: 71,594 km</p>
+<p><span class="status-warn">⚠️</span> Intercooler boots: Check for oil</p>
+<p><span class="status-warn">⚠️</span> Boost leaks: Listen for hissing</p>
+</div>
+</div>
+</div>
+
+<h2>Lifecycle Tracking</h2>
+<div class="card-grid">
+<div class="card alert">
+<div class="card-header">
+<div class="card-title">⚙️ Valve Clearances</div>
+<div class="card-why">1HZ uses valve shims which wear. Tight valves → poor economy, hard starting, BURNT VALVES.</div>
+</div>
+<div class="card-body">
+<p><span class="status-critical">❌</span> <strong>NEVER ADJUSTED</strong></p>
+<p>Recommended: Every 40,000-50,000 km</p>
+<p>Current: 296,000 km</p>
+<p>Missed: 6-7 services</p>
+<p><strong>ACTION: Schedule immediately</strong></p>
+<p style="margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,0.3);font-size:0.85rem;color:rgba(255,255,255,0.95);">
+<strong>Symptoms:</strong><br>
+• Valve ticking noise<br>
+• Hard starting<br>
+• Loss of power<br>
+• Poor fuel economy
+</p>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header">
+<div class="card-title">⏱️ Timing Belt (Cambelt)</div>
+<div class="card-why">Interference engine. Broken belt = pistons collide with valves = catastrophic damage.</div>
+</div>
+<div class="card-body">
+<p><span class="status-ok">✓</span> Last: Apr 2025 @ 273,023 km</p>
+<p><span class="status-ok">✓</span> Km since: 22,977 km</p>
+<p><span class="status-ok">✓</span> Next due: ~373,000 km</p>
+<p><span class="status-ok">✓</span> Tensioner & idlers replaced</p>
+<p><span class="status-critical">❌</span> Water pump: Should replace WITH belt</p>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header">
+<div class="card-title">⛽ Fuel Injection System</div>
+<div class="card-why">Worn injectors cause smoke. Injection pump wear causes hard starting and power loss.</div>
+</div>
+<div class="card-body">
+<p><span class="status-ok">✓</span> Injectors: Mar 2025 reman Toyota (23,815 km)</p>
+<p><span class="status-ok">✓</span> Injection pump: Mar 2025 DupDiesel (23,815 km)</p>
+<p style="font-size:0.85rem;margin-left:1.5rem;color:var(--steelmd);">Calibrated & timed — Dyno: 118kw / 373Nm</p>
+<p><span class="status-ok">✓</span> Compression test: Mar 2025 — Passed</p>
+<p><span class="status-ok">✓</span> Glow plugs: Tested Mar 2025 — Passed</p>
+<p><span class="status-warn">⚠️</span> Fuel filter: Feb 2024 (46,532 km) OVERDUE</p>
+<p><span class="status-warn">⚠️</span> Air filter: Aug 2023 (71,594 km) OVERDUE</p>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header">
+<div class="card-title">🛞 Tire Lifecycle</div>
+</div>
+<div class="card-body">
+<p>Set 1: 100k–179k = <strong>79,000 km</strong></p>
+<p>Set 2: Single tire @ 179k</p>
+<p>Set 3: 215k–263k = <strong>48,000 km</strong></p>
+<p>Set 4 (current): Nov 2024, <strong>33,000 km</strong> on set</p>
+<p style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--rule);">Expected replacement: ~311,000 km</p>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header">
+<div class="card-title">⚙️ Clutch — Abnormal Wear</div>
+<div class="card-why">Turbo increases torque. Clutch 2 failed early (12k km).</div>
+</div>
+<div class="card-body">
+<p>Clutch 1: 0–212,330 = <strong>212,330 km ✓</strong></p>
+<p><span class="status-critical">❌</span> Clutch 2: <strong>12,076 km</strong></p>
+<p><span class="status-warn">⚠️</span> Clutch 3 (HD): <strong>26,488 km</strong></p>
+<p><span class="status-ok">✓</span> Clutch 4 (4WD): Feb 2026 — NEW</p>
+<p style="font-size:0.85rem;">HD 4WD spec should handle turbo better</p>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header">
+<div class="card-title">🚙 Drivetrain & 4WD</div>
+<div class="card-why">Heavy loads accelerate wear. Water crossings contaminate diff oil.</div>
+</div>
+<div class="card-body">
+<p><span class="status-ok">✓</span> Front diff: Jan 2026 (2,051 km)</p>
+<p><span class="status-ok">✓</span> Rear diff: Apr 2025 (22,977 km)</p>
+<p><span class="status-ok">✓</span> Gearbox (GL-4): Feb 2025 (24,800 km)</p>
+<p><span class="status-ok">✓</span> Propshaft: Greased Jan 2026</p>
+<p><span class="status-warn">⚠️</span> Wheel bearings: Repack every 30k</p>
+</div>
+</div>
+</div>
+
+<h2>Critical Inspections</h2>
+<div class="card-grid">
+<div class="card">
+<div class="card-header">
+<div class="card-title">⚠️ Visual Checks</div>
+<div class="card-why">Regular checks prevent catastrophic failures.</div>
+</div>
+<div class="card-body">
+<p><strong>Daily/Weekly:</strong></p>
+<p style="font-size:0.85rem;margin-left:1rem;">
+□ Viscous fan (should NOT spin freely hot)<br>
+□ Boost leaks (listen for hissing)<br>
+□ Oil leaks (turbo, rocker, rear main)<br>
+□ Coolant level<br>
+□ EGT readings
+</p>
+<p style="margin-top:1rem;"><strong>Every 10,000 km:</strong></p>
+<p style="font-size:0.85rem;margin-left:1rem;">
+□ Blow-by check (oil filler @ idle)<br>
+□ Turbo shaft play<br>
+□ Intercooler boots (oil sweating)<br>
+□ Air intake (smoke test)
+</p>
+</div>
+</div>
+</div>
+
+<div class="table-card">
+<div class="table-card-header">
+<div class="table-card-title">System Status Grid</div>
+</div>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>System</th><th>Interval</th><th>Last</th><th>Status</th></tr>
+</thead>
+<tbody>
+<tr><td style="font-weight:600;">Engine Oil</td><td>5,000 km</td><td>Verify</td><td><span class="status-warn">⚠️</span> Check</td></tr>
+<tr><td style="font-weight:600;">Cambelt</td><td>100k km</td><td>Apr 2025</td><td><span class="status-ok">✓</span> Good</td></tr>
+<tr style="background:#fef2f2;"><td style="font-weight:600;">Valves</td><td>40-50k</td><td><strong>NEVER</strong></td><td><span class="status-critical">❌ CRITICAL</span></td></tr>
+<tr><td style="font-weight:600;">Front Diff</td><td>30-40k</td><td>Jan 2026</td><td><span class="status-ok">✓</span> Recent</td></tr>
+<tr><td style="font-weight:600;">Rear Diff</td><td>30-40k</td><td>Apr 2025</td><td><span class="status-ok">✓</span> Good</td></tr>
+<tr><td style="font-weight:600;">Gearbox</td><td>40-50k</td><td>Feb 2025</td><td><span class="status-ok">✓</span> Good</td></tr>
+<tr><td style="font-weight:600;">Coolant</td><td>40k / 2yr</td><td>Jan 2026</td><td><span class="status-ok">✓</span> Recent</td></tr>
+<tr><td style="font-weight:600;">Brake Fluid</td><td>24 mo</td><td>Jan 2026</td><td><span class="status-ok">✓</span> Recent</td></tr>
+<tr style="background:#fffbeb;"><td style="font-weight:600;">Air Filter</td><td>30-50k</td><td>Aug 2023</td><td><span class="status-warn">⚠️ 71k km</span></td></tr>
+<tr style="background:#fffbeb;"><td style="font-weight:600;">Fuel Filter</td><td>20-40k</td><td>Feb 2024</td><td><span class="status-warn">⚠️ 46k km</span></td></tr>
+<tr style="background:#fef2f2;"><td style="font-weight:600;">Water Pump</td><td>W/ belt</td><td><strong>NONE</strong></td><td><span class="status-critical">❌ GAP</span></td></tr>
+<tr style="background:#fef2f2;"><td style="font-weight:600;">Fan Clutch</td><td>Daily</td><td><strong>NEVER</strong></td><td><span class="status-critical">❌ RISK</span></td></tr>
+<tr><td style="font-weight:600;">Injection Pump</td><td>300k</td><td>Mar 2025</td><td><span class="status-ok">✓</span> Recent</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<div class="table-card">
+<div class="table-card-header">
+<div class="table-card-title">Complete Service Log</div>
+<div class="search-box">
+<input type="text" id="serviceSearch" placeholder="Search services..." onkeyup="filterServices()">
+</div>
+</div>
+<div class="table-wrapper">
+<table id="serviceTable">
+<thead>
+<tr><th>Date</th><th>Km</th><th>Service</th><th>Work</th><th>Cost</th><th>Notes</th></tr>
+</thead>
+<tbody id="serviceTableBody"></tbody>
+</table>
+</div>
+</div>
+</main>
+
+<div class="modal" id="addServiceModal">
+<div class="modal-content">
+<h2 class="modal-title">Add Service Record</h2>
+<form id="addServiceForm" onsubmit="saveService(event)">
+<div class="form-group"><label for="serviceDate">Date</label><input type="date" id="serviceDate" required></div>
+<div class="form-group"><label for="serviceMileage">Mileage (km)</label><input type="number" id="serviceMileage" required></div>
+<div class="form-group"><label for="serviceType">Service Item</label><input type="text" id="serviceType" placeholder="e.g., Oil filter, Cambelt" required></div>
+<div class="form-group"><label for="serviceWork">Work Category</label><input type="text" id="serviceWork" placeholder="e.g., Engine, Brakes"></div>
+<div class="form-group"><label for="serviceWorkshop">Workshop</label><input type="text" id="serviceWorkshop"></div>
+<div class="form-group"><label for="serviceCost">Cost (R)</label><input type="number" id="serviceCost" step="0.01"></div>
+<div class="form-group"><label for="serviceNotes">Notes</label><textarea id="serviceNotes" rows="3"></textarea></div>
+<div class="form-actions">
+<button type="button" class="btn btn-secondary" onclick="closeAddServiceModal()">Cancel</button>
+<button type="submit" class="btn">Save Service</button>
+</div>
+</form>
+</div>
+</div>
+
+<script>
+const EMBEDDED_SERVICES=[{"date": "31/05/2010", "mileage": 10384, "service": "Service 10,000 km", "work": "Manufacturers service 10,000 km", "dealer": "Toyota Tokai", "cost": 2031.25, "notes": "Dyno: 96kw; 285Nm"}, {"date": "31/05/2010", "mileage": 10384, "service": "Oil filter", "work": "Manufacturers service 10,000 km", "dealer": "Toyota Tokai", "cost": 1.0, "notes": ""}, {"date": "29/12/2010", "mileage": 20000, "service": "Service 20,000 km", "work": "Manufacturers service 20,000 km", "dealer": "Toyota Umhlanga", "cost": 3932.54, "notes": ""}, {"date": "29/12/2010", "mileage": 20000, "service": "Oil filter", "work": "Manufacturers service 20,000 km", "dealer": "Toyota Umhlanga", "cost": 1.0, "notes": ""}, {"date": "29/12/2010", "mileage": 20000, "service": "Fuel filter", "work": "Manufacturers service 20,000 km", "dealer": "Toyota Umhlanga", "cost": 1.0, "notes": ""}, {"date": "25/07/2011", "mileage": 29606, "service": "Service 30,000 km", "work": "Manufacturers service 30,000 km", "dealer": "Toyota Kroonstad", "cost": 1821.35, "notes": ""}, {"date": "25/07/2011", "mileage": 29606, "service": "Oil filter", "work": "Manufacturers service 30,000 km", "dealer": "Toyota Kroonstad", "cost": 1.0, "notes": ""}, {"date": "11/01/2012", "mileage": 42304, "service": "Service 40,000 km", "work": "Manufacturers service 40,000 km", "dealer": "Toyota Tokai", "cost": 5695.5, "notes": ""}, {"date": "11/01/2012", "mileage": 42304, "service": "Oil filter", "work": "Manufacturers service 40,000 km", "dealer": "Toyota Tokai", "cost": 1.0, "notes": ""}, {"date": "11/01/2012", "mileage": 42304, "service": "Oil seal axle", "work": "Manufacturers service 40,000 km", "dealer": "Toyota Tokai", "cost": 1.0, "notes": ""}, {"date": "11/01/2012", "mileage": 42304, "service": "Fuel filter", "work": "Manufacturers service 40,000 km", "dealer": "Toyota Tokai", "cost": 1.0, "notes": ""}, {"date": "11/01/2012", "mileage": 42304, "service": "Gear oil", "work": "Manufacturers service 40,000 km", "dealer": "Toyota Tokai", "cost": 1.0, "notes": ""}, {"date": "12/07/2012", "mileage": 49913, "service": "Service 50,000 km", "work": "Manufacturers service 50,000 km", "dealer": "Toyota Kroonstad", "cost": 2000.95, "notes": ""}, {"date": "12/07/2012", "mileage": 49913, "service": "Oil filter", "work": "Manufacturers service 50,000 km", "dealer": "Toyota Kroonstad", "cost": 1.0, "notes": ""}, {"date": "31/07/2012", "mileage": 50637, "service": "Intercooler", "work": "Turbo", "dealer": "Toyota Kroonstad", "cost": 684.0, "notes": ""}, {"date": "17/01/2013", "mileage": 60633, "service": "Service 60,000 km", "work": "Manufacturers service 60,000 km", "dealer": "Toyota Tokai", "cost": 4912.0, "notes": ""}, {"date": "17/01/2013", "mileage": 60633, "service": "Oil filter", "work": "Manufacturers service 60,000 km", "dealer": "Toyota Tokai", "cost": 1.0, "notes": ""}, {"date": "17/01/2013", "mileage": 60633, "service": "Oil seal axle", "work": "Manufacturers service 60,000 km", "dealer": "Toyota Tokai", "cost": 1.0, "notes": ""}, {"date": "17/01/2013", "mileage": 60633, "service": "Fuel filter", "work": "Manufacturers service 60,000 km", "dealer": "Toyota Tokai", "cost": 1.0, "notes": ""}, {"date": "17/01/2013", "mileage": 60633, "service": "Re-seal windscreen", "work": "Windscreen", "dealer": "Toyota Tokai", "cost": 1.0, "notes": ""}, {"date": "20/11/2013", "mileage": 70707, "service": "Service 70,000 km", "work": "Manufacturers service 70,000 km", "dealer": "Toyota Kroonstad", "cost": 1518.1, "notes": ""}, {"date": "11/09/2014", "mileage": 81065, "service": "Service 80,000 km", "work": "Manufacturers service 80,000 km", "dealer": "Toyota Kroonstad", "cost": 6162.85, "notes": ""}, {"date": "11/09/2014", "mileage": 81065, "service": "Brake fluid", "work": "Manufacturers service 80,000 km", "dealer": "Toyota Kroonstad", "cost": 1.0, "notes": ""}, {"date": "11/09/2014", "mileage": 81065, "service": "Fuel filter", "work": "Manufacturers service 80,000 km", "dealer": "Toyota Kroonstad", "cost": 1.0, "notes": ""}, {"date": "11/09/2014", "mileage": 81065, "service": "Oil seal axle", "work": "Manufacturers service 80,000 km", "dealer": "Toyota Kroonstad", "cost": 1.0, "notes": ""}, {"date": "11/09/2014", "mileage": 81065, "service": "Oil filter", "work": "Manufacturers service 80,000 km", "dealer": "Toyota Kroonstad", "cost": 1.0, "notes": ""}, {"date": "11/09/2014", "mileage": 81065, "service": "Wheel bearing grease", "work": "Manufacturers service 80,000 km", "dealer": "Toyota Kroonstad", "cost": 1.0, "notes": ""}, {"date": "11/09/2014", "mileage": 81065, "service": "Brake pads - front", "work": "Brakes", "dealer": "Toyota Kroonstad", "cost": 1200.0, "notes": ""}, {"date": "14/09/2015", "mileage": 89395, "service": "Service 90,000 km", "work": "Manufacturers service 90,000 km", "dealer": "Toyota Tokai", "cost": 2726.65, "notes": ""}, {"date": "14/09/2015", "mileage": 89395, "service": "Oil filter", "work": "Manufacturers service 90,000 km", "dealer": "Toyota Tokai", "cost": 1.0, "notes": ""}, {"date": "20/02/2016", "mileage": 100000, "service": "BFG KO2 - 4", "work": "Tyres", "dealer": "Tiger Wheel & Tyre", "cost": 17740.0, "notes": ""}, {"date": "14/07/2016", "mileage": 103832, "service": "Brake pipes replaced", "work": "Brakes", "dealer": "Toyota Montagu", "cost": 1983.43, "notes": ""}, {"date": "02/05/2017", "mileage": 115033, "service": "Service 120,000 km", "work": "Manufacturers service 120,000 km", "dealer": "Toyota Tokai", "cost": 8888.55, "notes": ""}, {"date": "02/05/2017", "mileage": 115033, "service": "Fuel filter", "work": "Manufacturers service 120,000 km", "dealer": "Toyota Tokai", "cost": 1.0, "notes": ""}, {"date": "02/05/2017", "mileage": 115033, "service": "Oil seal axle", "work": "Manufacturers service 120,000 km", "dealer": "Toyota Tokai", "cost": 1.0, "notes": ""}, {"date": "02/05/2017", "mileage": 115033, "service": "Oil filter", "work": "Manufacturers service 120,000 km", "dealer": "Toyota Tokai", "cost": 1.0, "notes": ""}, {"date": "02/05/2017", "mileage": 115033, "service": "Brake fluid", "work": "Manufacturers service 120,000 km", "dealer": "Toyota Tokai", "cost": 1.0, "notes": ""}, {"date": "02/05/2017", "mileage": 115033, "service": "Air filter", "work": "Manufacturers service 120,000 km", "dealer": "Toyota Tokai", "cost": 1.0, "notes": ""}, {"date": "09/05/2017", "mileage": 116600, "service": "Spiral Cable Sub-Assembly", "work": "Steering wheel", "dealer": "Totota Constantia", "cost": 2979.05, "notes": "Connection between the steering wheel, airbag, horn, and other critical components"}, {"date": "19/06/2017", "mileage": 128648, "service": "Service 130,000 km", "work": "Manufacturers service 130,000 km", "dealer": "Toyota Kokstad", "cost": 1798.41, "notes": ""}, {"date": "19/06/2017", "mileage": 128648, "service": "Oil filter", "work": "Manufacturers service 130,000 km", "dealer": "Toyota Kokstad", "cost": 1.0, "notes": ""}, {"date": "10/11/2017", "mileage": 135023, "service": "Brake pads", "work": "Brakes", "dealer": "Tyres and More", "cost": 1475.0, "notes": ""}, {"date": "26/01/2018", "mileage": 140260, "service": "Service 140,000 km", "work": "Manufacturers service 140,000 km", "dealer": "Toyota Tokai", "cost": 6731.05, "notes": ""}, {"date": "26/01/2018", "mileage": 140260, "service": "Fuel filter", "work": "Manufacturers service 140,000 km", "dealer": "Toyota Tokai", "cost": 1.0, "notes": ""}, {"date": "26/01/2018", "mileage": 140260, "service": "Oil filter", "work": "Manufacturers service 140,000 km", "dealer": "Toyota Tokai", "cost": 1.0, "notes": ""}, {"date": "11/09/2018", "mileage": 146929, "service": "Service 145,000 km", "work": "Manufacturers service 145,000 km", "dealer": "Toyota Tokai", "cost": 1948.3, "notes": ""}, {"date": "11/09/2018", "mileage": 146929, "service": "Oil filter", "work": "Manufacturers service 145,000 km", "dealer": "Toyota Tokai", "cost": 1.0, "notes": ""}, {"date": "23/10/2018", "mileage": 151354, "service": "Service 150,000 km", "work": "Manufacturers service 150,000 km", "dealer": "Toyota Tokai", "cost": 3102.0, "notes": ""}, {"date": "23/10/2018", "mileage": 151354, "service": "Cambelt", "work": "Cambelt", "dealer": "Toyota Tokai", "cost": 1000.0, "notes": "Cambelt changed 150,000km"}, {"date": "23/10/2018", "mileage": 151354, "service": "Cambelt Idler", "work": "Cambelt", "dealer": "Toyota Tokai", "cost": 1800.0, "notes": ""}, {"date": "23/10/2018", "mileage": 151354, "service": "Cambelt Tensioner", "work": "Cambelt", "dealer": "Toyota Tokai", "cost": 940.0, "notes": ""}, {"date": "22/08/2019", "mileage": 159805, "service": "Service 160,000 km", "work": "Manufacturers service 160,000 km", "dealer": "Toyota Tokai", "cost": 12999.3, "notes": ""}, {"date": "22/08/2019", "mileage": 159805, "service": "Coolant", "work": "Cooling system", "dealer": "Toyota Tokai", "cost": 1.0, "notes": ""}, {"date": "22/08/2019", "mileage": 159805, "service": "Oil filter", "work": "Manufacturers service 160,000 km", "dealer": "Toyota Tokai", "cost": 1.0, "notes": ""}, {"date": "22/08/2019", "mileage": 159805, "service": "Fuel filter", "work": "Manufacturers service 160,000 km", "dealer": "Toyota Tokai", "cost": 1.0, "notes": ""}, {"date": "22/08/2019", "mileage": 159805, "service": "Brake fluid", "work": "Manufacturers service 160,000 km", "dealer": "Toyota Tokai", "cost": 1.0, "notes": ""}, {"date": "22/08/2019", "mileage": 159805, "service": "Brake pads", "work": "Manufacturers service 160,000 km", "dealer": "Toyota Tokai", "cost": 1.0, "notes": ""}, {"date": "22/08/2019", "mileage": 159805, "service": "Fan belt kit", "work": "Fan belt", "dealer": "Toyota Tokai", "cost": 1.0, "notes": ""}, {"date": "01/11/2019", "mileage": 165942, "service": "Service 165,000 km", "work": "Manufacturers service 165,000 km", "dealer": "Toyota Oshakati", "cost": 1275.5, "notes": ""}, {"date": "19/11/2019", "mileage": 170324, "service": "Service 170,000 km", "work": "Manufacturers service 170,000 km", "dealer": "Toyota Tokai", "cost": 1770.0, "notes": ""}, {"date": "19/11/2019", "mileage": 170324, "service": "Oil filter", "work": "Manufacturers service 170,000 km", "dealer": "Toyota Tokai", "cost": 280.0, "notes": ""}, {"date": "19/11/2019", "mileage": 170324, "service": "Engin oil", "work": "Manufacturers service 170,000 km", "dealer": "Toyota Tokai", "cost": 900.0, "notes": ""}, {"date": "27/02/2020", "mileage": 175011, "service": "Service 175,000 km", "work": "Manufacturers service 175,000 km", "dealer": "Toyota Tokai", "cost": 482.65, "notes": ""}, {"date": "27/02/2020", "mileage": 175011, "service": "Engin oil", "work": "Manufacturers service 175,000 km", "dealer": "Toyota Tokai", "cost": 800.0, "notes": ""}, {"date": "04/09/2020", "mileage": 179000, "service": "BFG KO2 - 1", "work": "Tyres", "dealer": "Tiger Wheel & Tyre", "cost": 4719.0, "notes": ""}, {"date": "21/09/2020", "mileage": 179578, "service": "Service 180,000 km", "work": "Manufacturers service 180,000 km", "dealer": "Toyota Tokai", "cost": 2119.0, "notes": ""}, {"date": "21/09/2020", "mileage": 179578, "service": "Fuel filter", "work": "Manufacturers service 180,000 km", "dealer": "Toyota Tokai", "cost": 500.0, "notes": ""}, {"date": "21/09/2020", "mileage": 179578, "service": "Oil seal axle", "work": "Manufacturers service 180,000 km", "dealer": "Toyota Tokai", "cost": 600.0, "notes": ""}, {"date": "21/09/2020", "mileage": 179578, "service": "Oil filter", "work": "Manufacturers service 180,000 km", "dealer": "Toyota Tokai", "cost": 500.0, "notes": ""}, {"date": "21/09/2020", "mileage": 179578, "service": "Engin oil", "work": "Manufacturers service 180,000 km", "dealer": "Toyota Tokai", "cost": 1000.0, "notes": ""}, {"date": "22/12/2020", "mileage": 191658, "service": "Service 190,000 km", "work": "Manufacturers service 190,000 km", "dealer": "Toyota Tokai", "cost": 1386.1, "notes": ""}, {"date": "22/12/2020", "mileage": 191658, "service": "Oil filter", "work": "Manufacturers service 190,000 km", "dealer": "Toyota Tokai", "cost": 300.0, "notes": ""}, {"date": "22/12/2020", "mileage": 191658, "service": "Engin oil", "work": "Manufacturers service 190,000 km", "dealer": "Toyota Tokai", "cost": 1000.0, "notes": ""}, {"date": "15/03/2021", "mileage": 196464, "service": "Brake disk & pads", "work": "Brakes", "dealer": "Steenberg Motors", "cost": 2148.78, "notes": ""}, {"date": "15/03/2021", "mileage": 196464, "service": "Brake Drum Rear", "work": "Brakes", "dealer": "Don Kyatt (Terrain Tamer)", "cost": 4500.0, "notes": ""}, {"date": "15/03/2021", "mileage": 196464, "service": "Brake Shoe Kit Rear", "work": "Brakes", "dealer": "Don Kyatt (Terrain Tamer)", "cost": 2500.0, "notes": ""}, {"date": "15/03/2021", "mileage": 196464, "service": "Wheel Cylinder Rear", "work": "Brakes", "dealer": "Don Kyatt (Terrain Tamer)", "cost": 1000.0, "notes": ""}, {"date": "15/03/2021", "mileage": 196464, "service": "Discs High Carbon Front set", "work": "Brakes", "dealer": "Powerbrake", "cost": 5000.0, "notes": ""}, {"date": "15/03/2021", "mileage": 196464, "service": "Brake pads Front set", "work": "Brakes", "dealer": "Powerbrake", "cost": 4000.0, "notes": ""}, {"date": "26/04/2021", "mileage": 202066, "service": "Service 200,000 km", "work": "Manufacturers service 200,000 km", "dealer": "Toyota Malelane", "cost": 7941.0, "notes": ""}, {"date": "26/04/2021", "mileage": 202066, "service": "Air filter", "work": "Manufacturers service 200,000 km", "dealer": "Toyota Malelane", "cost": 1433.0, "notes": ""}, {"date": "26/04/2021", "mileage": 202066, "service": "Fuel filter", "work": "Manufacturers service 200,000 km", "dealer": "Toyota Malelane", "cost": 500.0, "notes": ""}, {"date": "26/04/2021", "mileage": 202066, "service": "Oil filter", "work": "Manufacturers service 200,000 km", "dealer": "Toyota Malelane", "cost": 500.0, "notes": ""}, {"date": "26/04/2021", "mileage": 202066, "service": "Oil seal axle", "work": "Manufacturers service 200,000 km", "dealer": "Toyota Malelane", "cost": 600.0, "notes": ""}, {"date": "26/04/2021", "mileage": 202066, "service": "Diff oil", "work": "Manufacturers service 200,000 km", "dealer": "Toyota Malelane", "cost": 500.0, "notes": ""}, {"date": "26/04/2021", "mileage": 202066, "service": "Brake fluid", "work": "Manufacturers service 200,000 km", "dealer": "Toyota Malelane", "cost": 300.0, "notes": ""}, {"date": "26/04/2021", "mileage": 202066, "service": "Engin oil", "work": "Manufacturers service 200,000 km", "dealer": "Toyota Malelane", "cost": 1000.0, "notes": ""}, {"date": "26/04/2021", "mileage": 202066, "service": "Steering wheel free play adjusted", "work": "Steering wheel", "dealer": "Toyota Malelane", "cost": 200.0, "notes": ""}, {"date": "26/04/2021", "mileage": 202066, "service": "Tie rods ends free play adjusted", "work": "Suspension", "dealer": "Toyota Malelane", "cost": 200.0, "notes": ""}, {"date": "26/04/2021", "mileage": 202066, "service": "Transfer case oil", "work": "Manufacturers service 200,000 km", "dealer": "Toyota Malelane", "cost": 400.0, "notes": ""}, {"date": "26/04/2021", "mileage": 202066, "service": "Gearbox oil", "work": "Manufacturers service 200,000 km", "dealer": "Toyota Malelane", "cost": 600.0, "notes": ""}, {"date": "26/04/2021", "mileage": 202066, "service": "Window regulator adjusted", "work": "Window", "dealer": "Toyota Malelane", "cost": 5590.0, "notes": ""}, {"date": "22/03/2022", "mileage": 210834, "service": "Service 210,000 km", "work": "Manufacturers service 210,000 km", "dealer": "Toyota Tokai", "cost": 1494.0, "notes": ""}, {"date": "22/03/2022", "mileage": 210834, "service": "Oil filter", "work": "Manufacturers service 210,000 km", "dealer": "Toyota Tokai", "cost": 300.0, "notes": ""}, {"date": "22/03/2022", "mileage": 210834, "service": "Engin oil", "work": "Manufacturers service 210,000 km", "dealer": "Toyota Tokai", "cost": 1000.0, "notes": ""}, {"date": "22/04/2022", "mileage": 212330, "service": "Clutch kit", "work": "Clutch", "dealer": "Toyota Vredendal", "cost": 8014.0, "notes": "Intermediate bearing on transfer case failed and damaged 5th gear. Replaced gearbox bearings, transfer bearings & centre shaft & gears. Replaced clutch & skimmed flywheel."}, {"date": "22/04/2022", "mileage": 212330, "service": "Flywheel skimmed", "work": "Clutch", "dealer": "Toyota Vredendal", "cost": 1400.0, "notes": ""}, {"date": "22/04/2022", "mileage": 212330, "service": "Transfer shaft", "work": "Drivetrain", "dealer": "Toyota Vredendal", "cost": 14670.0, "notes": ""}, {"date": "22/04/2022", "mileage": 212330, "service": "Transfer gear", "work": "Drivetrain", "dealer": "Toyota Vredendal", "cost": 14670.0, "notes": ""}, {"date": "26/04/2022", "mileage": 212769, "service": "Oil pressure switch", "work": "In between service", "dealer": "SAC", "cost": 580.0, "notes": ""}, {"date": "25/11/2022", "mileage": 215000, "service": "BFG KO2 - 4", "work": "Tyres", "dealer": "Tiger Wheel & Tyre", "cost": 18814.0, "notes": ""}, {"date": "09/02/2023", "mileage": 218742, "service": "Service 220,000 km", "work": "Manufacturers service 220,000 km", "dealer": "Steenberg Motors", "cost": 7155.0, "notes": ""}, {"date": "09/02/2023", "mileage": 218742, "service": "Diff oil", "work": "Manufacturers service 220,000 km", "dealer": "Steenberg Motors", "cost": 300.0, "notes": ""}, {"date": "09/02/2023", "mileage": 218742, "service": "Oil filter", "work": "Manufacturers service 220,000 km", "dealer": "Steenberg Motors", "cost": 200.0, "notes": ""}, {"date": "09/02/2023", "mileage": 218742, "service": "Brakeshoes", "work": "Manufacturers service 220,000 km", "dealer": "Steenberg Motors", "cost": 500.0, "notes": ""}, {"date": "09/02/2023", "mileage": 218742, "service": "Hydraulic brakemaster cylinder overhaul", "work": "Brakes", "dealer": "Steenberg Motors", "cost": 1000.0, "notes": ""}, {"date": "09/02/2023", "mileage": 218742, "service": "Hydraulic slave cylinder overhaul", "work": "Clutch", "dealer": "Steenberg Motors", "cost": 1800.0, "notes": ""}, {"date": "09/02/2023", "mileage": 218742, "service": "Engin oil", "work": "Manufacturers service 220,000 km", "dealer": "Steenberg Motors", "cost": 200.0, "notes": ""}, {"date": "17/03/2023", "mileage": 220615, "service": "Coolant sensor fited into Madman", "work": "Cooling system", "dealer": "SAC", "cost": 5500.0, "notes": "Dyno: 112kw; 363Nm"}, {"date": "17/03/2023", "mileage": 220615, "service": "Fuel filter", "work": "In between service", "dealer": "SAC", "cost": 400.0, "notes": ""}, {"date": "24/04/2023", "mileage": 224406, "service": "Clutch kit", "work": "Clutch", "dealer": "SAC", "cost": 11180.0, "notes": "Replace clutch"}, {"date": "24/04/2023", "mileage": 224406, "service": "Flywheel skimmed", "work": "Clutch", "dealer": "SAC", "cost": 790.0, "notes": ""}, {"date": "18/08/2023", "mileage": 224406, "service": "Service 225,000 km", "work": "Manufacturers service 225,000 km", "dealer": "SAC", "cost": 3254.0, "notes": ""}, {"date": "18/08/2023", "mileage": 224406, "service": "Oil filter", "work": "Manufacturers service 225,000 km", "dealer": "SAC", "cost": 328.0, "notes": ""}, {"date": "18/08/2023", "mileage": 224406, "service": "Coolant", "work": "Cooling system", "dealer": "SAC", "cost": 216.0, "notes": ""}, {"date": "18/08/2023", "mileage": 224406, "service": "Oil hose", "work": "Manufacturers service 225,000 km", "dealer": "SAC", "cost": 216.0, "notes": ""}, {"date": "18/08/2023", "mileage": 224406, "service": "Air filter", "work": "Manufacturers service 225,000 km", "dealer": "SAC", "cost": 728.0, "notes": ""}, {"date": "18/08/2023", "mileage": 224406, "service": "Gearbox oil", "work": "Manufacturers service 225,000 km", "dealer": "SAC", "cost": 100.0, "notes": ""}, {"date": "18/08/2023", "mileage": 224406, "service": "Engin oil", "work": "Manufacturers service 225,000 km", "dealer": "SAC", "cost": 828.0, "notes": ""}, {"date": "18/08/2023", "mileage": 224406, "service": "Turbo recon", "work": "Turbo", "dealer": "SAC", "cost": 14900.0, "notes": "Remove and replace Turbo & optimisation"}, {"date": "18/08/2023", "mileage": 224406, "service": "Flush cooling system", "work": "Cooling system", "dealer": "SAC", "cost": 240.0, "notes": ""}, {"date": "28/04/2023", "mileage": 221000, "service": "Shocks - OME", "work": "Suspension", "dealer": "G-Tec", "cost": 15213.0, "notes": "4 shocks"}, {"date": "21/06/2023", "mileage": 228696, "service": "Service 230,000 km", "work": "Manufacturers service 230,000 km", "dealer": "Toyota Ngami Botswana", "cost": 1148.0, "notes": ""}, {"date": "21/06/2023", "mileage": 228696, "service": "Oil filter", "work": "Manufacturers service 230,000 km", "dealer": "Toyota Ngami Botswana", "cost": 382.0, "notes": ""}, {"date": "21/06/2023", "mileage": 228696, "service": "Engin oil", "work": "Manufacturers service 230,000 km", "dealer": "Toyota Ngami Botswana", "cost": 950.0, "notes": ""}, {"date": "27/10/2023", "mileage": 243189, "service": "Service 240,000 km", "work": "Manufacturers service 240,000 km", "dealer": "Toyota Matatiele", "cost": 8043.0, "notes": ""}, {"date": "27/10/2023", "mileage": 243189, "service": "Oil filter", "work": "Manufacturers service 240,000 km", "dealer": "Toyota Matatiele", "cost": 497.0, "notes": ""}, {"date": "27/10/2023", "mileage": 243189, "service": "Fuel filter", "work": "Manufacturers service 240,000 km", "dealer": "Toyota Matatiele", "cost": 530.0, "notes": ""}, {"date": "27/10/2023", "mileage": 243189, "service": "Gearbox oil", "work": "Manufacturers service 240,000 km", "dealer": "Toyota Matatiele", "cost": 625.0, "notes": ""}, {"date": "27/10/2023", "mileage": 243189, "service": "Brake fluid", "work": "Manufacturers service 240,000 km", "dealer": "Toyota Matatiele", "cost": 146.0, "notes": ""}, {"date": "27/10/2023", "mileage": 243189, "service": "Roller bearing", "work": "Manufacturers service 240,000 km", "dealer": "Toyota Matatiele", "cost": 983.0, "notes": ""}, {"date": "27/10/2023", "mileage": 243189, "service": "Engin oil", "work": "Manufacturers service 240,000 km", "dealer": "Toyota Matatiele", "cost": 1229.0, "notes": ""}, {"date": "27/10/2023", "mileage": 243189, "service": "Oil seal axle", "work": "Manufacturers service 240,000 km", "dealer": "Toyota Matatiele", "cost": 646.0, "notes": ""}, {"date": "27/10/2023", "mileage": 243189, "service": "Wheel bearing grease", "work": "Manufacturers service 240,000 km", "dealer": "Toyota Matatiele", "cost": 395.0, "notes": ""}, {"date": "27/10/2023", "mileage": 243189, "service": "Coolant", "work": "Cooling system", "dealer": "Toyota Matatiele", "cost": 980.0, "notes": ""}, {"date": "14/11/2023", "mileage": 245370, "service": "Hub set automatic", "work": "Hub set replacement", "dealer": "Toyota Matatiele", "cost": 13959.0, "notes": ""}, {"date": "14/11/2023", "mileage": 245370, "service": "Lower shock rubbers", "work": "Hub set replacement", "dealer": "Toyota Matatiele", "cost": 2762.0, "notes": ""}, {"date": "14/11/2023", "mileage": 245370, "service": "Control arm bushes", "work": "Hub set replacement", "dealer": "Toyota Matatiele", "cost": 2762.0, "notes": ""}, {"date": "14/11/2023", "mileage": 245370, "service": "Front free wheel bearings", "work": "Hub set replacement", "dealer": "Toyota Matatiele", "cost": 2762.0, "notes": ""}, {"date": "14/11/2023", "mileage": 245370, "service": "Front axle hub bearing", "work": "Hub set replacement", "dealer": "Toyota Matatiele", "cost": 2762.0, "notes": ""}, {"date": "14/11/2023", "mileage": 245370, "service": "Front leading arm assembly", "work": "Hub set replacement", "dealer": "Toyota Matatiele", "cost": 2762.0, "notes": ""}, {"date": "08/11/2023", "mileage": 247000, "service": "Pre-trip inspection & lubrication", "work": "Pre-trip inspection", "dealer": "G-Tec", "cost": 1967.0, "notes": ""}, {"date": "08/11/2023", "mileage": 247000, "service": "Fuel filter", "work": "Pre-trip inspection", "dealer": "G-Tec", "cost": 638.0, "notes": ""}, {"date": "08/11/2023", "mileage": 247000, "service": "Battery bracket repair", "work": "Pre-trip inspection", "dealer": "G-Tec", "cost": 1400.0, "notes": ""}, {"date": "02/02/2024", "mileage": 249468, "service": "Diesel tank refit", "work": "Diesel Tank", "dealer": "SAC", "cost": 4450.0, "notes": ""}, {"date": "02/02/2024", "mileage": 249468, "service": "Fuel filter", "work": "Pre-trip inspection", "dealer": "SAC", "cost": 495.0, "notes": "Dyno: 121kw; 371Nm"}, {"date": "20/02/2024", "mileage": 250894, "service": "Clutch kit (heavy duty)", "work": "Clutch", "dealer": "SAC", "cost": 22269.0, "notes": ""}, {"date": "20/02/2024", "mileage": 250894, "service": "Brake fluid", "work": "Pre-trip inspection", "dealer": "SAC", "cost": 220.0, "notes": ""}, {"date": "22/03/2024", "mileage": 252724, "service": "Pre-trip inspection & lubrication", "work": "Pre-trip inspection", "dealer": "JB's", "cost": 568.0, "notes": ""}, {"date": "22/03/2024", "mileage": 252724, "service": "Cooling system pressure check", "work": "Cooling system", "dealer": "JB's", "cost": 568.0, "notes": ""}, {"date": "22/03/2024", "mileage": 252724, "service": "Prop-shafts greased", "work": "Pre-trip inspection", "dealer": "JB's", "cost": 568.0, "notes": ""}, {"date": "22/03/2024", "mileage": 252724, "service": "Diff oil", "work": "Pre-trip inspection", "dealer": "JB's", "cost": 568.0, "notes": ""}, {"date": "12/04/2024", "mileage": 255000, "service": "Fan belt kit", "work": "Fan belt", "dealer": "Quick Lane Upington", "cost": 250.0, "notes": ""}, {"date": "20/05/2024", "mileage": 260491, "service": "Service 260,000 km", "work": "Manufacturers service 260,000 km", "dealer": "G-Tec", "cost": 5872.0, "notes": ""}, {"date": "20/05/2024", "mileage": 260491, "service": "Fan belt kit", "work": "Fan belt", "dealer": "G-Tec", "cost": 1300.0, "notes": ""}, {"date": "28/10/2024", "mileage": 262000, "service": "Multi Media Unit (Mid Spect TT) with Butterfly camera", "work": "Infotainment", "dealer": "Musical Cars", "cost": 7000.0, "notes": ""}, {"date": "05/11/2024", "mileage": 264005, "service": "Rear door rubbers", "work": "Door rubbers", "dealer": "Toyota Tokai", "cost": 7767.0, "notes": ""}, {"date": "05/11/2024", "mileage": 264005, "service": "Antenna", "work": "Antenna", "dealer": "Toyota Tokai", "cost": 2182.0, "notes": ""}, {"date": "12/11/2024", "mileage": 263000, "service": "Maxxis AT811-03 (4)", "work": "Tyres", "dealer": "First Alignment", "cost": 21873.0, "notes": "48,000 km on BFG's"}, {"date": "14/11/2024", "mileage": 263500, "service": "Stud extraction (bolt in Turbo)", "work": "Turbo", "dealer": "Powerflow Exhausts ", "cost": 1500.0, "notes": ""}, {"date": "14/11/2024", "mileage": 263500, "service": "Flange - turbo & exhaust", "work": "Turbo", "dealer": "Powerflow Exhausts ", "cost": 1200.0, "notes": ""}, {"date": "15/11/2024", "mileage": 264347, "service": "Service 265,000 km", "work": "Manufacturers service 265,000 km", "dealer": "G-Tec", "cost": 5893.0, "notes": ""}, {"date": "15/11/2024", "mileage": 264347, "service": "Turbo pipe", "work": "Turbo", "dealer": "G-Tec", "cost": 1173.0, "notes": "Inferior quality, PW had to redo"}, {"date": "15/11/2024", "mileage": 264347, "service": "Radiator", "work": "Radiator", "dealer": "G-Tec", "cost": 10149.0, "notes": "Not the best quality according to PW"}, {"date": "23/01/2025", "mileage": 271056, "service": "Service 270,000 km", "work": "Manufacturers service 270,000 km", "dealer": "G-Tec", "cost": 5853.0, "notes": ""}, {"date": "23/01/2025", "mileage": 271056, "service": "Fan belt kit", "work": "Fan belt", "dealer": "G-Tec", "cost": 1131.0, "notes": "Inferior quality according to PW"}, {"date": "23/01/2025", "mileage": 271056, "service": "Battery - starter", "work": "Battery", "dealer": "G-Tec", "cost": 2975.0, "notes": ""}, {"date": "23/01/2025", "mileage": 271056, "service": "Battery - auxilary", "work": "Battery", "dealer": "G-Tec", "cost": 3800.0, "notes": ""}, {"date": "13/02/2025", "mileage": 271200, "service": "Gearbox remove & refit", "work": "Drivetrain", "dealer": "Cape Transmissions", "cost": 3392.0, "notes": ""}, {"date": "13/02/2025", "mileage": 271200, "service": "Gearbox & transfer bearing seal kit", "work": "Drivetrain", "dealer": "Cape Transmissions", "cost": 13124.0, "notes": ""}, {"date": "13/02/2025", "mileage": 271200, "service": "Input shaft & cluster gear", "work": "Drivetrain", "dealer": "Cape Transmissions", "cost": 6100.0, "notes": ""}, {"date": "13/02/2025", "mileage": 271200, "service": "Hub upgrade (3rd & 4th)", "work": "Drivetrain", "dealer": "Cape Transmissions", "cost": 2351.0, "notes": ""}, {"date": "13/02/2025", "mileage": 271200, "service": "Mainshaft / transfer input shaft upgraded", "work": "Drivetrain", "dealer": "Cape Transmissions", "cost": 10032.0, "notes": ""}, {"date": "13/02/2025", "mileage": 271200, "service": "Long spline transfer input gear upgraded", "work": "Drivetrain", "dealer": "Cape Transmissions", "cost": 2390.0, "notes": ""}, {"date": "13/02/2025", "mileage": 271200, "service": "5th Gear set upgrade", "work": "Drivetrain", "dealer": "Cape Transmissions", "cost": 4083.0, "notes": ""}, {"date": "13/02/2025", "mileage": 271200, "service": "Thrust washer 5th gear", "work": "Drivetrain", "dealer": "Cape Transmissions", "cost": 874.0, "notes": ""}, {"date": "13/02/2025", "mileage": 271200, "service": "Spacer (hardend) 5th gear", "work": "Drivetrain", "dealer": "Cape Transmissions", "cost": 692.0, "notes": ""}, {"date": "13/02/2025", "mileage": 271200, "service": "Oil gearbox", "work": "Drivetrain", "dealer": "Cape Transmissions", "cost": 1524.0, "notes": ""}, {"date": "13/02/2025", "mileage": 271200, "service": "Cross member threads repair", "work": "Drivetrain", "dealer": "Cape Transmissions", "cost": 1093.0, "notes": ""}, {"date": "13/02/2025", "mileage": 271200, "service": "Front diff remove & refit", "work": "Diff", "dealer": "Cape Transmissions", "cost": 4485.0, "notes": ""}, {"date": "13/02/2025", "mileage": 271200, "service": "Diff flange", "work": "Diff", "dealer": "Cape Transmissions", "cost": 2206.0, "notes": ""}, {"date": "13/02/2025", "mileage": 271200, "service": "Solid spacer bearing kit - front diff", "work": "Diff", "dealer": "Cape Transmissions", "cost": 8280.0, "notes": ""}, {"date": "13/02/2025", "mileage": 271200, "service": "Wheelbearings front", "work": "Diff", "dealer": "Cape Transmissions", "cost": 3802.0, "notes": ""}, {"date": "13/02/2025", "mileage": 271200, "service": "CV Joint left outer", "work": "Diff", "dealer": "Cape Transmissions", "cost": 4725.0, "notes": ""}, {"date": "13/02/2025", "mileage": 271200, "service": "Front Knuckle / Spindle overhaul kit", "work": "Diff", "dealer": "Cape Transmissions", "cost": 7204.0, "notes": ""}, {"date": "13/02/2025", "mileage": 271200, "service": "Diff oil - front", "work": "Diff", "dealer": "Cape Transmissions", "cost": 552.0, "notes": ""}, {"date": "13/02/2025", "mileage": 271200, "service": "Rear diff remove & refit", "work": "Diff", "dealer": "Cape Transmissions", "cost": 3738.0, "notes": ""}, {"date": "13/02/2025", "mileage": 271200, "service": "Driveshaft rechrome", "work": "Diff", "dealer": "Cape Transmissions", "cost": 3278.0, "notes": ""}, {"date": "13/02/2025", "mileage": 271200, "service": "Solid spacer bearing kit - rear diff", "work": "Diff", "dealer": "Cape Transmissions", "cost": 8855.0, "notes": ""}, {"date": "13/02/2025", "mileage": 271200, "service": "Wheelbearings rear", "work": "Diff", "dealer": "Cape Transmissions", "cost": 2637.0, "notes": ""}, {"date": "13/02/2025", "mileage": 271200, "service": "Skim front discs", "work": "Diff", "dealer": "Cape Transmissions", "cost": 518.0, "notes": ""}, {"date": "13/02/2025", "mileage": 271200, "service": "Brake pads front", "work": "Diff", "dealer": "Cape Transmissions", "cost": 1851.0, "notes": ""}, {"date": "13/02/2025", "mileage": 271200, "service": "U-Joint (UJ-230) GUT 21", "work": "Diff", "dealer": "Propshaft Engineering", "cost": 3048.0, "notes": ""}, {"date": "13/02/2025", "mileage": 271200, "service": "U-Joint (UJ-234) GUT 20", "work": "Diff", "dealer": "Propshaft Engineering", "cost": 3453.0, "notes": ""}, {"date": "13/02/2025", "mileage": 271200, "service": "Balance single shaft flange yoke", "work": "Diff", "dealer": "Propshaft Engineering", "cost": 886.0, "notes": ""}, {"date": "25/03/2025", "mileage": 272185, "service": "Diesel Pump calibrate", "work": "Fuel system check", "dealer": "DupDiesel", "cost": 3163.0, "notes": "Dyno: 118kw; 373Nm"}, {"date": "25/03/2025", "mileage": 272185, "service": "Diesel Pump Timing", "work": "Fuel system check", "dealer": "DupDiesel", "cost": 3018.0, "notes": ""}, {"date": "25/03/2025", "mileage": 272185, "service": "Injectors (Reman Toyota )", "work": "Fuel system check", "dealer": "DupDiesel", "cost": 7590.0, "notes": ""}, {"date": "25/03/2025", "mileage": 272185, "service": "Dyno test", "work": "Fuel system check", "dealer": "DupDiesel", "cost": 978.0, "notes": ""}, {"date": "25/03/2025", "mileage": 272185, "service": "Compression test", "work": "Fuel system check", "dealer": "DupDiesel", "cost": 1438.0, "notes": ""}, {"date": "25/03/2025", "mileage": 272185, "service": "Glow plugs test", "work": "Fuel system check", "dealer": "DupDiesel", "cost": 1438.0, "notes": ""}, {"date": "25/03/2025", "mileage": 272185, "service": "Turbo drain hose", "work": "Fuel system check", "dealer": "DupDiesel", "cost": 633.0, "notes": ""}, {"date": "23/04/2025", "mileage": 273023, "service": "Service 275,000 km", "work": "Manufacturers service 275,000 km", "dealer": "PW Auto Centre", "cost": 19080.0, "notes": ""}, {"date": "23/04/2025", "mileage": 273023, "service": "Filter kit", "work": "Manufacturers service 275,000 km", "dealer": "PW Auto Centre", "cost": 3337.0, "notes": ""}, {"date": "23/04/2025", "mileage": 273023, "service": "Grease propshaft", "work": "Manufacturers service 275,000 km", "dealer": "PW Auto Centre", "cost": 77.0, "notes": ""}, {"date": "23/04/2025", "mileage": 273023, "service": "Greas steering", "work": "Manufacturers service 275,000 km", "dealer": "PW Auto Centre", "cost": 77.0, "notes": ""}, {"date": "23/04/2025", "mileage": 273023, "service": "Grease suspension", "work": "Manufacturers service 275,000 km", "dealer": "PW Auto Centre", "cost": 77.0, "notes": ""}, {"date": "23/04/2025", "mileage": 273023, "service": "Diff oil", "work": "Manufacturers service 275,000 km", "dealer": "PW Auto Centre", "cost": 184.0, "notes": ""}, {"date": "23/04/2025", "mileage": 273023, "service": "Engine cover", "work": "Engine cover", "dealer": "PW Auto Centre", "cost": 2600.0, "notes": ""}, {"date": "23/04/2025", "mileage": 273023, "service": "Radiator cap", "work": "Radiator", "dealer": "PW Auto Centre", "cost": 493.0, "notes": ""}, {"date": "23/04/2025", "mileage": 273023, "service": "Fan belt kit", "work": "Fan belt", "dealer": "PW Auto Centre", "cost": 1700.0, "notes": ""}, {"date": "23/04/2025", "mileage": 273023, "service": "Front stabiliser bush kit", "work": "Manufacturers service 275,000 km", "dealer": "PW Auto Centre", "cost": 1000.0, "notes": ""}, {"date": "23/04/2025", "mileage": 273023, "service": "Cambelt", "work": "Cambelt", "dealer": "PW Auto Centre", "cost": 1812.0, "notes": "Cambelt change 273,000km"}, {"date": "23/04/2025", "mileage": 273023, "service": "Cambelt Tensioner", "work": "Cambelt", "dealer": "PW Auto Centre", "cost": 1750.0, "notes": ""}, {"date": "23/04/2025", "mileage": 273023, "service": "Cambelt Idler", "work": "Cambelt", "dealer": "PW Auto Centre", "cost": 3361.0, "notes": ""}, {"date": "23/04/2025", "mileage": 273023, "service": "Cambelt Cover", "work": "Cambelt", "dealer": "PW Auto Centre", "cost": 1250.0, "notes": ""}, {"date": "23/04/2025", "mileage": 273023, "service": "Cambelt Cover gasket", "work": "Cambelt", "dealer": "PW Auto Centre", "cost": 247.0, "notes": ""}, {"date": "23/04/2025", "mileage": 273023, "service": "Cambelt washer bolts", "work": "Cambelt", "dealer": "PW Auto Centre", "cost": 343.0, "notes": ""}, {"date": "23/04/2025", "mileage": 273023, "service": "Front stabiliser bush kit", "work": "Manufacturers service 275,000 km", "dealer": "PW Auto Centre", "cost": 1019.0, "notes": ""}, {"date": "23/04/2025", "mileage": 273023, "service": "Brake fluid", "work": "Manufacturers service 275,000 km", "dealer": "PW Auto Centre", "cost": 104.0, "notes": ""}, {"date": "23/04/2025", "mileage": 273023, "service": "Clutch fluid", "work": "Manufacturers service 275,000 km", "dealer": "PW Auto Centre", "cost": 104.0, "notes": ""}, {"date": "23/04/2025", "mileage": 273023, "service": "Coolant", "work": "Cooling system", "dealer": "PW Auto Centre", "cost": 575.0, "notes": ""}, {"date": "23/04/2025", "mileage": 273023, "service": "Oil", "work": "Manufacturers service 275,000 km", "dealer": "PW Auto Centre", "cost": 1472.0, "notes": ""}, {"date": "23/04/2025", "mileage": 273023, "service": "Rear bushes kit polyurethane", "work": "Bushes", "dealer": "First Alignment", "cost": 3106.0, "notes": ""}, {"date": "23/04/2025", "mileage": 273023, "service": "Castor correction", "work": "Suspension", "dealer": "First Alignment", "cost": 0.0, "notes": ""}, {"date": "05/05/2025", "mileage": 274000, "service": "TPMS (TP-V31) Solar Powered Internal)", "work": "TPMS", "dealer": "First Alignment", "cost": 3450.0, "notes": ""}, {"date": "18/06/2025", "mileage": 275000, "service": "Plate & weld trailing arm support bracket on front diff", "work": "Suspension", "dealer": "Suspension City", "cost": 4006.0, "notes": "Corrected John Tyre's castor correction as the LC was pulling to the left a lot"}, {"date": "13/08/2025", "mileage": 278675, "service": "Sideshaft oil seal replace (left front side)", "work": "Left front sideshaft oil seal", "dealer": "Northam Toyota", "cost": 5514.0, "notes": ""}, {"date": "13/08/2025", "mileage": 278675, "service": "Gasket (knucle, front axle)", "work": "Left front sideshaft oil seal", "dealer": "Northam Toyota", "cost": 100.0, "notes": ""}, {"date": "11/09/2025", "mileage": 281671, "service": "Service 280,000 ", "work": "Manufacturers service 280,000 km", "dealer": "Croco Toyota Mutare", "cost": 6840.0, "notes": ""}, {"date": "01/01/2016", "mileage": 293444, "service": "Year end", "work": "", "dealer": "", "cost": 0, "notes": "30,000km on Tyres now"}, {"date": "19/01/2026", "mileage": 293949, "service": "Service 295,000 km", "work": "Manufacturers service 290,000 km", "dealer": "PW Auto Centre", "cost": 16227.0, "notes": ""}, {"date": "19/01/2026", "mileage": 293949, "service": "Grease propshaft", "work": "Manufacturers service 290,000 km", "dealer": "PW Auto Centre", "cost": 77.0, "notes": ""}, {"date": "19/01/2026", "mileage": 293949, "service": "Grease steering", "work": "Manufacturers service 290,000 km", "dealer": "PW Auto Centre", "cost": 77.0, "notes": ""}, {"date": "19/01/2026", "mileage": 293949, "service": "Grease suspension", "work": "Manufacturers service 290,000 km", "dealer": "PW Auto Centre", "cost": 77.0, "notes": ""}, {"date": "19/01/2026", "mileage": 293949, "service": "Grease nipples", "work": "Manufacturers service 290,000 km", "dealer": "PW Auto Centre", "cost": 80.0, "notes": ""}, {"date": "19/01/2026", "mileage": 293949, "service": "Axle gasket L.Front", "work": "Manufacturers service 290,000 km", "dealer": "PW Auto Centre", "cost": 69.0, "notes": ""}, {"date": "19/01/2026", "mileage": 293949, "service": "Diff oil - front", "work": "Manufacturers service 290,000 km", "dealer": "PW Auto Centre", "cost": 897.0, "notes": ""}, {"date": "20/01/2026", "mileage": 293949, "service": "Air con pulley", "work": "Aircon pulley", "dealer": "PW Auto Centre", "cost": 5400.0, "notes": ""}, {"date": "21/01/2026", "mileage": 293949, "service": "Rear brake shoes", "work": "Brakes", "dealer": "PW Auto Centre", "cost": 2868.0, "notes": ""}, {"date": "22/01/2026", "mileage": 293949, "service": "Rear brake drum X  2", "work": "Brakes", "dealer": "PW Auto Centre", "cost": 10911.0, "notes": ""}, {"date": "23/01/2026", "mileage": 293949, "service": "Fan belt kit", "work": "Fan belt", "dealer": "PW Auto Centre", "cost": 1950.0, "notes": ""}, {"date": "23/01/2026", "mileage": 293949, "service": "Coolant", "work": "Cooling system", "dealer": "PW Auto Centre", "cost": 207.0, "notes": ""}, {"date": "23/01/2026", "mileage": 293949, "service": "Filter kit", "work": "Manufacturers service 290,000 km", "dealer": "PW Auto Centre", "cost": 2820.0, "notes": ""}, {"date": "23/01/2026", "mileage": 293949, "service": "Oil", "work": "Manufacturers service 290,000 km", "dealer": "PW Auto Centre", "cost": 1500.0, "notes": ""}, {"date": "23/01/2026", "mileage": 293949, "service": "Brake fluid", "work": "Manufacturers service 290,000 km", "dealer": "PW Auto Centre", "cost": 125.0, "notes": ""}, {"date": "21/01/2026", "mileage": 294000, "service": "Isolator Victron Cyrix 120A", "work": "Battery", "dealer": "HBC Systems", "cost": 1140.0, "notes": "Jos Hartog and Wayne"}, {"date": "21/01/2026", "mileage": 294000, "service": "BM 2000 Dual Battery Monitor", "work": "Battery", "dealer": "HBC Systems", "cost": 684.0, "notes": "Change National Luna monitor that was drawing lots of power"}, {"date": "21/01/2026", "mileage": 294000, "service": "Labour", "work": "Battery", "dealer": "HBC Systems", "cost": 597.0, "notes": ""}, {"date": "28/01/2026", "mileage": 294500, "service": "Leaf Springs OME (CS058R)", "work": "Suspension", "dealer": "4X4 Megaworld", "cost": 24142.0, "notes": "Repllace broken Leaf Spring - Fit new set including shocks"}, {"date": "28/01/2026", "mileage": 294500, "service": "Shocks Rear (OME - Nitrocharger Plus 63111)", "work": "Suspension", "dealer": "4X4 Megaworld", "cost": 8620.0, "notes": ""}, {"date": "28/01/2026", "mileage": 294500, "service": "Spring Bushes (Greasable Shackle)", "work": "Suspension", "dealer": "4X4 Megaworld", "cost": 2268.0, "notes": ""}, {"date": "28/01/2026", "mileage": 294500, "service": "Stone Guard Kit", "work": "Suspension", "dealer": "4X4 Megaworld", "cost": 625.0, "notes": ""}, {"date": "28/01/2026", "mileage": 294500, "service": "U Bolt ", "work": "Suspension", "dealer": "4X4 Megaworld", "cost": 1848.0, "notes": ""}, {"date": "28/01/2026", "mileage": 294500, "service": "Labour", "work": "Suspension", "dealer": "4X4 Megaworld", "cost": 1400.0, "notes": ""}, {"date": "28/01/2026", "mileage": 294500, "service": "Wheel alignment ", "work": "Wheel alignment", "dealer": "Hi-Q", "cost": 725.0, "notes": "Hi-Q Paarden Eiland. Technician - Jerome"}, {"date": "25/02/2026", "mileage": 296500, "service": "Clutch kit (heavy duty) (TT)", "work": "Clutch", "dealer": "Cape Transmissions", "cost": 21239.0, "notes": "Stiff 1st gear and change from 5th to 4th, as well as reverse. Terain Tamer kit"}, {"date": "05/03/2026", "mileage": 296600, "service": "Exhaust mounting  - rear", "work": "Exhaust", "dealer": "Powerflow Exhausts ", "cost": 750.0, "notes": "Also have extra one as a spare"}, {"date": "05/03/2026", "mileage": 296000, "service": "Shackle bushes - regrease", "work": "Suspension", "dealer": "Suspension City", "cost": 598.0, "notes": "Sqeaking noise from suspension"}];
+let serviceRecords=EMBEDDED_SERVICES;
+let newServices=[];
+function loadData(){const stored=localStorage.getItem('lc76_new_services');if(stored){newServices=JSON.parse(stored);updateFieldBar();}renderServiceTable();}
+function renderServiceTable(){const tbody=document.getElementById('serviceTableBody');tbody.innerHTML='';const allServices=[...serviceRecords,...newServices];allServices.sort((a,b)=>b.mileage-a.mileage);allServices.forEach(service=>{const row=document.createElement('tr');const isNew=newServices.includes(service);row.innerHTML=`<td>${service.date}</td><td>${service.mileage.toLocaleString()}</td><td>${isNew?'<span class="badge badge-new">NEW</span> ':''}${service.service}</td><td>${service.work}</td><td>${service.cost>0?'R '+service.cost.toLocaleString('en-ZA',{minimumFractionDigits:2,maximumFractionDigits:2}):''}</td><td>${service.notes}</td>`;tbody.appendChild(row);});updateServiceCount();}
+function filterServices(){const searchTerm=document.getElementById('serviceSearch').value.toLowerCase();const rows=document.querySelectorAll('#serviceTableBody tr');rows.forEach(row=>{row.style.display=row.textContent.toLowerCase().includes(searchTerm)?'':'none';});}
+function openAddServiceModal(){document.getElementById('addServiceModal').classList.add('active');}
+function closeAddServiceModal(){document.getElementById('addServiceModal').classList.remove('active');document.getElementById('addServiceForm').reset();}
+function saveService(event){event.preventDefault();const newService={date:document.getElementById('serviceDate').value,mileage:parseInt(document.getElementById('serviceMileage').value),service:document.getElementById('serviceType').value,work:document.getElementById('serviceWork').value,dealer:document.getElementById('serviceWorkshop').value,cost:parseFloat(document.getElementById('serviceCost').value)||0,notes:document.getElementById('serviceNotes').value};const dateParts=newService.date.split('-');newService.date=`${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;newServices.push(newService);localStorage.setItem('lc76_new_services',JSON.stringify(newServices));renderServiceTable();updateFieldBar();closeAddServiceModal();}
+function updateFieldBar(){const count=newServices.length;const countEl=document.getElementById('newServiceCount');const exportBtn=document.getElementById('exportBtn');const clearBtn=document.getElementById('clearBtn');if(count>0){countEl.textContent=`${count} new service${count!==1?'s':''} pending export`;countEl.style.display='block';exportBtn.style.display='block';clearBtn.style.display='block';}else{countEl.style.display='none';exportBtn.style.display='none';clearBtn.style.display='none';}}
+function exportNewServices(){if(newServices.length===0)return;const headers=['Date','Mileage','Service item','Work carried out','Cost','Dealer','Notes'];const rows=newServices.map(s=>[s.date,s.mileage,s.service,s.work,s.cost,s.dealer,s.notes]);let csv=headers.join(',')+String.fromCharCode(10);rows.forEach(row=>{csv+=row.map(cell=>`"${cell}"`).join(',')+String.fromCharCode(10);});const blob=new Blob([csv],{type:'text/csv'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;const today=new Date().toISOString().split('T')[0];a.download=`LC76_New_Services_${today}.csv`;a.click();URL.revokeObjectURL(url);alert(`Exported ${newServices.length} service record(s).\n\nNext steps:\n1. Open your Excel master file\n2. Paste these rows into the Services sheet\n3. Click "Clear" to remove from pending`);}
+function clearNewServices(){if(confirm('Clear all pending new services? Make sure you have exported and added them to your Excel file first.')){newServices=[];localStorage.removeItem('lc76_new_services');renderServiceTable();updateFieldBar();}}
+function updateServiceCount(){const total=serviceRecords.length+newServices.length;document.getElementById('totalServicesHeader').textContent=total;document.getElementById('totalServicesStatus').textContent=total;}
+document.addEventListener('DOMContentLoaded',loadData);
+document.getElementById('addServiceModal').addEventListener('click',function(e){if(e.target===this)closeAddServiceModal();});
+</script>
+</body>
+</html>
