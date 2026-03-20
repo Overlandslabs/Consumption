@@ -341,30 +341,27 @@ body{background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',sans-s
   *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
   body{font-size:10px!important;background:white!important}
 
-  /* Header — compact */
-  .hdr{padding:10px 16px 8px!important}
+  /* Header — compact + page break */
+  .hdr{padding:10px 16px 8px!important;page-break-after:avoid!important}
   .hdr-title{font-size:20px!important}
   .hdr-sub{font-size:9px!important;margin-bottom:4px!important}
   .hdr-chips{gap:3px!important;margin-top:4px!important}
   .hdr-chip{font-size:7.5px!important;padding:1px 5px!important}
 
   /* TOC — compact, 4 columns */
-  .toc{padding:6px 16px 8px!important}
+  .toc{padding:6px 16px 8px!important;page-break-after:avoid!important}
   .toc-grid{display:grid!important;grid-template-columns:repeat(4,1fr)!important;gap:3px!important}
 
-  /* Hide interactive / screen-only elements */
-  
+  /* Section labels — prevent orphans */
+  .slbl{margin-top:8px!important;margin-bottom:4px!important;page-break-after:avoid!important;page-break-inside:avoid!important}
+  .srule{margin-bottom:4px!important;margin-top:0!important;page-break-after:avoid!important}
+  hr.srule{margin:4px 0!important;page-break-after:avoid!important}
 
-  /* Section labels — the biggest space waster */
-  .slbl{margin-top:8px!important;margin-bottom:4px!important}
-  .srule{margin-bottom:4px!important;margin-top:0!important}
-  hr.srule{margin:4px 0!important}
-
-  /* Chapters */
-  .chapter{margin-bottom:10px!important}
-  .ch-title{font-size:14px!important;margin-bottom:2px!important}
-  .ch-rule{margin-bottom:6px!important}
-  .ch-intro{font-size:9px!important;line-height:1.5!important;margin-bottom:6px!important}
+  /* Chapters — prevent orphan headings */
+  .chapter{margin-bottom:10px!important;page-break-inside:auto!important}
+  .ch-title{font-size:14px!important;margin-bottom:2px!important;page-break-after:avoid!important;page-break-inside:avoid!important}
+  .ch-rule{margin-bottom:6px!important;page-break-after:avoid!important}
+  .ch-intro{font-size:9px!important;line-height:1.5!important;margin-bottom:6px!important;orphans:3;widows:3}
 
   /* Grids — restore for print, tight margins */
   .sym-grid{display:grid!important;grid-template-columns:1fr 1fr 1fr!important;margin-bottom:8px!important}
