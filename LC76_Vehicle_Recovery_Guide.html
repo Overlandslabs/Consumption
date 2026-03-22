@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0d0e12">
+<title>R9 Vehicle Recovery Guide - LC76 1HZ</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=Oswald:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0d0e12;--paper:#dad2c0;--paper2:#edeae0;--amber:#b86800;--amber2:#e07800;--rule:#d4cfc4;--steeldk:#2a2f3a;--steelmd:#6a7080;--red-warn:#B91C1C;--green-ok:#059669;--green-field:#10b981}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:Oswald,sans-serif;background:var(--paper);color:var(--steeldk);line-height:1.5;-webkit-font-smoothing:antialiased}
+header{background:var(--ink);color:#fff;padding:2rem 2rem 1.5rem;border-bottom:4px solid var(--amber2);position:sticky;top:0;z-index:100;box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.header-title{font-family:Bebas Neue,sans-serif;font-size:3rem;letter-spacing:2px;margin-bottom:.5rem}
+.header-title .accent{color:var(--amber2)}
+.header-subtitle{font-family:IBM Plex Mono,monospace;font-size:.85rem;color:var(--amber);margin-bottom:.5rem}
+.header-meta{font-family:IBM Plex Mono,monospace;font-size:.7rem;color:var(--steelmd);letter-spacing:.05em}
+.status-bar{background:var(--steeldk);color:#fff;padding:1rem 1.5rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem}
+.status-item{text-align:center}
+.status-value{font-family:Bebas Neue,sans-serif;font-size:1.6rem;color:var(--amber2);display:block}
+.status-label{font-family:IBM Plex Mono,monospace;font-size:.7rem;text-transform:uppercase;letter-spacing:1px;opacity:.8;line-height:1.3}
+main{max-width:1400px;margin:0 auto;padding:1.5rem}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1rem;margin-bottom:1.5rem}
+.card{background:#fff;border:2px solid var(--rule);border-radius:8px;overflow:hidden}
+.card-header{background:var(--paper2);padding:0.75rem 1rem;border-bottom:2px solid var(--rule)}
+.card-title{font-family:Bebas Neue,sans-serif;font-size:1.3rem;color:var(--steeldk);margin-bottom:.2rem}
+.card-why{font-family:Oswald,sans-serif;font-size:.75rem;font-style:italic;color:var(--steelmd);font-weight:300;line-height:1.3}
+.card-body{padding:1rem}
+.card-body p{margin-bottom:.5rem;font-size:.9rem}
+.card-body p:last-child{margin-bottom:0}
+.status-ok{color:var(--green-ok)}
+.status-warn{color:var(--amber2)}
+.status-critical{color:var(--red-warn);font-weight:600}
+.card.alert{border-color:var(--red-warn);border-width:3px}
+.card.alert .card-header{background:var(--red-warn);color:#fff}
+.card.alert .card-title{color:#fff}
+.card.alert .card-why{color:rgba(255,255,255,.95)}
+.card.info{border-color:var(--steelmd);border-width:2px;background:var(--paper2)}
+.card.info .card-header{background:var(--steelmd);color:#fff}
+.card.info .card-title{color:#fff}
+h2{font-family:Bebas Neue,sans-serif;font-size:2rem;margin:1.25rem 0 0.75rem;color:var(--steeldk)}
+.procedure-step{background:var(--paper2);padding:.75rem 1rem;border-left:4px solid var(--amber2);margin-bottom:.5rem;border-radius:0 4px 4px 0}
+.procedure-step strong{font-family:IBM Plex Mono,monospace;color:var(--amber);font-size:.8rem}
+.checklist-item{display:flex;align-items:flex-start;gap:.5rem;padding:.4rem 0;border-bottom:1px solid var(--rule)}
+.checklist-item:last-child{border-bottom:none}
+.checklist-item input[type="checkbox"]{width:20px;height:20px;margin-top:2px;accent-color:var(--green-ok)}
+.spec-table{width:100%;border-collapse:collapse;font-size:.85rem;margin:.5rem 0}
+.spec-table th,.spec-table td{padding:.5rem .75rem;text-align:left;border-bottom:1px solid var(--rule)}
+.spec-table th{background:var(--ink);color:var(--amber2);font-family:IBM Plex Mono,monospace;font-size:.7rem;text-transform:uppercase;letter-spacing:1px}
+.spec-table tr:nth-child(even){background:var(--paper2)}
+.warning-box{background:rgba(185,28,28,.1);border:2px solid var(--red-warn);border-radius:4px;padding:.75rem 1rem;margin:.75rem 0}
+.warning-box p{color:var(--red-warn);font-weight:600;font-size:.85rem;margin:0}
+.info-box{background:rgba(106,112,128,.1);border:2px solid var(--steelmd);border-radius:4px;padding:.75rem 1rem;margin:.75rem 0}
+.info-box p{color:var(--steeldk);font-size:.85rem;margin:0}
+.tyre-pressure-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:.5rem;margin:.5rem 0}
+.tyre-pressure-item{background:var(--paper2);padding:.75rem;text-align:center;border-radius:4px;border:1px solid var(--rule)}
+.tyre-pressure-item .value{font-family:Bebas Neue,sans-serif;font-size:1.8rem;color:var(--amber2);display:block}
+.tyre-pressure-item .label{font-family:IBM Plex Mono,monospace;font-size:.65rem;text-transform:uppercase;color:var(--steelmd)}
+.full-width{grid-column:1/-1}
+@media(max-width:768px){
+header{padding:1.5rem 1rem 1rem}
+.header-title{font-size:2.2rem}
+.header-subtitle{font-size:.75rem}
+.status-bar{grid-template-columns:repeat(2,1fr);padding:1rem;gap:1rem}
+.status-value{font-size:1.4rem}
+main{padding:1rem}
+.card-grid{grid-template-columns:1fr;gap:1rem}
+.card-title{font-size:1.2rem}
+h2{font-size:1.8rem;margin:1.5rem 0 .75rem}
+}
+@media(max-width:480px){
+.header-title{font-size:1.8rem}
+.status-bar{grid-template-columns:1fr}
+.status-item{text-align:left}
+}
+@media print{
+*{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#fff;margin:0;padding:0.3cm 0.5cm;font-size:9pt;line-height:1.3}
+header{position:static;padding:0.3cm;margin-bottom:0.2cm;box-shadow:none;border-bottom:2px solid var(--amber2)}
+.header-title{font-size:18pt;margin-bottom:0.1cm}
+.header-subtitle{font-size:7pt;margin-bottom:0.05cm}
+.header-meta{font-size:6pt}
+.status-bar{display:flex;flex-wrap:wrap;padding:0.2cm;margin-bottom:0.2cm;gap:0.3cm 0.8cm;background:var(--steeldk)!important}
+.status-item{text-align:left}
+.status-value{font-size:11pt;display:inline;margin-right:0.15cm}
+.status-label{font-size:6pt;display:inline}
+main{padding:0;max-width:none}
+h2{font-size:12pt;margin:0.4cm 0 0.15cm;padding:0;border-bottom:1.5pt solid var(--amber2);padding-bottom:0.1cm;break-after:avoid;page-break-after:avoid}
+h2+.card-grid{break-before:avoid;page-break-before:avoid}
+h3{font-size:10pt;margin:0.25cm 0 0.1cm;break-after:avoid;page-break-after:avoid}
+.card-grid{display:block;margin:0 0 0.2cm 0}
+.card{border:1pt solid #999;border-radius:3pt;margin-bottom:0.2cm;break-inside:avoid;page-break-inside:avoid;box-shadow:none;background:#fff}
+.card.full-width,.card-full{break-inside:auto;page-break-inside:auto}
+.card-header{padding:0.12cm 0.2cm;border-bottom:1pt solid #ccc;background:#f5f5f5!important}
+.card-title{font-size:9pt;margin:0}
+.card-why{font-size:7pt;margin:0}
+.card-body{padding:0.15cm 0.2cm}
+.card-body p{margin:0 0 0.08cm 0;font-size:8pt;line-height:1.25}
+.card-body p:last-child{margin-bottom:0}
+.card-body ul,.card-body ol{margin:0.08cm 0 0.08cm 0.4cm;padding:0}
+.card-body li{font-size:8pt;line-height:1.25;margin-bottom:0.05cm}
+.procedure-step{padding:0.1cm 0.15cm;margin-bottom:0.08cm;border-left:2pt solid var(--amber2);background:#f9f9f9!important;font-size:8pt}
+.procedure-step strong{font-size:7pt}
+.warning-box,.info-box,.tip-box{padding:0.1cm 0.15cm;margin:0.1cm 0;border-width:1pt;break-inside:avoid}
+.warning-box p,.info-box p,.tip-box p{font-size:8pt;margin:0}
+.tyre-pressure-grid{display:flex;flex-wrap:wrap;gap:0.15cm;margin:0.1cm 0;break-inside:avoid}
+.tyre-pressure-item{padding:0.1cm 0.2cm;border:1pt solid #ccc;background:#f9f9f9!important;min-width:1.5cm}
+.tyre-pressure-item .value{font-size:12pt;display:block}
+.tyre-pressure-item .label{font-size:6pt}
+.spec-table,table{width:100%;border-collapse:collapse;font-size:7pt;margin:0.1cm 0;break-inside:auto}
+.spec-table th,table th{background:#333!important;color:#fff!important;padding:0.08cm 0.12cm;font-size:6pt;text-align:left;border:1pt solid #333}
+.spec-table td,table td{padding:0.06cm 0.12cm;border:1pt solid #ccc}
+.spec-table tr:nth-child(even),table tr:nth-child(even){background:#f5f5f5!important}
+thead{display:table-header-group}
+tr{break-inside:avoid}
+.checklist-item{padding:0.06cm 0;border-bottom:0.5pt solid #ddd;font-size:8pt}
+.checklist-item input[type="checkbox"]{width:10pt;height:10pt}
+footer{margin-top:0.3cm;padding-top:0.15cm;border-top:1pt solid #ccc;font-size:6pt;text-align:center}
+.card.alert{border:1.5pt solid var(--red-warn)}
+.card.alert .card-header{background:var(--red-warn)!important;color:#fff!important}
+.card.alert .card-title,.card.alert .card-why{color:#fff!important}
+}
+</style>
+</head>
+<body>
+
+<header>
+<div class="header-title">Vehicle <span class="accent">Recovery</span> Guide</div>
+<div class="header-subtitle">R9 · 2009 LC76 SW 1HZ · SAC low boost turbo & intercooler · GVM 2,850kg</div>
+<div class="header-meta">Last Updated: 20 March 2026</div>
+</header>
+
+<div class="status-bar">
+<div class="status-item"><span class="status-value">2,850 KG</span><span class="status-label">Gross Vehicle Mass</span></div>
+<div class="status-item"><span class="status-value">9,500+ LB</span><span class="status-label">Min Winch Rating</span></div>
+<div class="status-item"><span class="status-value">4.75T</span><span class="status-label">Min Shackle WLL</span></div>
+<div class="status-item"><span class="status-value">1.1–1.3 bar</span><span class="status-label">Sand Tyre Pressure</span></div>
+</div>
+
+<main>
+
+<!-- SECTION 1: INTRODUCTION & SAFETY -->
+<h2>1. Introduction & Safety Principles</h2>
+
+<div class="card-grid">
+<div class="card alert full-width">
+<div class="card-header">
+<div class="card-title">❌ Recovery Safety — Read First</div>
+<div class="card-why">Recovery operations are high-risk. Equipment failure can cause serious injury or death.</div>
+</div>
+<div class="card-body">
+<p><span class="status-critical">❌</span> <strong>NEVER</strong> use tow balls for recovery — they become lethal projectiles</p>
+<p><span class="status-critical">❌</span> <strong>NEVER</strong> stand in the recovery line (front or rear of vehicles)</p>
+<p><span class="status-critical">❌</span> <strong>NEVER</strong> use damaged, frayed, or kinked equipment</p>
+<p><span class="status-critical">❌</span> <strong>NEVER</strong> exceed equipment working load limits</p>
+<p><span class="status-critical">❌</span> <strong>NEVER</strong> rush — assess the situation completely first</p>
+<p style="margin-top:.75rem"><span class="status-ok">✓</span> <strong>ALWAYS</strong> use rated recovery points (ARB or equivalent)</p>
+<p><span class="status-ok">✓</span> <strong>ALWAYS</strong> use a winch dampener on the line</p>
+<p><span class="status-ok">✓</span> <strong>ALWAYS</strong> keep bystanders at least 1.5× rope length away</p>
+<p><span class="status-ok">✓</span> <strong>ALWAYS</strong> wear gloves when handling ropes and cables</p>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header">
+<div class="card-title">🎯 Recovery Decision Hierarchy</div>
+<div class="card-why">Work through this list in order. Stop at the first option that works.</div>
+</div>
+<div class="card-body">
+<div class="procedure-step"><strong>1.</strong> Self-recovery without equipment — reverse out, different line</div>
+<div class="procedure-step"><strong>2.</strong> Reduce tyre pressure — increases footprint, improves traction</div>
+<div class="procedure-step"><strong>3.</strong> Use recovery boards — traction under wheels</div>
+<div class="procedure-step"><strong>4.</strong> Dig out / clear obstacles — shovel, pick, hi-lift base plate</div>
+<div class="procedure-step"><strong>5.</strong> Vehicle-to-vehicle recovery — kinetic rope / snatch strap</div>
+<div class="procedure-step"><strong>6.</strong> Winch recovery — solo or assisted</div>
+<div class="procedure-step"><strong>7.</strong> Call for professional recovery</div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header">
+<div class="card-title">🧠 Pre-Recovery Risk Assessment</div>
+<div class="card-why">Before any recovery attempt, assess these factors.</div>
+</div>
+<div class="card-body">
+<p><strong>Terrain stability:</strong> Is the ground getting softer? Rising water?</p>
+<p><strong>Vehicle position:</strong> Level, tilted, risk of rollover?</p>
+<p><strong>Anchor points:</strong> What's available? Trees, rocks, buried spare?</p>
+<p><strong>Equipment condition:</strong> Inspect all gear before use</p>
+<p><strong>Weather:</strong> Changing conditions? Approaching darkness?</p>
+<p><strong>Personnel:</strong> Who knows recovery procedures? Who operates controls?</p>
+<p style="margin-top:.75rem;font-style:italic;color:var(--steelmd)">If in doubt — wait for help. A stuck vehicle is recoverable; injuries may not be.</p>
+</div>
+</div>
+</div>
+
+<!-- SECTION 2: TERRAIN-SPECIFIC RECOVERY -->
+<h2>2. Terrain-Specific Recovery</h2>
+
+<div class="card-grid">
+<div class="card">
+<div class="card-header">
+<div class="card-title">🏜️ Sand Recovery</div>
+<div class="card-why">Kalahari, Namib, coastal dunes. The 1HZ's torque works well at low RPM but lacks power for steep dunes.</div>
+</div>
+<div class="card-body">
+<div class="tyre-pressure-grid">
+<div class="tyre-pressure-item"><span class="value">1.1</span><span class="label">bar Front</span></div>
+<div class="tyre-pressure-item"><span class="value">1.3</span><span class="label">bar Rear</span></div>
+</div>
+<p style="margin-top:.75rem"><strong>Recovery procedure:</strong></p>
+<div class="procedure-step"><strong>1.</strong> Stop immediately when wheels spin — don't dig deeper</div>
+<div class="procedure-step"><strong>2.</strong> Drop tyre pressure to 1.1–1.3 bar (lower if needed)</div>
+<div class="procedure-step"><strong>3.</strong> Clear sand from around tyres, underneath diffs</div>
+<div class="procedure-step"><strong>4.</strong> Place recovery boards in front of driven wheels</div>
+<div class="procedure-step"><strong>5.</strong> Select low range, diff-lock engaged</div>
+<div class="procedure-step"><strong>6.</strong> Drive smoothly onto boards, maintain momentum</div>
+<div class="procedure-step"><strong>7.</strong> Once clear, stop and retrieve boards</div>
+<div class="info-box"><p><strong>1HZ Note:</strong> Without turbo boost at low RPM, the naturally aspirated feel requires momentum planning. Don't expect to power through — use technique.</p></div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header">
+<div class="card-title">🌧️ Mud Recovery</div>
+<div class="card-why">Black cotton soil, vleis, wet tracks. Can be deceptively deep and grab axles.</div>
+</div>
+<div class="card-body">
+<div class="tyre-pressure-grid">
+<div class="tyre-pressure-item"><span class="value">1.2</span><span class="label">bar Front</span></div>
+<div class="tyre-pressure-item"><span class="value">1.4</span><span class="label">bar Rear</span></div>
+</div>
+<p style="margin-top:.75rem"><strong>Before entering:</strong></p>
+<p>• Gauge depth with a stick — look for submerged ruts, obstacles</p>
+<p>• Check exit route — is it worse than entry?</p>
+<p style="margin-top:.5rem"><strong>Recovery procedure:</strong></p>
+<div class="procedure-step"><strong>1.</strong> Engage low range, diff-lock, before getting stuck</div>
+<div class="procedure-step"><strong>2.</strong> If stuck, DON'T spin wheels — worsens situation</div>
+<div class="procedure-step"><strong>3.</strong> Try rocking: forward/reverse in quick succession</div>
+<div class="procedure-step"><strong>4.</strong> Clear mud from around tyres, under chassis</div>
+<div class="procedure-step"><strong>5.</strong> Use boards, branches, rocks under wheels for traction</div>
+<div class="procedure-step"><strong>6.</strong> If deep, use Hi-Lift to raise vehicle, pack material underneath</div>
+<div class="warning-box"><p>⚠️ Mud suction can hold 3+ tonnes. Winch slowly, check for movement, don't shock-load.</p></div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header">
+<div class="card-title">🪨 Rock & Technical Recovery</div>
+<div class="card-why">Hi-centering, wheel wedging, body contact. The LC76's solid axles articulate well but watch for body damage.</div>
+</div>
+<div class="card-body">
+<div class="tyre-pressure-grid">
+<div class="tyre-pressure-item"><span class="value">1.5–1.9</span><span class="label">bar (varies)</span></div>
+</div>
+<p style="margin-top:.75rem"><strong>Common situations:</strong></p>
+<p><strong>Hi-centered:</strong> Vehicle resting on chassis/diff, wheels off ground</p>
+<p>• Use Hi-Lift jack to raise vehicle</p>
+<p>• Stack rocks/boards under lifted wheel</p>
+<p>• Lower jack, drive off obstacle</p>
+<p style="margin-top:.5rem"><strong>Wedged wheel:</strong> Tyre trapped between rocks</p>
+<p>• DON'T force — will damage tyre sidewall</p>
+<p>• Jack up, clear rocks, lower back</p>
+<p style="margin-top:.5rem"><strong>Spotting protocol:</strong></p>
+<p>• Spotter walks ahead, maintains eye contact</p>
+<p>• Hand signals: stop, go slow, left, right, reverse</p>
+<p>• Driver follows spotter's commands exactly</p>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header">
+<div class="card-title">⛰️ Steep Hill Recovery</div>
+<div class="card-why">Mountain passes, dongas. Risk of rollover if recovery angle is wrong.</div>
+</div>
+<div class="card-body">
+<p><strong>Stalled on ascent:</strong></p>
+<div class="procedure-step"><strong>1.</strong> Hold on brakes, engage handbrake</div>
+<div class="procedure-step"><strong>2.</strong> Select reverse, low range</div>
+<div class="procedure-step"><strong>3.</strong> Release brakes, use engine braking to descend</div>
+<div class="procedure-step"><strong>4.</strong> Keep wheels straight — turning causes rollover</div>
+<p style="margin-top:.75rem"><strong>Failed descent (too steep/slippery):</strong></p>
+<div class="procedure-step"><strong>1.</strong> Stop, engage handbrake</div>
+<div class="procedure-step"><strong>2.</strong> Winch to anchor point UPHILL</div>
+<div class="procedure-step"><strong>3.</strong> Control descent with winch tension + brakes</div>
+<div class="warning-box"><p>⚠️ NEVER turn sideways on a slope. If sliding sideways, straighten wheels and try to regain forward/backward control.</p></div>
+</div>
+</div>
+</div>
+
+<!-- SECTION 3: WINCHING PROCEDURES -->
+<h2>3. Winching Procedures</h2>
+
+<div class="card-grid">
+<div class="card full-width">
+<div class="card-header">
+<div class="card-title">🏗️ Winch System Overview — LC76</div>
+<div class="card-why">Minimum winch capacity: 1.5× GVM = 4,275kg (9,423 lbs). Recommended: 9,500–12,000 lb.</div>
+</div>
+<div class="card-body">
+<table class="spec-table">
+<thead>
+<tr><th>Component</th><th>Specification</th><th>Notes</th></tr>
+</thead>
+<tbody>
+<tr><td>Winch capacity</td><td>9,500–12,000 lb</td><td>Minimum 1.5× GVM; recommend 4.2× factor with line out</td></tr>
+<tr><td>Rope type</td><td>Synthetic preferred</td><td>Lighter (27kg vs 44kg), safer if breaks, easier handling</td></tr>
+<tr><td>Rope length</td><td>30m minimum</td><td>More line = weaker pull; use snatch block for distance</td></tr>
+<tr><td>Fairlead type</td><td>Hawse (synthetic) / Roller (steel)</td><td>Match fairlead to rope type</td></tr>
+<tr><td>Line speed</td><td>Layer 1 = slowest/strongest</td><td>Always use lowest layer when max pull needed</td></tr>
+</tbody>
+</table>
+<div class="info-box"><p><strong>Pull rating drops with line out:</strong> First layer = 100% | Second layer = ~85% | Third layer = ~70% | Fourth layer = ~60%</p></div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header">
+<div class="card-title">🌳 Anchor Selection</div>
+<div class="card-why">A failed anchor can become a projectile. Always verify before loading.</div>
+</div>
+<div class="card-body">
+<p><strong>Trees:</strong></p>
+<p>• Minimum 200mm (8") trunk diameter at wrap height</p>
+<p>• Use tree protector strap — wide, no metal</p>
+<p>• Wrap LOW on trunk (strongest point)</p>
+<p>• Avoid dead trees, leaning trees, shallow-rooted species</p>
+<p style="margin-top:.75rem"><strong>Rocks/Boulders:</strong></p>
+<p>• Must be solidly embedded, not sitting on surface</p>
+<p>• Wrap strap around, not hooked over edge</p>
+<p style="margin-top:.75rem"><strong>Buried spare wheel (land anchor):</strong></p>
+<p>• Dig hole 1m deep, angled toward vehicle</p>
+<p>• Bury wheel flat, attach strap through centre</p>
+<p>• Pack firmly, wet if possible</p>
+<p style="margin-top:.75rem"><strong>Another vehicle:</strong></p>
+<p>• Must be secure — brakes on, wheels chocked</p>
+<p>• Connect to rated recovery points ONLY</p>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header">
+<div class="card-title">⚙️ Winching Setup Procedure</div>
+<div class="card-why">Proper setup prevents equipment damage and injury.</div>
+</div>
+<div class="card-body">
+<div class="procedure-step"><strong>1.</strong> Engage stuck vehicle's handbrake, shift to neutral</div>
+<div class="procedure-step"><strong>2.</strong> Disengage winch clutch (free-spool mode)</div>
+<div class="procedure-step"><strong>3.</strong> Walk rope to anchor — don't drive over it</div>
+<div class="procedure-step"><strong>4.</strong> Wrap tree protector low on tree trunk</div>
+<div class="procedure-step"><strong>5.</strong> Connect shackle through strap eyes (pin finger-tight + ¼ turn back)</div>
+<div class="procedure-step"><strong>6.</strong> Connect winch hook or soft shackle to strap shackle</div>
+<div class="procedure-step"><strong>7.</strong> Engage winch clutch, take up slack SLOWLY</div>
+<div class="procedure-step"><strong>8.</strong> Place winch dampener on rope (heavy blanket/bag works)</div>
+<div class="procedure-step"><strong>9.</strong> Clear ALL personnel to 1.5× rope length</div>
+<div class="procedure-step"><strong>10.</strong> Operator: signal ready, begin winching in short pulls</div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header">
+<div class="card-title">🔄 Single vs Double Line Pull</div>
+<div class="card-why">Double-line using snatch block doubles pulling power but halves speed.</div>
+</div>
+<div class="card-body">
+<p><strong>Single line:</strong></p>
+<p>• Direct connection, full speed</p>
+<p>• Use when pull required ≤ winch capacity</p>
+<p style="margin-top:.75rem"><strong>Double line (snatch block):</strong></p>
+<p>• Attach snatch block to anchor</p>
+<p>• Run winch rope through block, back to vehicle recovery point</p>
+<p>• Effective pull = 2× winch rating (minus friction)</p>
+<p>• Speed = 50% of single line</p>
+<p>• Required for heavy mud suction, steep inclines</p>
+<div class="info-box"><p><strong>When to double-line:</strong> If single pull attempts don't move vehicle, or if estimated resistance exceeds 75% of winch rating.</p></div>
+</div>
+</div>
+</div>
+
+<!-- SECTION 4: RECOVERY EQUIPMENT CHECKLIST -->
+<h2>4. Recovery Equipment Checklist</h2>
+
+<div class="card-grid">
+<div class="card full-width">
+<div class="card-header">
+<div class="card-title">✅ LC76 Recovery Kit — Rated for 2,850kg GVM</div>
+<div class="card-why">All equipment must be rated. Never substitute hardware store items for recovery gear.</div>
+</div>
+<div class="card-body">
+<table class="spec-table">
+<thead>
+<tr><th>Item</th><th>Specification</th><th>Qty</th><th>Check</th></tr>
+</thead>
+<tbody>
+<tr><td>Winch</td><td>9,500–12,000 lb, synthetic rope</td><td>1</td><td>☐</td></tr>
+<tr><td>Bow shackles</td><td>4.75-ton WLL minimum, rated</td><td>4</td><td>☐</td></tr>
+<tr><td>Soft shackles</td><td>14,000 kg MBS</td><td>2</td><td>☐</td></tr>
+<tr><td>Tree protector strap</td><td>8-ton, 3m length</td><td>2</td><td>☐</td></tr>
+<tr><td>Kinetic recovery rope</td><td>8,000 kg MBS, 9m length</td><td>1</td><td>☐</td></tr>
+<tr><td>Snatch strap</td><td>8,000 kg, 9m (backup)</td><td>1</td><td>☐</td></tr>
+<tr><td>Snatch block</td><td>10-ton capacity</td><td>1</td><td>☐</td></tr>
+<tr><td>Winch extension strap</td><td>10-ton, 20m</td><td>1</td><td>☐</td></tr>
+<tr><td>Winch dampener</td><td>Purpose-built or heavy blanket</td><td>1</td><td>☐</td></tr>
+<tr><td>Recovery boards</td><td>MAXTRAX or equivalent</td><td>2–4</td><td>☐</td></tr>
+<tr><td>Hi-Lift jack</td><td>48" or 60", rated for GVM</td><td>1</td><td>☐</td></tr>
+<tr><td>Hi-Lift base plate</td><td>Prevents sinking in soft ground</td><td>1</td><td>☐</td></tr>
+<tr><td>Shovel</td><td>Long-handle, D-grip</td><td>1</td><td>☐</td></tr>
+<tr><td>Air compressor</td><td>Portable, 12V, 10+ bar</td><td>1</td><td>☐</td></tr>
+<tr><td>Tyre deflators</td><td>Rapid deflation type</td><td>Set</td><td>☐</td></tr>
+<tr><td>Tyre pressure gauge</td><td>Accurate to low pressure</td><td>1</td><td>☐</td></tr>
+<tr><td>Work gloves</td><td>Leather, heavy-duty</td><td>2 pairs</td><td>☐</td></tr>
+<tr><td>Ground sheet</td><td>For lying on wet/dirty ground</td><td>1</td><td>☐</td></tr>
+</tbody>
+</table>
+<div class="warning-box"><p>⚠️ Inspect all equipment before each trip. Replace any damaged, frayed, or corroded items.</p></div>
+</div>
+</div>
+</div>
+
+<!-- SECTION 5: VEHICLE-TO-VEHICLE RECOVERY -->
+<h2>5. Vehicle-to-Vehicle Recovery</h2>
+
+<div class="card-grid">
+<div class="card alert">
+<div class="card-header">
+<div class="card-title">❌ Critical: Never Use Tow Balls</div>
+<div class="card-why">Tow balls are NOT rated recovery points. They can shear and become 3kg projectiles at 100+ km/h.</div>
+</div>
+<div class="card-body">
+<p><span class="status-critical">❌</span> Tow balls are designed for STATIC towing loads</p>
+<p><span class="status-critical">❌</span> Kinetic recovery loads exceed tow ball ratings by 500%+</p>
+<p><span class="status-critical">❌</span> Ball shearing has caused fatalities</p>
+<p style="margin-top:.75rem"><span class="status-ok">✓</span> <strong>USE ONLY:</strong> Factory recovery points or aftermarket rated recovery points (ARB, KAON, etc.)</p>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header">
+<div class="card-title">🔗 Kinetic Rope Recovery</div>
+<div class="card-why">Kinetic (snatch) ropes stretch 20–30%, storing energy for a pulling effect.</div>
+</div>
+<div class="card-body">
+<div class="procedure-step"><strong>1.</strong> Position recovery vehicle on firm ground, in line with stuck vehicle</div>
+<div class="procedure-step"><strong>2.</strong> Connect kinetic rope to RATED recovery points on both vehicles</div>
+<div class="procedure-step"><strong>3.</strong> Lay out rope with 2–3m slack (NOT tight)</div>
+<div class="procedure-step"><strong>4.</strong> Clear all personnel to side, 1.5× rope length away</div>
+<div class="procedure-step"><strong>5.</strong> Stuck vehicle: neutral, handbrake OFF, driver ready</div>
+<div class="procedure-step"><strong>6.</strong> Recovery vehicle: drive forward steadily to take up slack</div>
+<div class="procedure-step"><strong>7.</strong> Continue smoothly — rope stretches, stores energy, pulls</div>
+<div class="procedure-step"><strong>8.</strong> Once stuck vehicle moves, both vehicles proceed together</div>
+<div class="procedure-step"><strong>9.</strong> Stop on firm ground, disconnect, inspect rope</div>
+<div class="warning-box"><p>⚠️ Never shock-load a static rope (tow strap). Only kinetic ropes are designed for snatch recovery.</p></div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header">
+<div class="card-title">✋ Hand Signals</div>
+<div class="card-why">Clear communication prevents accidents. Agree signals before starting.</div>
+</div>
+<div class="card-body">
+<p><strong>STOP:</strong> Closed fist raised high</p>
+<p><strong>GO:</strong> Open palm, waving forward</p>
+<p><strong>SLOW DOWN:</strong> Palm down, pressing down motion</p>
+<p><strong>REVERSE:</strong> Beckoning toward yourself</p>
+<p><strong>LEFT:</strong> Point left with extended arm</p>
+<p><strong>RIGHT:</strong> Point right with extended arm</p>
+<p style="margin-top:.75rem;font-style:italic;color:var(--steelmd)">If radios available, use channel agreed beforehand. Keep transmissions brief and clear.</p>
+</div>
+</div>
+</div>
+
+<!-- SECTION 6: SELF-RECOVERY WITHOUT WINCH -->
+<h2>6. Self-Recovery Without Winch</h2>
+
+<div class="card-grid">
+<div class="card">
+<div class="card-header">
+<div class="card-title">📋 Recovery Boards</div>
+<div class="card-why">First line of self-recovery. Work in sand, mud, and snow.</div>
+</div>
+<div class="card-body">
+<div class="procedure-step"><strong>1.</strong> Clear material from in front of tyres</div>
+<div class="procedure-step"><strong>2.</strong> Place boards in front of driven wheels (usually rear)</div>
+<div class="procedure-step"><strong>3.</strong> Angle boards down slightly into surface</div>
+<div class="procedure-step"><strong>4.</strong> Select low range, diff-lock if available</div>
+<div class="procedure-step"><strong>5.</strong> Drive SLOWLY onto boards — no wheel spin</div>
+<div class="procedure-step"><strong>6.</strong> Once grip established, continue smoothly off boards</div>
+<div class="procedure-step"><strong>7.</strong> Stop on firm ground, retrieve boards</div>
+<div class="info-box"><p><strong>Boards ejecting:</strong> If wheels spin on boards, they can shoot out dangerously. Never stand behind wheels during recovery.</p></div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header">
+<div class="card-title">⛏️ Dig & Fill Method</div>
+<div class="card-why">When stuck to the axles, digging is mandatory before any recovery attempt.</div>
+</div>
+<div class="card-body">
+<div class="procedure-step"><strong>1.</strong> Dig channels in front of all four wheels</div>
+<div class="procedure-step"><strong>2.</strong> Clear material from under differentials and chassis rails</div>
+<div class="procedure-step"><strong>3.</strong> Fill channels with rocks, branches, boards — anything solid</div>
+<div class="procedure-step"><strong>4.</strong> Build a ramp up to firmer ground level</div>
+<div class="procedure-step"><strong>5.</strong> Reduce tyre pressure if not already done</div>
+<div class="procedure-step"><strong>6.</strong> Drive out slowly, using low range</div>
+<p style="margin-top:.75rem;font-style:italic;color:var(--steelmd)">This is slow, physical work but often the only option when alone without a winch.</p>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header">
+<div class="card-title">🔧 Hi-Lift Jack Techniques</div>
+<div class="card-why">The Hi-Lift is versatile but dangerous. Learn proper use before needing it.</div>
+</div>
+<div class="card-body">
+<p><strong>Lifting to insert traction:</strong></p>
+<div class="procedure-step"><strong>1.</strong> Place base plate if ground is soft</div>
+<div class="procedure-step"><strong>2.</strong> Position jack under rated jacking point or bumper</div>
+<div class="procedure-step"><strong>3.</strong> Lift wheel clear of ground</div>
+<div class="procedure-step"><strong>4.</strong> Pack material under wheel</div>
+<div class="procedure-step"><strong>5.</strong> Lower jack slowly, remove, drive off</div>
+<p style="margin-top:.75rem"><strong>As winch alternative (Hi-Lift winch):</strong></p>
+<p>• Use Hi-Lift horizontally with chain and strap</p>
+<p>• Limited to ~1.5m pulls per stroke</p>
+<p>• Slow but effective for short extractions</p>
+<div class="warning-box"><p>⚠️ Hi-Lift danger: vehicle can fall off jack. Always have someone ready to drive, never work under lifted vehicle without stands.</p></div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header">
+<div class="card-title">🔄 Rocking Technique</div>
+<div class="card-why">Uses vehicle momentum to break free from shallow bogs.</div>
+</div>
+<div class="card-body">
+<div class="procedure-step"><strong>1.</strong> Select low range</div>
+<div class="procedure-step"><strong>2.</strong> Drive forward until wheels spin or vehicle stops</div>
+<div class="procedure-step"><strong>3.</strong> Immediately shift to reverse, back up until stopped</div>
+<div class="procedure-step"><strong>4.</strong> Shift forward again, using momentum from reverse</div>
+<div class="procedure-step"><strong>5.</strong> Repeat, building rhythm and rocking amplitude</div>
+<div class="procedure-step"><strong>6.</strong> On forward swing, continue out if traction gained</div>
+<div class="info-box"><p><strong>Clutch warning:</strong> Rapid forward/reverse is hard on the R151F gearbox. Don't over-rev, shift smoothly, and don't do this for more than 5–10 cycles without pause.</p></div>
+</div>
+</div>
+</div>
+
+<!-- SECTION 7: COMMON MISTAKES & LESSONS -->
+<h2>7. Common Mistakes & Lessons Learned</h2>
+
+<div class="card-grid">
+<div class="card">
+<div class="card-header">
+<div class="card-title">❌ Mistakes That Cause Damage</div>
+<div class="card-why">Lessons from recovery failures — avoid these.</div>
+</div>
+<div class="card-body">
+<p><span class="status-critical">❌</span> <strong>Spinning wheels when stuck:</strong> Digs deeper, heats tyres, wastes fuel</p>
+<p><span class="status-critical">❌</span> <strong>Recovering at wrong angle:</strong> Side-loads damage equipment, causes rollovers</p>
+<p><span class="status-critical">❌</span> <strong>Using worn/damaged equipment:</strong> Shackle pins can fail, straps can snap</p>
+<p><span class="status-critical">❌</span> <strong>Attaching to steering components:</strong> Never use track rod, tie rod, steering arm</p>
+<p><span class="status-critical">❌</span> <strong>Not using winch dampener:</strong> If cable/rope breaks, recoil can kill</p>
+<p><span class="status-critical">❌</span> <strong>Jerking with static strap:</strong> Shock loads destroy straps and connection points</p>
+<p><span class="status-critical">❌</span> <strong>Standing in the line:</strong> Never between vehicles or in line with rope</p>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header">
+<div class="card-title">✓ Best Practices</div>
+<div class="card-why">Habits that prevent problems and improve outcomes.</div>
+</div>
+<div class="card-body">
+<p><span class="status-ok">✓</span> <strong>Stop early:</strong> Don't "try a bit more" — assess before deeper</p>
+<p><span class="status-ok">✓</span> <strong>Deflate first:</strong> Often solves the problem without recovery gear</p>
+<p><span class="status-ok">✓</span> <strong>Dig before pulling:</strong> Reduce resistance before applying force</p>
+<p><span class="status-ok">✓</span> <strong>Use a bridle:</strong> Connect to two points for straight-line pull</p>
+<p><span class="status-ok">✓</span> <strong>Check equipment after each use:</strong> Damage may not be obvious</p>
+<p><span class="status-ok">✓</span> <strong>Practice with your gear:</strong> First use shouldn't be an emergency</p>
+<p><span class="status-ok">✓</span> <strong>Travel in convoy:</strong> Vehicle-to-vehicle recovery is easier than solo</p>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header">
+<div class="card-title">🔋 1HZ-Specific Considerations</div>
+<div class="card-why">The turbocharged 1HZ has specific characteristics affecting recovery.</div>
+</div>
+<div class="card-body">
+<p><strong>Power delivery:</strong></p>
+<p>• Peak torque (373Nm after tune) available at 2,200 RPM</p>
+<p>• SAC low-boost turbo adds ~30% power over NA spec</p>
+<p>• Intercooler reduces intake temps — important when winching</p>
+<p style="margin-top:.75rem"><strong>During winching:</strong></p>
+<p>• Winch draws 400–500A at stall — monitor battery</p>
+<p>• Run engine at 1,500–2,000 RPM while winching</p>
+<p>• Watch EGT if engine loaded during recovery (climbing)</p>
+<p style="margin-top:.75rem"><strong>In sand:</strong></p>
+<p>• 1HZ lacks instant throttle response — maintain momentum</p>
+<p>• Don't expect to power out of deep sand like V8 diesels</p>
+<p>• Technique beats power: tyre pressure and line selection are critical</p>
+</div>
+</div>
+</div>
+
+<!-- SECTION 8: QUICK REFERENCE PROCEDURES -->
+<h2>8. Quick Reference Procedures</h2>
+
+<div class="card-grid">
+<div class="card full-width">
+<div class="card-header">
+<div class="card-title">📋 Decision Tree: Stuck in Sand</div>
+</div>
+<div class="card-body">
+<div class="procedure-step"><strong>STOP</strong> immediately — don't dig deeper</div>
+<div class="procedure-step">↓ Deflate tyres to 1.1–1.3 bar</div>
+<div class="procedure-step">↓ Try reverse — is there grip?</div>
+<div class="procedure-step">→ YES: Reverse out, find new line</div>
+<div class="procedure-step">→ NO: Place recovery boards</div>
+<div class="procedure-step">↓ Drive onto boards — vehicle moving?</div>
+<div class="procedure-step">→ YES: Continue to firm ground</div>
+<div class="procedure-step">→ NO: Dig channels, repeat boards</div>
+<div class="procedure-step">↓ Still stuck? Winch or vehicle recovery</div>
+</div>
+</div>
+
+<div class="card full-width">
+<div class="card-header">
+<div class="card-title">📋 Decision Tree: Stuck in Mud</div>
+</div>
+<div class="card-body">
+<div class="procedure-step"><strong>STOP</strong> immediately — assess depth</div>
+<div class="procedure-step">↓ Engage low range, diff-lock (if not already)</div>
+<div class="procedure-step">↓ Try rocking forward/reverse (5 cycles max)</div>
+<div class="procedure-step">→ Vehicle moving? Continue out</div>
+<div class="procedure-step">→ No movement? Exit vehicle, assess</div>
+<div class="procedure-step">↓ Dig around tyres and under chassis</div>
+<div class="procedure-step">↓ Pack branches/rocks under wheels</div>
+<div class="procedure-step">↓ Place recovery boards if available</div>
+<div class="procedure-step">↓ Try again — moving?</div>
+<div class="procedure-step">→ YES: Continue to firm ground</div>
+<div class="procedure-step">→ NO: Hi-Lift jack + fill, or winch/tow</div>
+</div>
+</div>
+
+<div class="card full-width">
+<div class="card-header">
+<div class="card-title">📋 Winch Recovery Checklist</div>
+</div>
+<div class="card-body">
+<div class="checklist-item"><input type="checkbox"> Stuck vehicle in neutral, handbrake ON</div>
+<div class="checklist-item"><input type="checkbox"> Anchor point identified and checked (tree ≥200mm, solid)</div>
+<div class="checklist-item"><input type="checkbox"> Tree protector wrapped LOW on trunk</div>
+<div class="checklist-item"><input type="checkbox"> Shackles connected correctly (pin finger-tight + ¼ turn back)</div>
+<div class="checklist-item"><input type="checkbox"> Winch clutch engaged (not free-spool)</div>
+<div class="checklist-item"><input type="checkbox"> Winch dampener placed on rope</div>
+<div class="checklist-item"><input type="checkbox"> All personnel cleared to 1.5× rope length</div>
+<div class="checklist-item"><input type="checkbox"> Engine running at 1,500–2,000 RPM</div>
+<div class="checklist-item"><input type="checkbox"> Operator signaled ready</div>
+<div class="checklist-item"><input type="checkbox"> Winch in short pulls, checking movement</div>
+<div class="checklist-item"><input type="checkbox"> Once clear, drive to firm ground</div>
+<div class="checklist-item"><input type="checkbox"> Inspect all equipment before storing</div>
+</div>
+</div>
+
+<div class="card full-width">
+<div class="card-header">
+<div class="card-title">📊 Tyre Pressure Quick Reference — LC76</div>
+</div>
+<div class="card-body">
+<table class="spec-table">
+<thead>
+<tr><th>Terrain</th><th>Front bar</th><th>Rear bar</th><th>Notes</th></tr>
+</thead>
+<tbody>
+<tr><td>Highway (sealed)</td><td>2.6</td><td>2.8</td><td>Loaded; adjust for payload</td></tr>
+<tr><td>Gravel (corrugated)</td><td>1.6</td><td>1.8</td><td>Improves comfort and traction</td></tr>
+<tr><td>Sand (firm beach)</td><td>1.2</td><td>1.4</td><td>Start here, deflate more if sinking</td></tr>
+<tr><td>Sand (soft/dunes)</td><td>1.1</td><td>1.3</td><td>Minimum practical; watch for rim damage</td></tr>
+<tr><td>Mud</td><td>1.2</td><td>1.4</td><td>Balance between flotation and traction</td></tr>
+<tr><td>Rocky</td><td>1.6</td><td>1.8</td><td>Protect sidewalls; avoid too soft</td></tr>
+</tbody>
+</table>
+<div class="info-box"><p><strong>Always reinflate</strong> before returning to sealed roads. Driving deflated on tar destroys tyres and causes blowouts.</p></div>
+</div>
+</div>
+</div>
+
+<footer style="background:var(--ink);color:var(--steelmd);padding:1rem;text-align:center;font-family:IBM Plex Mono,monospace;font-size:.75rem;">
+<p style="color:var(--amber)">LC76 Overland Reference Library</p>
+</footer>
+
+</main>
+
+</body>
+</html>
