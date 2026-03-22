@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0d0e12">
+<title>R11 — LC76 Packing &amp; Load Optimisation Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=Oswald:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0d0e12;--paper:#dad2c0;--paper2:#edeae0;--amber:#b86800;--amber2:#e07800;--rule:#d4cfc4;--steeldk:#2a2f3a;--steelmd:#6a7080;--red-warn:#B91C1C;--green-ok:#059669;--green-field:#10b981}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:Oswald,sans-serif;background:var(--paper);color:var(--steeldk);line-height:1.45;font-size:13px;-webkit-font-smoothing:antialiased;orphans:3;widows:3}
+.sticky-hdr{position:sticky;top:0;z-index:100}
+header{background:var(--ink);color:#fff;padding:1rem 1.5rem;border-bottom:4px solid var(--amber2)}
+.hdr-row{display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.hdr-title{font-family:Bebas Neue,sans-serif;font-size:1.8rem;letter-spacing:2px;line-height:1}
+.hdr-title .accent{color:var(--amber2)}
+.hdr-sub{font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:var(--amber);margin-top:2px}
+.hdr-right{text-align:right}
+.hdr-ref{font-family:Bebas Neue,sans-serif;font-size:1rem;color:var(--amber2);letter-spacing:1px}
+.hdr-date{font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--steelmd)}
+.toc-bar{background:var(--steeldk);padding:5px 1.5rem;display:flex;flex-wrap:wrap;gap:2px 8px;border-bottom:1px solid rgba(255,255,255,.08)}
+.toc-bar a{font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:#9ca3af;text-decoration:none;letter-spacing:.5px;transition:color .15s;white-space:nowrap;cursor:pointer}
+.toc-bar a:hover{color:var(--amber2)}
+.container{max-width:780px;margin:0 auto;padding:1rem 1.2rem 2rem}
+.sec-sep{margin:1.6rem 0 .8rem;scroll-margin-top:80px}
+.sec-label{font-family:'IBM Plex Mono',monospace;font-size:.6rem;font-weight:600;color:var(--amber);letter-spacing:2px;text-transform:uppercase;margin-bottom:1px}
+h2{font-family:Bebas Neue,sans-serif;font-size:1.6rem;letter-spacing:2px;color:var(--ink);margin-bottom:.6rem;padding-bottom:.35rem;border-bottom:2px solid var(--rule);page-break-after:avoid}
+h3{font-family:Oswald,sans-serif;font-weight:600;font-size:1rem;color:var(--steeldk);margin:1rem 0 .4rem;page-break-after:avoid}
+h4{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:.72rem;color:var(--amber);margin:.7rem 0 .3rem;text-transform:uppercase;letter-spacing:1px;page-break-after:avoid}
+.card{background:var(--paper2);border:1px solid var(--rule);border-radius:5px;padding:.8rem 1rem;margin-bottom:.8rem;page-break-inside:auto}
+.warn-box{background:#fef2f2;border:2px solid var(--red-warn);border-radius:5px;padding:.6rem .8rem;margin:.6rem 0;page-break-inside:avoid}
+.warn-box .wt{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:.7rem;color:var(--red-warn);text-transform:uppercase;letter-spacing:1px;margin-bottom:.2rem}
+.info-box{background:#f0f4f8;border-left:3px solid var(--steelmd);padding:.5rem .7rem;margin:.5rem 0;border-radius:0 3px 3px 0;font-size:.82rem;color:var(--steeldk)}
+.tip-box{background:#f0fdf4;border-left:3px solid var(--green-ok);padding:.5rem .7rem;margin:.5rem 0;border-radius:0 3px 3px 0;font-size:.82rem}
+table{width:100%;border-collapse:collapse;margin:.5rem 0;font-size:.82rem}
+thead{display:table-header-group}
+th{background:var(--steeldk);color:#fff;font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:.62rem;letter-spacing:1px;text-transform:uppercase;padding:.4rem .6rem;text-align:left}
+td{padding:.35rem .6rem;border-bottom:1px solid var(--rule);vertical-align:top}
+tr:nth-child(even){background:rgba(0,0,0,.03)}
+ul,ol{padding-left:1.2rem;margin:.3rem 0}
+li{margin-bottom:.2rem;line-height:1.4}
+li::marker{color:var(--amber)}
+.tag{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:.58rem;font-weight:600;letter-spacing:.5px;padding:1px 5px;border-radius:2px;text-transform:uppercase}
+.tag-ok{background:#dcfce7;color:#15803d}
+.tag-warn{background:#fef3c7;color:#92400e}
+.tag-critical{background:#fee2e2;color:var(--red-warn)}
+.tag-info{background:#dbeafe;color:#1e5a8a}
+.tag-pending{background:#e5e7eb;color:var(--steelmd)}
+.zone-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem;margin:.6rem 0}
+.zone-card{background:#fff;border:2px solid var(--rule);border-radius:6px;padding:.7rem;position:relative}
+.zone-card.hl{border-color:var(--amber)}
+.zone-label{font-family:Bebas Neue,sans-serif;font-size:.9rem;letter-spacing:1px;color:var(--amber);margin-bottom:.25rem}
+.zone-card ul{font-size:.78rem}
+.zone-wt{font-family:'IBM Plex Mono',monospace;font-size:.62rem;font-weight:600;color:var(--steeldk);background:var(--paper2);padding:2px 6px;border-radius:2px;display:inline-block;margin-top:.4rem}
+.wb-outer{background:var(--rule);border-radius:3px;height:18px;position:relative;overflow:hidden;margin:.3rem 0}
+.wb-fill{height:100%;border-radius:3px;display:flex;align-items:center;padding-left:6px;font-family:'IBM Plex Mono',monospace;font-size:.6rem;font-weight:600;color:#fff}
+.wb-fill.ok{background:var(--green-ok)}
+.wb-fill.warn{background:var(--amber)}
+.wb-fill.over{background:var(--red-warn)}
+.pain-item{display:flex;gap:.4rem;padding:.35rem 0;border-bottom:1px solid rgba(0,0,0,.05);align-items:flex-start;font-size:.82rem}
+.pain-icon{flex-shrink:0;margin-top:1px}
+.checklist{list-style:none;padding-left:0}
+.checklist li{padding:.25rem 0 .25rem 1.5rem;position:relative;border-bottom:1px solid rgba(0,0,0,.04);font-size:.82rem}
+.checklist li::before{content:'☐';position:absolute;left:0;font-size:1rem;color:var(--steelmd)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+.values-strip{display:flex;flex-wrap:wrap;gap:.35rem;margin:.5rem 0}
+.value-chip{font-family:'IBM Plex Mono',monospace;font-size:.6rem;font-weight:600;padding:2px 6px;border:1px solid var(--amber);border-radius:14px;color:var(--amber);letter-spacing:.3px}
+.wt-row{display:grid;grid-template-columns:140px 1fr 70px;gap:4px;padding:3px 0;border-bottom:1px solid var(--rule);align-items:center;font-size:.78rem}
+.wt-zone{font-family:'IBM Plex Mono',monospace;font-size:.65rem;font-weight:600;color:var(--amber)}
+.wt-bar{background:var(--rule);border-radius:2px;height:14px;overflow:hidden}
+.wt-bar-fill{height:100%;background:var(--amber);border-radius:2px}
+.wt-kg{font-family:'IBM Plex Mono',monospace;font-size:.65rem;font-weight:600;text-align:right;color:var(--steeldk)}
+.sub-hdr{font-weight:600;color:var(--red-warn);font-family:'IBM Plex Mono',monospace;font-size:.65rem;letter-spacing:1px;background:#fef2f2}
+@media print{
+  @page{margin:10mm;size:A4}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .sticky-hdr{position:static}
+  .toc-bar{display:none}
+  body{font-size:9pt;background:#fff;line-height:1.35}
+  .container{max-width:100%;padding:0}
+  .card{break-inside:auto;border:1px solid #ccc}
+  h2{break-after:avoid}h3,h4{break-after:avoid}
+  .warn-box{break-inside:avoid}
+  table{break-inside:auto}thead{display:table-header-group}
+  .zone-grid{break-inside:auto}
+}
+@media(max-width:600px){
+  .zone-grid,.two-col{grid-template-columns:1fr}
+  h2{font-size:1.4rem}
+  .hdr-title{font-size:1.4rem}
+  .hdr-row{flex-direction:column;align-items:flex-start}
+  .hdr-right{text-align:left}
+  header{padding:.8rem 1rem}
+  .toc-bar{padding:4px 1rem}
+  .container{padding:.8rem}
+  .wt-row{grid-template-columns:90px 1fr 60px}
+}
+</style>
+</head>
+<body>
+
+<div class="sticky-hdr">
+<header>
+<div class="hdr-row">
+<div><div class="hdr-title"><span class="accent">LC76</span> OVERLAND SERIES</div><div class="hdr-sub">HZJ76R-RKMRS · 1HZ 4.2D TURBO · 2009 LC76 SW</div></div>
+<div class="hdr-right"><div class="hdr-ref">R11 — PACKING &amp; LOAD OPTIMISATION</div><div class="hdr-date">Last Updated: 22 March 2026</div></div>
+</div>
+</header>
+
+<nav class="toc-bar">
+<a onclick="document.getElementById('overview').scrollIntoView({behavior:'smooth'})">Overview</a>
+<a onclick="document.getElementById('weight').scrollIntoView({behavior:'smooth'})">Weight</a>
+<a onclick="document.getElementById('profile').scrollIntoView({behavior:'smooth'})">Profile</a>
+<a onclick="document.getElementById('current').scrollIntoView({behavior:'smooth'})">Current Layout</a>
+<a onclick="document.getElementById('pain').scrollIntoView({behavior:'smooth'})">Pain Points</a>
+<a onclick="document.getElementById('target').scrollIntoView({behavior:'smooth'})">Target Layout</a>
+<a onclick="document.getElementById('equipment').scrollIntoView({behavior:'smooth'})">Equipment</a>
+<a onclick="document.getElementById('power').scrollIntoView({behavior:'smooth'})">Power</a>
+<a onclick="document.getElementById('loading').scrollIntoView({behavior:'smooth'})">Loading</a>
+<a onclick="document.getElementById('checklists').scrollIntoView({behavior:'smooth'})">Checklists</a>
+</nav>
+</div>
+
+<div class="container">
+
+<!-- 1 OVERVIEW -->
+<div class="sec-sep" id="overview"></div>
+<div class="sec-label">Section 1</div>
+<h2>VEHICLE OVERVIEW</h2>
+<div class="card">
+<table>
+<tr><td style="width:38%;font-weight:600">Vehicle</td><td>2009 Toyota Land Cruiser 76 Series SW</td></tr>
+<tr><td style="font-weight:600">Model Code</td><td>HZJ76R-RKMRS</td></tr>
+<tr><td style="font-weight:600">Engine</td><td>1HZ 4.2L inline-6 diesel</td></tr>
+<tr><td style="font-weight:600">Turbo</td><td>SAC low-boost turbo (118 kW / 373 Nm)</td></tr>
+<tr><td style="font-weight:600">Intercooler</td><td>SAC Milnerton — Feb 2012 @ 50,637 km</td></tr>
+<tr><td style="font-weight:600">Transmission</td><td>R151F 5-speed manual · Part-time 4WD · Diff locks F&amp;R</td></tr>
+<tr><td style="font-weight:600">Clutch</td><td>Terrain Tamer heavy-duty — Feb 2026</td></tr>
+<tr><td style="font-weight:600">Suspension</td><td>OME medium 400 kg · 2″ lift · Leaf CS058R rear · Coil 859 front</td></tr>
+<tr><td style="font-weight:600">Wheels &amp; Tyres</td><td>OEM 16″ · 265/70R16 Maxxis AT811-03 · SteelMate TPMS</td></tr>
+<tr><td style="font-weight:600">Fuel</td><td>145 L main + 2 × 20 L Desert Fox collapsible = 185 L total</td></tr>
+<tr><td style="font-weight:600">Seat Covers</td><td>Canvas — Escape</td></tr>
+<tr><td style="font-weight:600">Odometer</td><td>~296,000 km</td></tr>
+</table>
+</div>
+<div class="card">
+<h3>Off-Road Geometry</h3>
+<table>
+<tr><td style="width:38%;font-weight:600">Ground Clearance</td><td>~275 mm (with 2″ OME lift)</td></tr>
+<tr><td style="font-weight:600">Approach Angle</td><td>~42° (with ARB bull bar)</td></tr>
+<tr><td style="font-weight:600">Departure Angle</td><td>~25° (with towbar)</td></tr>
+<tr><td style="font-weight:600">Ramp / Belly</td><td>~23°</td></tr>
+<tr><td style="font-weight:600">Wading Depth</td><td>~800 mm (with Safari snorkel)</td></tr>
+<tr><td style="font-weight:600">Wheelbase</td><td>2,730 mm</td></tr>
+<tr><td style="font-weight:600">Front / Rear Track</td><td>1,520 / 1,425 mm (rear 95 mm narrower)</td></tr>
+</table>
+</div>
+
+<!-- 2 WEIGHT -->
+<div class="sec-sep" id="weight"></div>
+<div class="sec-label">Section 2</div>
+<h2>WEIGHT &amp; PAYLOAD</h2>
+<div class="warn-box"><div class="wt">⚠ GVM limit: 2,850 kg — never exceed</div><p style="font-size:.82rem;color:var(--red-warn)">Exceeding GVM compromises braking, handling, suspension and insurance. <strong>Weigh at a public weighbridge before every major trip.</strong></p></div>
+<div class="card">
+<h3>Payload Budget</h3>
+<table>
+<thead><tr><th>Component</th><th>kg</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td>Kerb weight</td><td>~2,160</td><td>Factory + fitted accessories</td></tr>
+<tr><td><strong>Payload available</strong></td><td><strong>~690</strong></td><td>GVM minus kerb</td></tr>
+<tr style="border-top:2px solid var(--rule)"><td>Driver + passenger</td><td>~140</td><td>Two adults</td></tr>
+<tr><td>Fuel — 145 L main (full)</td><td>~122</td><td>Diesel @ 0.84 kg/L</td></tr>
+<tr><td>Jerry cans — 2 × 20 L Desert Fox</td><td>0</td><td>Collapsible — rarely filled, weight not counted</td></tr>
+<tr><td>Water (est. 40 L)</td><td>~40</td><td>Container solution TBD</td></tr>
+<tr style="border-top:2px solid var(--rule)"><td><strong>Remaining for cargo</strong></td><td><strong>~388</strong></td><td>All gear, food, spares, kit</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="card">
+<h3>Weight by Zone — Estimated Cargo</h3>
+<div class="wt-row"><span class="wt-zone">A — Front Cabin</span><div class="wt-bar"><div class="wt-bar-fill" style="width:1.5%"></div></div><span class="wt-kg">~5 kg</span></div>
+<div class="wt-row"><span class="wt-zone">B — Seat-Delete</span><div class="wt-bar"><div class="wt-bar-fill" style="width:38%"></div></div><span class="wt-kg">~125 kg</span></div>
+<div class="wt-row"><span class="wt-zone">C — Roof Rack</span><div class="wt-bar"><div class="wt-bar-fill" style="width:19%"></div></div><span class="wt-kg">~58 kg</span></div>
+<div class="wt-row"><span class="wt-zone">D — Rear Cargo</span><div class="wt-bar"><div class="wt-bar-fill" style="width:27%"></div></div><span class="wt-kg">~90 kg</span></div>
+<div class="wt-row"><span class="wt-zone">E — Window Boxes</span><div class="wt-bar"><div class="wt-bar-fill" style="width:6%"></div></div><span class="wt-kg">~19 kg</span></div>
+<div class="wt-row" style="border-bottom:2px solid var(--steeldk)"><span class="wt-zone" style="color:var(--ink)">CARGO TOTAL</span><div class="wt-bar"><div class="wt-bar-fill" style="width:100%;background:var(--steeldk)"></div></div><span class="wt-kg" style="color:var(--ink)">~297 kg</span></div>
+<div style="margin-top:.4rem;display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:.62rem;font-weight:600"><span>Total payload (people + fuel + water + cargo)</span><span>~599 kg of 690 kg</span></div>
+<div class="wb-outer"><div class="wb-fill ok" style="width:87%">~87% — 91 kg margin</div></div>
+<div class="info-box">Fuel cells excluded (rarely filled). When both are full (+37 kg), payload rises to ~92%. <strong>Weigh at a weighbridge before departure. Roof rack target: ≤60 kg dynamic.</strong></div>
+</div>
+
+<div class="card">
+<h3>Zone B — Seat-Delete Breakdown</h3>
+<table><thead><tr><th>Item</th><th>Est. kg</th></tr></thead><tbody>
+<tr><td>National Luna 55 L fridge (loaded)</td><td>~35</td></tr>
+<tr><td>Water containers (40 L)</td><td>~40</td></tr>
+<tr><td>Ammo boxes (recovery + tools/spares)</td><td>~25</td></tr>
+<tr><td>Camera, laptop, lockable box</td><td>~10</td></tr>
+<tr><td>Hydraulic jack (upright)</td><td>~12</td></tr>
+<tr><td>Stretchers under platform, snack basket</td><td>~5</td></tr>
+<tr style="font-weight:600"><td>Subtotal</td><td>~125</td></tr>
+</tbody></table>
+
+<h3>Zone C — Roof Rack Breakdown</h3>
+<table><thead><tr><th>Item</th><th>Est. kg</th></tr></thead><tbody>
+<tr><td>OzTent RV4 + poles + sidewalls</td><td>~22</td></tr>
+<tr><td>Bedding bags ×2 (incl. Typhoon Bag)</td><td>~12</td></tr>
+<tr><td>Foam mattress ×1</td><td>~3</td></tr>
+<tr><td>Ground mats</td><td>~3</td></tr>
+<tr><td>2 × 20 L Desert Fox fuel cells</td><td>0</td></tr>
+<tr><td>Gas bottle (5 L)</td><td>~5</td></tr>
+<tr><td>Tables ×2 + chairs ×2</td><td>~10</td></tr>
+<tr><td>Wood</td><td>~3</td></tr>
+<tr style="font-weight:600"><td>Subtotal</td><td>~58</td></tr>
+</tbody></table>
+<div class="info-box">Fuel cells carried empty and only filled on rare occasions — weight not counted in standard load. At ~58 kg static this zone is close to the 60 kg dynamic limit. Monitor actual weight.</div>
+
+<h3>Zone D — Rear Cargo + Drawers</h3>
+<table><thead><tr><th>Item</th><th>Est. kg</th></tr></thead><tbody>
+<tr><td>Toolbox + hand tools</td><td>~15</td></tr>
+<tr><td>Fluids (12 L oil, 5 L coolant, gearbox/diff/PS)</td><td>~25</td></tr>
+<tr><td>Spares (filters, belts, gaskets, hoses, plugs, etc.)</td><td>~8</td></tr>
+<tr><td>Consumables (JB Weld, RTV, tape, ties, etc.)</td><td>~3</td></tr>
+<tr><td>Kitchen containers (crockery, pots, cutlery)</td><td>~8</td></tr>
+<tr><td>Cooker + windbreak</td><td>~5</td></tr>
+<tr><td>Groceries (non-perishable + perishable)</td><td>~15</td></tr>
+<tr><td>Lights, fans, fairy lights, leads</td><td>~5</td></tr>
+<tr><td>Bottle jack + misc containers</td><td>~8</td></tr>
+<tr style="font-weight:600"><td>Subtotal</td><td>~92</td></tr>
+</tbody></table>
+
+<h3>Zone E — Window Boxes + Exterior</h3>
+<table><thead><tr><th>Item</th><th>Est. kg</th></tr></thead><tbody>
+<tr><td>Recovery straps, shackles, tree protector</td><td>~5</td></tr>
+<tr><td>Pulley block, line dampener</td><td>~3</td></tr>
+<tr><td>Seed net, gloves, glasses, warning triangles</td><td>~3</td></tr>
+<tr><td>Spade (exterior mount)</td><td>~3</td></tr>
+<tr><td>Kitchen utensils window box</td><td>~5</td></tr>
+<tr style="font-weight:600"><td>Subtotal</td><td>~19</td></tr>
+</tbody></table>
+</div>
+
+<!-- 3 PROFILE -->
+<div class="sec-sep" id="profile"></div>
+<div class="sec-label">Section 3</div>
+<h2>USE PROFILE</h2>
+<div class="card">
+<div class="values-strip">
+<span class="value-chip">Safety</span><span class="value-chip">Simplicity</span><span class="value-chip">Reliability</span><span class="value-chip">Eco Not Ego</span><span class="value-chip">Slow Travel</span><span class="value-chip">Immerse, Not Consume</span>
+</div>
+<ul>
+<li>Solo travel (Neil &amp; Mary-Ann) — back seats not needed on trips</li>
+<li>Pajero SWB at home for passenger duties</li>
+<li>Ground tents: OzTent RV4 + small 2-man. <strong>No sleeping in vehicle.</strong></li>
+<li>Stay &amp; explore / hike — not "braai &amp; drive"</li>
+<li>Remote, self-sufficient destinations. Game parks &amp; solo game drives priority</li>
+<li>Short trips (1 week) through 6+ months. Two-year trip planned 2028–2030</li>
+<li>No trailer or caravan. No elaborate gadgets</li>
+<li>"Airbnb" breaks during longer trips. Vehicle doubles as daily run-around</li>
+<li>Mechanical sympathy: 90–100 km/h tar, 70–80 km/h gravel</li>
+</ul>
+</div>
+
+<!-- 4 CURRENT -->
+<div class="sec-sep" id="current"></div>
+<div class="sec-label">Section 4</div>
+<h2>CURRENT PACKING ARRANGEMENT</h2>
+<p style="margin-bottom:.5rem;font-size:.8rem;color:var(--steelmd)">Pre-optimisation baseline.</p>
+<div class="zone-grid">
+<div class="zone-card hl"><div class="zone-label">A — Front Cabin</div>
+<ul><li>iPhone on windscreen bracket</li><li>Second iPhone between seats</li><li>Garmin Nüvi on windscreen</li><li>Maps &amp; paperwork between seats</li><li>Loose 3-way cigarette lighter adapter</li><li>Cables hanging — no tidy solution</li><li>Water bottle in console cut-out</li><li>Side pockets: hammer (glass break), misc</li></ul>
+<span class="zone-wt">~5 kg</span></div>
+
+<div class="zone-card hl"><div class="zone-label">B — Back Seat Area</div>
+<ul><li>Stretchers behind front seats (tight fit)</li><li>Hydraulic jack behind passenger seat (upright)</li><li>Clothing bags &amp; backpacks on seat</li><li>Snack basket on seat</li><li>Camera bag between front seats</li><li>Laptop bag stacked on clothes</li><li>5 L water bottle (falls out at door)</li><li>Inverter lead across top of bags</li><li><em>Under passenger seat:</em> Medical kit</li><li><em>Under driver's seat:</em> Wheel spanner</li></ul>
+<span class="zone-wt">~45 kg</span></div>
+
+<div class="zone-card"><div class="zone-label">C — Roof Rack</div>
+<ul><li>OzTent RV4</li><li>Tent poles &amp; sidewalls</li><li>Ground mats</li><li>2 × bedding bags (1 not waterproof)</li><li>2 × tables, 2 × chairs</li><li>2 × 20 L Desert Fox fuel cells</li><li>Gas bottle</li><li>2 × MAXTRAX · Spade</li><li>Foam mattress ×1 (inside if rain)</li><li>Wood</li></ul>
+<span class="zone-wt">~65 kg</span></div>
+
+<div class="zone-card"><div class="zone-label">D — Rear Cargo</div>
+<ul><li>Long container: gas cooker &amp; braai utensils</li><li>Long container: recovery misc</li><li>Containers: fans, coffee, lights, leads</li><li>Ammo box: recovery gear</li><li>Ammo box: non-perishable groceries</li><li>Aluminium windbreak (packing barrier)</li><li>Perishables beside fridge</li><li>Loose: solar blanket, portable compressor, Indeflate, umbrella, dishwash tubs</li></ul>
+<span class="tag tag-critical" style="margin-top:.3rem">Containers shift &amp; don't fit</span></div>
+</div>
+
+<div class="card">
+<h3>Drawers &amp; Cavities</h3>
+<div class="two-col">
+<div>
+<h4>Passenger Drawer</h4>
+<ul><li>Container: fluids</li><li>Container: spares</li><li>Container: glues, tape</li><li>Toolbox</li><li>Tyre repair kit</li><li>Small nylon tent</li><li>Gloves · small saw · knife/axe</li><li>Coffee gas canisters</li></ul>
+<h4 style="margin-top:.5rem">Passenger Cavity</h4>
+<ul><li>Inside: winch rope, jumper cables</li><li>On top: misc containers</li></ul>
+</div>
+<div>
+<h4>Driver Drawer</h4>
+<ul><li>Crockery, cutlery, pots &amp; pans</li></ul>
+<h4 style="margin-top:.5rem">Driver Cavity</h4>
+<ul><li>Inside: inverter &amp; fridge lead</li><li>On top: loose groceries</li></ul>
+</div>
+</div>
+</div>
+
+<!-- 5 PAIN -->
+<div class="sec-sep" id="pain"></div>
+<div class="sec-label">Section 5</div>
+<h2>PAIN POINTS</h2>
+<div class="card">
+<h3>Access &amp; Ergonomics</h3>
+<div class="pain-item"><span class="pain-icon">❌</span><div><strong>Fridge access cumbersome</strong> — rear-mounted, hard to slide. No light.</div></div>
+<div class="pain-item"><span class="pain-icon">❌</span><div><strong>Stretchers tight fit</strong> behind front seats, hard to extract.</div></div>
+<div class="pain-item"><span class="pain-icon">❌</span><div><strong>Clothing bags awkward</strong> — laptop stacked on top, items stuffed in.</div></div>
+<div class="pain-item"><span class="pain-icon">⚠️</span><div><strong>5 L water bottle falls out</strong> when door opened.</div></div>
+<div class="pain-item"><span class="pain-icon">⚠️</span><div><strong>Inverter buried</strong> under groceries.</div></div>
+<div class="pain-item"><span class="pain-icon">⚠️</span><div><strong>No drop-down table</strong> for food prep.</div></div>
+<div class="pain-item"><span class="pain-icon">⚠️</span><div><strong>Camera access poor</strong> for game drives. Battery charging unclear.</div></div>
+<div class="pain-item"><span class="pain-icon">⚠️</span><div><strong>Rear visibility</strong> — Mary-Ann wants to see out back window.</div></div>
+</div>
+<div class="card">
+<h3>Electrical &amp; Power</h3>
+<div class="pain-item"><span class="pain-icon">❌</span><div><strong>Aux battery loses charge quickly.</strong> Alternator insufficient.</div></div>
+<div class="pain-item"><span class="pain-icon">❌</span><div><strong>No dedicated charging station.</strong></div></div>
+<div class="pain-item"><span class="pain-icon">❌</span><div><strong>No built-in battery charger.</strong></div></div>
+<div class="pain-item"><span class="pain-icon">❌</span><div><strong>No shore-power inlet.</strong> Lead through window.</div></div>
+<div class="pain-item"><span class="pain-icon">⚠️</span><div><strong>Solar connection is clamp-on.</strong></div></div>
+<div class="pain-item"><span class="pain-icon">⚠️</span><div><strong>Slow game drives jeopardise charging.</strong></div></div>
+<div class="pain-item"><span class="pain-icon">⚠️</span><div><strong>Loose cables</strong> in front cabin.</div></div>
+</div>
+<div class="card">
+<h3>Storage &amp; Organisation</h3>
+<div class="pain-item"><span class="pain-icon">❌</span><div><strong>Different-size containers shift</strong> — fall, don't fit.</div></div>
+<div class="pain-item"><span class="pain-icon">⚠️</span><div><strong>Dusty rear.</strong> Barn doors misaligned.</div></div>
+<div class="pain-item"><span class="pain-icon">⚠️</span><div><strong>Side cavities underutilised.</strong></div></div>
+<div class="pain-item"><span class="pain-icon">⚠️</span><div><strong>No cargo barrier.</strong></div></div>
+</div>
+
+<!-- 6 TARGET -->
+<div class="sec-sep" id="target"></div>
+<div class="sec-label">Section 6</div>
+<h2>TARGET PACKING ARRANGEMENT</h2>
+<p style="margin-bottom:.5rem;font-size:.8rem;color:var(--steelmd)">Post-optimisation layout. Details evolve during build.</p>
+<div class="zone-grid">
+<div class="zone-card hl"><div class="zone-label">A — Front Cabin (Target)</div>
+<ul><li>Roof console: sunglasses, maps, small items</li><li>Dashboard switch panel: USB-C, USB-A, 12 V</li><li>Phone mount · Garmin Nüvi on windscreen</li><li>Tidy cable routing</li><li>Water bottle in console</li><li>Side pockets: glass-break hammer, torch, headlamp</li><li>Upgraded driver's seat</li></ul>
+<span class="zone-wt">~5 kg</span> <span class="tag tag-ok" style="margin-left:4px">Clean</span></div>
+
+<div class="zone-card hl"><div class="zone-label">B — Seat-Delete Platform (Target)</div>
+<ul><li><strong>Pass. side:</strong> NL 55 L fridge — low, easy access</li><li><strong>Driver side:</strong> Ammo boxes (recovery, tools, spares) — baboon-proof</li><li>Lockable camera/laptop box — quick-access, charge lead in</li><li>Hydraulic jack (upright)</li><li>Water containers (TBD)</li><li>Snack basket</li><li><em>Under platform:</em> stretchers, clothing, flat items</li></ul>
+<span class="zone-wt">~125 kg</span> <span class="tag tag-info" style="margin-left:4px">Cargo barrier</span></div>
+
+<div class="zone-card"><div class="zone-label">C — Roof Rack (Target)</div>
+<ul><li>OzTent RV4</li><li>Poles, sidewalls, ground mats</li><li>Typhoon Bag (bedding — waterproof)</li><li>Foam mattress ×1</li><li>Tables ×2 + chairs ×2</li><li>2 × 20 L fuel cells · Gas bottle</li><li>2 × MAXTRAX recovery boards</li><li>Spare tyre casing (future)</li></ul>
+<span class="zone-wt">~58 kg</span>
+<div class="tip-box" style="margin-top:.3rem;font-size:.72rem">Spade relocated to exterior mount. Fuel cells carried empty — only filled on rare occasions.</div></div>
+
+<div class="zone-card"><div class="zone-label">D — Rear Cargo (Target)</div>
+<ul><li>Standardised uniform containers</li><li>Grocery storage in freed drawer</li><li>Power system against cargo barrier</li><li>Shelf near roof: laptop bags, light items</li><li>MOLLE plates on barn doors</li><li>Interior lighting near fridge/work area</li><li>Bottle jack (accessible)</li></ul>
+<span class="zone-wt">~90 kg</span></div>
+</div>
+
+<div class="card">
+<h3>Window Boxes &amp; Exterior (Target)</h3>
+<div class="two-col">
+<div><h4>Passenger Window Box</h4><ul><li>Kitchen utensils (Mary-Ann to specify)</li><li>Drop-down table below</li></ul></div>
+<div><h4>Driver Window Box</h4><ul><li>Recovery: shackles, straps, tree protector</li><li>Pulley block, line dampener</li><li>Seed net, gloves, safety glasses</li><li>Warning triangles</li><li>Spade (exterior mount)</li></ul></div>
+</div>
+<span class="zone-wt">~19 kg combined</span>
+</div>
+
+<div class="card">
+<h3>Open Questions</h3>
+<ul>
+<li>Rear visibility — parking sensors?</li>
+<li>Side cavity construction method?</li>
+<li>Tyre size: 265/70/16 vs 265/75/16?</li>
+<li>Soundproofing: cost vs benefit vs weight?</li>
+<li>Swing-bar purpose: wheel carrier? Jerry cans?</li>
+<li>Hydraulic jack final position?</li>
+<li>Stretcher storage in optimised layout?</li>
+<li>Lithium battery placement?</li>
+<li>Space vacated by old aux battery — what to fit there?</li>
+<li>Exterior lighting?</li>
+</ul>
+</div>
+
+<!-- 7 EQUIPMENT -->
+<div class="sec-sep" id="equipment"></div>
+<div class="sec-label">Section 7</div>
+<h2>EQUIPMENT INVENTORY</h2>
+
+<div class="card">
+<h3>Recovery &amp; Armour</h3>
+<table><thead><tr><th>Item</th><th>Detail</th><th>Location</th></tr></thead><tbody>
+<tr><td>ARB bull bar + bumper</td><td>Front protection</td><td>Fitted</td></tr>
+<tr><td>Safari snorkel</td><td>Raised air intake</td><td>Fitted</td></tr>
+<tr><td>T-Max 9,500 lb winch</td><td>Electric, front-mounted</td><td>Bull bar</td></tr>
+<tr><td>Mid skid plate</td><td>Underbody</td><td>Fitted</td></tr>
+<tr><td>Shackles (metal + soft)</td><td>Rated bow shackles</td><td>Window box</td></tr>
+<tr><td>Tow rope (static)</td><td>—</td><td>Window box</td></tr>
+<tr><td>Snatch rope (kinetic)</td><td>—</td><td>Window box</td></tr>
+<tr><td>Tree protector strap</td><td>Winch anchor</td><td>Window box</td></tr>
+<tr><td>Pulley block (snatch block)</td><td>Double-line pull</td><td>Window box</td></tr>
+<tr><td>Line dampener</td><td>Winch safety</td><td>Window box</td></tr>
+<tr><td>2 × MAXTRAX boards</td><td>Traction recovery</td><td>Roof rack</td></tr>
+<tr><td>Spade (long-handle)</td><td>Digging / camp</td><td>Exterior mount</td></tr>
+<tr><td>SecureTech radiator seed net</td><td>800 × 1000 mm</td><td>Window box</td></tr>
+<tr><td>Leather gloves + safety glasses</td><td>PPE</td><td>Window box</td></tr>
+<tr><td>Warning triangles ×2</td><td>Roadside safety</td><td>Window box</td></tr>
+</tbody></table>
+</div>
+
+<div class="card">
+<h3>Jacking &amp; Inflation</h3>
+<table><thead><tr><th>Item</th><th>Detail</th><th>Location</th></tr></thead><tbody>
+<tr><td>Hydraulic jack</td><td>Primary — stored upright</td><td>Seat-delete (passenger side)</td></tr>
+<tr><td>Bottle jack</td><td>Secondary / backup</td><td>Rear cargo</td></tr>
+<tr><td>Wheel spanner (21 mm)</td><td>—</td><td>Under driver's seat</td></tr>
+<tr><td>ARB vehicle-mounted compressor</td><td>Permanent</td><td>Engine bay</td></tr>
+<tr><td>T-Max portable compressor</td><td>Backup</td><td>Rear cargo</td></tr>
+<tr><td>Indeflate 2-hose unit</td><td>Rapid deflate/inflate</td><td>Bag, rear cargo</td></tr>
+<tr><td>SteelMate TPMS</td><td>Solar internal sensors</td><td>Fitted</td></tr>
+<tr><td>Tyre repair kit</td><td>Plug + patch, awl, levers, valve cores</td><td>Passenger drawer</td></tr>
+<tr><td>Tyre Glue (sidewall)</td><td>Emergency sealant</td><td>Recovery container</td></tr>
+</tbody></table>
+</div>
+
+<div class="card">
+<h3>Power &amp; Electrical</h3>
+<table><thead><tr><th>Item</th><th>Detail</th><th>Status</th></tr></thead><tbody>
+<tr><td>Starter battery</td><td>OEM</td><td><span class="tag tag-ok">Current</span></td></tr>
+<tr><td>Aux battery 105 Ah</td><td>Lead-acid</td><td><span class="tag tag-critical">Replace → lithium</span></td></tr>
+<tr><td>Victron Cyrix 120A</td><td>12/24 V split charge</td><td><span class="tag tag-ok">Current</span></td></tr>
+<tr><td>BM2000 monitor</td><td>Dual battery</td><td><span class="tag tag-ok">Current</span></td></tr>
+<tr><td>Sinetech inverter 1200 W</td><td>230 V output</td><td><span class="tag tag-ok">Current</span></td></tr>
+<tr><td>Hardkorr 200 W solar blanket</td><td>Portable</td><td><span class="tag tag-warn">Needs plug-in</span></td></tr>
+<tr><td>DEFA SmartCharge</td><td>Shore charger</td><td><span class="tag tag-ok">Current</span></td></tr>
+<tr><td>ARB jump starter</td><td>Lithium pack</td><td><span class="tag tag-ok">Current</span></td></tr>
+<tr><td>H/D jumper cables</td><td>Vehicle-to-vehicle</td><td><span class="tag tag-ok">Current</span></td></tr>
+<tr><td>IPF 800 Extreme spots</td><td>Driving lights</td><td><span class="tag tag-ok">Fitted</span></td></tr>
+<tr><td>Fuses — full set</td><td>5–30A blade + 60/80A maxi</td><td>Glove box</td></tr>
+<tr><td>Wire, terminals, heat-shrink</td><td>2.5 + 4 mm², crimp set</td><td>Tool roll</td></tr>
+<tr><td>Self-amalgamating tape</td><td>Waterproof wire repair</td><td>Tool roll</td></tr>
+</tbody></table>
+</div>
+
+<div class="card">
+<h3>Hand Tools (per R3)</h3>
+<table><thead><tr><th>Item</th><th>Detail</th></tr></thead><tbody>
+<tr><td>Socket set — metric</td><td>¼″ 5–13 mm + ½″ 10–36 mm, deep sockets</td></tr>
+<tr><td>Combination spanners</td><td>8–27 mm full set</td></tr>
+<tr><td>Screwdrivers</td><td>3× flat, 2× Phillips, 1× JIS #2</td></tr>
+<tr><td>Pliers, vice grips, circlip pliers</td><td>Slip-joint, long-nose, 2× vice grips, int/ext circlip</td></tr>
+<tr><td>Hammer, mallet, punch set</td><td>500 g ball-peen, rubber mallet, drifts 6/8/10 mm</td></tr>
+<tr><td>Torque wrench ½″</td><td>Click-type 20–200 Nm</td></tr>
+<tr><td>Multimeter + test light</td><td>V, Ω, continuity, 12 V light</td></tr>
+<tr><td>Breaker bar ½″</td><td>Wheel bolts, drain plugs</td></tr>
+<tr><td>Crimping tool</td><td>Field wiring</td></tr>
+<tr><td>Feeler gauges</td><td>0.10–0.50 mm (1HZ valve clearance)</td></tr>
+</tbody></table>
+</div>
+
+<div class="card">
+<h3>Spares &amp; Fluids (per R3)</h3>
+<table><thead><tr><th>Item</th><th>Qty / Detail</th><th>kg</th></tr></thead><tbody>
+<tr><td>Engine oil — Shell Rimula R4 X 15W-40</td><td>12 L (full change + top-up)</td><td>~11</td></tr>
+<tr><td>Coolant — Toyota LLC 50/50</td><td>5 L pre-mixed</td><td>~5</td></tr>
+<tr><td>Gearbox oil — Castrol Transmax 75W-90</td><td>2 L</td><td>~2</td></tr>
+<tr><td>Transfer case oil</td><td>2 L</td><td>~2</td></tr>
+<tr><td>Diff oil — Castrol EPX 85W-140</td><td>3 L (F+R)</td><td>~3</td></tr>
+<tr><td>PS fluid — ATF Dexron II</td><td>500 ml</td><td>~0.5</td></tr>
+<tr><td>Brake/clutch — DOT 4</td><td>500 ml</td><td>~0.5</td></tr>
+<tr><td>Oil filters ×2</td><td>90915-10004 (verify)</td><td>—</td></tr>
+<tr><td>Fuel filter elements ×2</td><td>23390-64480 (verify)</td><td>—</td></tr>
+<tr><td>V-belts full set + extra alt. belt</td><td>3–4 belts</td><td>~1</td></tr>
+<tr><td>Upper + lower radiator hoses</td><td>1 pair</td><td>~1</td></tr>
+<tr><td>Radiator hose clamps ×8</td><td>Stainless worm-drive 35–70 mm</td><td>—</td></tr>
+<tr><td>Glow plugs ×6</td><td>19850-17010 (verify)</td><td>—</td></tr>
+<tr><td>Glow plug bus bar + relay</td><td>—</td><td>—</td></tr>
+<tr><td>Head gasket — 1HZ</td><td>11115-17010 (verify)</td><td>—</td></tr>
+<tr><td>Exhaust manifold gasket</td><td>—</td><td>—</td></tr>
+<tr><td>Thermostat + housing gasket</td><td>82°C OEM</td><td>—</td></tr>
+<tr><td>Water pump gasket + seal</td><td>—</td><td>—</td></tr>
+<tr><td>Fuel lift pump diaphragm kit</td><td>—</td><td>—</td></tr>
+<tr><td>Injector return line O-rings ×6</td><td>—</td><td>—</td></tr>
+<tr><td>Fuel line repair kit</td><td>6 + 8 mm line, clamps, sealant</td><td>—</td></tr>
+<tr><td>Bleed screws ×2 + copper washers ×6</td><td>—</td><td>—</td></tr>
+<tr><td>Starter motor solenoid</td><td>—</td><td>—</td></tr>
+<tr><td>Birfield CV grease ×2 + seal kit</td><td>Full front axle seal set</td><td>~2</td></tr>
+<tr><td>Propshaft UJs ×2</td><td>Front + rear sizes</td><td>—</td></tr>
+<tr><td>Clutch bleed kit + DOT 4</td><td>Vacuum bleed + 500 ml</td><td>—</td></tr>
+<tr><td>Leaf spring U-bolts + nuts ×4</td><td>Rear</td><td>—</td></tr>
+<tr><td>Shock mounting hardware</td><td>Bolts, nylocks, washers F+R</td><td>—</td></tr>
+<tr><td>Tie rod end + drag link end</td><td>1 each</td><td>—</td></tr>
+<tr><td>Suspension bushes</td><td>Front + rear set</td><td>~1</td></tr>
+<tr><td>Core plugs (38 + 48 mm)</td><td>×2</td><td>—</td></tr>
+<tr><td>Axle breather extension kit</td><td>1 m × 6 mm tubing</td><td>—</td></tr>
+<tr><td>Radiator stop-leak</td><td>Emergency only — last resort</td><td>—</td></tr>
+</tbody></table>
+</div>
+
+<div class="card">
+<h3>Emergency Repair Consumables (per R3)</h3>
+<table><thead><tr><th>Item</th><th>Detail</th></tr></thead><tbody>
+<tr><td>JB Weld (steel epoxy)</td><td>Crack repair — sumps, castings</td></tr>
+<tr><td>Epoxy putty (steel stick)</td><td>Quick-set field repair</td></tr>
+<tr><td>Gasket sealant — Loctite 518</td><td>Anaerobic — valve cover, sump</td></tr>
+<tr><td>RTV silicone — black 315°C</td><td>High-temp sealing</td></tr>
+<tr><td>Thread lock — Loctite 243 + 248</td><td>Vibration-prone fasteners</td></tr>
+<tr><td>Copper anti-seize</td><td>Exhaust studs, glow plugs, drains</td></tr>
+<tr><td>Duct tape ×2 rolls</td><td>Everything</td></tr>
+<tr><td>Self-amalgamating tape ×2</td><td>Hose + wire repair</td></tr>
+<tr><td>Cable ties ×100 mixed</td><td>Wiring + hose securing</td></tr>
+<tr><td>Split loom 2 m × 10 mm</td><td>Wire protection</td></tr>
+<tr><td>P-clips ×10</td><td>Hose + wire mounting</td></tr>
+</tbody></table>
+</div>
+
+<div class="card">
+<h3>Safety &amp; Medical (per R10)</h3>
+<table><thead><tr><th>Item</th><th>Detail</th><th>Location</th></tr></thead><tbody>
+<tr><td colspan="3" class="sub-hdr">TRAUMA SUPPLIES</td></tr>
+<tr><td>Israeli bandages ×2</td><td>Pressure dressings</td><td>First aid kit</td></tr>
+<tr><td>Tourniquet — CAT or SOFT-T</td><td>×1</td><td>First aid kit</td></tr>
+<tr><td>Gauze pads + rolls</td><td>Various sizes</td><td>First aid kit</td></tr>
+<tr><td>Medical tape (cloth)</td><td>1 roll</td><td>First aid kit</td></tr>
+<tr><td>Wound closure strips</td><td>Assorted</td><td>First aid kit</td></tr>
+<tr><td>Sterile gloves</td><td>Multiple pairs</td><td>First aid kit</td></tr>
+<tr><td>Trauma shears</td><td>×1</td><td>First aid kit</td></tr>
+<tr><td>Tweezers (splinter/tick)</td><td>×1</td><td>First aid kit</td></tr>
+<tr><td>SAM splint</td><td>×1</td><td>First aid kit</td></tr>
+<tr><td>Elastic bandages ×2</td><td>Compression</td><td>First aid kit</td></tr>
+<tr><td>Triangular bandage</td><td>Sling</td><td>First aid kit</td></tr>
+<tr><td>CPR face shield</td><td>×1</td><td>First aid kit</td></tr>
+<tr><td>Emergency blanket</td><td>Space blanket</td><td>First aid kit</td></tr>
+<tr><td colspan="3" class="sub-hdr">MEDICATIONS</td></tr>
+<tr><td>Paracetamol</td><td>Pain / fever</td><td>First aid kit</td></tr>
+<tr><td>Ibuprofen</td><td>Pain / inflammation</td><td>First aid kit</td></tr>
+<tr><td>Antihistamines</td><td>Allergic reactions</td><td>First aid kit</td></tr>
+<tr><td>ORS sachets</td><td>Rehydration</td><td>First aid kit</td></tr>
+<tr><td>Loperamide</td><td>Anti-diarrheal</td><td>First aid kit</td></tr>
+<tr><td>Antacid</td><td>—</td><td>First aid kit</td></tr>
+<tr><td><em>Prescription (consult doctor)</em></td><td>Antibiotic, antimalarials, EpiPen, personal meds</td><td>First aid kit</td></tr>
+<tr><td colspan="3" class="sub-hdr">SPECIALISED</td></tr>
+<tr><td>Digital thermometer</td><td>—</td><td>First aid kit</td></tr>
+<tr><td>Eye wash + antibiotic drops</td><td>—</td><td>First aid kit</td></tr>
+<tr><td>Burn gel / hydrogel dressings</td><td>—</td><td>First aid kit</td></tr>
+<tr><td>Sunscreen SPF 50+</td><td>—</td><td>First aid kit</td></tr>
+<tr><td>Insect repellent (DEET)</td><td>—</td><td>First aid kit</td></tr>
+<tr><td>First aid manual + pen + paper</td><td>—</td><td>First aid kit</td></tr>
+<tr><td colspan="3" class="sub-hdr">SNAKE BITE KIT (per R10)</td></tr>
+<tr><td>Pressure bandage (10 cm crepe) ×2</td><td>Immobilisation only</td><td>First aid kit</td></tr>
+<tr><td>Splint material</td><td>SAM splint</td><td>First aid kit</td></tr>
+<tr><td>Marker pen</td><td>Mark bite + track swelling</td><td>First aid kit</td></tr>
+<tr><td>Notepad</td><td>Time of bite + symptoms</td><td>First aid kit</td></tr>
+<tr><td colspan="3" class="sub-hdr">VEHICLE SAFETY</td></tr>
+<tr><td>Fire extinguisher — ABC dry chem.</td><td>1 kg min. — accessible from driver's seat</td><td>Cab, within reach</td></tr>
+<tr><td>Warning triangles ×2</td><td>Roadside visibility</td><td>Window box</td></tr>
+<tr><td>Glass-break hammer</td><td>Emergency exit</td><td>Driver door pocket</td></tr>
+<tr><td>Water purifier</td><td>Field water treatment</td><td>Recovery container</td></tr>
+</tbody></table>
+<div class="info-box"><strong>Location:</strong> Under passenger seat. All persons must know where it is. Check expiry dates before each trip. Restock after use. Consider second kit for day pack.</div>
+</div>
+
+<div class="card">
+<h3>Camp &amp; Living</h3>
+<table><thead><tr><th>Item</th><th>Location (Target)</th></tr></thead><tbody>
+<tr><td>OzTent RV4</td><td>Roof rack</td></tr>
+<tr><td>Small 2-man tent</td><td>Under platform / passenger drawer</td></tr>
+<tr><td>Ground mats</td><td>Roof rack</td></tr>
+<tr><td>2 × bedding bags (incl. Typhoon — waterproof)</td><td>Roof rack</td></tr>
+<tr><td>Foam mattress ×1</td><td>Roof rack (inside if rain)</td></tr>
+<tr><td>2 × stretchers</td><td>Under seat-delete platform</td></tr>
+<tr><td>2 × tables + 2 × chairs</td><td>Roof rack</td></tr>
+<tr><td>5 L gas bottle + cast iron cooker</td><td>Rear cargo / roof</td></tr>
+<tr><td>Aluminium windbreak</td><td>Rear cargo</td></tr>
+<tr><td>Coffee kit + gas canisters</td><td>Drawer / container</td></tr>
+<tr><td>Crockery, cutlery, pots &amp; pans</td><td>Window box (pass.) / drawer</td></tr>
+<tr><td>Fairy lights + camping lights</td><td>Rear container</td></tr>
+<tr><td>2 × collapsible dishwash tubs</td><td>Rear cargo</td></tr>
+<tr><td>Umbrella</td><td>Rear cargo</td></tr>
+<tr><td>Insecticide / shower solution</td><td>TBD</td></tr>
+<tr><td>Wood</td><td>Roof rack</td></tr>
+</tbody></table>
+</div>
+
+<div class="card">
+<h3>Navigation &amp; Electronics</h3>
+<table><thead><tr><th>Item</th><th>Location (Target)</th></tr></thead><tbody>
+<tr><td>2 × iPhones</td><td>Windscreen + between seats</td></tr>
+<tr><td>Garmin Nüvi</td><td>Windscreen</td></tr>
+<tr><td>MacBook Air</td><td>Lockable box</td></tr>
+<tr><td>Camera + batteries</td><td>Lockable box — charge lead in</td></tr>
+<tr><td>Small fans</td><td>Rear container</td></tr>
+<tr><td>Headlamps</td><td>Roof console / door pocket</td></tr>
+<tr><td>Radio</td><td>Cab — cig. lighter</td></tr>
+<tr><td>Satellite phone</td><td>TBD — rent or purchase</td></tr>
+</tbody></table>
+</div>
+
+<!-- 8 POWER -->
+<div class="sec-sep" id="power"></div>
+<div class="sec-label">Section 8</div>
+<h2>POWER SYSTEM</h2>
+<div class="card">
+<h3>Usage Context</h3>
+<ul>
+<li>Wild camping days without shore power</li>
+<li>Shore power when available — needs exterior inlet</li>
+<li>Slow game drives = low alternator charge</li>
+<li>200 W solar blanket — needs easy plug-in</li>
+</ul>
+<h3>Power Consumers</h3>
+<table><thead><tr><th>Device</th><th>Connection</th><th>Priority</th></tr></thead><tbody>
+<tr><td>NL 55 L fridge</td><td>12 V DC</td><td><span class="tag tag-critical">Always on</span></td></tr>
+<tr><td>Winch</td><td>Starter battery</td><td>Intermittent</td></tr>
+<tr><td>ARB compressor</td><td>Engine bay 12 V</td><td>Intermittent</td></tr>
+<tr><td>Interior lighting</td><td>12 V</td><td>Evening</td></tr>
+<tr><td>2 × iPhones</td><td>USB-C</td><td>Daily</td></tr>
+<tr><td>MacBook Air</td><td>USB-C</td><td>Regular</td></tr>
+<tr><td>Camera batteries</td><td>Lead into lockable box</td><td>Daily on safari</td></tr>
+<tr><td>Garmin Nüvi</td><td>Old USB</td><td>Driving</td></tr>
+<tr><td>Fans, headlamps, radio</td><td>12 V / USB / cig. lighter</td><td>As needed</td></tr>
+</tbody></table>
+<h3>System Requirements</h3>
+<ul>
+<li><strong>LiFePO4</strong> to replace 105 Ah lead-acid — Jun 2027</li>
+<li>Simple BMS — adequate monitoring, not over-engineered</li>
+<li>Solar input (Anderson plug) for 200 W blanket</li>
+<li>Shore power inlet + charger</li>
+<li>Charging station behind front seats: USB-C ×2, USB-A, 12 V</li>
+<li>Retain Sinetech 1200 W inverter</li>
+<li>Victron Cyrix lithium compatibility — verify</li>
+</ul>
+</div>
+
+<!-- 9 LOADING -->
+<div class="sec-sep" id="loading"></div>
+<div class="sec-label">Section 9</div>
+<h2>LOADING PRINCIPLES</h2>
+<div class="warn-box"><div class="wt">⚠ Projectile risk</div><p style="font-size:.78rem;color:var(--red-warn)">A 5 kg item at 60 km/h exerts 150+ kg force. <strong>Cargo barrier is life-saving equipment.</strong></p></div>
+<div class="card">
+<h3>Loading Hierarchy</h3>
+<ol>
+<li><strong>Heavy low, between axles:</strong> Fridge, water, ammo, tools, fluids</li>
+<li><strong>Medium mid-height, secured:</strong> Containers, drawers, bags</li>
+<li><strong>Light on top / roof:</strong> Bedding, tent, chairs. ≤60 kg dynamic</li>
+<li><strong>Frequent-access at openings:</strong> Fridge side, camera seat-delete, medical under seat, recovery window box</li>
+<li><strong>Emergency — zero digging:</strong> First aid, fire extinguisher, hammer, torch</li>
+</ol>
+</div>
+<div class="card">
+<h3>Packing Discipline</h3>
+<ul>
+<li><strong>Standardise containers</strong> — uniform size, tessellate, eliminate shifting</li>
+<li><strong>Label everything</strong> — especially identical ammo boxes</li>
+<li><strong>One home for every item</strong> — no spot = question if it comes</li>
+<li><strong>Reverse order of use:</strong> first-needed = last-loaded or always accessible</li>
+<li><strong>Bag discipline:</strong> dry bags, compression sacks, all roof bedding waterproofed</li>
+<li><strong>"Airbnb repack":</strong> keep pack system intact during breaks</li>
+<li><strong>Daily-driver mode:</strong> seat-delete platform works without full gear</li>
+</ul>
+</div>
+<div class="card">
+<h3>Tyre Pressures by Terrain</h3>
+<table><thead><tr><th>Terrain</th><th>PSI</th><th>Bar</th><th>Notes</th></tr></thead><tbody>
+<tr><td>Highway</td><td>~35</td><td>~2.4</td><td>Standard loaded</td></tr>
+<tr><td>Gravel</td><td>~30</td><td>~2.1</td><td>Comfort + traction</td></tr>
+<tr><td>Sand</td><td>12–15</td><td>0.8–1.0</td><td>Wide footprint</td></tr>
+<tr><td>Mud</td><td>15–18</td><td>1.0–1.2</td><td>Traction / protection</td></tr>
+<tr><td>Rock</td><td>22–28</td><td>1.5–1.9</td><td>Protect sidewalls</td></tr>
+</tbody></table>
+<div class="info-box">Re-inflate before tar. Use ARB compressor or Indeflate. Monitor via TPMS.</div>
+</div>
+
+<!-- 10 CHECKLISTS -->
+<div class="sec-sep" id="checklists"></div>
+<div class="sec-label">Section 10</div>
+<h2>CHECKLISTS</h2>
+<div class="card">
+<h3>Pre-Trip Load</h3>
+<ul class="checklist">
+<li>Vehicle weighed — confirm under 2,850 kg</li>
+<li>All containers secured — nothing loose</li>
+<li>Cargo barrier fastened</li>
+<li>Fridge on and at temperature</li>
+<li>Recovery boards on roof rack — secured</li>
+<li>First aid kit under passenger seat — stocked, in-date</li>
+<li>Fire extinguisher gauge green — reachable from driver's seat</li>
+<li>Warning triangles in window box</li>
+<li>Water containers filled and secured</li>
+<li>Fuel cans filled, capped, strapped on roof</li>
+<li>Gas bottle secure, valve closed</li>
+<li>Camera batteries charged — charge lead connected</li>
+<li>Phones charged — dashboard USB working</li>
+<li>Solar blanket packed with connector accessible</li>
+<li>Shore power lead packed</li>
+<li>Roof load secured — all straps tensioned</li>
+<li>Tent loaded onto roof rack</li>
+<li>Bedding in Typhoon Bag (sealed)</li>
+<li>Spare tyre 35 PSI / 2.4 bar</li>
+<li>Tyre pressures set for first surface</li>
+<li>Navigation updated · Paper maps in cab</li>
+<li>Satellite phone charged (if carried)</li>
+<li>Insurance + emergency contacts accessible</li>
+<li>Barn doors flush — dust seals intact</li>
+<li>All lights working</li>
+<li>Fluids checked: oil, coolant, brake, PS, washer</li>
+<li>V-belts inspected</li>
+</ul>
+</div>
+<div class="card">
+<h3>Camp Arrival</h3>
+<ul class="checklist">
+<li>Park level, handbrake, chock if needed</li>
+<li>Deploy tent from roof rack</li>
+<li>Stretchers + bedding out</li>
+<li>Tables + chairs from roof</li>
+<li>Drop-down table open (passenger side)</li>
+<li>Solar blanket connected (if staying &gt;1 night)</li>
+<li>Shore power connected (if available)</li>
+<li>Kitchen box accessible</li>
+<li>Lighting set up</li>
+<li>Vehicle locked — window boxes, cargo secured</li>
+</ul>
+</div>
+<div class="card">
+<h3>Camp Departure</h3>
+<ul class="checklist">
+<li>Tent dried or packed wet for next stop</li>
+<li>Tent loaded onto roof rack — poles in bag</li>
+<li>Bedding in Typhoon Bag, sealed</li>
+<li>Stretchers under platform</li>
+<li>Tables + chairs collapsed, strapped on roof</li>
+<li>Kitchen packed, drop-down table stowed</li>
+<li>Solar disconnected + packed</li>
+<li>Shore power disconnected + stowed</li>
+<li>Fridge latched</li>
+<li>All containers in position</li>
+<li>Roof straps tensioned</li>
+<li>Barn doors closed properly</li>
+<li>Walk campsite — leave nothing behind</li>
+<li>Walk vehicle — visual check</li>
+</ul>
+</div>
+<div class="card">
+<h3>Game Drive Quick-Access</h3>
+<ul class="checklist">
+<li>Camera + lenses from lockable box</li>
+<li>Binoculars accessible</li>
+<li>Phones charged</li>
+<li>Snack basket within reach</li>
+<li>Water bottle in console</li>
+<li>Fridge accessible</li>
+<li>Sunscreen, hats, sunglasses</li>
+<li>Park gate times noted</li>
+</ul>
+</div>
+
+<div style="background:var(--ink);color:#fff;text-align:center;padding:.7rem;border-radius:5px;margin-top:1.2rem">
+<div style="font-family:Bebas Neue,sans-serif;font-size:1.1rem;letter-spacing:2px;color:var(--amber2)">LC76 OVERLAND SERIES</div>
+<div style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:#9ca3af;margin-top:2px">R11 — Packing &amp; Load Optimisation · Neil &amp; Mary-Ann · March 2026</div>
+</div>
+
+</div>
+</body>
+</html>
