@@ -403,6 +403,9 @@ body{background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',sans-s
   /* Footer */
   .footer{padding:5px 16px!important}
 
+  /* Field Fixes — page break before */
+  #ch12{page-break-before:always!important}
+
   .calc-title{margin-bottom:5px!important}
   .card-hd{padding:5px 8px!important}
   .row{padding:3px 6px!important}
@@ -495,6 +498,7 @@ body{background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',sans-s
     <a class="toc-item" href="#ch9"><span class="toc-num">09</span>SA Overland: Heat, Dust &amp; Vibration</a>
     <a class="toc-item" href="#ch11"><span class="toc-num">11</span>Wild Camp Energy Planning</a>
     <a class="toc-item" href="#ch10"><span class="toc-num">10</span>Quick Reference &amp; Cheat Sheet</a>
+    <a class="toc-item" href="#ch12" style="color:#B91C1C"><span class="toc-num" style="background:#B91C1C">⚠</span>Field Fixes — Electrical &amp; Battery</a>
   </div>
 </div>
 
@@ -1411,6 +1415,99 @@ body{background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',sans-s
   <div class="fnote">
     <strong>Document Notes:</strong> All values are practical estimates for Southern African overland conditions. Fridge duty cycle figures based on National Luna 52L Weekender specifications at 38°C ambient. Solar yield based on Hardkor 200W flexible blanket at 75% efficiency of rated wattage, 6h peak sun hours (SA average). LiFePO4 cycle life figures from CATL Grade A cell datasheets. SA heat degradation factor 0.70× applied to lab cycle life. Victron 12.8V/300Ah Smart LiFePO4, REDARC BCDC1225D, Victron BMV-712 Smart, Victron Blue Smart IP65 12V/25A, and Freedom Distribution Board are the referenced products. All costs are ZAR estimates for SA market March 2026. This document is for educational purposes — consult a qualified auto-electrician for installation.
   </div>
+
+<!-- ══════════════════════════════════════════════════
+     CHAPTER 12 — FIELD FIXES
+══════════════════════════════════════════════════ -->
+<div class="chapter" id="ch12">
+  <div class="ch-label">Chapter 12</div>
+  <div class="ch-title">Field Fixes <em>— Electrical &amp; Battery</em></div>
+  <hr class="ch-rule">
+  <p class="ch-intro">Hands-on procedures for the most common electrical and battery problems you may encounter in the field. These are temporary fixes to get you moving — follow up with a qualified auto-electrician at the next service point. Cross-reference R3 (Bush Spares &amp; Tools) for parts to carry.</p>
+
+  <div class="slbl">Jump-Starting from Another Vehicle (LiFePO4 System)</div>
+  <hr class="srule">
+  <div class="wbox">
+    <div class="wbox-t">Critical — LiFePO4 Jump-Start Procedure</div>
+    <div class="wbox-b">
+      <strong>LiFePO4 batteries require a different approach to jump-starting than lead-acid.</strong> The BMS (Battery Management System) may be in a lockout state, and connecting another vehicle's alternator directly can damage the BMS if done incorrectly.<br><br>
+      <strong>If the starter battery (lead-acid) is flat but the LiFePO4 auxiliary is fine:</strong><br>
+      1. Connect the donor vehicle's positive (+) jumper cable to your starter battery positive terminal.<br>
+      2. Connect the negative (-) jumper cable to a clean earth point on your engine block — not the battery negative terminal. This avoids sparks near the battery.<br>
+      3. Start the donor vehicle and let it idle for 2–3 minutes to provide a stable charge.<br>
+      4. Crank your engine. Once started, remove cables in reverse order: negative first, then positive.<br>
+      5. Let your engine idle for 10 minutes before driving to allow the alternator to stabilise the starter battery.<br><br>
+      <strong>If the LiFePO4 auxiliary has tripped its BMS:</strong><br>
+      The BMS may have cut out due to over-discharge, over-current, or over-temperature. Jump-starting the engine won't help the auxiliary system — you need to address the BMS lockout separately (see next fix below).
+    </div>
+  </div>
+
+  <div class="slbl">BMS Lockout Reset</div>
+  <hr class="srule">
+  <div class="abox">
+    <div class="abox-t">When the BMS Trips — No Power from Auxiliary Battery</div>
+    <div class="abox-b">
+      <strong>Symptoms:</strong> Fridge off, no 12V accessories, BMV-712 display blank or showing very low voltage despite the battery not being heavily used.<br><br>
+      <strong>Step 1 — Check the BMV-712.</strong> If it shows voltage above 12.8V but no load is running, the BMS has tripped on over-current or over-temperature, not over-discharge. Disconnect all loads. Wait 30 minutes (especially if over-temperature was the trigger). The BMS should auto-reset once the fault condition clears.<br><br>
+      <strong>Step 2 — If BMV shows below 11V:</strong> The battery has been deeply discharged. The BMS has tripped to protect the cells. You need an external charge source to bring the battery above the BMS reset threshold (typically ~11.5V). Options: start the engine and drive (the DC-DC charger will slowly bring the battery up), or connect shore power if available, or connect the Victron Blue Smart IP65 charger to a generator.<br><br>
+      <strong>Step 3 — If the BMS will not reset after charging:</strong> There may be a cell imbalance or a BMS fault. Check the Victron Smart app via Bluetooth — it will show individual cell voltages if your battery supports this. A cell significantly lower than the others indicates a balancing issue. This requires workshop attention.<br><br>
+      <strong>Do not bypass the BMS.</strong> The BMS protects the LiFePO4 cells from conditions that can cause permanent damage or, in extreme cases, thermal events. Never connect loads directly to the battery terminals bypassing the BMS.
+    </div>
+  </div>
+
+  <div class="slbl">Emergency Charging — DC-DC Charger Failure</div>
+  <hr class="srule">
+  <div class="abox">
+    <div class="abox-t">When the REDARC BCDC1225D Stops Charging</div>
+    <div class="abox-b">
+      <strong>Symptoms:</strong> Auxiliary battery not charging while driving. BMV-712 shows no current flowing in. REDARC unit has no indicator LEDs or shows a fault pattern.<br><br>
+      <strong>Step 1 — Check the basics.</strong> Confirm the 30A fuse on the alternator-to-REDARC cable. Check the ignition sense wire is connected (the REDARC needs to see ignition-on voltage to activate). Check all Anderson connectors and wiring terminals for corrosion or looseness.<br><br>
+      <strong>Step 2 — If the fuse is blown:</strong> Replace with the correct 30A fuse. If it blows again immediately, there is a short in the wiring — do not keep replacing fuses. Isolate the DC-DC charger circuit and rely on solar charging until you reach a workshop.<br><br>
+      <strong>Step 3 — If the REDARC unit has failed:</strong> You lose alternator-to-auxiliary charging but you still have solar (65 Ah/day in good sun). Reduce loads to essentials (fridge priority). Deploy the solar blanket at every camp stop. With careful management (fridge + minimal lighting only), 65 Ah of solar can sustain basic camp operations indefinitely.<br><br>
+      <strong>Emergency direct charge (last resort):</strong> If both the REDARC and solar have failed, a qualified person can wire a temporary connection from the alternator to the auxiliary battery through a manual switch and an appropriate fuse. This bypasses the DC-DC charger's voltage regulation — monitor the BMV-712 constantly and disconnect manually when the battery reaches 14.2V to prevent overcharging. This is a stop-gap only.
+    </div>
+  </div>
+
+  <div class="slbl">Fuse and Relay Diagnosis</div>
+  <hr class="srule">
+  <div class="gbox">
+    <div class="gbox-t">Systematic Approach to Electrical Faults</div>
+    <div class="gbox-b">
+      Most electrical failures in the field are caused by blown fuses, corroded connections, or loose terminals — not component failure. Before assuming a device has died, check the simple things first.<br><br>
+      <strong>Fuse check:</strong> Locate the relevant fuse (refer to the fuse box diagram on the lid, or R1 Reference Card). Pull the fuse and inspect visually — a blown fuse has a broken wire element visible through the clear housing. If visual inspection is inconclusive, use a multimeter set to continuity and test across the fuse terminals.<br><br>
+      <strong>Relay check:</strong> Relays click when activated. Turn the ignition on and listen/feel for the click when you activate the relevant circuit. No click = relay not receiving power (check the fuse feeding it) or relay has failed. Swap the suspect relay with an identical one from a non-critical circuit (e.g. swap the horn relay with the suspected faulty relay) to confirm.<br><br>
+      <strong>Connection corrosion:</strong> In the African bush, vibration and dust cause connections to work loose and corrode. If a circuit is intermittent — working sometimes, failing at others — check every connection point. Clean terminals with fine sandpaper or a wire brush. Apply dielectric grease to prevent future corrosion. Re-tighten all terminal bolts.<br><br>
+      <strong>Carry:</strong> Spare fuses (full set of all sizes in your vehicle), spare relays (2× of the most common type), multimeter, dielectric grease, fine sandpaper, electrical tape, heat-shrink tubing, crimp connectors, wire strippers.
+    </div>
+  </div>
+
+  <div class="slbl">Isolating a Failed Auxiliary Battery</div>
+  <hr class="srule">
+  <div class="abox">
+    <div class="abox-t">Keeping the Starter Circuit Alive</div>
+    <div class="abox-b">
+      <strong>When:</strong> The LiFePO4 auxiliary battery has a fault that cannot be resolved in the field (cell failure, BMS permanent fault, physical damage). You need to isolate it to protect the rest of the electrical system while keeping the engine and starter battery functional.<br><br>
+      <strong>Step 1 — Disconnect the auxiliary battery.</strong> Turn off the battery isolator switch (if fitted). If no isolator, disconnect the positive cable from the auxiliary battery. Tape the exposed terminal to prevent accidental contact.<br><br>
+      <strong>Step 2 — Disconnect the REDARC DC-DC charger</strong> from both the alternator side and the auxiliary side. The charger should not be powered with no battery connected on its output — it may fault.<br><br>
+      <strong>Step 3 — Rewire the fridge directly to the starter battery</strong> through an appropriate fuse (15A for the National Luna). This means the fridge will draw from the starter battery — monitor voltage carefully and do not let it drop below 12.0V or you won't be able to start the engine. Only run the fridge while the engine is running or for short overnight periods.<br><br>
+      <strong>Step 4 — Solar blanket:</strong> If you can connect the solar blanket directly to the starter battery (via an appropriate solar regulator — the REDARC may be able to function in solar-only mode to the starter battery), this offsets the fridge draw.<br><br>
+      <strong>This is survival mode.</strong> You lose the comfort buffer of the auxiliary system. Prioritise getting to a town with an auto-electrician. The starter battery alone can keep the fridge running for roughly 8–12 hours without charging before it's too flat to start the engine.
+    </div>
+  </div>
+
+  <div class="slbl">Anderson Connector Failure</div>
+  <hr class="srule">
+  <div class="gbox">
+    <div class="gbox-t">Cleaning and Emergency Wiring</div>
+    <div class="gbox-b">
+      Anderson connectors are used throughout the LC76's auxiliary electrical system — solar blanket input, inter-battery connections, and distribution. Dust, vibration, and heat cause intermittent contact or complete failure.<br><br>
+      <strong>Intermittent connection (power cuts in and out):</strong> Disconnect the Anderson plug. Clean both the male and female contacts with fine sandpaper or a small wire brush. Blow out dust. Check that the spring-loaded contacts have tension — if they feel loose, the connector is worn and should be replaced. Reconnect firmly until it clicks.<br><br>
+      <strong>Melted or burnt connector:</strong> This indicates the connector was under-rated for the current draw, or a loose connection caused resistive heating. Cut the damaged connector off. Strip the wires 15 mm. If you carry a spare Anderson connector and crimping tool, fit a new one. If not, a temporary direct wire splice (twist, solder if possible, wrap with electrical tape and heat-shrink) will get you through until you can fit a proper connector.<br><br>
+      <strong>Carry:</strong> 2× spare 50A Anderson connectors (red — match your system), crimping tool, spare 6 AWG wire (1 m), electrical tape, heat-shrink tubing, fine sandpaper.
+    </div>
+  </div>
+
+</div><!-- end chapter 12 -->
 
 </div><!-- end body -->
 

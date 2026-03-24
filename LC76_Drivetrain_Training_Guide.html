@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0d0e12">
+<title>LC76 — Drivetrain & Transmission Training</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=Oswald:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0d0e12;--paper:#dad2c0;--paper2:#edeae0;--amber:#b86800;--amber2:#e07800;--rule:#d4cfc4;--steeldk:#2a2f3a;--steelmd:#6a7080;--red-warn:#B91C1C;--green-ok:#059669;--blue-info:#1d4ed8}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:Oswald,sans-serif;background:var(--paper);color:var(--steeldk);line-height:1.6;-webkit-font-smoothing:antialiased}
+
+/* STICKY HEADER (masthead + TOC together) */
+.sticky-wrap{position:sticky;top:0;z-index:100}
+.masthead{background:var(--ink);color:#fff;padding:18px 24px 14px}
+.mh-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--steelmd);margin-bottom:6px}
+.mh-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.8rem,5vw,2.6rem);letter-spacing:.06em;color:var(--amber2);line-height:1}
+.mh-sub{font-family:'IBM Plex Mono',monospace;font-size:.54rem;letter-spacing:.12em;color:rgba(255,200,100,.65);margin-top:5px}
+.mh-vehicle{font-family:'IBM Plex Mono',monospace;font-size:.48rem;letter-spacing:.08em;color:var(--steelmd);margin-top:8px}
+.toc-bar{background:var(--steeldk);border-top:3px solid var(--amber2);border-bottom:1px solid rgba(255,255,255,.08);padding:0 20px;display:flex;gap:0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.toc-bar::-webkit-scrollbar{display:none}
+.toc-btn{font-family:'IBM Plex Mono',monospace;font-size:.52rem;letter-spacing:.08em;text-transform:uppercase;color:var(--steelmd);background:none;border:none;padding:10px 12px;cursor:pointer;white-space:nowrap;transition:color .2s}
+.toc-btn:hover,.toc-btn.active{color:var(--amber2)}
+
+/* CONTENT — full width, percentage padding */
+.content{max-width:100%;padding:20px 5% 60px}
+
+/* SECTIONS */
+.section{margin-bottom:24px}
+.section-num{font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);margin-bottom:2px}
+.section h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.4rem,3.5vw,1.8rem);color:var(--steeldk);letter-spacing:.04em;margin-bottom:8px;line-height:1.1}
+.section h3{font-family:Oswald,sans-serif;font-size:.9rem;font-weight:600;color:var(--steeldk);margin:12px 0 6px;text-transform:uppercase;letter-spacing:.04em}
+.section p{font-size:.85rem;color:var(--steelmd);line-height:1.65;margin-bottom:8px}
+.section p strong{color:var(--steeldk)}
+
+/* CARDS */
+.card{background:#fff;border:1px solid var(--rule);border-radius:6px;padding:12px 14px;margin-bottom:8px}
+.card.warn{border-left:4px solid var(--red-warn);background:#fef7f7}
+.card.ok{border-left:4px solid var(--green-ok);background:#f0fdf8}
+.card.info{border-left:4px solid var(--blue-info);background:#eff6ff}
+.card.amber{border-left:4px solid var(--amber2);background:#fffbf0}
+.card p,.card li{font-size:.82rem;color:var(--steelmd);line-height:1.55}
+.card li{margin-bottom:3px}
+
+/* TABLES */
+.tbl-wrap{overflow-x:auto;margin-bottom:10px;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:.78rem}
+th{background:var(--steeldk);color:var(--amber2);font-family:'IBM Plex Mono',monospace;font-size:.52rem;letter-spacing:.1em;text-transform:uppercase;padding:8px 10px;text-align:left;white-space:nowrap}
+td{padding:8px 10px;border-bottom:1px solid var(--rule);color:var(--steelmd);background:#fff;vertical-align:top}
+tr:nth-child(even) td{background:var(--paper2)}
+td:first-child{color:var(--steeldk);font-weight:500}
+td.ok{color:var(--green-ok);font-weight:600}
+td.warn{color:var(--red-warn);font-weight:600}
+
+/* STAT GRID */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-bottom:12px}
+.stat{background:#fff;border:1px solid var(--rule);border-radius:6px;padding:10px 12px;text-align:center}
+.stat-val{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--amber2);line-height:1}
+.stat-label{font-family:'IBM Plex Mono',monospace;font-size:.48rem;letter-spacing:.12em;text-transform:uppercase;color:var(--steelmd);margin-top:4px}
+
+/* FLOW DECISION */
+.flow-step{display:flex;gap:10px;margin-bottom:6px;align-items:flex-start}
+.flow-num{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--amber2);min-width:24px;text-align:center;line-height:1.3}
+.flow-body{font-size:.82rem;color:var(--steelmd);line-height:1.55;flex:1}
+.flow-body strong{color:var(--steeldk)}
+
+/* FOOTER */
+footer{background:var(--ink);border-top:4px solid var(--amber2);padding:16px 20px;text-align:center}
+footer div{font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.08em;color:var(--steelmd);margin-bottom:4px}
+footer div:first-child{color:var(--amber2)}
+
+/* PRINT */
+@media print{
+*{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{font-size:8pt;background:#fff}
+.sticky-wrap{position:static}
+.toc-bar{display:none}
+.masthead{padding:6mm 10mm;break-after:avoid}
+.content{max-width:100%;padding:6mm 10mm}
+.section{margin-bottom:4mm}
+.section h2{font-size:12pt;margin-bottom:2mm;break-after:avoid}
+.section h3{font-size:9pt;margin:3mm 0 1.5mm;break-after:avoid}
+.section p{font-size:8pt;line-height:1.45;margin-bottom:1.5mm}
+.card{padding:2.5mm 3.5mm;margin-bottom:2mm;break-inside:avoid}
+.card p,.card li{font-size:7.5pt;line-height:1.4}
+.stat-grid{gap:2mm;margin-bottom:3mm;break-inside:avoid}
+.stat{padding:2.5mm}
+.stat-val{font-size:12pt}
+.stat-label{font-size:5.5pt}
+table{font-size:6.5pt;break-inside:avoid}
+th{font-size:5.5pt;padding:1.5mm 2.5mm}
+td{padding:1.5mm 2.5mm}
+.tbl-wrap{margin-bottom:3mm}
+.flow-step{margin-bottom:1.5mm;break-inside:avoid}
+.flow-num{font-size:9pt}
+.flow-body{font-size:7.5pt;line-height:1.4}
+footer{padding:3mm}
+#s4{break-before:page}
+#s7{break-before:page}
+#s9{break-before:page}
+#s12{break-before:page}
+@page{size:A4;margin:8mm}
+}
+
+/* MOBILE */
+@media(max-width:600px){
+.masthead{padding:14px 16px 12px}
+.mh-title{font-size:1.6rem}
+.content{padding:16px 14px 40px}
+.stat-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ STICKY HEADER (masthead + TOC) ═══ -->
+<div class="sticky-wrap">
+  <div class="masthead">
+    <div class="mh-eyebrow">Overland Series · R13</div>
+    <div class="mh-title">DRIVETRAIN &amp; TRANSMISSION TRAINING</div>
+    <div class="mh-sub">R151F · HF1A Transfer Case · Diff Locks F&amp;R · Terrain Tamer 4WD Clutch</div>
+    <div class="mh-vehicle">2009 LC76 SW · 1HZ 4.2L Diesel · ~296,000 km · Last Updated: 24 March 2026</div>
+  </div>
+  <div class="toc-bar" id="tocBar">
+    <button class="toc-btn" data-target="s1">Overview</button>
+    <button class="toc-btn" data-target="s2">Gearbox</button>
+    <button class="toc-btn" data-target="s3">Clutch</button>
+    <button class="toc-btn" data-target="s4">Transfer</button>
+    <button class="toc-btn" data-target="s5">Diff Locks</button>
+    <button class="toc-btn" data-target="s6">When to Use</button>
+    <button class="toc-btn" data-target="s7">Diffs</button>
+    <button class="toc-btn" data-target="s8">Props &amp; CVs</button>
+    <button class="toc-btn" data-target="s9">Fluids</button>
+    <button class="toc-btn" data-target="s10">Sounds</button>
+    <button class="toc-btn" data-target="s11">Field Checks</button>
+    <button class="toc-btn" data-target="s12">Field Fixes</button>
+    <button class="toc-btn" data-target="s13">History</button>
+  </div>
+</div>
+
+<!-- ═══ CONTENT ═══ -->
+<div class="content">
+
+<!-- ─── 1. DRIVETRAIN OVERVIEW ─── -->
+<div class="section" id="s1">
+  <div class="section-num">Section 1</div>
+  <h2>Drivetrain Overview</h2>
+  <p>Understanding how power flows from the engine to the wheels — and what each component does — is fundamental to driving the LC76 well off-road and diagnosing problems in the field. The drivetrain is the entire chain from the clutch to the tyres.</p>
+
+  <h3>Power Flow</h3>
+  <div class="card">
+    <p><strong>1HZ Engine</strong> (118 kW / 373 Nm with SAC turbo) → <strong>Clutch</strong> (Terrain Tamer 4WD) → <strong>R151F 5-speed manual gearbox</strong> → <strong>HF1A transfer case</strong> (2H / 4H / 4L) → <strong>Front &amp; rear propeller shafts</strong> → <strong>Front &amp; rear differentials</strong> (with selectable diff locks) → <strong>Half-shafts / axle shafts</strong> → <strong>Wheels &amp; tyres</strong> (265/70R16 Maxxis AT811-03)</p>
+  </div>
+
+  <h3>What Each Component Does</h3>
+  <p>The <strong>clutch</strong> is a friction disc between the engine flywheel and gearbox input shaft. When you press the clutch pedal, it separates the engine from the gearbox, allowing you to change gears. When released, it re-engages and transmits engine torque to the drivetrain. The LC76 currently runs a Terrain Tamer 4WD clutch with higher clamping force than the standard unit.</p>
+  <p>The <strong>gearbox</strong> (R151F) is a set of meshing gears that multiply engine torque at different ratios. Lower gears (1st, 2nd) provide more torque multiplication for starting and climbing; higher gears (4th, 5th) reduce engine RPM for efficient cruising. Synchromesh rings inside the gearbox match gear speeds during shifts for smooth engagement.</p>
+  <p>The <strong>transfer case</strong> (HF1A) sits behind the gearbox and splits drive between the rear and front propeller shafts. In 2H, only the rear shaft receives power. In 4H/4L, both shafts are driven at a locked 1:1 ratio (no centre differential). The low range (4L) provides an additional 2.488:1 gear reduction, effectively doubling the torque available at the wheels.</p>
+  <p>The <strong>propeller shafts</strong> (prop shafts) are steel tubes with universal joints (UJs) at each end that transmit rotation from the transfer case to the front and rear differentials. They accommodate the angle and movement between the chassis-mounted transfer case and the axle-mounted differentials as the suspension travels.</p>
+  <p>The <strong>differentials</strong> are gear assemblies inside each axle housing that serve two functions: they turn the drive 90° from the prop shaft to the wheel half-shafts, and they allow the left and right wheels to rotate at different speeds during turns. The final drive ratio (4.10:1) further multiplies torque before it reaches the wheels. The selectable diff locks override the speed-difference function, forcing both wheels to turn together for maximum traction.</p>
+  <p>The <strong>half-shafts</strong> (axle shafts) connect each differential to its wheel. The front axle uses CV (constant velocity) joints to accommodate steering angle. The rear uses simpler solid shafts. The <strong>free-wheeling hubs</strong> on the front axle mechanically connect or disconnect the front wheels from the front half-shafts — when unlocked, the front wheels spin freely regardless of what the front differential is doing.</p>
+
+  <h3>Key Specifications</h3>
+  <div class="stat-grid">
+    <div class="stat"><div class="stat-val">R151F</div><div class="stat-label">5-Speed Manual</div></div>
+    <div class="stat"><div class="stat-val">HF1A</div><div class="stat-label">Part-Time Transfer</div></div>
+    <div class="stat"><div class="stat-val">F &amp; R</div><div class="stat-label">Selectable Diff Locks</div></div>
+    <div class="stat"><div class="stat-val">4.10:1</div><div class="stat-label">Final Drive Ratio</div></div>
+  </div>
+
+  <div class="card info">
+    <p><strong>Part-time 4WD means:</strong> The LC76 drives in rear-wheel drive (2H) on tar and hard surfaces. 4WD is engaged manually via the transfer lever for off-road or slippery conditions only. Driving in 4H or 4L on dry tar causes drivetrain wind-up — binding in the transfer case and axles that can damage components. This is different from full-time 4WD systems (like the 80 Series HF2A) which have a centre differential allowing permanent 4WD on any surface.</p>
+  </div>
+</div>
+
+<!-- ─── 2. R151F GEARBOX ─── -->
+<div class="section" id="s2">
+  <div class="section-num">Section 2</div>
+  <h2>R151F Gearbox</h2>
+  <p>The R151F is a heavy-duty Aisin-built 5-speed manual transmission used across Toyota's 70 Series and Hilux range. It is a proven, robust unit — but it has specific characteristics worth understanding, particularly with the 1HZ's torque characteristics and the SAC turbo.</p>
+
+  <h3>Gear Ratios</h3>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>Gear</th><th>Ratio</th><th>Character</th><th>Typical Use</th></tr>
+    <tr><td><strong>1st</strong></td><td>4.313:1</td><td>Very low — strong pulling power</td><td>Starting from standstill, steep starts, crawling. The R151F has a notably lower 1st than the R150F (3.83:1), giving more crawl capability.</td></tr>
+    <tr><td><strong>2nd</strong></td><td>2.330:1</td><td>Large step from 1st — requires timing</td><td>Low-speed manoeuvring, sand, technical terrain. The 1st-to-2nd gap is significant — let revs build before shifting.</td></tr>
+    <tr><td><strong>3rd</strong></td><td>1.436:1</td><td>Mid-range workhorse</td><td>Gravel roads, moderate inclines, town driving</td></tr>
+    <tr><td><strong>4th</strong></td><td>1.000:1</td><td>Direct drive — no gear reduction</td><td>Open road cruising at moderate speed, efficient highway</td></tr>
+    <tr><td><strong>5th</strong></td><td>0.838:1</td><td>Overdrive — reduces engine RPM</td><td>Highway cruising. Your vehicle has had 5th gear replaced by Terrain Tamer (previous failure).</td></tr>
+    <tr><td><strong>Reverse</strong></td><td>4.220:1</td><td>Similar to 1st — synchromesh equipped</td><td>Reversing. The R151F has reverse synchromesh for smoother engagement.</td></tr>
+  </table>
+  </div>
+
+  <div class="card amber">
+    <p><strong>The 1st-to-2nd gap:</strong> The jump from 4.313 to 2.330 is one of the largest gear steps in any Toyota manual gearbox. With the 1HZ turbo's torque band (peak 373 Nm at ~2,200 RPM), you need to let the engine build revs in 1st before shifting to 2nd — especially when loaded. Short-shifting from 1st to 2nd under load is the fastest way to bog the engine and strain the clutch. In sand or mud, it may be better to start in 2nd if you have momentum, rather than shifting through 1st.</p>
+  </div>
+
+  <h3>Shifting Best Practice</h3>
+  <div class="card ok">
+    <p><strong>On road:</strong> Smooth, deliberate shifts. The R151F responds to firm but unhurried gear changes — avoid rushed or forced shifts. Double-declutch if the box is cold and notchy (especially into 2nd on cold mornings).</p>
+    <p><strong>Off road:</strong> Select your gear before the obstacle, not during it. In 4L, 1st gear gives extremely low speed control for rock crawling and steep descents. Use engine braking rather than riding the brakes on long descents.</p>
+    <p><strong>Downhill:</strong> Always select a low enough gear before the descent begins. If the engine is over-revving on a steep descent in gear, the incline is too steep for that gear — stop, engage a lower gear or use low range. Never coast downhill in neutral.</p>
+  </div>
+
+  <div class="card warn">
+    <p><strong>GL-4 oil only.</strong> The R151F requires GL-4 rated gear oil (75W-90). GL-5 contains extreme-pressure additives that attack the brass synchromesh components, causing notchy shifting and accelerated wear. This is a well-documented issue across all Toyota R-series gearboxes. Many mechanics default to GL-5 because it's more common — always specify GL-4 when having the gearbox serviced. Cross-reference R1 (Reference Card) and Section 9 of this guide.</p>
+  </div>
+</div>
+
+<!-- ─── 3. CLUTCH ─── -->
+<div class="section" id="s3">
+  <div class="section-num">Section 3</div>
+  <h2>Terrain Tamer 4WD Clutch</h2>
+  <p>The LC76 had its clutch replaced with a Terrain Tamer 4WD unit in February 2026. The previous clutch was a Toyota heavy-duty unit which had reached the end of its service life. The Terrain Tamer 4WD kit is designed for the increased torque of the turbocharged 1HZ and the demands of overlanding with a loaded vehicle.</p>
+
+  <h3>Characteristics</h3>
+  <div class="card">
+    <p><strong>What the 4WD clutch does differently:</strong> The Terrain Tamer 4WD kit provides approximately 25% more clamping load than the standard Toyota clutch. It uses an anodised cover assembly, extra-strength damper springs, and ultra-premium friction material. This means it handles higher torque loads better — but the pedal is firmer and engagement is less forgiving than a standard clutch.</p>
+  </div>
+
+  <div class="card amber">
+    <p><strong>The trade-off:</strong> Higher clamping force means a heavier pedal feel and a more abrupt bite point compared to the previous Toyota heavy-duty clutch. This is normal and not a fault. It also means that clutch slip — riding the clutch or using it to feather speed on hills — will wear the friction material faster than you'd expect. The Terrain Tamer clutch rewards clean, decisive engagement.</p>
+  </div>
+
+  <h3>Clutch Care — Extending Life</h3>
+  <div class="card ok">
+    <p><strong>Do not ride the clutch.</strong> Foot off the pedal completely when not shifting. Even light pressure on the pedal partially disengages the clutch, generating heat and wearing the friction plate.</p>
+    <p><strong>Hill starts:</strong> Use the handbrake technique. Apply handbrake, find the bite point, apply throttle, release handbrake as the clutch engages. Do not hold the vehicle on the clutch bite point while waiting.</p>
+    <p><strong>Off-road crawling:</strong> In 4L 1st gear, the gearing is low enough that you should be able to crawl at walking pace without slipping the clutch. Use throttle control and engine braking — not clutch slip — to modulate speed.</p>
+    <p><strong>Sand starts:</strong> Higher revs, quick clutch release. The loaded 1HZ needs momentum in sand. Slipping the clutch slowly in sand buries heat into the friction plate. Commit to the start.</p>
+    <p><strong>Steep descents:</strong> Never coast with the clutch in. Select gear, release the clutch fully, and let the engine brake. Holding the clutch in on a steep descent means you have no engine braking and you're relying entirely on the brakes — which can overheat and fade.</p>
+  </div>
+
+  <h3>Warning Signs of Clutch Wear</h3>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>Symptom</th><th>Likely Cause</th><th>Action</th></tr>
+    <tr><td>Clutch pedal engagement point is very high (near top of travel)</td><td>Friction plate thinning — normal wear</td><td>Monitor closely. Clutch replacement approaching. Plan around workshop access.</td></tr>
+    <tr><td>Engine RPM rises but vehicle doesn't accelerate proportionally</td><td>Clutch slipping — friction material worn</td><td class="warn">Clutch is failing. Avoid heavy loads and steep inclines. Get to a workshop.</td></tr>
+    <tr><td>Juddering on take-off</td><td>Contaminated friction plate (oil leak), warped flywheel, or worn damper springs</td><td>Inspect for oil leaks at rear main seal. May need clutch and flywheel service.</td></tr>
+    <tr><td>Difficulty engaging gears (grinding)</td><td>Clutch not fully disengaging — hydraulic issue (low fluid, air in system) or worn release bearing</td><td>Check clutch fluid level first. Bleed system if low. If persistent, release bearing or slave cylinder may need replacement.</td></tr>
+    <tr><td>Noise when clutch pedal is pressed (chirping/squealing)</td><td>Release (throw-out) bearing wearing</td><td>Not immediately critical but will eventually fail. Plan replacement at next service stop.</td></tr>
+  </table>
+  </div>
+</div>
+
+<!-- ─── 4. TRANSFER CASE ─── -->
+<div class="section" id="s4">
+  <div class="section-num">Section 4</div>
+  <h2>HF1A Transfer Case</h2>
+  <p>The HF1A is a part-time gear-driven transfer case — one of the most mechanically reliable components in the 70 Series drivetrain. It has no electronics, no viscous coupler, and no centre differential. It simply splits drive between rear-only and front-and-rear, with a high and low range selection. This is the system that makes the LC76 so trusted in the African bush.</p>
+
+  <h3>Positions</h3>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>Position</th><th>Drive</th><th>Ratio</th><th>When to Use</th></tr>
+    <tr><td><strong>2H</strong></td><td>Rear wheels only</td><td>1:1 (high range)</td><td>All tar roads, dry gravel, normal driving. Default position. Best fuel economy.</td></tr>
+    <tr><td><strong>4H</strong></td><td>Front &amp; rear — locked 50:50</td><td>1:1 (high range)</td><td>Gravel roads, wet/muddy tracks, sand, corrugated dirt. Any surface where traction is uncertain. Never on dry tar.</td></tr>
+    <tr><td><strong>N</strong></td><td>Neutral — no drive</td><td>—</td><td>Flat towing only. Never use while driving.</td></tr>
+    <tr><td><strong>4L</strong></td><td>Front &amp; rear — locked 50:50</td><td>2.488:1 (low range)</td><td>Steep hills, deep sand, mud, rock crawling, river crossings, technical terrain. Maximum torque multiplication.</td></tr>
+  </table>
+  </div>
+
+  <h3>Shifting Procedure</h3>
+  <div class="card ok">
+    <p><strong>2H → 4H:</strong> Can be done on the move at speeds below 100 km/h. Drive in a straight line, briefly lift off the throttle to unload the drivetrain, shift the transfer lever. Front hubs must be locked (see below).</p>
+    <p><strong>4H → 4L:</strong> Must be done at a standstill or very low speed (&lt; 5 km/h). Stop the vehicle, depress the clutch, shift the transfer lever through neutral into 4L. If it resists, release the clutch briefly in neutral and try again — this aligns the gears.</p>
+    <p><strong>4L → 4H:</strong> Same procedure as above — stop or near-stop, clutch in, shift.</p>
+    <p><strong>4H → 2H:</strong> Can be done on the move. Shift the transfer lever back. If it resists, drive a few metres in a straight line — drivetrain wind-up may be preventing disengagement. A brief reverse can also help release wind-up.</p>
+  </div>
+
+  <h3>Manual Free-Wheeling Hubs</h3>
+  <div class="card info">
+    <p>The LC76 has <strong>manual locking hubs</strong> on the front axle. When set to "FREE," the front wheels are mechanically disconnected from the front axle shafts — even if the transfer case is in 4H, the front wheels will not receive power. You must set both hubs to "LOCK" before engaging 4H or 4L.</p>
+    <p><strong>Practical tip:</strong> Many overlanders leave the hubs locked permanently when travelling off-road. In 2H with hubs locked, only the front propeller shaft and differential spin (no power, just drag) — the fuel economy penalty is minimal (~2–3%). This allows instant 2H→4H transitions on the move without stopping to lock hubs.</p>
+    <p><strong>For tar driving:</strong> Unlock the hubs. This reduces drivetrain drag and front axle wear. Lock them again before leaving the tar.</p>
+  </div>
+
+  <div class="card warn">
+    <p><strong>Drivetrain wind-up:</strong> In 4H or 4L on a hard surface, the locked transfer case forces front and rear axles to spin at the same speed. In a turn, the front wheels travel further than the rear — with no centre diff to absorb the difference, torque builds up ("winds up") in the drivetrain. Symptoms: steering feels heavy, vehicle resists turning, clunking on slow turns. If you feel wind-up, stop and reverse in a straight line to release it, then disengage 4WD. Sustained wind-up can damage the transfer case, propeller shafts, and CV joints.</p>
+  </div>
+</div>
+
+<!-- ─── 5. DIFFERENTIAL LOCKS ─── -->
+<div class="section" id="s5">
+  <div class="section-num">Section 5</div>
+  <h2>Differential Locks</h2>
+  <p>The LC76 is equipped with selectable differential locks on both the front and rear axles. These are among the most valuable off-road features on the vehicle — but they must be used correctly. The diffs were rebuilt in February 2025 at 271,200 km.</p>
+
+  <h3>How Differentials Work</h3>
+  <div class="card">
+    <p>An <strong>open differential</strong> allows the left and right wheels to spin at different speeds — essential for turning on road. But off-road, if one wheel loses traction (lifts off the ground or hits mud), all the power goes to the spinning wheel. The other wheel gets nothing.</p>
+    <p>A <strong>locked differential</strong> forces both wheels on an axle to spin at the same speed regardless of traction. This means if one wheel is on mud and the other on rock, both turn together — the wheel with grip drives the vehicle forward. The trade-off: you lose the ability to turn smoothly and the axle is under much higher stress.</p>
+  </div>
+
+  <h3>Lock Activation Sequence</h3>
+  <div class="flow-step"><div class="flow-num">1</div><div class="flow-body"><strong>Rear lock first.</strong> Always engage the rear diff lock before the front. The rear axle handles the majority of traction load. In most situations, the rear lock alone (with 4L) is sufficient.</div></div>
+  <div class="flow-step"><div class="flow-num">2</div><div class="flow-body"><strong>Front lock only if rear is not enough.</strong> If the rear lock + 4L is still not providing enough traction, engage the front lock. With both axles locked, you have maximum traction — but minimum steering ability.</div></div>
+  <div class="flow-step"><div class="flow-num">3</div><div class="flow-body"><strong>Unlock in reverse order.</strong> When you're through the obstacle, disengage the front lock first, then the rear lock. Always disengage both before returning to hard surfaces.</div></div>
+
+  <div class="card warn">
+    <p><strong>Locked diffs on hard surfaces will damage your drivetrain.</strong> Never drive on tar, concrete, or dry compacted gravel with diff locks engaged. The locked axle cannot accommodate the speed difference between inner and outer wheels in a turn — this puts enormous stress on half-shafts, CVs, and the differential housing itself. Keep speed low (&lt; 20 km/h) when locked. Steer gently — avoid sharp turns.</p>
+  </div>
+
+  <div class="card amber">
+    <p><strong>With both diffs locked and 4L engaged:</strong> The vehicle has three locked drivetrain points — transfer case (50:50 front/rear), rear diff (50:50 left/right), front diff (50:50 left/right). Every wheel turns at the same speed. This gives maximum traction but the vehicle will understeer heavily and resist tight turns. Use this configuration only for severe obstacles — deep mud, steep loose climbs, deep sand bogs — and disengage as soon as you're through.</p>
+  </div>
+</div>
+
+<!-- ─── 6. WHEN TO USE WHAT ─── -->
+<div class="section" id="s6">
+  <div class="section-num">Section 6</div>
+  <h2>Terrain Selection Guide</h2>
+  <p>This is the practical "what do I select?" reference for common African terrain types. The golden rule: <strong>use the minimum 4WD configuration that gives you safe traction</strong> — more locked components means more drivetrain stress and less steering control.</p>
+
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>Terrain</th><th>Transfer</th><th>Rear Lock</th><th>Front Lock</th><th>Gear</th><th>Notes</th></tr>
+    <tr><td>Tar / dry gravel</td><td>2H</td><td>Off</td><td>Off</td><td>3rd–5th</td><td>Default. Hubs free for tar, locked for gravel if 4WD may be needed.</td></tr>
+    <tr><td>Wet / muddy gravel</td><td>4H</td><td>Off</td><td>Off</td><td>3rd–4th</td><td>4H usually sufficient. Maintain momentum.</td></tr>
+    <tr><td>Corrugated dirt</td><td>2H or 4H</td><td>Off</td><td>Off</td><td>3rd–4th</td><td>4H on loose corrugations for stability. 40–60 km/h typically best.</td></tr>
+    <tr><td>Soft sand (beach, dunes)</td><td>4H or 4L</td><td>Off or On</td><td>Off</td><td>2nd–3rd</td><td>Reduce tyre pressure first (see R14). Momentum is key. Rear lock if bogging.</td></tr>
+    <tr><td>Deep sand (thick, heavy)</td><td>4L</td><td>On</td><td>Off</td><td>2nd</td><td>4L for torque. Rear lock. Keep momentum. Do not stop mid-dune.</td></tr>
+    <tr><td>Mud (shallow, firm base)</td><td>4H</td><td>Off</td><td>Off</td><td>2nd–3rd</td><td>Maintain momentum. Avoid wheel spin — it digs you in.</td></tr>
+    <tr><td>Mud (deep, soft)</td><td>4L</td><td>On</td><td>On if needed</td><td>1st–2nd</td><td>Steady throttle. If bogging, stop before you're buried. MaxTrax or recovery.</td></tr>
+    <tr><td>Rocky terrain</td><td>4L</td><td>On</td><td>As needed</td><td>1st</td><td>Slow, controlled. Use a spotter. Protect the undercarriage.</td></tr>
+    <tr><td>Steep ascent (loose)</td><td>4L</td><td>On</td><td>As needed</td><td>1st–2nd</td><td>Commit to the climb. Maintain momentum. Do not stop and restart on loose steep inclines.</td></tr>
+    <tr><td>Steep descent</td><td>4L</td><td>Off</td><td>Off</td><td>1st or 2nd</td><td>Engine braking only. Foot off the clutch. Gentle braking if needed. Diff locks OFF — locked diffs on a descent reduce steering control.</td></tr>
+    <tr><td>Water crossing</td><td>4L</td><td>Off</td><td>Off</td><td>2nd</td><td>Steady speed, bow wave. Check depth first. Diff locks off — if you lock up and stall, water can enter the diffs via pressure differential. See R9.</td></tr>
+  </table>
+  </div>
+
+  <div class="card info">
+    <p><strong>The escalation principle:</strong> Start with the least aggressive configuration. If that's not working, escalate one step at a time. 2H → 4H → 4L → rear lock → front lock. De-escalate as soon as conditions allow. This minimises component stress and keeps maximum steering control for the terrain.</p>
+  </div>
+</div>
+
+<!-- ─── 7. DIFFERENTIALS ─── -->
+<div class="section" id="s7">
+  <div class="section-num">Section 7</div>
+  <h2>Front &amp; Rear Differentials</h2>
+  <p>The LC76 runs a solid front axle and solid rear axle — both with selectable locking differentials. Both differentials were rebuilt in February 2025 at 271,200 km with new bearings and seals.</p>
+
+  <h3>Specifications</h3>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>Component</th><th>Front</th><th>Rear</th></tr>
+    <tr><td>Final drive ratio</td><td>4.10:1</td><td>4.10:1</td></tr>
+    <tr><td>Diff lock type</td><td>Selectable (electric/vacuum actuated)</td><td>Selectable (electric/vacuum actuated)</td></tr>
+    <tr><td>Oil specification</td><td>GL-5, 75W-90 or 80W-90</td><td>GL-5, 75W-90 or 80W-90</td></tr>
+    <tr><td>Oil capacity (approx)</td><td>2.65–2.80 L</td><td>3.00–3.25 L</td></tr>
+    <tr><td>Last rebuilt</td><td>Feb 2025 @ 271,200 km</td><td>Feb 2025 @ 271,200 km</td></tr>
+    <tr><td>Service provider</td><td>Cape Transmissions (Aleric)</td><td>Cape Transmissions (Aleric)</td></tr>
+  </table>
+  </div>
+
+  <div class="card amber">
+    <p><strong>Previous diff seal failure:</strong> You've previously experienced a front diff seal failure in the field (which required buying a socket from an informal settlement). This is a known weak point on the 70 Series, especially after water crossings. Always check diff oil levels and look for oil weeping around the diff housing and axle tubes during your pre-departure inspection (R2) and after any water crossing. Carry a spare diff seal — it's a small, light item that can save a trip.</p>
+  </div>
+
+  <h3>After Water Crossings</h3>
+  <div class="card warn">
+    <p><strong>Check diff breathers and oil immediately.</strong> When a hot differential enters cold water, the rapid cooling creates a vacuum inside the diff housing. If breather hoses are blocked, kinked, or submerged, the vacuum can suck water past the seals and into the diff oil. Milky or grey diff oil after a water crossing means water contamination — the oil must be drained and replaced as soon as possible. Running contaminated diff oil destroys bearings rapidly. Cross-reference R9 (Recovery Guide) for water crossing procedures.</p>
+  </div>
+</div>
+
+<!-- ─── 8. PROPELLER SHAFTS & CVs ─── -->
+<div class="section" id="s8">
+  <div class="section-num">Section 8</div>
+  <h2>Propeller Shafts &amp; CV Joints</h2>
+  <p>The LC76 has two propeller shafts (front and rear) connecting the transfer case to the differentials. The front shaft incorporates CV (constant velocity) joints; the rear shaft uses universal joints (UJs). Both require periodic greasing.</p>
+
+  <h3>Maintenance</h3>
+  <div class="card ok">
+    <p><strong>Grease at every service</strong> (5,000 km intervals or more frequently in dusty conditions). The prop shaft UJs and slip yokes have grease nipples. Use lithium-based multi-purpose grease (NLGI-2). Grease until fresh grease appears at each bearing cap — old contaminated grease should be pushed out.</p>
+    <p><strong>CV boots:</strong> Inspect front CV boots regularly. A torn boot allows grease to escape and dirt to enter — a CV joint runs dry and fails within a few hundred kilometres. If you spot a torn boot, repair it immediately. Carry a spare CV boot and cable ties as field repair items (cross-reference R3).</p>
+  </div>
+
+  <h3>Symptoms of Failure</h3>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>Symptom</th><th>Likely Cause</th><th>Severity</th></tr>
+    <tr><td>Clunking when shifting 2H to 4H or accelerating/decelerating</td><td>Worn UJ bearings, worn slip yoke, or backlash in diff</td><td>Moderate — investigate at next stop</td></tr>
+    <tr><td>Vibration at speed that increases with speed</td><td>Prop shaft balance, worn UJ, or prop shaft alignment</td><td>Moderate — get checked. Do not ignore</td></tr>
+    <tr><td>Clicking noise on full-lock turns in 4WD</td><td>Worn front CV joint</td><td class="warn">CV joint failing — replace before trip</td></tr>
+    <tr><td>Grease spray under vehicle near front wheels</td><td>Torn CV boot — grease being flung out</td><td class="warn">Stop and repair. Joint will fail if left</td></tr>
+    <tr><td>Prop shaft visibly wobbling (have someone watch while driving slowly)</td><td>UJ failure, carrier bearing, or bent shaft</td><td class="warn">Do not drive at speed — risk of shaft separation</td></tr>
+  </table>
+  </div>
+</div>
+
+<!-- ─── 9. FLUID SPECIFICATIONS ─── -->
+<div class="section" id="s9">
+  <div class="section-num">Section 9</div>
+  <h2>Drivetrain Fluid Specifications</h2>
+  <p>Getting the right fluids in the right places is critical — particularly the GL-4 vs GL-5 distinction for the gearbox. This section is your one-stop reference. Print and carry a copy with your spares.</p>
+
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>Component</th><th>Fluid Type</th><th>Grade</th><th>Capacity</th><th>Interval</th><th>Critical Notes</th></tr>
+    <tr><td><strong>R151F Gearbox</strong></td><td class="ok">GL-4</td><td>75W-90</td><td>~2.6 L</td><td>40,000–50,000 km</td><td class="warn">GL-4 ONLY. GL-5 damages brass synchros. Always confirm with mechanic.</td></tr>
+    <tr><td><strong>HF1A Transfer Case</strong></td><td>GL-4 or GL-5</td><td>75W-90</td><td>~1.8 L</td><td>40,000–50,000 km</td><td>GL-4 preferred for smoother shifting. GL-5 acceptable.</td></tr>
+    <tr><td><strong>Front Differential</strong></td><td>GL-5</td><td>75W-90 or 80W-90</td><td>~2.65–2.80 L</td><td>40,000–50,000 km</td><td>GL-5 required (hypoid gears). Check after water crossings.</td></tr>
+    <tr><td><strong>Rear Differential</strong></td><td>GL-5</td><td>75W-90 or 80W-90</td><td>~3.00–3.25 L</td><td>40,000–50,000 km</td><td>GL-5 required. Larger capacity than front. Check after water crossings.</td></tr>
+    <tr><td><strong>Clutch Hydraulics</strong></td><td>DOT-3 brake fluid</td><td>—</td><td>Reservoir top-up</td><td>Check monthly; replace every 2 years</td><td>Shares reservoir or separate — check. Hygroscopic — absorbs moisture over time.</td></tr>
+    <tr><td><strong>Prop Shaft UJs</strong></td><td>Lithium grease</td><td>NLGI-2</td><td>Per nipple</td><td>5,000 km (every service)</td><td>Grease until fresh grease purges from all four bearing caps per UJ.</td></tr>
+    <tr><td><strong>Front Wheel Bearings</strong></td><td>Lithium grease</td><td>NLGI-2</td><td>Repack</td><td>40,000–50,000 km</td><td>Repack when hubs are serviced. Clean and inspect bearings.</td></tr>
+  </table>
+  </div>
+
+  <div class="card warn">
+    <p><strong>The GL-4 vs GL-5 rule, one more time:</strong> GL-4 for the gearbox. GL-5 for the diffs. This matters. GL-5 extreme-pressure additives are chemically aggressive to the yellow-metal (brass/bronze) synchromesh components in the R151F. Using GL-5 in the gearbox will cause progressively notchy shifting and premature synchro failure. If your mechanic puts GL-5 in the gearbox, drain it and refill with GL-4 as soon as possible. Synthetic GL-4 75W-90 (e.g. Castrol Syntrax, Motul Gear 300, Redline MT-90) is ideal.</p>
+  </div>
+
+  <div class="card info">
+    <p><strong>On expedition:</strong> Carry 5 L of GL-5 75W-90 (covers both diffs and the transfer case in an emergency) and 3 L of GL-4 75W-90 (gearbox). That's 8 L total at ~8 kg — a worthwhile weight investment for a two-year trip. Decant into smaller containers if space is tight.</p>
+  </div>
+</div>
+
+<!-- ─── 10. SOUNDS & DIAGNOSIS ─── -->
+<div class="section" id="s10">
+  <div class="section-num">Section 10</div>
+  <h2>Drivetrain Sounds &amp; Diagnosis</h2>
+  <p>Learning to listen to the drivetrain is one of the most valuable bush mechanic skills. Sounds from underneath the vehicle are early warnings of wear or failure — catching them early can prevent a catastrophic breakdown hundreds of kilometres from help.</p>
+
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>Sound</th><th>When</th><th>Location</th><th>Likely Cause</th><th>Urgency</th></tr>
+    <tr><td>Whining that changes with speed</td><td>Constant at speed</td><td>Rear or front axle</td><td>Diff bearing wear or ring-and-pinion mesh</td><td>Monitor — service at next town</td></tr>
+    <tr><td>Clunk on take-off or gear change</td><td>Acceleration / deceleration</td><td>Under centre</td><td>Worn UJ, prop shaft backlash, or diff splines</td><td>Investigate soon</td></tr>
+    <tr><td>Clicking on full-lock turns (4WD)</td><td>Low-speed turning in 4WD</td><td>Front axle area</td><td>Worn front CV joint</td><td class="warn">Replace CV before trip</td></tr>
+    <tr><td>Grinding when shifting gears</td><td>During gear change</td><td>Gearbox</td><td>Worn synchromesh, low oil, or clutch not fully disengaging</td><td class="warn">Check oil level and clutch first</td></tr>
+    <tr><td>Rumbling/growling at constant speed</td><td>Constant</td><td>Wheels / axle</td><td>Wheel bearing wear</td><td>Monitor — will worsen. Replace before it fails.</td></tr>
+    <tr><td>Metallic scraping</td><td>Constant</td><td>Brakes / wheel</td><td>Brake pad worn to backing plate, or debris caught</td><td class="warn">Stop and inspect immediately</td></tr>
+    <tr><td>Vibration through steering at speed</td><td>Above 80 km/h</td><td>Front end</td><td>Wheel balance, prop shaft, worn steering components, or tyre damage</td><td>Reduce speed. Investigate at next stop.</td></tr>
+    <tr><td>Squealing from gearbox area</td><td>When clutch is released</td><td>Bellhousing</td><td>Clutch release bearing or pilot bearing</td><td>Monitor — plan workshop visit</td></tr>
+  </table>
+  </div>
+
+  <div class="card ok">
+    <p><strong>The "listen drive":</strong> Every few days on a long trip, turn off the radio, open a window, and drive at various speeds on a smooth road. Listen for anything new. Changes in drivetrain sounds are more important than the sounds themselves — a consistent whine that's been there for 10,000 km is different from a whine that appeared yesterday.</p>
+  </div>
+</div>
+
+<!-- ─── 11. FIELD CHECKS ─── -->
+<div class="section" id="s11">
+  <div class="section-num">Section 11</div>
+  <h2>Field Inspection Checklist</h2>
+  <p>A quick under-vehicle inspection at camp takes 5 minutes and can catch problems before they strand you. Add this to your daily camp routine alongside the checks in R2 (Pre-Departure Checklist).</p>
+
+  <h3>Daily Camp Check (5 minutes)</h3>
+  <div class="card">
+    <p><strong>Fluid spots:</strong> Look under the vehicle for fresh oil drips. Diff oil is thick and dark. Gearbox oil is amber (GL-4) or dark (GL-5). Brake fluid is clear/yellowish. Any fresh spots warrant investigation.</p>
+    <p><strong>Prop shafts:</strong> Grab each prop shaft and twist/push-pull — there should be minimal play. Excessive movement indicates worn UJs or slip yoke.</p>
+    <p><strong>CV boots:</strong> Visual check — look for torn rubber, grease spray around the front axle area.</p>
+    <p><strong>Diff breathers:</strong> Confirm breather hoses are attached, not kinked, and routed upward. If extended breathers are fitted, check they're clear.</p>
+    <p><strong>Transfer case linkage:</strong> Ensure the lever moves freely between positions without excessive play.</p>
+  </div>
+
+  <h3>After Water Crossings</h3>
+  <div class="card warn">
+    <p><strong>Stop within 1 km of the crossing and:</strong> Check diff oil via the fill plug — if milky or grey, water has entered. Check gearbox and transfer case oil similarly if the crossing was deep. Pump brakes several times to dry the pads. Check air filter for water ingestion (cross-reference R4). Listen for any new sounds when driving away.</p>
+  </div>
+</div>
+
+<!-- ─── 12. FIELD FIXES ─── -->
+<div class="section" id="s12">
+  <div class="section-num">Section 12</div>
+  <h2>Field Fixes — Drivetrain</h2>
+  <p>Roadside procedures for the most common drivetrain problems you may encounter far from a workshop. These are temporary fixes to get you moving — always follow up with a proper repair at the next service point. Cross-reference R3 (Bush Spares &amp; Tools) for parts to carry and R10 (Emergency Procedures) for the broader breakdown protocol.</p>
+
+  <h3>Clutch Pedal Goes Soft or to the Floor</h3>
+  <div class="card amber">
+    <p><strong>Cause:</strong> Air in the clutch hydraulic system, low fluid, or a leaking slave cylinder. This is one of the most common field failures on the LC76.</p>
+    <p><strong>Step 1 — Check fluid level.</strong> The clutch hydraulic reservoir (check if shared with brakes or separate on your vehicle) should be full. If low, top up with DOT-3 brake fluid.</p>
+    <p><strong>Step 2 — Bleed the system.</strong> You need two people. Person 1 pumps the clutch pedal 3–4 times and holds it down. Person 2 opens the bleed nipple on the slave cylinder (bell housing, passenger side), lets fluid and air escape, then closes it. Person 1 releases. Repeat until no air bubbles appear and the pedal feels firm. Keep the reservoir topped up throughout — if it runs dry you'll introduce more air.</p>
+    <p><strong>Step 3 — If the slave cylinder is leaking</strong> (fluid visible around the bell housing), bleeding will only work temporarily. Drive gently to the nearest town. You can shift without the clutch in an emergency: match revs, slot gears firmly. Start in 1st with the engine off, then start the engine with the gear engaged and the vehicle moving.</p>
+    <p><strong>Carry:</strong> 500 mL DOT-3 brake fluid, 8 mm ring spanner (bleed nipple), clear plastic tube for bleeding.</p>
+  </div>
+
+  <h3>Transfer Lever Won't Shift</h3>
+  <div class="card">
+    <p><strong>4H → 2H stuck:</strong> Drivetrain wind-up is preventing disengagement. Drive forward slowly in a straight line for 20–30 m, then try again. If still stuck, reverse 5–10 m in a straight line — this usually releases the wind-up. Do not force the lever.</p>
+    <p><strong>4H → 4L or 4L → 4H stuck:</strong> Stop completely. Depress clutch, shift to neutral in the gearbox, release clutch briefly (this spins the gears slightly to align), depress clutch again, then move the transfer lever. If it still resists, rock the vehicle forward and backward a few centimetres with the clutch released in neutral, then try again.</p>
+    <p><strong>Lever feels loose/sloppy:</strong> The transfer case linkage bushes may be worn. Not an immediate problem but have it checked at the next service. Excessive play can make it hard to find positions reliably.</p>
+  </div>
+
+  <h3>Diff Lock Won't Engage or Disengage</h3>
+  <div class="card">
+    <p><strong>Won't engage:</strong> The diff lock actuator needs the vehicle to be moving very slowly (1–3 km/h) with minimal load on the axle. Drive slowly in a straight line and try the switch. If the axle shafts aren't aligned, the lock collar can't slide into position. Slight throttle or brief reverse usually aligns them.</p>
+    <p><strong>Won't disengage:</strong> Same principle — the lock needs the shafts to unload. Drive slowly in a straight line, lift off the throttle, and try the switch. Brief reverse often helps. If stuck, check the vacuum lines to the actuator (if vacuum-operated) or the wiring connector (if electric). A disconnected or cracked vacuum line is the most common cause of actuator failure.</p>
+    <p><strong>Carry:</strong> Spare vacuum hose (1 m of 6 mm silicone hose), cable ties, electrical tape.</p>
+  </div>
+
+  <h3>Diff Oil Leak (Seal Failure)</h3>
+  <div class="card warn">
+    <p><strong>Symptom:</strong> Oil weeping or dripping from the diff housing, axle tubes, or pinion seal. You've experienced this before with the front diff.</p>
+    <p><strong>Immediate action:</strong> Check oil level via the fill plug. If low, top up with GL-5 75W-90 (carry 5 L on expedition). A slow weep is not an emergency — monitor the level daily and top up as needed. You can drive thousands of kilometres with a weeping seal if you keep the oil level up.</p>
+    <p><strong>If oil level drops quickly:</strong> The seal has failed badly. Top up, drive to the nearest town with a workshop. Reduce speed and avoid off-road stress on that axle.</p>
+    <p><strong>After water crossings:</strong> Check diff oil colour immediately. Milky/grey = water contamination. Drain and replace as soon as possible — contaminated oil destroys bearings within a few hundred kilometres.</p>
+    <p><strong>Carry:</strong> 5 L GL-5 75W-90, 24 mm socket (fill/drain plugs — confirm your sizes), spare diff pinion seal, drain pan or cut-down oil container.</p>
+  </div>
+
+  <h3>Gearbox Won't Go Into Gear (or Grinds)</h3>
+  <div class="card">
+    <p><strong>All gears grinding:</strong> Clutch is not fully disengaging. Check clutch fluid level and bleed the system (see above). If the hydraulic system is fine, the clutch disc or release bearing may have failed — this is a workshop job.</p>
+    <p><strong>One specific gear grinds (usually 2nd):</strong> Synchromesh wear. Double-declutch into that gear: clutch in → neutral → clutch out briefly → clutch in → select gear. This matches shaft speeds manually, bypassing the worn synchro. You can drive indefinitely like this.</p>
+    <p><strong>Won't go into reverse:</strong> Let the clutch out in neutral, pause, then try reverse again. The reverse idler gear needs to mesh cleanly. If persistent, select 1st gear first (don't release clutch), then go to neutral, then reverse — this pre-aligns the gears.</p>
+    <p><strong>Gearbox oil level:</strong> If shifting has become notchy across all gears and the oil wasn't recently changed, check level via the fill plug (side of gearbox). Top up with GL-4 75W-90 only.</p>
+  </div>
+
+  <h3>Prop Shaft Universal Joint Failure</h3>
+  <div class="card warn">
+    <p><strong>Symptom:</strong> Severe clunking, vibration, or visible damage to a UJ cross. A failed UJ can cause the prop shaft to detach — this is dangerous at speed.</p>
+    <p><strong>If the rear prop shaft UJ fails:</strong> Remove the rear prop shaft entirely (4 bolts at each flange). The vehicle can be driven in 2H using front-wheel drive only — engage 4H with hubs locked, and drive gently. Speed limit: 60 km/h. This gets you to a workshop.</p>
+    <p><strong>If the front prop shaft UJ fails:</strong> Remove the front prop shaft (4 bolts each end). Drive in 2H (rear-wheel drive only). You lose 4WD capability but can drive normally on tar. Unlock front hubs to prevent drag on the disconnected front diff.</p>
+    <p><strong>Carry:</strong> Spare UJ crosses (confirm sizes for your prop shafts), circlips, a press or vice (or a large socket and hammer as field substitute), 14 mm spanners for flange bolts.</p>
+  </div>
+
+  <h3>CV Boot Torn (Front Axle)</h3>
+  <div class="card">
+    <p><strong>Symptom:</strong> Grease spray around front wheel/axle area. The rubber CV boot has split, flinging grease out and allowing dirt in.</p>
+    <p><strong>Temporary field repair:</strong> Clean the joint as well as you can. Pack fresh grease into the joint (lithium NLGI-2 or CV grease if you have it). Wrap the torn area tightly with a heavy-duty plastic bag or cling wrap, then secure with cable ties every 20–30 mm. This is not a permanent fix — the joint is already contaminated — but it can last hundreds of kilometres if done well.</p>
+    <p><strong>Better field repair:</strong> Carry a split-type replacement CV boot (no need to remove the shaft). Clean the joint, repack with grease, fit the split boot, secure with the supplied clamps.</p>
+    <p><strong>If you hear clicking on full-lock turns:</strong> The CV joint itself is damaged (grit has entered). It will eventually fail. Avoid full-lock turns where possible and get to a workshop. A failed CV joint means loss of drive to that front wheel — not catastrophic (you still have the rear axle and the other front wheel), but 4WD performance is significantly reduced.</p>
+    <p><strong>Carry:</strong> Split CV boot, CV grease sachet, cable ties (large, heavy-duty), lithium grease.</p>
+  </div>
+
+  <h3>Clutchless Shifting (Emergency)</h3>
+  <div class="card info">
+    <p><strong>When to use:</strong> Complete clutch hydraulic failure, or clutch disc failure, when you cannot disengage the clutch at all and need to reach a workshop.</p>
+    <p><strong>Starting from standstill:</strong> Select 1st gear with the engine off. Turn the ignition — the starter motor will lurch the vehicle forward as the engine fires. Rough but effective. Keep the road clear ahead.</p>
+    <p><strong>Upshifting:</strong> Accelerate in gear, lift off the throttle (this unloads the gearbox), snick the lever out of gear into neutral, let the revs drop to match the next gear's speed, and slot the lever firmly into the next gear. The R151F's synchromesh will help, but matching revs makes it much smoother.</p>
+    <p><strong>Downshifting:</strong> Lift off the throttle, snick out of gear, blip the throttle to raise revs, slot into the lower gear. This requires practice but is entirely doable with the R151F.</p>
+    <p><strong>Stopping:</strong> Brake to a near-stop, snick into neutral. The engine will stall if you stop in gear — this is fine. Restart the process to move off again.</p>
+    <p><strong>Key:</strong> Every shift must happen with the drivetrain unloaded (foot off the throttle). Forced shifts under load will damage the synchromesh. Drive gently and plan your gear changes well in advance.</p>
+  </div>
+</div>
+
+<!-- ─── 13. YOUR SERVICE HISTORY ─── -->
+<div class="section" id="s13">
+  <div class="section-num">Section 13</div>
+  <h2>Drivetrain Service History</h2>
+  <p>Key drivetrain events from the LC76's 259-record service history (cross-reference R8 for the full database). Understanding what's been done — and when — helps predict what may need attention next.</p>
+
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>Date</th><th>Km</th><th>Work</th><th>Provider</th></tr>
+    <tr><td>Feb 2026</td><td>~296,000</td><td>Terrain Tamer 4WD clutch kit installed</td><td>Cape Transmissions (Aleric)</td></tr>
+    <tr><td>Feb 2025</td><td>271,200</td><td>Front &amp; rear differentials rebuilt — new bearings, seals</td><td>Cape Transmissions (Aleric)</td></tr>
+    <tr><td>Various (×2)</td><td>—</td><td>Gearbox work (5th gear replacement — Terrain Tamer)</td><td>Cape Transmissions (Aleric)</td></tr>
+    <tr><td>Various (×2)</td><td>—</td><td>Clutch replaced (1st was Toyota heavy-duty, 2nd is current Terrain Tamer 4WD)</td><td>Cape Transmissions (Aleric)</td></tr>
+    <tr><td>Jan 2026</td><td>294,500</td><td>Rear suspension — OME CS058R springs + Nitrocharger Plus shocks</td><td>—</td></tr>
+  </table>
+  </div>
+
+  <div class="card ok">
+    <p><strong>Your drivetrain strength:</strong> With freshly rebuilt diffs (Feb 2025), a new Terrain Tamer 4WD clutch (Feb 2026), and Terrain Tamer 5th gear, the core drivetrain components are in excellent condition for a long expedition. The key maintenance items before 2028 departure will be: gearbox oil change (GL-4), transfer case oil change, diff oil changes, prop shaft greasing, and front CV boot inspection.</p>
+  </div>
+</div>
+
+</div><!-- /content -->
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div>LC76 Overland Series · R13 · Drivetrain &amp; Transmission Training</div>
+  <div>Vehicle: LC76 SW 1HZ · R151F · HF1A · SA-plated · RHD</div>
+  <div>Print this guide and keep with R4 (Engine Training) in the vehicle</div>
+</footer>
+
+<!-- ═══ TOC NAVIGATION ═══ -->
+<script>
+document.querySelectorAll('.toc-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = document.getElementById(btn.dataset.target);
+    if (target) {
+      const offset = document.querySelector('.sticky-wrap').offsetHeight + 8;
+      const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  });
+});
+
+const sections = document.querySelectorAll('.section[id]');
+const buttons = document.querySelectorAll('.toc-btn');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      buttons.forEach(b => b.classList.remove('active'));
+      const btn = document.querySelector(`.toc-btn[data-target="${entry.target.id}"]`);
+      if (btn) btn.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
