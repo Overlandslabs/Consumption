@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0d0e12">
+<title>LC76 — Water Management & Purification Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=Oswald:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0d0e12;--paper:#dad2c0;--paper2:#edeae0;--amber:#b86800;--amber2:#e07800;--rule:#d4cfc4;--steeldk:#2a2f3a;--steelmd:#6a7080;--red-warn:#B91C1C;--green-ok:#059669;--blue-info:#1d4ed8}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:Oswald,sans-serif;background:var(--paper);color:var(--steeldk);line-height:1.6;-webkit-font-smoothing:antialiased}
+
+/* STICKY HEADER (masthead + TOC together) */
+.sticky-wrap{position:sticky;top:0;z-index:100}
+.masthead{background:var(--ink);color:#fff;padding:18px 24px 14px}
+.mh-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--steelmd);margin-bottom:6px}
+.mh-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.8rem,5vw,2.6rem);letter-spacing:.06em;color:var(--amber2);line-height:1}
+.mh-sub{font-family:'IBM Plex Mono',monospace;font-size:.54rem;letter-spacing:.12em;color:rgba(255,200,100,.65);margin-top:5px}
+.mh-vehicle{font-family:'IBM Plex Mono',monospace;font-size:.48rem;letter-spacing:.08em;color:var(--steelmd);margin-top:8px}
+.toc-bar{background:var(--steeldk);border-top:3px solid var(--amber2);border-bottom:1px solid rgba(255,255,255,.08);padding:0 20px;display:flex;gap:0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.toc-bar::-webkit-scrollbar{display:none}
+.toc-btn{font-family:'IBM Plex Mono',monospace;font-size:.52rem;letter-spacing:.08em;text-transform:uppercase;color:var(--steelmd);background:none;border:none;padding:10px 12px;cursor:pointer;white-space:nowrap;transition:color .2s}
+.toc-btn:hover,.toc-btn.active{color:var(--amber2)}
+
+/* CONTENT */
+.content{max-width:100%;padding:28px 5% 80px}
+
+/* SECTIONS */
+.section{margin-bottom:24px}
+.section-num{font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);margin-bottom:2px}
+.section h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.4rem,3.5vw,1.8rem);color:var(--steeldk);letter-spacing:.04em;margin-bottom:8px;line-height:1.1}
+.section h3{font-family:Oswald,sans-serif;font-size:.9rem;font-weight:600;color:var(--steeldk);margin:12px 0 6px;text-transform:uppercase;letter-spacing:.04em}
+.section p{font-size:.85rem;color:var(--steelmd);line-height:1.65;margin-bottom:8px}
+.section p strong{color:var(--steeldk)}
+
+/* CARDS */
+.card{background:#fff;border:1px solid var(--rule);border-radius:6px;padding:10px 14px;margin-bottom:8px}
+.card.warn{border-left:4px solid var(--red-warn);background:#fef7f7}
+.card.ok{border-left:4px solid var(--green-ok);background:#f0fdf8}
+.card.info{border-left:4px solid var(--blue-info);background:#eff6ff}
+.card.amber{border-left:4px solid var(--amber2);background:#fffbf0}
+.card-label{font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.15em;text-transform:uppercase;color:var(--amber);margin-bottom:4px;font-weight:600}
+.card-val{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--steeldk);line-height:1;margin-bottom:4px}
+.card p,.card li{font-size:.82rem;color:var(--steelmd);line-height:1.55}
+.card li{margin-bottom:3px}
+
+/* TABLES */
+.tbl-wrap{overflow-x:auto;margin-bottom:10px;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:.78rem}
+th{background:var(--steeldk);color:var(--amber2);font-family:'IBM Plex Mono',monospace;font-size:.52rem;letter-spacing:.1em;text-transform:uppercase;padding:7px 10px;text-align:left;white-space:nowrap}
+td{padding:7px 10px;border-bottom:1px solid var(--rule);color:var(--steelmd);background:#fff;vertical-align:top}
+tr:nth-child(even) td{background:var(--paper2)}
+td:first-child{color:var(--steeldk);font-weight:500}
+td.ok{color:var(--green-ok);font-weight:600}
+td.warn{color:var(--red-warn);font-weight:600}
+
+/* STAT GRID */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-bottom:10px}
+.stat{background:#fff;border:1px solid var(--rule);border-radius:6px;padding:10px 12px;text-align:center}
+.stat-val{font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:var(--amber2);line-height:1}
+.stat-label{font-family:'IBM Plex Mono',monospace;font-size:.48rem;letter-spacing:.12em;text-transform:uppercase;color:var(--steelmd);margin-top:3px}
+
+/* FLOW DECISION */
+.flow-step{display:flex;gap:10px;margin-bottom:6px;align-items:flex-start}
+.flow-num{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--amber2);min-width:24px;text-align:center;line-height:1.3}
+.flow-body{font-size:.82rem;color:var(--steelmd);line-height:1.55;flex:1}
+.flow-body strong{color:var(--steeldk)}
+
+/* SOURCE BLOCK */
+.sources{border-top:2px solid var(--rule);padding-top:12px;margin-top:20px}
+.sources h3{font-family:'IBM Plex Mono',monospace;font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;color:var(--amber);margin-bottom:8px}
+.sources p{font-size:.72rem;color:var(--steelmd);line-height:1.5;margin-bottom:4px}
+
+/* FOOTER */
+footer{background:var(--ink);border-top:4px solid var(--amber2);padding:12px 20px;text-align:center}
+footer div{font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.08em;color:var(--steelmd);margin-bottom:3px}
+footer div:first-child{color:var(--amber2)}
+
+/* PRINT */
+@media print{
+*{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{font-size:8pt;background:#fff}
+.sticky-wrap{position:static}
+.toc-bar{display:none}
+.masthead{padding:6mm 10mm;break-after:avoid}
+.content{max-width:100%;padding:6mm 10mm}
+.section{margin-bottom:4mm}
+.section h2{font-size:12pt;margin-bottom:2mm;break-after:avoid}
+.section h3{font-size:9pt;margin:3mm 0 1.5mm;break-after:avoid}
+.section p{font-size:8pt;line-height:1.45;margin-bottom:1.5mm}
+.card{padding:2.5mm 3.5mm;margin-bottom:2mm;break-inside:avoid}
+.card p,.card li{font-size:7.5pt;line-height:1.4}
+.stat-grid{gap:2mm;margin-bottom:3mm;break-inside:avoid}
+.stat{padding:2.5mm}
+.stat-val{font-size:12pt}
+.stat-label{font-size:5.5pt}
+table{font-size:6.5pt;break-inside:avoid}
+th{font-size:5.5pt;padding:1.5mm 2.5mm}
+td{padding:1.5mm 2.5mm}
+.tbl-wrap{margin-bottom:3mm}
+.flow-step{margin-bottom:1.5mm;break-inside:avoid}
+.flow-num{font-size:9pt}
+.flow-body{font-size:7.5pt;line-height:1.4}
+.sources{margin-top:4mm;padding-top:3mm}
+.sources p{font-size:6pt;line-height:1.35;margin-bottom:1mm}
+footer{padding:3mm}
+/* Logical page groupings — force clean breaks at natural topic boundaries */
+#s4{break-before:page}  /* Threats — starts new topic after planning sections */
+#s6{break-before:page}  /* Heat — starts treatment methods block */
+#s8{break-before:page}  /* Chemical — continues treatment on fresh page */
+#s10{break-before:page} /* Storage — large standalone section */
+.print-break{break-before:page} /* Force break before high-risk areas heading */
+@page{size:A4;margin:8mm}
+}
+
+/* MOBILE */
+@media(max-width:600px){
+.masthead{padding:14px 16px 12px}
+.mh-title{font-size:1.6rem}
+.content{padding:16px 14px 40px}
+.stat-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ STICKY HEADER (masthead + TOC) ═══ -->
+<div class="sticky-wrap">
+  <div class="masthead">
+    <div class="mh-eyebrow">Overland Series · R12</div>
+    <div class="mh-title">WATER MANAGEMENT &amp; PURIFICATION</div>
+    <div class="mh-sub">Field Guide · Southern &amp; East Africa</div>
+    <div class="mh-vehicle">2009 LC76 SW · 1HZ 4.2L Diesel · Last Updated: 24 March 2026</div>
+  </div>
+  <div class="toc-bar" id="tocBar">
+    <button class="toc-btn" data-target="s1">Requirements</button>
+    <button class="toc-btn" data-target="s2">Budget</button>
+    <button class="toc-btn" data-target="s3">Sources</button>
+    <button class="toc-btn" data-target="s4">Threats</button>
+    <button class="toc-btn" data-target="s5">Multi-Barrier</button>
+    <button class="toc-btn" data-target="s6">Heat</button>
+    <button class="toc-btn" data-target="s7">Filtration</button>
+    <button class="toc-btn" data-target="s8">Chemical</button>
+    <button class="toc-btn" data-target="s9">UV</button>
+    <button class="toc-btn" data-target="s10">Storage</button>
+    <button class="toc-btn" data-target="s11">Bilharzia</button>
+    <button class="toc-btn" data-target="s12">Rationing</button>
+    <button class="toc-btn" data-target="s13">Decision</button>
+    <button class="toc-btn" data-target="s14">Kit List</button>
+  </div>
+</div>
+
+<!-- ═══ CONTENT ═══ -->
+<div class="content">
+
+<!-- ─── 1. DAILY REQUIREMENTS ─── -->
+<div class="section" id="s1">
+  <div class="section-num">Section 1</div>
+  <h2>Daily Water Requirements</h2>
+  <p>Water is the single most critical consumable on any overland trip in Africa. Dehydration degrades judgement, reaction time, and physical capability long before you feel seriously thirsty. In the heat of Southern and East Africa — where ambient temperatures routinely exceed 35°C — water requirements are substantially higher than temperate norms.</p>
+
+  <div class="card warn">
+    <p><strong>The 1% rule:</strong> Losing just 1% of body weight through dehydration impairs concentration and decision-making. At 3–5% loss you experience headache, fatigue and reduced coordination. At 10% loss, dehydration becomes life-threatening. <em>Source: US National Academies — Nutritional Needs in Hot Environments</em></p>
+  </div>
+
+  <h3>Baseline Requirements (per person)</h3>
+  <div class="stat-grid">
+    <div class="stat"><div class="stat-val">3–4 L</div><div class="stat-label">Drinking · Temperate</div></div>
+    <div class="stat"><div class="stat-val">5–8 L</div><div class="stat-label">Drinking · Hot Climate</div></div>
+    <div class="stat"><div class="stat-val">2–3 L</div><div class="stat-label">Cooking &amp; Hygiene</div></div>
+    <div class="stat"><div class="stat-val">7–11 L</div><div class="stat-label">Total · Hot Day</div></div>
+  </div>
+
+  <p>The WHO and Mayo Clinic guidance suggests 2.7–3.7 L of total fluid intake for adults in moderate conditions. In hot African bush conditions with physical activity (setting up camp, vehicle recovery, hiking), this can double. The CDC recommends drinking approximately 250 mL every 15–20 minutes during physical activity in the heat — that's roughly 1 L per hour.</p>
+
+  <div class="card ok">
+    <p><strong>Urine colour is your best field indicator.</strong> Pale straw = well hydrated. Dark yellow = drink immediately. If you're not urinating every 2–3 hours, you're not drinking enough.</p>
+  </div>
+
+  <h3>Signs of Dehydration — Escalating Severity</h3>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>Stage</th><th>Signs</th><th>Action</th></tr>
+    <tr><td><strong>Mild (1–3%)</strong></td><td>Thirst, dry mouth, darker urine, mild headache, reduced concentration</td><td>Drink 500 mL water immediately, continue sipping. Rest in shade.</td></tr>
+    <tr><td><strong>Moderate (3–5%)</strong></td><td>Strong thirst, headache, fatigue, dizziness, muscle cramps, reduced urine output</td><td>Stop activity. Rest in shade. Drink water with ORS. Monitor closely.</td></tr>
+    <tr><td class="warn"><strong>Severe (5–10%)</strong></td><td>Confusion, rapid heartbeat, very dark or no urine, sunken eyes, fainting, inability to sweat</td><td class="warn">Medical emergency. Evacuate. Cool body. Sip water if conscious. Do not force fluids on unconscious person.</td></tr>
+  </table>
+  </div>
+
+  <div class="card info">
+    <p><strong>Electrolytes matter.</strong> Sweating loses salt as well as water. Drinking plain water alone during heavy sweating can dilute blood sodium dangerously (hyponatraemia). Carry oral rehydration salts (ORS) and use them when sweating heavily — especially during vehicle recovery or long drives in heat. See R10 for ORS mixing ratios.</p>
+  </div>
+</div>
+
+<!-- ─── 2. DAILY WATER BUDGET ─── -->
+<div class="section" id="s2">
+  <div class="section-num">Section 2</div>
+  <h2>Planning Your Water Budget</h2>
+  <p>For a two-person crew (Neil &amp; Mary-Ann), plan water carry and resupply around these daily consumption figures. Always carry a safety margin.</p>
+
+  <h3>Daily Budget — Two People, Hot Conditions</h3>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>Use</th><th>Litres/Day</th><th>Notes</th></tr>
+    <tr><td>Drinking</td><td><strong>10–16 L</strong></td><td>5–8 L per person. Higher end for 40°C+ or recovery work</td></tr>
+    <tr><td>Cooking</td><td><strong>2–3 L</strong></td><td>Pasta/rice/porridge, hot drinks, washing vegetables</td></tr>
+    <tr><td>Dishes</td><td><strong>2–3 L</strong></td><td>Three-bowl system: wash, rinse, sanitise</td></tr>
+    <tr><td>Personal hygiene</td><td><strong>1–2 L</strong></td><td>Hands, face, teeth. No bush showers from drinking water</td></tr>
+    <tr><td><strong>Daily total</strong></td><td><strong>15–24 L</strong></td><td>Plan on 20 L/day as working estimate</td></tr>
+  </table>
+  </div>
+
+  <h3>Current Carry Capacity</h3>
+  <div class="card ok">
+    <p><strong>Your setup:</strong> 3 × 20 L rigid containers = <strong>60 L total</strong> when travelling deep into Africa (not carried for local/daily use). Stored behind the driver's seat on the seat-delete platform, with a filtration system plumbed in. This gives 3 days of self-sufficiency at 20 L/day for two people — enough for most bush stretches. For remote legs (5+ days, e.g. Iona NP), supplement with additional collapsible cells or fill-and-carry from sources en route using your filtration system.</p>
+  </div>
+
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>Scenario</th><th>Days Between Resupply</th><th>Water Needed</th><th>Weight</th></tr>
+    <tr><td>Town-to-town (daily resupply)</td><td>1</td><td>20 L</td><td>20 kg</td></tr>
+    <tr><td>Bush camp (3 days)</td><td>3</td><td>60 L</td><td>60 kg</td></tr>
+    <tr><td>Remote (5 days — e.g. Iona NP)</td><td>5</td><td>100 L</td><td>100 kg</td></tr>
+    <tr><td>Emergency reserve</td><td>+1 day</td><td>+20 L</td><td>+20 kg</td></tr>
+  </table>
+  </div>
+
+  <div class="card warn">
+    <p><strong>Weight impact:</strong> Water weighs 1 kg per litre. A 5-day remote carry of 100 L adds 100 kg to your vehicle — that's 14% of your total 690 kg payload. Factor this into your load plan (cross-reference R11: Packing Optimisation). Place heavy water containers low and as centrally as possible.</p>
+  </div>
+</div>
+
+<!-- ─── 3. WATER SOURCES IN AFRICA ─── -->
+<div class="section" id="s3">
+  <div class="section-num">Section 3</div>
+  <h2>Water Sources in Africa</h2>
+  <p>Understanding what water is available — and how much you can trust it — varies enormously across Southern and East Africa. The golden rule: <strong>treat all water from unknown sources as contaminated unless proven otherwise.</strong> Appearance, smell, and taste are not reliable indicators of safety.</p>
+
+  <h3>Source Types — Ranked by Reliability</h3>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>Source</th><th>Trust Level</th><th>Treatment Needed</th><th>Notes</th></tr>
+    <tr><td>Factory-sealed bottled water</td><td class="ok">High</td><td>None (check seal is intact)</td><td>Check that cap seal is unbroken. In remote areas, locals may refill bottles with untreated water. Carbonated water is generally safer — if it fizzes, it was sealed.</td></tr>
+    <tr><td>Municipal tap (major city)</td><td>Moderate</td><td>Chemical treatment recommended</td><td>South Africa, Namibia, Botswana: generally good urban supply. Tanzania, Mozambique, Angola: treat all municipal water.</td></tr>
+    <tr><td>Borehole / hand pump</td><td>Moderate</td><td>Filter + chemical treatment</td><td>Usually cleaner than surface water. Risk of mineral contamination (fluoride, arsenic in some regions). Still treat.</td></tr>
+    <tr><td>Fuel station tap</td><td>Variable</td><td>Always treat</td><td>Some have borehole supply, some tap into unreliable systems. Never trust without treatment.</td></tr>
+    <tr><td>River / stream</td><td class="warn">Low</td><td>Full treatment chain</td><td>Assume contaminated with bacteria, viruses, parasites. Risk of upstream agricultural/human contamination. High bilharzia risk in most of sub-Saharan Africa.</td></tr>
+    <tr><td>Lake / dam</td><td class="warn">Low</td><td>Full treatment chain</td><td>High bilharzia risk. Do not fill containers by wading in. Use a long hose or rope-and-bucket from shore.</td></tr>
+    <tr><td>Stagnant pool / puddle</td><td class="warn">Very low</td><td>Clarify + full treatment</td><td>Last resort only. Pre-filter through cloth, flocculate if turbid, then full treatment chain. High pathogen load.</td></tr>
+  </table>
+  </div>
+
+  <h3>Country Notes — Water Reliability</h3>
+  <div class="card">
+    <p><strong>South Africa:</strong> Urban tap water is among the best in Africa. Rural areas and small towns can be unreliable — confirm with locals. Carry treatment as backup.</p>
+    <p><strong>Namibia:</strong> Municipal water generally good. Borehole water common in rural areas. Extremely dry — plan water carefully in the Skeleton Coast and Kaokoveld.</p>
+    <p><strong>Botswana:</strong> Urban supply good. CKGR and remote areas require complete self-sufficiency — no water for hundreds of kilometres.</p>
+    <p><strong>Zambia:</strong> Lusaka supply improving but inconsistent. Rural areas: treat everything. Victoria Falls town supply is generally reliable.</p>
+    <p><strong>Zimbabwe:</strong> Harare and Bulawayo supply has been unreliable for years. Treat all water. Safari lodges usually filter their own supply.</p>
+    <p><strong>Mozambique:</strong> Treat all water outside Maputo. Rural infrastructure is very limited. Bottled water widely available in towns.</p>
+    <p><strong>Tanzania:</strong> Treat all water. Even Dar es Salaam supply is unreliable. Safari operators provide treated water.</p>
+    <p><strong>Malawi:</strong> Treat all water. Lake Malawi water carries bilharzia risk — never use untreated lake water for drinking, cooking, or washing dishes.</p>
+    <p><strong>Angola:</strong> Treat all water. Urban supply extremely unreliable. Carry all water needed for bush camping. See Angola country profile for details.</p>
+  </div>
+</div>
+
+<!-- ─── 4. WATERBORNE THREATS ─── -->
+<div class="section" id="s4">
+  <div class="section-num">Section 4</div>
+  <h2>Waterborne Threats in Africa</h2>
+  <p>The CDC Yellow Book and WHO identify Africa as a high-risk region for waterborne disease, with 20–50% of travellers affected by waterborne illness. The major threats fall into four categories, each requiring different treatment approaches — which is why no single method is sufficient on its own.</p>
+
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>Category</th><th>Common Pathogens</th><th>Size</th><th>Illness Caused</th><th>Killed By</th></tr>
+    <tr><td><strong>Bacteria</strong></td><td>E. coli, Salmonella, Vibrio cholerae, Shigella</td><td>0.2–10 µm</td><td>Traveller's diarrhoea, cholera, dysentery</td><td>Boiling, chlorine, iodine, UV, filtration (0.2 µm)</td></tr>
+    <tr><td><strong>Viruses</strong></td><td>Hepatitis A, Norovirus, Rotavirus</td><td>0.02–0.1 µm</td><td>Hepatitis, gastroenteritis</td><td>Boiling, chlorine, iodine, UV. Most filters too coarse — need ultrafiltration (0.01 µm) or purifier</td></tr>
+    <tr><td><strong>Protozoa</strong></td><td>Giardia, Cryptosporidium, Entamoeba</td><td>1–15 µm</td><td>Giardiasis, cryptosporidiosis, amoebic dysentery</td><td>Boiling, filtration (1 µm), chlorine dioxide. Standard chlorine and iodine ineffective against Crypto</td></tr>
+    <tr><td><strong>Parasitic worms</strong></td><td>Schistosoma (bilharzia)</td><td>Cercariae: ~500 µm</td><td>Schistosomiasis — bladder, liver, intestinal damage</td><td>Boiling, fine filtration. Chlorine/iodine NOT reliable. Avoid skin contact with infected water</td></tr>
+  </table>
+  </div>
+
+  <div class="card warn">
+    <p><strong>The Cryptosporidium problem:</strong> Standard chlorine and iodine do not reliably kill Cryptosporidium at field concentrations. This is why the Wilderness Medical Society (2024 guidelines) and CDC both recommend a multi-barrier approach for international travel — filtration or boiling combined with chemical disinfection, not chemical treatment alone.</p>
+  </div>
+
+  <div class="card info">
+    <p><strong>Infective doses are tiny.</strong> As few as 10 Giardia cysts or 10 Cryptosporidium oocysts can cause infection, compared with 10,000 Vibrio cholerae organisms. Even a few millilitres of contaminated water can make you ill. This is why mouth or lip contact with untreated water — even while washing — is a risk. <em>Source: CDC Yellow Book 2026; PMC review "Safe water for travellers"</em></p>
+  </div>
+</div>
+
+<!-- ─── 5. MULTI-BARRIER STRATEGY ─── -->
+<div class="section" id="s5">
+  <div class="section-num">Section 5</div>
+  <h2>The Multi-Barrier Approach</h2>
+  <p>No single treatment method handles all threats in all conditions. The Wilderness Medical Society Clinical Practice Guidelines (2024 update) and the CDC Yellow Book both recommend combining methods — typically filtration plus chemical disinfection — for maximum protection in the field. This is the approach you should adopt for Africa.</p>
+
+  <h3>Recommended Treatment Chain</h3>
+  <div class="flow-step"><div class="flow-num">1</div><div class="flow-body"><strong>Clarify</strong> — If water is turbid (muddy/cloudy), pre-filter through a clean cloth or let sediment settle. Turbidity reduces the effectiveness of every downstream treatment method. For very murky water, use a coagulant-flocculant (alum or commercial sachets like PUR) to settle solids first.</div></div>
+  <div class="flow-step"><div class="flow-num">2</div><div class="flow-body"><strong>Filter</strong> — Pass water through a microfilter (0.2 µm) or ultrafilter (0.01 µm). This removes protozoa, bacteria, sediment, and — if using an ultrafilter — viruses as well. Hollow-fibre filters (e.g. Sawyer, MSR, LifeStraw) are effective and field-proven.</div></div>
+  <div class="flow-step"><div class="flow-num">3</div><div class="flow-body"><strong>Disinfect</strong> — Treat filtered water with a chemical disinfectant (chlorine, chlorine dioxide, or — for short-term use — iodine) to kill any remaining viruses and provide a residual that prevents recontamination during storage. Alternatively, boil (Section 6) or UV-treat (Section 9).</div></div>
+  <div class="flow-step"><div class="flow-num">4</div><div class="flow-body"><strong>Store safely</strong> — Keep treated water in clean, narrow-mouth containers with secure lids. Do not introduce hands, dirty cups, or untreated water into clean containers. See Section 10.</div></div>
+
+  <div class="card ok">
+    <p><strong>The simplest field-reliable approach for Africa:</strong> Filter through a 0.2 µm hollow-fibre filter → treat with chlorine dioxide tablets → store in a clean container. This handles bacteria, viruses, protozoa (including Cryptosporidium with ClO₂), and provides a storage residual. Boiling is always the fallback if your filter or chemicals fail.</p>
+  </div>
+</div>
+
+<!-- ─── 6. HEAT TREATMENT ─── -->
+<div class="section" id="s6">
+  <div class="section-num">Section 6</div>
+  <h2>Heat Treatment (Boiling)</h2>
+  <p>Boiling is the gold standard for field water disinfection. Both the CDC and WHO confirm it is the most reliable single-step method available, effective against all categories of waterborne pathogens — bacteria, viruses, protozoa, and parasitic worms.</p>
+
+  <div class="stat-grid">
+    <div class="stat"><div class="stat-val">1 min</div><div class="stat-label">Rolling boil · Below 2,000 m</div></div>
+    <div class="stat"><div class="stat-val">3 min</div><div class="stat-label">Rolling boil · Above 2,000 m</div></div>
+  </div>
+
+  <p>Technically, water pasteurisation occurs at temperatures above 65°C sustained for 30 minutes — well below boiling point. By the time water reaches a rolling boil (100°C at sea level), all common pathogens are already dead. Extended boiling wastes fuel without adding safety.</p>
+
+  <h3>Advantages</h3>
+  <div class="card ok">
+    <p>Kills everything — bacteria, viruses, protozoa, worm larvae. Requires no special equipment. Works regardless of water turbidity or chemistry. The one method that never fails if done correctly.</p>
+  </div>
+
+  <h3>Limitations</h3>
+  <div class="card amber">
+    <p>Uses fuel (gas or firewood) — a concern on long remote stretches. Does not remove chemical contaminants, sediment, or improve taste. Requires time to cool before drinking. Does not provide a residual to prevent recontamination during storage — add a small amount of chlorine after cooling if storing.</p>
+  </div>
+
+  <div class="card info">
+    <p><strong>Fuel cost estimate:</strong> Boiling 1 L of water from 20°C uses approximately 8–10 g of LPG. A standard 3 kg camping gas cylinder can boil roughly 300–350 L. Plan fuel accordingly for remote stretches where boiling is your primary method.</p>
+  </div>
+</div>
+
+<!-- ─── 7. FILTRATION ─── -->
+<div class="section" id="s7">
+  <div class="section-num">Section 7</div>
+  <h2>Filtration</h2>
+  <p>Portable water filters are the workhorse of overlanding water treatment. They physically remove contaminants based on pore size. Understanding what your filter does — and does not — remove is critical to using it safely.</p>
+
+  <h3>Filter Types by Pore Size</h3>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>Type</th><th>Pore Size</th><th>Removes</th><th>Does NOT Remove</th><th>Examples</th></tr>
+    <tr><td><strong>Microfilter</strong></td><td>0.1–0.5 µm</td><td>Bacteria, protozoa, sediment</td><td class="warn">Viruses</td><td>Sawyer Squeeze, MSR MiniWorks, Katadyn Hiker</td></tr>
+    <tr><td><strong>Ultrafilter</strong></td><td>0.01–0.02 µm</td><td>Bacteria, protozoa, most viruses</td><td>Some chemicals</td><td>MSR Guardian, Sawyer S3, LifeStraw Mission</td></tr>
+    <tr><td><strong>Purifier (certified)</strong></td><td>≤0.02 µm + tested</td><td>Bacteria, protozoa, viruses (EPA purifier standard)</td><td>Some chemicals</td><td>MSR Guardian (EPA-rated purifier)</td></tr>
+    <tr><td><strong>Activated carbon</strong></td><td>N/A (adsorption)</td><td>Chlorine, chemicals, taste, odour</td><td class="warn">Bacteria, viruses, protozoa</td><td>GAC elements in composite filters</td></tr>
+  </table>
+  </div>
+
+  <div class="card warn">
+    <p><strong>Critical:</strong> Most portable microfilters (0.2 µm) do not remove viruses. In Africa, where viral contamination (Hepatitis A, Norovirus) is common, you must combine a microfilter with chemical disinfection, UV treatment, or boiling. A microfilter alone is not sufficient for African surface water. The CDC is clear on this point.</p>
+  </div>
+
+  <h3>Practical Considerations</h3>
+  <div class="card">
+    <p><strong>Flow rate vs filter life:</strong> Gravity filters (e.g. LifeStraw Mission, Sawyer gravity kits) are hands-free but slow — suitable for camp use. Pump filters are faster but require effort. For the LC76, a gravity filter hung from the roof rack at camp is an efficient daily system.</p>
+    <p><strong>Backflushing:</strong> Hollow-fibre filters (Sawyer, MSR) must be backflushed regularly to maintain flow rate. Carry the backflush syringe. A clogged filter in the field is useless.</p>
+    <p><strong>Pre-filtering turbid water:</strong> Always pre-filter murky water through a bandana or clean cloth before running it through your main filter. This dramatically extends filter life and prevents clogging.</p>
+    <p><strong>Freezing:</strong> Hollow-fibre filters are permanently damaged if water inside them freezes. Not a common problem in Africa, but relevant at altitude (Lesotho highlands, Kilimanjaro approach) or winter in the Drakensberg.</p>
+  </div>
+</div>
+
+<!-- ─── 8. CHEMICAL DISINFECTION ─── -->
+<div class="section" id="s8">
+  <div class="section-num">Section 8</div>
+  <h2>Chemical Disinfection</h2>
+  <p>Chemical disinfectants are lightweight, inexpensive, and provide a residual that keeps water safe during storage — something filtration and boiling cannot do. The three main options for field use are chlorine, chlorine dioxide, and iodine. Each has different strengths and limitations.</p>
+
+  <h3>Comparison</h3>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>Method</th><th>Kills Bacteria</th><th>Kills Viruses</th><th>Kills Protozoa</th><th>Kills Crypto</th><th>Contact Time</th><th>Taste</th><th>Notes</th></tr>
+    <tr><td><strong>Chlorine (NaOCl / bleach)</strong></td><td class="ok">Yes</td><td class="ok">Yes</td><td>Giardia: Yes</td><td class="warn">No</td><td>30 min</td><td>Noticeable</td><td>Cheap, widely available. 2 drops unscented bleach per litre. Does not kill Cryptosporidium.</td></tr>
+    <tr><td><strong>Chlorine dioxide (ClO₂)</strong></td><td class="ok">Yes</td><td class="ok">Yes</td><td class="ok">Yes</td><td class="ok">Yes*</td><td>30 min – 4 hrs</td><td>Minimal</td><td>Best chemical option for Africa. Kills Crypto if full contact time observed. No bad taste. Tablets widely available.</td></tr>
+    <tr><td><strong>Iodine</strong></td><td class="ok">Yes</td><td class="ok">Yes</td><td>Giardia: Yes</td><td class="warn">No</td><td>30 min</td><td>Strong</td><td>Not for long-term use. Banned for water disinfection in EU since 2009. Avoid if pregnant or thyroid issues.</td></tr>
+    <tr><td><strong>Milton / NaOCl solution</strong></td><td class="ok">Yes</td><td class="ok">Yes</td><td>Giardia: Yes</td><td class="warn">No</td><td>30 min</td><td>Mild</td><td>Readily available in SA. Good for tank treatment and dish sanitisation. Same limitations as bleach.</td></tr>
+  </table>
+  </div>
+
+  <div class="card ok">
+    <p><strong>Recommended for Africa: Chlorine dioxide tablets</strong> (e.g. Aquamira, Katadyn Micropur Forte, Potable Aqua ClO₂). They handle all four pathogen categories including Cryptosporidium — no other halogen does this at field concentrations. The Wilderness Medical Society rates ClO₂ effectiveness against Cryptosporidium as "strong recommendation, high quality evidence." Allow 4 hours contact time for full Crypto protection. No unpleasant taste.</p>
+  </div>
+
+  <h3>Chlorine Dosing — Quick Reference</h3>
+  <div class="card">
+    <p><strong>Household bleach (unscented, 3.5% NaOCl):</strong> 2 drops per litre of clear water, 4 drops for cloudy water. Wait 30 minutes. Water should have a slight chlorine smell — if not, add 2 more drops and wait another 15 minutes.</p>
+    <p><strong>Milton solution:</strong> One capful per 70 L tank (for tank treatment during storage). Let stand 30 minutes before use. The Tracks4Africa guide confirms this approach was used successfully on an 8-month Cape Town to Ethiopia overland trip.</p>
+    <p><strong>Vitamin C trick:</strong> A small pinch of ascorbic acid (vitamin C) powder added after the contact time neutralises the chlorine taste without affecting safety. The CDC Yellow Book recommends this approach.</p>
+  </div>
+</div>
+
+<!-- ─── 9. UV TREATMENT ─── -->
+<div class="section" id="s9">
+  <div class="section-num">Section 9</div>
+  <h2>UV Treatment</h2>
+  <p>Ultraviolet light disrupts the DNA of pathogens, preventing them from reproducing. It is effective against bacteria, viruses, and protozoa — including Cryptosporidium. The Wilderness Medical Society rates UV treatment with "strong recommendation, high quality evidence."</p>
+
+  <h3>Portable UV Options</h3>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>Method</th><th>How It Works</th><th>Pros</th><th>Cons</th></tr>
+    <tr><td><strong>UV pen (e.g. SteriPEN)</strong></td><td>Battery-powered UV-C lamp, immersed in water for 60–90 seconds</td><td>Fast, light, effective against all pathogens</td><td>Requires clear water (turbidity blocks UV). Needs batteries/charging. Fragile lamp. No residual for storage.</td></tr>
+    <tr><td><strong>SODIS (solar disinfection)</strong></td><td>Clear PET bottles filled with water, placed in direct sunlight for 6+ hours</td><td>Free, no equipment needed. WHO-recommended for developing countries.</td><td>Needs clear water and strong sunlight. Very slow. No residual. Limited to 1–2 L per bottle.</td></tr>
+  </table>
+  </div>
+
+  <div class="card amber">
+    <p><strong>UV's critical limitation:</strong> It only works in clear water. Turbid water shields pathogens from the UV light. Always pre-filter before UV treatment. UV also provides zero residual protection — treated water must be stored carefully to prevent recontamination. For these reasons, UV works best as a complement to filtration, not a standalone method.</p>
+  </div>
+</div>
+
+<!-- ─── 10. STORAGE & HYGIENE ─── -->
+<div class="section" id="s10">
+  <div class="section-num">Section 10</div>
+  <h2>Storage, Containers &amp; Hygiene</h2>
+  <p>Safe storage is the forgotten step in water management. Treating water perfectly and then storing it badly achieves nothing. Recontamination during storage is one of the most common causes of waterborne illness among travellers.</p>
+
+  <h3>Storage Options for the LC76</h3>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>Option</th><th>Capacity</th><th>Weight (Empty)</th><th>Pros</th><th>Cons</th></tr>
+    <tr><td><strong>Rigid HDPE jerry cans (20 L)</strong></td><td>20 L each</td><td>~1.2 kg</td><td>Tough, stackable, narrow mouth reduces contamination, cheap, universal. Easy to carry to fill point.</td><td>Bulky when empty. Fixed shape. Must be cleaned regularly.</td></tr>
+    <tr><td><strong>Collapsible cells (e.g. Sea to Summit, Front Runner)</strong></td><td>4–20 L</td><td>~0.1–0.3 kg</td><td>Pack flat when empty. Light. Good for supplementary water.</td><td>Less durable. Harder to clean. Can develop mould if stored damp.</td></tr>
+    <tr><td><strong>Built-in poly tank (under-vehicle or in-vehicle)</strong></td><td>40–80 L</td><td>~5–10 kg</td><td>Large capacity, plumbed to tap. Fill from hose. Convenient.</td><td>Complex install. Hard to clean. Heavy when full. Tank must be food-grade. Risk of algae growth.</td></tr>
+    <tr><td><strong>LifeSaver Jerry Can (filter integrated)</strong></td><td>18.5 L</td><td>~2.5 kg</td><td>Filters as you pour — built-in 0.015 µm ultrafilter. Removes bacteria, viruses, protozoa.</td><td>Expensive. Filter cartridge needs replacement (20,000 L). Slower flow than plain jerry can.</td></tr>
+  </table>
+  </div>
+
+  <h3>Your LC76 Setup</h3>
+  <div class="card ok">
+    <p><strong>Confirmed plan:</strong> 3 × 20 L rigid containers stored behind the driver's seat on the seat-delete platform, with a filtration system integrated into the setup. Total capacity: 60 L. Designate one container as "raw/source" (mark clearly) and the other two as "filtered/drinking." The filtration system treats water as it moves from raw to clean storage. Chlorine dioxide tablets provide chemical backup and a storage residual. This gives you compartmentalised storage (if one container is compromised, you don't lose everything), 3 days of self-sufficiency for two people, and the containers are portable enough to carry to a fill point.</p>
+    <p><strong>Container maintenance:</strong> Add a capful of Milton to clean containers after every fill when not using the filter. Clean all containers at least every 3 months with a dilute bleach solution, drain, and sun-dry. The Tracks4Africa recommendation of Milton for container treatment is field-proven on long African trips.</p>
+  </div>
+
+  <h3>Hygiene Rules — Non-Negotiable</h3>
+  <div class="card warn">
+    <p><strong>Never introduce dirty hands, cups, or utensils into clean water containers.</strong> Use a tap or pour — never dip. Keep lids on at all times. Mark containers clearly: "RAW" and "CLEAN." Wash hands before handling clean water. The CDC and Wilderness Medical Society both emphasise that recontamination during storage is a primary cause of treatment failure.</p>
+  </div>
+
+  <h3>Dish Washing Protocol</h3>
+  <div class="card">
+    <p>Use a three-bowl system to prevent cross-contamination:</p>
+    <p><strong>Bowl 1 — Wash:</strong> Hot water with biodegradable soap. Scrub dishes clean.</p>
+    <p><strong>Bowl 2 — Rinse:</strong> Clean water to remove soap residue.</p>
+    <p><strong>Bowl 3 — Sanitise:</strong> Water with 10 drops of unscented bleach per litre (or a capful of Milton per basin). Dip for 30 seconds. Air dry — do not towel dry.</p>
+    <p>Dispose of waste water at least 60 m from any water source.</p>
+  </div>
+</div>
+
+<!-- ─── 11. BILHARZIA ─── -->
+<div class="section" id="s11">
+  <div class="section-num">Section 11</div>
+  <h2>Bilharzia (Schistosomiasis)</h2>
+  <p>Bilharzia is the second most prevalent parasitic disease in Africa after malaria. Over 90% of the global burden is in sub-Saharan Africa, and the WHO estimates more than 200 million people are infected. It is a direct threat to overlanders who have any freshwater contact — swimming, wading, washing, or even collecting water from rivers and lakes in endemic areas.</p>
+
+  <div class="card warn">
+    <p><strong>The Southern African Society of Travel Medicine (SASTM) advises:</strong> Assume all rivers, lakes, and dams in sub-Saharan Africa are infected. Do not rely on local claims that water is safe. Even brief skin contact with contaminated freshwater can transmit the parasite.</p>
+  </div>
+
+  <h3>How It Works</h3>
+  <div class="card">
+    <p>The Schistosoma parasite lives in certain freshwater snails. Infected snails release microscopic larvae (cercariae) into the water. These larvae can penetrate unbroken human skin within minutes of contact. Once inside the body, they mature into worms that lodge in blood vessels around the bladder (S. haematobium) or intestines (S. mansoni), laying eggs that cause progressive organ damage. Symptoms may not appear for weeks or months — many cases go undetected.</p>
+  </div>
+
+  <h3 class="print-break">High-Risk Areas on Your Route</h3>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>Water Body</th><th>Countries</th><th>Risk Level</th></tr>
+    <tr><td>Lake Malawi</td><td>Malawi, Mozambique, Tanzania</td><td class="warn">High — especially southern shores</td></tr>
+    <tr><td>Lake Victoria</td><td>Tanzania, Kenya, Uganda</td><td class="warn">High</td></tr>
+    <tr><td>Zambezi River system</td><td>Zambia, Zimbabwe, Mozambique</td><td class="warn">High</td></tr>
+    <tr><td>Okavango Delta</td><td>Botswana</td><td>Moderate to High</td></tr>
+    <tr><td>Rivers &amp; dams — general</td><td>All sub-Saharan countries</td><td class="warn">Assume present</td></tr>
+  </table>
+  </div>
+
+  <h3>Protection Rules</h3>
+  <div class="card ok">
+    <p><strong>Do not swim, wade, or bathe in freshwater</strong> in endemic areas — even if locals or tour operators say it's safe. Saltwater (ocean) and chlorinated pools are safe. If you must cross a stream on foot, wear boots and cross quickly in fast-flowing sections (lower risk than still water). Dry off vigorously with a towel immediately after any accidental contact — this may reduce (but not eliminate) skin penetration.</p>
+    <p><strong>For drinking water from rivers/lakes:</strong> Heating water to 65°C for 5 minutes or a rolling boil kills cercariae. Alternatively, water stored in a sealed container for at least 48 hours is considered safe, as cercariae die within that time without a human host. Iodine alone does NOT reliably kill Schistosoma parasites. Filtration through a fine cloth or 0.2 µm filter removes cercariae effectively due to their relatively large size.</p>
+    <p><strong>If exposed:</strong> Get tested 6–12 weeks after exposure. Treatment with praziquantel is effective. Discuss with a travel medicine specialist.</p>
+  </div>
+</div>
+
+<!-- ─── 12. EMERGENCY RATIONING ─── -->
+<div class="section" id="s12">
+  <div class="section-num">Section 12</div>
+  <h2>Emergency Water Rationing</h2>
+  <p>If your vehicle breaks down or you become stranded with limited water, rationing becomes a survival priority. Cross-reference R10 (Emergency Procedures) for the broader survival framework.</p>
+
+  <h3>Rationing Protocol — Two People</h3>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>Water Available</th><th>Daily Ration (Each)</th><th>Priority Use</th><th>Survival Time (Est.)</th></tr>
+    <tr><td>&gt; 10 L per person</td><td>Normal (5+ L)</td><td>Drink freely, cook normally</td><td>Comfortable for 2+ days</td></tr>
+    <tr><td>5–10 L per person</td><td>2.5–3 L</td><td>Drinking only. No cooking water — eat dry or tinned food. Minimal hand washing.</td><td>2–3 days</td></tr>
+    <tr><td>2–5 L per person</td><td>1–1.5 L</td><td>Sipping only. No cooking. No washing. Stay in shade. Minimise all movement.</td><td>1–2 days in extreme heat</td></tr>
+    <tr><td class="warn">&lt; 2 L per person</td><td class="warn">Survival sips</td><td class="warn">Small sips only. Stay with vehicle. Activate emergency communication (PLB/satellite phone). Do not walk out in daytime heat.</td><td class="warn">Hours to 1 day</td></tr>
+  </table>
+  </div>
+
+  <div class="card warn">
+    <p><strong>Never ration water by skipping drinks.</strong> It is more effective to drink when thirsty and ration by reducing activity and staying in shade. The body cannot store water — drinking extra now does not help later. Sip consistently rather than gulping. Do not drink urine, seawater, or radiator fluid — all worsen dehydration.</p>
+  </div>
+
+  <div class="card info">
+    <p><strong>Reducing water loss:</strong> Stay in shade (under the vehicle or a tarp). Rest during the hottest hours (10:00–16:00). Breathe through the nose (reduces respiratory water loss). Wear loose, light-coloured clothing that covers skin. Avoid eating protein-heavy food (protein metabolism requires more water). Do not drink alcohol.</p>
+  </div>
+</div>
+
+<!-- ─── 13. FIELD DECISION GUIDE ─── -->
+<div class="section" id="s13">
+  <div class="section-num">Section 13</div>
+  <h2>Field Decision Guide</h2>
+  <p>Use this quick-reference to decide how to treat water in the field based on what source is available.</p>
+
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>Water Source</th><th>Step 1</th><th>Step 2</th><th>Step 3</th><th>Safe to Drink?</th></tr>
+    <tr><td>Factory-sealed bottle</td><td>Check seal intact</td><td>—</td><td>—</td><td class="ok">Yes</td></tr>
+    <tr><td>Urban tap (SA, Namibia, Botswana)</td><td>Chlorine dioxide tablet</td><td>Wait 30 min</td><td>—</td><td class="ok">Yes</td></tr>
+    <tr><td>Urban tap (other countries)</td><td>Filter (0.2 µm)</td><td>ClO₂ tablet</td><td>Wait 30 min</td><td class="ok">Yes</td></tr>
+    <tr><td>Borehole / hand pump</td><td>Filter (0.2 µm)</td><td>ClO₂ tablet</td><td>Wait 30 min</td><td class="ok">Yes</td></tr>
+    <tr><td>Clear river / stream</td><td>Filter (0.2 µm)</td><td>ClO₂ tablet</td><td>Wait 4 hrs (Crypto)</td><td class="ok">Yes</td></tr>
+    <tr><td>Turbid river / pool</td><td>Pre-filter cloth → settle/flocculate</td><td>Filter (0.2 µm)</td><td>ClO₂ tablet, wait 4 hrs</td><td class="ok">Yes</td></tr>
+    <tr><td>Any source, no filter available</td><td>Pre-filter cloth</td><td>Rolling boil 1 min</td><td>Add chlorine after cooling for storage</td><td class="ok">Yes</td></tr>
+    <tr><td>Any source, nothing available</td><td>Pre-filter cloth</td><td>SODIS — clear PET bottle, 6+ hrs full sun</td><td>—</td><td>Adequate (last resort)</td></tr>
+  </table>
+  </div>
+
+  <div class="card ok">
+    <p><strong>The "belt and braces" rule:</strong> When in doubt, use two methods. Filter + chemical is ideal. If you only have one method, boiling is always the safest single choice. Never rely on chemical treatment alone for surface water in Africa — the Cryptosporidium risk is too significant unless you're using chlorine dioxide with full 4-hour contact time.</p>
+  </div>
+</div>
+
+<!-- ─── 14. KIT LIST ─── -->
+<div class="section" id="s14">
+  <div class="section-num">Section 14</div>
+  <h2>Water Treatment Kit List</h2>
+  <p>Recommended equipment for the LC76, prioritised by importance. Cross-reference R3 (Bush Spares &amp; Tools) for where these items fit in the overall spares inventory.</p>
+
+  <h3>Primary Equipment</h3>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>Item</th><th>Purpose</th><th>Qty</th><th>Weight</th><th>Notes</th></tr>
+    <tr><td><strong>20 L rigid containers</strong></td><td>Primary water storage</td><td>3</td><td>~1.2 kg each (empty)</td><td>Behind driver on seat-delete. Mark "RAW" and "CLEAN" permanently. Food-grade.</td></tr>
+    <tr><td><strong>Filtration system (0.1–0.2 µm)</strong></td><td>Primary filtration</td><td>1 system</td><td>~0.3 kg</td><td>Integrated into seat-delete water setup. Must include backflush syringe.</td></tr>
+    <tr><td><strong>Chlorine dioxide tablets</strong></td><td>Chemical disinfection</td><td>100+ tablets</td><td>~0.1 kg</td><td>Katadyn Micropur Forte or equivalent. Check expiry dates.</td></tr>
+    <tr><td><strong>ORS sachets</strong></td><td>Electrolyte replacement</td><td>20+</td><td>~0.2 kg</td><td>WHO formula. Use after heavy sweating, diarrhoea, or vomiting.</td></tr>
+  </table>
+  </div>
+
+  <h3>Backup &amp; Supplementary</h3>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>Item</th><th>Purpose</th><th>Qty</th><th>Notes</th></tr>
+    <tr><td><strong>Unscented household bleach</strong></td><td>Backup disinfection + dish sanitisation</td><td>500 mL</td><td>3.5% NaOCl. Also used for dish sanitisation bowl. Shelf life ~6 months.</td></tr>
+    <tr><td><strong>Milton solution</strong></td><td>Tank/container treatment</td><td>500 mL</td><td>Widely available in SA pharmacies. Effective and mild.</td></tr>
+    <tr><td><strong>Pre-filter cloth / bandana</strong></td><td>Remove gross sediment before filtering</td><td>2</td><td>Dedicated water-use bandanas. Wash and sun-dry after each use.</td></tr>
+    <tr><td><strong>Collapsible water container (10 L)</strong></td><td>Collecting water from source</td><td>1–2</td><td>For carrying water from a river/borehole to the vehicle. Packs flat.</td></tr>
+    <tr><td><strong>Replacement filter cartridge</strong></td><td>Backup for primary filter</td><td>1</td><td>Match to your filter system. Hollow-fibre filters last 100,000+ L but can be damaged.</td></tr>
+    <tr><td><strong>Wide-mouth water bottles (1 L)</strong></td><td>Personal drinking</td><td>2</td><td>Nalgene or similar. Wide mouth for easy filling and cleaning. One per person.</td></tr>
+  </table>
+  </div>
+
+  <div class="card info">
+    <p><strong>Total kit weight (excluding water):</strong> Approximately 5–6 kg with 3 empty containers. The filter, tablets, bleach, and ORS sachets together weigh under 1 kg — negligible weight for life-critical capability.</p>
+  </div>
+</div>
+
+<!-- ─── SOURCES ─── -->
+<div class="sources">
+  <h3>Key Sources &amp; References</h3>
+  <p><strong>CDC Yellow Book 2026</strong> — "Water Disinfection for Travelers" (Chapter by H.D. Backer & V. Hill). The primary US government reference for traveller water safety. Covers all treatment methods with pathogen-specific efficacy data.</p>
+  <p><strong>WHO Guidelines for Drinking-Water Quality, 4th Edition (2022)</strong> — The international standard for drinking water quality. Covers health-based targets, water safety plans, and treatment method performance. Published by the World Health Organization, Geneva.</p>
+  <p><strong>Wilderness Medical Society Clinical Practice Guidelines on Water Treatment (2024 Update)</strong> — Backer, Derlet &amp; Hill. Published in Wilderness &amp; Environmental Medicine, 35(1S):45S–66S. Evidence-graded recommendations for field water disinfection. The most comprehensive peer-reviewed clinical guideline for wilderness and travel water treatment.</p>
+  <p><strong>Southern African Society of Travel Medicine (SASTM)</strong> — Schistosomiasis FAQ. Authoritative South African guidance on bilharzia risk, prevention, and testing.</p>
+  <p><strong>WHO Africa Regional Office</strong> — Schistosomiasis (Bilharzia) fact sheet. Epidemiology and transmission data for the African continent.</p>
+  <p><strong>National Institute for Communicable Diseases (NICD), South Africa</strong> — Schistosomiasis FAQ. Geographic distribution data for South Africa.</p>
+  <p><strong>Tracks4Africa</strong> — "Providing Sufficient Water While You Overland." Practical SA-based overlanding water guidance including tank treatment and consumption planning.</p>
+  <p><strong>NaTHNaC (UK National Travel Health Network and Centre)</strong> — Schistosomiasis traveller factsheet. Clinical guidance on risk assessment and post-exposure testing.</p>
+  <p><strong>"Safe Water for Travellers"</strong> — Published in PMC/CMAJ. Peer-reviewed clinical review of waterborne illness risk and treatment method comparison for international travel.</p>
+</div>
+
+</div><!-- /content -->
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div>LC76 Overland Series · R12 · Water Management &amp; Purification</div>
+  <div>Vehicle: LC76 SW 1HZ · SA-plated · RHD</div>
+  <div>Print this guide and keep with R9 &amp; R10 in the vehicle</div>
+</footer>
+
+<!-- ═══ TOC NAVIGATION ═══ -->
+<script>
+document.querySelectorAll('.toc-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = document.getElementById(btn.dataset.target);
+    if (target) {
+      const offset = document.querySelector('.sticky-wrap').offsetHeight + 8;
+      const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  });
+});
+
+// Active state on scroll
+const sections = document.querySelectorAll('.section[id]');
+const buttons = document.querySelectorAll('.toc-btn');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      buttons.forEach(b => b.classList.remove('active'));
+      const btn = document.querySelector(`.toc-btn[data-target="${entry.target.id}"]`);
+      if (btn) btn.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
