@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0d0e12">
+<title>LC76 — Border Crossings & Vehicle Documentation</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=Oswald:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0d0e12;--paper:#dad2c0;--paper2:#edeae0;--amber:#b86800;--amber2:#e07800;--rule:#d4cfc4;--steeldk:#2a2f3a;--steelmd:#6a7080;--red-warn:#B91C1C;--green-ok:#059669;--blue-info:#1d4ed8}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Oswald,sans-serif;background:var(--paper);color:var(--steeldk);line-height:1.6;-webkit-font-smoothing:antialiased}
+.sticky-wrap{position:sticky;top:0;z-index:100}
+.masthead{background:var(--ink);color:#fff;padding:18px 24px 14px}
+.mh-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--steelmd);margin-bottom:6px}
+.mh-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.8rem,5vw,2.6rem);letter-spacing:.06em;color:var(--amber2);line-height:1}
+.mh-sub{font-family:'IBM Plex Mono',monospace;font-size:.54rem;letter-spacing:.12em;color:rgba(255,200,100,.65);margin-top:5px}
+.mh-vehicle{font-family:'IBM Plex Mono',monospace;font-size:.48rem;letter-spacing:.08em;color:var(--steelmd);margin-top:8px}
+.toc-bar{background:var(--steeldk);border-top:3px solid var(--amber2);border-bottom:1px solid rgba(255,255,255,.08);padding:0 20px;display:flex;gap:0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.toc-bar::-webkit-scrollbar{display:none}
+.toc-btn{font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.06em;text-transform:uppercase;color:var(--steelmd);background:none;border:none;padding:9px 10px;cursor:pointer;white-space:nowrap;transition:color .2s}
+.toc-btn:hover,.toc-btn.active{color:var(--amber2)}
+.content{max-width:100%;padding:20px 5% 60px}
+.section{margin-bottom:20px}
+.section-num{font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);margin-bottom:2px}
+.section h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.4rem,3.5vw,1.8rem);color:var(--steeldk);letter-spacing:.04em;margin-bottom:6px;line-height:1.1}
+.section h3{font-family:Oswald,sans-serif;font-size:.88rem;font-weight:600;color:var(--steeldk);margin:10px 0 5px;text-transform:uppercase;letter-spacing:.04em}
+.section p{font-size:.82rem;color:var(--steelmd);line-height:1.6;margin-bottom:6px}
+.section p strong{color:var(--steeldk)}
+.card{background:#fff;border:1px solid var(--rule);border-radius:6px;padding:10px 12px;margin-bottom:7px}
+.card.warn{border-left:4px solid var(--red-warn);background:#fef7f7}
+.card.ok{border-left:4px solid var(--green-ok);background:#f0fdf8}
+.card.info{border-left:4px solid var(--blue-info);background:#eff6ff}
+.card.amber{border-left:4px solid var(--amber2);background:#fffbf0}
+.card p{font-size:.8rem;color:var(--steelmd);line-height:1.5}
+.tbl-wrap{overflow-x:auto;margin-bottom:8px;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:.76rem}
+th{background:var(--steeldk);color:var(--amber2);font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;padding:7px 8px;text-align:left;white-space:nowrap}
+td{padding:7px 8px;border-bottom:1px solid var(--rule);color:var(--steelmd);background:#fff;vertical-align:top}
+tr:nth-child(even) td{background:var(--paper2)}
+td:first-child{color:var(--steeldk);font-weight:500}
+td.ok{color:var(--green-ok);font-weight:600}
+td.warn{color:var(--red-warn);font-weight:600}
+.cc{border:1px solid var(--rule);border-radius:6px;margin-bottom:10px;overflow:hidden}
+.cc-hdr{background:var(--ink);padding:8px 12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px}
+.cc-name{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:var(--amber2);letter-spacing:.06em}
+.cc-visa{font-family:'IBM Plex Mono',monospace;font-size:.52rem;letter-spacing:.08em;padding:2px 8px;border-radius:3px;text-transform:uppercase}
+.cc-visa.free{background:#059669;color:#fff}
+.cc-visa.voa{background:var(--amber2);color:#fff}
+.cc-visa.required{background:var(--red-warn);color:#fff}
+.cc-visa.eta{background:var(--blue-info);color:#fff}
+.cc-meta{font-family:'IBM Plex Mono',monospace;font-size:.44rem;letter-spacing:.06em;color:var(--steelmd)}
+.cc-body{padding:10px 12px;background:#fff}
+.cc-body p{font-size:.78rem;color:var(--steelmd);line-height:1.5;margin-bottom:5px}
+.cc-body strong{color:var(--steeldk)}
+.cc-row{display:grid;grid-template-columns:110px 1fr;gap:4px;font-size:.78rem;margin-bottom:4px;line-height:1.4}
+.cc-label{font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.08em;text-transform:uppercase;color:var(--amber);font-weight:600;padding-top:2px}
+.cc-val{color:var(--steelmd)}
+.cc-val strong{color:var(--steeldk)}
+.cc-note{margin-top:6px;padding:6px 8px;background:var(--paper2);border-left:3px solid var(--amber2);font-size:.72rem;color:var(--steelmd);line-height:1.45}
+.verified{font-family:'IBM Plex Mono',monospace;font-size:.42rem;letter-spacing:.06em;color:var(--steelmd);margin-top:6px;padding-top:4px;border-top:1px solid var(--rule)}
+footer{background:var(--ink);border-top:4px solid var(--amber2);padding:16px 20px;text-align:center}
+footer div{font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.08em;color:var(--steelmd);margin-bottom:4px}
+footer div:first-child{color:var(--amber2)}
+/* PRINT — Design Guidelines v1.2 Section 16 */
+@media print{
+*{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{font-size:7.5pt;background:#fff}
+.sticky-wrap{position:static}
+.toc-bar{display:none}
+.masthead{padding:4mm 8mm;break-after:avoid}
+.mh-eyebrow{font-size:5pt}
+.mh-title{font-size:16pt}
+.mh-sub{font-size:5pt}
+.mh-vehicle{font-size:4.5pt}
+.content{max-width:100%;padding:4mm 8mm}
+.section{margin-bottom:2.5mm}
+.section-num{font-size:4.5pt;margin-bottom:0}
+.section h2{font-size:11pt;margin-bottom:1.5mm;break-after:avoid}
+.section h3{font-size:8pt;margin:2mm 0 1mm;break-after:avoid}
+.section p{font-size:7pt;line-height:1.35;margin-bottom:1mm}
+.card{padding:1.5mm 2.5mm;margin-bottom:1.5mm;break-inside:avoid}
+.card p{font-size:6.5pt;line-height:1.3}
+table{font-size:6pt;break-inside:auto}
+thead{display:table-header-group}
+th{font-size:5pt;padding:1mm 2mm}
+td{padding:1mm 2mm}
+.tbl-wrap{margin-bottom:2mm}
+.cc{break-inside:avoid;margin-bottom:2mm}
+.cc-hdr{padding:2mm 3mm}
+.cc-name{font-size:10pt}
+.cc-visa{font-size:5pt;padding:1px 4px}
+.cc-meta{font-size:4pt}
+.cc-body{padding:2mm 3mm}
+.cc-body p{font-size:6.5pt;line-height:1.3;margin-bottom:.5mm}
+.cc-row{font-size:6.5pt;margin-bottom:1mm}
+.cc-label{font-size:4.5pt}
+.cc-note{padding:1.5mm 2mm;font-size:6pt;margin-top:1.5mm}
+.verified{font-size:4pt}
+footer{padding:2mm}
+footer div{font-size:4.5pt;margin-bottom:1mm}
+@page{size:A4;margin:7mm}
+}
+@media(max-width:600px){
+.masthead{padding:14px 16px 12px}
+.mh-title{font-size:1.6rem}
+.content{padding:16px 14px 40px}
+.cc-row{grid-template-columns:90px 1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="sticky-wrap">
+  <div class="masthead">
+    <div class="mh-eyebrow">Overland Series · R15</div>
+    <div class="mh-title">BORDER CROSSINGS &amp; VEHICLE DOCUMENTATION</div>
+    <div class="mh-sub">16 Countries · Visas · TIPs · Carnet · Insurance · Border Process</div>
+    <div class="mh-vehicle">2009 LC76 SW · SA-Plated · GVM 2,850 kg · Last Updated: 25 March 2026</div>
+  </div>
+  <div class="toc-bar" id="tocBar">
+    <button class="toc-btn" data-target="s1">Documents</button>
+    <button class="toc-btn" data-target="s2">TIP &amp; Carnet</button>
+    <button class="toc-btn" data-target="s3">Process</button>
+    <button class="toc-btn" data-target="s4">Tips</button>
+    <button class="toc-btn" data-target="s5">Summary</button>
+    <button class="toc-btn" data-target="s6">Countries</button>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- ─── 1. DOCUMENT CHECKLIST ─── -->
+<div class="section" id="s1">
+  <div class="section-num">Section 1</div>
+  <h2>Document Checklist</h2>
+  <p>Missing a single document can stop you at a border for hours — or turn you back entirely. Prepare originals and certified copies of everything below. Keep originals in a waterproof document wallet accessible from the driver's seat. Keep copies in a separate location (e.g. rear of vehicle) as backup.</p>
+
+  <h3>Personal Documents (per person)</h3>
+  <div class="card">
+    <p><strong>Passport:</strong> Valid for at least 6 months beyond your planned return date. Must have at least 6 blank visa pages (some countries stamp generously — you'll use more pages than you expect across 16 countries). South African passports have 32 or 48 pages — get the 48-page version.</p>
+    <p><strong>Certified copies of passport:</strong> 4× colour copies of the data page, certified by a Commissioner of Oaths. Some borders ask for a copy rather than the original.</p>
+    <p><strong>Passport photos:</strong> 12× passport-size photos per person. Some visa-on-arrival processes require photos. Carry extras — they're hard to get in remote areas.</p>
+    <p><strong>International Driving Permit (IDP):</strong> Issued by the AA of South Africa. Valid for 1 year. Legally required in some countries (DRC, Angola), and useful as a backup ID/translation of your SA licence.</p>
+    <p><strong>SA Driver's Licence:</strong> The original card. Some countries accept it directly, others want the IDP alongside it.</p>
+    <p><strong>International Certificate of Vaccination or Prophylaxis (ICVP):</strong> The yellow WHO booklet. Yellow fever vaccination is mandatory for entry to several countries on your route (Uganda, Rwanda, Burundi, DRC, Tanzania if arriving from an endemic area, Kenya, Angola). Keep this with your passport — it's checked at borders.</p>
+    <p><strong>Travel insurance policy:</strong> Printed copy of your policy with emergency contact numbers, policy number, and coverage summary. Some borders ask for proof of medical/repatriation insurance.</p>
+    <p><strong>Marriage certificate (certified copy):</strong> If travelling as a married couple with different surnames. Occasionally requested.</p>
+  </div>
+
+  <h3>Vehicle Documents</h3>
+  <div class="card">
+    <p><strong>Vehicle Registration Certificate (NaTIS):</strong> The original. This is your primary proof of vehicle ownership. Ensure it's current — renew if expiring during your trip.</p>
+    <p><strong>Certified copies of registration:</strong> 4× certified copies.</p>
+    <p><strong>Letter of Authority:</strong> If the vehicle is financed or registered in a company name, you need a letter from the registered owner/bank authorising you to take the vehicle across borders. Must be on letterhead, signed, and notarised. Some countries are very strict about this — without it, you may be denied entry.</p>
+    <p><strong>Carnet de Passages en Douane (CdP):</strong> See Section 2. Recommended for your route.</p>
+    <p><strong>Police clearance / Interpol letter:</strong> Not universally required, but some borders (notably Mozambique, Angola) may ask for proof the vehicle is not stolen. A letter from your local SAPS confirming the vehicle is not flagged is useful.</p>
+    <p><strong>Cross-border permit:</strong> Required when leaving South Africa with an SA-registered vehicle. Obtain from the SA Revenue Service (SARS) or at the border. Free of charge.</p>
+    <p><strong>Vehicle insurance:</strong> Your SA insurance likely doesn't cover you across Africa. Arrange specific overland vehicle insurance (see country cards for mandatory third-party requirements). Companies like SATIB, Outsurance, or specialist overland insurers offer multi-country policies.</p>
+  </div>
+</div>
+
+<!-- ─── 2. TIP & CARNET ─── -->
+<div class="section" id="s2">
+  <div class="section-num">Section 2</div>
+  <h2>Temporary Import Permits &amp; Carnet de Passages</h2>
+
+  <h3>Temporary Import Permit (TIP)</h3>
+  <div class="card">
+    <p>A TIP is the standard mechanism for temporarily importing your vehicle into a foreign country. It's issued at the border, recorded in your passport or on a separate document, and proves you intend to re-export the vehicle (not sell it). The TIP typically specifies a duration — 30 to 90 days depending on the country — after which you must either leave with the vehicle, extend the TIP, or face penalties including seizure. TIPs are usually free or cost a small fee (USD 5–50). The process is: present your vehicle registration at the customs window, they record the vehicle details (make, model, chassis number, registration), issue the TIP, and stamp your passport. When you leave the country, the TIP is closed at the exit border post. <strong>Never lose a TIP document.</strong> If the exit border can't close the TIP, it looks like you've left the vehicle in the country — this can trigger duties, fines, or complications on future visits.</p>
+  </div>
+
+  <h3>Carnet de Passages en Douane (CdP)</h3>
+  <div class="card info">
+    <p>The carnet is an international customs document that guarantees your vehicle will be re-exported. It replaces the TIP process — instead of getting a local TIP at each border, the customs officer stamps a counterfoil in your carnet booklet. This is faster, cleaner, and avoids the risk of arbitrary fees or "deposits" at borders.</p>
+    <p><strong>Do you need one?</strong> Within SACU (South Africa, Botswana, Namibia, Lesotho, Eswatini), a carnet is not required for land border crossings — your vehicle moves freely. For the rest of your route, a carnet is <strong>strongly recommended</strong> even where technically not mandatory. It simplifies the process, reduces corruption opportunities, and provides a safety net if a TIP goes wrong. Countries where it's most valuable: DRC, Angola, Burundi, Tanzania, Kenya, Uganda.</p>
+    <p><strong>Issuing body for SA:</strong> The Automobile Association of South Africa (AA). You'll need to lodge a deposit or bank guarantee (typically 100–200% of the vehicle's declared value for African countries). The carnet is valid for 12 months and can usually be renewed once.</p>
+    <p><strong>Cost:</strong> The AA charges an issuing fee plus the deposit. For a vehicle valued at R250,000–R400,000, budget R5,000–R8,000 for fees plus the deposit (which is refundable when all counterfoils are properly closed). Get an updated quote from the AA well in advance — the process takes 2–4 weeks.</p>
+  </div>
+
+  <div class="card warn">
+    <p><strong>Critical:</strong> Every carnet entry (arrival stamp) must have a matching exit stamp. If you leave a country without getting the exit stamp, the issuing authority assumes you've imported the vehicle permanently — and they'll claim the deposit. At every border, confirm both the entry and exit counterfoils are stamped correctly. Check before you drive away. This is non-negotiable.</p>
+  </div>
+</div>
+
+<!-- ─── 3. BORDER CROSSING PROCESS ─── -->
+<div class="section" id="s3">
+  <div class="section-num">Section 3</div>
+  <h2>How a Border Crossing Works</h2>
+  <p>Most Southern and East African land borders follow the same general process. Understanding it reduces stress and time.</p>
+
+  <h3>Departure (leaving Country A)</h3>
+  <div class="card">
+    <p><strong>Step 1 — Immigration:</strong> Present your passport. The officer stamps your departure. Check the stamp is correct (date, exit confirmed).</p>
+    <p><strong>Step 2 — Customs:</strong> Present the vehicle's TIP or carnet. The officer closes/stamps it to confirm the vehicle is leaving. If you have a carnet, ensure the exit counterfoil is stamped and detached. If you had a local TIP, hand it back.</p>
+    <p><strong>Step 3 — Drive to the border gate.</strong> You're now in "no man's land" between countries.</p>
+  </div>
+
+  <h3>Arrival (entering Country B)</h3>
+  <div class="card">
+    <p><strong>Step 1 — Gate/barrier:</strong> You may be stopped and asked where you're going. Sometimes there's a gate fee or road toll.</p>
+    <p><strong>Step 2 — Immigration:</strong> Present your passport (and visa if required, or apply for visa on arrival). The officer stamps your entry. Check the stamp — confirm the number of days granted matches what you expect.</p>
+    <p><strong>Step 3 — Customs:</strong> Present vehicle registration, carnet or request a TIP. The officer records the vehicle details. If a TIP, keep the document safe. If a carnet, ensure the entry counterfoil is stamped correctly.</p>
+    <p><strong>Step 4 — Insurance:</strong> Many countries require you to purchase third-party vehicle insurance at the border (if you don't have a valid regional policy). This is usually available from insurance kiosks at the border.</p>
+    <p><strong>Step 5 — Other:</strong> Some borders have health checks (temperature, yellow fever card), road tax payments, carbon tax, council levies, or other fees. Have small-denomination USD and local currency available.</p>
+  </div>
+
+  <div class="card amber">
+    <p><strong>Time estimate:</strong> A smooth border crossing takes 30–60 minutes. A busy or complicated one (Angola, DRC, Mozambique) can take 2–5 hours. Arrive early in the morning. Most borders close at 18:00 or 22:00 — check in advance. Never arrive at an unfamiliar border after dark.</p>
+  </div>
+</div>
+
+<!-- ─── 4. PRACTICAL TIPS ─── -->
+<div class="section" id="s4">
+  <div class="section-num">Section 4</div>
+  <h2>Practical Border Crossing Tips</h2>
+
+  <div class="card ok">
+    <p><strong>Be calm, polite, and patient.</strong> Border officials have absolute authority. A smile and respectful greeting in the local language goes further than any document. Never argue, never show frustration, never raise your voice. If something seems wrong, ask politely for clarification.</p>
+  </div>
+
+  <div class="card">
+    <p><strong>Cash:</strong> Carry small-denomination USD (1, 5, 10, 20 notes) — many fees are quoted in USD. Also carry the local currency of the country you're entering (change at the border if needed, but border rates are poor). Never flash large amounts of cash. Keep border money in a separate wallet.</p>
+    <p><strong>"Fines" and facilitation:</strong> You will encounter requests for unofficial payments. This ranges from blatant ("pay me or wait") to subtle ("there is a small problem with your documents"). The best defence: have every document perfect, know what the actual fees are (from this guide and recent trip reports), and politely ask for a receipt for any payment. If asked for money you believe is not legitimate, say calmly "I understand — can I see your supervisor?" or "I'm happy to pay, may I have an official receipt please?" Most requests disappear when a receipt is mentioned. Budget USD 20–50 per crossing for "unexpected fees" — sometimes it's genuinely cheaper to pay a small amount than to wait hours.</p>
+    <p><strong>Copies:</strong> Never hand over original documents unless you must. Offer certified copies first. Some officers keep originals as leverage — getting them back can be difficult.</p>
+    <p><strong>Helpers / fixers:</strong> At busy borders, people will offer to "help" you through the process for a fee. Some are legitimate (they know the process and save you time), others are scammers. If you use one, agree on the fee in advance, keep your documents with you at all times, and don't hand over your passport to anyone who isn't an official behind a window.</p>
+    <p><strong>Vehicle search:</strong> Your vehicle may be searched. Keep it tidy, have your spares and tools organised, and be able to explain everything you're carrying. Items that attract attention: radios/communication equipment, drones (illegal in many countries), firearms (obviously), large amounts of cash, medication without a prescription letter.</p>
+  </div>
+</div>
+
+<!-- ─── 5. VISA SUMMARY TABLE ─── -->
+<div class="section" id="s5">
+  <div class="section-num">Section 5</div>
+  <h2>Visa &amp; Entry Summary — SA Passport Holders</h2>
+  <p>Quick reference for all 16 countries. See individual country cards in Section 6 for full details. Requirements change — verify before travel. This table was compiled March 2026.</p>
+
+  <div class="tbl-wrap">
+  <table>
+    <thead>
+    <tr><th>Country</th><th>Visa</th><th>Stay</th><th>Passport Validity</th><th>Yellow Fever</th><th>Carnet</th><th>Confidence</th></tr>
+    </thead>
+    <tbody>
+    <tr><td><strong>Namibia</strong></td><td class="ok">Visa-free</td><td>90 days</td><td>6 months</td><td>If from endemic area</td><td>Not required (SACU)</td><td>High</td></tr>
+    <tr><td><strong>Botswana</strong></td><td class="ok">Visa-free</td><td>90 days</td><td>6 months</td><td>If from endemic area</td><td>Not required (SACU)</td><td>High</td></tr>
+    <tr><td><strong>Lesotho</strong></td><td class="ok">Visa-free</td><td>90 days</td><td>6 months</td><td>If from endemic area</td><td>Not required (SACU)</td><td>High</td></tr>
+    <tr><td><strong>Eswatini</strong></td><td class="ok">Visa-free</td><td>30 days</td><td>6 months</td><td>If from endemic area</td><td>Not required (SACU)</td><td>High</td></tr>
+    <tr><td><strong>Zimbabwe</strong></td><td class="ok">Visa-free</td><td>30 days (extend to 90)</td><td>6 months</td><td>If from endemic area</td><td>Recommended</td><td>High</td></tr>
+    <tr><td><strong>Mozambique</strong></td><td class="ok">Visa-free + ETA</td><td>30 days</td><td>6 months</td><td>If from endemic area</td><td>Recommended</td><td>Medium — ETA rules change frequently</td></tr>
+    <tr><td><strong>Zambia</strong></td><td class="ok">Visa-free</td><td>90 days</td><td>4 months</td><td>If from endemic area</td><td>Recommended</td><td>High</td></tr>
+    <tr><td><strong>Malawi</strong></td><td class="ok">Visa-free</td><td>90 days</td><td>6 months</td><td>If from endemic area</td><td>Recommended</td><td>High</td></tr>
+    <tr><td><strong>Tanzania</strong></td><td class="ok">Visa-free</td><td>90 days</td><td>6 months</td><td>Required if from endemic area (strictly enforced)</td><td>Recommended</td><td>High</td></tr>
+    <tr><td><strong>Kenya</strong></td><td class="ok">Visa-free / eTA</td><td>90 days</td><td>6 months</td><td>Required</td><td>Recommended</td><td>Medium — eTA system evolving</td></tr>
+    <tr><td><strong>Rwanda</strong></td><td class="ok">Visa-free</td><td>30 days</td><td>6 months</td><td>Required</td><td>Recommended</td><td>High</td></tr>
+    <tr><td><strong>Uganda</strong></td><td class="warn">eVisa required</td><td>Up to 90 days</td><td>6 months</td><td>Required (mandatory)</td><td>Recommended</td><td>High</td></tr>
+    <tr><td><strong>Burundi</strong></td><td class="warn">Visa on arrival / eVisa</td><td>30 days</td><td>6 months</td><td>Required (mandatory)</td><td>Recommended</td><td>Medium</td></tr>
+    <tr><td><strong>DRC</strong></td><td class="warn">Visa required</td><td>Varies (30–90 days)</td><td>6 months</td><td>Required (mandatory)</td><td>Strongly recommended</td><td>Medium — rules change</td></tr>
+    <tr><td><strong>Angola</strong></td><td class="warn">eVisa required</td><td>30 days</td><td>6 months</td><td>Required (mandatory)</td><td>Strongly recommended</td><td>Medium</td></tr>
+    <tr><td><strong>South Africa</strong></td><td class="ok">Home</td><td>N/A</td><td>Valid passport for re-entry</td><td>N/A</td><td>N/A</td><td>N/A</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="card amber">
+    <p><strong>Passport pages:</strong> With 16 countries, expect to use 20–30 passport pages across a two-year trip (entry stamps, exit stamps, visas, TIPs). The 48-page SA passport is essential. If you run out of pages mid-trip, you'll need to visit a South African embassy to get a new passport — plan for this if your trip extends beyond 2 years.</p>
+  </div>
+</div>
+
+<!-- ─── 6. COUNTRY CARDS ─── -->
+<div class="section" id="s6">
+  <div class="section-num">Section 6</div>
+  <h2>Country Cards</h2>
+  <p>Detailed entry requirements for each country. Each card includes a <strong>"Last Verified"</strong> date — if the card is more than 6 months old, re-verify before crossing. Update the card with new information after each crossing.</p>
+
+  <!-- ── SACU BLOCK ── -->
+  <h3>SACU Countries (No Carnet Required)</h3>
+
+  <div class="cc">
+    <div class="cc-hdr">
+      <span class="cc-name">🇳🇦 Namibia</span>
+      <span class="cc-visa free">Visa-Free</span>
+    </div>
+    <div class="cc-body">
+      <div class="cc-row"><div class="cc-label">Stay</div><div class="cc-val">90 days (Visitor's Entry Permit at border)</div></div>
+      <div class="cc-row"><div class="cc-label">Passport</div><div class="cc-val">Valid 6 months beyond stay, 2+ blank pages</div></div>
+      <div class="cc-row"><div class="cc-label">Yellow Fever</div><div class="cc-val">Required only if arriving from endemic country</div></div>
+      <div class="cc-row"><div class="cc-label">Vehicle</div><div class="cc-val"><strong>SACU member — no carnet or TIP required.</strong> Vehicle moves freely between SA, Botswana, Namibia, Lesotho, Eswatini. Cross-border letter from SARS still needed when leaving SA.</div></div>
+      <div class="cc-row"><div class="cc-label">Insurance</div><div class="cc-val">Third-party mandatory. Verify your SA policy covers Namibia, or purchase at border. MVA Fund levy may apply.</div></div>
+      <div class="cc-row"><div class="cc-label">Key Borders</div><div class="cc-val">Noordoewer (from Cape Town side), Ariamsvlei (from Upington), Trans-Kalahari (from Johannesburg via Botswana), Katima Mulilo (Caprivi from Zambia/Botswana)</div></div>
+      <div class="cc-row"><div class="cc-label">Road Fees</div><div class="cc-val">No toll roads. Some national parks charge entry fees for vehicles.</div></div>
+      <div class="cc-note">Namibia requires two warning triangles and a reflective vest. Seatbelts mandatory. Speed limit 120 km/h on tar, 80 km/h on gravel (strictly enforced — mobile speed traps).</div>
+      <div class="verified">Last verified: March 2026 · Source: Embassy website, Tracks4Africa, trip reports · Confidence: HIGH</div>
+    </div>
+  </div>
+
+  <div class="cc">
+    <div class="cc-hdr">
+      <span class="cc-name">🇧🇼 Botswana</span>
+      <span class="cc-visa free">Visa-Free</span>
+    </div>
+    <div class="cc-body">
+      <div class="cc-row"><div class="cc-label">Stay</div><div class="cc-val">90 days within a 12-month period</div></div>
+      <div class="cc-row"><div class="cc-label">Passport</div><div class="cc-val">Valid 6 months beyond stay</div></div>
+      <div class="cc-row"><div class="cc-label">Yellow Fever</div><div class="cc-val">Required if from endemic area</div></div>
+      <div class="cc-row"><div class="cc-label">Vehicle</div><div class="cc-val"><strong>SACU member — free movement.</strong> No carnet or TIP required for SA-plated vehicles.</div></div>
+      <div class="cc-row"><div class="cc-label">Insurance</div><div class="cc-val">Third-party mandatory. Purchased at border or at insurance agents in towns. ~BWP 100–200 for 30 days.</div></div>
+      <div class="cc-row"><div class="cc-label">Key Borders</div><div class="cc-val">Pioneer Gate / Tlokweng (from Johannesburg), Pont Drift / Platjan (from Limpopo), Kazungula (ferry to Zambia), Ngoma (to Namibia Caprivi), Nata/Kasane route</div></div>
+      <div class="cc-row"><div class="cc-label">Vet Fence</div><div class="cc-val"><strong>Foot-and-mouth control:</strong> Veterinary checkpoints at several points. No fresh meat, dairy, or animal products may cross. Vehicles may be sprayed. Cooperate — this is strictly enforced.</div></div>
+      <div class="cc-note">Speed traps are common. 120 km/h on tar, 60 km/h in towns. Don't drive at night — cattle and wildlife on roads. Fuel widely available on main routes but scarce in the delta/Makgadikgadi area.</div>
+      <div class="verified">Last verified: March 2026 · Source: Embassy, Tracks4Africa · Confidence: HIGH</div>
+    </div>
+  </div>
+
+  <div class="cc">
+    <div class="cc-hdr">
+      <span class="cc-name">🇱🇸 Lesotho</span>
+      <span class="cc-visa free">Visa-Free</span>
+    </div>
+    <div class="cc-body">
+      <div class="cc-row"><div class="cc-label">Stay</div><div class="cc-val">90 days</div></div>
+      <div class="cc-row"><div class="cc-label">Passport</div><div class="cc-val">Valid 6 months beyond stay</div></div>
+      <div class="cc-row"><div class="cc-label">Vehicle</div><div class="cc-val"><strong>SACU member — free movement.</strong></div></div>
+      <div class="cc-row"><div class="cc-label">Insurance</div><div class="cc-val">SA insurance typically accepted. Verify with your insurer.</div></div>
+      <div class="cc-row"><div class="cc-label">Key Borders</div><div class="cc-val">Maseru Bridge (from Free State), Caledonspoort (from eastern Free State), Sani Pass (4WD only — spectacular route)</div></div>
+      <div class="cc-note">Mountain kingdom — 4WD essential for highland routes. Fuel only in major towns (Maseru, Butha-Buthe, Mokhotlong). Severe winter conditions Jun–Aug at altitude.</div>
+      <div class="verified">Last verified: March 2026 · Source: DIRCO, trip reports · Confidence: HIGH</div>
+    </div>
+  </div>
+
+  <div class="cc">
+    <div class="cc-hdr">
+      <span class="cc-name">🇸🇿 Eswatini</span>
+      <span class="cc-visa free">Visa-Free</span>
+    </div>
+    <div class="cc-body">
+      <div class="cc-row"><div class="cc-label">Stay</div><div class="cc-val">30 days</div></div>
+      <div class="cc-row"><div class="cc-label">Passport</div><div class="cc-val">Valid 6 months beyond stay</div></div>
+      <div class="cc-row"><div class="cc-label">Vehicle</div><div class="cc-val"><strong>SACU member — free movement.</strong></div></div>
+      <div class="cc-row"><div class="cc-label">Insurance</div><div class="cc-val">SA insurance typically accepted. Third-party at border if needed.</div></div>
+      <div class="cc-row"><div class="cc-label">Key Borders</div><div class="cc-val">Oshoek (from Ermelo), Golela/Lavumisa (from KZN south), Lomahasha/Namaacha (to Mozambique — useful transit route)</div></div>
+      <div class="cc-note">Small country — can transit in a day. Good fuel availability. Useful as a transit route between KZN and Mozambique. Drive on left.</div>
+      <div class="verified">Last verified: March 2026 · Source: DIRCO, trip reports · Confidence: HIGH</div>
+    </div>
+  </div>
+
+  <!-- ── SOUTHERN AFRICA (NON-SACU) ── -->
+  <h3>Southern Africa (Non-SACU)</h3>
+
+  <div class="cc">
+    <div class="cc-hdr">
+      <span class="cc-name">🇿🇼 Zimbabwe</span>
+      <span class="cc-visa free">Visa-Free</span>
+    </div>
+    <div class="cc-body">
+      <div class="cc-row"><div class="cc-label">Stay</div><div class="cc-val"><strong>Up to 90 days total</strong> as a tourist, but not granted upfront. Typically stamped as <strong>30 days on arrival</strong> — then extend in-country in 30-day blocks up to the 90-day maximum. You will likely need to extend once or twice. Extensions done at immigration offices in major towns (Harare, Bulawayo, Victoria Falls) — straightforward if you're clearly a tourist and haven't overstayed. <strong>Always check the exact number of days stamped in your passport at the border — that's what legally counts, not the theoretical 90 days.</strong></div></div>
+      <div class="cc-row"><div class="cc-label">Passport</div><div class="cc-val">Valid 6 months beyond stay, <strong>3+ blank pages</strong> (Zimbabwe uses a full page for stamps). If transiting South Africa on return, remember SA requires 2 consecutive blank pages per transit.</div></div>
+      <div class="cc-row"><div class="cc-label">Yellow Fever</div><div class="cc-val">If from endemic area</div></div>
+      <div class="cc-row"><div class="cc-label">Vehicle</div><div class="cc-val">TIP issued at border (free or nominal fee). Carnet accepted and recommended for smoother processing. TIP typically matches your stay period — renew alongside your visa extension at ZIMRA offices.</div></div>
+      <div class="cc-row"><div class="cc-label">Insurance</div><div class="cc-val">Third-party mandatory. Purchase at border — CABS or Zimnat kiosks. ~USD 30 for 30 days.</div></div>
+      <div class="cc-row"><div class="cc-label">Carbon Tax</div><div class="cc-val">USD 10–30 road access fee for foreign vehicles. Paid at border.</div></div>
+      <div class="cc-row"><div class="cc-label">Key Borders</div><div class="cc-val">Beitbridge (from Limpopo — busiest, can be very slow), Plumtree (from Botswana), Victoria Falls (from Zambia/Botswana — Kazungula), Chirundu (to Zambia), Forbes/Machipanda (from Mozambique)</div></div>
+      <div class="cc-note">Beitbridge is notorious — arrive at dawn, carry patience and snacks. Allow 2–4 hours. <strong>USD is essential</strong> — carry small denominations ($1, $5, $10). USD is more commonly used than local currency for all transactions including fuel and accommodation. Zimbabwe has measures to prevent USD leaving the country — don't carry excessive amounts. <strong>KAZA UniVisa:</strong> If visiting both Zimbabwe and Zambia via Victoria Falls/Livingstone, the KAZA UniVisa (USD 50) covers both countries for 30 days and day trips to Botswana — available at Victoria Falls and Kazungula borders. Your previous trip gave you 2 months in the Eastern Highlands — you know this border well.</div>
+      <div class="verified">Last verified: March 2026 · Source: ZIMRA, trip reports, personal experience · Confidence: HIGH</div>
+    </div>
+  </div>
+
+  <div class="cc">
+    <div class="cc-hdr">
+      <span class="cc-name">🇲🇿 Mozambique</span>
+      <span class="cc-visa free">Visa-Free + ETA</span>
+    </div>
+    <div class="cc-body">
+      <div class="cc-row"><div class="cc-label">Stay</div><div class="cc-val">30 days (extendable at immigration offices)</div></div>
+      <div class="cc-row"><div class="cc-label">Passport</div><div class="cc-val">Valid 6 months beyond stay, 2+ blank pages</div></div>
+      <div class="cc-row"><div class="cc-label">ETA</div><div class="cc-val"><strong>Electronic Travel Authorisation required.</strong> Complete at <strong>evisa.gov.mz</strong> at least 48 hours before arrival. Fee: 650 MZN (~USD 10). Failure to complete = denied boarding/entry. Rules change frequently — check before travel.</div></div>
+      <div class="cc-row"><div class="cc-label">Yellow Fever</div><div class="cc-val">If from endemic area</div></div>
+      <div class="cc-row"><div class="cc-label">Vehicle</div><div class="cc-val">TIP issued at border. Carnet accepted. Vehicle details recorded. Process can be slow — allow 1–3 hours at busy posts.</div></div>
+      <div class="cc-row"><div class="cc-label">Insurance</div><div class="cc-val">Third-party mandatory (Seguro). Purchase at border or at insurance offices in border towns. ~USD 15–25 for 30 days.</div></div>
+      <div class="cc-row"><div class="cc-label">Key Borders</div><div class="cc-val">Komatipoort/Ressano Garcia (from Mpumalanga — busiest), Giriyondo (from Kruger — seasonal), Ponta do Ouro/Kosi Bay (from KZN), Machipanda (from Zimbabwe), Zobue (from Malawi)</div></div>
+      <div class="cc-row"><div class="cc-label">Required Items</div><div class="cc-val"><strong>Two warning triangles, reflective vests, fire extinguisher</strong> — strictly enforced. Police checkpoints are frequent and fines are issued on the spot. Also: no driving with flip-flops (yes, really).</div></div>
+      <div class="cc-note">Mozambique border procedures are slow and bureaucratic. Budget 2–3 hours. The ETA system is relatively new and has had technical issues — apply early and keep a screenshot/printout of the confirmation. Fuel quality in northern Mozambique can be poor — use the Racor RFF8C (cross-reference R4 Section 05B).</div>
+      <div class="verified">Last verified: March 2026 · Source: evisa.gov.mz, Tracks4Africa, recent trip reports · Confidence: MEDIUM — ETA rules evolving</div>
+    </div>
+  </div>
+
+  <div class="cc">
+    <div class="cc-hdr">
+      <span class="cc-name">🇿🇲 Zambia</span>
+      <span class="cc-visa free">Visa-Free</span>
+    </div>
+    <div class="cc-body">
+      <div class="cc-row"><div class="cc-label">Stay</div><div class="cc-val">90 days</div></div>
+      <div class="cc-row"><div class="cc-label">Passport</div><div class="cc-val">Valid 4 months beyond arrival (lower than most — but carry 6-month validity anyway)</div></div>
+      <div class="cc-row"><div class="cc-label">Yellow Fever</div><div class="cc-val">If from endemic area. Strongly recommended regardless.</div></div>
+      <div class="cc-row"><div class="cc-label">Vehicle</div><div class="cc-val">TIP issued at border. Carbon emissions tax (approx USD 20–40). Road toll at some borders. Carnet accepted and smooths the process.</div></div>
+      <div class="cc-row"><div class="cc-label">Insurance</div><div class="cc-val">Third-party mandatory. COMESA Yellow Card accepted (covers multiple countries — worth getting). Otherwise purchase at border ~USD 20–30 for 30 days.</div></div>
+      <div class="cc-row"><div class="cc-label">Key Borders</div><div class="cc-val">Kazungula (from Botswana — new bridge), Victoria Falls/Livingstone (from Zimbabwe), Chirundu (from Zimbabwe — one-stop border), Kariba (from Zimbabwe), Nakonde (to Tanzania), Chipata (to Malawi)</div></div>
+      <div class="cc-row"><div class="cc-label">COMESA Card</div><div class="cc-val"><strong>The COMESA Yellow Card</strong> is a regional third-party insurance scheme accepted in Zambia, Zimbabwe, Malawi, Tanzania, Uganda, Kenya, Rwanda, Burundi, and DRC. One policy, multiple countries. Highly recommended — saves buying insurance at every border.</div></div>
+      <div class="cc-note">Zambian borders are generally efficient. The Kazungula bridge (opened 2021) replaced the old ferry and is much faster. Fuel is available on main routes but carry reserves for remote areas (Bangweulu, Kasanka, North Luangwa).</div>
+      <div class="verified">Last verified: March 2026 · Source: Zambia immigration, Tracks4Africa · Confidence: HIGH</div>
+    </div>
+  </div>
+
+  <div class="cc">
+    <div class="cc-hdr">
+      <span class="cc-name">🇲🇼 Malawi</span>
+      <span class="cc-visa free">Visa-Free</span>
+    </div>
+    <div class="cc-body">
+      <div class="cc-row"><div class="cc-label">Stay</div><div class="cc-val">90 days</div></div>
+      <div class="cc-row"><div class="cc-label">Passport</div><div class="cc-val">Valid 6 months beyond stay</div></div>
+      <div class="cc-row"><div class="cc-label">Yellow Fever</div><div class="cc-val">If from endemic area</div></div>
+      <div class="cc-row"><div class="cc-label">Vehicle</div><div class="cc-val">TIP issued at border (free or small fee). Carnet accepted. Vehicle may be fumigated at border (small fee).</div></div>
+      <div class="cc-row"><div class="cc-label">Insurance</div><div class="cc-val">Third-party mandatory. COMESA Yellow Card accepted. Otherwise purchase at border.</div></div>
+      <div class="cc-row"><div class="cc-label">Key Borders</div><div class="cc-val">Mchinji (from Zambia), Dedza / Mwanza (from Mozambique), Songwe (from Tanzania), Chiponde (from Mozambique — remote)</div></div>
+      <div class="cc-note">Malawi borders are generally relaxed and friendly. The "warm heart of Africa" reputation extends to immigration officials. Bilharzia risk in Lake Malawi — cross-reference R12 (Water Management). Fuel available in towns but carry extra for lakeshore routes.</div>
+      <div class="verified">Last verified: March 2026 · Source: Malawi immigration, trip reports · Confidence: HIGH</div>
+    </div>
+  </div>
+
+  <div class="cc">
+    <div class="cc-hdr">
+      <span class="cc-name">🇦🇴 Angola</span>
+      <span class="cc-visa required">eVisa Required</span>
+    </div>
+    <div class="cc-body">
+      <div class="cc-row"><div class="cc-label">Visa</div><div class="cc-val"><strong>eVisa required — apply at smevisa.gov.ao.</strong> Tourist visa valid 30 days, single entry. Processing 5–15 working days. Fee ~USD 120. Requires invitation letter or hotel booking, proof of funds, return ticket/itinerary.</div></div>
+      <div class="cc-row"><div class="cc-label">Stay</div><div class="cc-val">30 days (extendable at SME offices in Luanda or provincial capitals)</div></div>
+      <div class="cc-row"><div class="cc-label">Passport</div><div class="cc-val">Valid 6 months beyond stay, 3+ blank pages</div></div>
+      <div class="cc-row"><div class="cc-label">Yellow Fever</div><div class="cc-val"><strong>Mandatory.</strong> Certificate checked at border — no entry without it.</div></div>
+      <div class="cc-row"><div class="cc-label">Vehicle</div><div class="cc-val">TIP process is complex and can take hours. Carnet strongly recommended — significantly reduces hassle and corruption risk. Vehicle may need to be inspected.</div></div>
+      <div class="cc-row"><div class="cc-label">Insurance</div><div class="cc-val">Third-party mandatory. Angolan-issued policy required — arrange at the border or through a fixer. SA policies not accepted.</div></div>
+      <div class="cc-row"><div class="cc-label">IDP</div><div class="cc-val">International Driving Permit required alongside SA licence.</div></div>
+      <div class="cc-row"><div class="cc-label">Key Borders</div><div class="cc-val">Oshikango/Santa Clara (from Namibia — most common overland entry), Ruacana (from Namibia — remote)</div></div>
+      <div class="cc-note">Angola is the most challenging border on your route. Apply for the eVisa well in advance. The border process at Santa Clara can take 3–6 hours. Carry USD in small denominations. Fuel quality is very poor — use the Racor RFF8C religiously. Cross-reference your Angola Country Profile for detailed in-country information.</div>
+      <div class="verified">Last verified: March 2026 · Source: smevisa.gov.ao, Angola Country Profile, overlanding forums · Confidence: MEDIUM — procedures change frequently</div>
+    </div>
+  </div>
+
+  <!-- ── EAST AFRICA ── -->
+  <h3>East Africa</h3>
+
+  <div class="cc">
+    <div class="cc-hdr">
+      <span class="cc-name">🇹🇿 Tanzania</span>
+      <span class="cc-visa free">Visa-Free</span>
+    </div>
+    <div class="cc-body">
+      <div class="cc-row"><div class="cc-label">Stay</div><div class="cc-val">90 days</div></div>
+      <div class="cc-row"><div class="cc-label">Passport</div><div class="cc-val">Valid 6 months beyond stay</div></div>
+      <div class="cc-row"><div class="cc-label">Yellow Fever</div><div class="cc-val"><strong>Strictly enforced</strong> if arriving from endemic country (which includes most of your route). Carry your yellow card.</div></div>
+      <div class="cc-row"><div class="cc-label">Vehicle</div><div class="cc-val">TIP issued at border (USD 25 fee reported). Carnet accepted and recommended. TIP valid for period of visa/stay.</div></div>
+      <div class="cc-row"><div class="cc-label">Insurance</div><div class="cc-val">Third-party mandatory. COMESA Yellow Card accepted. Otherwise ~USD 20–30 at border.</div></div>
+      <div class="cc-row"><div class="cc-label">Key Borders</div><div class="cc-val">Tunduma/Nakonde (from Zambia), Songwe (from Malawi), Namanga (to Kenya), Kabanga (from Burundi), Rusumo (from Rwanda), Sirari (from Kenya — alternative)</div></div>
+      <div class="cc-row"><div class="cc-label">Zanzibar</div><div class="cc-val">From Oct 2024, Zanzibar requires mandatory inbound travel insurance purchased from the Zanzibar Insurance Corporation (ZIC) for all visitors.</div></div>
+      <div class="cc-note">Tanzania has many police checkpoints. Keep documents accessible. Speed limits are 50 km/h in towns, 80 km/h on open roads. Fuel widely available on main routes. National park fees are expensive (USD 60–80/day per person for vehicle safaris).</div>
+      <div class="verified">Last verified: March 2026 · Source: Tanzania immigration, Tracks4Africa · Confidence: HIGH</div>
+    </div>
+  </div>
+
+  <div class="cc">
+    <div class="cc-hdr">
+      <span class="cc-name">🇰🇪 Kenya</span>
+      <span class="cc-visa free">Visa-Free / eTA</span>
+    </div>
+    <div class="cc-body">
+      <div class="cc-row"><div class="cc-label">Visa</div><div class="cc-val">SA passport holders: visa-free. An Electronic Travel Authorisation (eTA) may be required — check <strong>etakenya.go.ke</strong> before travel. The eTA system has been evolving since 2024.</div></div>
+      <div class="cc-row"><div class="cc-label">Stay</div><div class="cc-val">90 days</div></div>
+      <div class="cc-row"><div class="cc-label">Passport</div><div class="cc-val">Valid 6 months beyond stay</div></div>
+      <div class="cc-row"><div class="cc-label">Yellow Fever</div><div class="cc-val"><strong>Required.</strong> Certificate checked at entry.</div></div>
+      <div class="cc-row"><div class="cc-label">Vehicle</div><div class="cc-val">TIP or carnet. Kenya has tightened vehicle import rules — a Foreign Vehicle Permit may be required. Carnet strongly recommended to avoid complications. TIP limited to 14 days without carnet (reported — verify).</div></div>
+      <div class="cc-row"><div class="cc-label">Insurance</div><div class="cc-val">Third-party mandatory. COMESA Yellow Card accepted.</div></div>
+      <div class="cc-row"><div class="cc-label">Key Borders</div><div class="cc-val">Namanga (from Tanzania — main overland route), Isebania (from Tanzania — alternative), Busia (to Uganda), Malaba (to Uganda — alternative)</div></div>
+      <div class="cc-row"><div class="cc-label">EAC Note</div><div class="cc-val">Kenya is an EAC member. If entering on an EAC tourist visa or eTA, you can visit other EAC countries (Tanzania, Uganda, Rwanda, Burundi) and re-enter Kenya without a new visa, provided the eTA hasn't expired.</div></div>
+      <div class="cc-note">Kenya has the best road infrastructure in East Africa. Nairobi has reliable vehicle services if needed. Speed cameras and mobile speed traps are common. Fuel widely available.</div>
+      <div class="verified">Last verified: March 2026 · Source: etakenya.go.ke, trip reports · Confidence: MEDIUM — eTA system still evolving</div>
+    </div>
+  </div>
+
+  <div class="cc">
+    <div class="cc-hdr">
+      <span class="cc-name">🇺🇬 Uganda</span>
+      <span class="cc-visa required">eVisa Required</span>
+    </div>
+    <div class="cc-body">
+      <div class="cc-row"><div class="cc-label">Visa</div><div class="cc-val"><strong>eVisa required — apply at visas.immigration.go.ug.</strong> Tourist visa USD 50, processing 2–5 days. Single entry, valid 90 days. East Africa Tourist Visa (USD 100) covers Uganda + Kenya + Rwanda — good value if visiting all three.</div></div>
+      <div class="cc-row"><div class="cc-label">Stay</div><div class="cc-val">Up to 90 days (as per visa)</div></div>
+      <div class="cc-row"><div class="cc-label">Passport</div><div class="cc-val">Valid 6 months beyond stay</div></div>
+      <div class="cc-row"><div class="cc-label">Yellow Fever</div><div class="cc-val"><strong>Mandatory — no exceptions.</strong> Certificate checked. Uganda itself is endemic.</div></div>
+      <div class="cc-row"><div class="cc-label">Vehicle</div><div class="cc-val">TIP or carnet. Road user fees at border. Carnet recommended.</div></div>
+      <div class="cc-row"><div class="cc-label">Insurance</div><div class="cc-val">Third-party mandatory. COMESA Yellow Card accepted.</div></div>
+      <div class="cc-row"><div class="cc-label">IDP</div><div class="cc-val">International Driving Permit recommended alongside SA licence.</div></div>
+      <div class="cc-row"><div class="cc-label">Key Borders</div><div class="cc-val">Busia / Malaba (from Kenya), Katuna (from Rwanda), Mpondwe (from DRC — remote), Mutukula (from Tanzania)</div></div>
+      <div class="cc-note">Uganda drives on the left (like SA). Road conditions vary — Kampala-Jinja-Fort Portal corridor is good; remote areas are rough. Gorilla trekking permits (Bwindi) cost USD 700/pp — book months in advance.</div>
+      <div class="verified">Last verified: March 2026 · Source: visas.immigration.go.ug, trip reports · Confidence: HIGH</div>
+    </div>
+  </div>
+
+  <div class="cc">
+    <div class="cc-hdr">
+      <span class="cc-name">🇷🇼 Rwanda</span>
+      <span class="cc-visa free">Visa-Free</span>
+    </div>
+    <div class="cc-body">
+      <div class="cc-row"><div class="cc-label">Stay</div><div class="cc-val">30 days (extendable at immigration in Kigali)</div></div>
+      <div class="cc-row"><div class="cc-label">Passport</div><div class="cc-val">Valid 6 months beyond stay</div></div>
+      <div class="cc-row"><div class="cc-label">Yellow Fever</div><div class="cc-val"><strong>Required.</strong> Rwanda is endemic.</div></div>
+      <div class="cc-row"><div class="cc-label">Vehicle</div><div class="cc-val">TIP or carnet. Vehicle inspection at border may occur. Carnet recommended.</div></div>
+      <div class="cc-row"><div class="cc-label">Insurance</div><div class="cc-val">Third-party mandatory. COMESA Yellow Card accepted.</div></div>
+      <div class="cc-row"><div class="cc-label">Key Borders</div><div class="cc-val">Rusumo (from Tanzania), Gatuna/Katuna (from Uganda), Rusizi/Bukavu (from DRC), Akanyaru (from Burundi)</div></div>
+      <div class="cc-row"><div class="cc-label">Plastic Ban</div><div class="cc-val"><strong>Rwanda bans single-use plastic bags.</strong> Any plastic bags in your vehicle will be confiscated at the border. Repack into cloth bags before entering.</div></div>
+      <div class="cc-note">Rwanda is the cleanest, most organised country in East Africa. Borders are efficient. Roads are excellent. Kigali is a good resupply point. Gorilla trekking (Volcanoes NP) USD 1,500/pp — book well in advance. Monthly community cleanup day (Umuganda) on last Saturday — no driving 8am–12pm.</div>
+      <div class="verified">Last verified: March 2026 · Source: Rwanda immigration, trip reports · Confidence: HIGH</div>
+    </div>
+  </div>
+
+  <div class="cc">
+    <div class="cc-hdr">
+      <span class="cc-name">🇧🇮 Burundi</span>
+      <span class="cc-visa voa">Visa on Arrival / eVisa</span>
+    </div>
+    <div class="cc-body">
+      <div class="cc-row"><div class="cc-label">Visa</div><div class="cc-val">Visa on arrival available (USD 40–90, depending on duration). eVisa also available. Transit visa (72 hours, ~USD 40) if just passing through.</div></div>
+      <div class="cc-row"><div class="cc-label">Stay</div><div class="cc-val">30 days (tourist visa)</div></div>
+      <div class="cc-row"><div class="cc-label">Passport</div><div class="cc-val">Valid 6 months beyond stay</div></div>
+      <div class="cc-row"><div class="cc-label">Yellow Fever</div><div class="cc-val"><strong>Mandatory — no exceptions.</strong></div></div>
+      <div class="cc-row"><div class="cc-label">Vehicle</div><div class="cc-val">TIP or carnet. Process can be slow and unpredictable. Carnet recommended.</div></div>
+      <div class="cc-row"><div class="cc-label">Insurance</div><div class="cc-val">Third-party mandatory. COMESA Yellow Card accepted. Otherwise purchase locally.</div></div>
+      <div class="cc-row"><div class="cc-label">Key Borders</div><div class="cc-val">Kobero (from Tanzania), Akanyaru/Kanyaru (from Rwanda), Gatumba (from DRC — near Bujumbura)</div></div>
+      <div class="cc-note">Burundi is the least-visited country on your list. Infrastructure is limited. Fuel available in Bujumbura and major towns only — carry reserves. Check security situation before entering — FCO/DIRCO travel advisories. Border procedures can be unpredictable — patience essential.</div>
+      <div class="verified">Last verified: March 2026 · Source: Embassy enquiries, overlanding forums · Confidence: MEDIUM</div>
+    </div>
+  </div>
+
+  <div class="cc">
+    <div class="cc-hdr">
+      <span class="cc-name">🇨🇩 DRC (Congo)</span>
+      <span class="cc-visa required">Visa Required</span>
+    </div>
+    <div class="cc-body">
+      <div class="cc-row"><div class="cc-label">Visa</div><div class="cc-val"><strong>Visa required in advance.</strong> Apply at nearest DRC embassy or through eVisa (congo-evisa.com — check availability). Tourist visa USD 100–250 depending on type and duration. Processing can be slow — apply 4+ weeks in advance. Requires letter of invitation, passport photos, itinerary, proof of funds, yellow fever certificate.</div></div>
+      <div class="cc-row"><div class="cc-label">Stay</div><div class="cc-val">30–90 days depending on visa type</div></div>
+      <div class="cc-row"><div class="cc-label">Passport</div><div class="cc-val">Valid 6 months beyond stay, 3+ blank pages</div></div>
+      <div class="cc-row"><div class="cc-label">Yellow Fever</div><div class="cc-val"><strong>Mandatory — strictly enforced.</strong></div></div>
+      <div class="cc-row"><div class="cc-label">Vehicle</div><div class="cc-val">TIP process is complex, slow, and sometimes requires "facilitation fees." <strong>Carnet strongly recommended</strong> — it's the most reliable way to import your vehicle. Without one, expect delays, arbitrary fees, and potential demands for deposits. Vehicle may be inspected thoroughly.</div></div>
+      <div class="cc-row"><div class="cc-label">Insurance</div><div class="cc-val">COMESA Yellow Card accepted. Otherwise arrange DRC-issued third-party at border (may require a fixer).</div></div>
+      <div class="cc-row"><div class="cc-label">IDP</div><div class="cc-val"><strong>International Driving Permit required</strong> alongside SA licence.</div></div>
+      <div class="cc-row"><div class="cc-label">Key Borders</div><div class="cc-val">Kasumbalesa (from Zambia — Lubumbashi area), Bukavu/Rusizi (from Rwanda), Goma (from Rwanda — check security), Mpondwe (from Uganda)</div></div>
+      <div class="cc-note"><strong>Security:</strong> The DRC has active conflict zones in the east (North Kivu, South Kivu, Ituri). Check DIRCO, UK FCO, and UN security advisories before entering. The Lubumbashi-Kolwezi corridor in the south is generally safer. DRC has the worst road infrastructure on your list — many routes are impassable in rainy season. Fuel quality is the worst in the region — triple-filter everything (cross-reference R4 Section 05B). This is the most challenging country on your route — consider whether your route genuinely requires DRC transit.</div>
+      <div class="verified">Last verified: March 2026 · Source: DRC embassy, overlanding forums, security advisories · Confidence: MEDIUM — procedures and security situation change frequently</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ─── 7. KEEPING THIS DOCUMENT CURRENT ─── -->
+<div class="section" id="s7">
+  <div class="section-num">Section 7</div>
+  <h2>Keeping This Document Current</h2>
+  <p>Border requirements change. Visa rules shift. Fees increase. New electronic systems are introduced. This document is only as good as its last update.</p>
+
+  <div class="card">
+    <p><strong>Scheduled review:</strong> Review the entire document every January and July. Update fees, verify visa status, check for new electronic travel authorisation systems.</p>
+    <p><strong>Update as you go:</strong> After every border crossing, update that country's card with the actual experience — what was asked for, what the fees were, how long it took, which border post you used.</p>
+    <p><strong>"Last Verified" dates:</strong> Every country card has a verification date and confidence rating. If a card is more than 6 months old, treat it as indicative only — verify independently before crossing.</p>
+    <p><strong>Sources to check:</strong> Tracks4Africa community reports, iOverlander, Overlanding Africa Facebook groups, the Overlanding Association (overlandingassociation.org — best carnet info), official embassy websites, DIRCO travel advisories (dirco.gov.za).</p>
+    <p><strong>Final pre-trip review:</strong> 3 months before departure (early 2028), do a complete review of all 16 cards. Visa rules, eTA systems, and carnet requirements can change with little notice.</p>
+  </div>
+</div>
+
+</div><!-- /content -->
+
+<footer>
+  <div>LC76 Overland Series · R15 · Border Crossings &amp; Vehicle Documentation</div>
+  <div>16 Countries · SA Passport Holders · Research Date: March 2026</div>
+  <div>Verify all requirements before travel — this document is a planning tool, not legal advice</div>
+</footer>
+
+<script>
+document.querySelectorAll('.toc-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = document.getElementById(btn.dataset.target);
+    if (target) {
+      const offset = document.querySelector('.sticky-wrap').offsetHeight + 8;
+      const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  });
+});
+const sections = document.querySelectorAll('.section[id]');
+const buttons = document.querySelectorAll('.toc-btn');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      buttons.forEach(b => b.classList.remove('active'));
+      const btn = document.querySelector(`.toc-btn[data-target="${entry.target.id}"]`);
+      if (btn) btn.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
