@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0d0e12">
+<title>LC76 — Tyre Management & Field Repair</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=Oswald:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0d0e12;--paper:#dad2c0;--paper2:#edeae0;--amber:#b86800;--amber2:#e07800;--rule:#d4cfc4;--steeldk:#2a2f3a;--steelmd:#6a7080;--red-warn:#B91C1C;--green-ok:#059669;--blue-info:#1d4ed8}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:Oswald,sans-serif;background:var(--paper);color:var(--steeldk);line-height:1.6;-webkit-font-smoothing:antialiased}
+.sticky-wrap{position:sticky;top:0;z-index:100}
+.masthead{background:var(--ink);color:#fff;padding:18px 24px 14px}
+.mh-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--steelmd);margin-bottom:6px}
+.mh-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.8rem,5vw,2.6rem);letter-spacing:.06em;color:var(--amber2);line-height:1}
+.mh-sub{font-family:'IBM Plex Mono',monospace;font-size:.54rem;letter-spacing:.12em;color:rgba(255,200,100,.65);margin-top:5px}
+.mh-vehicle{font-family:'IBM Plex Mono',monospace;font-size:.48rem;letter-spacing:.08em;color:var(--steelmd);margin-top:8px}
+.toc-bar{background:var(--steeldk);border-top:3px solid var(--amber2);border-bottom:1px solid rgba(255,255,255,.08);padding:0 20px;display:flex;gap:0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.toc-bar::-webkit-scrollbar{display:none}
+.toc-btn{font-family:'IBM Plex Mono',monospace;font-size:.52rem;letter-spacing:.08em;text-transform:uppercase;color:var(--steelmd);background:none;border:none;padding:10px 12px;cursor:pointer;white-space:nowrap;transition:color .2s}
+.toc-btn:hover,.toc-btn.active{color:var(--amber2)}
+.content{max-width:100%;padding:20px 5% 60px}
+.section{margin-bottom:24px}
+.section-num{font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);margin-bottom:2px}
+.section h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.4rem,3.5vw,1.8rem);color:var(--steeldk);letter-spacing:.04em;margin-bottom:8px;line-height:1.1}
+.section h3{font-family:Oswald,sans-serif;font-size:.9rem;font-weight:600;color:var(--steeldk);margin:12px 0 6px;text-transform:uppercase;letter-spacing:.04em}
+.section p{font-size:.85rem;color:var(--steelmd);line-height:1.65;margin-bottom:8px}
+.section p strong{color:var(--steeldk)}
+.card{background:#fff;border:1px solid var(--rule);border-radius:6px;padding:12px 14px;margin-bottom:8px}
+.card.warn{border-left:4px solid var(--red-warn);background:#fef7f7}
+.card.ok{border-left:4px solid var(--green-ok);background:#f0fdf8}
+.card.info{border-left:4px solid var(--blue-info);background:#eff6ff}
+.card.amber{border-left:4px solid var(--amber2);background:#fffbf0}
+.card p,.card li{font-size:.82rem;color:var(--steelmd);line-height:1.55}
+.card li{margin-bottom:3px}
+.tbl-wrap{overflow-x:auto;margin-bottom:10px;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:.78rem}
+th{background:var(--steeldk);color:var(--amber2);font-family:'IBM Plex Mono',monospace;font-size:.52rem;letter-spacing:.1em;text-transform:uppercase;padding:8px 10px;text-align:left;white-space:nowrap}
+td{padding:8px 10px;border-bottom:1px solid var(--rule);color:var(--steelmd);background:#fff;vertical-align:top}
+tr:nth-child(even) td{background:var(--paper2)}
+td:first-child{color:var(--steeldk);font-weight:500}
+td.ok{color:var(--green-ok);font-weight:600}
+td.warn{color:var(--red-warn);font-weight:600}
+td.best{background:#f0fdf8!important}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-bottom:12px}
+.stat{background:#fff;border:1px solid var(--rule);border-radius:6px;padding:10px 12px;text-align:center}
+.stat-val{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--amber2);line-height:1}
+.stat-label{font-family:'IBM Plex Mono',monospace;font-size:.48rem;letter-spacing:.12em;text-transform:uppercase;color:var(--steelmd);margin-top:4px}
+.flow-step{display:flex;gap:10px;margin-bottom:6px;align-items:flex-start}
+.flow-num{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--amber2);min-width:24px;text-align:center;line-height:1.3}
+.flow-body{font-size:.82rem;color:var(--steelmd);line-height:1.55;flex:1}
+.flow-body strong{color:var(--steeldk)}
+footer{background:var(--ink);border-top:4px solid var(--amber2);padding:16px 20px;text-align:center}
+footer div{font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.08em;color:var(--steelmd);margin-bottom:4px}
+footer div:first-child{color:var(--amber2)}
+@media print{
+*{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{font-size:7.5pt;background:#fff}
+.sticky-wrap{position:static}
+.toc-bar{display:none}
+.masthead{padding:4mm 8mm;break-after:avoid}
+.mh-eyebrow{font-size:5pt}
+.mh-title{font-size:16pt}
+.mh-sub{font-size:5pt}
+.mh-vehicle{font-size:4.5pt}
+.content{max-width:100%;padding:4mm 8mm}
+.section{margin-bottom:2.5mm}
+.section-num{font-size:4.5pt;margin-bottom:0}
+.section h2{font-size:11pt;margin-bottom:1.5mm;break-after:avoid}
+.section h3{font-size:8pt;margin:2mm 0 1mm;break-after:avoid}
+.section p{font-size:7pt;line-height:1.35;margin-bottom:1mm}
+.card{padding:1.5mm 2.5mm;margin-bottom:1.5mm;break-inside:avoid}
+.card p,.card li{font-size:6.5pt;line-height:1.3}
+.stat-grid{gap:1.5mm;margin-bottom:2mm;break-inside:avoid}
+.stat{padding:1.5mm}
+.stat-val{font-size:10pt}
+.stat-label{font-size:4.5pt}
+table{font-size:6pt;break-inside:avoid}
+th{font-size:5pt;padding:1mm 2mm}
+td{padding:1mm 2mm}
+.tbl-wrap{margin-bottom:2mm}
+.flow-step{margin-bottom:1mm;break-inside:avoid}
+.flow-num{font-size:8pt}
+.flow-body{font-size:6.5pt;line-height:1.3}
+footer{padding:2mm;font-size:4.5pt}
+footer div{font-size:4.5pt;margin-bottom:1mm}
+#s7{break-before:page}
+@page{size:A4;margin:7mm}
+}
+@media(max-width:600px){
+.masthead{padding:14px 16px 12px}
+.mh-title{font-size:1.6rem}
+.content{padding:16px 14px 40px}
+.stat-grid{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="sticky-wrap">
+  <div class="masthead">
+    <div class="mh-eyebrow">Overland Series · R14</div>
+    <div class="mh-title">TYRE MANAGEMENT &amp; FIELD REPAIR</div>
+    <div class="mh-sub">265/70R16 Maxxis AT811-03 · Pressures · Sizing · Puncture Repair · Rotation</div>
+    <div class="mh-vehicle">2009 LC76 SW · 1HZ 4.2L Diesel · GVM 2,850 kg · Last Updated: 25 March 2026</div>
+  </div>
+  <div class="toc-bar" id="tocBar">
+    <button class="toc-btn" data-target="s1">Your Tyres</button>
+    <button class="toc-btn" data-target="s2">Reading</button>
+    <button class="toc-btn" data-target="s3">Pressures</button>
+    <button class="toc-btn" data-target="s4">Size Comparison</button>
+    <button class="toc-btn" data-target="s5">Rotation</button>
+    <button class="toc-btn" data-target="s6">Inspection</button>
+    <button class="toc-btn" data-target="s7">Plug Repair</button>
+    <button class="toc-btn" data-target="s8">Sidewall</button>
+    <button class="toc-btn" data-target="s9">Wheel Change</button>
+    <button class="toc-btn" data-target="s10">Bead Seating</button>
+    <button class="toc-btn" data-target="s11">Kit List</button>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- ─── 1. YOUR TYRES ─── -->
+<div class="section" id="s1">
+  <div class="section-num">Section 1</div>
+  <h2>Current Tyre Setup</h2>
+  <p>Tyre failure — punctures, sidewall damage, blowouts — is the single most common cause of vehicle breakdowns in the African bush. Understanding your tyres, maintaining correct pressures, and being able to repair a puncture in the field is non-negotiable for a two-year overland trip.</p>
+
+  <div class="stat-grid">
+    <div class="stat"><div class="stat-val">265/70R16</div><div class="stat-label">Current Size</div></div>
+    <div class="stat"><div class="stat-val">AT811-03</div><div class="stat-label">Maxxis RAZR AT</div></div>
+    <div class="stat"><div class="stat-val">121/118S</div><div class="stat-label">Load / Speed (LT)</div></div>
+    <div class="stat"><div class="stat-val">10PR</div><div class="stat-label">Ply Rating</div></div>
+  </div>
+
+  <h3>Maxxis RAZR AT811 Features</h3>
+  <div class="card">
+    <p>The AT811 is an all-terrain tyre designed for mixed on/off-road use. Key features relevant to overlanding: <strong>armour sidewall design</strong> with aggressive side-biter lugs for sidewall puncture resistance; <strong>dual-layer high-tension cap ply</strong> for puncture resistance in the tread; <strong>stone-ejecting shoulder grooves</strong> to prevent stone retention and casing damage; <strong>3D tread blocks with bridge reinforcements</strong> for reduced noise and even wear. The LT (Light Truck) 10PR rating means a reinforced casing — stiffer and more puncture-resistant than a P-rated (passenger) tyre, but requiring higher inflation pressures to carry the same load.</p>
+  </div>
+
+  <div class="card info">
+    <p><strong>LT vs P-rated matters for pressures.</strong> LT-rated tyres like your AT811 need more air pressure than P-rated tyres to carry the same load. An LT tyre at 30 PSI carries significantly less than a P-rated tyre at 30 PSI. Always refer to the LT load/pressure tables — not generic passenger tyre recommendations. This is a common mistake that leads to overloaded, under-inflated tyres.</p>
+  </div>
+</div>
+
+<!-- ─── 2. READING YOUR TYRE ─── -->
+<div class="section" id="s2">
+  <div class="section-num">Section 2</div>
+  <h2>Reading the Sidewall</h2>
+  <p>Every piece of information you need is printed on the sidewall. Understanding it helps you buy the right replacement tyres, set correct pressures, and assess damage.</p>
+
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>Marking</th><th>Meaning</th><th>Your Tyre</th></tr>
+    <tr><td><strong>265</strong></td><td>Section width in mm (tread width, roughly)</td><td>265 mm = 10.4 inches</td></tr>
+    <tr><td><strong>70</strong></td><td>Aspect ratio — sidewall height as % of width</td><td>70% of 265 mm = 185.5 mm sidewall</td></tr>
+    <tr><td><strong>R</strong></td><td>Radial construction</td><td>Standard for all modern tyres</td></tr>
+    <tr><td><strong>16</strong></td><td>Rim diameter in inches</td><td>Fits 16-inch wheels</td></tr>
+    <tr><td><strong>121/118</strong></td><td>Load index (single/dual wheel) — max kg per tyre</td><td>121 = 1,450 kg per tyre (single); 118 = 1,320 kg (dual)</td></tr>
+    <tr><td><strong>S</strong></td><td>Speed rating — max sustained speed</td><td>S = 180 km/h (more than adequate)</td></tr>
+    <tr><td><strong>10PR</strong></td><td>Ply rating — casing strength equivalent</td><td>10-ply equivalent. Load range E.</td></tr>
+    <tr><td><strong>LT</strong></td><td>Light Truck designation</td><td>Reinforced casing for commercial/4WD use</td></tr>
+    <tr><td><strong>DOT code (last 4 digits)</strong></td><td>Manufacturing date — week and year</td><td>e.g. "2524" = week 25 of 2024. Check yours — tyres over 6 years old degrade regardless of tread depth.</td></tr>
+  </table>
+  </div>
+
+  <div class="card amber">
+    <p><strong>Overall diameter calculation:</strong> 265/70R16 = (2 × 185.5 mm sidewall) + (16 × 25.4 mm rim) = 371 mm + 406.4 mm = <strong>777.4 mm (30.6 inches)</strong>. This matters for the size comparison in Section 4 and for speedometer accuracy if you change sizes.</p>
+  </div>
+</div>
+
+<!-- ─── 3. PRESSURES ─── -->
+<div class="section" id="s3">
+  <div class="section-num">Section 3</div>
+  <h2>Tyre Pressures by Terrain</h2>
+  <p>Pressure is the single most important variable you control. Too high on soft terrain and you lose traction. Too low on tar and you overheat the casing. Getting this right for your load and terrain is a daily decision on an overland trip.</p>
+
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>Terrain</th><th>Front (PSI)</th><th>Front (bar)</th><th>Rear (PSI)</th><th>Rear (bar)</th><th>Notes</th></tr>
+    <tr><td><strong>Tar highway (loaded)</strong></td><td>38–40</td><td>2.6–2.8</td><td>42–45</td><td>2.9–3.1</td><td>Rear higher due to load. LT tyres need higher pressures than P-rated. Check Toyota placard on B-pillar.</td></tr>
+    <tr><td><strong>Tar highway (unladen)</strong></td><td>34–36</td><td>2.3–2.5</td><td>36–38</td><td>2.5–2.6</td><td>Daily run-around pressures. Comfortable ride.</td></tr>
+    <tr><td><strong>Gravel / corrugated</strong></td><td>30–32</td><td>2.1–2.2</td><td>32–35</td><td>2.2–2.4</td><td>Slightly lower for better ride and grip. Reduces stone damage to tread.</td></tr>
+    <tr><td><strong>Rocky terrain</strong></td><td>26–28</td><td>1.8–1.9</td><td>28–30</td><td>1.9–2.1</td><td>Allows tyre to conform to rocks. Watch for pinch flats on sharp edges.</td></tr>
+    <tr><td><strong>Mud</strong></td><td>22–25</td><td>1.5–1.7</td><td>24–26</td><td>1.7–1.8</td><td>Lower pressure widens the contact patch. Don't go too low — risk of debeading.</td></tr>
+    <tr><td><strong>Sand (soft, deep)</strong></td><td>16–18</td><td>1.1–1.2</td><td>18–20</td><td>1.2–1.4</td><td>The biggest single traction improvement on sand. Must re-inflate before tar.</td></tr>
+    <tr><td class="warn"><strong>Sand (extreme — dunes)</strong></td><td class="warn">12–14</td><td class="warn">0.8–1.0</td><td class="warn">14–16</td><td class="warn">1.0–1.1</td><td class="warn">Last resort. Very slow speed only (&lt;30 km/h). Risk of tyre rolling off rim. Re-inflate immediately after.</td></tr>
+  </table>
+  </div>
+
+  <div class="card warn">
+    <p><strong>Always re-inflate after sand/mud.</strong> Driving on tar at sand pressures (12–18 PSI) destroys the tyre casing within kilometres — the sidewall flexes excessively, generating extreme heat. The casing delaminates and you get a blowout. Carry a reliable compressor and re-inflate before returning to tar. This is not optional.</p>
+  </div>
+
+  <div class="card ok">
+    <p><strong>Hot pressure rise is normal.</strong> Tyre pressure increases 1–2 PSI for every 10°C rise in temperature. A tyre set to 36 PSI cold in the morning may read 40–42 PSI hot after an hour of driving. Never bleed hot tyres down to the cold setting — you'll be under-inflated once they cool. Always set pressures cold (before driving or after resting for 2+ hours).</p>
+  </div>
+
+  <div class="card info">
+    <p><strong>Weight matters.</strong> Your LC76 at GVM (2,850 kg) puts roughly 712 kg per tyre (assuming even distribution). At the 121 load index, your AT811 can carry 1,450 kg per tyre at max pressure — so there's good margin. But with load biased heavily to the rear (fuel, water, camping gear), the rear tyres carry more. This is why rear pressures should always be higher than front when loaded. Cross-reference R11 (Packing Optimisation) for load distribution.</p>
+  </div>
+</div>
+
+<!-- ─── 4. SIZE COMPARISON ─── -->
+<div class="section" id="s4">
+  <div class="section-num">Section 4</div>
+  <h2>Tyre Size Comparison — 265/70 vs 265/75 vs 285/75</h2>
+  <p>You've considered moving from the current 265/70R16 to a 265/75R16 for more sidewall protection. The 285/75R16 is a further option that some 70 Series owners run for maximum protection and ground clearance. Here's the three-way comparison with the practical implications for your vehicle.</p>
+
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>Specification</th><th>265/70R16 (Current)</th><th>265/75R16</th><th>285/75R16</th></tr>
+    <tr><td><strong>Section width</strong></td><td>265 mm (10.4")</td><td>265 mm (10.4")</td><td>285 mm (11.2")</td></tr>
+    <tr><td><strong>Sidewall height</strong></td><td>185.5 mm (7.3")</td><td class="best">198.75 mm (7.8")</td><td class="best">213.75 mm (8.4")</td></tr>
+    <tr><td><strong>Overall diameter</strong></td><td>777 mm (30.6")</td><td>804 mm (31.6")</td><td>834 mm (32.8")</td></tr>
+    <tr><td><strong>Diameter increase</strong></td><td>—</td><td>+27 mm (+3.5%)</td><td>+57 mm (+7.3%)</td></tr>
+    <tr><td><strong>Ground clearance gain</strong></td><td>—</td><td>+13.5 mm</td><td>+28.5 mm</td></tr>
+    <tr><td><strong>Speedometer error</strong></td><td>Calibrated</td><td>~3.5% fast (reads 100 when doing 103.5)</td><td>~7.3% fast (reads 100 when doing 107.3)</td></tr>
+    <tr><td><strong>Width increase</strong></td><td>—</td><td>None</td><td>+20 mm per side</td></tr>
+    <tr><td><strong>Sidewall protection</strong></td><td>Standard</td><td class="ok">+7% more sidewall</td><td class="ok">+15% more sidewall</td></tr>
+    <tr><td><strong>Ride comfort (off-road)</strong></td><td>Good</td><td class="ok">Better — more cushion</td><td class="ok">Best — most flex</td></tr>
+    <tr><td><strong>On-road handling</strong></td><td class="ok">Best — most responsive</td><td>Good</td><td>Softer — more body roll</td></tr>
+    <tr><td><strong>Fuel economy impact</strong></td><td>Baseline</td><td>~1–2% worse</td><td>~3–5% worse</td></tr>
+    <tr><td><strong>Fitment on LC76 (2" OME lift)</strong></td><td class="ok">No issues</td><td class="ok">No issues — direct fit</td><td class="warn">May require mudguard trim. Check full-lock clearance at full compression. Spare carrier may need modification.</td></tr>
+    <tr><td><strong>Spare wheel fit</strong></td><td class="ok">Standard carrier</td><td class="ok">Standard carrier</td><td class="warn">Verify carrier clearance — wider + taller tyre may not fit without modification</td></tr>
+    <tr><td><strong>Gearing effect</strong></td><td>Standard</td><td>Slightly taller effective gearing</td><td>Noticeably taller — may feel sluggish in 1st. Reduced engine braking on descents.</td></tr>
+    <tr><td><strong>Availability in Africa</strong></td><td class="ok">Common</td><td class="ok">Common</td><td>Less common — harder to source a replacement in remote areas</td></tr>
+  </table>
+  </div>
+
+  <div class="card ok">
+    <p><strong>Recommendation for your trip:</strong> The <strong>265/75R16</strong> is the sweet spot. It gives you 13.5 mm more sidewall (7% increase in protection), better ride comfort on corrugated tracks, +13.5 mm ground clearance, fits your current wheels and spare carrier without modification, and is widely available across Southern and East Africa. The speedometer error (~3.5%) is minor and easily accounted for with GPS. The fuel economy penalty is negligible.</p>
+  </div>
+
+  <div class="card amber">
+    <p><strong>The 285/75R16 case:</strong> More protection and clearance, but the 20 mm extra width and 57 mm extra diameter introduce fitment questions that need to be physically checked on your vehicle — full steering lock with suspension compression, spare carrier fitment, and inner guard clearance. It's also harder to find in rural Africa if you need a replacement. For a vehicle that's also a daily run-around at home, the 285/75R16 may feel vague on tar. Discuss with 4x4 Megaworld or Johan Tyre before committing.</p>
+  </div>
+
+  <div class="card info">
+    <p><strong>Carry the same size spare.</strong> Whatever size you choose, your spare must be the same size. Running a mismatched spare (e.g. 265/70 spare with 265/75 on the other three) creates a diameter difference that stresses the differentials and transfer case. For short emergency distances (&lt;50 km, slow speed) it's acceptable, but not for extended driving.</p>
+  </div>
+</div>
+
+<!-- ─── 5. ROTATION ─── -->
+<div class="section" id="s5">
+  <div class="section-num">Section 5</div>
+  <h2>Tyre Rotation</h2>
+  <p>Rotating tyres evenly distributes wear — extending the life of the full set. On an overland vehicle with uneven load distribution (heavy rear), rotation is especially important.</p>
+
+  <h3>Rotation Pattern — 5-Tyre System</h3>
+  <div class="card">
+    <p>With a full-size spare, use a <strong>5-tyre rotation</strong> to spread wear across all five tyres evenly. The pattern for a 4WD vehicle: move the spare to the left rear, left rear to right front, right front to left front, left front to right rear, right rear becomes the spare. This ensures all five tyres wear evenly and the spare is always road-ready — not sitting unused for years until the rubber degrades.</p>
+  </div>
+
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>Interval</th><th>Notes</th></tr>
+    <tr><td><strong>Every 10,000 km</strong></td><td>Standard rotation interval. On a long trip, this is roughly every 4–6 weeks of daily driving.</td></tr>
+    <tr><td><strong>Every 5,000 km</strong></td><td>If driving heavily loaded on gravel/corrugated tracks — these conditions wear tyres 2–3× faster than tar.</td></tr>
+    <tr><td><strong>When uneven wear is visible</strong></td><td>Don't wait for the interval. If you notice one tyre wearing faster, rotate immediately and investigate the cause (alignment, pressure, overloading).</td></tr>
+  </table>
+  </div>
+
+  <div class="card amber">
+    <p><strong>Alignment matters.</strong> Misaligned steering causes rapid and uneven front tyre wear — feathering (saw-tooth pattern across the tread) or one-sided wear. After any suspension work, significant pothole impact, or at every 20,000 km, get a wheel alignment. On a two-year trip, plan alignment checks at major service stops. Your supplier: First Alignment (Johan Tyre).</p>
+  </div>
+</div>
+
+<!-- ─── 6. INSPECTION ─── -->
+<div class="section" id="s6">
+  <div class="section-num">Section 6</div>
+  <h2>Daily Tyre Inspection</h2>
+  <p>A 30-second walk-around at every fuel stop and every morning at camp catches problems before they become emergencies. Make this a habit.</p>
+
+  <h3>What to Check</h3>
+  <div class="card">
+    <p><strong>Visual pressure check:</strong> A tyre that looks even slightly flatter than the others is losing air. Use your gauge — don't rely on appearance alone, but a visual check catches obvious deflation.</p>
+    <p><strong>Tread depth:</strong> Check with a tread depth gauge or the 20-cent coin test. The legal minimum in South Africa is 1.6 mm across 75% of the tread width. For off-road safety, replace when tread reaches 3 mm — below this, sand and mud traction drops dramatically.</p>
+    <p><strong>Embedded objects:</strong> Look for nails, screws, thorns, and stones lodged in the tread. A nail may seal itself and hold air for days — but it will eventually fail. Remove and plug (see Section 7) rather than leaving it.</p>
+    <p><strong>Sidewall damage:</strong> Look for cuts, bulges, and scuffs. Any bulge indicates internal structural damage — the tyre must be replaced. See Section 8.</p>
+    <p><strong>Valve stems:</strong> Check that dust caps are fitted (they prevent dirt entering the valve core) and that the valve isn't bent or cracked. Carry spare valve cores and a valve core tool.</p>
+    <p><strong>Wheel nuts:</strong> After any wheel change, re-torque at 50 km and again at 200 km. On a long corrugated road, check wheel nuts daily — vibration loosens them. Torque: 120–130 Nm for the LC76.</p>
+  </div>
+</div>
+
+<!-- ─── 7. PLUG REPAIR ─── -->
+<div class="section" id="s7">
+  <div class="section-num">Section 7</div>
+  <h2>Field Puncture Repair — Plug Method</h2>
+  <p>Plugging a tread puncture is the most common field repair in Africa. It takes 5–10 minutes, requires no wheel removal, and a good plug can last the remaining life of the tyre. This is the repair to practice before your trip.</p>
+
+  <div class="card warn">
+    <p><strong>Plug repairs are for tread area only.</strong> Punctures in the sidewall, shoulder, or bead area cannot be safely plugged. See Section 8 for sidewall damage assessment.</p>
+  </div>
+
+  <h3>Step-by-Step Plug Repair</h3>
+  <div class="flow-step"><div class="flow-num">1</div><div class="flow-body"><strong>Locate the puncture.</strong> If the tyre is still inflated, listen for hissing or spray soapy water over the tread — bubbles reveal the leak. If flat, inflate first (compressor), then listen/spray. Mark the puncture with chalk or a pen.</div></div>
+  <div class="flow-step"><div class="flow-num">2</div><div class="flow-body"><strong>Remove the object.</strong> Use pliers to pull the nail, screw, or thorn straight out. Expect a rush of air.</div></div>
+  <div class="flow-step"><div class="flow-num">3</div><div class="flow-body"><strong>Ream the hole.</strong> Insert the T-handle reamer tool into the puncture. Twist it in and out 3–4 times to clean the hole and enlarge it to accept the plug. On thick LT tyres like the AT811, this takes real force — brace yourself. Don't be gentle, but don't ream so aggressively that you damage the steel belt.</div></div>
+  <div class="flow-step"><div class="flow-num">4</div><div class="flow-body"><strong>Inflate slightly.</strong> Pump the tyre to above normal pressure (45–50 PSI). Higher pressure helps the plug seat properly and makes insertion easier.</div></div>
+  <div class="flow-step"><div class="flow-num">5</div><div class="flow-body"><strong>Prepare the plug.</strong> Thread one rubber plug (bacon strip) through the eye of the T-handle insertion tool so equal lengths hang from each side. Apply rubber cement/lubricant to the plug if provided in your kit.</div></div>
+  <div class="flow-step"><div class="flow-num">6</div><div class="flow-body"><strong>Insert the plug.</strong> Push the insertion tool firmly into the puncture hole. The doubled plug will resist — use significant force. Push until approximately 10–15 mm of plug protrudes above the tread surface.</div></div>
+  <div class="flow-step"><div class="flow-num">7</div><div class="flow-body"><strong>Pull the tool straight out.</strong> The eye of the insertion tool is designed to release the plug — pull straight back, do not twist. The plug stays in the hole with both ends protruding.</div></div>
+  <div class="flow-step"><div class="flow-num">8</div><div class="flow-body"><strong>Trim the excess.</strong> Cut the protruding ends flush with the tread surface using a knife or side-cutters.</div></div>
+  <div class="flow-step"><div class="flow-num">9</div><div class="flow-body"><strong>Re-inflate and check.</strong> Inflate to your working pressure. Spray soapy water over the repair — no bubbles = good seal. Drive cautiously for the first 10 km and re-check.</div></div>
+
+  <div class="card ok">
+    <p><strong>Multiple plugs in the same tyre:</strong> A tyre can carry 2–3 plug repairs in the tread area without issue. If you're accumulating more than 3, or the repairs are close together, the tyre is compromised — move it to the spare position and plan a replacement at the next town.</p>
+  </div>
+</div>
+
+<!-- ─── 8. SIDEWALL DAMAGE ─── -->
+<div class="section" id="s8">
+  <div class="section-num">Section 8</div>
+  <h2>Sidewall Damage Assessment</h2>
+  <p>Sidewall damage is the most dangerous tyre problem because the sidewall is the thinnest, most flexible part of the tyre — it has no steel belt protection. Assessing whether a damaged sidewall is safe to continue on is a critical field skill.</p>
+
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>Damage Type</th><th>Description</th><th>Continue Driving?</th><th>Action</th></tr>
+    <tr><td><strong>Scuff / abrasion</strong></td><td>Surface rubber scraped off (rocks, kerbs). No cords visible.</td><td class="ok">Yes</td><td>Monitor. Surface damage only. No structural impact.</td></tr>
+    <tr><td><strong>Small cut (no cords visible)</strong></td><td>Cut into the rubber but doesn't expose the internal fabric/cords.</td><td class="ok">Yes — with caution</td><td>Monitor closely. Reduce speed on rough terrain. Inspect daily. Mark the cut so you can see if it's growing.</td></tr>
+    <tr><td><strong>Cut with cords visible</strong></td><td>Cut deep enough to expose the internal nylon or polyester cords.</td><td class="warn">Move to spare position</td><td>The casing is compromised. Move this tyre to the spare. Do not run it on the vehicle at normal speeds. It may hold as a limp-home spare at low speed (&lt;60 km/h) for short distances.</td></tr>
+    <tr><td><strong>Bulge / bubble</strong></td><td>A visible bump on the sidewall surface — indicates internal delamination.</td><td class="warn">Replace immediately</td><td class="warn">A bulge means the internal structure has failed. The tyre can blow out without warning. Do not drive on it. Change to spare immediately.</td></tr>
+    <tr><td><strong>Puncture through sidewall</strong></td><td>A hole through the sidewall — cannot be plugged safely.</td><td class="warn">Replace immediately</td><td>Standard plug repair does not work on sidewalls — the thin, flexible rubber won't hold a plug under load. Change to spare. Emergency sidewall patches exist but are temporary and unreliable.</td></tr>
+  </table>
+  </div>
+
+  <div class="card info">
+    <p><strong>Taller sidewall = better protection.</strong> This is the primary argument for moving to 265/75R16 or 285/75R16 — 13–28 mm more sidewall rubber between your rim and the rocks. The AT811's armour sidewall lugs also help deflect impacts, but they can't compensate for a fundamentally short sidewall on sharp terrain.</p>
+  </div>
+</div>
+
+<!-- ─── 9. WHEEL CHANGE ─── -->
+<div class="section" id="s9">
+  <div class="section-num">Section 9</div>
+  <h2>Field Wheel Change</h2>
+  <p>Changing a wheel on flat, paved ground is straightforward. Doing it on soft sand, a slope, or rough terrain — often in the heat and under time pressure — requires a clear procedure.</p>
+
+  <h3>Procedure</h3>
+  <div class="flow-step"><div class="flow-num">1</div><div class="flow-body"><strong>Find the firmest, most level ground possible.</strong> If on sand, place MaxTrax or flat rocks under the jack base. On a slope, chock the wheels on the uphill side.</div></div>
+  <div class="flow-step"><div class="flow-num">2</div><div class="flow-body"><strong>Apply the handbrake. Engage 1st gear (or 4L 1st).</strong> Chock the wheel diagonally opposite the flat tyre with rocks or a wheel chock.</div></div>
+  <div class="flow-step"><div class="flow-num">3</div><div class="flow-body"><strong>Loosen the wheel nuts ½ turn</strong> with the wheel brace before jacking. If a nut is seized, use a breaker bar or stand on the wheel brace (with the brace horizontal, push down with your foot). Do not jack with tight nuts — the wheel will spin when you try to loosen them.</div></div>
+  <div class="flow-step"><div class="flow-num">4</div><div class="flow-body"><strong>Position the jack.</strong> Use the hydraulic jack on the designated jacking points (front: chassis rail behind the bumper; rear: axle housing). The jack must be upright (your hydraulic jack requires this). Ensure the base is on solid ground or a jack plate.</div></div>
+  <div class="flow-step"><div class="flow-num">5</div><div class="flow-body"><strong>Raise until the flat tyre just clears the ground.</strong> Don't over-lift — higher = less stable. On soft ground, the vehicle may sink as the jack rises. Place rocks or a MaxTrax under the chassis as a safety support in case the jack slips.</div></div>
+  <div class="flow-step"><div class="flow-num">6</div><div class="flow-body"><strong>Remove the wheel nuts and flat tyre.</strong> Place the flat tyre under the chassis beside the jack as a secondary safety catch.</div></div>
+  <div class="flow-step"><div class="flow-num">7</div><div class="flow-body"><strong>Mount the spare.</strong> Align the holes, hand-start all wheel nuts before tightening any. Tighten in a star pattern (diagonal sequence) to 120–130 Nm.</div></div>
+  <div class="flow-step"><div class="flow-num">8</div><div class="flow-body"><strong>Lower the jack. Final torque check</strong> on all nuts once the wheel is on the ground. Stow the flat tyre and jack.</div></div>
+  <div class="flow-step"><div class="flow-num">9</div><div class="flow-body"><strong>Re-torque at 50 km.</strong> Set a reminder. Wheel nuts bed in after initial driving and will need re-tightening.</div></div>
+
+  <div class="card warn">
+    <p><strong>Never get under a vehicle supported only by a jack.</strong> Jacks can slip, sink, or tilt — especially on soft or uneven ground. Always place a safety support (tyre, rock, MaxTrax) beside the jack. If the jack fails, the chassis drops onto the support instead of onto you.</p>
+  </div>
+</div>
+
+<!-- ─── 10. BEAD SEATING ─── -->
+<div class="section" id="s10">
+  <div class="section-num">Section 10</div>
+  <h2>Emergency Bead Seating</h2>
+  <p>If a tyre has come off the bead (unseated from the rim) — usually after running very low pressure in sand or after a sidewall impact — it won't hold air even if undamaged. Re-seating the bead in the field is possible but requires care.</p>
+
+  <h3>Compressor Method</h3>
+  <div class="card">
+    <p><strong>Step 1:</strong> Lay the wheel flat. Remove the valve core (using the valve core tool from your repair kit) — this allows maximum airflow into the tyre.</p>
+    <p><strong>Step 2:</strong> Push the tyre bead against the rim as closely as possible by hand, all the way around. If one side is seated, work on the other.</p>
+    <p><strong>Step 3:</strong> Use a ratchet strap or tow strap around the circumference of the tread and tighten — this squeezes the tread inward, pushing the sidewalls outward against the rim. This is the key step that helps the bead contact the rim.</p>
+    <p><strong>Step 4:</strong> Connect the compressor (without the valve core) and inflate. The high airflow with no core restriction helps pop the bead onto the rim seat. You'll hear two distinct "pops" — one for each bead.</p>
+    <p><strong>Step 5:</strong> Once both beads are seated, remove the compressor, refit the valve core, and inflate to normal pressure. Spray soapy water around both beads to confirm they're sealed.</p>
+  </div>
+
+  <div class="card amber">
+    <p><strong>If the compressor can't seat the bead:</strong> The airflow rate of a small 12V compressor may not be enough. Options: use a CO₂ tyre inflator (fast burst of gas), or — as a last resort — spray a small amount of a flammable aerosol (brake cleaner, not starting fluid) inside the tyre and ignite it. The rapid gas expansion pops the bead onto the rim. This is dangerous and should only be attempted by someone experienced, as a last resort, with no passengers nearby. The ratchet strap method is safer and should be tried first.</p>
+  </div>
+</div>
+
+<!-- ─── 11. KIT LIST ─── -->
+<div class="section" id="s11">
+  <div class="section-num">Section 11</div>
+  <h2>Tyre Repair Kit List</h2>
+  <p>Everything you need for tyre maintenance and field repair on a two-year trip. Cross-reference R3 (Bush Spares &amp; Tools) for the full vehicle spares inventory.</p>
+
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>Item</th><th>Purpose</th><th>Qty</th><th>Notes</th></tr>
+    <tr><td><strong>Full-size spare tyre</strong></td><td>Wheel change</td><td>1</td><td>Same size and brand as running tyres. Included in 5-tyre rotation.</td></tr>
+    <tr><td><strong>Plug repair kit (quality)</strong></td><td>Tread puncture repair</td><td>1 kit</td><td>Must include: T-handle reamer, T-handle insertion tool, 20+ rubber plugs, rubber cement, pliers. ARB Speedy Seal or equivalent.</td></tr>
+    <tr><td><strong>Extra rubber plugs</strong></td><td>Backup for repair kit</td><td>20+</td><td>Self-vulcanising type. Buy extra — they're cheap and light.</td></tr>
+    <tr><td><strong>12V air compressor</strong></td><td>Inflation after deflation or repair</td><td>1</td><td>You already have one. Confirm it can reach 45 PSI and run for 10+ minutes. Carry a spare fuse for it.</td></tr>
+    <tr><td><strong>Tyre pressure gauge (accurate)</strong></td><td>Pressure checks</td><td>1</td><td>Digital preferred for accuracy. Carry a backup analog gauge.</td></tr>
+    <tr><td><strong>Tyre deflators (set of 4)</strong></td><td>Controlled deflation for sand</td><td>1 set</td><td>Preset deflators save time vs manual bleeding. Set to your target sand pressure.</td></tr>
+    <tr><td><strong>Valve cores + valve core tool</strong></td><td>Valve replacement, bead seating</td><td>6 cores + tool</td><td>Tiny, weightless, critical. A leaking valve core is the easiest fix in the field.</td></tr>
+    <tr><td><strong>Wheel brace + breaker bar</strong></td><td>Wheel nut removal</td><td>1</td><td>Standard Toyota brace may be too short for seized nuts. A breaker bar or cheater pipe gives more leverage.</td></tr>
+    <tr><td><strong>Hydraulic jack</strong></td><td>Lifting vehicle</td><td>1</td><td>You carry this already (must be upright). Ensure it has capacity for GVM (2,850 kg).</td></tr>
+    <tr><td><strong>Jack base plate</strong></td><td>Prevents jack sinking in soft ground</td><td>1</td><td>Plywood square (~300 × 300 mm, 18 mm thick) or commercial jack plate.</td></tr>
+    <tr><td><strong>Ratchet strap (long)</strong></td><td>Bead seating</td><td>1</td><td>Wrap around tyre circumference to push beads outward. Also useful for general lashing.</td></tr>
+    <tr><td><strong>Tyre sealant (emergency)</strong></td><td>Last-resort temporary repair</td><td>1 can</td><td>Slime or similar. Messy and temporary. Use only if plugging is not possible.</td></tr>
+    <tr><td><strong>Soapy water spray bottle</strong></td><td>Leak detection</td><td>1</td><td>Dish soap + water. Also used for turbo boost leak detection (R4) and dishes (R12).</td></tr>
+    <tr><td><strong>Chalk / marker pen</strong></td><td>Marking damage and rotation position</td><td>1</td><td>Mark puncture locations, rotation positions, tread depth check points.</td></tr>
+  </table>
+  </div>
+
+  <div class="card ok">
+    <p><strong>Consider for the 2028 trip:</strong> Carry a second spare tyre casing on the roof rack (you've noted you're comfortable with this). On a two-year trip across Africa, two spares gives you the security to handle multiple punctures or a sidewall blowout in a region where your tyre size is unavailable. The weight penalty is ~25 kg. Cross-reference R11 (Packing Optimisation) for roof rack load limits.</p>
+  </div>
+</div>
+
+</div><!-- /content -->
+
+<footer>
+  <div>LC76 Overland Series · R14 · Tyre Management &amp; Field Repair</div>
+  <div>Vehicle: LC76 SW 1HZ · 265/70R16 Maxxis AT811-03 · SA-plated · RHD</div>
+  <div>Print this guide and keep with R13 (Drivetrain) in the vehicle</div>
+</footer>
+
+<script>
+document.querySelectorAll('.toc-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = document.getElementById(btn.dataset.target);
+    if (target) {
+      const offset = document.querySelector('.sticky-wrap').offsetHeight + 8;
+      const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  });
+});
+const sections = document.querySelectorAll('.section[id]');
+const buttons = document.querySelectorAll('.toc-btn');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      buttons.forEach(b => b.classList.remove('active'));
+      const btn = document.querySelector(`.toc-btn[data-target="${entry.target.id}"]`);
+      if (btn) btn.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
