@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0d0e12">
+<title>LC76 — Health & Hygiene</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=Oswald:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0d0e12;--paper:#dad2c0;--paper2:#edeae0;--amber:#b86800;--amber2:#e07800;--rule:#d4cfc4;--steeldk:#2a2f3a;--steelmd:#6a7080;--red-warn:#B91C1C;--green-ok:#059669;--blue-info:#1d4ed8}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Oswald,sans-serif;background:var(--paper);color:var(--steeldk);line-height:1.6;-webkit-font-smoothing:antialiased}
+.sticky-wrap{position:sticky;top:0;z-index:100}
+.masthead{background:var(--ink);color:#fff;padding:18px 24px 14px}
+.mh-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--steelmd);margin-bottom:6px}
+.mh-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.8rem,5vw,2.6rem);letter-spacing:.06em;color:var(--amber2);line-height:1}
+.mh-sub{font-family:'IBM Plex Mono',monospace;font-size:.54rem;letter-spacing:.12em;color:rgba(255,200,100,.65);margin-top:5px}
+.mh-vehicle{font-family:'IBM Plex Mono',monospace;font-size:.48rem;letter-spacing:.08em;color:var(--steelmd);margin-top:8px}
+.toc-bar{background:var(--steeldk);border-top:3px solid var(--amber2);border-bottom:1px solid rgba(255,255,255,.08);padding:0 20px;display:flex;gap:0;overflow-x:auto;scrollbar-width:none}
+.toc-bar::-webkit-scrollbar{display:none}
+.toc-btn{font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.06em;text-transform:uppercase;color:var(--steelmd);background:none;border:none;padding:9px 10px;cursor:pointer;white-space:nowrap;transition:color .2s}
+.toc-btn:hover,.toc-btn.active{color:var(--amber2)}
+.content{max-width:100%;padding:20px 5% 60px}
+.section{margin-bottom:20px}
+.section-num{font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);margin-bottom:2px}
+.section h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.4rem,3.5vw,1.8rem);color:var(--steeldk);letter-spacing:.04em;margin-bottom:6px;line-height:1.1}
+.section h3{font-family:Oswald,sans-serif;font-size:.88rem;font-weight:600;color:var(--steeldk);margin:10px 0 5px;text-transform:uppercase;letter-spacing:.04em}
+.section p{font-size:.82rem;color:var(--steelmd);line-height:1.6;margin-bottom:6px}
+.section p strong{color:var(--steeldk)}
+.card{background:#fff;border:1px solid var(--rule);border-radius:6px;padding:10px 12px;margin-bottom:7px}
+.card.warn{border-left:4px solid var(--red-warn);background:#fef7f7}
+.card.ok{border-left:4px solid var(--green-ok);background:#f0fdf8}
+.card.info{border-left:4px solid var(--blue-info);background:#eff6ff}
+.card.amber{border-left:4px solid var(--amber2);background:#fffbf0}
+.card p{font-size:.8rem;color:var(--steelmd);line-height:1.5}
+.tbl-wrap{overflow-x:auto;margin-bottom:8px}
+table{width:100%;border-collapse:collapse;font-size:.76rem}
+th{background:var(--steeldk);color:var(--amber2);font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;padding:7px 8px;text-align:left;white-space:nowrap}
+td{padding:7px 8px;border-bottom:1px solid var(--rule);color:var(--steelmd);background:#fff;vertical-align:top}
+tr:nth-child(even) td{background:var(--paper2)}
+td:first-child{color:var(--steeldk);font-weight:500}
+td.ok{color:var(--green-ok);font-weight:600}
+td.warn{color:var(--red-warn);font-weight:600}
+footer{background:var(--ink);border-top:4px solid var(--amber2);padding:16px 20px;text-align:center}
+footer div{font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.08em;color:var(--steelmd);margin-bottom:4px}
+footer div:first-child{color:var(--amber2)}
+@media print{
+*{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{font-size:7.5pt;background:#fff}
+.sticky-wrap{position:static}
+.toc-bar{display:none}
+.masthead{padding:4mm 8mm;break-after:avoid}
+.mh-eyebrow{font-size:5pt}.mh-title{font-size:16pt}.mh-sub{font-size:5pt}.mh-vehicle{font-size:4.5pt}
+.content{max-width:100%;padding:4mm 8mm}
+.section{margin-bottom:2.5mm}
+.section-num{font-size:4.5pt;margin-bottom:0}
+.section h2{font-size:11pt;margin-bottom:1.5mm;break-after:avoid}
+.section h3{font-size:8pt;margin:2mm 0 1mm;break-after:avoid}
+.section p{font-size:7pt;line-height:1.35;margin-bottom:1mm}
+.card{padding:1.5mm 2.5mm;margin-bottom:1.5mm;break-inside:avoid}
+.card p{font-size:6.5pt;line-height:1.3}
+table{font-size:6pt;break-inside:auto}
+thead{display:table-header-group}
+th{font-size:5pt;padding:1mm 2mm}
+td{padding:1mm 2mm}
+.tbl-wrap{margin-bottom:2mm}
+footer{padding:2mm}
+footer div{font-size:4.5pt;margin-bottom:1mm}
+@page{size:A4;margin:7mm}
+}
+@media(max-width:600px){
+.masthead{padding:14px 16px 12px}
+.mh-title{font-size:1.6rem}
+.content{padding:16px 14px 40px}
+}
+</style>
+</head>
+<body>
+
+<div class="sticky-wrap">
+  <div class="masthead">
+    <div class="mh-eyebrow">Overland Series · R17</div>
+    <div class="mh-title">HEALTH &amp; HYGIENE</div>
+    <div class="mh-sub">Vaccinations · Malaria · Daily Hygiene · Medical Kit · Food Safety · Field Health</div>
+    <div class="mh-vehicle">Southern &amp; East Africa · 16 Countries · Last Updated: 26 March 2026</div>
+  </div>
+  <div class="toc-bar" id="tocBar">
+    <button class="toc-btn" data-target="s1">Vaccinations</button>
+    <button class="toc-btn" data-target="s2">Malaria</button>
+    <button class="toc-btn" data-target="s3">Other Vectors</button>
+    <button class="toc-btn" data-target="s4">Food &amp; Water</button>
+    <button class="toc-btn" data-target="s5">Daily Hygiene</button>
+    <button class="toc-btn" data-target="s6">Sun &amp; Heat</button>
+    <button class="toc-btn" data-target="s7">Medical Kit</button>
+    <button class="toc-btn" data-target="s8">Medications</button>
+    <button class="toc-btn" data-target="s9">When to Get Help</button>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- ─── 1. VACCINATIONS ─── -->
+<div class="section" id="s1">
+  <div class="section-num">Section 1</div>
+  <h2>Vaccinations &amp; Immunisation</h2>
+  <p>Visit a travel clinic at least 6–8 weeks before departure. Some vaccinations require multiple doses or time to become effective. Take your planned route (all 16 countries) so the clinic can give comprehensive advice. This section is a planning guide — your travel clinic doctor has the final say.</p>
+
+  <h3>Required &amp; Recommended Vaccinations</h3>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>Vaccination</th><th>Status</th><th>Notes</th></tr></thead>
+    <tbody>
+    <tr><td><strong>Yellow Fever</strong></td><td class="warn">Mandatory</td><td>Required for entry to Uganda, Rwanda, Burundi, DRC, Angola. Required if arriving from endemic country for Tanzania, Kenya, Zambia, Mozambique, Zimbabwe, Botswana, Namibia. Get it — you'll be moving between endemic countries constantly. Certificate (ICVP) valid for life after single dose. Must be given at least 10 days before travel.</td></tr>
+    <tr><td><strong>Hepatitis A</strong></td><td class="warn">Strongly recommended</td><td>Spread through contaminated food and water. Two doses (0 and 6–12 months) for lifelong immunity. Essential for Africa travel.</td></tr>
+    <tr><td><strong>Hepatitis B</strong></td><td class="warn">Strongly recommended</td><td>Spread through blood and bodily fluids. Three doses over 6 months. Important if you may need medical treatment in a country with limited blood screening.</td></tr>
+    <tr><td><strong>Typhoid</strong></td><td class="warn">Strongly recommended</td><td>Spread through contaminated food and water. Single injection, boosted every 2–3 years. Essential for countries with poor sanitation.</td></tr>
+    <tr><td><strong>Rabies (pre-exposure)</strong></td><td class="warn">Strongly recommended</td><td>Three doses over 21–28 days. Gives you time to reach a hospital if bitten (without pre-exposure vaccination, rabies is almost always fatal once symptoms appear). On a two-year trip in Africa, the risk of animal contact (dogs, monkeys, bats) is significant. Cross-reference R10 for bite response.</td></tr>
+    <tr><td><strong>Tetanus / Diphtheria / Pertussis</strong></td><td>Recommended</td><td>Booster every 10 years. Essential — you'll be working with tools, wire, and metal in the bush.</td></tr>
+    <tr><td><strong>Polio</strong></td><td>Recommended</td><td>Booster if not vaccinated in last 10 years. Some countries on your route still have circulating strains.</td></tr>
+    <tr><td><strong>Measles / MMR</strong></td><td>Recommended</td><td>Confirm immunity. Measles outbreaks occur across Africa.</td></tr>
+    <tr><td><strong>Meningococcal</strong></td><td>Consider</td><td>Recommended for the "meningitis belt" (Sahel region). Less relevant for your Southern/East Africa route, but worth discussing with your clinic.</td></tr>
+    <tr><td><strong>Cholera</strong></td><td>Consider</td><td>Oral vaccine. Risk in areas with poor sanitation and contaminated water. Low risk with good water discipline (cross-reference R12).</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="card amber">
+    <p><strong>Documents to carry:</strong> International Certificate of Vaccination or Prophylaxis (ICVP — the yellow WHO booklet) with your yellow fever stamp and all other vaccinations recorded. Keep it with your passport at all times. Some borders check it; some don't — but when they do, no certificate = no entry. Cross-reference R15 (Border Crossings) for country-specific requirements.</p>
+  </div>
+</div>
+
+<!-- ─── 2. MALARIA ─── -->
+<div class="section" id="s2">
+  <div class="section-num">Section 2</div>
+  <h2>Malaria — Prevention, Recognition &amp; Response</h2>
+  <p>Malaria is the single biggest health risk on your trip. It's preventable with medication and mosquito avoidance, and treatable if caught early — but it kills quickly if ignored. This is not something to be casual about on a two-year trip.</p>
+
+  <h3>Prophylaxis (Preventive Medication)</h3>
+  <div class="card">
+    <p><strong>Your doctor will recommend one of three main options:</strong></p>
+    <p><strong>Atovaquone-Proguanil (Malarone):</strong> Daily. Well-tolerated, few side effects. Start 1–2 days before entering a malaria zone, take daily throughout, continue 7 days after leaving. Expensive for long trips — discuss cost with your doctor. Generic versions are cheaper.</p>
+    <p><strong>Doxycycline:</strong> Daily. Effective and inexpensive. Start 1–2 days before, continue 28 days after leaving the zone. Side effects: sun sensitivity (significant in Africa — wear sunscreen and a hat), possible stomach upset, yeast infections in women. Take with food and a full glass of water. Do not lie down for 30 minutes after taking.</p>
+    <p><strong>Mefloquine (Lariam):</strong> Weekly. Convenient for long trips (one tablet per week). Start 2 weeks before. Side effects can include vivid dreams, anxiety, dizziness, and mood changes — not tolerated by everyone. Discuss with your doctor. Not suitable if you have a history of depression or anxiety.</p>
+  </div>
+
+  <div class="card warn">
+    <p><strong>For a two-year trip:</strong> Discuss a prophylaxis strategy with your travel clinic. Options include: taking prophylaxis continuously (Doxycycline is the most practical/affordable for long-duration use), taking it only in high-risk zones and stopping in lower-risk areas (requires careful assessment of where you are), or using a "standby treatment" approach where you carry a treatment course and take it at the first sign of symptoms. Your doctor's advice supersedes everything in this guide.</p>
+  </div>
+
+  <h3>Mosquito Avoidance (The Other Half of Prevention)</h3>
+  <div class="card ok">
+    <p><strong>Prophylaxis alone is not enough.</strong> No antimalarial is 100% effective. You must also avoid being bitten. The malaria mosquito (Anopheles) bites mainly between dusk and dawn.</p>
+    <p><strong>Repellent:</strong> Apply 30% DEET to all exposed skin from late afternoon. Reapply after sweating or washing. Carry enough for 2 years — it's hard to find quality DEET repellent in remote Africa.</p>
+    <p><strong>Clothing:</strong> From late afternoon, wear long sleeves, long trousers, and socks. Light-coloured clothing attracts fewer mosquitoes than dark. Consider treating clothing with permethrin spray (lasts through several washes).</p>
+    <p><strong>Sleeping:</strong> Your OzTent RV4 should have insect mesh on all openings — keep it zipped at all times after dusk. If camping without mesh, use a treated mosquito net over your stretchers. Carry a compact net as backup.</p>
+    <p><strong>Camp routine:</strong> Avoid camping near standing water. Mosquito coils or battery-powered repellent devices at the tent entrance help. Keep the tent zipped from the moment you set up camp — don't leave it open while you're cooking.</p>
+  </div>
+
+  <h3>Recognising Malaria Symptoms</h3>
+  <div class="card warn">
+    <p><strong>Symptoms appear 7–30 days after an infected bite</strong> (sometimes longer). They mimic flu — which is why malaria is often misdiagnosed. If you have any of these symptoms in or after visiting a malaria zone, assume malaria until proven otherwise:</p>
+    <p>Fever (often cyclical — high then breaking with sweats), chills and shivering, headache, muscle and joint pain, fatigue and weakness, nausea, vomiting, diarrhoea. In severe cases: confusion, seizures, dark urine, jaundice (yellowing of eyes/skin).</p>
+    <p><strong>What to do:</strong> Get a malaria test immediately. Rapid Diagnostic Tests (RDTs) are available at pharmacies and clinics across Africa — buy a few and carry them. They take 15 minutes and are reasonably reliable. If positive, start treatment immediately. If negative but symptoms persist, test again in 12–24 hours (early infection can produce false negatives). If you cannot get tested and have malaria symptoms, start your standby treatment course and get to a clinic as soon as possible.</p>
+    <p><strong>Time matters.</strong> Plasmodium falciparum (the dominant strain in Africa) can progress from mild symptoms to life-threatening in 24–48 hours. Do not wait to "see if it gets better." Cross-reference R10 (Emergency Procedures) and R16 (Communication) for evacuation protocols.</p>
+  </div>
+</div>
+
+<!-- ─── 3. OTHER VECTOR-BORNE DISEASES ─── -->
+<div class="section" id="s3">
+  <div class="section-num">Section 3</div>
+  <h2>Other Insect &amp; Tick-Borne Diseases</h2>
+
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>Disease</th><th>Vector</th><th>Symptoms</th><th>Prevention</th><th>Risk on Your Route</th></tr></thead>
+    <tbody>
+    <tr><td><strong>Tick Bite Fever</strong></td><td>Ticks (tall grass, bush)</td><td>Fever, headache, black eschar (bite mark), rash, muscle pain. 5–7 days after bite.</td><td>Check body daily for ticks (armpits, groin, hairline). Remove with fine tweezers — pull straight out. Tuck trousers into socks in long grass. Permethrin on clothing.</td><td class="warn">High — SA, Namibia, Zimbabwe, Mozambique, Tanzania</td></tr>
+    <tr><td><strong>Dengue Fever</strong></td><td>Aedes mosquito (bites during the day)</td><td>High fever, severe headache, pain behind eyes, joint/muscle pain, rash. No specific treatment.</td><td>DEET repellent during daytime (Aedes bites dawn to dusk). Wear long sleeves. No prophylaxis available.</td><td>Moderate — East Africa, Mozambique, Angola</td></tr>
+    <tr><td><strong>African Trypanosomiasis (Sleeping Sickness)</strong></td><td>Tsetse fly (large, painful bite)</td><td>Fever, headache, swollen lymph nodes, then confusion and sleep disturbance. Fatal if untreated.</td><td>Wear medium-toned clothing (tsetse attracted to very dark and very bright colours). Tsetse-proof vehicle mesh if in heavy tsetse areas. Repellent has limited effect.</td><td>Low — localised to tsetse belts (Zambia Luangwa, Tanzania western, DRC, Uganda)</td></tr>
+    <tr><td><strong>Bilharzia (Schistosomiasis)</strong></td><td>Freshwater snails (wading, swimming)</td><td>Skin rash (swimmer's itch), then weeks later: fever, cough, abdominal pain, bloody urine/stool.</td><td>Avoid wading or swimming in still or slow-moving freshwater. High risk: Lake Malawi, Lake Victoria, Zambezi, Okavango. Cross-reference R12 Section 11.</td><td class="warn">High — present in most countries on your route</td></tr>
+    </tbody>
+  </table>
+  </div>
+</div>
+
+<!-- ─── 4. FOOD & WATER SAFETY ─── -->
+<div class="section" id="s4">
+  <div class="section-num">Section 4</div>
+  <h2>Food &amp; Water Safety</h2>
+  <p>Gastrointestinal illness — traveller's diarrhoea, food poisoning, giardia, amoebic dysentery — is the most common health problem for overlanders. Prevention is mostly about discipline and habits.</p>
+
+  <div class="card">
+    <p><strong>Water:</strong> Never drink untreated water from any natural source. Use your multi-barrier treatment system (cross-reference R12 for full detail). Treated water for drinking, cooking, and teeth brushing. Ice in drinks is risky unless you made it yourself from treated water.</p>
+    <p><strong>Food from local sources:</strong> Eat cooked food served hot. Avoid raw salads and unpeeled fruit from roadside vendors (you don't know what water was used to wash them). Peel your own fruit. Avoid raw or undercooked meat and seafood. Street food that's cooked fresh in front of you (high heat, visible preparation) is generally safer than food from a buffet that's been sitting out.</p>
+    <p><strong>Your own cooking:</strong> Wash hands before food preparation. Wash all fresh produce in treated water. Cook meat thoroughly. Refrigerate leftovers promptly (your fridge is your food safety tool — cross-reference R5 for fridge power management). Discard any food left at ambient temperature for more than 2 hours in hot conditions.</p>
+    <p><strong>Hand hygiene:</strong> Wash hands with soap and water (or alcohol-based sanitiser) before eating, before cooking, after using the toilet, and after handling money. This single habit prevents more illness than any other.</p>
+  </div>
+
+  <div class="card amber">
+    <p><strong>Traveller's diarrhoea treatment:</strong> Most cases are self-limiting (3–5 days). Stay hydrated — oral rehydration salts (ORS) are essential. Carry sachets. Loperamide (Imodium) controls symptoms for travel days but doesn't treat the cause — use it to get through a driving day, not as primary treatment. If diarrhoea is bloody, accompanied by fever, or lasts more than 3 days, you may need antibiotics — carry a course prescribed by your doctor (typically ciprofloxacin or azithromycin). See Section 9 for when to seek medical help.</p>
+  </div>
+</div>
+
+<!-- ─── 5. DAILY HYGIENE ─── -->
+<div class="section" id="s5">
+  <div class="section-num">Section 5</div>
+  <h2>Daily Hygiene in the Bush</h2>
+  <p>On a two-year trip, hygiene discipline prevents the slow accumulation of skin infections, dental problems, and gut issues that can grind a trip to a halt. It doesn't need to be complicated — just consistent.</p>
+
+  <div class="card">
+    <p><strong>Shower daily</strong> — even a bucket wash with 5 L of water is sufficient. Pay attention to armpits, groin, and feet. In hot, humid conditions, fungal infections (jock itch, athlete's foot) develop rapidly if these areas stay damp. Dry thoroughly and apply antifungal powder if needed. Carry biodegradable soap for bush washing — never use soap directly in rivers or lakes.</p>
+    <p><strong>Dental:</strong> Brush twice daily, floss daily. A dental abscess in rural Tanzania is a serious problem. See a dentist for a full check-up before departure. Carry a dental emergency kit (temporary filling material like Cavit, oil of cloves for pain relief, antibiotics for dental infection).</p>
+    <p><strong>Feet:</strong> Inspect daily. Wear dry socks, change them if wet. Treat any cuts or blisters immediately with antiseptic and plasters. In wet/humid environments, air your boots overnight. Fungal infections between toes are common — carry clotrimazole cream.</p>
+    <p><strong>Wounds:</strong> Clean every cut, scrape, and insect bite immediately with clean water and antiseptic (povidone-iodine or chlorhexidine). In the African bush, even minor wounds can become infected rapidly in the heat and humidity. Cover with a clean dressing. Watch for signs of infection: redness spreading from the wound, increasing pain, pus, fever. An infected wound that doesn't improve in 24–48 hours with cleaning and topical antiseptic may need oral antibiotics.</p>
+    <p><strong>Laundry:</strong> Wash clothing regularly. In areas where the tumbu (putzi) fly is present (mainly Central/East Africa), either tumble dry clothing, iron all clothing (including underwear), or dry in direct sunlight in a sealed vehicle. The tumbu fly lays eggs on damp clothing; larvae burrow into skin when worn.</p>
+  </div>
+</div>
+
+<!-- ─── 6. SUN & HEAT ─── -->
+<div class="section" id="s6">
+  <div class="section-num">Section 6</div>
+  <h2>Sun, Heat &amp; Altitude</h2>
+
+  <div class="card">
+    <p><strong>Sun protection:</strong> Southern and East Africa have extreme UV levels. Apply SPF 50+ sunscreen to all exposed skin every morning, reapply every 2 hours and after sweating. Wear a wide-brimmed hat, UV-rated sunglasses, and light long-sleeved shirts. Sunburn is cumulative — two years of African sun without protection causes real skin damage. If taking Doxycycline for malaria, sun sensitivity is significantly increased.</p>
+    <p><strong>Heat exhaustion:</strong> Symptoms: heavy sweating, weakness, nausea, dizziness, cool/clammy skin. Move to shade, lie down, sip water with ORS, cool the skin with wet cloths. It resolves with rest and rehydration.</p>
+    <p><strong>Heat stroke:</strong> Symptoms: hot/dry skin (sweating may stop), confusion, rapid pulse, body temperature above 40°C. This is a medical emergency. Cool the person aggressively (wet cloths, fanning, ice if available), give fluids if conscious, and evacuate immediately. Cross-reference R10.</p>
+    <p><strong>Hydration:</strong> Minimum 3–4 litres per person per day in hot conditions. More if active (setting up camp, recovery work, hiking). Cross-reference R12 (Water Management) for your daily water budget.</p>
+    <p><strong>Altitude:</strong> Relevant if visiting highlands (Ethiopia, Rwanda, Lesotho highlands, Ngorongoro, Kilimanjaro approaches). Symptoms of altitude sickness: headache, nausea, fatigue, shortness of breath. Ascend gradually. If symptoms worsen, descend immediately. The treatment for altitude sickness is always descent.</p>
+  </div>
+</div>
+
+<!-- ─── 7. MEDICAL KIT ─── -->
+<div class="section" id="s7">
+  <div class="section-num">Section 7</div>
+  <h2>Medical Kit</h2>
+  <p>Your medical kit must cover two scenarios: daily health maintenance (cuts, stomach upsets, headaches, allergies) and emergency stabilisation until you can reach a clinic (wound management, suspected malaria, severe dehydration). Cross-reference R10 for the emergency procedures that use this kit.</p>
+
+  <h3>Core Kit</h3>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr><th>Category</th><th>Items</th><th>Notes</th></tr></thead>
+    <tbody>
+    <tr><td><strong>Wound care</strong></td><td>Povidone-iodine (Betadine), chlorhexidine solution, sterile gauze pads, adhesive plasters (assorted), wound closure strips (Steri-Strips), elastic bandage, triangular bandage, medical tape, sterile gloves (×10 pairs)</td><td>Clean every wound immediately. Steri-Strips can close small lacerations without sutures.</td></tr>
+    <tr><td><strong>Pain &amp; fever</strong></td><td>Paracetamol (500mg), Ibuprofen (400mg), aspirin (300mg)</td><td>Paracetamol for fever. Ibuprofen for inflammation and pain. Aspirin for heart attack symptoms (chew 300mg). Do not give aspirin to children.</td></tr>
+    <tr><td><strong>Gut</strong></td><td>Oral Rehydration Salts (ORS, 20+ sachets), Loperamide (Imodium), Buscopan (stomach cramps), activated charcoal, antacid tablets</td><td>ORS is the most important item after a wound kit. Dehydration from diarrhoea is the real danger.</td></tr>
+    <tr><td><strong>Antibiotics</strong></td><td>Ciprofloxacin (500mg) or Azithromycin (500mg), Amoxicillin (500mg), Metronidazole (400mg), Flucloxacillin (500mg)</td><td>Prescribed by your doctor with instructions for each. Cipro/Azithro for severe diarrhoea. Amoxicillin for respiratory/dental. Metro for amoebic/giardia. Fluclox for skin infections.</td></tr>
+    <tr><td><strong>Malaria</strong></td><td>Malaria Rapid Diagnostic Tests (RDTs, ×6), standby treatment course (as prescribed by doctor), thermometer</td><td>RDTs available from pharmacies. Standby treatment: typically Coartem (Artemether-Lumefantrine). Keep cool — heat degrades the tests.</td></tr>
+    <tr><td><strong>Allergy</strong></td><td>Antihistamine tablets (Cetirizine), hydrocortisone cream (1%), EpiPen (if prescribed for known severe allergies)</td><td>Antihistamine for insect stings, allergic reactions, hayfever. Hydrocortisone for itchy bites and rashes.</td></tr>
+    <tr><td><strong>Eyes</strong></td><td>Saline eye wash, antibiotic eye drops (Chloramphenicol), sunglasses</td><td>Dust, sand, and insects. Flush first with saline; antibiotic drops for infection.</td></tr>
+    <tr><td><strong>Skin</strong></td><td>Sunscreen SPF 50+, DEET repellent (30%), antifungal cream (Clotrimazole), antiseptic cream, lip balm with SPF</td><td>Carry enough DEET and sunscreen for 2 years — hard to source quality products in remote areas.</td></tr>
+    <tr><td><strong>Dental</strong></td><td>Cavit (temporary filling), oil of cloves (pain relief), dental mirror, spare toothbrush</td><td>Cavit buys you time to reach a dentist. Oil of cloves applied to the cavity numbs pain.</td></tr>
+    <tr><td><strong>Tools</strong></td><td>Scissors (quality), tweezers (fine-point for ticks), safety pins, thermometer (digital), small torch (headlamp), SAM splint, CPR face shield</td><td>Fine-point tweezers essential for tick removal — pull straight, don't twist.</td></tr>
+    <tr><td><strong>Prescription</strong></td><td>All personal prescription medications (6-month supply minimum), copies of prescriptions, doctor's letter listing all medications</td><td>Some countries question large quantities of medication at borders. A doctor's letter on letterhead explaining the medical necessity prevents problems.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="card info">
+    <p><strong>Storage:</strong> Keep the medical kit in a waterproof bag in an accessible location — not buried in the back of the vehicle. R11 (Packing Optimisation) allocates a specific zone for the medical kit. Check expiry dates every 3 months. Replace used items at the next town with a pharmacy. Heat degrades many medications — store in the coolest part of the vehicle, not in direct sun.</p>
+  </div>
+</div>
+
+<!-- ─── 8. MEDICATION MANAGEMENT ─── -->
+<div class="section" id="s8">
+  <div class="section-num">Section 8</div>
+  <h2>Medication Management on a Long Trip</h2>
+
+  <div class="card">
+    <p><strong>Supply:</strong> Carry at least 6 months of all prescription medications. Replenish at pharmacies in major cities (Windhoek, Gaborone, Harare, Lusaka, Dar es Salaam, Nairobi, Kampala, Kigali). Some medications are unavailable in smaller African countries — do not rely on finding specific brands. Carry copies of all prescriptions (generic names, not brand names — brand names vary by country).</p>
+    <p><strong>Border crossings:</strong> Large quantities of medication can attract attention at borders. Carry a typed letter from your doctor on letterhead listing all medications, their generic names, dosages, and the medical reason. This prevents delays and accusations of drug trafficking. Keep medications in their original pharmacy-labelled packaging where possible.</p>
+    <p><strong>Storage:</strong> Heat degrades most medications. Store below 25°C where possible — the fridge is acceptable for some (not all) medications. Ask your pharmacist which medications are heat-sensitive. Avoid storing medication in the glove compartment or on the dashboard — temperatures can exceed 60°C.</p>
+    <p><strong>Malaria prophylaxis resupply:</strong> Doxycycline is widely available at African pharmacies and much cheaper than in SA. If using Doxycycline for a two-year trip, carry 3–6 months and resupply as you go. Malarone is harder to find and more expensive — carry your full supply from SA.</p>
+  </div>
+</div>
+
+<!-- ─── 9. WHEN TO SEEK MEDICAL HELP ─── -->
+<div class="section" id="s9">
+  <div class="section-num">Section 9</div>
+  <h2>When to Seek Medical Help</h2>
+  <p>Knowing when to self-treat and when to find a clinic is a critical judgement call. Err on the side of caution — it's always better to visit a clinic unnecessarily than to wait too long. Cross-reference R16 for communication and R10 for emergency procedures.</p>
+
+  <div class="card warn">
+    <p><strong>Seek medical help immediately for:</strong></p>
+    <p>Any fever in a malaria zone (get tested). Severe or bloody diarrhoea lasting more than 48 hours. Signs of severe dehydration (no urine for 12+ hours, dry mouth, dizziness on standing, confusion). Any wound showing spreading redness, red streaks, or pus that isn't responding to cleaning and topical antiseptic. Suspected fracture or dislocation. Severe abdominal pain (could be appendicitis, kidney stones, or bowel obstruction). Chest pain or difficulty breathing. Any snake bite (go to hospital regardless of whether you think it was venomous). Severe allergic reaction (swelling of face/throat, difficulty breathing). Confusion, disorientation, or altered consciousness. Burns larger than the palm of your hand or on the face/hands/genitals.</p>
+  </div>
+
+  <div class="card ok">
+    <p><strong>Can usually self-treat:</strong></p>
+    <p>Mild traveller's diarrhoea (no blood, no fever) — ORS, rest, bland diet, Loperamide for travel days. Headache — paracetamol or ibuprofen, hydration, rest. Minor cuts and scrapes — clean, antiseptic, dress. Insect bites and stings (no systemic reaction) — antihistamine, hydrocortisone cream. Mild sunburn — aloe vera, stay out of sun, hydrate. Cold or upper respiratory infection — rest, fluids, paracetamol. Blisters — drain with sterile needle, antiseptic, cover.</p>
+  </div>
+
+  <div class="card info">
+    <p><strong>Medical facilities by country:</strong> Cross-reference R16 Section 4 (Rescue Service Quality table) for a country-by-country assessment of medical capability. South Africa and Kenya have the best facilities. For most other countries, plan for evacuation to SA or Kenya for anything serious. Your travel insurance evacuation cover (USD 500,000+ recommended) is your safety net. AMREF Flying Doctors membership covers East Africa evacuations.</p>
+  </div>
+</div>
+
+</div>
+
+<footer>
+  <div>LC76 Overland Series · R17 · Health &amp; Hygiene</div>
+  <div>This guide is for planning purposes — consult a travel clinic doctor before departure</div>
+  <div>Cross-reference R10 (Emergency), R12 (Water), R16 (Communication)</div>
+</footer>
+
+<script>
+document.querySelectorAll('.toc-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = document.getElementById(btn.dataset.target);
+    if (target) {
+      const offset = document.querySelector('.sticky-wrap').offsetHeight + 8;
+      const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  });
+});
+const sections = document.querySelectorAll('.section[id]');
+const buttons = document.querySelectorAll('.toc-btn');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      buttons.forEach(b => b.classList.remove('active'));
+      const btn = document.querySelector(`.toc-btn[data-target="${entry.target.id}"]`);
+      if (btn) btn.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
