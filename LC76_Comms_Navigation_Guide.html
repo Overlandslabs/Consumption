@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0d0e12">
+<title>LC76 — Communication & Navigation</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=Oswald:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0d0e12;--paper:#dad2c0;--paper2:#edeae0;--amber:#b86800;--amber2:#e07800;--rule:#d4cfc4;--steeldk:#2a2f3a;--steelmd:#6a7080;--red-warn:#B91C1C;--green-ok:#059669;--blue-info:#1d4ed8}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Oswald,sans-serif;background:var(--paper);color:var(--steeldk);line-height:1.6;-webkit-font-smoothing:antialiased}
+.sticky-wrap{position:sticky;top:0;z-index:100}
+.masthead{background:var(--ink);color:#fff;padding:18px 24px 14px}
+.mh-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--steelmd);margin-bottom:6px}
+.mh-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.8rem,5vw,2.6rem);letter-spacing:.06em;color:var(--amber2);line-height:1}
+.mh-sub{font-family:'IBM Plex Mono',monospace;font-size:.54rem;letter-spacing:.12em;color:rgba(255,200,100,.65);margin-top:5px}
+.mh-vehicle{font-family:'IBM Plex Mono',monospace;font-size:.48rem;letter-spacing:.08em;color:var(--steelmd);margin-top:8px}
+.toc-bar{background:var(--steeldk);border-top:3px solid var(--amber2);border-bottom:1px solid rgba(255,255,255,.08);padding:0 20px;display:flex;gap:0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.toc-bar::-webkit-scrollbar{display:none}
+.toc-btn{font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.06em;text-transform:uppercase;color:var(--steelmd);background:none;border:none;padding:9px 10px;cursor:pointer;white-space:nowrap;transition:color .2s}
+.toc-btn:hover,.toc-btn.active{color:var(--amber2)}
+.content{max-width:100%;padding:20px 5% 60px}
+.section{margin-bottom:20px}
+.section-num{font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);margin-bottom:2px}
+.section h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.4rem,3.5vw,1.8rem);color:var(--steeldk);letter-spacing:.04em;margin-bottom:6px;line-height:1.1}
+.section h3{font-family:Oswald,sans-serif;font-size:.88rem;font-weight:600;color:var(--steeldk);margin:10px 0 5px;text-transform:uppercase;letter-spacing:.04em}
+.section p{font-size:.82rem;color:var(--steelmd);line-height:1.6;margin-bottom:6px}
+.section p strong{color:var(--steeldk)}
+.card{background:#fff;border:1px solid var(--rule);border-radius:6px;padding:10px 12px;margin-bottom:7px}
+.card.warn{border-left:4px solid var(--red-warn);background:#fef7f7}
+.card.ok{border-left:4px solid var(--green-ok);background:#f0fdf8}
+.card.info{border-left:4px solid var(--blue-info);background:#eff6ff}
+.card.amber{border-left:4px solid var(--amber2);background:#fffbf0}
+.card p{font-size:.8rem;color:var(--steelmd);line-height:1.5}
+.tbl-wrap{overflow-x:auto;margin-bottom:8px;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:.76rem}
+th{background:var(--steeldk);color:var(--amber2);font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;padding:7px 8px;text-align:left;white-space:nowrap}
+td{padding:7px 8px;border-bottom:1px solid var(--rule);color:var(--steelmd);background:#fff;vertical-align:top}
+tr:nth-child(even) td{background:var(--paper2)}
+td:first-child{color:var(--steeldk);font-weight:500}
+td.ok{color:var(--green-ok);font-weight:600}
+td.warn{color:var(--red-warn);font-weight:600}
+footer{background:var(--ink);border-top:4px solid var(--amber2);padding:16px 20px;text-align:center}
+footer div{font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.08em;color:var(--steelmd);margin-bottom:4px}
+footer div:first-child{color:var(--amber2)}
+@media print{
+*{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{font-size:7.5pt;background:#fff}
+.sticky-wrap{position:static}
+.toc-bar{display:none}
+.masthead{padding:4mm 8mm;break-after:avoid}
+.mh-eyebrow{font-size:5pt}
+.mh-title{font-size:16pt}
+.mh-sub{font-size:5pt}
+.mh-vehicle{font-size:4.5pt}
+.content{max-width:100%;padding:4mm 8mm}
+.section{margin-bottom:2.5mm}
+.section-num{font-size:4.5pt;margin-bottom:0}
+.section h2{font-size:11pt;margin-bottom:1.5mm;break-after:avoid}
+.section h3{font-size:8pt;margin:2mm 0 1mm;break-after:avoid}
+.section p{font-size:7pt;line-height:1.35;margin-bottom:1mm}
+.card{padding:1.5mm 2.5mm;margin-bottom:1.5mm;break-inside:avoid}
+.card p{font-size:6.5pt;line-height:1.3}
+table{font-size:6pt;break-inside:avoid}
+th{font-size:5pt;padding:1mm 2mm}
+td{padding:1mm 2mm}
+.tbl-wrap{margin-bottom:2mm}
+footer{padding:2mm}
+footer div{font-size:4.5pt;margin-bottom:1mm}
+@page{size:A4;margin:7mm}
+}
+@media(max-width:600px){
+.masthead{padding:14px 16px 12px}
+.mh-title{font-size:1.6rem}
+.content{padding:16px 14px 40px}
+}
+</style>
+</head>
+<body>
+
+<div class="sticky-wrap">
+  <div class="masthead">
+    <div class="mh-eyebrow">Overland Series · R16</div>
+    <div class="mh-title">COMMUNICATION &amp; NAVIGATION</div>
+    <div class="mh-sub">Navigation Stack · Satellite Comms · Cell Coverage · Emergency Protocols</div>
+    <div class="mh-vehicle">2009 LC76 SW · 1HZ 4.2L Diesel · Last Updated: 25 March 2026</div>
+  </div>
+  <div class="toc-bar" id="tocBar">
+    <button class="toc-btn" data-target="s1">Nav Setup</button>
+    <button class="toc-btn" data-target="s2">How to Use</button>
+    <button class="toc-btn" data-target="s3">Offline Prep</button>
+    <button class="toc-btn" data-target="s4">Sat Phone</button>
+    <button class="toc-btn" data-target="s5">Cell &amp; SIMs</button>
+    <button class="toc-btn" data-target="s6">Emergency</button>
+    <button class="toc-btn" data-target="s7">Power</button>
+    <button class="toc-btn" data-target="s8">Kit List</button>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- ─── 1. YOUR NAVIGATION SETUP ─── -->
+<div class="section" id="s1">
+  <div class="section-num">Section 1</div>
+  <h2>Your Navigation Stack</h2>
+  <p>Reliable navigation in Africa requires redundancy — no single device or app is sufficient. Your current setup provides three independent layers, each with different strengths. Understanding what each tool does well (and where it fails) is the key to staying found.</p>
+
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>Tool</th><th>Type</th><th>Offline?</th><th>Routing?</th><th>Strength</th><th>Weakness</th></tr>
+    <tr><td><strong>T4A Guide App</strong></td><td>iPhone app</td><td class="ok">Fully offline</td><td>No — discovery/orientation only</td><td>Best POI data in Africa (camps, fuel, services). Zoomable map. GPS position shown.</td><td>Not a navigation app — no turn-by-turn. Map is static (1:1M equivalent).</td></tr>
+    <tr><td><strong>Gaia GPS</strong></td><td>iPhone app</td><td class="ok">Offline with downloaded maps</td><td>Basic routing</td><td>Multiple map layers (topo, satellite, OpenStreetMap). Track recording. Waypoint management. Excellent for off-road tracks.</td><td>Requires pre-downloading map tiles. Battery intensive with GPS active.</td></tr>
+    <tr><td><strong>Google Maps</strong></td><td>iPhone app</td><td>Partial — download areas for offline use</td><td class="ok">Full turn-by-turn</td><td>Best routing and ETA estimates on tar roads. Familiar interface. Traffic data (when online). Offline areas downloadable.</td><td>Offline areas expire after ~30 days. Useless for off-road tracks. Requires periodic online access.</td></tr>
+    <tr><td><strong>Garmin Nuvi (T4A loaded)</strong></td><td>Dedicated GPS</td><td class="ok">Fully offline</td><td class="ok">Full turn-by-turn</td><td>Independent device — doesn't drain your phone. T4A maps with routing. Dedicated GPS chipset.</td><td>No internal battery (~30 sec). Dies if 12V cuts. Older hardware. Small screen.</td></tr>
+  </table>
+  </div>
+
+  <div class="card ok">
+    <p><strong>The layered approach:</strong> Use T4A Guide for discovery and POI lookup (where's the nearest campsite? fuel station?). Use Gaia for off-road track recording and topographic detail. Use Google Maps for efficient tar road routing between towns. Use the Garmin Nuvi as your always-on dashboard navigator while driving (saves phone battery). If the Nuvi loses power (12V failure), the phone with its own battery and power bank takes over. This four-tool stack covers every scenario from highway driving to deep bush navigation.</p>
+  </div>
+</div>
+
+<!-- ─── 2. HOW TO USE EACH TOOL ─── -->
+<div class="section" id="s2">
+  <div class="section-num">Section 2</div>
+  <h2>How to Use Each Navigation Tool</h2>
+
+  <h3>Tracks4Africa Guide App</h3>
+  <div class="card">
+    <p><strong>Primary role:</strong> "Where is there a campsite / fuel station / mechanic near me?" This is your Africa-specific POI database — no other app comes close for overland-relevant information. Toggle categories on and off (camping, fuel, lodging, services, parks) to see what's nearby. Tap a pin for details, contacts, facilities. Not a routing app — it shows your position on the map but doesn't give turn-by-turn directions. Use it for planning and discovery, not active driving navigation.</p>
+    <p><strong>Map updates:</strong> You carry all T4A country guides and maps — the full Africa set. Maps update quarterly. Check for updated versions over WiFi periodically. Storage: ~1.2 GB total for all Africa.</p>
+  </div>
+
+  <h3>Gaia GPS</h3>
+  <div class="card">
+    <p><strong>Primary role:</strong> Off-road navigation, track recording, and topographic reference. Download map tiles for your planned route area before leaving cell coverage. Multiple map sources available — OpenStreetMap is the best for African rural roads, satellite imagery is useful for route-finding in trackless areas. Record your track as you drive — this creates a GPS breadcrumb trail you can follow back if needed, and can be shared with other overlanders.</p>
+    <p><strong>Key features for overlanding:</strong> Drop waypoints at key points (turn-offs, water sources, good campsites). Import GPX tracks from other overlanders. Measure distance between waypoints. Display coordinates in any format (decimal degrees, DMS, UTM).</p>
+    <p><strong>Tip:</strong> Download map tiles at the highest zoom level you'll need — lower zoom downloads cover more area but show less detail. For off-road driving, download to at least zoom level 15. Budget 1–3 GB per country depending on area covered.</p>
+  </div>
+
+  <h3>Google Maps (Offline Areas)</h3>
+  <div class="card">
+    <p><strong>Primary role:</strong> Tar road routing between towns with turn-by-turn directions and ETA. Download offline areas for each major route segment before losing cell coverage. Each offline area covers a region roughly 100 × 100 km at useful detail. Download multiple areas to cover your planned route.</p>
+    <p><strong>Limitation:</strong> Offline areas expire after ~30 days. You'll need to re-download when you next have WiFi. Google Maps has almost no data on dirt tracks, 4×4 routes, or campsites — it will try to route you on tar even when a direct dirt road exists. Never use Google Maps as your only navigation tool off tar.</p>
+  </div>
+
+  <h3>Garmin Nuvi (T4A Maps)</h3>
+  <div class="card">
+    <p><strong>Primary role:</strong> Always-on dashboard navigation with T4A routing. Permanently mounted on the windscreen and wired into the 12V socket — it has essentially no internal battery (~30 seconds). It uses its own GPS chipset (doesn't drain your phone), and the T4A maps provide Africa-specific routing including gravel roads and 4×4 tracks that Google Maps doesn't know about. If the vehicle's 12V cuts out, the Nuvi dies immediately — your phone becomes primary.</p>
+    <p><strong>Map updates:</strong> T4A GPS maps are subscription-based (annual). Download the latest version to a micro-SD card and load into the Nuvi before the trip. New map versions release quarterly (currently v26.03, March 2026). Update procedure: download from T4A website on your computer, copy the .img file to the Garmin's SD card.</p>
+    <p><strong>Backup role:</strong> If your iPhone is lost, stolen, or broken, the Garmin keeps you navigating — as long as the vehicle's 12V is running. Because the Nuvi has no meaningful internal battery, your phone is actually the backup if the vehicle electrics fail. This is why both devices matter.</p>
+  </div>
+</div>
+
+<!-- ─── 3. OFFLINE MAP PREPARATION ─── -->
+<div class="section" id="s3">
+  <div class="section-num">Section 3</div>
+  <h2>Offline Map Preparation — Before Each Country</h2>
+  <p>The golden rule: download everything you might need while you still have WiFi. Once you're in the bush, it's too late. Do this at every lodge, guesthouse, or café with WiFi along the route.</p>
+
+  <div class="card amber">
+    <p><strong>Pre-country download checklist:</strong></p>
+    <p><strong>1. T4A Guide App:</strong> You carry all Africa maps and guides — already installed. Check for quarterly updates over WiFi when available.</p>
+    <p><strong>2. Gaia GPS:</strong> Download offline map tiles for your planned route corridor. Include a buffer zone (50+ km either side) in case you divert. Download at zoom level 15+ for off-road areas.</p>
+    <p><strong>3. Google Maps:</strong> Download offline areas covering your planned tar road segments. Remember — these expire in ~30 days.</p>
+    <p><strong>4. Garmin Nuvi:</strong> Verify T4A map is current. No per-country download needed — the T4A GPS map covers all of Africa in one file.</p>
+    <p><strong>5. iOverlander app:</strong> Download offline data for the country. Community-contributed waypoints for campsites, border crossings, fuel, water, mechanics — excellent supplement to T4A.</p>
+  </div>
+
+  <div class="card info">
+    <p><strong>Paper maps:</strong> Carry a current paper road atlas of Southern and East Africa (T4A publishes one). Paper doesn't run out of battery, doesn't break when dropped, and gives you the big-picture strategic view that no phone screen can match. Use it for route planning at camp in the evening — mark your route, identify fuel stops, plan the next day's drive.</p>
+  </div>
+</div>
+
+<!-- ─── 4. SATELLITE COMMUNICATION ─── -->
+<div class="section" id="s4">
+  <div class="section-num">Section 4</div>
+  <h2>Satellite Communication</h2>
+  <p>Cell coverage in Africa is surprisingly good along major routes — but disappears completely in national parks, remote tracks, border regions, and vast stretches of the countries on your route. A satellite communication device is non-negotiable for a two-year trip. You've used the Garmin InReach before and are planning to move to a sat phone.</p>
+
+  <h3>Garmin InReach vs Satellite Phone</h3>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>Feature</th><th>Garmin InReach Mini 2</th><th>Satellite Phone (Iridium / Thuraya)</th></tr>
+    <tr><td><strong>Voice calls</strong></td><td class="warn">No (text messaging only)</td><td class="ok">Yes — full voice calls to any phone worldwide</td></tr>
+    <tr><td><strong>Text messaging</strong></td><td class="ok">Yes — two-way SMS via Iridium network</td><td class="ok">Yes — SMS capability</td></tr>
+    <tr><td><strong>SOS emergency</strong></td><td class="ok">One-button SOS to GEOS rescue centre (24/7, worldwide)</td><td>Manual — you call the emergency number yourself</td></tr>
+    <tr><td><strong>Tracking</strong></td><td class="ok">Automatic location sharing at intervals (family can follow online)</td><td>GPS built in but no auto-tracking to contacts</td></tr>
+    <tr><td><strong>Coverage</strong></td><td class="ok">Global (Iridium LEO network) — 100% including poles</td><td>Depends on network — Iridium: global. Thuraya: Africa/Asia/Europe only</td></tr>
+    <tr><td><strong>Battery life</strong></td><td class="ok">~14 days tracking mode / months in expedition mode</td><td>~8 hrs talk / 160 hrs standby (IsatPhone 2)</td></tr>
+    <tr><td><strong>Size / weight</strong></td><td class="ok">100g — fits in a pocket</td><td>~320g (IsatPhone 2) — larger handset</td></tr>
+    <tr><td><strong>Monthly cost</strong></td><td>~R400–R800/month (Garmin subscription)</td><td>~R500–R1,500/month + per-minute call charges</td></tr>
+    <tr><td><strong>Handset cost</strong></td><td>~R7,000–R9,000</td><td>R15,000 (Thuraya XT-LITE) to R36,000 (Iridium Extreme)</td></tr>
+    <tr><td><strong>Best for</strong></td><td>Emergency SOS, tracking, short text communication</td><td>Full voice communication — coordinating with mechanics, embassies, border officials, medical advice, family calls</td></tr>
+  </table>
+  </div>
+
+  <div class="card ok">
+    <p><strong>Recommendation: Carry both.</strong> The InReach Mini 2 for its unbeatable SOS function, location tracking (so family knows where you are), and battery life. The sat phone for voice calls — when you need to actually talk to someone (a mechanic in the next town, an embassy, medical advice, your insurance company, or family in an emergency). The InReach is your passive safety net; the sat phone is your active communication tool.</p>
+  </div>
+
+  <h3>Satellite Phone Options for Your Route</h3>
+  <div class="card">
+    <p><strong>Thuraya XT-LITE (~R15,800):</strong> Cheapest option. Covers all of Africa, Europe, Middle East, Asia. Compact, lightweight. No SOS button or GPS. Good voice quality. Cheapest airtime plans. Best value if you only need Africa coverage — which you do.</p>
+    <p><strong>Inmarsat IsatPhone 2 (~R22,000):</strong> Best battery life (8 hrs talk, 160 hrs standby). IP65 rated. SOS button with GPS location. Covers everywhere except poles. Very reliable — the workhorse sat phone used by NGOs and aid workers across Africa. Recommended if budget allows.</p>
+    <p><strong>Iridium 9575 Extreme (~R36,000):</strong> True global coverage including poles. MIL-STD-810 rugged. SOS with GEOS. Most expensive handset and airtime. Overkill for your route — you don't need polar coverage.</p>
+  </div>
+
+  <div class="card amber">
+    <p><strong>Our recommendation for the 2028 trip:</strong> The <strong>Inmarsat IsatPhone 2</strong> offers the best balance of reliability, battery life, ruggedness, and cost for Southern and East Africa. Its SOS button sends your GPS coordinates to a nominated contact — a genuine safety feature. Thuraya XT-LITE is the budget alternative if cost is the primary concern. Whichever you choose, buy a prepaid SIM with at least 100 minutes loaded before departure. Top up at sat phone dealers in Johannesburg, Nairobi, or Dar es Salaam. Keep the InReach Mini 2 as your always-on tracking and SOS backup.</p>
+  </div>
+
+  <h3>InReach Limitations You Must Know</h3>
+  <div class="card warn">
+    <p><strong>Cannot contact toll-free numbers.</strong> The InReach (and Iridium network generally) cannot message or call 0800, 1-800, or similar toll-free numbers. This means you cannot use the InReach to contact most insurance emergency lines, airline helpdesks, or embassy toll-free numbers. You need the sat phone or a local SIM for those calls. Pre-save the direct-dial (non-toll-free) numbers for your insurance, embassy contacts, and medical evacuation provider.</p>
+    <p><strong>Two-way messaging only — no voice.</strong> The InReach sends and receives short text messages via satellite. It cannot make voice calls. In a genuine emergency where you need to explain a complex situation, give medical details, or coordinate with local authorities, text is not enough. That's why the sat phone is essential alongside the InReach.</p>
+  </div>
+
+  <h3>InReach SOS — Who Pays for the Rescue?</h3>
+  <div class="card warn">
+    <p><strong>The InReach subscription includes SOS coordination — but NOT rescue costs.</strong> When you press the SOS button, Garmin Response (formerly GEOS) coordinates the rescue: they contact local emergency services, relay your position, and manage communication. This coordination is included in your InReach subscription. However, the actual cost of the rescue — helicopter, ambulance, search teams, medical evacuation — is NOT covered by the subscription.</p>
+    <p><strong>Garmin SAR Insurance</strong> (Search and Rescue) reimburses up to USD 100,000 in rescue costs. Currently ~USD 40/year but <strong>only available for US and Canada</strong>. Not applicable to your trip.</p>
+    <p><strong>What you need instead:</strong> Your travel insurance must explicitly include <strong>emergency evacuation and repatriation cover</strong> — ideally USD 500,000+. Confirm it covers helicopter evacuation, air ambulance, and medical repatriation from every country on your route. Also confirm it covers evacuation triggered by an InReach SOS (some policies only cover evacuations arranged through their own emergency line). Overwatch &amp; Rescue (OxR) at ~USD 80/year is an alternative that works internationally and covers rescue costs directly — worth investigating as a supplement to your travel insurance.</p>
+    <p><strong>Bottom line:</strong> The InReach SOS gets you found and gets help dispatched. Your travel insurance pays for the rescue itself. Without proper evacuation cover, an SOS in a remote African country could result in a USD 20,000–50,000 bill for a helicopter evacuation.</p>
+  </div>
+
+  <h3>Rescue Service Quality — Reality Check</h3>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>Country</th><th>Rescue Capability</th><th>Notes</th></tr>
+    <tr><td><strong>South Africa</strong></td><td class="ok">Excellent</td><td>ER24, Netcare 911, provincial EMS. Helicopter evacuation widely available. World-class medical facilities in major cities.</td></tr>
+    <tr><td><strong>Namibia</strong></td><td>Moderate</td><td>International SOS and E-Med Rescue operate. Helicopter available from Windhoek. Remote areas (Kaokoland, Skeleton Coast): hours to reach.</td></tr>
+    <tr><td><strong>Botswana</strong></td><td>Moderate</td><td>Okavango Air Rescue and Medical Rescue International operate. Delta camps have airstrips. Remote Kalahari: very slow response.</td></tr>
+    <tr><td><strong>Zimbabwe</strong></td><td>Limited</td><td>MARS (Medical Air Rescue Service) operates from Harare. Limited helicopter availability. Medical facilities basic outside Harare/Bulawayo.</td></tr>
+    <tr><td><strong>Mozambique</strong></td><td class="warn">Very limited</td><td>Almost no organised rescue outside Maputo. Provincial hospitals basic. Evacuation to SA for serious cases. Self-extraction may be your only option in the north.</td></tr>
+    <tr><td><strong>Zambia</strong></td><td>Limited</td><td>SES (Speciality Emergency Services) in Lusaka. Some tourist areas (Livingstone, South Luangwa) have lodge-based medical facilities. Otherwise very limited.</td></tr>
+    <tr><td><strong>Malawi</strong></td><td class="warn">Very limited</td><td>No organised rescue service. Basic hospitals in Lilongwe and Blantyre. Evacuation to SA for serious cases.</td></tr>
+    <tr><td><strong>Tanzania</strong></td><td>Moderate (tourist areas)</td><td>AMREF Flying Doctors operate from Nairobi — covers northern Tanzania (Serengeti, Kilimanjaro). Remote south/west: very limited.</td></tr>
+    <tr><td><strong>Kenya</strong></td><td class="ok">Good (by African standards)</td><td>AMREF Flying Doctors — the gold standard for East African evacuation. Nairobi has good hospitals. AMREF membership (~USD 50/year) highly recommended.</td></tr>
+    <tr><td><strong>Uganda</strong></td><td>Limited</td><td>AAR Health Services in Kampala. Evacuation to Nairobi for serious cases. Remote areas (Bwindi, Kidepo): very slow response.</td></tr>
+    <tr><td><strong>Rwanda</strong></td><td>Moderate</td><td>Small country — nowhere is far from Kigali. King Faisal Hospital is reasonable. SAMU Rwanda ambulance service improving.</td></tr>
+    <tr><td><strong>Burundi</strong></td><td class="warn">Minimal</td><td>Almost no organised emergency services. Evacuation to Nairobi or Kigali required for anything serious.</td></tr>
+    <tr><td><strong>DRC</strong></td><td class="warn">Minimal</td><td>No reliable rescue services outside Kinshasa/Lubumbashi. Evacuation extremely difficult from remote areas. This is where self-sufficiency and prevention are everything.</td></tr>
+    <tr><td><strong>Angola</strong></td><td class="warn">Minimal</td><td>SOS International has some presence in Luanda. Southern Angola: no rescue services. Evacuation to Windhoek (Namibia) is the realistic option.</td></tr>
+    <tr><td><strong>Lesotho</strong></td><td class="warn">Very limited</td><td>Highlands: no rescue. Evacuation to SA (Bloemfontein or Durban) for serious cases.</td></tr>
+    <tr><td><strong>Eswatini</strong></td><td>Limited</td><td>Small country. Evacuation to SA (Nelspruit or Durban) straightforward.</td></tr>
+  </table>
+  </div>
+
+  <div class="card info">
+    <p><strong>The pattern is clear:</strong> South Africa and Kenya have good rescue capability. Namibia, Botswana, Tanzania (tourist areas), and Rwanda are moderate. Everything else ranges from limited to effectively non-existent. For most of your route, you are your own first responder. This is why R10 (Emergency Procedures), a comprehensive medical kit, first aid training, and the sat phone + InReach combination are all non-negotiable. The InReach SOS gets the coordination started — but the helicopter may be 4–12 hours away, or may not exist at all. Plan accordingly.</p>
+  </div>
+</div>
+
+<!-- ─── 5. CELL COVERAGE & SIM CARDS ─── -->
+<div class="section" id="s5">
+  <div class="section-num">Section 5</div>
+  <h2>Cell Coverage &amp; SIM Card Strategy</h2>
+  <p>Cell coverage in Africa is better than most people expect — virtually every town of any size has 3G or 4G coverage, and major highways between towns often have signal. The gaps are in national parks, remote border regions, and the long empty stretches between population centres.</p>
+
+  <h3>SIM Card Strategy</h3>
+  <div class="card">
+    <p><strong>Buy a local SIM in every country.</strong> This is by far the cheapest way to get data and voice. A local SIM with 5–10 GB of data typically costs USD 3–10 and lasts 30 days. With a local number you can make local calls (arranging campsites, mechanics, border info) at local rates. Your iPhone must be unlocked — verify this before the trip.</p>
+    <p><strong>Where to buy:</strong> At the border (vendors often sell SIMs right at the crossing), at the first town's mobile operator shop, or at the airport. Major operators: Vodacom/MTN (SA, Tanzania, Mozambique), Airtel (across East Africa), Safaricom (Kenya), MTN (Rwanda, Uganda, Zambia). You'll need your passport for registration in most countries — this is mandatory and they won't activate without it.</p>
+    <p><strong>Tip:</strong> Keep your SA SIM active (put it on the cheapest plan or pay-as-you-go) for WhatsApp verification and banking OTPs. Use a dual-SIM phone or carry your SA SIM in a small holder.</p>
+  </div>
+
+  <h3>Coverage by Country</h3>
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>Country</th><th>Major Operator</th><th>Town Coverage</th><th>Highway Coverage</th><th>Remote / Parks</th><th>Notes</th></tr>
+    <tr><td><strong>South Africa</strong></td><td>Vodacom / MTN</td><td class="ok">Excellent</td><td class="ok">Very good</td><td>Variable</td><td>Home base. Best infrastructure on the continent.</td></tr>
+    <tr><td><strong>Namibia</strong></td><td>MTC</td><td class="ok">Good</td><td>Patchy</td><td class="warn">Very limited</td><td>Vast empty stretches with no signal. Etosha has some coverage at camps. Skeleton Coast/Kaokoland: nothing.</td></tr>
+    <tr><td><strong>Botswana</strong></td><td>Mascom / beMobile</td><td class="ok">Good</td><td>Patchy</td><td class="warn">Very limited</td><td>Okavango Delta, Makgadikgadi, Central Kalahari: no coverage. Towns along the A1/A3 are fine.</td></tr>
+    <tr><td><strong>Zimbabwe</strong></td><td>Econet / NetOne</td><td class="ok">Good</td><td>Moderate</td><td class="warn">Limited</td><td>Econet is most reliable. Coverage improving but patchy outside main corridors.</td></tr>
+    <tr><td><strong>Mozambique</strong></td><td>Vodacom MZ</td><td class="ok">Good</td><td>Patchy</td><td class="warn">Limited</td><td>EN1 corridor well covered. Northern provinces much less so. Data speeds can be slow.</td></tr>
+    <tr><td><strong>Zambia</strong></td><td>Airtel / MTN</td><td class="ok">Good</td><td>Moderate</td><td class="warn">Limited</td><td>South Luangwa and Lower Zambezi have camp coverage. Remote parks: nothing.</td></tr>
+    <tr><td><strong>Malawi</strong></td><td>Airtel / TNM</td><td class="ok">Good</td><td>Moderate</td><td>Variable</td><td>Small country — never far from a town. Lakeshore mostly covered.</td></tr>
+    <tr><td><strong>Tanzania</strong></td><td>Vodacom TZ / Airtel</td><td class="ok">Good</td><td>Moderate</td><td class="warn">Very limited</td><td>Serengeti, Ngorongoro: some lodge coverage. Remote west/south: nothing. Dar/Arusha corridor excellent.</td></tr>
+    <tr><td><strong>Kenya</strong></td><td>Safaricom</td><td class="ok">Excellent</td><td class="ok">Good</td><td>Variable</td><td>Best East African network. M-Pesa everywhere. Masai Mara has coverage at gates and lodges.</td></tr>
+    <tr><td><strong>Uganda</strong></td><td>Airtel / MTN</td><td class="ok">Good</td><td>Moderate</td><td class="warn">Limited</td><td>Bwindi area has some coverage. Kidepo: very limited.</td></tr>
+    <tr><td><strong>Rwanda</strong></td><td>MTN / Airtel</td><td class="ok">Excellent</td><td class="ok">Good</td><td>Moderate</td><td>Small, well-connected country. Best coverage-to-area ratio in East Africa.</td></tr>
+    <tr><td><strong>Burundi</strong></td><td>Econet Leo</td><td>Moderate</td><td>Patchy</td><td class="warn">Very limited</td><td>Bujumbura fine. Rural areas very patchy.</td></tr>
+    <tr><td><strong>DRC</strong></td><td>Vodacom CD / Airtel</td><td>Moderate</td><td class="warn">Very patchy</td><td class="warn">None</td><td>Lubumbashi and Goma have coverage. Between cities: expect nothing. This is where the sat phone earns its keep.</td></tr>
+    <tr><td><strong>Angola</strong></td><td>Unitel</td><td>Moderate</td><td>Patchy</td><td class="warn">None</td><td>Luanda excellent. Southern Angola (Iona, Cunene): nothing. SIM registration can be difficult for foreigners.</td></tr>
+    <tr><td><strong>Lesotho</strong></td><td>Vodacom LS</td><td class="ok">Good</td><td>Moderate</td><td class="warn">Very limited</td><td>Highlands have almost no coverage. Lowland towns fine.</td></tr>
+    <tr><td><strong>Eswatini</strong></td><td>MTN ES</td><td class="ok">Good</td><td class="ok">Good</td><td>Moderate</td><td>Small country, generally good coverage throughout.</td></tr>
+  </table>
+  </div>
+</div>
+
+<!-- ─── 6. EMERGENCY COMMUNICATION ─── -->
+<div class="section" id="s6">
+  <div class="section-num">Section 6</div>
+  <h2>Emergency Communication Protocol</h2>
+  <p>When something goes wrong — breakdown, medical emergency, accident — clear communication can be the difference between a minor inconvenience and a serious situation. Have this protocol agreed and practiced before the trip. Cross-reference R10 (Emergency Procedures) for the broader emergency framework.</p>
+
+  <h3>Step-by-Step Emergency Communication</h3>
+  <div class="card warn">
+    <p><strong>1. Assess safety.</strong> Are you and Mary-Ann safe? Is the vehicle off the road? Is there an immediate threat? Address safety first — communication second.</p>
+    <p><strong>2. Determine your position.</strong> Open Gaia GPS or any GPS-enabled app. Read your coordinates in <strong>decimal degrees</strong> format (e.g. -22.57890, 29.12345). This is the universal format that rescue services, embassies, and insurance companies understand. Write them down on paper in case your phone dies.</p>
+    <p><strong>3. Choose your communication device:</strong> Cell signal available? → Use your phone. No signal? → Use the sat phone for voice. Sat phone not working or can't get a clear sky view? → Use the InReach Mini 2 to send a text message with your coordinates. Life-threatening emergency with no other option? → Press the InReach SOS button — this triggers GEOS International Emergency Response Centre (24/7), who will coordinate rescue with local authorities.</p>
+    <p><strong>4. Make the call.</strong> State clearly: Who you are. Where you are (coordinates in decimal degrees + nearest town/landmark). What happened. What you need. How many people are involved. Any injuries.</p>
+    <p><strong>5. Stay in position.</strong> Unless you're in immediate danger, stay with the vehicle. It's easier to find than two people walking.</p>
+  </div>
+
+  <h3>Emergency Contacts — Pre-Load These</h3>
+  <div class="card">
+    <p><strong>Travel insurance emergency line:</strong> Save both the local and international number. Test that it works from your sat phone before the trip.</p>
+    <p><strong>SA Embassy contacts:</strong> For each country on your route, save the SA embassy/consulate phone number and physical address. Cross-reference R15 (Border Crossings) country cards.</p>
+    <p><strong>Medical evacuation:</strong> Your insurance provider's emergency evacuation coordinator. Also save ER24 International (+27 10 205 3068) and Netcare 911 International as backups.</p>
+    <p><strong>Vehicle recovery:</strong> Save AA of SA's international number. In practice, local recovery is arranged through your insurance or by calling a local contact — but having the AA number gives you a starting point.</p>
+    <p><strong>Family contact:</strong> One designated person at home who knows your route, has your insurance details, and can coordinate on your behalf if you're incapacitated. Share your InReach tracking link with them.</p>
+  </div>
+
+  <h3>Coordinate Format Reference</h3>
+  <div class="card info">
+    <p><strong>Always use decimal degrees for emergency communication.</strong> Example: <strong>-22.578901, 29.123456</strong> (negative = south of equator, positive = east of Greenwich). This format is unambiguous — rescue services, Google Maps, and WhatsApp location sharing all understand it. Avoid degrees-minutes-seconds (DMS) for emergencies — it's easy to mis-read or mis-transcribe. Set all your navigation apps to display decimal degrees as the primary format.</p>
+  </div>
+</div>
+
+<!-- ─── 7. DEVICE POWER MANAGEMENT ─── -->
+<div class="section" id="s7">
+  <div class="section-num">Section 7</div>
+  <h2>Device Power Management</h2>
+  <p>Your navigation and communication devices are useless with flat batteries. On a two-year trip, power discipline is a daily habit.</p>
+
+  <div class="card">
+    <p><strong>iPhone:</strong> The biggest power consumer. GPS + screen + navigation app = flat in 3–4 hours. Plug into the 12V charger whenever driving. Use the Garmin Nuvi as primary dashboard navigation to preserve phone battery. Turn off WiFi, Bluetooth, and background app refresh when not needed. Enable low-power mode when off the charger. Carry a 20,000 mAh power bank as backup — charges the iPhone 4–5 times.</p>
+    <p><strong>Garmin Nuvi:</strong> Permanently wired to 12V — has essentially no internal battery (~30 seconds). If the engine is running, the Nuvi is running. If the vehicle electrics fail, the Nuvi dies. This means your iPhone (with its own battery and power bank) is your true emergency backup, not the Nuvi.</p>
+    <p><strong>Sat phone:</strong> The IsatPhone 2 has outstanding standby life (160 hours). Keep it off unless you need to make a call or are expecting one. Check it once daily. Charge weekly or as needed.</p>
+    <p><strong>InReach Mini 2:</strong> In 10-minute tracking mode, battery lasts ~3.5 days. In 30-minute tracking mode, ~7 days. In expedition mode (1-hour intervals), ~14 days. Charge via USB when driving. The InReach's power efficiency is one of its biggest advantages over a sat phone for always-on tracking.</p>
+    <p><strong>Charging:</strong> All devices charge via USB. The vehicle's 12V system (or future LiFePO4 auxiliary) feeds a multi-port USB charger on the dashboard. Carry two chargers (one in the cab, one at camp) and a quality multi-cable. Cross-reference R5 (Battery Training) for auxiliary system details.</p>
+  </div>
+</div>
+
+<!-- ─── 8. KIT LIST ─── -->
+<div class="section" id="s8">
+  <div class="section-num">Section 8</div>
+  <h2>Communication &amp; Navigation Kit List</h2>
+
+  <div class="tbl-wrap">
+  <table>
+    <tr><th>Item</th><th>Purpose</th><th>Notes</th></tr>
+    <tr><td><strong>iPhone (unlocked)</strong></td><td>T4A Guide, Gaia GPS, Google Maps, WhatsApp, camera</td><td>Primary multi-tool. Must be unlocked for local SIMs. Carry in waterproof case.</td></tr>
+    <tr><td><strong>Garmin Nuvi (T4A loaded)</strong></td><td>Dashboard navigation + backup GPS</td><td>Permanently windscreen-mounted, wired to 12V. No internal battery. All T4A maps pre-loaded.</td></tr>
+    <tr><td><strong>Satellite phone</strong></td><td>Voice calls when no cell coverage</td><td>IsatPhone 2 recommended. Prepaid SIM loaded with 100+ minutes.</td></tr>
+    <tr><td><strong>Garmin InReach Mini 2</strong></td><td>SOS, tracking, text messaging</td><td>Active subscription. Share tracking link with family contact. Test SOS before departure.</td></tr>
+    <tr><td><strong>Local SIM cards</strong></td><td>Data + voice in each country</td><td>Buy at borders/first town. Passport required for registration. Keep SA SIM active for OTPs.</td></tr>
+    <tr><td><strong>SIM card holder</strong></td><td>Store multiple SIMs safely</td><td>Small wallet-style holder. Label each SIM with country name.</td></tr>
+    <tr><td><strong>SIM ejector pin</strong></td><td>iPhone SIM tray tool</td><td>Carry 2 — they're tiny and easy to lose. A paperclip works as backup.</td></tr>
+    <tr><td><strong>Paper road atlas</strong></td><td>Strategic planning, backup navigation</td><td>T4A Southern & East Africa atlas. Mark your route with pencil.</td></tr>
+    <tr><td><strong>12V USB charger (multi-port)</strong></td><td>In-vehicle charging for all devices</td><td>Quality unit with at least 3 USB ports. Carry a spare.</td></tr>
+    <tr><td><strong>20,000 mAh power bank</strong></td><td>Backup power for phone and devices</td><td>Charges iPhone 4–5 times. Charge the power bank while driving.</td></tr>
+    <tr><td><strong>USB cables</strong></td><td>Charging all devices</td><td>Lightning (iPhone), USB-C (InReach, possibly sat phone), micro-USB (Garmin Nuvi). Carry 2 of each.</td></tr>
+    <tr><td><strong>Waterproof phone case</strong></td><td>Protect iPhone from rain, dust, water crossings</td><td>LifeProof, Catalyst, or similar. Allows touch through the case.</td></tr>
+    <tr><td><strong>Windscreen mount (phone)</strong></td><td>Secure phone for navigation while driving</td><td>Suction cup or vent mount. Must hold firm on corrugated roads.</td></tr>
+    <tr><td><strong>Notebook + pen</strong></td><td>Write down coordinates, phone numbers, WiFi passwords</td><td>Paper doesn't run out of battery. Waterproof notebook (Rite in the Rain) is ideal.</td></tr>
+  </table>
+  </div>
+
+  <div class="card amber">
+    <p><strong>Before departure checklist:</strong> All T4A maps and guides updated to latest version. Gaia offline tiles downloaded for first country. Google Maps offline areas downloaded. Garmin Nuvi T4A maps updated to latest version. Sat phone tested (make a test call). InReach subscription active and SOS tested. AMREF Flying Doctors membership purchased (~USD 50/year — covers East Africa evacuation). Travel insurance confirmed: evacuation/repatriation cover USD 500,000+, covers all 16 countries, covers InReach-triggered SOS. Non-toll-free numbers saved for insurance, embassies, evacuation provider. All devices fully charged. Power bank fully charged. All cables tested. Emergency contacts pre-loaded in all devices. Family contact has InReach tracking link. Paper atlas with route marked in pencil.</p>
+  </div>
+</div>
+
+</div>
+
+<footer>
+  <div>LC76 Overland Series · R16 · Communication &amp; Navigation</div>
+  <div>T4A Guide · Gaia GPS · Garmin Nuvi · Sat Phone · InReach Mini 2</div>
+  <div>Print this guide and keep with R10 (Emergency Procedures) and R15 (Border Crossings)</div>
+</footer>
+
+<script>
+document.querySelectorAll('.toc-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = document.getElementById(btn.dataset.target);
+    if (target) {
+      const offset = document.querySelector('.sticky-wrap').offsetHeight + 8;
+      const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  });
+});
+const sections = document.querySelectorAll('.section[id]');
+const buttons = document.querySelectorAll('.toc-btn');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      buttons.forEach(b => b.classList.remove('active'));
+      const btn = document.querySelector(`.toc-btn[data-target="${entry.target.id}"]`);
+      if (btn) btn.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
