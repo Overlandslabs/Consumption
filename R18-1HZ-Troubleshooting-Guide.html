@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>R18 — 1HZ Engine Troubleshooting | HZJ76R-RKMRS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=Oswald:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:      #1C1410;
+    --paper:    #F5EDDA;
+    --paper2:   #EDE5D0;
+    --cream:    #F5EDDA;
+    --amber:    #b86800;
+    --amber2:   #e07800;
+    --rule:     #d4cfc4;
+    --steeldk:  #2a2f3a;
+    --steelmd:  #6a7080;
+    --red-warn: #B91C1C;
+    --green-ok: #059669;
+    --orange:   #c05a00;
+    --border:   #c8bfad;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  /* STICKY CONTAINER */
+  .sticky-container { position: sticky; top: 0; z-index: 100; }
+
+  /* MASTHEAD */
+  .masthead { background: var(--steeldk); border-bottom: 3px solid var(--amber2); }
+  .masthead-inner {
+    padding: 12px 5% 10px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .doc-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: var(--steelmd);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+  .doc-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    color: var(--amber2);
+    letter-spacing: 0.03em;
+    line-height: 1;
+  }
+  .doc-subtitle {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+    font-size: 11px;
+    color: var(--steelmd);
+    margin-top: 2px;
+  }
+  .masthead-meta {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    color: var(--steelmd);
+    text-align: right;
+    line-height: 1.7;
+  }
+
+  /* TOC NAV */
+  .toc-nav {
+    background: #21262f;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    padding: 0 5%;
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .toc-nav::-webkit-scrollbar { display: none; }
+  .toc-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9.5px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--steelmd);
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    padding: 9px 14px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .toc-btn:hover { color: #c8bfad; }
+  .toc-btn.active { color: var(--amber2); border-bottom-color: var(--amber2); }
+
+  /* MAIN */
+  .main { padding: 20px 5% 60px; }
+
+  /* SECTION HEADINGS */
+  .section-head {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: var(--ink);
+    letter-spacing: 0.04em;
+    border-bottom: 2px solid var(--amber2);
+    padding-bottom: 4px;
+    margin-bottom: 14px;
+    margin-top: 28px;
+  }
+  .section-head:first-child { margin-top: 0; }
+  .section-intro { font-size: 13px; color: var(--steelmd); margin-bottom: 14px; font-style: italic; }
+
+  /* QUICK-REF MATRIX */
+  .matrix-table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-bottom: 24px; table-layout: fixed; }
+  .matrix-table th {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    background: var(--steeldk); color: #b0bcc8;
+    padding: 8px 12px; text-align: left; border: 1px solid rgba(255,255,255,0.07);
+  }
+  .matrix-table td { padding: 8px 12px; border: 1px solid var(--rule); vertical-align: top; line-height: 1.5; }
+  .matrix-table tr:nth-child(even) td { background: var(--paper2); }
+  .matrix-table tr:nth-child(odd) td { background: #faf6ee; }
+  .matrix-table tr:hover td { background: #ede0c4; }
+
+  .sev-high { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; color:var(--red-warn); letter-spacing:0.05em; }
+  .sev-med  { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; color:var(--orange); letter-spacing:0.05em; }
+  .sev-low  { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; color:var(--steelmd); letter-spacing:0.05em; }
+
+  .goto-link { font-family:'IBM Plex Mono',monospace; font-size:9px; color:var(--amber); text-decoration:none; cursor:pointer; font-weight:600; }
+  .goto-link:hover { text-decoration:underline; }
+
+  /* DIAG CARDS */
+  .diag-group { margin-bottom: 20px; }
+  .diag-group-title {
+    font-family: 'Bebas Neue', sans-serif; font-size: 16px; color: var(--amber2);
+    letter-spacing: 0.04em; background: var(--steeldk); padding: 8px 14px;
+  }
+  .diag-card { border: 1px solid var(--border); border-top: none; background: #fff; }
+  .diag-card + .diag-card { border-top: 1px solid var(--rule); }
+  .diag-header {
+    display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 16px;
+    padding: 11px 14px; background: var(--paper2); cursor: pointer; user-select: none;
+    border-bottom: 1px solid var(--rule);
+  }
+  .diag-header:hover { background: var(--paper); }
+  .diag-symptom { font-family:'Oswald',sans-serif; font-weight:500; font-size:14px; color:var(--ink); }
+  .diag-badge {
+    font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600;
+    letter-spacing:0.06em; padding:3px 8px; border-radius:2px; white-space:nowrap;
+  }
+  .badge-stop    { background:#fde8e8; color:var(--red-warn); border:1px solid #f8b0b0; }
+  .badge-caution { background:#fef3cd; color:#7c4a00; border:1px solid #f5d072; }
+  .badge-monitor { background:#e8f5e9; color:#1a6b3a; border:1px solid #88c899; }
+  .diag-body { padding: 10px 14px; display: none; }
+  .diag-body.open { display: block; }
+  .diag-arrow { font-size:10px; color:var(--steelmd); transition:transform 0.2s; flex-shrink:0; }
+  .diag-arrow.open { transform: rotate(180deg); }
+
+  /* CAUSE LIST */
+  .cause-list { list-style:none; margin: 10px 0 14px; }
+  .cause-list li { display:flex; gap:10px; align-items:flex-start; padding:6px 0; border-bottom:1px solid var(--rule); font-size:13px; }
+  .cause-list li:last-child { border-bottom:none; }
+  .cause-num {
+    font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600;
+    color:#fff; background:var(--steelmd); min-width:20px; height:20px;
+    border-radius:2px; display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; margin-top:1px;
+  }
+  .cause-text { flex:1; }
+  .cause-label { font-weight:500; color:var(--ink); }
+  .cause-note { color:var(--steelmd); font-size:12px; display:block; margin-top:2px; }
+
+  /* CHECK STEPS */
+  .check-steps { margin: 10px 0; }
+  .check-step { display:flex; gap:10px; align-items:flex-start; margin-bottom:8px; font-size:13px; }
+  .step-num {
+    font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600;
+    color:#fff; background:var(--amber); min-width:22px; height:22px;
+    border-radius:2px; display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; margin-top:1px;
+  }
+
+  /* ALERT BOXES */
+  .warn-box { background:#fde8e8; border-left:3px solid var(--red-warn); padding:9px 12px; font-size:12.5px; color:#7a1010; margin:10px 0; }
+  .note-box { background:#fef9e7; border-left:3px solid var(--amber); padding:9px 12px; font-size:12.5px; color:#5a3800; margin:10px 0; }
+  .ok-box   { background:#e8f5e9; border-left:3px solid var(--green-ok); padding:9px 12px; font-size:12.5px; color:#0d4a28; margin:10px 0; }
+
+  /* CROSS-REF BAR */
+  .xref-bar {
+    background:var(--steeldk); border:1px solid rgba(255,255,255,0.08);
+    padding:9px 14px; display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:12px; font-size:12px;
+  }
+  .xref-label { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:0.08em; color:var(--steelmd); text-transform:uppercase; white-space:nowrap; }
+  .xref-pill { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; color:var(--amber2); background:rgba(224,120,0,0.12); border:1px solid rgba(224,120,0,0.3); padding:2px 8px; border-radius:2px; white-space:nowrap; }
+
+  /* SMOKE GRID */
+  .smoke-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:8px; margin:10px 0; }
+  .smoke-card { border:1px solid var(--border); border-radius:2px; overflow:hidden; }
+  .smoke-header { padding:9px 14px; font-family:'Oswald',sans-serif; font-weight:500; font-size:14px; color:#fff; }
+  .smoke-body { padding:10px 14px; font-size:12.5px; background:#fff; color:var(--ink); }
+  .smoke-black { background:#1a1a1a; }
+  .smoke-white { background:#6a7080; }
+  .smoke-blue  { background:#1e5799; }
+  .smoke-grey  { background:#4a5568; }
+
+  /* SENSOR GRID */
+  .sensor-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:10px; margin:10px 0; }
+  .sensor-card { border:1px solid var(--border); background:#fff; border-radius:2px; }
+  .sensor-title { font-family:'Oswald',sans-serif; font-weight:500; font-size:13px; background:var(--paper2); padding:8px 12px; border-bottom:1px solid var(--rule); color:var(--ink); }
+  .sensor-body { padding:10px 12px; font-size:12.5px; }
+  .sensor-row { display:flex; justify-content:space-between; gap:8px; padding:4px 0; border-bottom:1px solid var(--rule); }
+  .sensor-row:last-child { border-bottom:none; }
+  .sensor-key { color:var(--steelmd); }
+  .sensor-val { font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink); font-weight:600; }
+  .sensor-ok  { color:var(--green-ok); }
+  .sensor-bad { color:var(--red-warn); }
+
+  /* SPECS TABLE */
+  .specs-table { width:100%; border-collapse:collapse; font-size:13px; margin:14px 0; table-layout:fixed; }
+  .specs-table th { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; background:var(--steeldk); color:#b0bcc8; padding:7px 12px; text-align:left; border:1px solid rgba(255,255,255,0.07); }
+  .specs-table td { padding:7px 12px; border:1px solid var(--rule); vertical-align:top; }
+  .specs-table tr:nth-child(even) td { background:var(--paper2); }
+  .specs-table tr:nth-child(odd) td  { background:#fff; }
+  .mono { font-family:'IBM Plex Mono',monospace; font-size:11px; }
+
+  /* FAULT LOG */
+  .log-table { width:100%; border-collapse:collapse; font-size:12.5px; margin:14px 0; table-layout:fixed; }
+  .log-table th { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; background:var(--steeldk); color:#b0bcc8; padding:7px 12px; text-align:left; border:1px solid rgba(255,255,255,0.07); }
+  .log-table td { padding:7px 12px; border:1px solid var(--rule); background:#fff; }
+  .log-table td.fill { background:var(--paper2); color:var(--steelmd); font-style:italic; font-size:11px; }
+
+  /* SECTION ANCHOR OFFSET */
+  .sa { scroll-margin-top: 90px; }
+
+  /* PRINT */
+  @media print {
+    @page { margin: 7mm; size: A4; }
+    body { font-size: 7pt; background: #fff; line-height: 1.4; }
+    .sticky-container { position: static; }
+    .toc-nav { display: none; }
+    .masthead { background: #1c2333 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .masthead-inner { padding: 5px 8px; }
+    .doc-title { font-size: 16pt; }
+    .doc-subtitle, .masthead-meta { font-size: 7pt; }
+    .main { padding: 8px 0 0; }
+    .section-head { font-size: 11pt; margin-top: 10px; margin-bottom: 6px; padding-bottom: 3px; page-break-after: avoid; }
+    .section-intro { margin-bottom: 6px; font-size: 6.5pt; }
+    .diag-group { margin-bottom: 6px; }
+    .diag-group-title { font-size: 8pt; padding: 4px 8px; page-break-after: avoid; }
+    .diag-body { display: block !important; padding: 6px 8px; }
+    .diag-header { padding: 5px 8px; cursor: default; }
+    .diag-arrow { display: none; }
+    .diag-badge { font-size: 6pt; padding: 1px 4px; }
+    .diag-symptom { font-size: 7.5pt; }
+    .diag-card { break-inside: avoid; }
+    .cause-list { margin: 4px 0 6px; }
+    .cause-list li { padding: 3px 0; font-size: 7pt; }
+    .cause-num { min-width: 16px; height: 16px; font-size: 8pt; }
+    .cause-label { font-size: 7pt; }
+    .cause-note { font-size: 6.5pt; }
+    .check-step { margin-bottom: 4px; font-size: 7pt; }
+    .step-num { min-width: 18px; height: 18px; font-size: 8pt; }
+    .warn-box, .note-box, .ok-box { padding: 4px 8px; font-size: 6.5pt; margin: 4px 0; }
+    .xref-bar { padding: 4px 8px; margin-top: 4px; }
+    .xref-label, .xref-pill { font-size: 6pt; }
+    .smoke-grid { grid-template-columns: repeat(4, 1fr); gap: 4px; margin: 6px 0; }
+    .smoke-card { break-inside: avoid; }
+    .smoke-header { padding: 4px 8px; font-size: 8pt; }
+    .smoke-body { padding: 4px 8px; font-size: 6.5pt; }
+    .sensor-grid { grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 6px 0; }
+    .sensor-card { break-inside: avoid; }
+    .sensor-title { padding: 4px 8px; font-size: 7pt; }
+    .sensor-body { padding: 4px 8px; }
+    .sensor-row { padding: 2px 0; }
+    .sensor-key, .sensor-val { font-size: 6.5pt; }
+    .specs-table { font-size: 6.5pt; margin: 6px 0; }
+    .specs-table th, .specs-table td { padding: 3px 6px; }
+    .matrix-table { font-size: 6.5pt; margin-bottom: 8px; break-inside: auto; }
+    .matrix-table thead { display: table-header-group; }
+    .matrix-table th, .matrix-table td { padding: 3px 6px; }
+    .log-table { break-inside: auto; font-size: 6.5pt; }
+    .log-table thead { display: table-header-group; }
+    .log-table th, .log-table td { padding: 3px 6px; }
+    .section-anchor { scroll-margin-top: 0; }
+    a { color: inherit; text-decoration: none; }
+  }
+
+  /* MOBILE */
+  @media (max-width: 600px) {
+    .masthead-inner { flex-direction: column; align-items: flex-start; gap: 4px; }
+    .masthead-meta { text-align: left; }
+    .doc-title { font-size: 22px; }
+    .matrix-table { font-size: 11px; }
+    .matrix-table th, .matrix-table td { padding: 6px 8px; }
+    .smoke-grid { grid-template-columns: 1fr 1fr; }
+    .sensor-grid { grid-template-columns: 1fr; }
+    .diag-header { grid-template-columns: 1fr; }
+    .diag-header > div:last-child { justify-content: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<div class="sticky-container">
+  <div class="masthead">
+    <div class="masthead-inner">
+      <div>
+        <div class="doc-eyebrow">Overland Series · Reference R18</div>
+        <div class="doc-title">1HZ ENGINE TROUBLESHOOTING</div>
+        <div class="doc-subtitle">2009 LC76 SW 1HZ · Diagnosis & Field Decision Guide</div>
+      </div>
+      <div class="masthead-meta">
+        <span>HZJ76R-RKMRS</span>
+        <span>1HZ 4.2L Diesel + SAC Turbo</span>
+        <span>R18 · v1.0 · 2026</span>
+      </div>
+    </div>
+  </div>
+  <nav class="toc-nav">
+    <button class="toc-btn" data-target="s-quickref">Quick Ref</button>
+    <button class="toc-btn" data-target="s-nostart">No-Start</button>
+    <button class="toc-btn" data-target="s-running">Running Faults</button>
+    <button class="toc-btn" data-target="s-smoke">Smoke</button>
+    <button class="toc-btn" data-target="s-fuel">Fuel System</button>
+    <button class="toc-btn" data-target="s-cooling">Cooling</button>
+    <button class="toc-btn" data-target="s-elec">Electrical</button>
+    <button class="toc-btn" data-target="s-extra">Stall / Idle</button>
+    <button class="toc-btn" data-target="s-specs">Specs</button>
+    <button class="toc-btn" data-target="s-log">Fault Log</button>
+  </nav>
+</div>
+
+<div class="main">
+
+  <!-- ══ QUICK REF ══ -->
+  <div id="s-quickref" class="sa">
+    <div class="section-head">Quick Reference — Symptom Matrix</div>
+    <p class="section-intro">Locate your symptom, note the severity, and jump to the relevant section. STOP = engine off immediately. CAUTION = investigate before continuing. MONITOR = track and investigate at next opportunity.</p>
+
+    <table class="matrix-table">
+      <thead>
+        <tr>
+          <th style="width:28%">Symptom</th>
+          <th style="width:13%">Severity</th>
+          <th style="width:30%">Most likely cause(s)</th>
+          <th style="width:16%">Section</th>
+          <th style="width:13%">R4 field fix</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Cranks — will not fire</td><td><span class="sev-high">■ STOP</span></td><td>Air in fuel, failed glow plugs, low compression</td><td><span class="goto-link" onclick="gotoSec('s-nostart')">No-Start §1</span></td><td>Fuel Bleed, Glow Plugs</td></tr>
+        <tr><td>Hard start — fires eventually</td><td><span class="sev-med">▲ CAUTION</span></td><td>Glow plugs weak/failed, air in fuel, injection timing</td><td><span class="goto-link" onclick="gotoSec('s-nostart')">No-Start §2</span></td><td>Glow Plugs</td></tr>
+        <tr><td>Starts then stalls</td><td><span class="sev-high">■ STOP</span></td><td>Air lock in fuel, blocked filter, shutoff solenoid</td><td><span class="goto-link" onclick="gotoSec('s-nostart')">No-Start §3</span></td><td>Fuel Bleed</td></tr>
+        <tr><td>Rough idle / hunting</td><td><span class="sev-med">▲ CAUTION</span></td><td>Air in fuel, injector weeping, idle screw, boost leak</td><td><span class="goto-link" onclick="gotoSec('s-running')">Running §1</span></td><td>Fuel Bleed, Injector Line</td></tr>
+        <tr><td>Power loss under load</td><td><span class="sev-med">▲ CAUTION</span></td><td>Boost leak, blocked air filter, injection pump wear</td><td><span class="goto-link" onclick="gotoSec('s-running')">Running §2</span></td><td>Boost Leak, Air Filter</td></tr>
+        <tr><td>Black smoke under load</td><td><span class="sev-med">▲ CAUTION</span></td><td>Boost leak, blocked air filter, injector over-delivery</td><td><span class="goto-link" onclick="gotoSec('s-smoke')">Smoke §1</span></td><td>Air Filter, Boost Leak</td></tr>
+        <tr><td>Blue/grey smoke at startup</td><td><span class="sev-low">● MONITOR</span></td><td>Oil passing turbo seals — common at high km</td><td><span class="goto-link" onclick="gotoSec('s-smoke')">Smoke §2</span></td><td>—</td></tr>
+        <tr><td>White smoke — sweet smell</td><td><span class="sev-high">■ STOP</span></td><td>Head gasket failure — coolant in combustion</td><td><span class="goto-link" onclick="gotoSec('s-smoke')">Smoke §3</span></td><td>Overheating Response</td></tr>
+        <tr><td>Temperature gauge rising</td><td><span class="sev-high">■ STOP</span></td><td>Viscous fan, coolant loss, thermostat, water pump</td><td><span class="goto-link" onclick="gotoSec('s-cooling')">Cooling §1</span></td><td>Overheating Response</td></tr>
+        <tr><td>Oil pressure warning light</td><td><span class="sev-high">■ STOP</span></td><td>Low oil level, oil pump, blocked pickup</td><td><span class="goto-link" onclick="gotoSec('s-running')">Running §4</span></td><td>—</td></tr>
+        <tr><td>Deep knock from lower engine</td><td><span class="sev-high">■ STOP</span></td><td>Big-end bearing failure</td><td><span class="goto-link" onclick="gotoSec('s-running')">Running §5</span></td><td>—</td></tr>
+        <tr><td>Ticking / tapping — upper engine</td><td><span class="sev-med">▲ CAUTION</span></td><td>Valve clearances overdue, injector rattle</td><td><span class="goto-link" onclick="gotoSec('s-running')">Running §5</span></td><td>—</td></tr>
+        <tr><td>Fuel consumption spike</td><td><span class="sev-low">● MONITOR</span></td><td>Boost leak, injector wear, tyre pressure, fuel quality</td><td><span class="goto-link" onclick="gotoSec('s-fuel')">Fuel §3</span></td><td>Boost Leak</td></tr>
+        <tr><td>Battery / alternator warning</td><td><span class="sev-med">▲ CAUTION</span></td><td>Alternator failure, belt slip, wiring fault</td><td><span class="goto-link" onclick="gotoSec('s-elec')">Electrical §1</span></td><td>—</td></tr>
+        <tr><td>Glow plug warning stays on</td><td><span class="sev-med">▲ CAUTION</span></td><td>Failed plug(s), relay fault</td><td><span class="goto-link" onclick="gotoSec('s-elec')">Electrical §2</span></td><td>Glow Plugs</td></tr>
+        <tr><td>Coolant loss — no visible leak</td><td><span class="sev-high">■ STOP</span></td><td>Head gasket (internal), cracked head</td><td><span class="goto-link" onclick="gotoSec('s-cooling')">Cooling §2</span></td><td>Overheating Response</td></tr>
+        <tr><td>Vibration at idle, smooth at speed</td><td><span class="sev-low">● MONITOR</span></td><td>Idle speed low, engine mount, injector misfiring</td><td><span class="goto-link" onclick="gotoSec('s-running')">Running §6</span></td><td>—</td></tr>
+        <tr><td>Starter does not turn — no crank</td><td><span class="sev-high">■ STOP</span></td><td>Battery cables, discharged battery, starter fault</td><td><span class="goto-link" onclick="gotoSec('s-extra')">Stall/Idle §1</span></td><td>—</td></tr>
+        <tr><td>Engine cranks very slowly</td><td><span class="sev-high">■ STOP</span></td><td>Weak battery, cable corrosion, wrong oil viscosity</td><td><span class="goto-link" onclick="gotoSec('s-extra')">Stall/Idle §1</span></td><td>—</td></tr>
+        <tr><td>Engine cuts out suddenly while driving</td><td><span class="sev-high">■ STOP</span></td><td>Fuel cut solenoid, fuel starvation, blocked filter</td><td><span class="goto-link" onclick="gotoSec('s-extra')">Stall/Idle §2</span></td><td>Fuel Bleed</td></tr>
+        <tr><td>Engine won't return to idle</td><td><span class="sev-med">▲ CAUTION</span></td><td>Binding accelerator cable, injection pump governor</td><td><span class="goto-link" onclick="gotoSec('s-extra')">Stall/Idle §3</span></td><td>—</td></tr>
+        <tr><td>Engine won't shut off with key</td><td><span class="sev-med">▲ CAUTION</span></td><td>Fuel cut solenoid stuck open, ignition wiring</td><td><span class="goto-link" onclick="gotoSec('s-extra')">Stall/Idle §3</span></td><td>—</td></tr>
+      </tbody>
+    </table>
+
+    <div class="xref-bar">
+      <span class="xref-label">Cross-ref:</span>
+      <span class="xref-pill">R4 · 1HZ Engine Training — Field Fixes</span>
+      <span class="xref-pill">R8 · Service History</span>
+      <span class="xref-pill">R10 · Emergency Procedures</span>
+    </div>
+  </div>
+
+  <!-- ══ NO-START ══ -->
+  <div id="s-nostart" class="sa">
+    <div class="section-head">No-Start / Hard-Start Diagnosis</div>
+
+    <div class="diag-group">
+      <div class="diag-group-title">§1 · Engine Cranks — Will Not Fire</div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <span class="diag-symptom">No fuel reaching injectors — dead crank</span>
+          <div style="display:flex;align-items:center;gap:8px;"><span class="diag-badge badge-stop">STOP &amp; DIAGNOSE</span><span class="diag-arrow">▼</span></div>
+        </div>
+        <div class="diag-body">
+          <p style="font-size:13px;margin-bottom:10px;">Before diagnosing: is there diesel in the tank? The 1HZ fuel gauge can read slightly above empty when actually dry. Check the dip stick or rock the vehicle.</p>
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Air lock in fuel system</span><span class="cause-note">Most common cause after running dry, changing filters, or opening any fuel line. The 1HZ cannot self-prime. → Full bleed required. See R4 Field Fix: Fuel System Air Bleed.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Blocked fuel filter</span><span class="cause-note">A completely blocked primary or secondary filter starves the injection pump. Check the water-in-fuel indicator on the filter housing. Drain the water separator, replace filter if overdue.</span></div></li>
+            <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Lift pump failure</span><span class="cause-note">Mechanical lift pump on the injection pump body. Bypass test: loosen bleed screw on fuel filter housing — if no fuel weeps out on cranking, suspect lift pump or blocked line.</span></div></li>
+            <li><div class="cause-num">4</div><div class="cause-text"><span class="cause-label">Fuel shutoff solenoid stuck closed</span><span class="cause-note">Listen for a click from the injection pump when key turns to ON. No click = solenoid or wiring fault. Solenoid must open for any fuel to enter the pump.</span></div></li>
+          </ul>
+          <div class="warn-box">⚠ Never use ether / Easy Start / cold start aerosol on the 1HZ turbo. Ether causes catastrophic pre-detonation under boost — destroys pistons and conrods. No exceptions.</div>
+          <div class="xref-bar"><span class="xref-label">See:</span><span class="xref-pill">R4 · Fuel System Air Bleed</span><span class="xref-pill">R4 · Injector Line Leak</span></div>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <span class="diag-symptom">Cranks but won't fire — cold conditions / altitude</span>
+          <div style="display:flex;align-items:center;gap:8px;"><span class="diag-badge badge-stop">STOP &amp; DIAGNOSE</span><span class="diag-arrow">▼</span></div>
+        </div>
+        <div class="diag-body">
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Multiple glow plugs failed</span><span class="cause-note">At altitude or below 10°C, even 2–3 failed plugs can prevent starting. Test each plug: 0.5–1.5 Ω = healthy. Open circuit = failed. See R4 Field Fix: Starting with Failed Glow Plugs.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Glow plug relay not energising</span><span class="cause-note">Relay supplies current to all 6 plugs. Check for relay click on key-on. No click: check fuse, check relay coil voltage (12V across coil terminals with key on).</span></div></li>
+            <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Weak battery — insufficient cranking speed</span><span class="cause-note">The 1HZ needs fast cranking to build compression heat. Below ~150 CCA effective it will not start in cold. Battery voltage under cranking should not drop below 10V.</span></div></li>
+          </ul>
+          <div class="note-box">💡 Extended glow technique: key to ON (glow light illuminates), wait for light to extinguish, key off. Repeat 3–4 times before cranking. Each cycle adds heat to the chambers. Works well at altitude.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="diag-group">
+      <div class="diag-group-title">§2 · Hard Start — Fires Eventually</div>
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <span class="diag-symptom">Long cranking before firing — normal once warm</span>
+          <div style="display:flex;align-items:center;gap:8px;"><span class="diag-badge badge-caution">INVESTIGATE</span><span class="diag-arrow">▼</span></div>
+        </div>
+        <div class="diag-body">
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Glow plug circuit partially degraded</span><span class="cause-note">1–2 failed plugs cause marginal cold starting. Engine starts eventually when remaining plugs deliver enough heat. Test all 6 plugs. Replace any with open circuit or resistance above 2.5 Ω.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Partial air lock / weak lift pump</span><span class="cause-note">Engine fires once cranking finally delivers enough fuel. White-grey smoke that clears on firing confirms fuel starvation. Bleed fuel system, check lift pump delivery rate.</span></div></li>
+            <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Injection timing retarded</span><span class="cause-note">If timing has drifted late, cold starts become progressively harder. Note for Dup Diesel assessment if hard starting worsens over time — this is a workshop job.</span></div></li>
+            <li><div class="cause-num">4</div><div class="cause-text"><span class="cause-label">Low compression — ring/bore wear</span><span class="cause-note">At 300,000+ km, compression can drop below the cold self-ignition threshold. Minimum 2,800 kPa / 28 bar per cylinder, max variation 200 kPa between cylinders. Workshop assessment.</span></div></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="diag-group">
+      <div class="diag-group-title">§3 · Starts Then Stalls</div>
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <span class="diag-symptom">Fires briefly, stalls within 5–30 seconds</span>
+          <div style="display:flex;align-items:center;gap:8px;"><span class="diag-badge badge-stop">STOP &amp; DIAGNOSE</span><span class="diag-arrow">▼</span></div>
+        </div>
+        <div class="diag-body">
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Air lock not fully purged</span><span class="cause-note">Engine runs on trapped fuel then stalls as air pocket reaches the injection pump. Repeat the full bleed procedure — including loosening injector pipe unions (17 mm) at the injectors and cranking until diesel weeps.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Fuel shutoff solenoid dropping out intermittently</span><span class="cause-note">Check solenoid wire at the injection pump for corrosion/loose connection. Confirm stable 12V at the solenoid terminal with key on.</span></div></li>
+            <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Blocked fuel return line</span><span class="cause-note">Blocked return line causes pressure build-up that stalls the pump. Disconnect the return line at the pump — fuel should flow freely when cranking.</span></div></li>
+          </ul>
+          <div class="warn-box">⚠ If stall-and-restart is intermittent while driving (sudden cut-out, restarts after a few seconds), suspect fuel vapour lock on an extremely hot day or a failing injection pump internal component. Stop and investigate — do not continue driving.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ RUNNING FAULTS ══ -->
+  <div id="s-running" class="sa">
+    <div class="section-head">Running Fault Diagnosis</div>
+
+    <div class="diag-group">
+      <div class="diag-group-title">§1 · Rough Idle / Hunting Idle</div>
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <span class="diag-symptom">Rough, uneven, or oscillating idle</span>
+          <div style="display:flex;align-items:center;gap:8px;"><span class="diag-badge badge-caution">INVESTIGATE</span><span class="diag-arrow">▼</span></div>
+        </div>
+        <div class="diag-body">
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Air in fuel — micro air locks</span><span class="cause-note">Air drawn in through a leaking seal or loose fitting creates irregular fuel delivery. Look for bubbles in the clear pre-filter bowl. Bleed system and inspect all fuel line fittings and seals.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Injector weeping / drip-back</span><span class="cause-note">A worn injector that doesn't fully close floods one cylinder and starves others. Isolation test: loosen each injector pipe union ¼ turn one at a time while idling. If idle smooths when a union is loosened, that injector is suspect.</span></div></li>
+            <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Idle speed too low or screw disturbed</span><span class="cause-note">Target warm idle (M/T): 600–700 RPM. Idle speed screw is on the injection pump body. Small external adjustment — note the current position before touching it. Check that the accelerator cable is not catching on anything, and that the adjusting lever contacts the idle screw when pedal is released.</span></div></li>
+            <li><div class="cause-num">4</div><div class="cause-text"><span class="cause-label">Intake air leak — post-turbo</span><span class="cause-note">A partly collapsed or cracked boost hose creates turbulent air delivery even at idle. Inspect all intercooler hoses at bends and clamp points.</span></div></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="diag-group">
+      <div class="diag-group-title">§2 · Power Loss Under Load</div>
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <span class="diag-symptom">Loss of power on hills, overtaking, or heavy load</span>
+          <div style="display:flex;align-items:center;gap:8px;"><span class="diag-badge badge-caution">INVESTIGATE</span><span class="diag-arrow">▼</span></div>
+        </div>
+        <div class="diag-body">
+          <p style="font-size:13px;margin-bottom:10px;">The 1HZ + SAC turbo produces 118 kW / 373 Nm. Noticeable power loss is almost always an air or fuel delivery issue — genuine mechanical failure under load is less common than system restrictions.</p>
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Boost leak</span><span class="cause-note">A split hose or loose clamp between turbo → intercooler → inlet manifold dumps compressed air under load. Idle may be fine. Under boost the pressure exaggerates the leak and power drops sharply. See R4 Field Fix: Turbo Boost Leak.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Blocked air filter</span><span class="cause-note">Starves the turbo of intake air. In dusty environments filters can block well before the normal replacement interval. Check restriction indicator if fitted. See R4 Field Fix: Air Filter Emergency.</span></div></li>
+            <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Fuel delivery restriction</span><span class="cause-note">Partially blocked filter or failing lift pump — enough fuel at light throttle, not enough at full load. Replace primary filter, drain and inspect the water separator bowl.</span></div></li>
+            <li><div class="cause-num">4</div><div class="cause-text"><span class="cause-label">Wastegate stuck open</span><span class="cause-note">Limits maximum boost from the SAC turbo. Check actual boost pressure against spec (see Specs section). Inspect wastegate actuator rod for free movement.</span></div></li>
+          </ul>
+          <div class="ok-box">✓ Note: At high altitude (3,000 m+) expect 15–20% power reduction. This is normal — not a fault.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="diag-group">
+      <div class="diag-group-title">§4 · Oil Pressure Warning</div>
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <span class="diag-symptom">Oil pressure warning light illuminates while driving</span>
+          <div style="display:flex;align-items:center;gap:8px;"><span class="diag-badge badge-stop">STOP IMMEDIATELY</span><span class="diag-arrow">▼</span></div>
+        </div>
+        <div class="diag-body">
+          <div class="warn-box">⚠ Stop the engine immediately. Do not restart until oil level is confirmed. Driving even 500 m with no oil pressure will destroy main and big-end bearings.</div>
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Low oil level</span><span class="cause-note">Check the dipstick immediately. Top up with 15W-40 API CH-4 (or 10W-30 CF-4). Do not use 5W-30 with the turbo. Normal 1HZ oil consumption: up to 0.5 L per 1,000 km is acceptable at 300,000 km.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Oil pressure sender fault — false warning</span><span class="cause-note">After confirming correct oil level, restart briefly and listen. If engine is quiet and light stays on, the sender is likely faulty. Still — do not drive far until confirmed with a mechanical gauge.</span></div></li>
+            <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Oil pump wear or blocked pickup</span><span class="cause-note">At high km, oil pump wear or sludge-blocked pickup reduces pressure. Confirmed only at workshop. If confirmed, vehicle cannot be safely driven.</span></div></li>
+          </ul>
+          <div class="note-box">💡 Carry a mechanical oil pressure gauge in the spares kit. Fitting it to the sender port takes 5 minutes and gives a definitive answer before condemning the engine.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="diag-group">
+      <div class="diag-group-title">§5 · Knocking / Tapping</div>
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <span class="diag-symptom">Deep rhythmic knock from lower engine</span>
+          <div style="display:flex;align-items:center;gap:8px;"><span class="diag-badge badge-stop">STOP IMMEDIATELY</span><span class="diag-arrow">▼</span></div>
+        </div>
+        <div class="diag-body">
+          <p style="font-size:13px;margin-bottom:10px;">A deep knock that changes with RPM and load — particularly audible under acceleration — is typically big-end bearing failure. Terminal if continued. Stop the engine.</p>
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Big-end bearing failure</span><span class="cause-note">Heavy, rhythmic knock at 1:1 with crank rotation. Usually follows oil starvation or low pressure event. Stop immediately — continued driving destroys the crankshaft and block.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Main bearing wear</span><span class="cause-note">Deeper, lower pitch than a big-end, more present at idle. Also requires immediate stop.</span></div></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <span class="diag-symptom">Ticking / tapping from upper engine</span>
+          <div style="display:flex;align-items:center;gap:8px;"><span class="diag-badge badge-caution">INVESTIGATE SOON</span><span class="diag-arrow">▼</span></div>
+        </div>
+        <div class="diag-body">
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Valve clearances out of spec</span><span class="cause-note">1HZ requires valve clearance checks every 40,000 km. This vehicle has NO RECORD. Excessive clearance = ticking. Tight clearance = burnt valves eventually. Factory spec (cold): inlet 0.15–0.25 mm, exhaust 0.35–0.45 mm. Check as soon as practical.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Injector rattle</span><span class="cause-note">Worn injectors rattle rather than cleanly click. Listen for one cylinder that sounds distinctly louder or different than the others — that cylinder's injector is suspect.</span></div></li>
+            <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Rocker arm / pushrod wear</span><span class="cause-note">The 1HZ has pushrods and rocker arms. Inspection requires removing the rocker cover — a straightforward field job requiring no special tools.</span></div></li>
+          </ul>
+          <div class="warn-box">⚠ Valve clearances on this vehicle have NO RECORD at 300,000 km — this is a critical overdue service item. See R8 Service History.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="diag-group">
+      <div class="diag-group-title">§6 · Vibration at Idle</div>
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <span class="diag-symptom">Vibration / shudder at idle — smooth at speed</span>
+          <div style="display:flex;align-items:center;gap:8px;"><span class="diag-badge badge-caution">INVESTIGATE</span><span class="diag-arrow">▼</span></div>
+        </div>
+        <div class="diag-body">
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Idle speed too low</span><span class="cause-note">Below ~580 RPM warm the 1HZ shudders. Check warm idle speed — target 600–700 RPM (M/T). Adjust idle speed screw on injection pump if needed. Also check that the accelerator cable is not stiff or catching.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Engine mounts collapsed</span><span class="cause-note">Cracked or separated rubber mounts transfer vibration directly to the chassis. Inspect visually — look for rubber split away from metal brackets.</span></div></li>
+            <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">One injector misfiring</span><span class="cause-note">Loosen each injector union ¼ turn one at a time at idle (rag ready — diesel will spray). A change in idle when one union is loosened isolates that cylinder's contribution.</span></div></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SMOKE ══ -->
+  <div id="s-smoke" class="sa">
+    <div class="section-head">Exhaust Smoke Diagnosis</div>
+    <p class="section-intro">Smoke colour is one of the most reliable rapid-diagnosis tools on a diesel. Identify the colour first.</p>
+
+    <div class="smoke-grid">
+      <div class="smoke-card"><div class="smoke-header smoke-black">Black Smoke</div><div class="smoke-body"><strong>Rich mixture — incomplete combustion.</strong> Too much fuel or not enough air. On the 1HZ: boost leak, blocked air filter, worn injectors, injection timing advanced.</div></div>
+      <div class="smoke-card"><div class="smoke-header smoke-white">White / Steam</div><div class="smoke-body"><strong>Coolant in combustion chamber.</strong> Brief white on cold start = normal condensation. Persistent or sweet-smelling white smoke = head gasket failure. Stop immediately.</div></div>
+      <div class="smoke-card"><div class="smoke-header smoke-blue">Blue / Blue-Grey</div><div class="smoke-body"><strong>Oil burning.</strong> Startup only at high km = oil pooled in turbo overnight — monitor. Continuous blue smoke = turbo shaft seal failed, worn rings, or valve stem seals.</div></div>
+      <div class="smoke-card"><div class="smoke-header smoke-grey">Grey Smoke</div><div class="smoke-body"><strong>Mixed / partial combustion.</strong> Often minor oil + fuel issues or engine not at operating temp. Investigate if persistent. Injector quality and fuel quality are common factors.</div></div>
+    </div>
+
+    <div class="diag-group">
+      <div class="diag-group-title">§1 · Black Smoke</div>
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <span class="diag-symptom">Persistent black smoke under acceleration or load</span>
+          <div style="display:flex;align-items:center;gap:8px;"><span class="diag-badge badge-caution">INVESTIGATE</span><span class="diag-arrow">▼</span></div>
+        </div>
+        <div class="diag-body">
+          <p style="font-size:13px;margin-bottom:10px;">A brief puff on hard acceleration is normal on the 1HZ turbo (turbo spool lag). Persistent black smoke at all loads is a fault.</p>
+          <div class="note-box">💡 Factory hint: black smoke indicates injection timing too advanced. White smoke indicates timing too retarded. If smoke accompanies hard starting or rough running, injection timing drift should be checked at the same time as the other causes below.</div>
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Boost leak</span><span class="cause-note">Engine delivers fuel based on throttle position. If boost air is leaking, you get excess fuel for available air = black smoke. Check all boost hoses with soapy water at fast idle. See R4 Field Fix: Turbo Boost Leak.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Clogged air filter</span><span class="cause-note">Restriction starves the engine of air. Check restriction indicator, inspect element. See R4 Field Fix: Air Filter Emergency.</span></div></li>
+            <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Injector wear — excess fuel delivery</span><span class="cause-note">At 300,000 km, injector wear causing over-delivery and poor spray pattern is a real possibility. Isolate by testing cylinders one at a time. Injector opening pressure should be 135–155 kg/cm².</span></div></li>
+            <li><div class="cause-num">4</div><div class="cause-text"><span class="cause-label">Injection timing advanced</span><span class="cause-note">Timing too far advanced increases combustion temperature and produces black smoke. Confirm timing plunger stroke is within spec: 1.03–1.09 mm. Workshop diagnosis — do not attempt to adjust timing without the correct dial gauge SST.</span></div></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="diag-group">
+      <div class="diag-group-title">§2 · Blue Smoke — Turbo Seals</div>
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <span class="diag-symptom">Blue/grey smoke at startup — clears within 30–60 seconds</span>
+          <div style="display:flex;align-items:center;gap:8px;"><span class="diag-badge badge-monitor">MONITOR</span><span class="diag-arrow">▼</span></div>
+        </div>
+        <div class="diag-body">
+          <p style="font-size:13px;margin-bottom:8px;">Common on turbo engines at 200,000+ km. Oil pools in the turbo bearing housing overnight and burns off on startup. Not immediately serious, but track it.</p>
+          <div class="check-steps">
+            <div class="check-step"><div class="step-num">1</div><div>Check oil level weekly. If consumption exceeds 0.5 L/1,000 km, turbo seals are deteriorating.</div></div>
+            <div class="check-step"><div class="step-num">2</div><div>Allow engine to idle 2–3 minutes before shutdown after hard driving — lets the turbo cool and reduces oil cooking in the bearing housing.</div></div>
+            <div class="check-step"><div class="step-num">3</div><div>The SAC turbo was reconditioned. If blue smoke is increasing, report to Dup Diesel at next service.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <span class="diag-symptom">Continuous blue smoke at all RPM</span>
+          <div style="display:flex;align-items:center;gap:8px;"><span class="diag-badge badge-stop">STOP &amp; INVESTIGATE</span><span class="diag-arrow">▼</span></div>
+        </div>
+        <div class="diag-body">
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Turbo shaft seal failure</span><span class="cause-note">Oil passes the compressor seal, enters the intake, burns in cylinders. Check for oily residue inside the intake hose (turbo outlet side). If oily: turbo needs replacement or reconditioning. Monitor oil level carefully — loss can be rapid.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Piston ring wear — blow-by</span><span class="cause-note">Worn rings allow combustion gases into the crankcase, pushing oil mist up through the breather into the intake. Check breather hose for heavy oily residue. Compression test required to confirm.</span></div></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="diag-group">
+      <div class="diag-group-title">§3 · White Smoke — Head Gasket</div>
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <span class="diag-symptom">Persistent white smoke — sweet / antifreeze smell</span>
+          <div style="display:flex;align-items:center;gap:8px;"><span class="diag-badge badge-stop">STOP IMMEDIATELY</span><span class="diag-arrow">▼</span></div>
+        </div>
+        <div class="diag-body">
+          <div class="warn-box">⚠ Persistent white smoke with a sweet smell = coolant burning in the combustion chamber. Head gasket failure or cracked head. Stop the engine. Do not restart until assessed.</div>
+          <div class="check-steps">
+            <div class="check-step"><div class="step-num">1</div><div><strong>Check coolant level</strong> — is it dropping? If yes, coolant is entering the combustion chamber.</div></div>
+            <div class="check-step"><div class="step-num">2</div><div><strong>Check oil filler cap and dipstick</strong> — white frothy or creamy deposits = coolant contaminating the oil. Do not run the engine.</div></div>
+            <div class="check-step"><div class="step-num">3</div><div><strong>Check for bubbling</strong> in the coolant reservoir at operating temp — combustion gases passing through the gasket cause visible bubbling.</div></div>
+            <div class="check-step"><div class="step-num">4</div><div><strong>If confirmed:</strong> Do not drive under power. Arrange recovery. This is a complete strip and rebuild — not a field fix.</div></div>
+          </div>
+          <div class="note-box">💡 The 1HZ is notorious for head gasket failure when overheated, even briefly. After any overheating event, check oil and coolant for cross-contamination before the next drive.</div>
+          <div class="xref-bar"><span class="xref-label">See:</span><span class="xref-pill">R4 · Overheating Emergency Response</span><span class="xref-pill">R10 · Vehicle Breakdown Protocol</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ FUEL ══ -->
+  <div id="s-fuel" class="sa">
+    <div class="section-head">Fuel System Diagnosis</div>
+
+    <div class="diag-group">
+      <div class="diag-group-title">§1 · Contamination &amp; Filtration</div>
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <span class="diag-symptom">Water or contamination in fuel — warning indicator lit</span>
+          <div style="display:flex;align-items:center;gap:8px;"><span class="diag-badge badge-stop">STOP &amp; DRAIN</span><span class="diag-arrow">▼</span></div>
+        </div>
+        <div class="diag-body">
+          <p style="font-size:13px;margin-bottom:10px;">Fuel quality can be variable when travelling off the beaten track. Water or contamination in injectors causes hydraulic lock — stop immediately.</p>
+          <div class="check-steps">
+            <div class="check-step"><div class="step-num">1</div><div>If the water-in-fuel indicator lights or the filter bowl shows water/sediment, pull over. Water in injectors causes hydraulic lock and destroys them.</div></div>
+            <div class="check-step"><div class="step-num">2</div><div>Drain the primary filter water separator bowl. Open drain screw at the bottom until clean fuel flows. Close and retighten.</div></div>
+            <div class="check-step"><div class="step-num">3</div><div>If significant contamination was present, replace the primary filter. Bleed the fuel system fully after replacement.</div></div>
+            <div class="check-step"><div class="step-num">4</div><div>When filling from a questionable source, always pass fuel through the vehicle's pre-filter funnel before it enters the tank or fuel system. Never skip this step when fuel quality is uncertain.</div></div>
+          </div>
+          <div class="note-box">💡 The secondary pre-filter (planned but not yet installed as of 2026) will add another protection layer before the injection pump. Prioritise installation before the 2028 departure. See R4 § 05B.</div>
+          <div class="xref-bar"><span class="xref-label">See:</span><span class="xref-pill">R4 § 05B · Fuel Quality &amp; Filtration</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="diag-group">
+      <div class="diag-group-title">§2 · Injection Pump</div>
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <span class="diag-symptom">Suspected injection pump fault</span>
+          <div style="display:flex;align-items:center;gap:8px;"><span class="diag-badge badge-caution">WORKSHOP</span><span class="diag-arrow">▼</span></div>
+        </div>
+        <div class="diag-body">
+          <p style="font-size:13px;margin-bottom:10px;">The Bosch VE-type injection pump on the 1HZ is robust and repairable. At 300,000 km, internal components can wear — affecting delivery volume, timing, and peak pressure. Dup Diesel (Dirk Du Plessis) handles all injection pump work on this vehicle.</p>
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Reduced delivery — low power at all RPM</span><span class="cause-note">If boost, air filter, and injectors are all confirmed OK but power is generally down, the pump itself may be under-delivering. Confirmed by a pop test and pump bench test — workshop diagnosis.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Timing drift — retarded</span><span class="cause-note">Causes hard cold starting and reduced power with clean combustion (no smoke). Timing check requires a dial gauge on the pump spill port — straightforward for a diesel mechanic, not a roadside job.</span></div></li>
+            <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Governor malfunction</span><span class="cause-note">Erratic throttle response — revving without input or failing to idle down. Governor spring/mechanism fault. Internal repair required.</span></div></li>
+          </ul>
+          <div class="note-box">💡 Have the injection pump flow-tested by Dup Diesel before the 2028 departure. At 300,000+ km a pump rebuild is a sensible pre-trip investment.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="diag-group">
+      <div class="diag-group-title">§3 · Fuel Consumption</div>
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <span class="diag-symptom">Consumption significantly above personal baseline</span>
+          <div style="display:flex;align-items:center;gap:8px;"><span class="diag-badge badge-monitor">MONITOR &amp; INVESTIGATE</span><span class="diag-arrow">▼</span></div>
+        </div>
+        <div class="diag-body">
+          <p style="font-size:13px;margin-bottom:10px;">Baseline: 7.2–8.0 L/100 km highway unladen, 9.0–11.0 L/100 km loaded on gravel. The LC76's weight, tyre size, and loading affect consumption more than most minor faults.</p>
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Boost leak</span><span class="cause-note">Consistent with black smoke. Fuel delivery remains constant but boost is lost — engine compensates, consuming more fuel for less power. Check all boost hoses first.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Injector wear / over-delivery</span><span class="cause-note">At 300,000 km, injector service (pop test + calibration or replacement) is worthwhile. Prioritise before departure.</span></div></li>
+            <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Tyre pressure — most overlooked cause</span><span class="cause-note">Running 10–15% below recommended pressure on tar increases consumption by 5–8%. Check pressures cold each morning. See R14 Tyre Management.</span></div></li>
+            <li><div class="cause-num">4</div><div class="cause-text"><span class="cause-label">Poor fuel quality — high sulphur content</span><span class="cause-note">High-sulphur diesel has lower calorific value. A 3–7% consumption increase when using such fuel is not a fault.</span></div></li>
+            <li><div class="cause-num">5</div><div class="cause-text"><span class="cause-label">Improper injection timing</span><span class="cause-note">Both advanced and retarded timing increase fuel consumption — the engine runs less efficiently and compensates with more fuel for the same output. If consumption increases coincide with any starting difficulty, timing drift is worth investigating at the next service.</span></div></li>
+            <li><div class="cause-num">6</div><div class="cause-text"><span class="cause-label">Faulty injection nozzles</span><span class="cause-note">Worn nozzles with low opening pressure (below 135 kg/cm²) spray fuel in a poor pattern — more fuel is needed for the same power. A pop test by Dup Diesel will confirm nozzle condition.</span></div></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ COOLING ══ -->
+  <div id="s-cooling" class="sa">
+    <div class="section-head">Cooling System Diagnosis</div>
+
+    <div class="diag-group">
+      <div class="diag-group-title">§1 · Overheating</div>
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <span class="diag-symptom">Temperature gauge rising — approaching red</span>
+          <div style="display:flex;align-items:center;gap:8px;"><span class="diag-badge badge-stop">STOP IMMEDIATELY</span><span class="diag-arrow">▼</span></div>
+        </div>
+        <div class="diag-body">
+          <div class="warn-box">⚠ The 1HZ is especially vulnerable to head gasket failure when overheated. Stop the engine. Even 2–3 minutes of severe overheating can blow the head gasket or crack the head.</div>
+          <div class="check-steps">
+            <div class="check-step"><div class="step-num">1</div><div><strong>Do NOT switch off immediately.</strong> Turn A/C off, heater to full hot with fan on max. Idle for 60–90 seconds — the heater core acts as a secondary radiator.</div></div>
+            <div class="check-step"><div class="step-num">2</div><div><strong>Do NOT open the radiator cap while hot.</strong> Wait minimum 30 minutes. Pressurised coolant causes severe burns.</div></div>
+            <div class="check-step"><div class="step-num">3</div><div><strong>Diagnose:</strong> coolant level, visible leaks, fan belt condition. Spin the viscous fan by hand (engine off, key out) — resistance = healthy, spins freely = failed clutch.</div></div>
+            <div class="check-step"><div class="step-num">4</div><div><strong>Before restarting:</strong> check oil for frothy/creamy contamination. If confirmed, arrange recovery — do not restart.</div></div>
+          </div>
+          <ul class="cause-list" style="margin-top:14px;">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Viscous fan clutch failed</span><span class="cause-note">The most common cause of 1HZ overheating. Fan spins but doesn't engage properly at low vehicle speed — critical in slow technical terrain, heavy traffic, and sand. Check: spin the fan by hand (engine off, cold). Good resistance = healthy. Spins freely = failed clutch. Replace at first sign of slip.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Coolant loss — external leak</span><span class="cause-note">Hoses, water pump weep, radiator core or tank. Inspect carefully. See R4 Field Fix: Coolant Hose Burst for emergency repair.</span></div></li>
+            <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Thermostat stuck closed</span><span class="cause-note">Engine warms normally but temp keeps rising; upper radiator hose stays cool. Field fix: remove the thermostat (2 bolts on housing, top of engine). Run without it — reduced fuel efficiency but vehicle is driveable.</span></div></li>
+            <li><div class="cause-num">4</div><div class="cause-text"><span class="cause-label">Radiator blocked externally</span><span class="cause-note">Insects, mud, and seed pods packed between the radiator and intercooler are a common cause of overheating in off-road and bush conditions. Check the gap visually. Clear with compressed air or a gentle water rinse from the engine side.</span></div></li>
+            <li><div class="cause-num">5</div><div class="cause-text"><span class="cause-label">Water pump impeller failure</span><span class="cause-note">Upper radiator hose stays cool despite hot engine (no circulation). No visible leak. Water pump replacement is a workshop job.</span></div></li>
+          </ul>
+          <div class="xref-bar"><span class="xref-label">See:</span><span class="xref-pill">R4 · Overheating Emergency Response</span><span class="xref-pill">R4 · Coolant Hose Burst</span><span class="xref-pill">R10 · Emergency Procedures</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="diag-group">
+      <div class="diag-group-title">§2 · Coolant Loss — No Visible Leak</div>
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <span class="diag-symptom">Coolant level dropping — no puddle under the vehicle</span>
+          <div style="display:flex;align-items:center;gap:8px;"><span class="diag-badge badge-stop">STOP &amp; INVESTIGATE</span><span class="diag-arrow">▼</span></div>
+        </div>
+        <div class="diag-body">
+          <p style="font-size:13px;margin-bottom:10px;">Coolant going somewhere without an external leak means it is going internally — into the combustion chamber or the oil. Both are serious.</p>
+          <div class="check-steps">
+            <div class="check-step"><div class="step-num">1</div><div>Check dipstick and oil filler cap for white frothy/creamy deposits = coolant in oil. If present: do not run the engine.</div></div>
+            <div class="check-step"><div class="step-num">2</div><div>Look for persistent white smoke from exhaust when warm = coolant burning in combustion (head gasket).</div></div>
+            <div class="check-step"><div class="step-num">3</div><div>Check if coolant loss correlates with hard driving — a slow head gasket leak may only show under sustained load.</div></div>
+            <div class="check-step"><div class="step-num">4</div><div>A chemical block tester / combustion leak dye kit can confirm head gasket breach. Worthwhile carrying in the spares kit.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ ELECTRICAL ══ -->
+  <div id="s-elec" class="sa">
+    <div class="section-head">Electrical &amp; Glow System Diagnosis</div>
+
+    <div class="diag-group">
+      <div class="diag-group-title">§1 · Alternator / Charging</div>
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <span class="diag-symptom">Battery warning light — charging system fault</span>
+          <div style="display:flex;align-items:center;gap:8px;"><span class="diag-badge badge-caution">INVESTIGATE</span><span class="diag-arrow">▼</span></div>
+        </div>
+        <div class="diag-body">
+          <div class="check-steps">
+            <div class="check-step"><div class="step-num">1</div><div>Check alternator belt — intact and tensioned? A slipping belt causes partial charge. A broken belt causes no charge.</div></div>
+            <div class="check-step"><div class="step-num">2</div><div>Measure battery voltage with engine running: 13.8–14.4 V = normal. Below 13.5 V = undercharging. Above 14.8 V = regulator fault.</div></div>
+            <div class="check-step"><div class="step-num">3</div><div>Check alternator earth strap (body to engine block) — corrosion here is a common fault in humid and dusty conditions.</div></div>
+          </div>
+          <div class="note-box">💡 A failed alternator does not strand you immediately — the starter battery and auxiliary LiFePO4 system provide buffer. Manage electrical loads and replace the alternator or belt before the next remote leg. See R5 Battery Training.</div>
+          <div class="xref-bar"><span class="xref-label">See:</span><span class="xref-pill">R5 · Battery Training · Field Fixes</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="diag-group">
+      <div class="diag-group-title">§2 · Glow Plug System</div>
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <span class="diag-symptom">Glow plug warning stays on / flashes after start</span>
+          <div style="display:flex;align-items:center;gap:8px;"><span class="diag-badge badge-caution">INVESTIGATE</span><span class="diag-arrow">▼</span></div>
+        </div>
+        <div class="diag-body">
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Failed glow plug(s)</span><span class="cause-note">Test all 6: 0.5–1.5 Ω = healthy, open circuit = failed. Healthy plugs are hot to touch after a key-on cycle. Replace failed plugs — inexpensive and straightforward. See R4 Field Fix: Starting with Failed Glow Plugs.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Glow plug relay fault</span><span class="cause-note">Relay energises all 6 plugs simultaneously. Test: 12V across coil terminals with key on. Check output terminal for continuity when energised.</span></div></li>
+            <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Electronic timer / controller fault</span><span class="cause-note">If relay and all plugs test OK, the glow timer is suspect. A faulty timer may under-glow (not enough heat) or over-glow (burns plugs out early).</span></div></li>
+          </ul>
+
+          <div style="margin-top:16px;">
+            <div class="sensor-grid" style="margin:0;">
+              <div class="sensor-card">
+                <div class="sensor-title">Glow Plug Specs — 1HZ</div>
+                <div class="sensor-body">
+                  <div class="sensor-row"><span class="sensor-key">Resistance (cold)</span><span class="sensor-val">0.5–1.5 Ω</span></div>
+                  <div class="sensor-row"><span class="sensor-key">Open circuit</span><span class="sensor-val sensor-bad">FAILED</span></div>
+                  <div class="sensor-row"><span class="sensor-key">Supply voltage</span><span class="sensor-val">11.5–12.5 V</span></div>
+                  <div class="sensor-row"><span class="sensor-key">Heat time (warm ambient)</span><span class="sensor-val">6–8 sec</span></div>
+                  <div class="sensor-row"><span class="sensor-key">Quantity</span><span class="sensor-val">6 — one per cylinder</span></div>
+                  <div class="sensor-row"><span class="sensor-key">Thread size</span><span class="sensor-val">M10 × 1.25</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="xref-bar" style="margin-top:12px;"><span class="xref-label">See:</span><span class="xref-pill">R4 · Starting with Failed Glow Plugs</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SPECS ══ -->
+  <div id="s-specs" class="sa">
+    <div class="section-head">Specifications &amp; Diagnostic Limits</div>
+    <p class="section-intro">Reference values for field testing. Compare measured values against these limits to confirm a component is within spec.</p>
+
+    <div class="sensor-grid">
+      <div class="sensor-card">
+        <div class="sensor-title">Engine — 1HZ 4.2L Inline-6</div>
+        <div class="sensor-body">
+          <div class="sensor-row"><span class="sensor-key">Displacement</span><span class="sensor-val">4,163 cc</span></div>
+          <div class="sensor-row"><span class="sensor-key">Compression ratio</span><span class="sensor-val">22.5:1</span></div>
+          <div class="sensor-row"><span class="sensor-key">Min compression (cold)</span><span class="sensor-val">2,800 kPa / 28 bar</span></div>
+          <div class="sensor-row"><span class="sensor-key">Max variation per cylinder</span><span class="sensor-val">200 kPa</span></div>
+          <div class="sensor-row"><span class="sensor-key">Warm idle speed (M/T)</span><span class="sensor-val">600–700 RPM</span></div>
+          <div class="sensor-row"><span class="sensor-key">Max RPM (governed)</span><span class="sensor-val">4,500–4,700 RPM</span></div>
+          <div class="sensor-row"><span class="sensor-key">Oil capacity (with filter)</span><span class="sensor-val">8.5 L</span></div>
+          <div class="sensor-row"><span class="sensor-key">Coolant capacity</span><span class="sensor-val">10.5 L</span></div>
+        </div>
+      </div>
+
+      <div class="sensor-card">
+        <div class="sensor-title">Valve Clearances — cold</div>
+        <div class="sensor-body">
+          <div class="sensor-row"><span class="sensor-key">Inlet</span><span class="sensor-val">0.15–0.25 mm</span></div>
+          <div class="sensor-row"><span class="sensor-key">Exhaust</span><span class="sensor-val">0.35–0.45 mm</span></div>
+          <div class="sensor-row"><span class="sensor-key">Check interval</span><span class="sensor-val">Every 40,000 km</span></div>
+          <div class="sensor-row"><span class="sensor-key">Status — this vehicle</span><span class="sensor-val sensor-bad">NO RECORD ⚠</span></div>
+          <div class="sensor-row"><span class="sensor-key">Priority</span><span class="sensor-val sensor-bad">CRITICAL</span></div>
+        </div>
+      </div>
+
+      <div class="sensor-card">
+        <div class="sensor-title">Charging System</div>
+        <div class="sensor-body">
+          <div class="sensor-row"><span class="sensor-key">Battery at rest</span><span class="sensor-val">12.4–12.8 V</span></div>
+          <div class="sensor-row"><span class="sensor-key">Alternator output (running)</span><span class="sensor-val">13.8–14.4 V</span></div>
+          <div class="sensor-row"><span class="sensor-key">Min cranking voltage</span><span class="sensor-val">10.0 V</span></div>
+          <div class="sensor-row"><span class="sensor-key">Overcharge warning</span><span class="sensor-val sensor-bad">&gt; 14.8 V</span></div>
+        </div>
+      </div>
+
+      <div class="sensor-card">
+        <div class="sensor-title">Turbo — SAC Low-Boost</div>
+        <div class="sensor-body">
+          <div class="sensor-row"><span class="sensor-key">Max boost pressure</span><span class="sensor-val">~75 kPa / 0.75 bar</span></div>
+          <div class="sensor-row"><span class="sensor-key">Shaft play — axial</span><span class="sensor-val">&lt; 0.1 mm</span></div>
+          <div class="sensor-row"><span class="sensor-key">Shaft play — radial</span><span class="sensor-val">&lt; 0.5 mm</span></div>
+          <div class="sensor-row"><span class="sensor-key">Reconditioned by</span><span class="sensor-val">SAC Turbos</span></div>
+          <div class="sensor-row"><span class="sensor-key">Installed at (approx km)</span><span class="sensor-val">~35,000 km</span></div>
+        </div>
+      </div>
+
+      <div class="sensor-card">
+        <div class="sensor-title">Cooling System</div>
+        <div class="sensor-body">
+          <div class="sensor-row"><span class="sensor-key">Normal operating temp</span><span class="sensor-val">82–95°C</span></div>
+          <div class="sensor-row"><span class="sensor-key">Thermostat opens at</span><span class="sensor-val">74–78°C</span></div>
+          <div class="sensor-row"><span class="sensor-key">Thermostat full lift</span><span class="sensor-val">10 mm min at 90°C</span></div>
+          <div class="sensor-row"><span class="sensor-key">Coolant mix</span><span class="sensor-val">50% water / 50% antifreeze</span></div>
+          <div class="sensor-row"><span class="sensor-key">Radiator cap pressure</span><span class="sensor-val">75–105 kPa / 0.75–1.05 bar</span></div>
+          <div class="sensor-row"><span class="sensor-key">Service interval</span><span class="sensor-val">Every 2 years</span></div>
+        </div>
+      </div>
+
+      <div class="sensor-card">
+        <div class="sensor-title">Oil — Approved Grades</div>
+        <div class="sensor-body">
+          <div class="sensor-row"><span class="sensor-key">Primary spec</span><span class="sensor-val">15W-40 API CH-4</span></div>
+          <div class="sensor-row"><span class="sensor-key">Alternative</span><span class="sensor-val">10W-30 API CF-4</span></div>
+          <div class="sensor-row"><span class="sensor-key">Do NOT use</span><span class="sensor-val sensor-bad">5W-30 (too thin for turbo)</span></div>
+          <div class="sensor-row"><span class="sensor-key">Change interval</span><span class="sensor-val">5,000 km (turbo)</span></div>
+          <div class="sensor-row"><span class="sensor-key">Capacity with filter</span><span class="sensor-val">8.5 L</span></div>
+        </div>
+      </div>
+
+      <div class="sensor-card">
+        <div class="sensor-title">Oil Pressure — Normal Values</div>
+        <div class="sensor-body">
+          <div class="sensor-row"><span class="sensor-key">At idle</span><span class="sensor-val">0.3 kg/cm² (29 kPa) min</span></div>
+          <div class="sensor-row"><span class="sensor-key">At 3,000 RPM</span><span class="sensor-val">2.5 kg/cm² (245 kPa) min</span></div>
+          <div class="sensor-row"><span class="sensor-key">Below idle spec</span><span class="sensor-val sensor-bad">STOP — investigate</span></div>
+          <div class="sensor-row"><span class="sensor-key">Test method</span><span class="sensor-val">Mechanical gauge at sender port</span></div>
+        </div>
+      </div>
+
+      <div class="sensor-card">
+        <div class="sensor-title">Fuel Injection — Nozzle Specs</div>
+        <div class="sensor-body">
+          <div class="sensor-row"><span class="sensor-key">Opening pressure (1HZ)</span><span class="sensor-val">135–155 kg/cm²</span></div>
+          <div class="sensor-row"><span class="sensor-key">Opening pressure (kPa)</span><span class="sensor-val">13,239–15,200 kPa</span></div>
+          <div class="sensor-row"><span class="sensor-key">Opening pressure (psi)</span><span class="sensor-val">1,920–2,205 psi</span></div>
+          <div class="sensor-row"><span class="sensor-key">Injection timing (plunger)</span><span class="sensor-val">1.03–1.09 mm stroke</span></div>
+          <div class="sensor-row"><span class="sensor-key">Injector union torque</span><span class="sensor-val">150 kg-cm (15 Nm)</span></div>
+        </div>
+      </div>
+
+      <div class="sensor-card">
+        <div class="sensor-title">Alternator Drive Belt</div>
+        <div class="sensor-body">
+          <div class="sensor-row"><span class="sensor-key">Deflection — new belt</span><span class="sensor-val">6–7 mm</span></div>
+          <div class="sensor-row"><span class="sensor-key">Deflection — used belt</span><span class="sensor-val">8–11 mm</span></div>
+          <div class="sensor-row"><span class="sensor-key">Tension — new belt</span><span class="sensor-val">45–55 kg</span></div>
+          <div class="sensor-row"><span class="sensor-key">Tension — used belt</span><span class="sensor-val">20–35 kg</span></div>
+          <div class="sensor-row"><span class="sensor-key">Charging output (running)</span><span class="sensor-val">13.5–15.0 V at 25°C</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-head" style="font-size:18px;margin-top:16px;">Torque Reference — Critical Fasteners</div>
+    <table class="specs-table">
+      <thead>
+        <tr>
+          <th style="width:38%">Fastener / Component</th>
+          <th style="width:20%">Torque</th>
+          <th style="width:42%">Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Cylinder head bolts</td><td class="mono">98 Nm + 90° turn</td><td>Torque-to-yield. Use new bolts on reassembly.</td></tr>
+        <tr><td>Rocker cover bolts</td><td class="mono">7 Nm</td><td>Do not overtighten — plastic inserts.</td></tr>
+        <tr><td>Injector pipe unions (at head)</td><td class="mono">15 Nm (150 kg-cm)</td><td>Hand snug + ¼ turn in field. Torque wrench at workshop.</td></tr>
+        <tr><td>Injector hold-down clamp</td><td class="mono">47 Nm</td><td>—</td></tr>
+        <tr><td>Engine oil drain plug</td><td class="mono">25 Nm (250 kg-cm)</td><td>Replace copper washer each time.</td></tr>
+        <tr><td>Thermostat housing bolts</td><td class="mono">20 Nm (200 kg-cm)</td><td>Torque upper bolts first. New gasket or RTV sealant.</td></tr>
+        <tr><td>Water pump bolts</td><td class="mono">20 Nm (200 kg-cm)</td><td>—</td></tr>
+        <tr><td>Injection pump to timing case nuts</td><td class="mono">18 Nm (185 kg-cm)</td><td>Workshop job — timing check required after any adjustment.</td></tr>
+        <tr><td>Injection pump to stay bolt</td><td class="mono">69 Nm (700 kg-cm)</td><td>Workshop job — recheck plunger stroke after tightening.</td></tr>
+        <tr><td>Glow plugs</td><td class="mono">19–21 Nm</td><td>Apply copper anti-seize to threads. Allow to cool before removal.</td></tr>
+        <tr><td>Crankshaft pulley bolt</td><td class="mono">260 Nm</td><td>Workshop job — requires holding tool.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ══ ADDITIONAL FACTORY FAULT CATEGORIES ══ -->
+  <div id="s-extra" class="sa">
+  <div class="section-head">Additional Fault Categories</div>
+  <div>
+    <div class="diag-group">
+      <div class="diag-group-title">Engine Will Not Crank</div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <span class="diag-symptom">Starter motor does not turn — no crank at all</span>
+          <div style="display:flex;align-items:center;gap:8px;"><span class="diag-badge badge-stop">STOP &amp; DIAGNOSE</span><span class="diag-arrow">▼</span></div>
+        </div>
+        <div class="diag-body">
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Loose or corroded battery cables</span><span class="cause-note">Check cables from battery to starter motor and make necessary repairs. Green/white corrosion on terminals is enough to prevent starting — even if the battery is fully charged.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Discharged battery</span><span class="cause-note">Check alternator output and drive belt. If battery is flat but belt and alternator are OK, charge the battery and investigate why it discharged (excessive parasitic draw, failed cell).</span></div></li>
+            <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Inoperative starter motor</span><span class="cause-note">Check for battery voltage at starter terminal 30 and terminal 50 with key in START. If voltage is present but starter doesn't turn, the starter itself is faulty.</span></div></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <span class="diag-symptom">Engine cranks slowly — will not start</span>
+          <div style="display:flex;align-items:center;gap:8px;"><span class="diag-badge badge-stop">STOP &amp; DIAGNOSE</span><span class="diag-arrow">▼</span></div>
+        </div>
+        <div class="diag-body">
+          <p style="font-size:13px;margin-bottom:10px;">The 1HZ M/T requires minimum 100 RPM cold cranking speed. Below this, compression heat is insufficient for ignition.</p>
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Discharged or weak battery</span><span class="cause-note">Check alternator output and drive belt condition. A battery that was fully charged yesterday but is flat today indicates a charging system fault or parasitic drain.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Loose or corroded battery cables</span><span class="cause-note">High resistance connections cause voltage drop under starter load — the battery may read 12.6V at rest but collapse under cranking. Check and clean all cable connections.</span></div></li>
+            <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Improper engine oil viscosity</span><span class="cause-note">Too-thick oil (e.g. 20W-50 in cold conditions) creates enormous drag on cold cranking. Drain and refill with the correct grade — 15W-40 for this engine.</span></div></li>
+          </ul>
+          <div class="note-box">💡 Minimum cranking speed (cold): 100 RPM. Hot: 150 RPM. If the engine turns over very slowly and you can hear it struggling, battery or connection is almost always the cause.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Engine Suddenly Stops -->
+  <div>
+    <div class="diag-group">
+      <div class="diag-group-title">Engine Suddenly Stops While Running</div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <span class="diag-symptom">Engine cuts out without warning while driving</span>
+          <div style="display:flex;align-items:center;gap:8px;"><span class="diag-badge badge-stop">STOP &amp; DIAGNOSE</span><span class="diag-arrow">▼</span></div>
+        </div>
+        <div class="diag-body">
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Engine will not re-start</span><span class="cause-note">If the engine cuts out and will not restart at all, treat as "Engine Cranks Normally But Will Not Start" — work through the no-fuel / no-solenoid / glow plug sequence in No-Start §1.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Rough idle preceding the stall</span><span class="cause-note">If rough running preceded the cut-out, refer to Running §1 (Rough Idle). Air in the fuel system or a failing injector will cause progressive rough running before the engine stalls.</span></div></li>
+            <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Fuel cut solenoid dropping out</span><span class="cause-note">A faulty solenoid or loose connector at the injection pump will kill the engine instantly — exactly like turning the key off. No noise, no rough running, just a clean cut. Check the solenoid connector at the injection pump for loose or corroded pins before anything else.</span></div></li>
+            <li><div class="cause-num">4</div><div class="cause-text"><span class="cause-label">No fuel into injection pump</span><span class="cause-note">A completely blocked fuel filter or collapsed fuel hose can starve the pump under load — the engine may run fine at idle but stall at speed. Disconnect inlet hose from fuel filter and feed clean fuel directly into the pump to test.</span></div></li>
+          </ul>
+          <div class="warn-box">⚠ A sudden cut-out that is intermittent — engine stalls, then restarts after a few seconds — is often a fuel cut solenoid with an intermittent electrical fault. Check the solenoid wire and connector first. Do not continue driving until confirmed.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Engine Will Not Return to Idle / Won't Shut Off -->
+  <div>
+    <div class="diag-group">
+      <div class="diag-group-title">Engine Will Not Return to Idle / Will Not Shut Off</div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <span class="diag-symptom">Engine stays at high RPM when accelerator is released</span>
+          <div style="display:flex;align-items:center;gap:8px;"><span class="diag-badge badge-caution">INVESTIGATE</span><span class="diag-arrow">▼</span></div>
+        </div>
+        <div class="diag-body">
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Binding or sticking accelerator cable</span><span class="cause-note">With engine idling, manually operate the adjusting lever on top of the injection pump — if the engine returns to idle when you move the lever but not when you release the pedal, the cable is binding or improperly adjusted. Check the full cable run for kinks or friction points.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Injection pump governor fault</span><span class="cause-note">If manually releasing the lever on the injection pump does not bring the engine to idle, the pump's internal governor mechanism is faulty and the pump needs replacement or reconditioning.</span></div></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <span class="diag-symptom">Engine will not shut off when key is turned off</span>
+          <div style="display:flex;align-items:center;gap:8px;"><span class="diag-badge badge-caution">INVESTIGATE</span><span class="diag-arrow">▼</span></div>
+        </div>
+        <div class="diag-body">
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Fuel cut solenoid fault</span><span class="cause-note">Disconnect the fuel cut solenoid connector at the injection pump — if the engine stops, the starter switch or ignition wiring is faulty (solenoid is staying energised). If the engine does not stop after disconnecting, the solenoid itself is stuck open or contaminated with foreign particles.</span></div></li>
+          </ul>
+          <div class="warn-box">⚠ If the engine will not shut off: in an emergency, stall it by engaging a gear and releasing the clutch sharply (on level ground), or block the air intake. Do not leave a runaway diesel engine unattended.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </div><!-- /s-extra -->
+
+  <!-- ══ FAULT LOG ══ -->
+  <div id="s-log" class="sa">
+    <div class="section-head">Field Fault Log</div>
+    <p class="section-intro">Record all engine faults, symptoms, diagnoses, and actions taken in the field. Transfer significant events to R8 Service History.</p>
+
+    <table class="log-table">
+      <thead>
+        <tr>
+          <th style="width:10%">Date</th>
+          <th style="width:8%">Km</th>
+          <th style="width:12%">Location</th>
+          <th style="width:20%">Symptom</th>
+          <th style="width:20%">Diagnosis</th>
+          <th style="width:20%">Action taken</th>
+          <th style="width:10%">Parts used</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="fill">dd/mm/yy</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td></tr>
+        <tr><td class="fill">dd/mm/yy</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td></tr>
+        <tr><td class="fill">dd/mm/yy</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td></tr>
+        <tr><td class="fill">dd/mm/yy</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td></tr>
+        <tr><td class="fill">dd/mm/yy</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td></tr>
+        <tr><td class="fill">dd/mm/yy</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td></tr>
+      </tbody>
+    </table>
+
+    <div class="xref-bar" style="margin-top:8px;">
+      <span class="xref-label">Transfer to:</span>
+      <span class="xref-pill">R8 · Service &amp; Repair History</span>
+      <span class="xref-label" style="margin-left:8px;">Field fixes in:</span>
+      <span class="xref-pill">R4 · 1HZ Engine Training</span>
+      <span class="xref-pill">R10 · Emergency Procedures</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function toggleDiag(header) {
+    const body = header.nextElementSibling;
+    const arrow = header.querySelector('.diag-arrow');
+    const isOpen = body.classList.contains('open');
+    body.classList.toggle('open', !isOpen);
+    arrow.classList.toggle('open', !isOpen);
+  }
+
+  function gotoSec(id) {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  const tocBtns = document.querySelectorAll('.toc-btn');
+  tocBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const el = document.getElementById(btn.dataset.target);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        tocBtns.forEach(b => b.classList.toggle('active', b.dataset.target === id));
+      }
+    });
+  }, { rootMargin: '-60px 0px -70% 0px', threshold: 0 });
+
+  document.querySelectorAll('.sa').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
