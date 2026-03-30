@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LC76 Power">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1C1410">
+<link rel="manifest" href="manifest-power.json">
+<link rel="apple-touch-icon" href="icon-power-192.svg">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>LC76 Power Budget Calculator - LiFePO4 1HZ</title>
+
+<style>
+  :root {
+    --clay:#C4572A; --ochre:#D4963A; --sand:#E8D5A3; --cream:#F5EDDA;
+    --ink:#1C1410; --bark:#3D2B1A; --smoke:#6B5B4E; --white:#FDFAF4;
+    --border:rgba(61,43,26,0.15); --green-ok:#1A4731; --red-warn:#B91C1C; --amber:#92400E;
+    --dominant:var(--cream); --secondary:var(--ink); --accent:var(--clay); --accent-2:var(--ochre);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
+  body{background:var(--white);color:var(--ink);font-family:'Oswald','Arial Narrow',sans-serif;font-size:16px;line-height:1.7}
+
+  /* ── MASTHEAD ── */
+  .masthead{background:var(--ink);color:var(--sand);padding:18px 4% 14px;position:sticky;top:0;z-index:100;overflow:hidden}
+  .masthead::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--clay),var(--ochre),transparent)}
+  .ms{font-family:'Oswald','Arial Narrow',sans-serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--sand);margin-bottom:10px}
+  .masthead h1{font-family:'Oswald','Arial Narrow',sans-serif;font-size:clamp(22px,3vw,38px);font-weight:700;line-height:1;color:var(--cream);letter-spacing:-.01em;margin-bottom:6px}
+  .masthead h1 em{font-style:italic;color:var(--ochre)}
+  .masthead-sub{font-size:13px;color:var(--sand);font-style:italic}
+  .mspecs{font-family:'Oswald','Arial Narrow',sans-serif;font-size:10px;color:var(--sand);letter-spacing:.08em;margin-top:8px;display:flex;gap:16px;flex-wrap:wrap}
+  .mspecs span{color:var(--ochre)}
+
+  /* ── PAGE ── */
+  .page{max-width:100%;margin:0 auto;padding:16px 4% 40px}
+  .sec{font-family:'Oswald','Arial Narrow',sans-serif;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--smoke);border-bottom:1px solid var(--border);padding-bottom:4px;margin:20px 0 12px}
+  .sec:first-of-type{margin-top:0}
+
+  /* ── CAPACITY CARDS ── */
+  .cap-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:0}
+  .cc{background:var(--cream);border:1px solid var(--border);border-left:3px solid var(--ochre);padding:8px 12px}
+  .cc.p{border-left-color:var(--clay)}
+  .cc .cl{font-family:'Oswald','Arial Narrow',sans-serif;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--smoke);margin-bottom:2px}
+  .cc .cv{font-family:'Oswald','Arial Narrow',sans-serif;font-size:22px;font-weight:700;color:var(--bark);line-height:1}
+  .cc .cs{font-size:11px;color:var(--smoke);margin-top:2px}
+
+  /* ── SLIDERS ── */
+  .sblock{margin-bottom:6px}
+  .srow{display:flex;align-items:center;gap:12px;margin-bottom:2px}
+  .slabelwrap{display:flex;align-items:baseline;gap:10px;margin-bottom:2px}
+  .slabel{font-family:'Oswald','Arial Narrow',sans-serif;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--smoke);min-width:165px}
+  .srow input[type=range]{flex:1;min-width:0}
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:4px;background:linear-gradient(to right,var(--clay) 0%,var(--clay) 50%,var(--border) 50%,var(--border) 100%);outline:none;cursor:pointer;border-radius:2px}
+  input[type=range]::-webkit-slider-runnable-track{-webkit-appearance:none;height:4px;border-radius:2px}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:22px;height:22px;border-radius:50%;background:var(--clay);border:3px solid var(--white);cursor:pointer;margin-top:-9px;box-shadow:0 1px 4px rgba(0,0,0,0.3)}
+  input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--clay);border:none;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,0.3)}
+  .sval{font-family:'Oswald','Arial Narrow',sans-serif;font-size:14px;font-weight:600;color:var(--clay);min-width:70px}
+  .snote{font-size:9px;color:var(--smoke);font-style:italic;padding:0 0 2px;line-height:1.2;opacity:.75}
+
+  /* ── RESULT CELLS ── */
+  .rgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:10px}
+  .rc{background:var(--cream);color:var(--bark);padding:10px 14px;border-left:3px solid var(--clay)}
+  .rc.h{border-left-color:var(--ochre)}
+  .rc.g{border-left-color:var(--green-ok)}
+  .rcl{font-family:'Oswald','Arial Narrow',sans-serif;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--smoke);margin-bottom:3px}
+  .rcv{font-family:'Oswald','Arial Narrow',sans-serif;font-size:28px;font-weight:700;color:var(--clay);line-height:1;margin-bottom:2px}
+  .rcv.ok{color:var(--green-ok)}.rcv.warn{color:var(--amber)}.rcv.bad{color:var(--red-warn)}
+  .rcs{font-size:12px;color:var(--smoke)}
+
+  /* ── BALANCE / SOC BARS ── */
+  .rbar{background:var(--cream);border:1px solid var(--border);border-left:3px solid var(--clay);padding:10px 14px;margin-bottom:8px}
+  .rbh{display:flex;justify-content:space-between;font-family:'Oswald','Arial Narrow',sans-serif;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--smoke);margin-bottom:6px}
+  .rbt{height:12px;background:rgba(61,43,26,.1);position:relative}
+  .rbf{height:12px;position:absolute;top:0;left:0;transition:width .3s ease,background .3s ease}
+  .rbtk{display:flex;justify-content:space-between;margin-top:4px;font-family:'Oswald','Arial Narrow',sans-serif;font-size:9px;color:var(--smoke)}
+
+  /* ── CALLOUTS ── */
+  .call{display:flex;gap:12px;padding:12px 16px;margin:8px 0;border-left:4px solid var(--red-warn);background:#FEF2F2;font-size:13.5px}
+  .call.am{border-left-color:var(--ochre);background:#FFFBEB}
+  .call.gn{border-left-color:var(--green-ok);background:#F0FDF4}
+  .call.inf{border-left-color:var(--smoke);background:var(--cream)}
+  .ci{font-size:18px;flex-shrink:0;margin-top:1px}
+  .cb{line-height:1.6;color:var(--smoke)}
+  .cb strong{color:var(--bark)}
+
+  /* ── LOAD TABLE ── */
+  .tscroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .dtable{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:8px;min-width:560px}
+  .dtable th{background:var(--ink);color:var(--ochre);font-family:'Oswald','Arial Narrow',sans-serif;font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:8px 10px;text-align:left;font-weight:500}
+  .dtable tfoot td{background:var(--bark);color:var(--cream);padding:8px 10px}
+  .dtable td{padding:6px 10px;border-bottom:1px solid var(--border);vertical-align:middle;color:var(--smoke)}
+  .dtable td:first-child{font-weight:600;color:var(--bark)}
+  .dtable tr:nth-child(even) td{background:rgba(212,150,58,.04)}
+  .dtable .td-r{text-align:right}
+  .dtable .td-ah{font-weight:700;color:var(--clay);text-align:right;white-space:nowrap}
+  .td-in{background:transparent;border:none;border-bottom:1px solid var(--border);width:100%;padding:2px 3px;font-family:'Oswald','Arial Narrow',sans-serif;font-size:13px;color:var(--ink)}
+  .td-in:focus{outline:none;border-bottom:1.5px solid var(--clay)}
+  .td-num{width:68px;text-align:right}
+  .td-hrs{width:60px;text-align:right}
+  .td-del button{background:none;border:none;cursor:pointer;color:rgba(61,43,26,.35);font-size:16px;padding:2px 7px;border-radius:2px;line-height:1;transition:all .15s}
+  .td-del button:hover{color:var(--red-warn);background:rgba(185,28,28,.1)}
+
+  /* ── PRESET BUTTONS ── */
+  .tgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-bottom:14px}
+  .tbtn{border:1px solid var(--border);background:var(--cream);padding:8px 12px;cursor:pointer;text-align:left;font-family:inherit;transition:all .15s;min-height:44px}
+  .tbtn:hover{background:var(--sand)}
+  .tbtn.active{border:2px solid var(--clay);background:var(--clay)}
+  .tbtn .tn{font-family:'Oswald','Arial Narrow',sans-serif;font-size:13px;font-weight:700;color:var(--bark);margin-bottom:1px}
+  .tbtn.active .tn{color:#fff}
+  .tbtn .tdesc{font-size:10px;color:var(--smoke);margin-top:2px;line-height:1.3;font-style:italic}
+  .tbtn.active .tdesc{color:rgba(255,255,255,.75)}
+  .tbtn .tm{font-family:'Oswald','Arial Narrow',sans-serif;font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--clay);margin-bottom:2px}
+  .tbtn.active .tm{color:rgba(255,255,255,.85)}
+
+  /* ── ADD ROW ── */
+  .btn-add{background:var(--bark);color:var(--cream);border:none;padding:8px 16px;font-family:'Oswald',sans-serif;font-size:13px;letter-spacing:.06em;cursor:pointer;border-radius:2px;transition:all .15s}
+  .btn-add:hover{background:var(--clay)}
+
+  /* ── BREAKDOWN BOX ── */
+  .ab{background:var(--bark);color:var(--cream);padding:18px 20px;margin:10px 0;border-left:4px solid var(--ochre)}
+  .abh{font-family:'Oswald','Arial Narrow',sans-serif;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ochre);margin-bottom:10px}
+  .abr{display:flex;justify-content:space-between;font-size:13px;color:var(--sand);padding:5px 0;border-bottom:1px solid rgba(255,255,255,.08);gap:12px;flex-wrap:wrap}
+  .abr:last-child{border-bottom:none}
+  .abv{font-family:'Oswald','Arial Narrow',sans-serif;color:var(--ochre);white-space:nowrap}
+
+  /* ── FOOTER ── */
+  footer{background:var(--ink);color:var(--sand);padding:10px 4%;font-family:'Oswald','Arial Narrow',sans-serif;font-size:10px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;border-top:1px solid rgba(212,150,58,.2)}
+  footer span{color:var(--ochre)}
+
+  /* ── RESPONSIVE ── */
+  @media(max-width:780px){
+    .cap-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .tgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .rgrid{grid-template-columns:1fr 1fr}
+    .slabel{min-width:115px;font-size:10px}
+    .masthead h1{font-size:clamp(18px,4vw,32px)}
+    .mspecs{font-size:9px;gap:10px}
+    .rcv{font-size:22px}
+    .cc .cv{font-size:18px}
+  }
+  @media(max-width:540px){
+    .tgrid{grid-template-columns:1fr 1fr}
+    .rgrid{grid-template-columns:1fr}
+    .slabel{min-width:90px;font-size:9px}
+    .sval{font-size:11px;min-width:58px}
+    .srow{gap:6px}
+  }
+  @media print{
+    .page{padding:0 24px}
+    footer{display:none}
+    .tscroll{overflow:visible}
+    .dtable{min-width:auto;font-size:10px}
+    .td-del,.tbtn,.btn-add{display:none}
+    @page{size:A4;margin:10mm}
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="ms">LC76 SW 1HZ &middot; Field Calculator</div>
+  <h1>LiFePO4 Power <em>Budget Calculator</em></h1>
+  <p class="masthead-sub">Daily energy balance &mdash; solar, alternator and load planning</p>
+  <div class="mspecs">
+    <div>Battery: <span>LiFePO4</span></div>
+    <div>Usable: <span>80% DoD</span></div>
+    <div>Solar: <span>200W blanket</span></div>
+    <div>DC&ndash;DC: <span>23A charger</span></div>
+    <div>Reference load: <span>~77 Ah/day</span></div>
+  </div>
+</header>
+
+<main class="page">
+
+  <!-- BATTERY BANK -->
+  <div class="sec">Battery bank &mdash; <span style="font-weight:300;letter-spacing:.05em;text-transform:none;font-size:11px;">LiFePO4 &middot; battery monitor required &middot; 12V system</span></div>
+  <div class="cap-grid">
+    <div class="cc"><div class="cl">Total capacity</div><div class="cv" id="d-cap">300 Ah</div><div class="cs">Rated LiFePO4</div></div>
+    <div class="cc"><div class="cl">Usable capacity</div><div class="cv" id="d-usable">240 Ah</div><div class="cs">80% DoD limit</div></div>
+    <div class="cc p"><div class="cl">Starting SOC</div><div class="cv" id="d-soc-disp">100%</div><div class="cs">Your battery monitor reading</div></div>
+    <div class="cc"><div class="cl">Available today</div><div class="cv" id="d-avail">240 Ah</div><div class="cs">From current SOC</div></div>
+  </div>
+
+  <!-- BATTERY SETTINGS -->
+  <div class="sec">Battery settings &mdash; <span style="font-weight:300;letter-spacing:.05em;text-transform:none;font-size:11px;">adjust to match your battery monitor reading and configuration</span></div>
+
+  <div class="sblock">
+    <div class="slabelwrap"><div class="slabel">Battery capacity</div><div class="sval" id="v-cap">300 Ah</div></div>
+    <div class="srow"><input type="range" id="sl-cap" min="50" max="600" step="25" value="300" oninput="syncV('v-cap',this.value,' Ah');updateSliderFill(this);upd()"></div>
+    <div class="snote">Total rated Ah of your LiFePO4 battery or bank.</div>
+  </div>
+
+  <div class="sblock">
+    <div class="slabelwrap"><div class="slabel">Starting SOC</div><div class="sval" id="v-soc">100%</div></div>
+    <div class="srow"><input type="range" id="sl-soc" min="20" max="100" step="5" value="100" oninput="syncPct('v-soc',this.value);updateSliderFill(this);upd()"></div>
+    <div class="snote">Set to your battery monitor reading. 100% = fully charged after shore power or a full solar day.</div>
+  </div>
+
+  <div class="sblock">
+    <div class="slabelwrap"><div class="slabel">Min usable SOC</div><div class="sval" id="v-min">20%</div></div>
+    <div class="srow"><input type="range" id="sl-min" min="10" max="40" step="5" value="20" oninput="syncPct('v-min',this.value);updateSliderFill(this);upd()"></div>
+    <div class="snote">LiFePO4: 20% recommended floor. BMS hard cutoff ~10%. Do not cycle below 20% regularly.</div>
+  </div>
+
+  <div class="sblock">
+    <div class="slabelwrap"><div class="slabel">System losses</div><div class="sval" id="v-loss">10%</div></div>
+    <div class="srow"><input type="range" id="sl-loss" min="5" max="20" step="1" value="10" oninput="syncPct('v-loss',this.value);updateSliderFill(this);upd()"></div>
+    <div class="snote">Wiring resistance, BMS, connections. Typical 8&ndash;12%.</div>
+  </div>
+
+  <!-- CHARGING SOURCES -->
+  <div class="sec">Charging sources &mdash; <span style="font-weight:300;letter-spacing:.05em;text-transform:none;font-size:11px;">adjust drive time, solar size and day conditions</span></div>
+
+  <div class="sblock">
+    <div class="slabelwrap"><div class="slabel">Drive time today</div><div class="sval" id="v-driveh">4.0 h</div></div>
+    <div class="srow"><input type="range" id="sl-driveh" min="0" max="12" step="0.5" value="4" oninput="syncHrs('v-driveh',this.value);updateSliderFill(this);upd()"></div>
+    <div class="snote">Hours engine running. DC&ndash;DC charger feeds aux battery whenever alternator is above ~13.2V.</div>
+  </div>
+
+  <div class="sblock">
+    <div class="slabelwrap"><div class="slabel">DC&ndash;DC charger output</div><div class="sval" id="v-dcdc">23 A</div></div>
+    <div class="srow"><input type="range" id="sl-dcdc" min="0" max="60" step="1" value="23" oninput="syncV('v-dcdc',this.value,' A');updateSliderFill(this);upd()"></div>
+    <div class="snote">DC&ndash;DC charger output in Amps. Common units: 20A, 25A, 40A. Set to 0 if no DC&ndash;DC charger fitted.</div>
+  </div>
+
+  <div class="sblock">
+    <div class="slabelwrap"><div class="slabel">Solar panel watts</div><div class="sval" id="v-solw">200 W</div></div>
+    <div class="srow"><input type="range" id="sl-solw" min="0" max="600" step="10" value="200" oninput="syncV('v-solw',this.value,' W');updateSliderFill(this);upd()"></div>
+    <div class="snote">Total rated watts of your solar panel or blanket (MPPT controller assumed). Set to 0 if no solar deployed.</div>
+  </div>
+
+  <div class="sblock">
+    <div class="slabelwrap"><div class="slabel">Peak sun hours</div><div class="sval" id="v-psh">5.0 h</div></div>
+    <div class="srow"><input type="range" id="sl-psh" min="0.5" max="8" step="0.5" value="5" oninput="syncHrs('v-psh',this.value);updateSliderFill(this);upd()"></div>
+    <div class="snote">Southern &amp; East Africa clear day: 4.5&ndash;6.5 h. Overcast: 1&ndash;2 h. Heavy overcast: 0.5&ndash;1 h.</div>
+  </div>
+
+  <div class="sblock">
+    <div class="slabelwrap"><div class="slabel">Panel efficiency factor</div><div class="sval" id="v-peff">72%</div></div>
+    <div class="srow"><input type="range" id="sl-peff" min="40" max="100" step="1" value="72" oninput="syncPct('v-peff',this.value);updateSliderFill(this);upd()"></div>
+    <div class="snote">Combined derating: heat, angle, dust, MPPT losses. Blanket on hot roof: ~70&ndash;75%. Clean panel, cool: ~85&ndash;92%.</div>
+  </div>
+
+  <!-- LOAD PRESETS -->
+  <div class="sec">Load profile &mdash; <span style="font-weight:300;letter-spacing:.05em;text-transform:none;font-size:11px;">select a preset or edit the table directly</span></div>
+
+  <div class="tgrid">
+    <button class="tbtn active" onclick="loadPreset('lc76');selPre(this)">
+      <div class="tm">Your actual system</div>
+      <div class="tn">LC76 Reference Load</div>
+      <div class="tdesc">NL 52L fridge &middot; MacBook &middot; iPhones &middot; fans &middot; nav &mdash; 77 Ah/day</div>
+    </button>
+    <button class="tbtn" onclick="loadPreset('basecamp');selPre(this)">
+      <div class="tm">Fixed camp</div>
+      <div class="tn">Extended Basecamp</div>
+      <div class="tdesc">Multi-night stay &middot; full comfort &middot; extra electronics and lighting</div>
+    </button>
+    <button class="tbtn" onclick="loadPreset('remote');selPre(this)">
+      <div class="tm">Wild camp</div>
+      <div class="tn">Remote Bush &mdash; Lean</div>
+      <div class="tdesc">Fridge + comms + essential only &middot; no laptop &middot; minimal lights</div>
+    </button>
+  </div>
+
+  <!-- LOAD TABLE -->
+  <div class="tscroll">
+    <table class="dtable" id="load-table">
+      <thead>
+        <tr>
+          <th>Appliance / Item</th>
+          <th style="text-align:right">Draw (A)</th>
+          <th style="text-align:right">Hrs/Day</th>
+          <th>Note</th>
+          <th style="text-align:right">Ah/Day</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="load-tbody"></tbody>
+      <tfoot>
+        <tr>
+          <td colspan="4" style="font-weight:600;letter-spacing:.06em;text-align:right;font-size:12px">TOTAL DAILY LOAD</td>
+          <td class="td-ah" id="total-ah" style="font-size:16px;color:var(--ochre)">—</td>
+          <td></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  <div style="margin:8px 0 14px"><button class="btn-add" onclick="addRow()">+ Add appliance</button></div>
+
+  <!-- RESULTS -->
+  <div class="sec">Daily energy balance &mdash; <span style="font-weight:300;letter-spacing:.05em;text-transform:none;font-size:11px;">calculated from all inputs above</span></div>
+
+  <div class="rgrid">
+    <div class="rc h">
+      <div class="rcl">Available today</div>
+      <div class="rcv" id="r-avail">—</div>
+      <div class="rcs">Ah from current SOC</div>
+    </div>
+    <div class="rc">
+      <div class="rcl">Total daily load</div>
+      <div class="rcv" id="r-load">—</div>
+      <div class="rcs">Ah consumed today</div>
+    </div>
+    <div class="rc g">
+      <div class="rcl">Total charging</div>
+      <div class="rcv" id="r-charge">—</div>
+      <div class="rcs">Solar + DC&ndash;DC Ah</div>
+    </div>
+    <div class="rc h">
+      <div class="rcl">Solar input</div>
+      <div class="rcv" id="r-solar">—</div>
+      <div class="rcs">Effective Ah today</div>
+    </div>
+    <div class="rc h">
+      <div class="rcl">Alternator input</div>
+      <div class="rcv" id="r-alt">—</div>
+      <div class="rcs">Via DC&ndash;DC today</div>
+    </div>
+    <div class="rc">
+      <div class="rcl">Battery autonomy</div>
+      <div class="rcv" id="r-auto">—</div>
+      <div class="rcs">Days without charging</div>
+    </div>
+  </div>
+
+  <!-- NET BALANCE BAR -->
+  <div class="rbar">
+    <div class="rbh">
+      <span>Net daily balance &mdash; charging vs load</span>
+      <span id="rb-lbl">—</span>
+    </div>
+    <div class="rbt">
+      <div class="rbf" id="rbf" style="width:50%"></div>
+      <div style="position:absolute;top:-4px;left:50%;width:2px;height:20px;background:var(--bark);opacity:.4"></div>
+    </div>
+    <div class="rbtk"><span>Large deficit</span><span>Balanced</span><span>Surplus</span></div>
+  </div>
+
+  <!-- END-OF-DAY SOC BAR -->
+  <div class="rbar" style="border-left-color:var(--green-ok)">
+    <div class="rbh">
+      <span>End-of-day SOC (after all charging &amp; load)</span>
+      <span id="soc-end-lbl">—</span>
+    </div>
+    <div class="rbt">
+      <div class="rbf" id="soc-bar" style="width:80%"></div>
+      <div style="position:absolute;top:-4px;left:20%;width:2px;height:20px;background:var(--red-warn);opacity:.5" title="20% minimum"></div>
+    </div>
+    <div class="rbtk"><span>0%</span><span>20% min</span><span>50%</span><span>80%</span><span>100%</span></div>
+  </div>
+
+  <!-- VERDICT -->
+  <div class="call gn" id="verdict-box" style="display:none">
+    <div class="ci" id="verdict-icon">&#10003;</div>
+    <div class="cb" id="verdict-txt"></div>
+  </div>
+
+  <!-- CALCULATION BREAKDOWN -->
+  <div class="ab">
+    <div class="abh">Calculation breakdown</div>
+    <div class="abr"><span>Battery capacity</span><span class="abv" id="ab-cap">—</span></div>
+    <div class="abr"><span>Usable capacity (DoD range &times; system efficiency)</span><span class="abv" id="ab-usable">—</span></div>
+    <div class="abr"><span>Available from starting SOC</span><span class="abv" id="ab-avail">—</span></div>
+    <div class="abr"><span>Solar &mdash; <span id="ab-sol-f" style="font-weight:300;font-size:11px;color:var(--sand)"></span></span><span class="abv" id="ab-sol">—</span></div>
+    <div class="abr"><span>DC&ndash;DC alternator &mdash; <span id="ab-alt-f" style="font-weight:300;font-size:11px;color:var(--sand)"></span></span><span class="abv" id="ab-alt">—</span></div>
+    <div class="abr"><span>Total daily load</span><span class="abv" id="ab-load">—</span></div>
+    <div class="abr"><span>Net balance (total charging &minus; load)</span><span class="abv" id="ab-net">—</span></div>
+    <div class="abr"><span>End-of-day SOC</span><span class="abv" id="ab-eod">—</span></div>
+    <div class="abr"><span>Battery autonomy (zero charging scenario)</span><span class="abv" id="ab-auto">—</span></div>
+  </div>
+
+  <!-- SYSTEM NOTES -->
+  <div class="sec">System notes &mdash; LC76 power configuration</div>
+
+  <div class="call gn">
+    <div class="ci">&#10003;</div>
+    <div class="cb"><strong>National Luna 52L compressor fridge:</strong> Draws 1.2A at low speed to 2.8A at high speed. In SA summer heat (38&deg;C ambient) at mid-speed, the compressor runs roughly 55% of the time &mdash; about 13 hours out of 24 at an average of 3.75A, giving <strong>45 Ah/day.</strong> Pre-cool the fridge to 4&deg;C on shore power before leaving for a wild camp &mdash; this saves 10&ndash;15 Ah on day one. Shade the fridge when stationary. In cooler conditions (25&deg;C), the same fridge draws ~25&ndash;30 Ah/day.</div>
+  </div>
+
+  <div class="call am">
+    <div class="ci">&#9881;</div>
+    <div class="cb"><strong>DC&ndash;DC charger (alternator charging):</strong> At 23A output and 88% efficiency, 2 hours of driving delivers ~40 Ah to the aux battery. A full 8-hour drive day delivers ~162 Ah &mdash; enough to recover a heavily depleted 300 Ah bank. The 1HZ alternator has ample headroom for a 20&ndash;40A DC&ndash;DC charger. Use driving time efficiently &mdash; the first two hours deliver the most benefit.</div>
+  </div>
+
+  <div class="call am">
+    <div class="ci">&#9728;</div>
+    <div class="cb"><strong>Solar panel or blanket:</strong> A 200W panel at 5 peak sun hours with 72% combined efficiency (heat, angle, dust, controller losses) delivers <strong>~60 Ah/day</strong> on a clear African day. At the 77 Ah/day reference load, solar alone leaves a 17 Ah daily deficit &mdash; covered by about 55 minutes of driving. Dust on the panel or blanket costs 10&ndash;30% output &mdash; clean every 3&ndash;5 days. Park solar-side in full sun.</div>
+  </div>
+
+  <div class="call inf">
+    <div class="ci">&#9432;</div>
+    <div class="cb"><strong>Reference load ~77 Ah/day (from R5 Battery Training Guide):</strong> Fridge 45.0 Ah &middot; Laptop 5.0 Ah &middot; iPhone &times;2 5.0 Ah &middot; GPS nav 2.5 Ah &middot; Camera charging 2.7 Ah &middot; Fan charging &times;2 1.5 Ah &middot; LED lights &amp; misc 3.6 Ah. This reflects actual daily draw at camp in SA summer conditions.</div>
+  </div>
+
+  <div class="call inf">
+    <div class="ci">&#9635;</div>
+    <div class="cb">
+      <strong>How to calculate any appliance&rsquo;s daily load &mdash; three steps:</strong>
+      <br><br>
+      <strong>Step 1 &mdash; Find the current draw in Amps.</strong> Check the device label or manual for rated watts, then divide by 12: <em>Amps = Watts &divide; 12V.</em> A 30W laptop charger draws 30 &divide; 12 = 2.5A. If the spec sheet lists Amps directly, use that figure.
+      <br><br>
+      <strong>Step 2 &mdash; Estimate daily hours of use.</strong> For devices that run continuously (fridge, tracker), use 24h &mdash; but apply a duty cycle for compressor devices. A fridge compressor does not run 24/7; in SA summer heat it runs roughly 55% of the time, so effective hours = 24 &times; 0.55 &asymp; 13h. For devices used in sessions (charging phones, laptop), use actual charging time.
+      <br><br>
+      <strong>Step 3 &mdash; Multiply: Ah/day = Amps &times; Hours.</strong> A fridge at 3.75A running 13h = 48.75 Ah/day. A phone charger at 1.67A for 1.5h = 2.5 Ah. Add up all appliances for your total daily load.
+      <br><br>
+      <strong>Key conversions:</strong> Watts &divide; 12 = Amps &middot; Amps &times; Hours = Ah &middot; Wh &divide; 12 = Ah &middot; Ah &times; 12 = Wh. To find how many days your battery will last without charging, divide usable Ah by total daily load.
+    </div>
+  </div>
+
+  <div class="call">
+    <div class="ci">&#9888;</div>
+    <div class="cb"><strong>SOC danger zones:</strong> Below 30% &mdash; reduce load, plan to drive or find shore power. Below 20% &mdash; fridge and essential loads only. Never below 10% &mdash; BMS hard cutoff. Always aim to arrive at camp with &gt;50% SOC when heading into a wild camp with no shore power available.</div>
+  </div>
+
+  <!-- REFERENCE TABLE -->
+  <div class="sec">Common appliance draw &mdash; reference</div>
+  <div class="tscroll">
+    <table class="dtable">
+      <thead><tr><th>Appliance</th><th style="text-align:right">Draw (A avg)</th><th style="text-align:right">Hrs/Day</th><th style="text-align:right">Ah/Day</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Compressor fridge 52L (SA summer 38°C)</td><td class="td-r">3.75A</td><td class="td-r">~13h run</td><td class="td-ah">45.0 Ah</td><td>55% duty cycle &middot; pre-cool on shore power saves 10&ndash;15 Ah Day 1</td></tr>
+        <tr><td>Compressor fridge 52L (mild 25°C)</td><td class="td-r">2.08A</td><td class="td-r">~12h run</td><td class="td-ah">25.0 Ah</td><td>40% duty cycle &middot; cooler morning &amp; evening conditions</td></tr>
+        <tr><td>Laptop (USB-C 30W) &mdash; full charge once/day</td><td class="td-r">2.08A</td><td class="td-r">2.4h</td><td class="td-ah">~5.0 Ah</td><td>49.9 Wh battery &divide; 12V &divide; 85% charger eff. = 4.9 Ah to fill from flat</td></tr>
+        <tr><td>Laptop &mdash; charge + active use (2h each)</td><td class="td-r">3.17A</td><td class="td-r">4h total</td><td class="td-ah">6.7 Ah</td><td>30W charge &times; 2h + 8W active &times; 2h &divide; 12V</td></tr>
+        <tr><td>Smartphone (USB-C 20W) &mdash; per phone</td><td class="td-r">1.67A</td><td class="td-r">1.5h</td><td class="td-ah">2.5 Ah</td><td>20W &divide; 12V &times; 1.5h per phone</td></tr>
+        <tr><td>GPS navigator (12V socket)</td><td class="td-r">0.42A</td><td class="td-r">6h</td><td class="td-ah">2.5 Ah</td><td>5W &divide; 12V &times; 6h</td></tr>
+        <tr><td>Camera batteries (dual charger)</td><td class="td-r">1.33A</td><td class="td-r">2h</td><td class="td-ah">2.7 Ah</td><td>16W &divide; 12V &times; 2h</td></tr>
+        <tr><td>Portable fan (internal battery, daytime top-up)</td><td class="td-r">0.38A</td><td class="td-r">2h &times; 2</td><td class="td-ah">1.5 Ah</td><td>Fan runs overnight on its own cell &middot; 12V aux tops it up during day only</td></tr>
+        <tr><td>LED camp lighting</td><td class="td-r">0.6&ndash;1A</td><td class="td-r">3&ndash;5h</td><td class="td-ah">2&ndash;5 Ah</td><td>Quality LED strips are a small load</td></tr>
+        <tr><td>12V water pump</td><td class="td-r">5&ndash;7A</td><td class="td-r">0.2h</td><td class="td-ah">1&ndash;1.5 Ah</td><td>Intermittent use only</td></tr>
+        <tr><td>Satellite tracker (10-min interval)</td><td class="td-r">0.08A</td><td class="td-r">24h</td><td class="td-ah">2.0 Ah</td><td>Very low continuous draw</td></tr>
+        <tr><td>CB radio (receive only)</td><td class="td-r">0.5A</td><td class="td-r">6h</td><td class="td-ah">3.0 Ah</td><td>Transmit adds 4&ndash;5A but only in short bursts</td></tr>
+        <tr><td>Inverter 300W at 50% load</td><td class="td-r">14A</td><td class="td-r">1h</td><td class="td-ah">14.0 Ah</td><td>150W AC output + ~10% inverter loss</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</main>
+
+<footer>
+  <div>LC76 SW 1HZ &middot; LiFePO4 Power Budget Calculator</div>
+  <div>Battery: <span>LiFePO4</span> &middot; Fridge: <span>45 Ah/day SA heat</span> &middot; Reference: <span>~77 Ah/day</span></div>
+  <div>Estimates only &mdash; verify against battery monitor readings. Source: R5 Battery Training Guide.</div>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════════════
+   PRESETS — values from R5 Battery Training Guide
+   Fridge: National Luna 52L compressor fridge
+   SA 38°C ambient, mid-speed, 55% duty cycle
+   = 3.75A running × 13h compressor run time = 45 Ah/day
+   Laptop: 49.9 Wh battery ÷ 12V ÷ 85% eff = ~4.9 Ah full charge
+   Total system reference: ~77 Ah/day
+═══════════════════════════════════════════════════ */
+var rows=[], rowId=0;
+
+var PRESETS = {
+  lc76: [
+    {name:'Compressor fridge 52L',        amps:3.75, hrs:12.0, note:'55% duty at 38°C SA heat — pre-cool on shore power'},
+    {name:'Laptop (USB-C 30W)',            amps:2.08, hrs:2.4,  note:'Full charge once: 49.9Wh ÷ 12V ÷ 85% eff = ~5 Ah'},
+    {name:'Smartphone 1 (USB-C 20W)',      amps:1.67, hrs:1.5,  note:'20W ÷ 12V × 1.5h'},
+    {name:'Smartphone 2 (USB-C 20W)',      amps:1.67, hrs:1.5,  note:'20W ÷ 12V × 1.5h'},
+    {name:'GPS navigator (12V socket)',    amps:0.42, hrs:6.0,  note:'5W ÷ 12V × 6h'},
+    {name:'Camera batteries (dual)',       amps:1.33, hrs:2.0,  note:'16W ÷ 12V × 2h'},
+    {name:'Portable fans ×2 (top-up)',    amps:0.75, hrs:2.0,  note:'Fans run overnight on own battery — 12V tops up during day'},
+    {name:'LED lights & misc',             amps:0.80, hrs:4.5,  note:'Camp strip + small loads'},
+  ],
+  basecamp: [
+    {name:'Compressor fridge 52L',        amps:3.75, hrs:12.0, note:'55% duty at 38°C SA heat'},
+    {name:'LED camp lighting',             amps:0.80, hrs:5.0,  note:'Strip + task lights'},
+    {name:'Laptop (USB-C 30W)',            amps:2.08, hrs:2.4,  note:'Full charge once: ~5 Ah from 12V'},
+    {name:'Smartphones ×2',               amps:3.34, hrs:1.5,  note:'20W each ÷ 12V'},
+    {name:'Camera batteries (dual)',       amps:1.33, hrs:2.0,  note:'16W dual charger ÷ 12V'},
+    {name:'Portable fans ×2 (top-up)',    amps:0.75, hrs:2.0,  note:'Fans run on own battery — 12V tops up during day'},
+    {name:'CB radio (receive only)',       amps:0.50, hrs:6.0,  note:'Receive only — Tx bursts add briefly'},
+    {name:'Satellite tracker',             amps:0.08, hrs:24.0, note:'10min tracking interval — always on'},
+    {name:'Water pump',                    amps:6.00, hrs:0.2,  note:'Intermittent use only'},
+    {name:'Extra USB devices',             amps:2.00, hrs:2.0,  note:'Tablet, e-reader, spare batteries'},
+  ],
+  remote: [
+    {name:'Compressor fridge 52L',        amps:3.75, hrs:12.0, note:'Essential — 55% duty at SA heat'},
+    {name:'LED minimal lighting',          amps:0.50, hrs:3.0,  note:'Essential only'},
+    {name:'Smartphones ×2',               amps:3.34, hrs:1.5,  note:'Communication priority'},
+    {name:'Satellite tracker',             amps:0.08, hrs:24.0, note:'Safety — always on'},
+    {name:'CB radio (RX/TX)',              amps:0.80, hrs:4.0,  note:'Rx 0.5A + short Tx bursts'},
+    {name:'Water pump',                    amps:6.00, hrs:0.15, note:'Minimal — critical use only'},
+  ]
+};
+
+/* ─── ROW MANAGEMENT ─── */
+function loadPreset(k){
+  rows=[];
+  PRESETS[k].forEach(function(p){rows.push({id:++rowId,name:p.name,amps:p.amps,hrs:p.hrs,note:p.note||''});});
+  renderTable(); upd();
+}
+function addRow(){
+  rows.push({id:++rowId,name:'',amps:1.0,hrs:4.0,note:''});
+  renderTable(); upd();
+}
+function delRow(id){
+  rows=rows.filter(function(r){return r.id!==id;});
+  renderTable(); upd();
+}
+function updateField(id,field,val){
+  var r=rows.find(function(r){return r.id===id;});
+  if(!r)return;
+  if(field==='name'||field==='note') r[field]=val;
+  else r[field]=parseFloat(val)||0;
+  var el=document.getElementById('rh-'+id);
+  if(el) el.textContent=(r.amps*r.hrs).toFixed(1)+' Ah';
+  upd();
+}
+function escH(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function renderTable(){
+  var tb=document.getElementById('load-tbody');
+  if(!rows.length){tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:14px;color:var(--smoke);font-size:12px;font-style:italic">No loads — select a preset above or add an appliance.</td></tr>';return;}
+  tb.innerHTML=rows.map(function(r){
+    return '<tr>'+
+      '<td><input class="td-in" type="text" value="'+escH(r.name)+'" placeholder="Appliance name" style="min-width:140px" oninput="updateField('+r.id+',\'name\',this.value)"></td>'+
+      '<td class="td-r"><input class="td-in td-num" type="number" value="'+r.amps+'" min="0" max="150" step="0.01" oninput="updateField('+r.id+',\'amps\',this.value)"></td>'+
+      '<td class="td-r"><input class="td-in td-hrs" type="number" value="'+r.hrs+'" min="0" max="24" step="0.5" oninput="updateField('+r.id+',\'hrs\',this.value)"></td>'+
+      '<td><input class="td-in" type="text" value="'+escH(r.note)+'" placeholder="—" style="min-width:100px;font-size:11px;color:var(--smoke)" oninput="updateField('+r.id+',\'note\',this.value)"></td>'+
+      '<td class="td-ah" id="rh-'+r.id+'">'+(r.amps*r.hrs).toFixed(1)+' Ah</td>'+
+      '<td class="td-del"><button onclick="delRow('+r.id+')" title="Remove">&#215;</button></td>'+
+    '</tr>';
+  }).join('');
+}
+function selPre(el){document.querySelectorAll('.tbtn').forEach(function(b){b.classList.remove('active');});el.classList.add('active');}
+
+/* ─── SYNC HELPERS ─── */
+function syncV(id,val,suf){document.getElementById(id).textContent=val+suf;}
+function syncPct(id,val){document.getElementById(id).textContent=val+'%';}
+function syncHrs(id,val){document.getElementById(id).textContent=parseFloat(val).toFixed(1)+' h';}
+
+/* ─── MAIN CALCULATION ─── */
+function upd(){
+  var cap    = parseFloat(document.getElementById('sl-cap').value)||300;
+  var soc    = parseFloat(document.getElementById('sl-soc').value)/100;
+  var minSoc = parseFloat(document.getElementById('sl-min').value)/100;
+  var loss   = parseFloat(document.getElementById('sl-loss').value)/100;
+  var driveH = parseFloat(document.getElementById('sl-driveh').value)||0;
+  var dcdc   = parseFloat(document.getElementById('sl-dcdc').value)||0;
+  var solW   = parseFloat(document.getElementById('sl-solw').value)||0;
+  var psh    = parseFloat(document.getElementById('sl-psh').value)||0;
+  var peff   = parseFloat(document.getElementById('sl-peff').value)/100;
+
+  var usable = cap*(1-minSoc)*(1-loss);
+  var avail  = Math.max(0, cap*(soc-minSoc)*(1-loss));
+  var altAh  = driveH*dcdc*0.88;
+  var solAh  = (solW*psh*peff)/12;
+  var totalLoad = rows.reduce(function(s,r){return s+r.amps*r.hrs;},0);
+  var net    = altAh+solAh-totalLoad;
+  var socEnd = Math.min(1, Math.max(minSoc, soc+net/cap));
+  var auto   = totalLoad>0 ? avail/totalLoad : 999;
+
+  // Cards
+  document.getElementById('d-cap').textContent  = cap+' Ah';
+  document.getElementById('d-usable').textContent = usable.toFixed(0)+' Ah';
+  document.getElementById('d-soc-disp').textContent = Math.round(soc*100)+'%';
+  document.getElementById('d-avail').textContent = avail.toFixed(0)+' Ah';
+
+  // Table footer
+  document.getElementById('total-ah').textContent = totalLoad.toFixed(1)+' Ah';
+
+  // Result cells
+  document.getElementById('r-avail').textContent  = avail.toFixed(0)+' Ah';
+  document.getElementById('r-load').textContent   = totalLoad.toFixed(1)+' Ah';
+  document.getElementById('r-charge').textContent = (altAh+solAh).toFixed(1)+' Ah';
+  document.getElementById('r-solar').textContent  = solAh.toFixed(1)+' Ah';
+  document.getElementById('r-alt').textContent    = altAh.toFixed(1)+' Ah';
+  var rc = document.getElementById('r-auto');
+  rc.textContent = auto>=99 ? '∞ days' : auto.toFixed(1)+' days';
+  rc.className = 'rcv '+(auto>=2?'ok':auto>=1?'warn':'bad');
+
+  // Net balance bar (centred at 50%)
+  var maxSwing = Math.max(Math.abs(net), totalLoad*0.8, 20);
+  var pct = 50+(net/maxSwing)*50;
+  pct = Math.min(98,Math.max(2,pct));
+  var rbf = document.getElementById('rbf');
+  rbf.style.width = pct.toFixed(1)+'%';
+  rbf.style.background = net>=5?'#1A4731':net>=-5?'var(--ochre)':'var(--red-warn)';
+  var sign = net>=0?'+':'';
+  document.getElementById('rb-lbl').textContent = sign+net.toFixed(1)+' Ah · '+(net>=5?'surplus':net>=-5?'balanced':'deficit');
+
+  // SOC bar
+  var socPct = socEnd*100;
+  var sb = document.getElementById('soc-bar');
+  sb.style.width = socPct.toFixed(1)+'%';
+  sb.style.background = socPct>=60?'#1A4731':socPct>=30?'var(--ochre)':'var(--red-warn)';
+  document.getElementById('soc-end-lbl').textContent = Math.round(socPct)+'% end of day ('+Math.round(socEnd*cap)+' Ah)';
+
+  // Verdict
+  buildVerdict(net,auto,socEnd,minSoc,totalLoad);
+
+  // Breakdown
+  document.getElementById('ab-cap').textContent  = cap+' Ah';
+  document.getElementById('ab-usable').textContent = usable.toFixed(0)+' Ah ('+Math.round((1-minSoc)*100)+'% DoD × '+Math.round((1-loss)*100)+'% eff)';
+  document.getElementById('ab-avail').textContent  = avail.toFixed(0)+' Ah (from '+Math.round(soc*100)+'% SOC)';
+  document.getElementById('ab-sol-f').textContent  = solW+'W × '+psh+'h × '+Math.round(peff*100)+'% ÷ 12V';
+  document.getElementById('ab-sol').textContent    = solAh.toFixed(1)+' Ah';
+  document.getElementById('ab-alt-f').textContent  = dcdc+'A × '+driveH+'h × 88% eff';
+  document.getElementById('ab-alt').textContent    = altAh.toFixed(1)+' Ah';
+  document.getElementById('ab-load').textContent   = totalLoad.toFixed(1)+' Ah';
+  document.getElementById('ab-net').textContent    = (net>=0?'+':'')+net.toFixed(1)+' Ah';
+  document.getElementById('ab-eod').textContent    = Math.round(socEnd*100)+'% ('+Math.round(socEnd*cap)+' Ah)';
+  document.getElementById('ab-auto').textContent   = auto>=99 ? '∞' : auto.toFixed(1)+' days';
+}
+
+function buildVerdict(net,auto,socEnd,minSoc,load){
+  var box=document.getElementById('verdict-box');
+  var icon=document.getElementById('verdict-icon');
+  var txt=document.getElementById('verdict-txt');
+  if(load===0){box.style.display='none';return;}
+  box.style.display='flex';
+  var autoStr = auto>=99?'∞':auto.toFixed(1);
+  if(net>=5 && socEnd>=minSoc+0.25){
+    box.className='call gn'; icon.innerHTML='&#10003;';
+    txt.innerHTML='<strong>Energy surplus — system balanced.</strong> Charging exceeds daily load by '+net.toFixed(1)+' Ah. End-of-day SOC: ~'+Math.round(socEnd*100)+'%. Battery autonomy without any charging: '+autoStr+' days.';
+  } else if(net>=0){
+    box.className='call am'; icon.innerHTML='&#9888;';
+    txt.innerHTML='<strong>Marginally balanced (+'+net.toFixed(1)+' Ah).</strong> End SOC: ~'+Math.round(socEnd*100)+'%. Autonomy: '+autoStr+' days. Add 20% solar buffer for cloudy days — consecutive overcast days will gradually drain the bank.';
+  } else if(net>-30){
+    box.className='call am'; icon.innerHTML='&#9888;';
+    txt.innerHTML='<strong>Daily deficit of '+Math.abs(net).toFixed(1)+' Ah.</strong> SOC will drop each day. Autonomy: '+autoStr+' days. Increase solar by ~'+(Math.abs(net)/4).toFixed(0)+'W, drive more, or reduce load. Check fridge duty cycle first — shading the fridge in heat can save 5&ndash;10 Ah.';
+  } else {
+    box.className='call'; icon.innerHTML='&#9888;';
+    txt.innerHTML='<strong>Significant deficit: '+Math.abs(net).toFixed(1)+' Ah/day.</strong> Battery depletes in '+autoStr+' days. Action required: add '+(Math.abs(net)/4).toFixed(0)+'W+ solar, more drive time, or cut '+Math.abs(net).toFixed(0)+' Ah/day. Do not depart on extended wild camp without resolving this.';
+  }
+}
+
+/* ─── SLIDER FILL ─── */
+function updateSliderFill(el){
+  var min=parseFloat(el.min)||0, max=parseFloat(el.max)||100, val=parseFloat(el.value)||0;
+  var pct=((val-min)/(max-min)*100).toFixed(1);
+  el.style.background='linear-gradient(to right,var(--clay) 0%,var(--clay) '+pct+'%,rgba(61,43,26,0.15) '+pct+'%,rgba(61,43,26,0.15) 100%)';
+}
+function initSliders(){
+  document.querySelectorAll('input[type=range]').forEach(function(el){
+    updateSliderFill(el);
+    el.addEventListener('input',function(){updateSliderFill(this);});
+  });
+}
+
+/* ─── INIT ─── */
+document.addEventListener('DOMContentLoaded',function(){
+  initSliders();
+  loadPreset('lc76');
+  upd();
+});
+</script>
+
+<script>
+if('serviceWorker' in navigator && location.hostname!=='www.claudeusercontent.com'){
+  window.addEventListener('load',function(){
+    navigator.serviceWorker.register('./sw-power.js')
+      .then(function(){console.log('LC76 Power SW registered');})
+      .catch(function(e){console.log('SW error:',e);});
+  });
+}
+</script>
+</body>
+</html>
