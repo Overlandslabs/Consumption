@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0d0e12">
+<title>LC76 Tyre Pressure Calculator</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=Oswald:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0d0e12;--paper:#dad2c0;--paper2:#edeae0;
+  --amber:#b86800;--amber2:#e07800;
+  --rule:#d4cfc4;--steeldk:#2a2f3a;--steelmd:#6a7080;
+  --red-warn:#B91C1C;--green-ok:#059669;--green-field:#10b981;
+  --white:#fff;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:Oswald,sans-serif;background:var(--paper);color:var(--steeldk);line-height:1.5;-webkit-font-smoothing:antialiased}
+
+/* HEADER */
+header{background:var(--ink);color:#fff;padding:1rem 1.5rem;border-bottom:4px solid var(--amber2)}
+.header-title{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:2px;margin-bottom:.2rem}
+.header-title .accent{color:var(--amber2)}
+.header-subtitle{font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--amber);margin-bottom:.15rem}
+.header-meta{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--steelmd)}
+
+/* STICKY NAV */
+.sticky-wrap{position:sticky;top:0;z-index:100;background:var(--steeldk);border-bottom:3px solid var(--amber2)}
+.tab-bar{display:flex;gap:0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.tab-bar::-webkit-scrollbar{display:none}
+.tab-btn{font-family:Oswald,sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  padding:12px 20px;border:none;background:transparent;color:rgba(255,255,255,.55);
+  cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-3px;transition:all .2s}
+.tab-btn.active{color:#fff;border-bottom-color:var(--amber2)}
+.tab-btn:hover:not(.active){color:rgba(255,255,255,.8)}
+
+/* MAIN */
+main{max-width:100%;margin:0;padding:1rem 1.5rem 50px}
+
+/* PANELS */
+.panel{display:none}
+.panel.active{display:block}
+
+/* SECTION HEADS */
+.sec-head{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:1px;color:var(--steeldk);
+  border-bottom:2px solid var(--rule);padding-bottom:.2rem;margin:.9rem 0 .5rem}
+.sec-head:first-child{margin-top:0}
+
+/* TYRE SIZE SELECTOR */
+.size-selector{display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;margin-bottom:.7rem}
+.size-btn{padding:8px 6px;border:2px solid var(--rule);background:var(--white);
+  font-family:Oswald,sans-serif;font-size:13px;font-weight:600;color:var(--steelmd);
+  cursor:pointer;border-radius:4px;text-align:center;transition:all .2s;line-height:1.3}
+.size-btn .size-label{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;display:block;color:var(--steeldk)}
+.size-btn .size-sub{font-size:9px;color:var(--steelmd);display:block;margin-top:1px;font-family:'IBM Plex Mono',monospace}
+.size-btn.active{border-color:var(--amber2);background:var(--amber2);color:#fff}
+.size-btn.active .size-label,.size-btn.active .size-sub{color:#fff}
+
+/* TERRAIN SELECTOR */
+.terrain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.4rem;margin-bottom:.7rem}
+@media(max-width:500px){.terrain-grid{grid-template-columns:repeat(2,1fr)}}
+.terrain-btn{padding:7px 4px;border:2px solid var(--rule);background:var(--white);
+  font-family:Oswald,sans-serif;font-size:11px;letter-spacing:.05em;
+  text-transform:uppercase;color:var(--steelmd);cursor:pointer;
+  border-radius:4px;text-align:center;transition:all .2s;line-height:1.3}
+.terrain-btn .t-icon{font-size:18px;display:block;margin-bottom:2px}
+.terrain-btn .t-name{font-size:10px;display:block}
+.terrain-btn.active{border-color:var(--amber2);background:var(--ink);color:#fff}
+
+/* PAYLOAD SLIDER */
+.slider-block{background:var(--white);border:1px solid var(--rule);padding:10px 14px;margin-bottom:.7rem;border-radius:4px}
+.slider-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.slider-label{font-family:'IBM Plex Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--steelmd)}
+.slider-value{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--amber2)}
+.slider-value span{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--steelmd);margin-left:3px}
+input[type=range]{width:100%;height:5px;accent-color:var(--amber2);cursor:pointer;
+  -webkit-appearance:none;appearance:none;border-radius:3px;outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;
+  border-radius:50%;background:var(--amber2);border:3px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.25);margin-top:-8px}
+input[type=range]::-webkit-slider-runnable-track{height:5px;border-radius:3px}
+.payload-zones{display:flex;gap:4px;margin-top:10px}
+.pz{flex:1;text-align:center;font-family:'IBM Plex Mono',monospace;font-size:9px;
+  text-transform:uppercase;letter-spacing:.06em;padding:4px 2px;border-radius:3px}
+.pz.light{background:#d1fae5;color:#065f46}
+.pz.med{background:#fef3c7;color:#92400e}
+.pz.heavy{background:#fee2e2;color:#991b1b}
+.pz.active{font-weight:700;outline:2px solid currentColor}
+
+/* GVM WARNING */
+.gvm-warn{background:#fee2e2;border:2px solid var(--red-warn);color:#7f1d1d;
+  padding:10px 14px;font-size:12px;margin-bottom:1rem;border-radius:4px;display:none}
+.gvm-warn.show{display:block}
+
+/* RESULTS */
+.results-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.7rem}
+.result-card{background:var(--white);border:2px solid var(--rule);border-radius:6px;overflow:hidden}
+.result-head{background:var(--steeldk);color:#fff;padding:8px 12px;
+  font-family:'IBM Plex Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.12em}
+.result-body{padding:12px 12px}
+.result-bar{font-family:'Bebas Neue',sans-serif;font-size:3rem;color:var(--amber2);line-height:1}
+.result-bar span{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--steelmd);margin-left:4px}
+.result-psi{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--steeldk);line-height:1;margin-top:3px}
+.result-psi span{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--steelmd);margin-left:3px}
+.result-range{font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--steelmd);margin-top:5px;line-height:1.5}
+
+/* RATIONALE BOX */
+.rationale{background:var(--paper2);border-left:4px solid var(--amber2);padding:8px 12px;margin-bottom:.7rem;border-radius:0 4px 4px 0}
+.rationale-head{font-family:'IBM Plex Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--amber);margin-bottom:4px}
+.rationale-text{font-size:12px;color:var(--steeldk);line-height:1.55}
+
+/* REINFLATION REMINDER */
+.reinflation{background:var(--ink);color:var(--paper);padding:8px 12px;border-radius:4px;margin-bottom:.7rem;display:none}
+.reinflation.show{display:block}
+.reinflation-head{font-family:'IBM Plex Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:var(--amber2);margin-bottom:4px}
+.reinflation-text{font-size:11px;line-height:1.55;color:var(--paper)}
+
+/* R14 NOTE */
+.r14-note{background:var(--white);border:1px solid var(--rule);padding:8px 12px;
+  font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--steelmd);
+  line-height:1.5;border-radius:4px;margin-bottom:.6rem}
+.r14-note strong{color:var(--steeldk)}
+
+/* ── COMPARISON TAB ── */
+.comp-intro{font-size:12px;color:var(--steelmd);line-height:1.5;margin-bottom:.7rem;max-width:900px}
+
+/* SIZE SPEC CARDS */
+.spec-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-bottom:1rem}
+@media(max-width:620px){.spec-grid{grid-template-columns:1fr}}
+.spec-card{background:var(--white);border:2px solid var(--rule);border-radius:6px;overflow:hidden}
+.spec-card.current{border-color:var(--amber2)}
+.spec-head{background:var(--steeldk);color:#fff;padding:8px 10px}
+.spec-head .sc-size{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--amber2);display:block}
+.spec-head .sc-tag{font-family:'IBM Plex Mono',monospace;font-size:8px;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.6)}
+.spec-card.current .sc-tag{color:var(--amber)}
+.spec-body{padding:10px 10px}
+.spec-row{display:flex;justify-content:space-between;align-items:baseline;
+  border-bottom:1px solid var(--rule);padding:4px 0;font-size:12px}
+.spec-row:last-child{border-bottom:none}
+.spec-row-label{color:var(--steelmd);font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.04em}
+.spec-row-val{font-weight:600;color:var(--steeldk);font-family:'IBM Plex Mono',monospace;font-size:10px}
+.spec-row-val.better{color:var(--green-ok)}
+.spec-row-val.worse{color:var(--red-warn)}
+.spec-row-val.neutral{color:var(--steelmd)}
+.current-badge{display:inline-block;background:var(--amber2);color:#fff;
+  font-family:'IBM Plex Mono',monospace;font-size:7px;text-transform:uppercase;
+  letter-spacing:.1em;padding:1px 5px;border-radius:2px;margin-left:5px;vertical-align:middle}
+
+/* PRESSURE COMPARE TABLE */
+.comp-table-wrap{overflow-x:auto;margin-bottom:1rem}
+.comp-table{width:100%;border-collapse:collapse;font-size:12px}
+.comp-table th{background:var(--steeldk);color:#fff;font-family:'IBM Plex Mono',monospace;
+  font-size:8px;text-transform:uppercase;letter-spacing:.1em;padding:8px 10px;text-align:left;white-space:nowrap}
+.comp-table th.hilite{background:var(--amber2)}
+.comp-table td{padding:7px 10px;border-bottom:1px solid var(--rule);
+  font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--steeldk);background:var(--white)}
+.comp-table tr:nth-child(even) td{background:var(--paper2)}
+.comp-table td.hilite{background:#fff9ef;font-weight:600;color:var(--amber)}
+.comp-table tr:nth-child(even) td.hilite{background:#fff3d6}
+.comp-table td.terrain-label{font-family:Oswald,sans-serif;font-size:11px;font-weight:600;
+  color:var(--steeldk);background:var(--paper2)}
+.comp-table tr:nth-child(even) td.terrain-label{background:var(--paper)}
+.t-label-icon{margin-right:4px}
+
+/* VERDICT */
+.verdict-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-bottom:1rem}
+@media(max-width:600px){.verdict-grid{grid-template-columns:1fr}}
+.verdict-card{background:var(--white);border:2px solid var(--rule);border-radius:6px;padding:12px}
+.verdict-card.recommended{border-color:var(--green-ok);background:#f0fdf4}
+.verdict-title{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;color:var(--steeldk);margin-bottom:2px}
+.verdict-tag{font-family:'IBM Plex Mono',monospace;font-size:8px;text-transform:uppercase;
+  letter-spacing:.1em;color:var(--steelmd);display:block;margin-bottom:6px}
+.verdict-tag.rec{color:var(--green-ok);font-weight:600}
+.verdict-points{font-size:11px;color:var(--steelmd);line-height:1.6;list-style:none}
+.verdict-points li::before{content:"→ ";color:var(--amber2);font-weight:700}
+.verdict-points li{margin-bottom:1px}
+
+/* NOTES */
+.note-box{background:var(--paper2);border-left:4px solid var(--steelmd);padding:8px 12px;
+  font-size:11px;color:var(--steelmd);line-height:1.5;border-radius:0 4px 4px 0;margin-bottom:.6rem}
+.note-box strong{color:var(--steeldk)}
+
+/* METHODOLOGY */
+.method-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-bottom:.7rem}
+@media(max-width:520px){.method-grid{grid-template-columns:1fr}}
+.method-card{background:var(--white);border:1px solid var(--rule);border-radius:4px;padding:12px 14px}
+.method-card-head{font-family:'IBM Plex Mono',monospace;font-size:9px;text-transform:uppercase;
+  letter-spacing:.12em;color:var(--amber);border-bottom:1px solid var(--rule);padding-bottom:5px;margin-bottom:8px}
+.method-card p{font-size:11px;color:var(--steelmd);line-height:1.6;margin-bottom:6px}
+.method-card p:last-child{margin-bottom:0}
+.method-card strong{color:var(--steeldk)}
+.method-formula{background:var(--paper2);border:1px solid var(--rule);border-radius:3px;
+  padding:7px 12px;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--steeldk);
+  line-height:1.6;margin-bottom:.5rem}
+.method-formula .mf-label{font-size:8px;text-transform:uppercase;letter-spacing:.1em;color:var(--amber);display:block;margin-bottom:3px}
+
+/* BACK LINK */
+.back-link{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:9px;
+  text-transform:uppercase;letter-spacing:.1em;color:var(--steelmd);text-decoration:none;
+  margin-bottom:1rem;padding:6px 0}
+.back-link:hover{color:var(--amber2)}
+
+/* FOOTER */
+footer{background:var(--ink);color:var(--steelmd);padding:1rem;text-align:center;
+  font-family:'IBM Plex Mono',monospace;font-size:.72rem;margin-top:2rem}
+footer p{color:var(--amber)}
+
+/* MOBILE */
+@media(max-width:600px){
+  header{padding:1.2rem}
+  .header-title{font-size:2rem}
+  main{padding:1.5rem 4% 60px}
+  .size-selector{grid-template-columns:repeat(3,1fr);gap:.5rem}
+  .results-grid{grid-template-columns:1fr 1fr}
+  .result-psi{font-size:2.4rem}
+  .spec-grid{grid-template-columns:1fr}
+  .verdict-grid{grid-template-columns:1fr}
+}
+
+/* PRINT */
+@media print{
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  @page{margin:10mm;size:A4}
+  .sticky-wrap{position:static}
+  .tab-btn:not(.active){display:none}
+  .panel:not(.active){display:block}
+  body{font-size:9pt}
+  header{padding:.5cm;border-bottom:2pt solid var(--amber2)}
+  main{padding:.3cm}
+  .results-grid{display:grid}
+  .comp-table{font-size:8pt}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1 class="header-title"><span class="accent">LC76</span> TYRE PRESSURE CALCULATOR</h1>
+  <p class="header-subtitle">HZJ76R · 265/70R16 Current · Terrain & Load Optimised</p>
+  <p class="header-meta">Field tool — works offline · Cross-reference: R14 Tyre Management Guide</p>
+</header>
+
+<div class="sticky-wrap">
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="showTab('calc')">⚙️ Calculator</button>
+    <button class="tab-btn" onclick="showTab('compare')">📊 Tyre Comparison</button>
+  </div>
+</div>
+
+<main>
+<a href="index.html" class="back-link">← Library Index</a>
+
+<!-- ═══════════════════════════════════════════════════ CALCULATOR PANEL -->
+<div id="panel-calc" class="panel active">
+
+  <div class="sec-head">Tyre Size</div>
+  <div class="size-selector">
+    <button class="size-btn active" onclick="selectSize(this,'265/70R16')" data-size="265/70R16">
+      <span class="size-label">265/70R16</span>
+      <span class="size-sub">OD 779mm · Current</span>
+    </button>
+    <button class="size-btn" onclick="selectSize(this,'265/75R16')" data-size="265/75R16">
+      <span class="size-label">265/75R16</span>
+      <span class="size-sub">OD 800mm · +21mm</span>
+    </button>
+    <button class="size-btn" onclick="selectSize(this,'285/75R16')" data-size="285/75R16">
+      <span class="size-label">285/75R16</span>
+      <span class="size-sub">OD 831mm · +52mm</span>
+    </button>
+  </div>
+
+  <div class="sec-head">Terrain Type</div>
+  <div class="terrain-grid">
+    <button class="terrain-btn active" onclick="selectTerrain(this,'highway')" data-terrain="highway">
+      <span class="t-icon">🛣️</span>
+      <span class="t-name">Highway / Tar</span>
+    </button>
+    <button class="terrain-btn" onclick="selectTerrain(this,'gravel')" data-terrain="gravel">
+      <span class="t-icon">🪨</span>
+      <span class="t-name">Gravel Road</span>
+    </button>
+    <button class="terrain-btn" onclick="selectTerrain(this,'corrugated')" data-terrain="corrugated">
+      <span class="t-icon">〰️</span>
+      <span class="t-name">Corrugated</span>
+    </button>
+    <button class="terrain-btn" onclick="selectTerrain(this,'sand')" data-terrain="sand">
+      <span class="t-icon">🏖️</span>
+      <span class="t-name">Sand / Dunes</span>
+    </button>
+    <button class="terrain-btn" onclick="selectTerrain(this,'mud')" data-terrain="mud">
+      <span class="t-icon">🟫</span>
+      <span class="t-name">Mud / Clay</span>
+    </button>
+    <button class="terrain-btn" onclick="selectTerrain(this,'rock')" data-terrain="rock">
+      <span class="t-icon">⛰️</span>
+      <span class="t-name">Rock / Tech</span>
+    </button>
+  </div>
+
+  <div class="sec-head">Current Payload</div>
+  <div class="slider-block">
+    <div class="slider-row">
+      <span class="slider-label">Payload (passengers + gear)</span>
+      <div class="slider-value" id="payload-display">350 <span>kg</span></div>
+    </div>
+    <input type="range" id="payload-slider" min="0" max="690" value="350" step="10"
+      oninput="onPayload(this.value)" style="margin-bottom:10px">
+    <div class="payload-zones">
+      <div class="pz light" id="pz-light">Light &lt;250 kg</div>
+      <div class="pz med" id="pz-med">Medium 250–500 kg</div>
+      <div class="pz heavy" id="pz-heavy">Heavy &gt;500 kg</div>
+    </div>
+  </div>
+
+  <div class="gvm-warn" id="gvm-warn">
+    ⚠️ <strong>GVM Warning:</strong> Payload above 600 kg approaches GVM limit (2,850 kg). Verify total loaded weight before departure.
+  </div>
+
+  <div class="sec-head">Recommended Pressures</div>
+  <div class="results-grid">
+    <div class="result-card">
+      <div class="result-head">🔵 Front Axle</div>
+      <div class="result-body">
+        <div class="result-bar" id="front-bar">2.41 <span>bar</span></div>
+        <div class="result-psi" id="front-psi">35 <span>PSI</span></div>
+        <div class="result-range" id="front-range">Range: 2.28–2.55 bar</div>
+      </div>
+    </div>
+    <div class="result-card">
+      <div class="result-head">🔴 Rear Axle</div>
+      <div class="result-body">
+        <div class="result-bar" id="rear-bar">2.55 <span>bar</span></div>
+        <div class="result-psi" id="rear-psi">37 <span>PSI</span></div>
+        <div class="result-range" id="rear-range">Range: 2.41–2.76 bar</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rationale" id="rationale-box">
+    <div class="rationale-head">Why these pressures</div>
+    <div class="rationale-text" id="rationale-text">Highway pressures optimised for fuel economy, tread life, and steering response. Rear slightly higher to support load over rear axle.</div>
+  </div>
+
+  <div class="reinflation" id="reinflation-box">
+    <div class="reinflation-head">⚠️ Re-inflation Required Before Highway</div>
+    <div class="reinflation-text" id="reinflation-text"></div>
+  </div>
+
+  <div class="r14-note">
+    <strong>Field repair procedures</strong> — puncture repair, plug kit use, bead seating, and tyre rotation schedules are in <strong>R14 Tyre Management & Field Repair Guide</strong>. Always carry tyre repair kit and compressor. Current spare: 265/70R16 Maxxis AT811.
+  </div>
+
+  <div class="sec-head">Calculation Methodology</div>
+
+  <div class="method-formula">
+    <span class="mf-label">Load adjustment formula</span>
+    P_final = P_base + (payload − 350 kg) ÷ 100 × K<br>
+    where K(front) = 0.069 bar/100 kg · K(rear) = 0.103 bar/100 kg · K(sand/mud rear) = 0.069 bar/100 kg
+  </div>
+
+  <div class="method-grid">
+    <div class="method-card">
+      <div class="method-card-head">Base Pressures</div>
+      <p>Base pressures for each terrain/size combination are set at <strong>medium load (350 kg)</strong> — a reasonable midpoint for a two-person expedition with full gear. They are derived from tyre manufacturer load-inflation tables (LT 10PR load range), cross-referenced with practitioner guidance for each terrain type.</p>
+      <p>The <strong>265/70R16 highway baseline of 2.41 bar</strong> aligns with the Maxxis AT811 LT specification for the vehicle's front axle load (~1,100 kg at kerb weight + 45% of payload). Rear is set 0.14 bar higher to account for the LC76's rear-heavy load distribution.</p>
+    </div>
+    <div class="method-card">
+      <div class="method-card-head">Load Adjustment</div>
+      <p>The calculator applies a <strong>linear load correction</strong> from the 350 kg baseline. For every 100 kg above or below baseline: front axle adds/subtracts 0.069 bar; rear axle adds/subtracts 0.103 bar. The rear coefficient is higher because the LC76's rear axle carries a disproportionate share of expedition load (fridge, water, fuel, recovery gear).</p>
+      <p>On <strong>sand and mud</strong> the load coefficient is halved — contact patch geometry is the primary variable in soft terrain, not load support. Adding pressure to carry load on sand defeats the purpose of deflation.</p>
+    </div>
+    <div class="method-card">
+      <div class="method-card-head">Tyre Size Scaling</div>
+      <p>Larger diameter and wider section tyres achieve an equivalent contact patch at <strong>lower absolute pressure</strong>. The 265/75R16 runs ~0.07 bar lower than the 70-series equivalent; the 285/75R16 runs ~0.14 bar lower. This reflects the increased tyre volume — the same mass of air in a larger casing produces lower pressure while maintaining equivalent load support.</p>
+      <p>Wider tyres (285) benefit from <strong>additional deflation on sand</strong> because a wider footprint spreads load over more surface area, reducing sinkage independently of pressure.</p>
+    </div>
+    <div class="method-card">
+      <div class="method-card-head">Terrain Rationale</div>
+      <p><strong>Highway:</strong> Maximise pressure for fuel economy, tread life, and steering precision.<br>
+      <strong>Gravel:</strong> Reduce ~0.35 bar to absorb stone impacts and widen contact patch.<br>
+      <strong>Corrugated:</strong> Reduce ~0.62 bar — softer tyre reduces wheel bounce and chassis vibration transmission.<br>
+      <strong>Sand:</strong> Deflate significantly (~50%) for maximum footprint. Speed limit 20 km/h.<br>
+      <strong>Mud:</strong> Balance between flotation and self-cleaning tread (~40% reduction).<br>
+      <strong>Rock:</strong> Moderate reduction for rock conformity; maintain enough pressure to protect sidewalls from cuts.</p>
+    </div>
+  </div>
+
+  <div class="note-box">
+    <strong>Limitations:</strong> These pressures are starting points, not absolutes. Actual conditions vary — deep powder sand may need lower pressure than coastal sand; sharp ironstone gravel warrants higher pressure than smooth river gravel. Always adjust based on observed tyre behaviour and carry a compressor and gauge. Cold pressures assumed throughout (check before driving, not after).
+  </div>
+
+</div><!-- end calc panel -->
+
+
+<!-- ═══════════════════════════════════════════════════ COMPARE PANEL -->
+<div id="panel-compare" class="panel">
+
+  <p class="comp-intro">Comparison of the three tyre sizes relevant to the LC76 upgrade path. Current fitment is 265/70R16. The 265/75R16 is a sidewall-only upgrade; the 285/75R16 adds both width and sidewall height. All three are available in LT (Light Truck) 10-ply load range.</p>
+
+  <!-- SPEC CARDS -->
+  <div class="sec-head">Physical Specifications</div>
+  <div class="spec-grid">
+
+    <div class="spec-card current">
+      <div class="spec-head">
+        <span class="sc-size">265/70R16</span>
+        <span class="sc-tag">Current fitment <span class="current-badge">fitted</span></span>
+      </div>
+      <div class="spec-body">
+        <div class="spec-row"><span class="spec-row-label">Overall Diameter</span><span class="spec-row-val">779 mm</span></div>
+        <div class="spec-row"><span class="spec-row-label">Section Width</span><span class="spec-row-val">265 mm</span></div>
+        <div class="spec-row"><span class="spec-row-label">Sidewall Height</span><span class="spec-row-val">186 mm</span></div>
+        <div class="spec-row"><span class="spec-row-label">Sidewall Ratio</span><span class="spec-row-val">70%</span></div>
+        <div class="spec-row"><span class="spec-row-label">Circumference</span><span class="spec-row-val">2,447 mm</span></div>
+        <div class="spec-row"><span class="spec-row-label">Revs / 100 km</span><span class="spec-row-val">40,868</span></div>
+        <div class="spec-row"><span class="spec-row-label">Speedo offset</span><span class="spec-row-val neutral">Baseline</span></div>
+        <div class="spec-row"><span class="spec-row-label">Clearance req.</span><span class="spec-row-val neutral">No change</span></div>
+        <div class="spec-row"><span class="spec-row-label">Rim width fit</span><span class="spec-row-val">7–8.5"</span></div>
+      </div>
+    </div>
+
+    <div class="spec-card">
+      <div class="spec-head">
+        <span class="sc-size">265/75R16</span>
+        <span class="sc-tag">Sidewall upgrade</span>
+      </div>
+      <div class="spec-body">
+        <div class="spec-row"><span class="spec-row-label">Overall Diameter</span><span class="spec-row-val better">800 mm (+21 mm)</span></div>
+        <div class="spec-row"><span class="spec-row-label">Section Width</span><span class="spec-row-val">265 mm</span></div>
+        <div class="spec-row"><span class="spec-row-label">Sidewall Height</span><span class="spec-row-val better">199 mm (+13 mm)</span></div>
+        <div class="spec-row"><span class="spec-row-label">Sidewall Ratio</span><span class="spec-row-val">75%</span></div>
+        <div class="spec-row"><span class="spec-row-label">Circumference</span><span class="spec-row-val">2,513 mm</span></div>
+        <div class="spec-row"><span class="spec-row-label">Revs / 100 km</span><span class="spec-row-val">39,767</span></div>
+        <div class="spec-row"><span class="spec-row-label">Speedo offset</span><span class="spec-row-val worse">+2.7% fast</span></div>
+        <div class="spec-row"><span class="spec-row-label">Clearance req.</span><span class="spec-row-val neutral">Minimal</span></div>
+        <div class="spec-row"><span class="spec-row-label">Rim width fit</span><span class="spec-row-val">7–8.5"</span></div>
+      </div>
+    </div>
+
+    <div class="spec-card">
+      <div class="spec-head">
+        <span class="sc-size">285/75R16</span>
+        <span class="sc-tag">Width + sidewall upgrade</span>
+      </div>
+      <div class="spec-body">
+        <div class="spec-row"><span class="spec-row-label">Overall Diameter</span><span class="spec-row-val better">831 mm (+52 mm)</span></div>
+        <div class="spec-row"><span class="spec-row-label">Section Width</span><span class="spec-row-val worse">285 mm (+20 mm)</span></div>
+        <div class="spec-row"><span class="spec-row-label">Sidewall Height</span><span class="spec-row-val better">214 mm (+28 mm)</span></div>
+        <div class="spec-row"><span class="spec-row-label">Sidewall Ratio</span><span class="spec-row-val">75%</span></div>
+        <div class="spec-row"><span class="spec-row-label">Circumference</span><span class="spec-row-val">2,610 mm</span></div>
+        <div class="spec-row"><span class="spec-row-label">Revs / 100 km</span><span class="spec-row-val">38,314</span></div>
+        <div class="spec-row"><span class="spec-row-label">Speedo offset</span><span class="spec-row-val worse">+6.7% fast</span></div>
+        <div class="spec-row"><span class="spec-row-label">Clearance req.</span><span class="spec-row-val worse">Verify required</span></div>
+        <div class="spec-row"><span class="spec-row-label">Rim width fit</span><span class="spec-row-val">7.5–9"</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PRESSURE COMPARE TABLE -->
+  <div class="sec-head">Pressure Comparison by Terrain — Medium Load (350 kg)</div>
+  <p style="font-family:'IBM Plex Mono',monospace;font-size:9px;color:var(--steelmd);margin-bottom:.5rem;letter-spacing:.04em">Values in bar. F = Front axle · R = Rear axle.</p>
+  <div class="comp-table-wrap">
+    <table class="comp-table">
+      <thead>
+        <tr>
+          <th>Terrain</th>
+          <th>265/70R16 F</th><th>265/70R16 R</th>
+          <th class="hilite">265/75R16 F</th><th class="hilite">265/75R16 R</th>
+          <th>285/75R16 F</th><th>285/75R16 R</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="terrain-label"><span class="t-label-icon">🛣️</span>Highway</td>
+          <td>2.41</td><td>2.55</td>
+          <td class="hilite">2.34</td><td class="hilite">2.48</td>
+          <td>2.28</td><td>2.41</td>
+        </tr>
+        <tr>
+          <td class="terrain-label"><span class="t-label-icon">🪨</span>Gravel</td>
+          <td>2.07</td><td>2.21</td>
+          <td class="hilite">2.00</td><td class="hilite">2.14</td>
+          <td>1.93</td><td>2.07</td>
+        </tr>
+        <tr>
+          <td class="terrain-label"><span class="t-label-icon">〰️</span>Corrugated</td>
+          <td>1.79</td><td>1.93</td>
+          <td class="hilite">1.72</td><td class="hilite">1.86</td>
+          <td>1.66</td><td>1.79</td>
+        </tr>
+        <tr>
+          <td class="terrain-label"><span class="t-label-icon">🏖️</span>Sand</td>
+          <td>1.10</td><td>1.24</td>
+          <td class="hilite">0.97</td><td class="hilite">1.10</td>
+          <td>0.83</td><td>0.97</td>
+        </tr>
+        <tr>
+          <td class="terrain-label"><span class="t-label-icon">🟫</span>Mud</td>
+          <td>1.38</td><td>1.52</td>
+          <td class="hilite">1.24</td><td class="hilite">1.38</td>
+          <td>1.17</td><td>1.31</td>
+        </tr>
+        <tr>
+          <td class="terrain-label"><span class="t-label-icon">⛰️</span>Rock</td>
+          <td>1.52</td><td>1.65</td>
+          <td class="hilite">1.38</td><td class="hilite">1.52</td>
+          <td>1.24</td><td>1.38</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="note-box">
+    <strong>Note:</strong> Larger diameter tyres run lower pressures for equivalent contact patch. Wider tyres (285) benefit from additional deflation on sand. All values at medium load (350 kg payload). Use the Calculator tab to adjust for your actual payload.
+  </div>
+
+  <!-- VERDICT -->
+  <div class="sec-head">Upgrade Assessment</div>
+  <div class="verdict-grid">
+
+    <div class="verdict-card">
+      <div class="verdict-title">265/70R16</div>
+      <span class="verdict-tag">Current fitment</span>
+      <ul class="verdict-points">
+        <li>Proven fit — no clearance issues</li>
+        <li>Speedo accurate</li>
+        <li>Maxxis AT811 available locally</li>
+        <li>Lower sidewall = more rim strike risk</li>
+        <li>Good all-round for this build</li>
+      </ul>
+    </div>
+
+    <div class="verdict-card recommended">
+      <div class="verdict-title">265/75R16</div>
+      <span class="verdict-tag rec">★ Recommended upgrade</span>
+      <ul class="verdict-points">
+        <li>Same width — no clearance issues</li>
+        <li>+13 mm more sidewall protection</li>
+        <li>+2.7% speedo correction needed</li>
+        <li>Fits existing 7–8.5" rims</li>
+        <li>Best balance for remote Africa travel</li>
+        <li>Paul Marsh suggested this upgrade</li>
+      </ul>
+    </div>
+
+    <div class="verdict-card">
+      <div class="verdict-title">285/75R16</div>
+      <span class="verdict-tag">Significant upgrade</span>
+      <ul class="verdict-points">
+        <li>+28 mm sidewall — best protection</li>
+        <li>Wider contact patch in sand</li>
+        <li>Must verify wheel arch clearance</li>
+        <li>Check rub on full lock + articulation</li>
+        <li>+6.7% speedo correction needed</li>
+        <li>May require rim upgrade to 8–9"</li>
+      </ul>
+    </div>
+
+  </div>
+
+  <div class="note-box">
+    <strong>Speedo correction:</strong> All LC76 speedometers read from the transfer case, not GPS. Fitting larger tyres means the vehicle travels further per tyre revolution — the speedo will read low (show 100 km/h when actually doing 103–107). Verify with GPS after any tyre size change. Also affects odometer accuracy for service intervals.<br><br>
+    <strong>Clearance check (285/75R16):</strong> Before committing, turn full lock both ways on full articulation and check clearance to wheel arch, brake lines, and front diff. The HZJ76R has reasonable clearance but 285-width can be tight. Snyman 4×4 assessment (May 2026) is the right time to confirm this.
+  </div>
+
+</div><!-- end compare panel -->
+
+</main>
+
+<footer>
+  <p>LC76 Overland Reference Library · Tyre Pressure Calculator · Cross-ref: R14 Tyre Management Guide</p>
+</footer>
+
+<script>
+// ─────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────
+var state = {
+  size: '265/70R16',
+  terrain: 'highway',
+  payload: 350
+};
+
+// ─────────────────────────────────────────────
+// PRESSURE DATA
+// Base pressures at medium load (350 kg), front / rear in PSI
+// Organised as [terrain][size] = {f, r, fRange, rRange, rationale, reinflation}
+// ─────────────────────────────────────────────
+var BASE = {
+  // format: {f: PSI front, r: PSI rear, fl: front low, fh: front high, rl: rear low, rh: rear high}
+  highway: {
+    '265/70R16': {f:35,r:37,fl:33,fh:37,rl:35,rh:40,
+      rat:'Highway pressures optimise fuel economy, tread life, and steering response. Rear runs 2 PSI higher to support load over the rear axle.',
+      reinf:null},
+    '265/75R16': {f:34,r:36,fl:32,fh:36,rl:34,rh:39,
+      rat:'Taller sidewall (75-series) needs slightly lower base pressure than the 70-series to achieve the same contact patch. Rear 2 PSI higher for load support.',
+      reinf:null},
+    '285/75R16': {f:33,r:35,fl:31,fh:35,rl:33,rh:38,
+      rat:'Wider and taller tyre achieves correct contact patch at lower pressure. Rear higher for rear-axle load. Monitor steering feel — if heavy, add 1 PSI front.',
+      reinf:null},
+  },
+  gravel: {
+    '265/70R16': {f:30,r:32,fl:28,fh:32,rl:30,rh:35,
+      rat:'Reduced from highway pressure to increase contact patch and improve shock absorption on loose gravel. Reduces stone-chip sidewall impact.',
+      reinf:'Before returning to tar: inflate front to 2.41 bar (35 PSI), rear to 2.55 bar (37 PSI).'},
+    '265/75R16': {f:29,r:31,fl:27,fh:31,rl:29,rh:34,
+      rat:'Taller sidewall already absorbs more shock than 70-series. Run slightly lower than equivalent 70-series. Good stone chip protection at this pressure.',
+      reinf:'Before returning to tar: inflate front to 2.34 bar (34 PSI), rear to 2.48 bar (36 PSI).'},
+    '285/75R16': {f:28,r:30,fl:26,fh:30,rl:28,rh:33,
+      rat:'Wider contact patch on gravel improves traction. Taller sidewall handles corrugation well. Lower pressure distributes load over more tread.',
+      reinf:'Before returning to tar: inflate front to 2.28 bar (33 PSI), rear to 2.41 bar (35 PSI).'},
+  },
+  corrugated: {
+    '265/70R16': {f:26,r:28,fl:24,fh:28,rl:26,rh:32,
+      rat:'Corrugated tracks transmit severe vibration to the chassis. Lower pressure softens the ride, reduces wheel bounce, and protects wheel bearings and chassis joints.',
+      reinf:'Before returning to tar: inflate front to 2.41 bar (35 PSI), rear to 2.55 bar (37 PSI).'},
+    '265/75R16': {f:25,r:27,fl:23,fh:27,rl:25,rh:31,
+      rat:'Taller sidewall flexes more than 70-series — run slightly lower to avoid over-stiffening on corrugations. Excellent vibration damping at this pressure.',
+      reinf:'Before returning to tar: inflate front to 2.34 bar (34 PSI), rear to 2.48 bar (36 PSI).'},
+    '285/75R16': {f:24,r:26,fl:22,fh:26,rl:24,rh:30,
+      rat:'Best corrugation tyre in the range. Wide + tall sidewall combination gives excellent float over wash-boarding. Lowest pressure for maximum compliance.',
+      reinf:'Before returning to tar: inflate front to 2.28 bar (33 PSI), rear to 2.41 bar (35 PSI).'},
+  },
+  sand: {
+    '265/70R16': {f:16,r:18,fl:14,fh:18,rl:16,rh:20,
+      rat:'Sand requires maximum footprint to float over soft surface. Deflate significantly — tyre will bulge and spread. Do not exceed 20 km/h at these pressures. Re-inflate immediately when leaving sand.',
+      reinf:'⚠️ Critical: Re-inflate to gravel or highway pressure before leaving sand. Running 1.10 bar (16 PSI) on tar will destroy the tyre within kilometres.'},
+    '265/75R16': {f:14,r:16,fl:12,fh:16,rl:14,rh:18,
+      rat:'Taller sidewall gives more volume to flex — can run lower than 70-series for same contact patch. Better sand performance than 70-series at equivalent deflation.',
+      reinf:'⚠️ Critical: Re-inflate to gravel or highway pressure before leaving sand. Running low pressures on tar will destroy the tyre within kilometres.'},
+    '285/75R16': {f:12,r:14,fl:10,fh:14,rl:12,rh:16,
+      rat:'Best sand tyre of the three. Wide footprint + tall sidewall allows very low deflation. Front can go to 0.69 bar (10 PSI) in deep soft sand. Bead retention critical below 0.83 bar.',
+      reinf:'⚠️ Critical: Re-inflate before leaving sand. Monitor bead seating — re-inflate in stages and check beads are seated before exceeding 1.03 bar (15 PSI).'},
+  },
+  mud: {
+    '265/70R16': {f:20,r:22,fl:18,fh:24,rl:20,rh:26,
+      rat:'Mud requires a balance between flotation and self-cleaning. Too low and the tyre clogs; too high and it sinks. AT tread pattern clears at this pressure range.',
+      reinf:'Before returning to gravel or tar: inflate front to 2.07 bar (30 PSI), rear to 2.21 bar (32 PSI).'},
+    '265/75R16': {f:18,r:20,fl:16,fh:22,rl:18,rh:24,
+      rat:'Slightly lower than 70-series for additional footprint. Tall sidewall helps absorb impacts from hidden rocks in mud. AT811 tread clears well at these pressures.',
+      reinf:'Before returning to gravel or tar: inflate front to 2.00 bar (29 PSI), rear to 2.14 bar (31 PSI).'},
+    '285/75R16': {f:17,r:19,fl:15,fh:21,rl:17,rh:23,
+      rat:'Wider tyre can clog in deep clay mud — monitor tread self-cleaning. Lower pressure maintains ground contact but wider section needs careful throttle management.',
+      reinf:'Before returning to gravel or tar: inflate front to 1.93 bar (28 PSI), rear to 2.07 bar (30 PSI).'},
+  },
+  rock: {
+    '265/70R16': {f:22,r:24,fl:20,fh:26,rl:22,rh:28,
+      rat:'Rock requires low enough pressure to conform to surface and grip, but not so low the sidewall is vulnerable to cuts on sharp edges. The 70-series has less sidewall protection — stay at upper end of range on sharp rock.',
+      reinf:'Before returning to gravel or tar: inflate front to 2.07 bar (30 PSI), rear to 2.21 bar (32 PSI).'},
+    '265/75R16': {f:20,r:22,fl:18,fh:24,rl:20,rh:26,
+      rat:'Extra sidewall height provides meaningful cut resistance. Run lower than 70-series to increase conformity to rock surface. Good protection against rim strikes.',
+      reinf:'Before returning to gravel or tar: inflate front to 2.00 bar (29 PSI), rear to 2.14 bar (31 PSI).'},
+    '285/75R16': {f:18,r:20,fl:16,fh:22,rl:18,rh:24,
+      rat:'Best tyre for rocky terrain — wide contact and tall sidewall maximise grip and protection. Lower pressure allows excellent rock conformity. Rim strike risk is lowest in the range.',
+      reinf:'Before returning to gravel or tar: inflate front to 1.93 bar (28 PSI), rear to 2.07 bar (30 PSI).'},
+  },
+};
+
+// ─────────────────────────────────────────────
+// PAYLOAD ADJUSTMENT
+// PSI adjustment per 100 kg above/below 350 kg baseline
+// Front axle carries ~45% of load, rear ~55%
+// ─────────────────────────────────────────────
+function payloadAdj(payload, terrain) {
+  var delta = (payload - 350) / 100;
+  // Sand & mud: minimal adjustment (footprint more important than load)
+  if (terrain === 'sand') return {f: delta * 0.5, r: delta * 1.0};
+  if (terrain === 'mud')  return {f: delta * 0.5, r: delta * 1.0};
+  // Other terrains: standard adjustment
+  return {f: delta * 1.0, r: delta * 1.5};
+}
+
+function psiToBar(psi) {
+  return (psi * 0.0689476).toFixed(2);
+}
+
+// ─────────────────────────────────────────────
+// RENDER
+// ─────────────────────────────────────────────
+function render() {
+  var d = BASE[state.terrain][state.size];
+  var adj = payloadAdj(state.payload, state.terrain);
+
+  var fPSI = Math.round(d.f + adj.f);
+  var rPSI = Math.round(d.r + adj.r);
+
+  // Clamp within range
+  fPSI = Math.max(d.fl, Math.min(d.fh + 2, fPSI));
+  rPSI = Math.max(d.rl, Math.min(d.rh + 2, rPSI));
+
+  document.getElementById('front-bar').innerHTML = psiToBar(fPSI) + ' <span>bar</span>';
+  document.getElementById('front-psi').innerHTML = fPSI + ' <span>PSI</span>';
+  document.getElementById('front-range').textContent = 'Range: ' + psiToBar(d.fl) + '–' + psiToBar(d.fh) + ' bar';
+
+  document.getElementById('rear-bar').innerHTML = psiToBar(rPSI) + ' <span>bar</span>';
+  document.getElementById('rear-psi').innerHTML = rPSI + ' <span>PSI</span>';
+  document.getElementById('rear-range').textContent = 'Range: ' + psiToBar(d.rl) + '–' + psiToBar(d.rh) + ' bar';
+
+  document.getElementById('rationale-text').textContent = d.rat;
+
+  var reinf = document.getElementById('reinflation-box');
+  if (d.reinf) {
+    document.getElementById('reinflation-text').textContent = d.reinf;
+    reinf.classList.add('show');
+  } else {
+    reinf.classList.remove('show');
+  }
+
+  // GVM warning
+  var gvmWarn = document.getElementById('gvm-warn');
+  if (state.payload > 600) {
+    gvmWarn.classList.add('show');
+  } else {
+    gvmWarn.classList.remove('show');
+  }
+
+  // Payload zones
+  var pz = state.payload;
+  document.getElementById('pz-light').classList.toggle('active', pz < 250);
+  document.getElementById('pz-med').classList.toggle('active', pz >= 250 && pz <= 500);
+  document.getElementById('pz-heavy').classList.toggle('active', pz > 500);
+
+  // Slider fill
+  var sl = document.getElementById('payload-slider');
+  var pct = ((pz - 0) / 690 * 100).toFixed(1);
+  sl.style.background = 'linear-gradient(to right, var(--amber2) ' + pct + '%, var(--rule) ' + pct + '%)';
+}
+
+// ─────────────────────────────────────────────
+// INTERACTION
+// ─────────────────────────────────────────────
+function selectSize(btn, size) {
+  document.querySelectorAll('.size-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  state.size = size;
+  render();
+}
+
+function selectTerrain(btn, terrain) {
+  document.querySelectorAll('.terrain-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  state.terrain = terrain;
+  render();
+}
+
+function onPayload(val) {
+  state.payload = parseInt(val, 10);
+  document.getElementById('payload-display').innerHTML = val + ' <span>kg</span>';
+  render();
+}
+
+function showTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(function(b){ b.classList.remove('active'); });
+  document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
+  document.getElementById('panel-' + tab).classList.add('active');
+  var btns = document.querySelectorAll('.tab-btn');
+  if (tab === 'calc') btns[0].classList.add('active');
+  if (tab === 'compare') btns[1].classList.add('active');
+}
+
+// Init
+render();
+</script>
+</body>
+</html>
