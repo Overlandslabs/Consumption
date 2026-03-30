@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LC76 Water">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1C1410">
+<link rel="manifest" href="manifest-water.json">
+<link rel="apple-touch-icon" href="icon-water-192.svg">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>LC76 Water Budget Calculator</title>
+
+<style>
+  :root {
+    --clay:#C4572A; --ochre:#D4963A; --sand:#E8D5A3; --cream:#F5EDDA;
+    --ink:#1C1410; --bark:#3D2B1A; --smoke:#6B5B4E; --white:#FDFAF4;
+    --border:rgba(61,43,26,0.15); --green-ok:#1A4731; --red-warn:#B91C1C; --amber:#92400E;
+    --blue:#1e4d7a; --blue-lt:#e8f2fb;
+    --dominant:var(--cream); --secondary:var(--ink); --accent:var(--clay);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
+  body{background:var(--white);color:var(--ink);font-family:'Oswald','Arial Narrow',sans-serif;font-size:16px;line-height:1.7}
+
+  /* ── MASTHEAD ── */
+  .masthead{background:var(--ink);color:var(--sand);padding:18px 4% 14px;position:sticky;top:0;z-index:100;overflow:hidden}
+  .masthead::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--ochre),transparent)}
+  .ms{font-family:'Oswald','Arial Narrow',sans-serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--sand);margin-bottom:10px}
+  .masthead h1{font-family:'Oswald','Arial Narrow',sans-serif;font-size:clamp(22px,3vw,38px);font-weight:700;line-height:1;color:var(--cream);letter-spacing:-.01em;margin-bottom:6px}
+  .masthead h1 em{font-style:italic;color:var(--ochre)}
+  .masthead-sub{font-size:13px;color:var(--sand);font-style:italic}
+  .mspecs{font-family:'Oswald','Arial Narrow',sans-serif;font-size:10px;color:var(--sand);letter-spacing:.08em;margin-top:8px;display:flex;gap:16px;flex-wrap:wrap}
+  .mspecs span{color:var(--ochre)}
+
+  /* ── PAGE ── */
+  .page{max-width:100%;margin:0 auto;padding:16px 4% 40px}
+  .sec{font-family:'Oswald','Arial Narrow',sans-serif;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--smoke);border-bottom:1px solid var(--border);padding-bottom:4px;margin:20px 0 12px}
+  .sec:first-of-type{margin-top:0}
+
+  /* ── CAPACITY CARDS ── */
+  .cap-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:0}
+  .cc{background:var(--cream);border:1px solid var(--border);border-left:3px solid var(--ochre);padding:8px 12px}
+  .cc.p{border-left-color:var(--blue)}
+  .cc.warn{border-left-color:var(--red-warn)}
+  .cc .cl{font-family:'Oswald','Arial Narrow',sans-serif;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--smoke);margin-bottom:2px}
+  .cc .cv{font-family:'Oswald','Arial Narrow',sans-serif;font-size:22px;font-weight:700;color:var(--bark);line-height:1}
+  .cc .cs{font-size:11px;color:var(--smoke);margin-top:2px}
+
+  /* ── SLIDERS ── */
+  .sblock{margin-bottom:6px}
+  .srow{display:flex;align-items:center;gap:12px;margin-bottom:2px}
+  .slabelwrap{display:flex;align-items:baseline;gap:10px;margin-bottom:2px}
+  .slabel{font-family:'Oswald','Arial Narrow',sans-serif;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--smoke);min-width:165px}
+  .srow input[type=range]{flex:1;min-width:0}
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:4px;background:linear-gradient(to right,var(--blue) 0%,var(--blue) 50%,var(--border) 50%,var(--border) 100%);outline:none;cursor:pointer;border-radius:2px}
+  input[type=range]::-webkit-slider-runnable-track{-webkit-appearance:none;height:4px;border-radius:2px}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:22px;height:22px;border-radius:50%;background:var(--blue);border:3px solid var(--white);cursor:pointer;margin-top:-9px;box-shadow:0 1px 4px rgba(0,0,0,0.3)}
+  input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--blue);border:none;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,0.3)}
+  .sval{font-family:'Oswald','Arial Narrow',sans-serif;font-size:14px;font-weight:600;color:var(--blue);min-width:70px}
+  .snote{font-size:9px;color:var(--smoke);font-style:italic;padding:0 0 2px;line-height:1.2;opacity:.75}
+
+  /* ── RESULT CELLS ── */
+  .rgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:10px}
+  .rc{background:var(--cream);color:var(--bark);padding:10px 14px;border-left:3px solid var(--blue)}
+  .rc.h{border-left-color:var(--ochre)}
+  .rc.g{border-left-color:var(--green-ok)}
+  .rcl{font-family:'Oswald','Arial Narrow',sans-serif;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--smoke);margin-bottom:3px}
+  .rcv{font-family:'Oswald','Arial Narrow',sans-serif;font-size:28px;font-weight:700;color:var(--blue);line-height:1;margin-bottom:2px}
+  .rcv.ok{color:var(--green-ok)}.rcv.warn{color:var(--amber)}.rcv.bad{color:var(--red-warn)}
+  .rcs{font-size:12px;color:var(--smoke)}
+
+  /* ── BALANCE BAR ── */
+  .rbar{background:var(--cream);border:1px solid var(--border);border-left:3px solid var(--blue);padding:10px 14px;margin-bottom:8px}
+  .rbh{display:flex;justify-content:space-between;font-family:'Oswald','Arial Narrow',sans-serif;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--smoke);margin-bottom:6px}
+  .rbt{height:12px;background:rgba(61,43,26,.1);position:relative}
+  .rbf{height:12px;position:absolute;top:0;left:0;transition:width .3s ease,background .3s ease}
+  .rbtk{display:flex;justify-content:space-between;margin-top:4px;font-family:'Oswald','Arial Narrow',sans-serif;font-size:9px;color:var(--smoke)}
+
+  /* ── CALLOUTS ── */
+  .call{display:flex;gap:12px;padding:12px 16px;margin:8px 0;border-left:4px solid var(--red-warn);background:#FEF2F2;font-size:13.5px}
+  .call.am{border-left-color:var(--ochre);background:#FFFBEB}
+  .call.gn{border-left-color:var(--green-ok);background:#F0FDF4}
+  .call.inf{border-left-color:var(--smoke);background:var(--cream)}
+  .call.bl{border-left-color:var(--blue);background:var(--blue-lt)}
+  .ci{font-size:18px;flex-shrink:0;margin-top:1px}
+  .cb{line-height:1.6;color:var(--smoke)}
+  .cb strong{color:var(--bark)}
+
+  /* ── THRESHOLD LADDER ── */
+  .thresh{background:var(--cream);border:1px solid var(--border);padding:12px 14px;margin-bottom:8px}
+  .thh{font-family:'Oswald','Arial Narrow',sans-serif;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--smoke);margin-bottom:8px}
+  .th-row{display:flex;align-items:center;gap:10px;margin-bottom:5px;font-size:12px}
+  .th-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+  .th-label{font-family:'Oswald','Arial Narrow',sans-serif;font-weight:600;min-width:90px;font-size:12px}
+  .th-desc{color:var(--smoke);font-size:11px}
+
+  /* ── ACTIVITY TABLE ── */
+  .tscroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .dtable{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:8px;min-width:480px}
+  .dtable th{background:var(--ink);color:var(--ochre);font-family:'Oswald','Arial Narrow',sans-serif;font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:8px 10px;text-align:left;font-weight:500}
+  .dtable tfoot td{background:var(--bark);color:var(--cream);padding:8px 10px}
+  .dtable td{padding:6px 10px;border-bottom:1px solid var(--border);vertical-align:middle;color:var(--smoke)}
+  .dtable td:first-child{font-weight:600;color:var(--bark)}
+  .dtable tr:nth-child(even) td{background:rgba(30,77,122,.04)}
+  .dtable .td-r{text-align:right}
+  .dtable .td-lv{font-weight:700;color:var(--blue);text-align:right;white-space:nowrap}
+  .td-in{background:transparent;border:none;border-bottom:1px solid var(--border);width:100%;padding:2px 3px;font-family:'Oswald','Arial Narrow',sans-serif;font-size:13px;color:var(--ink)}
+  .td-in:focus{outline:none;border-bottom:1.5px solid var(--blue)}
+  .td-num{width:72px;text-align:right}
+  .td-del button{background:none;border:none;cursor:pointer;color:rgba(61,43,26,.35);font-size:16px;padding:2px 7px;border-radius:2px;line-height:1;transition:all .15s}
+  .td-del button:hover{color:var(--red-warn);background:rgba(185,28,28,.1)}
+
+  /* ── PRESET BUTTONS ── */
+  .tgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-bottom:14px}
+  .tbtn{border:1px solid var(--border);background:var(--cream);padding:8px 12px;cursor:pointer;text-align:left;font-family:inherit;transition:all .15s;min-height:44px}
+  .tbtn:hover{background:var(--sand)}
+  .tbtn.active{border:2px solid var(--blue);background:var(--blue)}
+  .tbtn .tn{font-family:'Oswald','Arial Narrow',sans-serif;font-size:13px;font-weight:700;color:var(--bark);margin-bottom:1px}
+  .tbtn.active .tn{color:#fff}
+  .tbtn .tdesc{font-size:10px;color:var(--smoke);margin-top:2px;line-height:1.3;font-style:italic}
+  .tbtn.active .tdesc{color:rgba(255,255,255,.75)}
+  .tbtn .tm{font-family:'Oswald','Arial Narrow',sans-serif;font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:var(--blue);margin-bottom:2px}
+  .tbtn.active .tm{color:rgba(255,255,255,.85)}
+
+  /* ── ADD ROW ── */
+  .btn-add{background:var(--bark);color:var(--cream);border:none;padding:8px 16px;font-family:'Oswald',sans-serif;font-size:13px;letter-spacing:.06em;cursor:pointer;border-radius:2px;transition:all .15s}
+  .btn-add:hover{background:var(--blue)}
+
+  /* ── BREAKDOWN BOX ── */
+  .ab{background:var(--bark);color:var(--cream);padding:18px 20px;margin:10px 0;border-left:4px solid var(--ochre)}
+  .abh{font-family:'Oswald','Arial Narrow',sans-serif;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ochre);margin-bottom:10px}
+  .abr{display:flex;justify-content:space-between;font-size:13px;color:var(--sand);padding:5px 0;border-bottom:1px solid rgba(255,255,255,.08);gap:12px;flex-wrap:wrap}
+  .abr:last-child{border-bottom:none}
+  .abv{font-family:'Oswald','Arial Narrow',sans-serif;color:var(--ochre);white-space:nowrap}
+
+  /* ── FOOTER ── */
+  footer{background:var(--ink);color:var(--sand);padding:10px 4%;font-family:'Oswald','Arial Narrow',sans-serif;font-size:10px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;border-top:1px solid rgba(212,150,58,.2)}
+  footer span{color:var(--ochre)}
+
+  /* ── RESPONSIVE ── */
+  @media(max-width:780px){
+    .cap-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .tgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .rgrid{grid-template-columns:1fr 1fr}
+    .slabel{min-width:115px;font-size:10px}
+    .masthead h1{font-size:clamp(18px,4vw,32px)}
+    .mspecs{font-size:9px;gap:10px}
+    .rcv{font-size:22px}
+    .cc .cv{font-size:18px}
+  }
+  @media(max-width:540px){
+    .tgrid{grid-template-columns:1fr 1fr}
+    .rgrid{grid-template-columns:1fr}
+    .slabel{min-width:90px;font-size:9px}
+    .sval{font-size:11px;min-width:58px}
+    .srow{gap:6px}
+  }
+  @media print{
+    .page{padding:0 24px}
+    footer{display:none}
+    .tscroll{overflow:visible}
+    .dtable{min-width:auto;font-size:10px}
+    .td-del,.tbtn,.btn-add{display:none}
+    @page{size:A4;margin:10mm}
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="ms">LC76 SW 1HZ &middot; Field Calculator</div>
+  <h1>Water Budget <em>Calculator</em></h1>
+  <p class="masthead-sub">Daily consumption, tank autonomy &amp; resupply planning</p>
+  <div class="mspecs">
+    <div>Main tank: <span id="hd-tank">70 L</span></div>
+    <div>People: <span id="hd-pax">2</span></div>
+    <div>Resupply: <span id="hd-resupply">5 days</span></div>
+    <div>Daily use: <span id="hd-daily">— L/day</span></div>
+    <div>Autonomy: <span id="hd-auto">— days</span></div>
+  </div>
+</header>
+
+<main class="page">
+
+  <!-- TANK SUMMARY CARDS -->
+  <div class="sec">Tank summary &mdash; <span style="font-weight:300;letter-spacing:.05em;text-transform:none;font-size:11px;">current capacity and projected figures</span></div>
+  <div class="cap-grid">
+    <div class="cc"><div class="cl">Total capacity</div><div class="cv" id="d-cap">70 L</div><div class="cs">Usable tank volume</div></div>
+    <div class="cc p"><div class="cl">Available now</div><div class="cv" id="d-avail">70 L</div><div class="cs">From current fill level</div></div>
+    <div class="cc"><div class="cl">Daily consumption</div><div class="cv" id="d-daily">— L</div><div class="cs">All activities combined</div></div>
+    <div class="cc warn"><div class="cl">Autonomy</div><div class="cv" id="d-auto">— days</div><div class="cs">Days to reserve threshold</div></div>
+  </div>
+
+  <!-- TANK SETTINGS -->
+  <div class="sec">Tank settings &mdash; <span style="font-weight:300;letter-spacing:.05em;text-transform:none;font-size:11px;">adjust to match your actual containers and fill level</span></div>
+
+  <div class="sblock">
+    <div class="slabelwrap"><div class="slabel">Total tank capacity</div><div class="sval" id="v-cap">70 L</div></div>
+    <div class="srow"><input type="range" id="sl-cap" min="10" max="200" step="5" value="70" oninput="syncV('v-cap',this.value,' L');updateSliderFill(this);upd()"></div>
+    <div class="snote">Total usable litres across all containers (built-in tank + jerry cans + collapsibles). Typical expedition setup: 40&ndash;120 L.</div>
+  </div>
+
+  <div class="sblock">
+    <div class="slabelwrap"><div class="slabel">Current fill level</div><div class="sval" id="v-fill">100%</div></div>
+    <div class="srow"><input type="range" id="sl-fill" min="5" max="100" step="5" value="100" oninput="syncPct('v-fill',this.value);updateSliderFill(this);upd()"></div>
+    <div class="snote">Percentage of total capacity currently available. Set to your actual level before calculating.</div>
+  </div>
+
+  <div class="sblock">
+    <div class="slabelwrap"><div class="slabel">Number of people</div><div class="sval" id="v-pax">2</div></div>
+    <div class="srow"><input type="range" id="sl-pax" min="1" max="8" step="1" value="2" oninput="syncV('v-pax',this.value,'');updateSliderFill(this);upd()"></div>
+    <div class="snote">Total people sharing the water supply. Consumption scales per person.</div>
+  </div>
+
+  <div class="sblock">
+    <div class="slabelwrap"><div class="slabel">Reserve threshold</div><div class="sval" id="v-res">20%</div></div>
+    <div class="srow"><input type="range" id="sl-res" min="5" max="40" step="5" value="20" oninput="syncPct('v-res',this.value);updateSliderFill(this);upd()"></div>
+    <div class="snote">Minimum reserve — do not plan to consume below this level. Autonomy days calculated to this threshold, not empty.</div>
+  </div>
+
+  <div class="sblock">
+    <div class="slabelwrap"><div class="slabel">Resupply interval target</div><div class="sval" id="v-resupply">5 days</div></div>
+    <div class="srow"><input type="range" id="sl-resupply" min="1" max="21" step="1" value="5" oninput="syncDays('v-resupply',this.value);updateSliderFill(this);upd()"></div>
+    <div class="snote">How often you plan to resupply. Used to show required capacity. Remote Africa: plan for 7&ndash;14 days between reliable sources.</div>
+  </div>
+
+  <!-- CONSUMPTION PRESETS -->
+  <div class="sec">Consumption scenario &mdash; <span style="font-weight:300;letter-spacing:.05em;text-transform:none;font-size:11px;">select a scenario then adjust individual activities below</span></div>
+
+  <div class="tgrid">
+    <button class="tbtn active" onclick="loadPreset('overland');selPre(this)">
+      <div class="tm">Default</div>
+      <div class="tn">Overlanding</div>
+      <div class="tdesc">Moving camp, moderate water discipline</div>
+    </button>
+    <button class="tbtn" onclick="loadPreset('remote');selPre(this)">
+      <div class="tm">Water-scarce</div>
+      <div class="tn">Remote / Arid</div>
+      <div class="tdesc">Desert or semi-arid conditions, strict rationing</div>
+    </button>
+    <button class="tbtn" onclick="loadPreset('basecamp');selPre(this)">
+      <div class="tm">Relaxed</div>
+      <div class="tn">Base Camp</div>
+      <div class="tdesc">Stationary camp with plentiful supply nearby</div>
+    </button>
+  </div>
+
+  <!-- ACTIVITY TABLE -->
+  <div class="tscroll">
+    <table class="dtable">
+      <thead>
+        <tr>
+          <th style="min-width:140px">Activity</th>
+          <th class="td-r" style="width:80px">L/person/day</th>
+          <th class="td-r" style="width:60px">People</th>
+          <th style="min-width:100px">Notes</th>
+          <th class="td-r" style="width:80px">L/day</th>
+          <th style="width:36px"></th>
+        </tr>
+      </thead>
+      <tbody id="act-tbody"></tbody>
+      <tfoot>
+        <tr>
+          <td colspan="4" style="font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ochre)">Total daily consumption</td>
+          <td class="td-r" id="total-l" style="font-weight:700;color:var(--ochre)">— L</td>
+          <td></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  <button class="btn-add" onclick="addRow()">+ Add activity</button>
+
+  <!-- RESULTS -->
+  <div class="sec" style="margin-top:20px">Water budget results &mdash; <span style="font-weight:300;letter-spacing:.05em;text-transform:none;font-size:11px;">based on current settings</span></div>
+
+  <div class="rgrid">
+    <div class="rc">
+      <div class="rcl">Available water</div>
+      <div class="rcv" id="r-avail">— L</div>
+      <div class="rcs">Current fill above reserve</div>
+    </div>
+    <div class="rc">
+      <div class="rcl">Daily consumption</div>
+      <div class="rcv" id="r-daily">— L</div>
+      <div class="rcs">All activities combined</div>
+    </div>
+    <div class="rc g">
+      <div class="rcl">Autonomy</div>
+      <div class="rcv" id="r-auto">— days</div>
+      <div class="rcs">Days to reserve threshold</div>
+    </div>
+    <div class="rc h">
+      <div class="rcl">Per person / day</div>
+      <div class="rcv" id="r-pp">— L</div>
+      <div class="rcs">Individual daily allocation</div>
+    </div>
+    <div class="rc">
+      <div class="rcl">Resupply needed</div>
+      <div class="rcv" id="r-need">— L</div>
+      <div class="rcs">For your <span id="r-need-days">—</span>-day target</div>
+    </div>
+    <div class="rc">
+      <div class="rcl">Gap to target</div>
+      <div class="rcv" id="r-gap">— L</div>
+      <div class="rcs">Additional containers required</div>
+    </div>
+  </div>
+
+  <!-- TANK LEVEL BAR -->
+  <div class="rbar">
+    <div class="rbh">
+      <span>Tank level over time</span>
+      <span id="rb-lbl">—</span>
+    </div>
+    <div class="rbt">
+      <div class="rbf" id="rbf" style="width:100%"></div>
+    </div>
+    <div class="rbtk">
+      <span>Empty</span>
+      <span>Reserve (<span id="res-pct-lbl">20%</span>)</span>
+      <span>Full</span>
+    </div>
+  </div>
+
+  <!-- VERDICT -->
+  <div class="call inf" id="verdict-box" style="display:none">
+    <div class="ci" id="verdict-icon">&#9432;</div>
+    <div class="cb" id="verdict-txt"></div>
+  </div>
+
+  <!-- WARNING THRESHOLDS -->
+  <div class="sec">Warning thresholds &mdash; <span style="font-weight:300;letter-spacing:.05em;text-transform:none;font-size:11px;">field decision guide</span></div>
+  <div class="thresh">
+    <div class="thh">Action levels — adjust consumption and resupply plans accordingly</div>
+    <div class="th-row"><div class="th-dot" style="background:var(--green-ok)"></div><div class="th-label" style="color:var(--green-ok)">Comfortable</div><div class="th-desc">Autonomy &gt; 3 days above reserve. Normal consumption. No action.</div></div>
+    <div class="th-row"><div class="th-dot" style="background:var(--amber)"></div><div class="th-label" style="color:var(--amber)">Watch</div><div class="th-desc">Autonomy 2&ndash;3 days. Monitor use. Identify next resupply. Reduce non-essential washing.</div></div>
+    <div class="th-row"><div class="th-dot" style="background:#e07800"></div><div class="th-label" style="color:#e07800">Conserve</div><div class="th-desc">Autonomy 1&ndash;2 days. Drinking and cooking only. No personal washing from tank. Source water urgently.</div></div>
+    <div class="th-row"><div class="th-dot" style="background:var(--red-warn)"></div><div class="th-label" style="color:var(--red-warn)">Critical</div><div class="th-desc">At or below reserve. Drinking only. Stop travel and resupply immediately or treat surface water.</div></div>
+  </div>
+
+  <!-- BREAKDOWN -->
+  <div class="sec">Calculation breakdown &mdash; <span style="font-weight:300;letter-spacing:.05em;text-transform:none;font-size:11px;">full detail</span></div>
+  <div class="ab">
+    <div class="abh">&#9679; Water Budget — Full Detail</div>
+    <div class="abr"><span>Total capacity</span><span class="abv" id="ab-cap">—</span></div>
+    <div class="abr"><span>Current fill</span><span class="abv" id="ab-fill">—</span></div>
+    <div class="abr"><span>Available above reserve</span><span class="abv" id="ab-avail">—</span></div>
+    <div class="abr"><span>People</span><span class="abv" id="ab-pax">—</span></div>
+    <div class="abr"><span>Daily consumption</span><span class="abv" id="ab-daily">—</span></div>
+    <div class="abr"><span>Per person / day</span><span class="abv" id="ab-pp">—</span></div>
+    <div class="abr"><span>Autonomy (to reserve)</span><span class="abv" id="ab-auto">—</span></div>
+    <div class="abr"><span>Required for resupply interval</span><span class="abv" id="ab-need">—</span></div>
+    <div class="abr"><span>Gap (extra capacity needed)</span><span class="abv" id="ab-gap">—</span></div>
+  </div>
+
+  <!-- REFERENCE TABLE -->
+  <div class="sec" style="margin-top:20px">Activity reference &mdash; <span style="font-weight:300;letter-spacing:.05em;text-transform:none;font-size:11px;">typical field consumption values per person per day</span></div>
+  <div class="call bl">
+    <div class="ci">&#9432;</div>
+    <div class="cb"><strong>These are conservative overland estimates for hot, remote conditions.</strong> Actual use varies significantly. Track your real consumption over the first few days and adjust sliders accordingly.</div>
+  </div>
+  <div class="tscroll">
+    <table class="dtable">
+      <thead>
+        <tr>
+          <th>Activity</th>
+          <th class="td-r">Minimum</th>
+          <th class="td-r">Typical</th>
+          <th class="td-r">Liberal</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Drinking</td><td class="td-r">2.0 L</td><td class="td-r">3.0 L</td><td class="td-r">4.0 L</td><td>Increase in heat (38°C+). Physical exertion: +1&ndash;2 L. Minimum 2 L strictly for hydration.</td></tr>
+        <tr><td>Cooking (meals + coffee/tea)</td><td class="td-r">0.5 L</td><td class="td-r">1.0 L</td><td class="td-r">2.0 L</td><td>Rehydrated/boiled meals ~0.5 L. Fresh cooking or pasta: 1.5&ndash;2 L. Coffee/tea adds ~0.4 L/person/day.</td></tr>
+        <tr><td>Dishes &amp; utensils</td><td class="td-r">0.3 L</td><td class="td-r">0.5 L</td><td class="td-r">1.0 L</td><td>Scout method: scrape + rinse. Basin wash: 1 L total for 2. Minimal rinse: ~0.3 L.</td></tr>
+        <tr><td>Personal hygiene (face, hands)</td><td class="td-r">0.2 L</td><td class="td-r">0.5 L</td><td class="td-r">1.0 L</td><td>Hand wash before meals critical for hygiene. Face wash &amp; basic hygiene. No wet wipes counted here.</td></tr>
+        <tr><td>Body wash (partial or full)</td><td class="td-r">1.0 L</td><td class="td-r">3.0 L</td><td class="td-r">6.0 L</td><td>Bucket shower: 4&ndash;6 L. Strip wash: 1&ndash;2 L. On strict ration: wet cloth + biodegradable soap.</td></tr>
+        <tr><td>Laundry (partial, hand wash)</td><td class="td-r">0.0 L</td><td class="td-r">0.5 L</td><td class="td-r">2.0 L</td><td>Daily socks/underwear hand rinse: ~0.5 L. Full hand wash: 2&ndash;4 L. Not every day in the field.</td></tr>
+        <tr><td>Vehicle / equipment rinse</td><td class="td-r">0.0 L</td><td class="td-r">0.0 L</td><td class="td-r">3.0 L</td><td>Shared total, not per person. Only where water is freely available. Never from drinking supply.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</main>
+
+<footer>
+  <div>LC76 SW 1HZ &middot; Water Budget Calculator</div>
+  <div>Resupply target: <span id="ft-resupply">5 days</span> &middot; Capacity: <span id="ft-cap">70 L</span> &middot; People: <span id="ft-pax">2</span></div>
+  <div>Estimates only &mdash; verify against actual consumption. Add 25% buffer for hot conditions.</div>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════════════
+   PRESETS — typical overland water consumption
+   Source: overlanding best practice, WHO guidelines
+   Hot condition minimum: 2L drinking/person/day
+   Overland reference: ~6–8 L/person/day
+═══════════════════════════════════════════════════ */
+var acts=[], actId=0;
+
+var PRESETS = {
+  overland: [
+    {name:'Drinking',               lpp:3.0, ppOverride:0, note:'Increase in heat — 4+ L in 38°C+'},
+    {name:'Cooking (meals + tea)',  lpp:1.0, ppOverride:0, note:'Boiled/rehydrated + coffee/tea allowance'},
+    {name:'Dishes & utensils',      lpp:0.0, ppOverride:1, note:'~0.5 L shared per meal — shared total, not per person', lTotal:0.5},
+    {name:'Personal hygiene',       lpp:0.5, ppOverride:0, note:'Face, hands, teeth'},
+    {name:'Body wash (every 2 days)',lpp:1.5, ppOverride:0, note:'3 L strip wash every 2 days = 1.5 L/day average'},
+    {name:'Laundry',                lpp:0.0, ppOverride:1, note:'~0.5 L shared every other day', lTotal:0.25},
+  ],
+  remote: [
+    {name:'Drinking',               lpp:3.5, ppOverride:0, note:'Desert/heat minimum — do not reduce'},
+    {name:'Cooking (minimal)',      lpp:0.5, ppOverride:0, note:'Rehydrated meals + one hot drink each'},
+    {name:'Dishes (minimal)',       lpp:0.0, ppOverride:1, note:'Wipe + minimal rinse only', lTotal:0.3},
+    {name:'Personal hygiene (minimum)',lpp:0.2, ppOverride:0, note:'Hands before meals — wet cloth only'},
+  ],
+  basecamp: [
+    {name:'Drinking',               lpp:3.0, ppOverride:0, note:'Relaxed setting — refill often'},
+    {name:'Cooking',                lpp:1.5, ppOverride:0, note:'Fresh cooking, full meal preparation'},
+    {name:'Dishes',                 lpp:0.0, ppOverride:1, note:'~1 L shared per wash-up', lTotal:1.0},
+    {name:'Personal hygiene',       lpp:0.75, ppOverride:0, note:'Full morning routine'},
+    {name:'Bucket shower',          lpp:4.0, ppOverride:0, note:'Full bucket shower per person per day'},
+    {name:'Laundry (hand wash)',    lpp:0.0, ppOverride:1, note:'Regular laundry in camp', lTotal:1.0},
+    {name:'Misc / extra',           lpp:0.5, ppOverride:0, note:'Spare allocation for miscellaneous use'},
+  ]
+};
+
+/* ─── ROW MANAGEMENT ─── */
+function loadPreset(k){
+  acts=[];
+  PRESETS[k].forEach(function(p){
+    acts.push({
+      id:++actId,
+      name:p.name,
+      lpp:p.lpp,
+      ppOverride:p.ppOverride||0,
+      lTotal:p.lTotal||0,
+      note:p.note||''
+    });
+  });
+  renderTable(); upd();
+}
+
+function addRow(){
+  acts.push({id:++actId,name:'',lpp:1.0,ppOverride:0,lTotal:0,note:''});
+  renderTable(); upd();
+}
+
+function delRow(id){
+  acts=acts.filter(function(a){return a.id!==id;});
+  renderTable(); upd();
+}
+
+function updateField(id,field,val){
+  var a=acts.find(function(a){return a.id===id;});
+  if(!a)return;
+  if(field==='name'||field==='note') a[field]=val;
+  else if(field==='ppOverride') a[field]=parseInt(val)||0;
+  else a[field]=parseFloat(val)||0;
+  var pax=parseFloat(document.getElementById('sl-pax').value)||1;
+  var daily=rowDaily(a,pax);
+  var el=document.getElementById('rl-'+id);
+  if(el) el.textContent=daily.toFixed(1)+' L';
+  upd();
+}
+
+function rowDaily(a,pax){
+  if(a.ppOverride) return a.lTotal||0;
+  return a.lpp * pax;
+}
+
+function escH(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function renderTable(){
+  var pax=parseFloat(document.getElementById('sl-pax').value)||1;
+  var tb=document.getElementById('act-tbody');
+  if(!acts.length){
+    tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:14px;color:var(--smoke);font-size:12px;font-style:italic">No activities — select a preset above or add an activity.</td></tr>';
+    return;
+  }
+  tb.innerHTML=acts.map(function(a){
+    var daily=rowDaily(a,pax);
+    var lppDisp = a.ppOverride ? '—' : a.lpp.toFixed(1);
+    var paxDisp = a.ppOverride ? 'shared' : pax;
+    return '<tr>'+
+      '<td><input class="td-in" type="text" value="'+escH(a.name)+'" placeholder="Activity" style="min-width:130px" oninput="updateField('+a.id+',\'name\',this.value)"></td>'+
+      '<td class="td-r"><input class="td-in td-num" type="number" value="'+(a.ppOverride?a.lTotal:a.lpp)+'" min="0" max="50" step="0.1" oninput="updateField('+a.id+','+(a.ppOverride?'\'lTotal\'':'\'lpp\'')+',this.value)"></td>'+
+      '<td class="td-r" style="font-size:11px;color:var(--smoke)">'+paxDisp+'</td>'+
+      '<td><input class="td-in" type="text" value="'+escH(a.note)+'" placeholder="—" style="min-width:90px;font-size:11px;color:var(--smoke)" oninput="updateField('+a.id+',\'note\',this.value)"></td>'+
+      '<td class="td-lv" id="rl-'+a.id+'">'+daily.toFixed(1)+' L</td>'+
+      '<td class="td-del"><button onclick="delRow('+a.id+')" title="Remove">&#215;</button></td>'+
+    '</tr>';
+  }).join('');
+}
+
+function selPre(el){document.querySelectorAll('.tbtn').forEach(function(b){b.classList.remove('active');});el.classList.add('active');}
+
+/* ─── SYNC HELPERS ─── */
+function syncV(id,val,suf){document.getElementById(id).textContent=val+suf;}
+function syncPct(id,val){document.getElementById(id).textContent=val+'%';}
+function syncDays(id,val){document.getElementById(id).textContent=val+' day'+(val==1?'':'s');}
+
+/* ─── MAIN CALCULATION ─── */
+function upd(){
+  var cap      = parseFloat(document.getElementById('sl-cap').value)||70;
+  var fillPct  = parseFloat(document.getElementById('sl-fill').value)/100;
+  var pax      = parseFloat(document.getElementById('sl-pax').value)||1;
+  var resPct   = parseFloat(document.getElementById('sl-res').value)/100;
+  var resupply = parseFloat(document.getElementById('sl-resupply').value)||5;
+
+  var current  = cap * fillPct;
+  var reserve  = cap * resPct;
+  var avail    = Math.max(0, current - reserve);
+
+  var daily = acts.reduce(function(s,a){return s+rowDaily(a,pax);},0);
+  var auto  = daily>0 ? avail/daily : 999;
+  var pp    = pax>0 ? daily/pax : 0;
+  var need  = daily * resupply;
+  var gap   = Math.max(0, need - current);
+
+  // Summary cards
+  document.getElementById('d-cap').textContent   = cap.toFixed(0)+' L';
+  document.getElementById('d-avail').textContent  = avail.toFixed(1)+' L';
+  document.getElementById('d-daily').textContent  = daily>0 ? daily.toFixed(1)+' L' : '—';
+  var dAuto = document.getElementById('d-auto');
+  if(daily===0){ dAuto.textContent='—'; dAuto.style.color=''; }
+  else { dAuto.textContent=auto>=99?'∞':auto.toFixed(1)+' days'; dAuto.style.color=auto>=3?'var(--green-ok)':auto>=1?'var(--amber)':'var(--red-warn)'; }
+
+  // Table footer
+  document.getElementById('total-l').textContent = daily>0 ? daily.toFixed(1)+' L' : '— L';
+
+  // Result cells
+  document.getElementById('r-avail').textContent = avail.toFixed(1)+' L';
+  document.getElementById('r-daily').textContent = daily>0 ? daily.toFixed(1)+' L' : '—';
+  document.getElementById('r-pp').textContent    = daily>0 ? pp.toFixed(1)+' L' : '—';
+  document.getElementById('r-need').textContent  = daily>0 ? need.toFixed(1)+' L' : '—';
+  document.getElementById('r-need-days').textContent = resupply;
+  var gapEl = document.getElementById('r-gap');
+  gapEl.textContent = daily>0 ? (gap>0 ? '+'+gap.toFixed(1)+' L' : 'None') : '—';
+  gapEl.className = 'rcv '+(gap<=0?'ok':gap<=10?'warn':'bad');
+
+  var rc = document.getElementById('r-auto');
+  rc.textContent = daily===0 ? '—' : (auto>=99?'∞ days':auto.toFixed(1)+' days');
+  rc.className = 'rcv '+(daily===0?'':(auto>=3?'ok':auto>=1?'warn':'bad'));
+
+  // Tank level bar (shows current fill minus what will be used)
+  var fillPctDisp = (current/cap)*100;
+  var rbf = document.getElementById('rbf');
+  rbf.style.width = Math.min(100,Math.max(0,fillPctDisp)).toFixed(1)+'%';
+  rbf.style.background = fillPctDisp>=(resPct*100+20)?'#1A4731':fillPctDisp>=(resPct*100)?'var(--ochre)':'var(--red-warn)';
+  var sign = auto>=99 ? '∞ days remaining' : auto.toFixed(1)+' days remaining';
+  document.getElementById('rb-lbl').textContent = current.toFixed(1)+' L current · '+sign;
+  document.getElementById('res-pct-lbl').textContent = Math.round(resPct*100)+'%';
+
+  // Masthead
+  document.getElementById('hd-tank').textContent = cap.toFixed(0)+' L';
+  document.getElementById('hd-pax').textContent  = pax;
+  document.getElementById('hd-resupply').textContent = resupply+' day'+(resupply==1?'':'s');
+  document.getElementById('hd-daily').textContent = daily>0 ? daily.toFixed(1)+' L/day' : '—';
+  document.getElementById('hd-auto').textContent  = daily===0?'—':(auto>=99?'∞ days':auto.toFixed(1)+' days');
+
+  // Footer
+  document.getElementById('ft-resupply').textContent = resupply+' days';
+  document.getElementById('ft-cap').textContent = cap.toFixed(0)+' L';
+  document.getElementById('ft-pax').textContent = pax;
+
+  // Verdict
+  buildVerdict(daily,auto,avail,gap,resupply,pax);
+
+  // Breakdown
+  document.getElementById('ab-cap').textContent   = cap.toFixed(0)+' L';
+  document.getElementById('ab-fill').textContent  = Math.round(fillPct*100)+'% ('+current.toFixed(1)+' L)';
+  document.getElementById('ab-avail').textContent = avail.toFixed(1)+' L ('+Math.round(resPct*100)+'% reserve held back)';
+  document.getElementById('ab-pax').textContent   = pax+' person'+(pax>1?'s':'');
+  document.getElementById('ab-daily').textContent = daily>0 ? daily.toFixed(1)+' L/day' : '— (no activities)';
+  document.getElementById('ab-pp').textContent    = daily>0 ? pp.toFixed(1)+' L/person/day' : '—';
+  document.getElementById('ab-auto').textContent  = daily===0?'∞':(auto>=99?'∞':auto.toFixed(1)+' days');
+  document.getElementById('ab-need').textContent  = daily>0 ? need.toFixed(1)+' L ('+resupply+' days × '+daily.toFixed(1)+' L/day)' : '—';
+  document.getElementById('ab-gap').textContent   = daily>0 ? (gap>0 ? gap.toFixed(1)+' L short — add containers' : 'None — current capacity sufficient') : '—';
+}
+
+function buildVerdict(daily,auto,avail,gap,resupply,pax){
+  var box=document.getElementById('verdict-box');
+  var icon=document.getElementById('verdict-icon');
+  var txt=document.getElementById('verdict-txt');
+  if(daily===0){box.style.display='none';return;}
+  box.style.display='flex';
+  var autoStr=auto>=99?'∞':auto.toFixed(1);
+  var ppStr=(daily/pax).toFixed(1);
+  if(auto>=5 && gap<=0){
+    box.className='call gn'; icon.innerHTML='&#10003;';
+    txt.innerHTML='<strong>Water budget healthy &mdash; '+autoStr+' days autonomy above reserve.</strong> Daily use: '+daily.toFixed(1)+' L ('+ppStr+' L/person). Current supply covers your '+resupply+'-day resupply target with capacity to spare.';
+  } else if(auto>=3){
+    box.className='call am'; icon.innerHTML='&#9888;';
+    txt.innerHTML='<strong>Adequate &mdash; '+autoStr+' days autonomy.</strong> '+ppStr+' L/person/day. '+(gap>0?'You need '+gap.toFixed(1)+' L more to cover a '+resupply+'-day interval. Consider additional containers or a shorter resupply cycle.':'Your supply covers '+resupply+' days, but headroom is limited. Monitor use carefully and prioritise drinking water.');
+  } else if(auto>=1){
+    box.className='call am'; icon.innerHTML='&#9888;';
+    txt.innerHTML='<strong>Conserve now &mdash; '+autoStr+' days to reserve.</strong> Drinking and cooking only. Cut body wash and laundry. Identify next resupply urgently. At '+ppStr+' L/person/day — reduce to '+( (avail/3/pax).toFixed(1) )+' L/person/day to stretch 3 days.';
+  } else {
+    box.className='call'; icon.innerHTML='&#9888;';
+    txt.innerHTML='<strong>Critical &mdash; at or below reserve threshold.</strong> Drinking water only (2 L/person/day minimum). Stop and resupply immediately. Do not travel further from a water source without securing supply. Treat surface water if available.';
+  }
+}
+
+/* ─── SLIDER FILL ─── */
+function updateSliderFill(el){
+  var min=parseFloat(el.min)||0, max=parseFloat(el.max)||100, val=parseFloat(el.value)||0;
+  var pct=((val-min)/(max-min)*100).toFixed(1);
+  el.style.background='linear-gradient(to right,var(--blue) 0%,var(--blue) '+pct+'%,rgba(61,43,26,0.15) '+pct+'%,rgba(61,43,26,0.15) 100%)';
+}
+function initSliders(){
+  document.querySelectorAll('input[type=range]').forEach(function(el){
+    updateSliderFill(el);
+    el.addEventListener('input',function(){
+      updateSliderFill(this);
+      // Re-render table when pax changes (affects per-person rows)
+      if(this.id==='sl-pax') renderTable();
+    });
+  });
+}
+
+/* ─── INIT ─── */
+document.addEventListener('DOMContentLoaded',function(){
+  initSliders();
+  loadPreset('overland');
+  upd();
+});
+</script>
+
+<script>
+if('serviceWorker' in navigator && location.hostname!=='www.claudeusercontent.com'){
+  window.addEventListener('load',function(){
+    navigator.serviceWorker.register('./sw-water.js')
+      .then(function(){console.log('LC76 Water SW registered');})
+      .catch(function(e){console.log('SW error:',e);});
+  });
+}
+</script>
+</body>
+</html>
