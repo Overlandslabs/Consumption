@@ -194,6 +194,10 @@ input[type=range]::-webkit-slider-runnable-track{height:5px;border-radius:3px}
 .method-formula .mf-label{font-size:8px;text-transform:uppercase;letter-spacing:.1em;color:var(--amber);display:block;margin-bottom:3px}
 
 /* BACK LINK */
+.back-link{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:9px;
+  text-transform:uppercase;letter-spacing:.1em;color:var(--steelmd);text-decoration:none;
+  margin-bottom:1rem;padding:6px 0}
+.back-link:hover{color:var(--amber2)}
 
 /* FOOTER */
 footer{background:var(--ink);color:var(--steelmd);padding:1rem;text-align:center;
@@ -225,43 +229,11 @@ footer p{color:var(--amber)}
   .results-grid{display:grid}
   .comp-table{font-size:8pt}
 }
-
-/* Library home pill */
-header{position:relative;}
-.lib-home-btn{
-  position:absolute;
-  top:50%;
-  right:16px;
-  transform:translateY(-50%);
-  display:inline-flex;
-  align-items:center;
-  gap:5px;
-  font-family:'IBM Plex Mono',monospace;
-  font-size:9px;
-  font-weight:600;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-  text-decoration:none;
-  color:var(--amber2,#e07800);
-  background:rgba(232,120,0,.15);
-  border:1px solid var(--amber2,#e07800);
-  border-radius:20px;
-  padding:6px 12px;
-  min-height:32px;
-  white-space:nowrap;
-  z-index:10;
-  -webkit-tap-highlight-color:transparent;
-  transition:background .2s;
-}
-.lib-home-btn:hover,
-.lib-home-btn:active{background:rgba(232,120,0,.30);}
-@media print{.lib-home-btn{display:none!important}}
 </style>
 </head>
 <body>
 
 <header>
-  <a href="index.html" class="lib-home-btn" title="Library Index">⌂ Index</a>
   <h1 class="header-title"><span class="accent">LC76</span> TYRE PRESSURE CALCULATOR</h1>
   <p class="header-subtitle">HZJ76R · 265/70R16 Current · Terrain & Load Optimised</p>
   <p class="header-meta">Field tool — works offline · Cross-reference: R14 Tyre Management Guide</p>
@@ -275,7 +247,7 @@ header{position:relative;}
 </div>
 
 <main>
-
+<a href="index.html" class="back-link">← Library Index</a>
 
 <!-- ═══════════════════════════════════════════════════ CALCULATOR PANEL -->
 <div id="panel-calc" class="panel active">
@@ -611,95 +583,91 @@ var state = {
 
 // ─────────────────────────────────────────────
 // PRESSURE DATA
-// Base pressures at medium load (350 kg), front / rear in PSI
-// Organised as [terrain][size] = {f, r, fRange, rRange, rationale, reinflation}
+// Base pressures at medium load (350 kg), front / rear in bar
+// Organised as [terrain][size] = {f, r, fl, fh, rl, rh, rationale, reinflation}
 // ─────────────────────────────────────────────
 var BASE = {
-  // format: {f: PSI front, r: PSI rear, fl: front low, fh: front high, rl: rear low, rh: rear high}
+  // format: {f: bar front, r: bar rear, fl: front low, fh: front high, rl: rear low, rh: rear high}
   highway: {
-    '265/70R16': {f:35,r:37,fl:33,fh:37,rl:35,rh:40,
-      rat:'Highway pressures optimise fuel economy, tread life, and steering response. Rear runs 2 PSI higher to support load over the rear axle.',
+    '265/70R16': {f:2.41,r:2.55,fl:2.28,fh:2.55,rl:2.41,rh:2.76,
+      rat:'Highway pressures optimise fuel economy, tread life, and steering response. Rear runs 0.14 bar higher to support load over the rear axle.',
       reinf:null},
-    '265/75R16': {f:34,r:36,fl:32,fh:36,rl:34,rh:39,
-      rat:'Taller sidewall (75-series) needs slightly lower base pressure than the 70-series to achieve the same contact patch. Rear 2 PSI higher for load support.',
+    '265/75R16': {f:2.34,r:2.48,fl:2.21,fh:2.48,rl:2.34,rh:2.69,
+      rat:'Taller sidewall (75-series) needs slightly lower base pressure than the 70-series to achieve the same contact patch. Rear 0.14 bar higher for load support.',
       reinf:null},
-    '285/75R16': {f:33,r:35,fl:31,fh:35,rl:33,rh:38,
-      rat:'Wider and taller tyre achieves correct contact patch at lower pressure. Rear higher for rear-axle load. Monitor steering feel — if heavy, add 1 PSI front.',
+    '285/75R16': {f:2.28,r:2.41,fl:2.14,fh:2.41,rl:2.28,rh:2.62,
+      rat:'Wider and taller tyre achieves correct contact patch at lower pressure. Rear higher for rear-axle load. Monitor steering feel — if heavy, add 0.07 bar front.',
       reinf:null},
   },
   gravel: {
-    '265/70R16': {f:30,r:32,fl:28,fh:32,rl:30,rh:35,
+    '265/70R16': {f:2.07,r:2.21,fl:1.93,fh:2.21,rl:2.07,rh:2.41,
       rat:'Reduced from highway pressure to increase contact patch and improve shock absorption on loose gravel. Reduces stone-chip sidewall impact.',
-      reinf:'Before returning to tar: inflate front to 2.41 bar (35 PSI), rear to 2.55 bar (37 PSI).'},
-    '265/75R16': {f:29,r:31,fl:27,fh:31,rl:29,rh:34,
+      reinf:'Before returning to tar: inflate front to 2.41 bar, rear to 2.55 bar.'},
+    '265/75R16': {f:2.00,r:2.14,fl:1.86,fh:2.14,rl:2.00,rh:2.34,
       rat:'Taller sidewall already absorbs more shock than 70-series. Run slightly lower than equivalent 70-series. Good stone chip protection at this pressure.',
-      reinf:'Before returning to tar: inflate front to 2.34 bar (34 PSI), rear to 2.48 bar (36 PSI).'},
-    '285/75R16': {f:28,r:30,fl:26,fh:30,rl:28,rh:33,
+      reinf:'Before returning to tar: inflate front to 2.34 bar, rear to 2.48 bar.'},
+    '285/75R16': {f:1.93,r:2.07,fl:1.79,fh:2.07,rl:1.93,rh:2.28,
       rat:'Wider contact patch on gravel improves traction. Taller sidewall handles corrugation well. Lower pressure distributes load over more tread.',
-      reinf:'Before returning to tar: inflate front to 2.28 bar (33 PSI), rear to 2.41 bar (35 PSI).'},
+      reinf:'Before returning to tar: inflate front to 2.28 bar, rear to 2.41 bar.'},
   },
   corrugated: {
-    '265/70R16': {f:26,r:28,fl:24,fh:28,rl:26,rh:32,
+    '265/70R16': {f:1.79,r:1.93,fl:1.65,fh:1.93,rl:1.79,rh:2.21,
       rat:'Corrugated tracks transmit severe vibration to the chassis. Lower pressure softens the ride, reduces wheel bounce, and protects wheel bearings and chassis joints.',
-      reinf:'Before returning to tar: inflate front to 2.41 bar (35 PSI), rear to 2.55 bar (37 PSI).'},
-    '265/75R16': {f:25,r:27,fl:23,fh:27,rl:25,rh:31,
+      reinf:'Before returning to tar: inflate front to 2.41 bar, rear to 2.55 bar.'},
+    '265/75R16': {f:1.72,r:1.86,fl:1.59,fh:1.86,rl:1.72,rh:2.14,
       rat:'Taller sidewall flexes more than 70-series — run slightly lower to avoid over-stiffening on corrugations. Excellent vibration damping at this pressure.',
-      reinf:'Before returning to tar: inflate front to 2.34 bar (34 PSI), rear to 2.48 bar (36 PSI).'},
-    '285/75R16': {f:24,r:26,fl:22,fh:26,rl:24,rh:30,
+      reinf:'Before returning to tar: inflate front to 2.34 bar, rear to 2.48 bar.'},
+    '285/75R16': {f:1.65,r:1.79,fl:1.52,fh:1.79,rl:1.65,rh:2.07,
       rat:'Best corrugation tyre in the range. Wide + tall sidewall combination gives excellent float over wash-boarding. Lowest pressure for maximum compliance.',
-      reinf:'Before returning to tar: inflate front to 2.28 bar (33 PSI), rear to 2.41 bar (35 PSI).'},
+      reinf:'Before returning to tar: inflate front to 2.28 bar, rear to 2.41 bar.'},
   },
   sand: {
-    '265/70R16': {f:16,r:18,fl:14,fh:18,rl:16,rh:20,
+    '265/70R16': {f:1.10,r:1.24,fl:0.97,fh:1.24,rl:1.10,rh:1.38,
       rat:'Sand requires maximum footprint to float over soft surface. Deflate significantly — tyre will bulge and spread. Do not exceed 20 km/h at these pressures. Re-inflate immediately when leaving sand.',
-      reinf:'⚠️ Critical: Re-inflate to gravel or highway pressure before leaving sand. Running 1.10 bar (16 PSI) on tar will destroy the tyre within kilometres.'},
-    '265/75R16': {f:14,r:16,fl:12,fh:16,rl:14,rh:18,
+      reinf:'⚠️ Critical: Re-inflate to gravel or highway pressure before leaving sand. Running 1.10 bar on tar will destroy the tyre within kilometres.'},
+    '265/75R16': {f:0.97,r:1.10,fl:0.83,fh:1.10,rl:0.97,rh:1.24,
       rat:'Taller sidewall gives more volume to flex — can run lower than 70-series for same contact patch. Better sand performance than 70-series at equivalent deflation.',
       reinf:'⚠️ Critical: Re-inflate to gravel or highway pressure before leaving sand. Running low pressures on tar will destroy the tyre within kilometres.'},
-    '285/75R16': {f:12,r:14,fl:10,fh:14,rl:12,rh:16,
-      rat:'Best sand tyre of the three. Wide footprint + tall sidewall allows very low deflation. Front can go to 0.69 bar (10 PSI) in deep soft sand. Bead retention critical below 0.83 bar.',
-      reinf:'⚠️ Critical: Re-inflate before leaving sand. Monitor bead seating — re-inflate in stages and check beads are seated before exceeding 1.03 bar (15 PSI).'},
+    '285/75R16': {f:0.83,r:0.97,fl:0.69,fh:0.97,rl:0.83,rh:1.10,
+      rat:'Best sand tyre of the three. Wide footprint + tall sidewall allows very low deflation. Front can go to 0.69 bar in deep soft sand. Bead retention critical below 0.83 bar.',
+      reinf:'⚠️ Critical: Re-inflate before leaving sand. Monitor bead seating — re-inflate in stages and check beads are seated before exceeding 1.03 bar.'},
   },
   mud: {
-    '265/70R16': {f:20,r:22,fl:18,fh:24,rl:20,rh:26,
+    '265/70R16': {f:1.38,r:1.52,fl:1.24,fh:1.65,rl:1.38,rh:1.79,
       rat:'Mud requires a balance between flotation and self-cleaning. Too low and the tyre clogs; too high and it sinks. AT tread pattern clears at this pressure range.',
-      reinf:'Before returning to gravel or tar: inflate front to 2.07 bar (30 PSI), rear to 2.21 bar (32 PSI).'},
-    '265/75R16': {f:18,r:20,fl:16,fh:22,rl:18,rh:24,
+      reinf:'Before returning to gravel or tar: inflate front to 2.07 bar, rear to 2.21 bar.'},
+    '265/75R16': {f:1.24,r:1.38,fl:1.10,fh:1.52,rl:1.24,rh:1.65,
       rat:'Slightly lower than 70-series for additional footprint. Tall sidewall helps absorb impacts from hidden rocks in mud. AT811 tread clears well at these pressures.',
-      reinf:'Before returning to gravel or tar: inflate front to 2.00 bar (29 PSI), rear to 2.14 bar (31 PSI).'},
-    '285/75R16': {f:17,r:19,fl:15,fh:21,rl:17,rh:23,
+      reinf:'Before returning to gravel or tar: inflate front to 2.00 bar, rear to 2.14 bar.'},
+    '285/75R16': {f:1.17,r:1.31,fl:1.03,fh:1.45,rl:1.17,rh:1.59,
       rat:'Wider tyre can clog in deep clay mud — monitor tread self-cleaning. Lower pressure maintains ground contact but wider section needs careful throttle management.',
-      reinf:'Before returning to gravel or tar: inflate front to 1.93 bar (28 PSI), rear to 2.07 bar (30 PSI).'},
+      reinf:'Before returning to gravel or tar: inflate front to 1.93 bar, rear to 2.07 bar.'},
   },
   rock: {
-    '265/70R16': {f:22,r:24,fl:20,fh:26,rl:22,rh:28,
+    '265/70R16': {f:1.52,r:1.65,fl:1.38,fh:1.79,rl:1.52,rh:1.93,
       rat:'Rock requires low enough pressure to conform to surface and grip, but not so low the sidewall is vulnerable to cuts on sharp edges. The 70-series has less sidewall protection — stay at upper end of range on sharp rock.',
-      reinf:'Before returning to gravel or tar: inflate front to 2.07 bar (30 PSI), rear to 2.21 bar (32 PSI).'},
-    '265/75R16': {f:20,r:22,fl:18,fh:24,rl:20,rh:26,
+      reinf:'Before returning to gravel or tar: inflate front to 2.07 bar, rear to 2.21 bar.'},
+    '265/75R16': {f:1.38,r:1.52,fl:1.24,fh:1.65,rl:1.38,rh:1.79,
       rat:'Extra sidewall height provides meaningful cut resistance. Run lower than 70-series to increase conformity to rock surface. Good protection against rim strikes.',
-      reinf:'Before returning to gravel or tar: inflate front to 2.00 bar (29 PSI), rear to 2.14 bar (31 PSI).'},
-    '285/75R16': {f:18,r:20,fl:16,fh:22,rl:18,rh:24,
+      reinf:'Before returning to gravel or tar: inflate front to 2.00 bar, rear to 2.14 bar.'},
+    '285/75R16': {f:1.24,r:1.38,fl:1.10,fh:1.52,rl:1.24,rh:1.65,
       rat:'Best tyre for rocky terrain — wide contact and tall sidewall maximise grip and protection. Lower pressure allows excellent rock conformity. Rim strike risk is lowest in the range.',
-      reinf:'Before returning to gravel or tar: inflate front to 1.93 bar (28 PSI), rear to 2.07 bar (30 PSI).'},
+      reinf:'Before returning to gravel or tar: inflate front to 1.93 bar, rear to 2.07 bar.'},
   },
 };
 
 // ─────────────────────────────────────────────
 // PAYLOAD ADJUSTMENT
-// PSI adjustment per 100 kg above/below 350 kg baseline
+// Bar adjustment per 100 kg above/below 350 kg baseline
 // Front axle carries ~45% of load, rear ~55%
 // ─────────────────────────────────────────────
 function payloadAdj(payload, terrain) {
   var delta = (payload - 350) / 100;
   // Sand & mud: minimal adjustment (footprint more important than load)
-  if (terrain === 'sand') return {f: delta * 0.5, r: delta * 1.0};
-  if (terrain === 'mud')  return {f: delta * 0.5, r: delta * 1.0};
+  if (terrain === 'sand') return {f: delta * 0.03, r: delta * 0.07};
+  if (terrain === 'mud')  return {f: delta * 0.03, r: delta * 0.07};
   // Other terrains: standard adjustment
-  return {f: delta * 1.0, r: delta * 1.5};
-}
-
-function psiToBar(psi) {
-  return (psi * 0.0689476).toFixed(2);
+  return {f: delta * 0.07, r: delta * 0.10};
 }
 
 // ─────────────────────────────────────────────
@@ -709,20 +677,20 @@ function render() {
   var d = BASE[state.terrain][state.size];
   var adj = payloadAdj(state.payload, state.terrain);
 
-  var fPSI = Math.round(d.f + adj.f);
-  var rPSI = Math.round(d.r + adj.r);
+  var fBar = Math.round((d.f + adj.f) * 100) / 100;
+  var rBar = Math.round((d.r + adj.r) * 100) / 100;
 
   // Clamp within range
-  fPSI = Math.max(d.fl, Math.min(d.fh + 2, fPSI));
-  rPSI = Math.max(d.rl, Math.min(d.rh + 2, rPSI));
+  fBar = Math.max(d.fl, Math.min(d.fh + 0.14, fBar));
+  rBar = Math.max(d.rl, Math.min(d.rh + 0.14, rBar));
 
-  document.getElementById('front-bar').innerHTML = psiToBar(fPSI) + ' <span>bar</span>';
-  document.getElementById('front-psi').innerHTML = fPSI + ' <span>PSI</span>';
-  document.getElementById('front-range').textContent = 'Range: ' + psiToBar(d.fl) + '–' + psiToBar(d.fh) + ' bar';
+  document.getElementById('front-bar').innerHTML = fBar.toFixed(2) + ' <span>bar</span>';
+  document.getElementById('front-psi').innerHTML = Math.round(fBar / 0.0689476) + ' <span>PSI</span>';
+  document.getElementById('front-range').textContent = 'Range: ' + d.fl.toFixed(2) + '–' + d.fh.toFixed(2) + ' bar';
 
-  document.getElementById('rear-bar').innerHTML = psiToBar(rPSI) + ' <span>bar</span>';
-  document.getElementById('rear-psi').innerHTML = rPSI + ' <span>PSI</span>';
-  document.getElementById('rear-range').textContent = 'Range: ' + psiToBar(d.rl) + '–' + psiToBar(d.rh) + ' bar';
+  document.getElementById('rear-bar').innerHTML = rBar.toFixed(2) + ' <span>bar</span>';
+  document.getElementById('rear-psi').innerHTML = Math.round(rBar / 0.0689476) + ' <span>PSI</span>';
+  document.getElementById('rear-range').textContent = 'Range: ' + d.rl.toFixed(2) + '–' + d.rh.toFixed(2) + ' bar';
 
   document.getElementById('rationale-text').textContent = d.rat;
 
