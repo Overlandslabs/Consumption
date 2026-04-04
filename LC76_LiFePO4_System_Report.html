@@ -36,7 +36,9 @@ html{scroll-behavior:smooth;}
 body{background:var(--paper);color:var(--coal);font-family:'Nunito Sans',sans-serif;font-size:13.5px;line-height:1.7;}
 
 /* ── HERO ── */
-.hero{background:var(--coal);min-height:220px;padding:36px 56px 0;position:relative;z-index:50;overflow:hidden;}
+/* ── STICKY CONTAINER (hero + TOC together) ── */
+.sticky-wrap{position:sticky;top:0;z-index:100;}
+.hero{background:var(--coal);min-height:220px;padding:36px 56px 0;position:relative;overflow:hidden;}
 .hero-grain{position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");pointer-events:none;opacity:.4;}
 .hero-ring1{position:absolute;top:-120px;right:-120px;width:520px;height:520px;border:2px solid rgba(184,106,26,.12);border-radius:50%;}
 .hero-ring2{position:absolute;top:-60px;right:-60px;width:380px;height:380px;border:2px solid rgba(184,106,26,.08);border-radius:50%;}
@@ -51,12 +53,12 @@ body{background:var(--paper);color:var(--coal);font-family:'Nunito Sans',sans-se
 .hero-bands{display:grid;grid-template-columns:1fr 1fr;height:6px;}
 
 /* ── INDEX PILL ── */
-.idx-pill{position:absolute;top:12px;right:20px;z-index:101;}
+.idx-pill{position:absolute;top:50%;right:20px;transform:translateY(-50%);z-index:101;}
 .idx-pill a{display:inline-flex;align-items:center;gap:5px;background:var(--amber2);color:#fff;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.06em;text-decoration:none;padding:5px 12px;border-radius:20px;font-weight:600;transition:background .15s;}
 .idx-pill a:hover{background:var(--copper);}
 
 /* ── TOC ── */
-.toc{background:var(--smoke);padding:10px 32px 12px;border-bottom:1px solid rgba(255,255,255,.05);position:sticky;top:0;z-index:100;}
+.toc{background:var(--smoke);padding:10px 32px 12px;border-bottom:1px solid rgba(255,255,255,.05);}
 .toc-title{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.22em;color:var(--copper-lt);text-transform:uppercase;margin-bottom:8px;}
 .toc-grid{display:flex;flex-wrap:wrap;gap:4px;}
 .toc-link{display:inline-flex;align-items:center;gap:5px;text-decoration:none;color:#999;font-size:10.5px;font-family:'JetBrains Mono',monospace;padding:5px 10px;border-radius:3px;transition:all .15s;line-height:1.35;white-space:nowrap;}
@@ -269,6 +271,7 @@ body{background:var(--paper);color:var(--coal);font-family:'Nunito Sans',sans-se
   *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
   @page{size:A4;margin:7mm;}
   body{font-size:7.5pt;line-height:1.45;background:#fff!important;}
+  .sticky-wrap{position:static!important;}
   .hero{position:static!important;min-height:auto!important;padding:10px 16px 0!important;}
   .hero-title{font-size:22pt!important;}
   .toc{position:static!important;padding:6px 16px!important;}
@@ -291,10 +294,9 @@ body{background:var(--paper);color:var(--coal);font-family:'Nunito Sans',sans-se
 </head>
 <body>
 
-<!-- ── INDEX PILL ── -->
-<div class="idx-pill"><a href="index.html">⌂ Index</a></div>
-
+<div class="sticky-wrap">
 <div class="hero">
+  <div class="idx-pill"><a href="index.html">⌂ Index</a></div>
   <div class="hero-grain"></div>
   <div class="hero-ring1"></div>
   <div class="hero-ring2"></div>
@@ -325,6 +327,7 @@ body{background:var(--paper);color:var(--coal);font-family:'Nunito Sans',sans-se
     <a href="javascript:void(0)" onclick="document.getElementById('s4').scrollIntoView({behavior:'smooth',block:'start'});return false;" class="toc-link"><span class="toc-num">04</span> Pricing &amp; Summary</a>
   </div>
 </div>
+</div><!-- end sticky-wrap -->
 
 
 <div class="body">
