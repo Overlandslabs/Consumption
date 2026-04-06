@@ -60,9 +60,94 @@ main{padding:0.5cm}
 .card{break-inside:avoid;margin-bottom:0.3cm;border:1pt solid #999}
 footer{margin-top:0.5cm;padding:0.3cm;border-top:1pt solid #ccc}
 }
+
+/* ── PASSWORD GATE ── */
+#pw-gate{
+  background:var(--paper);
+  display:flex;align-items:center;justify-content:center;
+  min-height:60vh;padding:2rem;
+}
+.pw-box{
+  background:var(--ink);
+  border:2px solid var(--amber2);
+  border-radius:4px;
+  padding:2.5rem 2rem;
+  max-width:380px;width:100%;
+  text-align:center;
+}
+.pw-logo{
+  font-family:Bebas Neue,sans-serif;
+  font-size:2rem;letter-spacing:2px;
+  color:var(--amber2);margin-bottom:.25rem;
+}
+.pw-sub{
+  font-family:IBM Plex Mono,monospace;
+  font-size:.7rem;letter-spacing:.15em;
+  color:var(--steelmd);text-transform:uppercase;
+  margin-bottom:1.75rem;
+}
+.pw-label{
+  font-family:IBM Plex Mono,monospace;
+  font-size:.7rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--steelmd);
+  display:block;margin-bottom:.5rem;text-align:left;
+}
+#pw-input{
+  width:100%;
+  background:#1a1d24;
+  border:1px solid var(--steelmd);
+  border-radius:3px;
+  color:#fff;
+  font-family:IBM Plex Mono,monospace;
+  font-size:.95rem;
+  padding:.65rem .85rem;
+  margin-bottom:1rem;
+  outline:none;
+  transition:border-color .2s;
+  -webkit-appearance:none;
+}
+#pw-input:focus{border-color:var(--amber2);}
+#pw-btn{
+  width:100%;
+  background:var(--amber2);
+  border:none;
+  border-radius:3px;
+  color:var(--ink);
+  font-family:Bebas Neue,sans-serif;
+  font-size:1.1rem;
+  letter-spacing:2px;
+  padding:.65rem 1rem;
+  cursor:pointer;
+  transition:background .2s;
+}
+#pw-btn:hover{background:var(--amber);}
+#pw-error{
+  font-family:IBM Plex Mono,monospace;
+  font-size:.72rem;
+  color:#f87171;
+  margin-top:.75rem;
+  min-height:1.1em;
+  letter-spacing:.05em;
+}
+#protected-content{display:none;}
 </style>
 </head>
 <body>
+
+<!-- ── PASSWORD GATE ── -->
+<div id="pw-gate">
+  <div class="pw-box">
+    <div class="pw-logo">LC76 LIBRARY</div>
+    <div class="pw-sub">2009 Land Cruiser 76 · Overland Reference</div>
+    <label class="pw-label" for="pw-input">Access Password</label>
+    <input type="password" id="pw-input" placeholder="Enter password" autocomplete="current-password">
+    <button id="pw-btn" onclick="checkPassword()">UNLOCK</button>
+    <div id="pw-error"></div>
+  </div>
+</div>
+
+<!-- ── PROTECTED CONTENT ── -->
+<div id="protected-content">
 
 <header>
 <h1 class="header-title"><span class="accent">LC76</span> OVERLAND REFERENCE LIBRARY</h1>
@@ -251,7 +336,7 @@ footer{margin-top:0.5cm;padding:0.3cm;border-top:1pt solid #ccc}
 <p>Vehicle breakdown, fire, medical emergencies, communication, and evacuation. Africa-specific protocols.</p>
 </div>
 </a>
-<a href="LC76_1HZ_Troubleshooting_Guide.html" class="card emergency">
+<a href="R18-1HZ-Troubleshooting-Guide.html" class="card emergency">
 <div class="card-header">
 <div class="card-code">R18</div>
 <div class="card-title">🔥 1HZ Engine Troubleshooting</div>
@@ -333,6 +418,47 @@ footer{margin-top:0.5cm;padding:0.3cm;border-top:1pt solid #ccc}
 <footer>
 <p>LC76 Overland Reference Library</p>
 </footer>
+
+</div><!-- /protected-content -->
+
+<script>
+const HASH = '4b7c98fb5c3acbae6a86e698dcc1cd8a2faedfa83f53cc400589c80450158c3f';
+
+async function sha256(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+async function checkPassword() {
+  const val = document.getElementById('pw-input').value;
+  const hash = await sha256(val);
+  if (hash === HASH) {
+    sessionStorage.setItem('lc76_auth','1');
+    unlock();
+  } else {
+    const err = document.getElementById('pw-error');
+    err.textContent = 'Incorrect password. Try again.';
+    document.getElementById('pw-input').value = '';
+    document.getElementById('pw-input').focus();
+    setTimeout(() => { err.textContent = ''; }, 3000);
+  }
+}
+
+function unlock() {
+  document.getElementById('pw-gate').style.display = 'none';
+  document.getElementById('protected-content').style.display = 'block';
+}
+
+// Check session on load
+if (sessionStorage.getItem('lc76_auth') === '1') {
+  unlock();
+}
+
+// Allow Enter key to submit
+document.getElementById('pw-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') checkPassword();
+});
+</script>
 
 </body>
 </html>
