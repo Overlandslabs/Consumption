@@ -40,7 +40,11 @@
   .sticky-container { position: sticky; top: 0; z-index: 100; }
 
   /* MASTHEAD */
-  .masthead { background: var(--steeldk); border-bottom: 3px solid var(--amber2); }
+  .masthead { background: var(--steeldk); border-bottom: 3px solid var(--amber2); position: relative; }
+  /* Library home pill */
+  .lib-home-btn{position:absolute;top:50%;right:16px;transform:translateY(-50%);display:inline-flex;align-items:center;gap:5px;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--amber2,#e07800);background:rgba(232,120,0,.15);border:1px solid var(--amber2,#e07800);border-radius:20px;padding:6px 12px;min-height:32px;white-space:nowrap;z-index:10;-webkit-tap-highlight-color:transparent;transition:background .2s,border-color .2s}
+  .lib-home-btn:hover,.lib-home-btn:active{background:rgba(232,120,0,.30);border-color:var(--amber2,#e07800)}
+  @media print{.lib-home-btn{display:none!important}}
   .masthead-inner {
     padding: 12px 5% 10px;
     display: flex;
@@ -132,7 +136,8 @@
     background: var(--steeldk); color: #b0bcc8;
     padding: 8px 12px; text-align: left; border: 1px solid rgba(255,255,255,0.07);
   }
-  .matrix-table td { padding: 8px 12px; border: 1px solid var(--rule); vertical-align: top; line-height: 1.5; }
+  .matrix-table td { padding: 8px 12px; border: 1px solid var(--rule); vertical-align: top; line-height: 1.5; overflow-wrap: break-word; word-break: break-word; }
+  .matrix-table th { overflow-wrap: break-word; word-break: break-word; }
   .matrix-table tr:nth-child(even) td { background: var(--paper2); }
   .matrix-table tr:nth-child(odd) td { background: #faf6ee; }
   .matrix-table tr:hover td { background: #ede0c4; }
@@ -307,6 +312,11 @@
     .doc-title { font-size: 22px; }
     .matrix-table { font-size: 11px; }
     .matrix-table th, .matrix-table td { padding: 6px 8px; }
+    .matrix-table th:nth-child(1), .matrix-table td:nth-child(1) { width: 26%; }
+    .matrix-table th:nth-child(2), .matrix-table td:nth-child(2) { width: 17%; }
+    .matrix-table th:nth-child(3), .matrix-table td:nth-child(3) { width: 28%; }
+    .matrix-table th:nth-child(4), .matrix-table td:nth-child(4) { width: 17%; }
+    .matrix-table th:nth-child(5), .matrix-table td:nth-child(5) { width: 12%; }
     .smoke-grid { grid-template-columns: 1fr 1fr; }
     .sensor-grid { grid-template-columns: 1fr; }
     .diag-header { grid-template-columns: 1fr; }
@@ -319,6 +329,7 @@
 <div class="sticky-container">
   <div class="masthead">
     <div class="masthead-inner">
+      <a href="index.html" class="lib-home-btn" title="Library Index">⌂ Index</a>
       <div>
         <div class="doc-eyebrow">Overland Series · Reference R18</div>
         <div class="doc-title">1HZ ENGINE TROUBLESHOOTING</div>
