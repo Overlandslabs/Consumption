@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>R19 — 265/75R16 AT Tyre Review — LC76 Overland</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:#0d0e12; --paper:#dad2c0; --paper2:#edeae0;
+  --amber:#b86800; --amber2:#e07800;
+  --rule:#d4cfc4; --steeldk:#2a2f3a; --steelmd:#6a7080;
+  --red-warn:#B91C1C; --green-ok:#059669;
+  --ochre:#c8891a; --sand:#e8d5a3; --clay:#a0522d;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+body { background: var(--paper); color: var(--ink); font-family: 'Oswald', sans-serif; line-height: 1.6; }
+
+/* ── STICKY NAV ─────────────────────────────── */
+.sticky-wrap { position: sticky; top: 0; z-index: 100; }
+.masthead {
+  background: var(--steeldk);
+  padding: 14px 5% 10px;
+  border-bottom: 3px solid var(--amber2);
+}
+.ms-eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--steelmd); margin-bottom: 4px; }
+.ms-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(26px, 5vw, 38px); color: var(--amber2); line-height: 1; letter-spacing: .02em; }
+.ms-sub { font-size: 11px; color: var(--sand); letter-spacing: .06em; text-transform: uppercase; margin-top: 3px; opacity: .8; }
+.toc {
+  background: #1e2229;
+  padding: 8px 5%;
+  display: flex; gap: 0; flex-wrap: nowrap;
+  overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
+.toc::-webkit-scrollbar { display: none; }
+.toc button {
+  background: none; border: none; cursor: pointer;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--steelmd); white-space: nowrap; padding: 5px 14px 5px 0;
+  flex-shrink: 0; transition: color .15s;
+}
+.toc button:hover, .toc button.active { color: var(--amber2); }
+
+/* ── LAYOUT ─────────────────────────────────── */
+.content { padding: 20px 5% 50px; max-width: 100%; }
+section { margin-bottom: 28px; }
+
+/* ── HEADINGS ───────────────────────────────── */
+.section-label {
+  font-family: 'IBM Plex Mono', monospace; font-size: 9px;
+  letter-spacing: .22em; text-transform: uppercase; color: var(--steelmd);
+  border-bottom: 1px solid var(--rule); padding-bottom: 4px; margin-bottom: 8px;
+}
+h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(20px, 3vw, 26px); color: var(--ink); letter-spacing: .03em; margin-bottom: 5px; }
+h3 { font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--amber); margin: 10px 0 4px; }
+
+p { font-size: 13px; color: #2a2a2a; line-height: 1.55; margin-bottom: 7px; }
+strong { color: var(--ink); }
+
+/* ── INTRO PANEL ────────────────────────────── */
+.intro-panel {
+  background: var(--steeldk); color: var(--sand);
+  border-left: 4px solid var(--amber2);
+  padding: 12px 16px; margin-bottom: 14px; border-radius: 0 4px 4px 0;
+}
+.intro-panel p { color: var(--sand); font-size: 12px; margin-bottom: 4px; }
+.intro-panel p:last-child { margin-bottom: 0; }
+.intro-panel strong { color: #fff; }
+
+/* ── VERDICT BADGE ─────────────────────────── */
+.verdict { display: inline-block; font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; padding: 3px 10px; border-radius: 2px; font-weight: 600; vertical-align: middle; margin-left: 8px; }
+.v-top { background: rgba(5,150,105,.15); color: var(--green-ok); border: 1px solid var(--green-ok); }
+.v-rec { background: rgba(184,104,0,.12); color: var(--amber); border: 1px solid var(--amber); }
+.v-mid { background: rgba(106,112,128,.12); color: var(--steelmd); border: 1px solid var(--steelmd); }
+.v-avoid { background: rgba(185,28,28,.1); color: var(--red-warn); border: 1px solid var(--red-warn); }
+
+/* ── TYRE CARDS ─────────────────────────────── */
+.tyre-grid { display: grid; grid-template-columns: 1fr; gap: 18px; }
+@media (min-width: 900px) { .tyre-grid { grid-template-columns: 1fr 1fr; } }
+
+.tyre-card {
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  overflow: hidden;
+  border-top: 3px solid var(--amber);
+}
+.tyre-card.top-pick { border-top-color: var(--green-ok); }
+.tyre-card.caution { border-top-color: var(--steelmd); }
+
+.card-head { padding: 10px 14px 8px; border-bottom: 1px solid var(--rule); background: var(--paper2); }
+.card-brand { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .15em; text-transform: uppercase; color: var(--steelmd); margin-bottom: 1px; }
+.card-name { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: var(--ink); letter-spacing: .02em; line-height: 1.1; }
+.card-size { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--amber); margin-top: 2px; }
+
+.card-body { padding: 10px 14px; }
+
+.spec-row { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid rgba(212,207,196,.5); padding: 3px 0; font-size: 12px; gap: 12px; }
+.spec-row:last-of-type { border-bottom: none; }
+.spec-label { color: var(--steelmd); font-size: 10px; font-family: 'IBM Plex Mono', monospace; letter-spacing: .06em; flex-shrink: 0; }
+.spec-val { font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 600; color: var(--ink); text-align: right; }
+.spec-val.good { color: var(--green-ok); }
+.spec-val.warn { color: var(--red-warn); }
+.spec-val.amber { color: var(--amber); }
+
+.card-notes { margin-top: 8px; }
+.note-block { margin-bottom: 6px; }
+.note-label { font-size: 9px; font-family: 'IBM Plex Mono', monospace; letter-spacing: .1em; text-transform: uppercase; color: var(--steelmd); display: block; margin-bottom: 1px; }
+.note-text { font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 400; color: #2a2a2a; line-height: 1.5; }
+
+.card-footer { border-top: 1px solid var(--rule); padding: 7px 14px; background: rgba(0,0,0,.025); }
+.price-row { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.price-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--steelmd); flex-shrink: 0; }
+.price-val { font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 400; color: var(--ink); }
+
+/* ── SCORE BAR ──────────────────────────────── */
+.score-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 6px; margin-top: 10px; }
+.score-item { background: #fff; border: 1px solid var(--rule); border-radius: 3px; padding: 8px 12px; }
+.score-name { font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 600; color: var(--ink); margin-bottom: 1px; }
+.score-brand { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: var(--steelmd); letter-spacing: .08em; margin-bottom: 6px; }
+.bar-wrap { height: 6px; background: var(--rule); border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 4px; }
+.bar-green { background: var(--green-ok); }
+.bar-amber { background: var(--amber2); }
+.bar-steel { background: var(--steelmd); }
+.score-cats { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; margin-top: 6px; }
+.score-cat { font-size: 10px; display: flex; justify-content: space-between; align-items: center; }
+.cat-label { color: var(--steelmd); font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: .05em; }
+.cat-dots { display: flex; gap: 2px; }
+.dot { width: 6px; height: 6px; border-radius: 50%; background: var(--rule); }
+.dot.on { background: var(--amber2); }
+.dot.on-g { background: var(--green-ok); }
+
+/* ── COMPARISON TABLE ───────────────────────── */
+.cmp-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--rule); border-radius: 4px; }
+.cmp-table { width: 100%; min-width: 700px; border-collapse: collapse; font-size: 12px; }
+.cmp-table th { background: var(--steeldk); color: var(--sand); font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; padding: 7px 10px; text-align: left; white-space: nowrap; }
+.cmp-table th:first-child { min-width: 120px; }
+.cmp-table td { font-family: 'Oswald', sans-serif; font-size: 12px; padding: 6px 10px; border-bottom: 1px solid var(--rule); color: #2a2a2a; vertical-align: middle; }
+.cmp-table tr:last-child td { border-bottom: none; }
+.cmp-table tr:nth-child(even) td { background: var(--paper2); }
+.cmp-table td:first-child { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--steelmd); letter-spacing: .06em; font-weight: 600; background: var(--paper2) !important; }
+.tick { color: var(--green-ok); font-weight: 700; }
+.cross { color: var(--red-warn); }
+.maybe { color: var(--amber); }
+
+/* ── NOTES BOX ──────────────────────────────── */
+.callout { border-left: 3px solid var(--amber2); background: rgba(184,104,0,.07); padding: 8px 12px; margin: 8px 0 10px; border-radius: 0 3px 3px 0; }
+.callout p { font-size: 12px; margin-bottom: 3px; }
+.callout p:last-child { margin-bottom: 0; }
+.callout.info { border-color: var(--green-ok); background: rgba(5,150,105,.07); }
+.callout.warn { border-color: var(--red-warn); background: rgba(185,28,28,.06); }
+
+/* ── RECOM SECTION ──────────────────────────── */
+.rec-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.rec-table th { background: var(--steeldk); color: var(--sand); font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: .1em; padding: 7px 10px; text-align: left; }
+.rec-table td { font-family: 'Oswald', sans-serif; font-size: 12px; padding: 8px 10px; border-bottom: 1px solid var(--rule); color: #2a2a2a; vertical-align: top; }
+.rec-table tr:nth-child(even) td { background: var(--paper2); }
+
+/* ── FOOTER ─────────────────────────────────── */
+footer { background: var(--steeldk); color: var(--steelmd); font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .08em; text-align: center; padding: 12px 5%; border-top: 2px solid var(--amber2); }
+footer span { color: var(--sand); }
+
+/* ── PRINT ──────────────────────────────────── */
+@media print {
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+
+  @page { margin: 10mm 12mm; size: A4; }
+
+  /* Show masthead as static block, hide nav and footer */
+  .sticky-wrap { position: static !important; }
+  .toc, footer { display: none !important; }
+
+  /* Masthead print styling */
+  .masthead {
+    background: #2a2f3a !important;
+    padding: 8pt 10pt !important;
+    margin-bottom: 10pt !important;
+    border-bottom: 3pt solid #e07800 !important;
+  }
+  .ms-eyebrow { color: #6a7080 !important; font-size: 6pt !important; margin-bottom: 1pt !important; }
+  .ms-title   { color: #e07800 !important; font-size: 18pt !important; line-height: 1 !important; }
+  .ms-sub     { color: #e8d5a3 !important; font-size: 7pt !important; margin-top: 1pt !important; opacity: 1 !important; }
+
+  html, body {
+    background: #fff !important;
+    font-size: 7.5pt !important;
+    line-height: 1.35 !important;
+    color: #111 !important;
+  }
+
+  .content { padding: 0 !important; }
+
+  section { margin-bottom: 10pt !important; }
+
+  .section-label {
+    font-size: 6pt !important;
+    padding-bottom: 2pt !important;
+    margin-bottom: 4pt !important;
+    border-bottom: 0.5pt solid #ccc !important;
+  }
+
+  h2 { font-size: 13pt !important; margin-bottom: 3pt !important; }
+  h3 { font-size: 8pt !important; margin: 6pt 0 2pt !important; }
+  p  { font-size: 7.5pt !important; line-height: 1.35 !important; margin-bottom: 4pt !important; }
+
+  /* ── Intro panel ── */
+  .intro-panel {
+    background: #2a2f3a !important;
+    padding: 6pt 8pt !important;
+    margin-bottom: 8pt !important;
+    border-left: 3pt solid #e07800 !important;
+  }
+  .intro-panel p { font-size: 7pt !important; margin-bottom: 2pt !important; color: #e8d5a3 !important; }
+  .intro-panel strong { color: #fff !important; }
+
+  /* ── Tyre cards: 2-column ── */
+  .tyre-grid {
+    display: block !important;
+    columns: 2 !important;
+    column-gap: 8pt !important;
+  }
+  .tyre-card {
+    display: inline-block !important;
+    width: 100% !important;
+    break-inside: avoid !important;
+    margin-bottom: 4pt !important;
+    border: 0.5pt solid #ccc !important;
+    border-top: 2pt solid #b86800 !important;
+    background: #fff !important;
+  }
+  .tyre-card.top-pick { border-top-color: #059669 !important; }
+  .tyre-card.caution  { border-top-color: #6a7080 !important; }
+
+  .card-head { padding: 3pt 6pt !important; background: #f0ede6 !important; }
+  .card-brand { font-size: 5.5pt !important; margin-bottom: 0 !important; color: #6a7080 !important; }
+  .card-name  { font-size: 10pt !important; color: #0d0e12 !important; }
+  .card-size  { font-size: 5.5pt !important; color: #b86800 !important; }
+
+  .card-body { padding: 3pt 6pt !important; }
+
+  .spec-row { padding: 1.5pt 0 !important; }
+  .spec-label { font-size: 5.5pt !important; }
+  .spec-val   { font-size: 6pt !important; }
+
+  .card-notes { margin-top: 3pt !important; }
+  .note-block { margin-bottom: 2pt !important; }
+  .note-label { font-size: 5.5pt !important; margin-bottom: 0 !important; }
+  .note-text  { font-size: 6pt !important; line-height: 1.25 !important; }
+
+  .card-footer { padding: 2pt 6pt !important; }
+  .price-label { font-size: 5.5pt !important; }
+  .price-val   { font-size: 6pt !important; }
+
+  /* ── Verdict badges ── */
+  .verdict { font-size: 5.5pt !important; padding: 1pt 4pt !important; }
+  .v-top { background: rgba(5,150,105,.12) !important; color: #059669 !important; border: 0.5pt solid #059669 !important; }
+  .v-rec { background: rgba(184,104,0,.1) !important; color: #b86800 !important; border: 0.5pt solid #b86800 !important; }
+  .v-mid { background: rgba(106,112,128,.1) !important; color: #6a7080 !important; border: 0.5pt solid #6a7080 !important; }
+
+  /* ── Score grid: 3-column ── */
+  .score-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 4pt !important;
+    margin-top: 4pt !important;
+  }
+  .score-item { padding: 4pt 6pt !important; break-inside: avoid !important; border: 0.5pt solid #ccc !important; background: #fff !important; }
+  .score-name  { font-size: 7pt !important; color: #0d0e12 !important; }
+  .score-brand { font-size: 5.5pt !important; color: #6a7080 !important; margin-bottom: 3pt !important; }
+  .cat-label   { font-size: 6pt !important; }
+  .dot { width: 5px !important; height: 5px !important; }
+  .dot.on  { background: #e07800 !important; }
+  .dot.on-g { background: #059669 !important; }
+
+  /* ── Comparison table ── */
+  .cmp-wrap { overflow: visible !important; border: 0.5pt solid #ccc !important; }
+  .cmp-table { min-width: unset !important; font-size: 6.5pt !important; width: 100% !important; }
+  .cmp-table th { font-size: 6pt !important; padding: 3pt 4pt !important; background: #2a2f3a !important; color: #e8d5a3 !important; white-space: normal !important; }
+  .cmp-table td { font-size: 6.5pt !important; padding: 2pt 4pt !important; }
+  .cmp-table td:first-child { font-size: 6pt !important; background: #edeae0 !important; }
+  .cmp-table tr:nth-child(even) td { background: #f5f3ee !important; }
+  .cmp-table tr:nth-child(even) td:first-child { background: #edeae0 !important; }
+  .tick { color: #059669 !important; }
+  .cross { color: #B91C1C !important; }
+  .maybe { color: #b86800 !important; }
+
+  /* ── Recommendation table ── */
+  .rec-table th { font-size: 6pt !important; padding: 3pt 5pt !important; background: #2a2f3a !important; color: #e8d5a3 !important; }
+  .rec-table td { font-size: 7pt !important; padding: 4pt 5pt !important; }
+  .rec-table tr:nth-child(even) td { background: #f5f3ee !important; }
+
+  /* ── Callout boxes ── */
+  .callout { padding: 4pt 6pt !important; margin: 4pt 0 6pt !important; border-left: 2pt solid #e07800 !important; background: rgba(184,104,0,.06) !important; }
+  .callout.info { border-left-color: #059669 !important; background: rgba(5,150,105,.06) !important; }
+  .callout.warn { border-left-color: #B91C1C !important; background: rgba(185,28,28,.05) !important; }
+  .callout p { font-size: 6.5pt !important; }
+  .callout strong { color: #0d0e12 !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="sticky-wrap">
+  <div class="masthead">
+    <div class="ms-eyebrow">R19 — Overland Series · Tyre Review</div>
+    <div class="ms-title">265/75R16 All-Terrain Tyre Review</div>
+    <div class="ms-sub">2009 LC76 SW · 1HZ Low-Boost Turbo · Southern &amp; East Africa</div>
+  </div>
+  <nav class="toc" id="toc">
+    <button onclick="navTo('context')">Context</button>
+    <button onclick="navTo('shortlist')">Shortlist</button>
+    <button onclick="navTo('scorecard')">Scorecard</button>
+    <button onclick="navTo('comparison')">Comparison</button>
+    <button onclick="navTo('sidewall')">Technical Notes</button>
+    <button onclick="navTo('recommendation')">Recommendation</button>
+    <button onclick="navTo('availability')">Where to Buy</button>
+  </nav>
+</div>
+
+<div class="content">
+  <!-- CONTEXT -->
+  <section id="context">
+    <div class="section-label">01 — Vehicle &amp; Use Context</div>
+    <h2>Your Requirements</h2>
+
+    <div class="intro-panel">
+      <p><strong>Vehicle:</strong> 2009 LC76 SW · 1HZ 4.2L diesel + SAC low-boost turbo · GVM 2,850 kg · ~305,000 km</p>
+      <p><strong>Size:</strong> 265/75R16 confirmed — 804 mm diameter, 31.6″, fits LC76 stock rims</p>
+      <p><strong>Primary terrain:</strong> Compacted gravel tracks, corrugated laterite, deep sand, rocky outcrops, tar transits — Southern &amp; East Africa two-year expedition</p>
+      <p><strong>Key requirements:</strong> 3-ply sidewall · Load Range D or E (LR-E preferred) · Available in South Africa · Long-distance tread life · Quiet enough for daily use</p>
+    </div>
+
+    <h3>Why 3-Ply Sidewall Matters for Africa</h3>
+    <p>African overland routes combine the worst of multiple worlds for tyres: sharp basalt and quartzite rock edges that slash sidewalls at low pressure, heavy sand corrugations that flex the carcass continuously, and long tar transits that cook under-spec rubber. The sidewall — not the tread — is typically the failure point. A 3-ply (or equivalent CoreGard/reinforced) sidewall dramatically reduces pinch flats, slashing, and bruising when aired down to 1.2–1.5 bar on soft terrain.</p>
+    <p>On the 1HZ low-boost turbo at ~2,500 kg loaded, you also need a genuine Load Range E (10-ply rated) tyre — not a passenger-car load index in the same size. Load rating 123/120R (1,550/1,220 kg per tyre) is the target.</p>
+
+    <div class="callout info">
+      <p><strong>Note on "3-ply sidewall" terminology:</strong> This refers to three structural plies in the sidewall construction specifically — separate from total ply rating. BFGoodrich CoreGard technology achieves equivalent protection through thicker, race-derived rubber rather than ply count alone. Both approaches are valid; all tyres in this shortlist meet the 3-ply/equivalent standard.</p>
+    </div>
+  </section>
+
+  <!-- SHORTLIST -->
+  <section id="shortlist">
+    <div class="section-label">02 — Shortlist</div>
+    <h2>Six Tyres That Qualify</h2>
+    <p>The following tyres all meet the core criteria: 265/75R16 size, confirmed 3-ply or equivalent sidewall, Load Range D–E, confirmed SA availability, and genuine AT credentials for the terrain mix.</p>
+
+    <div class="tyre-grid">
+
+      <!-- BFG KO3 -->
+      <div class="tyre-card top-pick">
+        <div class="card-head">
+          <div class="card-brand">BFGoodrich (Michelin Group)</div>
+          <div class="card-name">All-Terrain T/A KO3 <span class="verdict v-top">Top Pick</span></div>
+          <div class="card-size">265/75R16 · 119/116S · Load Range D · 8PR</div>
+        </div>
+        <div class="card-body">
+          <div class="spec-row"><span class="spec-label">Sidewall</span><span class="spec-val good">CoreGard™ (equiv. 3-ply)</span></div>
+          <div class="spec-row"><span class="spec-label">Load (single)</span><span class="spec-val">1,360 kg</span></div>
+          <div class="spec-row"><span class="spec-label">Max pressure</span><span class="spec-val">4.5 bar (65 psi)</span></div>
+          <div class="spec-row"><span class="spec-label">Tread depth</span><span class="spec-val good">~17/32″ (13.4 mm)</span></div>
+          <div class="spec-row"><span class="spec-label">Diameter</span><span class="spec-val">804 mm (31.6″)</span></div>
+          <div class="spec-row"><span class="spec-label">SA price (est.)</span><span class="spec-val amber">~R4,700–5,200/tyre</span></div>
+
+          <div class="card-notes">
+            <div class="note-block">
+              <span class="note-label">Gravel &amp; rock</span>
+              <span class="note-text">New compound formulated specifically to resist chipping and tearing on gravel — addresses KO2's one known weakness. Stone ejectors in grooves. Excellent on basalt and laterite tracks.</span>
+            </div>
+            <div class="note-block">
+              <span class="note-label">Sand</span>
+              <span class="note-text">3D full-depth sipes and side-biter lugs provide good flotation when aired down to 1.0–1.3 bar. Shoulder blocks work well in soft sand.</span>
+            </div>
+            <div class="note-block">
+              <span class="note-label">Tar</span>
+              <span class="note-text">Quieter and smoother on-road than KO2. Optimised footprint for even wear over long tar transits — critical for 2,000–3,000 km road legs.</span>
+            </div>
+            <div class="note-block">
+              <span class="note-label">Africa specific</span>
+              <span class="note-text">BFG is widely stocked across Southern and East Africa (SA, Namibia, Zambia, Tanzania, Kenya). Replacement availability on route is the best in class. KO3 stock still building — confirm at time of purchase.</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="price-row">
+            <span class="price-label">Available at</span>
+            <span class="price-val">Malas · Tyremart · Hi-Q · TrenTyre · 1st Alignment Centre (Cape Town)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- BFG KO2 -->
+      <div class="tyre-card top-pick">
+        <div class="card-head">
+          <div class="card-brand">BFGoodrich (Michelin Group)</div>
+          <div class="card-name">All-Terrain T/A KO2 <span class="verdict v-top">Proven Gold Standard</span></div>
+          <div class="card-size">265/75R16 · 123/120R · Load Range E · 10PR</div>
+        </div>
+        <div class="card-body">
+          <div class="spec-row"><span class="spec-label">Sidewall</span><span class="spec-val good">CoreGard™ (equiv. 3-ply+)</span></div>
+          <div class="spec-row"><span class="spec-label">Load (single)</span><span class="spec-val good">1,550 kg</span></div>
+          <div class="spec-row"><span class="spec-label">Max pressure</span><span class="spec-val">5.5 bar (80 psi)</span></div>
+          <div class="spec-row"><span class="spec-label">Tread depth</span><span class="spec-val">~15/32″ (11.9 mm)</span></div>
+          <div class="spec-row"><span class="spec-label">Diameter</span><span class="spec-val">804 mm (31.6″)</span></div>
+          <div class="spec-row"><span class="spec-label">SA price (est.)</span><span class="spec-val amber">~R4,500–5,000/tyre</span></div>
+
+          <div class="card-notes">
+            <div class="note-block">
+              <span class="note-label">Gravel &amp; rock</span>
+              <span class="note-text">Race-proven Baja lineage. Excellent rock traction. Known to chip slightly faster on sustained gravel than KO3 — the KO3 was designed to fix this. Still excellent by any measure.</span>
+            </div>
+            <div class="note-block">
+              <span class="note-label">Sand</span>
+              <span class="note-text">Side-biter lugs and 3D sipes work well in soft conditions. Slightly shallower tread than KO3 but more than adequate for African sand driving.</span>
+            </div>
+            <div class="note-block">
+              <span class="note-label">Tar</span>
+              <span class="note-text">More road noise than KO3 as tread wears. 50,000-mile tread warranty. Proven 70–90,000 km real-world life on mixed African terrain by multiple LC76 operators.</span>
+            </div>
+            <div class="note-block">
+              <span class="note-label">Africa specific</span>
+              <span class="note-text">The single most widely-stocked overland AT tyre on the continent. KO2s can be sourced in Windhoek, Lusaka, Dar es Salaam and Nairobi. Considered by many as the benchmark.</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="price-row">
+            <span class="price-label">Available at</span>
+            <span class="price-val">Tyremart · Hi-Q · Malas · Tiger Wheel &amp; Tyre · 1st Alignment Centre · wide national network</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Maxxis AT811 -->
+      <div class="tyre-card">
+        <div class="card-head">
+          <div class="card-brand">Maxxis</div>
+          <div class="card-name">RAZR AT811 <span class="verdict v-rec">Recommended</span></div>
+          <div class="card-size">265/75R16 · 123/120R · Load Range E · 10PR</div>
+        </div>
+        <div class="card-body">
+          <div class="spec-row"><span class="spec-label">Sidewall</span><span class="spec-val good">3-Ply + Debri-Shield™</span></div>
+          <div class="spec-row"><span class="spec-label">Load (single)</span><span class="spec-val good">1,550 kg</span></div>
+          <div class="spec-row"><span class="spec-label">Max pressure</span><span class="spec-val">5.5 bar (80 psi)</span></div>
+          <div class="spec-row"><span class="spec-label">Tread depth</span><span class="spec-val good">~17/32″ (13.4 mm)</span></div>
+          <div class="spec-row"><span class="spec-label">Diameter</span><span class="spec-val">804 mm (31.6″)</span></div>
+          <div class="spec-row"><span class="spec-label">SA price (est.)</span><span class="spec-val good">~R3,500–4,200/tyre</span></div>
+
+          <div class="card-notes">
+            <div class="note-block">
+              <span class="note-label">Gravel &amp; rock</span>
+              <span class="note-text">Blade-shaped tread blocks with stone-ejecting shoulder grooves perform well on corrugations and rocky tracks. Dual-layer high-tension cap ply adds cut resistance through the tread crown.</span>
+            </div>
+            <div class="note-block">
+              <span class="note-label">Sand</span>
+              <span class="note-text">Designed partly for road, sand and mild off-roading per Maxxis. Shoulder lugs and larger voids give good sand flotation when aired down.</span>
+            </div>
+            <div class="note-block">
+              <span class="note-label">Tar</span>
+              <span class="note-text">Higher elasticity sidewall filler compound delivers noticeably comfortable ride on corrugated tracks and sealed roads. One of the more comfortable AT tyres in its class. Moderate road noise.</span>
+            </div>
+            <div class="note-block">
+              <span class="note-label">Africa specific</span>
+              <span class="note-text">Maxxis is well-established in SA and has grown significantly on the 4x4 market. Currently priced 20–30% below KO2 in South Africa. Good for 50–70,000 km real-world. Not as widely stocked north of the border — this matters for a two-year expedition.</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="price-row">
+            <span class="price-label">Available at</span>
+            <span class="price-val">Errols · Tyres.co.za · various national retailers</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- General Grabber AT3 -->
+      <div class="tyre-card">
+        <div class="card-head">
+          <div class="card-brand">General Tire (Continental Group)</div>
+          <div class="card-name">Grabber AT3 <span class="verdict v-rec">Recommended</span></div>
+          <div class="card-size">265/75R16 · 123S · Load Range E · 10PR</div>
+        </div>
+        <div class="card-body">
+          <div class="spec-row"><span class="spec-label">Sidewall</span><span class="spec-val good">3-Ply (DuraGen steel belts + sidewall lugs)</span></div>
+          <div class="spec-row"><span class="spec-label">Load (single)</span><span class="spec-val good">1,550 kg</span></div>
+          <div class="spec-row"><span class="spec-label">Max pressure</span><span class="spec-val">5.5 bar (80 psi)</span></div>
+          <div class="spec-row"><span class="spec-label">Tread depth</span><span class="spec-val">~15/32″ (11.9 mm)</span></div>
+          <div class="spec-row"><span class="spec-label">Diameter</span><span class="spec-val">803 mm (31.6″)</span></div>
+          <div class="spec-row"><span class="spec-label">SA price (est.)</span><span class="spec-val good">~R3,000–3,500/tyre</span></div>
+          <div class="card-notes">
+            <div class="note-block">
+              <span class="note-label">Gravel &amp; rock</span>
+              <span class="note-text">DuraGen technology uses ultra-high-strength steel belts for stability under load on gravel. Traction pockets on the open shoulder self-clean effectively. Stone-ejecting bumpers between tread blocks resist the stone-drilling failure mode. SA 4x4 magazine tested it extensively in Namibia and Botswana with no punctures and strong gravel durability.</span>
+            </div>
+            <div class="note-block">
+              <span class="note-label">Sand</span>
+              <span class="note-text">Open shoulder traction pockets and large sidewall lugs perform well in sand aired down. Not the most aggressive shoulder lug design in the class but well-regarded for mixed sand and gravel use across Southern Africa.</span>
+            </div>
+            <div class="note-block">
+              <span class="note-label">Tar</span>
+              <span class="note-text">Uniform block geometry reduces road noise significantly — one of the quieter ATs in this class. Stable at highway speed. Good wet grip from silica-influenced compound. Strong on-road manners for a 4x4 AT.</span>
+            </div>
+            <div class="note-block">
+              <span class="note-label">Africa specific</span>
+              <span class="note-text">Well established in SA through the Continental/BestDrive network, Fundity, and Errols. Good value at 15–20% below BFG pricing. North-of-border availability is limited — similar position to Cooper and Maxxis. Source before departure and don't rely on finding 265/75R16 in Zambia or Tanzania.</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="price-row">
+            <span class="price-label">Available at</span>
+            <span class="price-val">BestDrive · Fundity Tyres · Errols · 1st Alignment Centre · Tyres.co.za</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cooper AT3 LT -->
+      <div class="tyre-card">
+        <div class="card-head">
+          <div class="card-brand">Cooper Tyres (Goodyear Group)</div>
+          <div class="card-name">Discoverer AT3 LT <span class="verdict v-rec">Recommended</span></div>
+          <div class="card-size">265/75R16 · 123/120R · Load Range E · 10PR</div>
+        </div>
+        <div class="card-body">
+          <div class="spec-row"><span class="spec-label">Sidewall</span><span class="spec-val good">3-Ply (2 polyester + 1 steel)</span></div>
+          <div class="spec-row"><span class="spec-label">Load (single)</span><span class="spec-val good">1,550 kg</span></div>
+          <div class="spec-row"><span class="spec-label">Max pressure</span><span class="spec-val">5.5 bar (80 psi)</span></div>
+          <div class="spec-row"><span class="spec-label">Tread depth</span><span class="spec-val good">16.5/32″ (13 mm)</span></div>
+          <div class="spec-row"><span class="spec-label">Diameter</span><span class="spec-val">804 mm (31.6″)</span></div>
+          <div class="spec-row"><span class="spec-label">SA price (est.)</span><span class="spec-val good">~R3,200–3,800/tyre</span></div>
+
+          <div class="card-notes">
+            <div class="note-block">
+              <span class="note-label">Gravel &amp; rock</span>
+              <span class="note-text">Stone ejector ledges keep tread clean on rocky tracks. Silica-based compound resists cuts and chips well. Solid performer on corrugated gravel over long distances.</span>
+            </div>
+            <div class="note-block">
+              <span class="note-label">Sand</span>
+              <span class="note-text">Five-rib staggered tread works adequately in sand. Less aggressive than KO2/AT811 shoulder lugs — not the best sand specialist but perfectly acceptable for mixed-use African travel.</span>
+            </div>
+            <div class="note-block">
+              <span class="note-label">Tar</span>
+              <span class="note-text">The quietest AT tyre in this shortlist. Whisper grooves actively reduce tread noise. Very comfortable on tar — good for long daily-driver use. 60,000-mile tread warranty.</span>
+            </div>
+            <div class="note-block">
+              <span class="note-label">Africa specific</span>
+              <span class="note-text">Cooper is now distributed through Goodyear's SA network, improving availability significantly. North-of-border stock is patchier than BFG — worth considering for a two-year expedition. Best value-for-money in this shortlist.</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="price-row">
+            <span class="price-label">Available at</span>
+            <span class="price-val">Tyres.co.za · Hi-Q · various Goodyear dealers</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dunlop AT3G -->
+      <div class="tyre-card caution">
+        <div class="card-head">
+          <div class="card-brand">Dunlop (Sumitomo Group)</div>
+          <div class="card-name">Grandtrek AT3G <span class="verdict v-mid">Consider With Caveats</span></div>
+          <div class="card-size">265/75R16 · 123/120Q · Load Range E · 10PR</div>
+        </div>
+        <div class="card-body">
+          <div class="spec-row"><span class="spec-label">Sidewall</span><span class="spec-val amber">3-Ply (confirmed on WLT variant)</span></div>
+          <div class="spec-row"><span class="spec-label">Load (single)</span><span class="spec-val good">1,550 kg</span></div>
+          <div class="spec-row"><span class="spec-label">Max pressure</span><span class="spec-val">5.5 bar (80 psi)</span></div>
+          <div class="spec-row"><span class="spec-label">Tread depth</span><span class="spec-val">~15/32″ (11.9 mm)</span></div>
+          <div class="spec-row"><span class="spec-label">Diameter</span><span class="spec-val">802 mm (31.6″)</span></div>
+          <div class="spec-row"><span class="spec-label">SA price (est.)</span><span class="spec-val good">~R2,800–3,400/tyre</span></div>
+
+          <div class="card-notes">
+            <div class="note-block">
+              <span class="note-label">Gravel &amp; rock</span>
+              <span class="note-text">Reinforced sidewall and tectonic construction handle road hazards well. Stone trapping in tread grooves is reduced by tread design. Solid mid-tier performer on gravel.</span>
+            </div>
+            <div class="note-block">
+              <span class="note-label">Sand</span>
+              <span class="note-text">Less aggressive shoulder lug design than BFG or Maxxis. Adequate in most sand conditions but not first choice for deep dunes or extended soft sand work.</span>
+            </div>
+            <div class="note-block">
+              <span class="note-label">Tar</span>
+              <span class="note-text">Stability cord layering provides a comfortable highway ride and controlled handling. Good on-road manners. Lower noise level than more aggressive ATs.</span>
+            </div>
+            <div class="note-block">
+              <span class="note-label">Caveat</span>
+              <span class="note-text"><strong>Verify ply count on purchase:</strong> The AT3G is sold in both 2-ply and 3-ply variants in SA. The WLT (White Letter Tyre) variant and 10PR rating confirm 3-ply. Standard SUV sizing may be 2-ply — check sidewall markings before buying. Dunlop SA website and some retailers list it as "2-ply construction." Get the 10PR LT version specifically.</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="price-row">
+            <span class="price-label">Available at</span>
+            <span class="price-val">Tyremart · TyresEtc · Errols · national Dunlop network</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Goodyear Wrangler AT Adventure -->
+      <div class="tyre-card caution">
+        <div class="card-head">
+          <div class="card-brand">Goodyear</div>
+          <div class="card-name">Wrangler AT Adventure <span class="verdict v-mid">Honourable Mention</span></div>
+          <div class="card-size">265/75R16 · 112/109Q · LT-metric · Kevlar sidewall</div>
+        </div>
+        <div class="card-body">
+          <div class="spec-row"><span class="spec-label">Sidewall</span><span class="spec-val amber">DuPont Kevlar reinforced</span></div>
+          <div class="spec-row"><span class="spec-label">Load (single)</span><span class="spec-val warn">1,120 kg (lower rating)</span></div>
+          <div class="spec-row"><span class="spec-label">Max pressure</span><span class="spec-val">4.5 bar</span></div>
+          <div class="spec-row"><span class="spec-label">Tread depth</span><span class="spec-val">~15/32″</span></div>
+          <div class="spec-row"><span class="spec-label">Diameter</span><span class="spec-val">800 mm (31.5″)</span></div>
+          <div class="spec-row"><span class="spec-label">SA price (est.)</span><span class="spec-val good">~R2,600–3,200/tyre</span></div>
+
+          <div class="card-notes">
+            <div class="note-block">
+              <span class="note-label">Key caveat</span>
+              <span class="note-text"><strong>Load index 112 is marginal for the LC76 at GVM.</strong> At 2,850 kg GVM, four tyres rated at 112 (1,120 kg each) gives 4,480 kg theoretical capacity — barely adequate. Under heavy load over corrugations and with heat buildup, the margin is tight. The higher-rated LT variants are preferable. Kevlar sidewall is cut-resistant but the 265/75R16 AT Adventure does not achieve Load Range E in SA stocked sizes.</span>
+            </div>
+            <div class="note-block">
+              <span class="note-label">Positive</span>
+              <span class="note-text">Widely stocked through Goodyear's SA network. Reasonable off-road performance. Good price point. If stocking is confirmed in LR-D minimum, it works as a budget-conscious option.</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="price-row">
+            <span class="price-label">Available at</span>
+            <span class="price-val">Tyres.co.za · Tyremart · Goodyear dealers</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Falken Wildpeak -->
+      <div class="tyre-card caution">
+        <div class="card-head">
+          <div class="card-brand">Falken (Sumitomo Rubber)</div>
+          <div class="card-name">Wildpeak AT3W / AT4W <span class="verdict v-mid">Verify SA Spec Before Buying</span></div>
+          <div class="card-size">LT265/75R16 · 123/120S · LR-E · 10PR (correct spec) &nbsp;|&nbsp; AT3WA SA shelf: LR-D · 119/116R</div>
+        </div>
+        <div class="card-body">
+          <div class="spec-row"><span class="spec-label">Sidewall</span><span class="spec-val good">Outer Apex + Heat Diffuser</span></div>
+          <div class="spec-row"><span class="spec-label">Load (single)</span><span class="spec-val good">1,550 kg (LT) · 1,360 kg (AT3WA)</span></div>
+          <div class="spec-row"><span class="spec-label">Max pressure</span><span class="spec-val">5.5 bar (80 psi) LT</span></div>
+          <div class="spec-row"><span class="spec-label">Tread depth</span><span class="spec-val good">18/32″ (14.3 mm) LT — deepest in class</span></div>
+          <div class="spec-row"><span class="spec-label">Diameter</span><span class="spec-val">807 mm (31.7″)</span></div>
+          <div class="spec-row"><span class="spec-label">SA price (est.)</span><span class="spec-val good">~R3,000–3,800/tyre (AT3WA) · LT on request</span></div>
+
+          <div class="card-notes">
+            <div class="note-block">
+              <span class="note-label">Gravel &amp; rock</span>
+              <span class="note-text">Stone-ejecting grooves and Outer Apex sidewall with Heat Diffuser technology protect the carcass under sustained load. Deepest tread in the class means the longest performance reserve before grip degrades on gravel.</span>
+            </div>
+            <div class="note-block">
+              <span class="note-label">Sand</span>
+              <span class="note-text">3D Canyon Sipes and aggressive upper shoulder blocks give good flotation aired down. Rated comparable to KO2 for sand by global overlanders.</span>
+            </div>
+            <div class="note-block">
+              <span class="note-label">Tar</span>
+              <span class="note-text">Consistently quieter than KO2 on tar. Strong long-distance road performance. 55,000-mile warranty on LT sizes; 100,000 km on the AT3WA.</span>
+            </div>
+            <div class="note-block">
+              <span class="note-label">⚠ SA availability anomaly</span>
+              <span class="note-text">SA shelf stock (Fundity, Restomod, Hi-Q, Errols) is the <strong>AT3WA</strong> — SUV variant at LR-D 119/116R (1,360 kg single). Same marginal load index as the Goodyear AT Adventure — tight for the LC76 at GVM. The correct spec — <strong>AT3W LT or AT4W LT</strong> (LR-E 123/120S) — must be special-ordered. Confirm availability and lead time before committing. No confirmed stock north of SA border.</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="price-row">
+            <span class="price-label">Available at</span>
+            <span class="price-val">Fundity Tyres · Restomod · Errols · Hi-Q · 1st Alignment Centre · LT spec: special order only</span>
+          </div>
+        </div>
+      </div>
+
+
+    </div><!-- end tyre-grid -->
+  </section>
+
+  <!-- SCORECARD -->
+  <section id="scorecard">
+    <div class="section-label">03 — Category Scorecard</div>
+    <h2>Performance by Terrain</h2>
+    <p>Rated 1–5 per category based on manufacturer specs, community reviews, and SA overland forum feedback. Criteria weighted for Southern &amp; East Africa use.</p>
+
+    <div class="score-grid">
+
+      <div class="score-item">
+        <div class="score-name">All-Terrain T/A KO3</div>
+        <div class="score-brand">BFGoodrich</div>
+        <div class="score-cats">
+          <div class="score-cat"><span class="cat-label">Gravel</span><div class="cat-dots"><div class="dot on-g"></div><div class="dot on-g"></div><div class="dot on-g"></div><div class="dot on-g"></div><div class="dot on-g"></div></div></div>
+          <div class="score-cat"><span class="cat-label">Sand</span><div class="cat-dots"><div class="dot on-g"></div><div class="dot on-g"></div><div class="dot on-g"></div><div class="dot on-g"></div><div class="dot"></div></div></div>
+          <div class="score-cat"><span class="cat-label">Rock</span><div class="cat-dots"><div class="dot on-g"></div><div class="dot on-g"></div><div class="dot on-g"></div><div class="dot on-g"></div><div class="dot on-g"></div></div></div>
+          <div class="score-cat"><span class="cat-label">Tar / noise</span><div class="cat-dots"><div class="dot on-g"></div><div class="dot on-g"></div><div class="dot on-g"></div><div class="dot on-g"></div><div class="dot on-g"></div></div></div>
+          <div class="score-cat"><span class="cat-label">Tread life</span><div class="cat-dots"><div class="dot on-g"></div><div class="dot on-g"></div><div class="dot on-g"></div><div class="dot on-g"></div><div class="dot on-g"></div></div></div>
+          <div class="score-cat"><span class="cat-label">Africa avail.</span><div class="cat-dots"><div class="dot on-g"></div><div class="dot on-g"></div><div class="dot on-g"></div><div class="dot on-g"></div><div class="dot"></div></div></div>
+        </div>
+      </div>
+
+      <div class="score-item">
+        <div class="score-name">All-Terrain T/A KO2</div>
+        <div class="score-brand">BFGoodrich</div>
+        <div class="score-cats">
+          <div class="score-cat"><span class="cat-label">Gravel</span><div class="cat-dots"><div class="dot on-g"></div><div class="dot on-g"></div><div class="dot on-g"></div><div class="dot on-g"></div><div class="dot"></div></div></div>
+          <div class="score-cat"><span class="cat-label">Sand</span><div class="cat-dots"><div class="dot on-g"></div><div class="dot on-g"></div><div class="dot on-g"></div><div class="dot on-g"></div><div class="dot"></div></div></div>
+          <div class="score-cat"><span class="cat-label">Rock</span><div class="cat-dots"><div class="dot on-g"></div><div class="dot on-g"></div><div class="dot on-g"></div><div class="dot on-g"></div><div class="dot on-g"></div></div></div>
+          <div class="score-cat"><span class="cat-label">Tar / noise</span><div class="cat-dots"><div class="dot on-g"></div><div class="dot on-g"></div><div class="dot on-g"></div><div class="dot on-g"></div><div class="dot"></div></div></div>
+          <div class="score-cat"><span class="cat-label">Tread life</span><div class="cat-dots"><div class="dot on-g"></div><div class="dot on-g"></div><div class="dot on-g"></div><div class="dot on-g"></div><div class="dot"></div></div></div>
+          <div class="score-cat"><span class="cat-label">Africa avail.</span><div class="cat-dots"><div class="dot on-g"></div><div class="dot on-g"></div><div class="dot on-g"></div><div class="dot on-g"></div><div class="dot on-g"></div></div></div>
+        </div>
+      </div>
+
+      <div class="score-item">
+        <div class="score-name">RAZR AT811</div>
+        <div class="score-brand">Maxxis</div>
+        <div class="score-cats">
+          <div class="score-cat"><span class="cat-label">Gravel</span><div class="cat-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+          <div class="score-cat"><span class="cat-label">Sand</span><div class="cat-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+          <div class="score-cat"><span class="cat-label">Rock</span><div class="cat-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+          <div class="score-cat"><span class="cat-label">Tar / noise</span><div class="cat-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+          <div class="score-cat"><span class="cat-label">Tread life</span><div class="cat-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div></div>
+          <div class="score-cat"><span class="cat-label">Africa avail.</span><div class="cat-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div></div>
+        </div>
+      </div>
+
+      <div class="score-item">
+        <div class="score-name">Discoverer AT3 LT</div>
+        <div class="score-brand">Cooper</div>
+        <div class="score-cats">
+          <div class="score-cat"><span class="cat-label">Gravel</span><div class="cat-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+          <div class="score-cat"><span class="cat-label">Sand</span><div class="cat-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div></div>
+          <div class="score-cat"><span class="cat-label">Rock</span><div class="cat-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+          <div class="score-cat"><span class="cat-label">Tar / noise</span><div class="cat-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></div>
+          <div class="score-cat"><span class="cat-label">Tread life</span><div class="cat-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></div>
+          <div class="score-cat"><span class="cat-label">Africa avail.</span><div class="cat-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div></div>
+        </div>
+      </div>
+
+      <div class="score-item">
+        <div class="score-name">Grandtrek AT3G (10PR)</div>
+        <div class="score-brand">Dunlop</div>
+        <div class="score-cats">
+          <div class="score-cat"><span class="cat-label">Gravel</span><div class="cat-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div></div>
+          <div class="score-cat"><span class="cat-label">Sand</span><div class="cat-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div></div>
+          <div class="score-cat"><span class="cat-label">Rock</span><div class="cat-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div></div>
+          <div class="score-cat"><span class="cat-label">Tar / noise</span><div class="cat-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+          <div class="score-cat"><span class="cat-label">Tread life</span><div class="cat-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div></div>
+          <div class="score-cat"><span class="cat-label">Africa avail.</span><div class="cat-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+        </div>
+      </div>
+
+      <div class="score-item">
+        <div class="score-name">Wildpeak AT3W LT</div>
+        <div class="score-brand">Falken (LT spec · special order)</div>
+        <div class="score-cats">
+          <div class="score-cat"><span class="cat-label">Gravel</span><div class="cat-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></div>
+          <div class="score-cat"><span class="cat-label">Sand</span><div class="cat-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></div>
+          <div class="score-cat"><span class="cat-label">Rock</span><div class="cat-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+          <div class="score-cat"><span class="cat-label">Tar / noise</span><div class="cat-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></div>
+          <div class="score-cat"><span class="cat-label">Tread life</span><div class="cat-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div></div></div>
+          <div class="score-cat"><span class="cat-label">Africa avail.</span><div class="cat-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>
+        </div>
+      </div>
+
+      <div class="score-item">
+        <div class="score-name">Wrangler AT Adventure</div>
+        <div class="score-brand">Goodyear</div>
+        <div class="score-cats">
+          <div class="score-cat"><span class="cat-label">Gravel</span><div class="cat-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div></div>
+          <div class="score-cat"><span class="cat-label">Sand</span><div class="cat-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div></div>
+          <div class="score-cat"><span class="cat-label">Rock</span><div class="cat-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div></div>
+          <div class="score-cat"><span class="cat-label">Tar / noise</span><div class="cat-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+          <div class="score-cat"><span class="cat-label">Tread life</span><div class="cat-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+          <div class="score-cat"><span class="cat-label">Africa avail.</span><div class="cat-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+        </div>
+      </div>
+
+      <div class="score-item">
+        <div class="score-name">Grabber AT3</div>
+        <div class="score-brand">General Tire (Continental)</div>
+        <div class="score-cats">
+          <div class="score-cat"><span class="cat-label">Gravel</span><div class="cat-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+          <div class="score-cat"><span class="cat-label">Sand</span><div class="cat-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+          <div class="score-cat"><span class="cat-label">Rock</span><div class="cat-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+          <div class="score-cat"><span class="cat-label">Tar / noise</span><div class="cat-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+          <div class="score-cat"><span class="cat-label">Tread life</span><div class="cat-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div></div></div>
+          <div class="score-cat"><span class="cat-label">Africa avail.</span><div class="cat-dots"><div class="dot on"></div><div class="dot on"></div><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div></div>
+        </div>
+      </div>
+
+    </div><!-- end score-grid -->
+    <p style="margin-top:14px; font-size:12px; color:var(--steelmd);">Green dots = BFGoodrich family. Amber dots = other shortlisted brands. Scores reflect Africa overland priorities, not general consumer use.</p>
+  </section>
+
+  <!-- COMPARISON TABLE -->
+  <section id="comparison">
+    <div class="section-label">04 — Head-to-Head Specs</div>
+    <h2>Comparison Table</h2>
+
+    <div class="cmp-wrap">
+      <table class="cmp-table">
+        <thead>
+          <tr>
+            <th>Spec</th>
+            <th>BFG KO3</th>
+            <th>BFG KO2</th>
+            <th>Maxxis AT811</th>
+            <th>Cooper AT3 LT</th>
+            <th>General Grabber AT3</th>
+            <th>Dunlop AT3G</th>
+            <th>Falken AT3W LT</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Load Range</td><td>D (8PR)</td><td><strong>E (10PR)</strong></td><td><strong>E (10PR)</strong></td><td><strong>E (10PR)</strong></td><td><strong>E (10PR)</strong></td><td><strong>E (10PR)</strong></td><td><strong>E (10PR)</strong></td></tr>
+          <tr><td>Load Index</td><td>119/116</td><td><strong>123/120</strong></td><td><strong>123/120</strong></td><td><strong>123/120</strong></td><td><strong>123/120</strong></td><td><strong>123/120</strong></td><td><strong>123/120</strong></td></tr>
+          <tr><td>Max load (single)</td><td>1,360 kg</td><td>1,550 kg</td><td>1,550 kg</td><td>1,550 kg</td><td>1,550 kg</td><td>1,550 kg</td><td>1,550 kg</td></tr>
+          <tr><td>Speed rating</td><td>S (180)</td><td>R (170)</td><td>R (170)</td><td>R (170)</td><td>S (180)</td><td>Q (160)</td><td>S (180)</td></tr>
+          <tr><td>Sidewall type</td><td>CoreGard™</td><td>CoreGard™</td><td>3-Ply Debri-Shield</td><td>3-Ply (polyester)</td><td>3-Ply + DuraGen</td><td>3-Ply (WLT version)</td><td>Outer Apex + Heat Diffuser</td></tr>
+          <tr><td>Tread depth</td><td>~17/32″</td><td>~15/32″</td><td>~17/32″</td><td>16.5/32″</td><td>~15/32″</td><td>~15/32″</td><td><strong>18/32″ (deepest)</strong></td></tr>
+          <tr><td>Tread warranty</td><td>50,000 mi</td><td>50,000 mi</td><td>—</td><td>60,000 mi</td><td>—</td><td>—</td><td>55,000 mi</td></tr>
+          <tr><td>SA price/tyre (est.)</td><td>R4,700–5,200</td><td>R4,500–5,000</td><td>R3,500–4,200</td><td>R3,200–3,800</td><td>R3,000–3,500</td><td>R2,800–3,400</td><td>R3,500–4,200 (LT spec)</td></tr>
+          <tr><td>SA stock</td><td class="tick">✔ (growing)</td><td class="tick">✔ Excellent</td><td class="tick">✔ Good</td><td class="tick">✔ Good</td><td class="tick">✔ Good</td><td class="tick">✔ Excellent</td><td class="maybe">LT: special order only</td></tr>
+          <tr><td>Zambia/Tanzania/Kenya</td><td class="maybe">Emerging</td><td class="tick">✔ Best</td><td class="cross">Patchier</td><td class="cross">Limited</td><td class="cross">Limited</td><td class="maybe">Moderate</td><td class="cross">Not confirmed</td></tr>
+          <tr><td>Gravel chip resist.</td><td class="tick">✔ Best</td><td class="maybe">Very good</td><td class="maybe">Very good</td><td class="tick">✔ Good</td><td class="tick">✔ Good</td><td class="maybe">Good</td><td class="tick">✔ Excellent</td></tr>
+          <tr><td>Sand performance</td><td class="tick">✔ Excellent</td><td class="tick">✔ Excellent</td><td class="tick">✔ Very good</td><td class="maybe">Good</td><td class="maybe">Good</td><td class="maybe">Adequate</td><td class="tick">✔ Excellent</td></tr>
+          <tr><td>On-road noise</td><td class="tick">✔ Quiet</td><td class="maybe">Moderate</td><td class="maybe">Moderate</td><td class="tick">✔ Very quiet</td><td class="tick">✔ Quiet</td><td class="tick">✔ Quiet</td><td class="tick">✔ Quietest LT</td></tr>
+          <tr><td>Ride comfort</td><td class="tick">✔ Excellent</td><td class="maybe">Good</td><td class="tick">✔ Excellent</td><td class="tick">✔ Very good</td><td class="tick">✔ Very good</td><td class="maybe">Good</td><td class="tick">✔ Excellent</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:11.5px; color:var(--steelmd); margin-top:8px;">Prices are indicative based on SA retailer data (early 2025). Always get a current quote. Load index 123/120 = 1,550/1,220 kg single/dual.</p>
+  </section>
+
+  <!-- SIDEWALL NOTE -->
+  <section id="sidewall">
+    <div class="section-label">05 — Technical Notes</div>
+    <h2>What Actually Matters — Beyond the Marketing</h2>
+
+    <p>Tyre selection for a loaded LC76 expedition involves several technical decisions that go beyond brand preference. These notes cover the key factors specific to your vehicle and use case.</p>
+
+    <h3>Load Range E vs D — Why It Matters for the LC76</h3>
+    <p>The 1HZ LC76 at full overland load sits around 2,400–2,500 kg. At GVM (2,850 kg), four Load Range E tyres at 123 load index give a combined theoretical capacity of 6,200 kg — a comfortable 2.2× safety margin. Load Range D at 119 load index (1,360 kg per tyre) gives 5,440 kg combined — still adequate on paper, but the margin compresses significantly under heat, sustained speed on corrugations, and load shifting. On a two-year expedition across East Africa, LR-E is the right call. Reserve LR-D only for tyres you're using for pre-departure daily driving.</p>
+
+    <h3>3-Ply Sidewall — What the Term Actually Means</h3>
+    <p>The term is used inconsistently in the industry. In a modern radial LT tyre, "3-ply sidewall" refers to three structural cord plies running through the sidewall carcass specifically — separate from total ply rating, which includes belt plies across the tread crown. Most LT tyres are 2-ply sidewall carcass. The 3-ply construction adds a full third carcass ply wrapping around the bead, through the sidewall, and into the shoulder — directly where sidewall cuts and pinch flats happen on African terrain.</p>
+    <p>BFGoodrich's CoreGard achieves equivalent protection through a different route — thicker, harder rubber compound derived from Baja race development rather than an extra ply layer. The Falken Wildpeak's Outer Apex adds a secondary bead apex as an internal heat shield. All approaches are valid; the goal is the same: resistance to sidewall splitting at low pressures on sharp rock.</p>
+
+    <h3>BFGoodrich CoreGard Technology</h3>
+    <p>Both KO2 and KO3 use CoreGard rubber in the sidewall — a thicker, harder compound derived from BFG's Baja T/A racing programme. It achieves equivalent or superior puncture and split resistance to a 3-ply construction through material quality rather than ply count. The computer-modelled sidewall profile deflects protruding objects away from the carcass. Claimed 20% tougher than the previous KO sidewall in internal split tests. This is arguably the toughest sidewall in the AT segment.</p>
+
+    <h3>Tread Depth — Why It Matters More Than You Think</h3>
+    <p>Factory tread depth determines not just wear life but how long grip and self-cleaning performance remain consistent. Most AT tyres lose meaningful traction in mud and soft terrain once worn below 6–7/32″. Starting with 18/32″ (Wildpeak AT3W LT) vs 15/32″ (KO2, AT3G) gives significantly more usable performance life before grip degrades — important if you're running one set for 80,000+ km across the full expedition without replacement.</p>
+    <p>Tread depth also affects heat resistance: a thicker tread block retains more thermal mass and resists chunking and tearing at high sustained speeds on corrugated gravel. This is why the KO3's new gravel compound specifically addresses the chipping seen on the KO2 at highway speed on African gravel.</p>
+
+    <h3>Tread Compound — Silica vs Standard Rubber</h3>
+    <p>Silica-based compounds (Cooper AT3 LT, Falken Wildpeak, BFG KO3) deliver better wet grip and longer wear life, particularly on tar. They remain more flexible at lower temperatures and resist cracking under UV and ozone exposure — relevant for a vehicle that may sit for extended periods between expedition legs. Standard rubber compounds (some variants of the AT3G) can harden and crack faster in harsh African conditions if the vehicle is parked in the sun for extended periods. Silica compound is the preferred choice for any tyre spending significant time in equatorial Africa.</p>
+
+    <h3>Stone Ejectors and Drilling Resistance</h3>
+    <p>Stone drilling — where a small stone lodges in a tread groove and works its way through the carcass over time — is a significant failure mode on African gravel roads. It causes slow punctures and internal carcass damage that isn't visible externally. Stone ejector ribs (Cooper AT3 LT, Maxxis AT811, KO3) and stone ejector grooves (Wildpeak AT3W) are specifically engineered to prevent this. If you're driving extended periods on sharp quartzite or basalt gravel (common in Zambia, Tanzania, and the Drakensberg foothills), stone ejectors are not a marketing feature — they're functional and measurably reduce this failure mode.</p>
+
+    <h3>Dunlop AT3G — Verify Before You Buy</h3>
+    <div class="callout warn">
+      <p><strong>Important:</strong> The AT3G is sold in SA in both SUV (2-ply) and LT (3-ply/10PR) configurations. Multiple SA retailers list the AT3G as "2-ply construction" for standard SUV sizes. You must specifically purchase the <strong>LT 265/75R16 10PR 123/120Q</strong> variant — this is the one with 3-ply construction and the WLT (white letter) sidewall. The standard 265/75R16 116T version is almost certainly 2-ply. If in doubt, ask the retailer to confirm "LT 10 ply rated" on the invoice before purchase.</p>
+    </div>
+
+    <h3>Tyre Age and Storage — The Overlooked Risk</h3>
+    <p>All tyres have a manufacture date stamped on the sidewall (DOT code — last 4 digits are week/year, e.g. 2824 = week 28, 2024). African UV, heat, and ozone conditions accelerate rubber degradation significantly faster than European or North American norms. A tyre older than 5 years at the time of fitment is a risk on a two-year remote expedition regardless of tread depth. Always check the DOT code when purchasing and reject tyres manufactured more than 2–3 years prior. This is especially important when sourcing tyres in-country during the expedition — older unsold stock in hot climates is a real problem.</p>
+
+    <h3>Airing Down — Pressures for the LC76</h3>
+    <p>At overland load (~2,400 kg laden), correct airing-down targets for LR-E tyres:</p>
+    <p><strong>Tar / highway:</strong> 2.8–3.0 bar &nbsp;|&nbsp; <strong>Hard gravel/corrugations:</strong> 2.0–2.2 bar &nbsp;|&nbsp; <strong>Rocky terrain:</strong> 1.4–1.6 bar &nbsp;|&nbsp; <strong>Soft sand:</strong> 1.0–1.3 bar</p>
+    <p>All LR-E tyres in this shortlist handle the full range safely at the vehicle's load. The 3-ply or equivalent sidewall is critical at 1.0–1.3 bar — at these pressures the sidewall bulges significantly and any sharp edge that makes contact will cut straight through a 2-ply tyre. Never air below 1.0 bar on an LR-E LT tyre without bead locks. Always re-inflate before returning to corrugated gravel or tar — sustained driving on corrugations below 1.8 bar generates damaging heat in the sidewall.</p>
+
+    <h3>Rotation and Wear — Expedition Planning</h3>
+    <p>Running five tyres (four plus spare) on a consistent rotation schedule extends tyre life substantially. On an even rotation, a set of five tyres will last 25% longer than four — a full tyre's worth of extra life. For an 80,000 km expedition, this means one rotation every 12,000–16,000 km including the spare. Track tyre wear depth at each service. Replace all five when any tyre reaches 4/32″ tread depth — don't run a mixed worn/new set on expedition. The handling imbalance in sand and on corrugations is significant and dangerous.</p>
+  </section>
+
+  <!-- RECOMMENDATION -->
+  <section id="recommendation">
+    <div class="section-label">06 — Recommendation</div>
+    <h2>What to Buy</h2>
+
+    <table class="rec-table">
+      <thead>
+        <tr><th>Priority</th><th>Tyre</th><th>Reason</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="verdict v-top">First Choice</span></td>
+          <td><strong>BFGoodrich KO3</strong><br><span style="font-size:11px;color:var(--steelmd);">265/75R16 · LR-D · 119/116S</span></td>
+          <td>Best all-round package for 2028 departure. Gravel chip resistance is class-leading, tread life is exceptional, and on-road manners are excellent — critical for long tar legs. CoreGard sidewall sets the benchmark. Only slight concern: as the newest model, KO3 supply north of the border is still building. If you can source 5 tyres (including spare) before departure, this is the tyre to run.</td>
+        </tr>
+        <tr>
+          <td><span class="verdict v-top">Equal First</span></td>
+          <td><strong>BFGoodrich KO2</strong><br><span style="font-size:11px;color:var(--steelmd);">265/75R16 · LR-E · 123/120R</span></td>
+          <td>The proven overlanding benchmark with unmatched Africa-wide availability. If departure were tomorrow, this is what to fit. LR-E gives a slightly higher load index than the KO3 — useful margin on a heavily loaded LC76. The KO2's slightly higher road noise vs KO3 is a minor compromise at this level of all-terrain performance. Multiple LC76 operators have reported 80,000–90,000 km from a set on mixed Southern Africa terrain.</td>
+        </tr>
+        <tr>
+          <td><span class="verdict v-rec">Strong Second</span></td>
+          <td><strong>Maxxis RAZR AT811</strong><br><span style="font-size:11px;color:var(--steelmd);">265/75R16 · LR-E · 123/120R</span></td>
+          <td>Excellent tyre at 20–30% below BFG pricing. Best ride comfort in class on rough tracks. Very good gravel and sand performance. The only meaningful concern for a two-year Africa expedition is availability — Maxxis is growing but does not yet have the Zambia/Tanzania/Kenya coverage of BFG. Worth considering if budget is a factor or for pre-2028 daily running where you can source replacements locally.</td>
+        </tr>
+        <tr>
+          <td><span class="verdict v-rec">Value Pick</span></td>
+          <td><strong>Cooper Discoverer AT3 LT</strong><br><span style="font-size:11px;color:var(--steelmd);">265/75R16 · LR-E · 123/120R</span></td>
+          <td>Quietest AT in this class with the longest tread warranty. Excellent for daily driving and long tar transits. Off-road credentials are solid, though the shoulder lug design is less aggressive in deep sand than BFG or Maxxis. Distribution through the Goodyear SA network is strong. Limited north-of-border availability is a consideration. Best use case: pre-expedition daily running then swap to KO2/KO3 before departure.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout info" style="margin-top:20px;">
+      <p><strong>For the 2028 expedition specifically:</strong> The BFGoodrich KO2 or KO3 is the right call for one primary reason — Africa-wide serviceability. When you have a sidewall failure in northern Zambia or southern Tanzania, you want a tyre you can source within a few hundred kilometres. BFG has that network. No other AT tyre in 265/75R16 currently does.</p>
+      <p style="margin-top:6px;">If KO3 is well-stocked across the route by 2027–28, choose KO3. If availability is still uncertain, choose KO2. Either way, budget for five tyres (four + spare) before departure — don't rely on sourcing your size on the road.</p>
+    </div>
+  </section>
+
+  <!-- WHERE TO BUY -->
+  <section id="availability">
+    <div class="section-label">07 — SA Availability</div>
+    <h2>Where to Source in South Africa</h2>
+
+    <div class="cmp-wrap">
+      <table class="cmp-table">
+        <thead>
+          <tr><th>Retailer</th><th>KO2/KO3</th><th>AT811</th><th>Cooper AT3</th><th>Grabber AT3</th><th>AT3G</th><th>Wildpeak</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>1st Alignment Centre (Cape Town)</td><td class="tick">✔</td><td class="tick">✔</td><td class="tick">✔</td><td class="tick">✔</td><td class="tick">✔</td><td class="maybe">AT3WA</td><td>Johan Viljoen — specialist 4x4 fitment. Call for pricing. +27 (0)21 949 5041.</td></tr>
+          <tr><td>Tyremart (110+ branches)</td><td class="tick">✔</td><td class="maybe">Some</td><td class="maybe">Some</td><td class="cross">—</td><td class="tick">✔</td><td class="cross">—</td><td>Largest national chain. Quote online, fit nationally.</td></tr>
+          <tr><td>Hi-Q (Bridgestone group)</td><td class="tick">✔</td><td class="cross">—</td><td class="tick">✔</td><td class="cross">—</td><td class="tick">✔</td><td class="tick">✔ AT3WA</td><td>Wide branch network. BFG + Dunlop + Cooper + Falken.</td></tr>
+          <tr><td>Malas Tyres</td><td class="tick">✔ KO3</td><td class="cross">—</td><td class="cross">—</td><td class="cross">—</td><td class="cross">—</td><td class="cross">—</td><td>KO3 confirmed in stock at R4,748/tyre (2025).</td></tr>
+          <tr><td>Tiger Wheel &amp; Tyre</td><td class="tick">✔</td><td class="cross">—</td><td class="cross">—</td><td class="cross">—</td><td class="maybe">Some</td><td class="cross">—</td><td>National chain. Good for BFG.</td></tr>
+          <tr><td>BestDrive / Errols</td><td class="tick">✔</td><td class="tick">✔ AT811</td><td class="cross">—</td><td class="tick">✔</td><td class="tick">✔</td><td class="tick">✔ AT3WA</td><td>Good for General Tire, Maxxis, Dunlop and Falken.</td></tr>
+          <tr><td>Fundity Tyres</td><td class="tick">✔</td><td class="cross">—</td><td class="tick">✔</td><td class="tick">✔</td><td class="tick">✔</td><td class="tick">✔ AT3WA · LT on request</td><td>General Tire + Falken AT3WA confirmed.</td></tr>
+          <tr><td>Restomod</td><td class="cross">—</td><td class="cross">—</td><td class="cross">—</td><td class="cross">—</td><td class="cross">—</td><td class="tick">✔ AT3WA · LT on request</td><td>Falken specialist. Query LT spec directly.</td></tr>
+          <tr><td>Tyres.co.za (online)</td><td class="cross">—</td><td class="tick">✔</td><td class="tick">✔</td><td class="tick">✔</td><td class="tick">✔</td><td class="cross">—</td><td>Price-includes-fitment model. Shop and book online.</td></tr>
+          <tr><td>TrenTyre (Namibia)</td><td class="tick">✔ KO3 N$4,794</td><td class="cross">—</td><td class="cross">—</td><td class="cross">—</td><td class="cross">—</td><td class="cross">—</td><td>KO3 265/75R16 confirmed excl. VAT &amp; fitment. Windhoek.</td></tr>
+          <tr><td>TyresEtc</td><td class="cross">—</td><td class="cross">—</td><td class="cross">—</td><td class="cross">—</td><td class="tick">✔ AT3G</td><td class="cross">—</td><td>Online + fitment. Dunlop specialist.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:12px; color:var(--steelmd); margin-top:8px; font-family:'Oswald',sans-serif;">North of SA border: BFGoodrich dealers confirmed in Namibia (Windhoek), Zambia (Lusaka), Zimbabwe (Harare), Tanzania (Dar es Salaam), Kenya (Nairobi). Always verify 265/75R16 stock before departure — this size is less common than 265/70R16 and availability thins out the further north you travel. First Alignment does not publish prices online — call Johan directly for a current quote.</p>
+  </section>
+
+</div><!-- end content -->
+
+<footer>
+  <span>LC76 Overland Library</span> · R19 · 265/75R16 AT Tyre Review · April 2026 · HZJ76R-RKMRS · Compiled for Neil &amp; Mary-Ann West
+</footer>
+
+<script>
+function navTo(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const stickyH = document.querySelector('.sticky-wrap').offsetHeight;
+  const y = el.getBoundingClientRect().top + window.pageYOffset - stickyH - 12;
+  window.scrollTo({ top: y, behavior: 'smooth' });
+}
+
+// Active TOC state
+const sections = ['context','shortlist','scorecard','comparison','sidewall','recommendation','availability'];
+const buttons = document.querySelectorAll('.toc button');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      buttons.forEach(b => b.classList.remove('active'));
+      const idx = sections.indexOf(entry.target.id);
+      if (idx > -1) buttons[idx].classList.add('active');
+    }
+  });
+}, { rootMargin: '-80px 0px -60% 0px', threshold: 0 });
+
+sections.forEach(id => {
+  const el = document.getElementById(id);
+  if (el) observer.observe(el);
+});
+</script>
+</body>
+</html>
