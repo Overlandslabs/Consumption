@@ -25,14 +25,16 @@
   body{background:var(--white);color:var(--ink);font-family:'Oswald','Arial Narrow',sans-serif;font-size:16px;line-height:1.7}
 
   /* ── MASTHEAD ── */
-  .masthead{background:var(--ink);color:var(--sand);padding:18px 4% 14px;position:sticky;top:0;z-index:100;overflow:hidden}
-  .masthead::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--ochre),transparent)}
-  .ms{font-family:'Oswald','Arial Narrow',sans-serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--sand);margin-bottom:10px}
-  .masthead h1{font-family:'Oswald','Arial Narrow',sans-serif;font-size:clamp(22px,3vw,38px);font-weight:700;line-height:1;color:var(--cream);letter-spacing:-.01em;margin-bottom:6px}
-  .masthead h1 em{font-style:italic;color:var(--ochre)}
-  .masthead-sub{font-size:13px;color:var(--sand);font-style:italic}
-  .mspecs{font-family:'Oswald','Arial Narrow',sans-serif;font-size:10px;color:var(--sand);letter-spacing:.08em;margin-top:8px;display:flex;gap:16px;flex-wrap:wrap}
-  .mspecs span{color:var(--ochre)}
+  .masthead{background:var(--ink);color:var(--sand);padding:16px 4% 14px;position:sticky;top:0;z-index:100;overflow:hidden}
+  .masthead::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--clay),var(--ochre),transparent)}
+  .masthead h1{font-family:'Oswald','Arial Narrow',sans-serif;font-size:clamp(20px,3vw,34px);font-weight:700;line-height:1;color:var(--cream);letter-spacing:-.01em;margin-bottom:4px}
+  .masthead h1 span{color:var(--ochre)}
+  .masthead-sub{font-size:11px;color:var(--sand);opacity:.75;font-style:italic;letter-spacing:.04em}
+  /* Assumptions card */
+  .assump-card{background:var(--cream);border:1px solid var(--border);border-left:4px solid var(--ochre);padding:10px 16px;margin:12px 4% 0;display:flex;flex-wrap:wrap;gap:6px 24px}
+  .assump-card .ac-label{font-family:'Oswald','Arial Narrow',sans-serif;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--smoke);width:100%;margin-bottom:2px}
+  .assump-card .ac-item{font-family:'Oswald','Arial Narrow',sans-serif;font-size:11px;color:var(--bark)}
+  .assump-card .ac-item span{color:var(--clay);font-weight:600}
 
   /* ── PAGE ── */
   .page{max-width:100%;margin:0 auto;padding:16px 4% 40px}
@@ -167,51 +169,24 @@
   }
 
 /* Library home pill */
-.lib-home-btn{
-  position:absolute;
-  top:50%;
-  right:16px;
-  transform:translateY(-50%);
-  display:inline-flex;
-  align-items:center;
-  gap:5px;
-  font-family:'IBM Plex Mono',monospace;
-  font-size:9px;
-  font-weight:600;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-  text-decoration:none;
-  color:var(--amber2,#e07800);
-  background:rgba(232,120,0,.15);
-  border:1px solid var(--amber2,#e07800);
-  border-radius:20px;
-  padding:6px 12px;
-  min-height:32px;
-  white-space:nowrap;
-  z-index:10;
-  -webkit-tap-highlight-color:transparent;
-  transition:background .2s, border-color .2s;
-}
-.lib-home-btn:hover,
-.lib-home-btn:active{background:rgba(232,120,0,.30);border-color:var(--amber2,#e07800);}
-@media print{.lib-home-btn{display:none!important}}
+
 </style>
 </head>
 <body>
 
 <header class="masthead">
-  <a href="index.html" class="lib-home-btn" title="Library Index">⌂ Index</a>
-  <div class="ms">LC76 SW 1HZ &middot; Field Calculator</div>
-  <h1>Water Budget <em>Calculator</em></h1>
+  <h1>Water Budget <span>Calculator</span></h1>
   <p class="masthead-sub">Daily consumption, tank autonomy &amp; resupply planning</p>
-  <div class="mspecs">
-    <div>Main tank: <span id="hd-tank">70 L</span></div>
-    <div>People: <span id="hd-pax">2</span></div>
-    <div>Resupply: <span id="hd-resupply">5 days</span></div>
-    <div>Daily use: <span id="hd-daily">— L/day</span></div>
-    <div>Autonomy: <span id="hd-auto">— days</span></div>
-  </div>
 </header>
+<div class="assump-card">
+  <div class="ac-label">Calculator assumptions</div>
+  <div class="ac-item">Main tank <span>70 L (adjustable)</span></div>
+  <div class="ac-item">Drinking <span>3 L/person/day</span></div>
+  <div class="ac-item">Cooking <span>1 L/person/day</span></div>
+  <div class="ac-item">Hygiene <span>2 L/person/day</span></div>
+  <div class="ac-item">Reserve threshold <span>20%</span></div>
+  <div class="ac-item">Hot weather buffer <span>+25%</span></div>
+</div>
 
 <main class="page">
 
@@ -418,9 +393,8 @@
 </main>
 
 <footer>
-  <div>LC76 SW 1HZ &middot; Water Budget Calculator</div>
-  <div>Resupply target: <span id="ft-resupply">5 days</span> &middot; Capacity: <span id="ft-cap">70 L</span> &middot; People: <span id="ft-pax">2</span></div>
-  <div>Estimates only &mdash; verify against actual consumption. Add 25% buffer for hot conditions.</div>
+  <div>Water Budget Calculator</div>
+  <div>Estimates only &mdash; verify against actual consumption. Add 25% buffer in hot conditions.</div>
 </footer>
 
 <script>
@@ -585,17 +559,7 @@ function upd(){
   document.getElementById('rb-lbl').textContent = current.toFixed(1)+' L current · '+sign;
   document.getElementById('res-pct-lbl').textContent = Math.round(resPct*100)+'%';
 
-  // Masthead
-  document.getElementById('hd-tank').textContent = cap.toFixed(0)+' L';
-  document.getElementById('hd-pax').textContent  = pax;
-  document.getElementById('hd-resupply').textContent = resupply+' day'+(resupply==1?'':'s');
-  document.getElementById('hd-daily').textContent = daily>0 ? daily.toFixed(1)+' L/day' : '—';
-  document.getElementById('hd-auto').textContent  = daily===0?'—':(auto>=99?'∞ days':auto.toFixed(1)+' days');
 
-  // Footer
-  document.getElementById('ft-resupply').textContent = resupply+' days';
-  document.getElementById('ft-cap').textContent = cap.toFixed(0)+' L';
-  document.getElementById('ft-pax').textContent = pax;
 
   // Verdict
   buildVerdict(daily,auto,avail,gap,resupply,pax);
