@@ -38,17 +38,19 @@
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
 body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:12px;line-height:1.5}
 
+/* STICKY WRAPPER */
+.sticky-wrap{
+  position:sticky;top:0;z-index:100;
+  background:var(--ink);
+  padding-top:env(safe-area-inset-top);
+}
+
 /* HEADER */
 .page-header{
   background:var(--ink);color:white;
   padding:14px 20px 12px;
   border-bottom:4px solid var(--amber2);
   display:flex;align-items:flex-end;justify-content:space-between;gap:16px;
-  position:sticky;
-  top:0;
-  top:env(safe-area-inset-top);
-  padding-top:calc(14px + env(safe-area-inset-top));
-  z-index:100;
 }
 .header-title{font-family:var(--display);font-size:2.4rem;letter-spacing:.06em;color:white;line-height:1}
 .header-title span{color:var(--amber2)}
@@ -242,6 +244,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
   @page{margin:10mm;size:A4 portrait}
   *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
   body{font-size:10.5px!important;background:white!important}
+  .sticky-wrap{position:static!important;padding-top:0!important}
   .page-header{background:var(--ink)!important;padding:8px 14px!important;break-after:avoid}
   .section-strip{background:var(--ink)!important;color:var(--amber2)!important;break-after:avoid;margin-bottom:0!important}
   .card-grid{display:grid!important;grid-template-columns:1fr 1fr 1fr!important;gap:8px!important;padding:8px!important}
@@ -293,6 +296,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 <body>
 
 <!-- ═══════════ HEADER ═══════════ -->
+<div class="sticky-wrap">
 <div class="page-header">
   <div class="header-left">
     <div class="header-title">Vehicle <span>Reference Card</span></div>
@@ -300,6 +304,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
   <div class="header-right">
     <a href="index.html" class="lib-home-btn" title="Library Index">⌂ Index</a>
   </div>
+</div>
 </div>
 
 <!-- ═══════════ GRID ═══════════ -->
