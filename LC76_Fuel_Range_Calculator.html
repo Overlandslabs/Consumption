@@ -22,16 +22,15 @@
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
   body{background:var(--white);color:var(--ink);font-family:'Oswald','Arial Narrow',sans-serif;font-size:16px;line-height:1.7}
-  .masthead{background:var(--ink);color:var(--sand);padding:16px 4% 14px;position:sticky;top:0;z-index:100;overflow:hidden}
+  .sticky-wrap{position:sticky;top:0;z-index:100;background:var(--ink);padding-top:env(safe-area-inset-top)}
+  .masthead{background:var(--ink);color:var(--sand);padding:18px 4% 14px;overflow:hidden}
   .masthead::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--clay),var(--ochre),transparent)}
-  .masthead h1{font-family:'Oswald','Arial Narrow',sans-serif;font-size:clamp(20px,3vw,34px);font-weight:700;line-height:1;color:var(--cream);letter-spacing:-.01em;margin-bottom:4px}
-  .masthead h1 span{color:var(--ochre)}
-  .masthead-sub{font-size:11px;color:var(--sand);opacity:.75;font-style:italic;letter-spacing:.04em}
-  /* Assumptions card */
-  .assump-card{background:var(--cream);border:1px solid var(--border);border-left:4px solid var(--ochre);padding:10px 16px;margin:12px 4% 0;display:flex;flex-wrap:wrap;gap:6px 24px}
-  .assump-card .ac-label{font-family:'Oswald','Arial Narrow',sans-serif;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--smoke);width:100%;margin-bottom:2px}
-  .assump-card .ac-item{font-family:'Oswald','Arial Narrow',sans-serif;font-size:11px;color:var(--bark)}
-  .assump-card .ac-item span{color:var(--clay);font-weight:600}
+  .ms{font-family:'Oswald','Arial Narrow',sans-serif;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--sand);margin-bottom:10px}
+  .masthead h1{font-family:'Oswald','Arial Narrow',sans-serif;font-size:clamp(22px,3vw,38px);font-weight:700;line-height:1;color:var(--cream);letter-spacing:-.01em;margin-bottom:6px}
+  .masthead h1 em{font-style:italic;color:var(--ochre)}
+  .masthead-sub{font-size:13px;color:var(--sand);font-style:italic}
+  .mspecs{font-family:'Oswald','Arial Narrow',sans-serif;font-size:10px;color:var(--sand);letter-spacing:.08em;margin-top:8px;display:flex;gap:16px;flex-wrap:wrap}
+  .mspecs span{color:var(--ochre)}
   .page{max-width:100%;margin:0 auto;padding:16px 4% 40px}
   .sec{font-family:'Oswald','Arial Narrow',sans-serif;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--smoke);border-bottom:1px solid var(--border);padding-bottom:4px;margin:16px 0 10px}
   .sec:first-of-type{margin-top:0}
@@ -145,28 +144,61 @@
   }
 
 /* Library home pill */
-
+.lib-home-btn{
+  position:absolute;
+  top:50%;
+  right:16px;
+  transform:translateY(-50%);
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;
+  font-weight:600;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  text-decoration:none;
+  color:var(--amber2,#e07800);
+  background:rgba(232,120,0,.15);
+  border:1px solid var(--amber2,#e07800);
+  border-radius:20px;
+  padding:6px 12px;
+  min-height:32px;
+  white-space:nowrap;
+  z-index:10;
+  -webkit-tap-highlight-color:transparent;
+  transition:background .2s, border-color .2s;
+}
+.lib-home-btn:hover,
+.lib-home-btn:active{background:rgba(232,120,0,.30);border-color:var(--amber2,#e07800);}
+@media print{.lib-home-btn{display:none!important}}
 </style>
 </head>
 <body>
 
-<header class="masthead">
-  <h1>Fuel Range <span>Calculator</span></h1>
+<div class="sticky-wrap"><header class="masthead">
+  <a href="index.html" class="lib-home-btn" title="Library Index">⌂ Index</a>
+  <div class="ms">LC76 SW 1HZ &middot; Field Calculator</div>
+  <h1>Fuel Range <span style="color:var(--ochre)">Calculator</span></h1>
   <p class="masthead-sub">Terrain-adjusted consumption estimates</p>
-</header>
-<div class="assump-card">
-  <div class="ac-label">Vehicle &amp; assumptions</div>
-  <div class="ac-item">Main tank <span>145 L</span></div>
-  <div class="ac-item">Jerry cans <span>2&times; 20 L</span></div>
-  <div class="ac-item">Total capacity <span>185 L</span></div>
-  <div class="ac-item">Usable <span>~170 L</span></div>
-  <div class="ac-item">Baseline consumption <span>7.26 km/L</span> (adjustable)</div>
-  <div class="ac-item">GVM <span>2,850 kg</span></div>
-  <div class="ac-item">Payload limit <span>690 kg</span></div>
-  <div class="ac-item">Engine <span>1HZ 4.2L diesel + turbo</span></div>
-</div>
+  <div class="mspecs">
+    <div>Tank: <span>145 L</span></div>
+    <div>Jerry cans: <span>2&times; 20 L</span></div>
+    <div>Total: <span>185 L</span></div>
+    <div>Baseline: <span>7.26 km/L</span> (adjustable)</div>
+    <div>GVM: <span>2,850 kg &middot; Payload 690 kg</span></div>
+  </div>
+</header></div>
 
 <main class="page">
+
+  <div class="sec">Fuel capacity &mdash; <span style="font-weight:300;letter-spacing:0.05em;text-transform:none;font-size:11px;">Calculated for a Land Cruiser 76 SW 1HZ with low boost turbo and intercooler</span></div>
+  <div class="cap-grid">
+    <div class="cc"><div class="cl">Main tank</div><div class="cv">145 L</div><div class="cs">Replacement tank</div></div>
+    <div class="cc"><div class="cl">Jerry cans</div><div class="cv">40 L</div><div class="cs">2&times; Desert Fox 20L</div></div>
+    <div class="cc p"><div class="cl">Total capacity</div><div class="cv">185 L</div><div class="cs">Tank + both cans</div></div>
+    <div class="cc"><div class="cl">Usable</div><div class="cv">~170 L</div><div class="cs">~10L reserve always kept</div></div>
+  </div>
 
   <div class="sec">Terrain type &mdash; click to select</div>
   <div class="tgrid">
@@ -339,8 +371,9 @@
 </main>
 
 <footer>
-  <div>Fuel Range Calculator</div>
-  <div>Estimates only &mdash; verify against actual consumption logs. Always carry reserves.</div>
+  <div>LC76 SW 1HZ &middot; Fuel Range Calculator</div>
+  <div>Baseline: <span>7.26 km/L</span> &middot; Engine: <span>1HZ 4.2L + Turbo + Intercooler</span></div>
+  <div>Estimates only &mdash; verify against actual consumption logs and always carry reserves.</div>
 </footer>
 
 <script>

@@ -23,16 +23,13 @@
 body{background:var(--white);color:var(--ink);font-family:'Oswald',sans-serif;font-size:15px;line-height:1.5}
 
 /* MASTHEAD */
-.masthead{background:var(--ink);color:var(--sand);padding:16px 4% 14px;position:sticky;top:0;z-index:100;overflow:hidden}
-  .masthead::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--clay),var(--ochre),transparent)}
-  .masthead h1{font-family:'Oswald','Arial Narrow',sans-serif;font-size:clamp(20px,3vw,34px);font-weight:700;line-height:1;color:var(--cream);letter-spacing:-.01em;margin-bottom:4px}
-  .masthead h1 span{color:var(--ochre)}
-  .masthead-sub{font-size:11px;color:var(--sand);opacity:.75;font-style:italic;letter-spacing:.04em}
-  /* Assumptions card */
-  .assump-card{background:var(--cream);border:1px solid var(--border);border-left:4px solid var(--ochre);padding:10px 16px;margin:12px 4% 0;display:flex;flex-wrap:wrap;gap:6px 24px}
-  .assump-card .ac-label{font-family:'Oswald','Arial Narrow',sans-serif;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--smoke);width:100%;margin-bottom:2px}
-  .assump-card .ac-item{font-family:'Oswald','Arial Narrow',sans-serif;font-size:11px;color:var(--bark)}
-  .assump-card .ac-item span{color:var(--clay);font-weight:600}
+.sticky-wrap{position:sticky;top:0;z-index:100;background:var(--ink);padding-top:env(safe-area-inset-top)}
+.masthead{background:var(--ink);color:var(--sand);padding:18px 4% 14px;overflow:hidden}
+.masthead::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--clay),var(--ochre),transparent)}
+.ms{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--sand);margin-bottom:8px}
+.masthead h1{font-size:clamp(22px,3.5vw,42px);font-weight:700;color:var(--cream);letter-spacing:-.01em;margin-bottom:6px;line-height:1}
+.masthead h1 em{font-style:italic;color:var(--ochre)}
+.masthead-sub{font-size:13px;color:var(--sand);font-style:italic}
 
 /* VEHICLE BAR */
 .vbar{background:var(--bark);padding:10px 4%;display:flex;gap:20px;flex-wrap:wrap;font-size:11px;letter-spacing:.06em;color:var(--sand)}
@@ -154,8 +151,8 @@ body{background:var(--white);color:var(--ink);font-family:'Oswald',sans-serif;fo
 .fuel-dot-label{font-size:8px;color:var(--smoke);white-space:nowrap;letter-spacing:.04em}
 
 /* FOOTER */
-footer{background:var(--ink);color:var(--sand);padding:10px 4%;font-family:'Oswald','Arial Narrow',sans-serif;font-size:10px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;border-top:1px solid rgba(212,150,58,.2)}
-  footer span{color:var(--ochre)}
+footer{background:var(--ink);color:var(--sand);padding:12px 4%;font-size:10px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;border-top:1px solid rgba(212,150,58,.2)}
+footer span{color:var(--ochre)}
 
 /* RESPONSIVE */
 @media(max-width:700px){
@@ -169,8 +166,6 @@ footer{background:var(--ink);color:var(--sand);padding:10px 4%;font-family:'Oswa
   .summary-grid{grid-template-columns:1fr 1fr}
 }
 @media print{
-    footer{display:none}
-    
   footer,.btn-row{display:none}
   .page{padding:0 16px}
 }
@@ -197,25 +192,50 @@ footer{background:var(--ink);color:var(--sand);padding:10px 4%;font-family:'Oswa
   }
 
 /* Library home pill */
-
+.lib-home-btn{
+  position:absolute;
+  top:50%;
+  right:16px;
+  transform:translateY(-50%);
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;
+  font-weight:600;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  text-decoration:none;
+  color:var(--amber2,#e07800);
+  background:rgba(232,120,0,.15);
+  border:1px solid var(--amber2,#e07800);
+  border-radius:20px;
+  padding:6px 12px;
+  min-height:32px;
+  white-space:nowrap;
+  z-index:10;
+  -webkit-tap-highlight-color:transparent;
+  transition:background .2s, border-color .2s;
+}
+.lib-home-btn:hover,
+.lib-home-btn:active{background:rgba(232,120,0,.30);border-color:var(--amber2,#e07800);}
+@media print{.lib-home-btn{display:none!important}}
 </style>
 </head>
 <body>
 
-<header class="masthead">
-  <h1>Trip Fuel <span>Planner</span></h1>
+<div class="sticky-wrap"><header class="masthead">
+  <a href="index.html" class="lib-home-btn" title="Library Index">⌂ Index</a>
+  <div class="ms">LC76 SW 1HZ &middot; Trip Planner</div>
+  <h1>Trip Fuel <span style="color:var(--ochre)">Planner</span></h1>
   <p class="masthead-sub">Multi-leg route planner &mdash; terrain-adjusted fuel budget per leg</p>
-</header>
-<div class="assump-card">
-  <div class="ac-label">Calculator assumptions</div>
-  <div class="ac-item">Main tank <span>145 L</span></div>
-  <div class="ac-item">Jerry cans <span>2&times; 20 L</span></div>
-  <div class="ac-item">Total capacity <span>185 L</span></div>
-  <div class="ac-item">Usable <span>~170 L</span></div>
-  <div class="ac-item">Baseline consumption <span>7.26 km/L (adjustable)</span></div>
-  <div class="ac-item">GVM <span>2,850 kg</span></div>
-  <div class="ac-item">Payload limit <span>690 kg</span></div>
-  <div class="ac-item">Engine <span>1HZ 4.2L diesel + turbo</span></div>
+</header></div>
+
+<div class="vbar">
+  <div>Vehicle: <span>LC76 SW 1HZ</span></div>
+  <div>Tank: <span>145 L</span></div>
+  <div>Jerry cans: <span>2&times; 20L</span></div>
+  <div>Total capacity: <span>185 L</span></div>
 </div>
 
 <main class="page">
@@ -316,8 +336,9 @@ footer{background:var(--ink);color:var(--sand);padding:10px 4%;font-family:'Oswa
 </main>
 
 <footer>
-  <div>Trip Fuel Planner</div>
-  <div>Estimates only &mdash; verify fuel availability before travel. Always carry reserves.</div>
+  <div>LC76 SW 1HZ &middot; <span>Trip Fuel Planner</span></div>
+  <div>Baseline: <span>7.26 km/L</span> &middot; LC76 SW 1HZ + Turbo + Intercooler</div>
+  <div>Estimates only &mdash; verify fuel availability before travel</div>
 </footer>
 
 <script>
