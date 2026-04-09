@@ -33,7 +33,7 @@ html{scroll-behavior:smooth;}
 body{background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',sans-serif;font-size:13.5px;line-height:1.7;}
 
 /* HEADER */
-.hdr{background:var(--ink);padding:38px 50px 30px;overflow:hidden;}
+.hdr{background:var(--ink);padding:38px 50px 30px;position:sticky;top:0;z-index:100;overflow:hidden;}
 .hdr::before{content:'';position:absolute;top:-80px;right:-80px;width:360px;height:360px;border:55px solid rgba(232,146,10,.07);border-radius:50%;}
 .hdr::after{content:'';position:absolute;bottom:-55px;left:260px;width:200px;height:200px;border:32px solid rgba(26,74,60,.12);border-radius:50%;}
 .hdr-eye{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.28em;color:#E8920A;text-transform:uppercase;margin-bottom:10px;}
@@ -418,6 +418,7 @@ body{background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',sans-s
   background:var(--ink,#0d0e12);
   border-bottom:4px solid var(--amber2,#e07800);
   padding:14px 20px 12px;
+  position:relative;
 }
 .std-eyebrow{
   font-family:'IBM Plex Mono',monospace;
@@ -470,6 +471,20 @@ body{background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',sans-s
     .page,main{padding:0.75rem;}
     .cap-grid,.tgrid,.rgrid{grid-template-columns:1fr;}
   }
+
+/* Library home pill */
+.lib-home-btn{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;text-decoration:none;
+  color:var(--amber2,#e07800);background:rgba(232,120,0,.15);
+  border:1px solid var(--amber2,#e07800);border-radius:20px;
+  padding:6px 12px;min-height:32px;white-space:nowrap;
+  position:absolute;top:50%;right:16px;transform:translateY(-50%);
+  -webkit-tap-highlight-color:transparent;transition:background .2s;
+}
+.lib-home-btn:hover,.lib-home-btn:active{background:rgba(232,120,0,.30);}
+@media print{.lib-home-btn{display:none!important}}
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 </head>
@@ -477,10 +492,11 @@ body{background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',sans-s
 
 <!-- ══════════════════ HEADER ══════════════════ -->
 <div class="sticky-wrap"><div class="std-header">
+  <a href="index.html" class="lib-home-btn" title="Library Index">⌂ Index</a>
   <div class="std-eyebrow">Overland Series</div>
   <div class="std-title">LiFePO4 Battery Training</div>
   <div class="std-sub">2009 LC76 SW 1HZ &nbsp;&middot;&nbsp; Training Manual</div>
-</div></div>
+</div></div><!-- end sticky-wrap -->
 
 <!-- ══════════════════ TOC ══════════════════ -->
 <div class="toc">
