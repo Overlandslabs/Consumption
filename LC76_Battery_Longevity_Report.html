@@ -25,8 +25,11 @@
 
   /* LC76 Design System tokens */
   --clay:#C4572A;--ochre:#D4963A;--sand:#E8D5A3;--cream:#F5EDDA;
-  --ink:#1C1410;--bark:#3D2B1A;--smoke:#6B5B4E;--white:#FDFAF4;
-  --green-ok:#1A4731;--red-warn:#B91C1C;--amber:#92400E;
+  --ink:#0d0e12;--bark:#3D2B1A;--smoke:#6B5B4E;--white:#FDFAF4;
+  --paper:#dad2c0;--paper2:#edeae0;--rule:#d4cfc4;
+  --amber:#b86800;--amber2:#e07800;
+  --steeldk:#2a2f3a;--steelmd:#6a7080;
+  --green-ok:#059669;--red-warn:#B91C1C;
   --dominant:var(--cream);--secondary:var(--ink);--accent:var(--clay);--accent-2:var(--ochre);
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
@@ -365,42 +368,23 @@ body{background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',sans-s
   .br{padding:5px 8px 6px!important}
 }
 
-/* ── STANDARD HEADER ─────────────────────────────────── */
-.sticky-wrap{position:sticky;top:0;z-index:100;background:var(--ink,#0d0e12);padding-top:env(safe-area-inset-top)}
-.std-header{
-  background:var(--ink,#0d0e12);
-  border-bottom:4px solid var(--amber2,#e07800);
-  padding:14px 20px 12px;
-  position:relative;
-}
-.std-eyebrow{
-  font-family:'IBM Plex Mono',monospace;
-  font-size:.48rem;
-  letter-spacing:.28em;
-  text-transform:uppercase;
-  color:var(--steellt,#9aa0ae);
-  margin-bottom:6px;
-}
-.std-title{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:2.4rem;
-  letter-spacing:.06em;
-  color:#e07800;
-  line-height:1;
-}
-.std-sub{
-  font-family:'IBM Plex Mono',monospace;
-  font-size:.54rem;
-  letter-spacing:.12em;
-  color:rgba(255,200,100,.65);
-  margin-top:5px;
-}
+/* ── STICKY HEADER (masthead + TOC together) ─────────────── */
+.sticky-wrap{position:sticky;top:0;z-index:100;background:var(--ink);padding-top:env(safe-area-inset-top)}
+.masthead{position:relative;background:var(--ink);color:#fff;padding:18px 24px 14px}
+.mh-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--steelmd);margin-bottom:6px}
+.mh-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.8rem,5vw,2.6rem);letter-spacing:.06em;color:var(--amber2);line-height:1}
+.mh-sub{font-family:'IBM Plex Mono',monospace;font-size:.54rem;letter-spacing:.12em;color:rgba(255,200,100,.65);margin-top:5px}
+.mh-vehicle{font-family:'IBM Plex Mono',monospace;font-size:.48rem;letter-spacing:.08em;color:var(--steelmd);margin-top:8px}
+.toc-bar{background:var(--steeldk);border-top:3px solid var(--amber2);border-bottom:1px solid rgba(255,255,255,.08);padding:0 20px;display:flex;gap:0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.toc-bar::-webkit-scrollbar{display:none}
+.toc-btn{font-family:'IBM Plex Mono',monospace;font-size:.52rem;letter-spacing:.08em;text-transform:uppercase;color:var(--steelmd);background:none;border:none;padding:10px 12px;cursor:pointer;white-space:nowrap;transition:color .2s}
+.toc-btn:hover,.toc-btn.active{color:var(--amber2)}
+/* ── LIB HOME BTN ────────────────────────────────────────── */
+.lib-home-btn{position:absolute;top:50%;right:16px;transform:translateY(-50%);display:inline-flex;align-items:center;gap:5px;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--amber2);background:rgba(232,120,0,.15);border:1px solid var(--amber2);border-radius:20px;padding:6px 12px;min-height:32px;white-space:nowrap;z-index:10;transition:background .2s}
+.lib-home-btn:hover{background:rgba(232,120,0,.30)}
 @media(max-width:600px){
-  .sticky-wrap{position:static;padding-top:0}
-  .std-header{padding:12px 14px 10px}
-  .std-title{font-size:clamp(1.6rem,6vw,2.4rem)}
-  .std-sub{font-size:.46rem;letter-spacing:.08em}
-  .std-eyebrow{font-size:.42rem}
+  .masthead{padding:14px 16px 12px}
+  .mh-title{font-size:1.6rem}
 }
 
 
@@ -460,12 +444,23 @@ body{background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',sans-s
 <body>
 
 <!-- ═══════════════════════════════════════ HEADER ═══════ -->
-<div class="sticky-wrap"><div class="std-header">
+<div class="sticky-wrap">
+<div class="masthead">
   <a href="index.html" class="lib-home-btn" title="Library Index">⌂ Index</a>
-  <div class="std-eyebrow">Overland Series</div>
-  <div class="std-title">LiFePO4 Longevity Report</div>
-  <div class="std-sub">2009 LC76 SW 1HZ &nbsp;&middot;&nbsp; Battery System Design &amp; Longevity &nbsp;&middot;&nbsp; Southern Africa</div>
-</div></div><!-- end sticky-wrap -->
+  <div class="mh-eyebrow">Overland Series · R6</div>
+  <div class="mh-title">LiFePO4 Longevity Report</div>
+  <div class="mh-sub">Load Analysis · Energy Balance · Victron Components · SA Longevity · Climate Zones · Recommendation</div>
+  <div class="mh-vehicle">2009 LC76 SW · 1HZ 4.2L Diesel · GVM 2,850 kg · Last Updated: April 2026</div>
+</div>
+<div class="toc-bar" id="tocBar">
+  <button class="toc-btn active" data-target="s1">1. Load Analysis</button>
+  <button class="toc-btn" data-target="s2">2. Energy Balance</button>
+  <button class="toc-btn" data-target="s3">3. Components</button>
+  <button class="toc-btn" data-target="s4">4. Longevity</button>
+  <button class="toc-btn" data-target="s5">5. Climate Zones</button>
+  <button class="toc-btn" data-target="s6">6. Recommendation</button>
+</div>
+</div><!-- end sticky-wrap -->
 
 
 <div class="body">
@@ -473,7 +468,7 @@ body{background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',sans-s
 <!-- ════════════════════════════════════════════════════════
      SECTION 1 — LOAD ANALYSIS
 ═════════════════════════════════════════════════════════ -->
-<div class="slbl">Section 1 — Actual Daily Load Analysis (Your Accessories)</div>
+<div class="slbl" id="s1">Section 1 — Actual Daily Load Analysis (Your Accessories)</div>
 <hr class="srule">
 
 <div class="ibox">
@@ -606,7 +601,7 @@ body{background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',sans-s
 <!-- ════════════════════════════════════════════════════════
      SECTION 2 — ENERGY BALANCE
 ═════════════════════════════════════════════════════════ -->
-<div class="slbl">Section 2 — Daily Energy Balance: Recharge vs Consumption</div>
+<div class="slbl" id="s2">Section 2 — Daily Energy Balance: Recharge vs Consumption</div>
 <hr class="srule">
 
 <div class="egrid">
@@ -854,7 +849,7 @@ body{background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',sans-s
 <!-- ════════════════════════════════════════════════════════
      SECTION 3 — COMPONENT SPECIFICATION
 ═════════════════════════════════════════════════════════ -->
-<div class="slbl">Section 3 — Complete System Component Specification (Victron Energy)</div>
+<div class="slbl" id="s3">Section 3 — Complete System Component Specification (Victron Energy)</div>
 <hr class="srule">
 
 <div class="ibox">
@@ -1123,7 +1118,7 @@ body{background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',sans-s
 <!-- ════════════════════════════════════════════════════════
      SECTION 4 — LONGEVITY & DEGRADATION
 ═════════════════════════════════════════════════════════ -->
-<div class="slbl">Section 4 — SA Longevity Projection at Your Load Profile</div>
+<div class="slbl" id="s4">Section 4 — SA Longevity Projection at Your Load Profile</div>
 <hr class="srule">
 
 <div class="ibox">
@@ -1201,7 +1196,7 @@ body{background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',sans-s
 <!-- ════════════════════════════════════════════════════════
      SECTION 5 — SA CLIMATE ZONES
 ═════════════════════════════════════════════════════════ -->
-<div class="slbl">Section 5 — Southern African Climate Zones &amp; Battery Impact</div>
+<div class="slbl" id="s5">Section 5 — Southern African Climate Zones &amp; Battery Impact</div>
 <hr class="srule">
 <div class="hgrid">
   <div class="hc hot">
@@ -1251,7 +1246,7 @@ body{background:var(--paper);color:var(--ink);font-family:'IBM Plex Sans',sans-s
 <!-- ════════════════════════════════════════════════════════
      SECTION 6 — RECOMMENDATION
 ═════════════════════════════════════════════════════════ -->
-<div class="slbl">Section 6 — Consultant Recommendation &amp; System Summary</div>
+<div class="slbl" id="s6">Section 6 — Consultant Recommendation &amp; System Summary</div>
 <hr class="srule">
 <div class="rbox">
   <div class="rbox-t">Recommended System: Victron Smart 300Ah · Orion-Tr Smart 30A · SmartSolar MPPT 100/30 · BMV-712 + Blue Smart</div>
@@ -1343,6 +1338,32 @@ if('serviceWorker' in navigator && location.hostname !== 'www.claudeusercontent.
       .catch(function(e){console.log('SW error:',e);});
   });
 }
+</script>
+<script>
+// TOC scroll — canonical data-target pattern
+document.querySelectorAll('.toc-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = document.getElementById(btn.dataset.target);
+    if (target) {
+      const offset = document.querySelector('.sticky-wrap').offsetHeight + 8;
+      const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  });
+});
+// Active state via IntersectionObserver
+const tocSections = document.querySelectorAll('[id^="s"]');
+const tocButtons = document.querySelectorAll('.toc-btn');
+const tocObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      tocButtons.forEach(b => b.classList.remove('active'));
+      const btn = document.querySelector(`.toc-btn[data-target="${entry.target.id}"]`);
+      if (btn) btn.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+tocSections.forEach(s => tocObserver.observe(s));
 </script>
 </body>
 </html>

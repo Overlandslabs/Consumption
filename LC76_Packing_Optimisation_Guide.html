@@ -11,18 +11,32 @@
 :root{--ink:#0d0e12;--paper:#dad2c0;--paper2:#edeae0;--amber:#b86800;--amber2:#e07800;--rule:#d4cfc4;--steeldk:#2a2f3a;--steelmd:#6a7080;--red-warn:#B91C1C;--green-ok:#059669;--green-field:#10b981}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{font-family:Oswald,sans-serif;background:var(--paper);color:var(--steeldk);line-height:1.45;font-size:13px;-webkit-font-smoothing:antialiased;orphans:3;widows:3}
-.sticky-hdr{position:sticky;top:0;z-index:100;background:var(--ink);padding-top:env(safe-area-inset-top)}
-header{background:var(--ink);color:#fff;padding:1rem 1.5rem;border-bottom:4px solid var(--amber2)}
-.hdr-row{display:flex;align-items:center;justify-content:space-between;gap:1rem}
-.hdr-title{font-family:Bebas Neue,sans-serif;font-size:1.8rem;letter-spacing:2px;line-height:1}
-.hdr-title .accent{color:var(--amber2)}
-.hdr-sub{font-family:'IBM Plex Mono',monospace;font-size:.65rem;color:var(--amber);margin-top:2px}
-.hdr-right{text-align:right}
-.hdr-ref{font-family:Bebas Neue,sans-serif;font-size:1rem;color:var(--amber2);letter-spacing:1px}
-.hdr-date{font-family:'IBM Plex Mono',monospace;font-size:.6rem;color:var(--steelmd)}
-.toc-bar{background:var(--steeldk);padding:5px 1.5rem;display:flex;flex-wrap:wrap;gap:2px 8px;border-bottom:1px solid rgba(255,255,255,.08)}
-.toc-bar a{font-family:'IBM Plex Mono',monospace;font-size:.58rem;color:#9ca3af;text-decoration:none;letter-spacing:.5px;transition:color .15s;white-space:nowrap;cursor:pointer}
-.toc-bar a:hover{color:var(--amber2)}
+.sticky-wrap{position:sticky;top:0;z-index:100;background:var(--ink);padding-top:env(safe-area-inset-top)}
+/* ── MASTHEAD ────────────────────────────────────────────── */
+header{position:relative;background:var(--ink);color:#fff;padding:18px 24px 14px}
+.mh-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--steelmd);margin-bottom:6px}
+.mh-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.8rem,5vw,2.6rem);letter-spacing:.06em;color:var(--amber2);line-height:1}
+.mh-sub{font-family:'IBM Plex Mono',monospace;font-size:.54rem;letter-spacing:.12em;color:rgba(255,200,100,.65);margin-top:5px}
+.mh-vehicle{font-family:'IBM Plex Mono',monospace;font-size:.48rem;letter-spacing:.08em;color:var(--steelmd);margin-top:8px}
+.toc-bar{background:var(--steeldk);border-top:3px solid var(--amber2);border-bottom:1px solid rgba(255,255,255,.08);padding:0 20px;display:flex;gap:0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.toc-bar::-webkit-scrollbar{display:none}
+.toc-btn{font-family:'IBM Plex Mono',monospace;font-size:.52rem;letter-spacing:.08em;text-transform:uppercase;color:var(--steelmd);background:none;border:none;padding:10px 12px;cursor:pointer;white-space:nowrap;transition:color .2s}
+.toc-btn:hover,.toc-btn.active{color:var(--amber2)}
+
+/* Library home pill */
+.lib-home-btn{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;text-decoration:none;
+  color:var(--amber2,#e07800);background:rgba(232,120,0,.15);
+  border:1px solid var(--amber2,#e07800);border-radius:20px;
+  padding:6px 12px;min-height:32px;white-space:nowrap;
+  position:absolute;top:50%;right:16px;transform:translateY(-50%);
+  -webkit-tap-highlight-color:transparent;transition:background .2s;
+}
+.lib-home-btn:hover,.lib-home-btn:active{background:rgba(232,120,0,.30);}
+@media print{.lib-home-btn{display:none!important}}
+
 .container{max-width:780px;margin:0 auto;padding:1rem 1.2rem 2rem}
 .sec-sep{margin:1.6rem 0 .8rem;scroll-margin-top:80px}
 .sec-label{font-family:'IBM Plex Mono',monospace;font-size:.6rem;font-weight:600;color:var(--amber);letter-spacing:2px;text-transform:uppercase;margin-bottom:1px}
@@ -76,7 +90,7 @@ li::marker{color:var(--amber)}
 @media print{
   @page{margin:7mm;size:A4}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  .sticky-hdr{position:static;padding-top:0}
+  .sticky-wrap{position:static;padding-top:0}
   .toc-bar{display:none}
   body{font-size:8pt;background:#fff;line-height:1.3}
   .container{max-width:100%;padding:0}
@@ -108,8 +122,6 @@ li::marker{color:var(--amber)}
   .zone-grid,.two-col{grid-template-columns:1fr}
   h2{font-size:1.4rem}
   .hdr-title{font-size:1.4rem}
-  .hdr-row{flex-direction:column;align-items:flex-start}
-  .hdr-right{text-align:left}
   header{padding:.8rem 1rem}
   .toc-bar{padding:4px 1rem}
   .container{padding:.8rem}
@@ -129,31 +141,31 @@ li::marker{color:var(--amber)}
 }
 .lib-home-btn:hover,.lib-home-btn:active{background:rgba(232,120,0,.30);}
 @media print{.lib-home-btn{display:none!important}}
+
 </style>
 </head>
 <body>
 
-<div class="sticky-hdr">
+<div class="sticky-wrap">
 <header>
-<a href="index.html" class="lib-home-btn" title="Library Index">⌂ Index</a>
-<div class="hdr-row">
-<div><div class="hdr-title"><span class="accent">LC76</span> OVERLAND SERIES</div><div class="hdr-sub">HZJ76R-RKMRS · 1HZ 4.2D TURBO · 2009 LC76 SW</div></div>
-<div class="hdr-right"><div class="hdr-ref">R11 — PACKING &amp; LOAD OPTIMISATION</div><div class="hdr-date">Last Updated: 22 March 2026</div></div>
-</div>
+  <a href="index.html" class="lib-home-btn" title="Library Index">⌂ Index</a>
+  <div class="mh-eyebrow">Overland Series · R11</div>
+  <div class="mh-title">Packing &amp; Load Optimisation</div>
+  <div class="mh-sub">Weight Budget · Load Profile · Current &amp; Target Layout · Equipment · Power</div>
+  <div class="mh-vehicle">2009 LC76 SW · 1HZ 4.2L Diesel · GVM 2,850 kg · Last Updated: 22 March 2026</div>
 </header>
-
-<nav class="toc-bar">
-<a onclick="document.getElementById('overview').scrollIntoView({behavior:'smooth'})">Overview</a>
-<a onclick="document.getElementById('weight').scrollIntoView({behavior:'smooth'})">Weight</a>
-<a onclick="document.getElementById('profile').scrollIntoView({behavior:'smooth'})">Profile</a>
-<a onclick="document.getElementById('current').scrollIntoView({behavior:'smooth'})">Current Layout</a>
-<a onclick="document.getElementById('pain').scrollIntoView({behavior:'smooth'})">Pain Points</a>
-<a onclick="document.getElementById('target').scrollIntoView({behavior:'smooth'})">Target Layout</a>
-<a onclick="document.getElementById('equipment').scrollIntoView({behavior:'smooth'})">Equipment</a>
-<a onclick="document.getElementById('power').scrollIntoView({behavior:'smooth'})">Power</a>
-<a onclick="document.getElementById('loading').scrollIntoView({behavior:'smooth'})">Loading</a>
-<a onclick="document.getElementById('checklists').scrollIntoView({behavior:'smooth'})">Checklists</a>
-</nav>
+<div class="toc-bar" id="tocBar">
+  <button class="toc-btn active" data-target="overview">Overview</button>
+  <button class="toc-btn" data-target="weight">Weight</button>
+  <button class="toc-btn" data-target="profile">Profile</button>
+  <button class="toc-btn" data-target="current">Current Layout</button>
+  <button class="toc-btn" data-target="pain">Pain Points</button>
+  <button class="toc-btn" data-target="target">Target Layout</button>
+  <button class="toc-btn" data-target="equipment">Equipment</button>
+  <button class="toc-btn" data-target="power">Power</button>
+  <button class="toc-btn" data-target="loading">Loading</button>
+  <button class="toc-btn" data-target="checklists">Checklists</button>
+</div>
 </div>
 
 <div class="container">
@@ -791,5 +803,29 @@ li::marker{color:var(--amber)}
 </div>
 
 </div>
+<script>
+document.querySelectorAll('.toc-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = document.getElementById(btn.dataset.target);
+    if (target) {
+      const offset = document.querySelector('.sticky-wrap').offsetHeight + 8;
+      const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  });
+});
+const tocSections = document.querySelectorAll('[id]');
+const tocButtons = document.querySelectorAll('.toc-btn');
+const tocObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      tocButtons.forEach(b => b.classList.remove('active'));
+      const btn = document.querySelector(`.toc-btn[data-target="${entry.target.id}"]`);
+      if (btn) btn.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+tocSections.forEach(s => tocObserver.observe(s));
+</script>
 </body>
 </html>

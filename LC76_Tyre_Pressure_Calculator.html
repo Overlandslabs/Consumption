@@ -18,11 +18,14 @@
 body{font-family:Oswald,sans-serif;background:var(--paper);color:var(--steeldk);line-height:1.5;-webkit-font-smoothing:antialiased}
 
 /* HEADER */
-header{background:var(--ink);color:#fff;padding:1rem 1.5rem;border-bottom:4px solid var(--amber2)}
-.header-title{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:2px;margin-bottom:.2rem}
-.header-title .accent{color:var(--amber2)}
-.header-subtitle{font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--amber);margin-bottom:.15rem}
-.header-meta{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--steelmd)}
+/* ── CALC MASTHEAD ───────────────────────────────────────── */
+header{position:relative;background:var(--ink);color:#fff;padding:18px 24px 14px;overflow:hidden}
+header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--amber),var(--amber2),transparent)}
+.cm-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--steelmd);margin-bottom:8px}
+.cm-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.8rem,5vw,2.6rem);letter-spacing:.06em;color:#fff;line-height:1;margin-bottom:4px}
+.cm-title em{font-style:italic;color:var(--amber2)}
+.cm-sub{font-family:'IBM Plex Mono',monospace;font-size:.52rem;letter-spacing:.1em;color:rgba(255,200,100,.65);margin-bottom:6px}
+.cm-meta{font-family:'IBM Plex Mono',monospace;font-size:.48rem;letter-spacing:.08em;color:var(--steelmd)}
 
 /* STICKY NAV */
 .sticky-wrap{position:sticky;top:0;z-index:100;background:var(--ink);padding-top:env(safe-area-inset-top)}
@@ -202,8 +205,8 @@ footer p{color:var(--amber)}
 
 /* MOBILE */
 @media(max-width:600px){
-  header{padding:1.2rem}
-  .header-title{font-size:2rem}
+  header{padding:14px 16px 12px}
+  .cm-title{font-size:1.6rem}
   main{padding:1.5rem 4% 60px}
   .size-selector{grid-template-columns:repeat(3,1fr);gap:.5rem}
   .results-grid{grid-template-columns:1fr 1fr}
@@ -220,7 +223,12 @@ footer p{color:var(--amber)}
   .tab-btn:not(.active){display:none}
   .panel:not(.active){display:block}
   body{font-size:9pt}
-  header{padding:.5cm;border-bottom:2pt solid var(--amber2)}
+  header{padding:4mm 8mm;break-after:avoid}
+  .cm-eyebrow{font-size:5pt}
+  .cm-title{font-size:16pt}
+  .cm-sub{font-size:5pt}
+  .cm-meta{font-size:4.5pt}
+  .lib-home-btn{display:none!important}
   main{padding:.3cm}
   .results-grid{display:grid}
   .comp-table{font-size:8pt}
@@ -262,13 +270,14 @@ header{position:relative;}
 
 <div class="sticky-wrap"><header>
   <a href="index.html" class="lib-home-btn" title="Library Index">⌂ Index</a>
-  <h1 class="header-title"><span class="accent">LC76</span> TYRE PRESSURE CALCULATOR</h1>
-  <p class="header-subtitle">HZJ76R · 265/70R16 Current · Terrain & Load Optimised</p>
-  <p class="header-meta">Field tool — works offline · Cross-reference: R14 Tyre Management Guide</p>
+  <div class="cm-eyebrow">LC76 SW · Field Tool</div>
+  <div class="cm-title">Tyre Pressure <em>Calculator</em></div>
+  <div class="cm-sub">265/70R16 Current · Terrain &amp; Load Optimised · Bar primary</div>
+  <div class="cm-meta">HZJ76R-RKMRS · Cross-reference: R14 Tyre Management Guide</div>
 </header>
   <div class="tab-bar">
-    <button class="tab-btn active" onclick="showTab('calc')">⚙️ Calculator</button>
-    <button class="tab-btn" onclick="showTab('compare')">📊 Tyre Comparison</button>
+    <button class="tab-btn active" onclick="showTab('calc')">Calculator</button>
+    <button class="tab-btn" onclick="showTab('compare')">Tyre Comparison</button>
   </div>
 </div>
 

@@ -17,32 +17,43 @@
 html { font-size: 16px; }
 body { background: var(--paper); color: var(--ink); font-family: 'Oswald', sans-serif; line-height: 1.6; }
 
-/* ── STICKY NAV ─────────────────────────────── */
-.sticky-wrap { position: sticky; top: 0; z-index: 100; }
-.masthead {
+/* ── STICKY HEADER (masthead + TOC together) ─────────────── */
+.sticky-wrap { position: sticky; top: 0; z-index: 100; background: var(--ink); padding-top: env(safe-area-inset-top); }
+.masthead { position: relative; background: var(--ink); color: #fff; padding: 18px 24px 14px; }
+.mh-eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: .5rem; letter-spacing: .28em; text-transform: uppercase; color: var(--steelmd); margin-bottom: 6px; }
+.mh-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.8rem, 5vw, 2.6rem); letter-spacing: .06em; color: var(--amber2); line-height: 1; }
+.mh-sub { font-family: 'IBM Plex Mono', monospace; font-size: .54rem; letter-spacing: .12em; color: rgba(255,200,100,.65); margin-top: 5px; }
+.mh-vehicle { font-family: 'IBM Plex Mono', monospace; font-size: .48rem; letter-spacing: .08em; color: var(--steelmd); margin-top: 8px; }
+.toc-bar {
   background: var(--steeldk);
-  padding: 14px 5% 10px;
-  border-bottom: 3px solid var(--amber2);
-}
-.ms-eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--steelmd); margin-bottom: 4px; }
-.ms-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(26px, 5vw, 38px); color: var(--amber2); line-height: 1; letter-spacing: .02em; }
-.ms-sub { font-size: 11px; color: var(--sand); letter-spacing: .06em; text-transform: uppercase; margin-top: 3px; opacity: .8; }
-.toc {
-  background: #1e2229;
-  padding: 8px 5%;
+  border-top: 3px solid var(--amber2);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  padding: 0 20px;
   display: flex; gap: 0; flex-wrap: nowrap;
   overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
-  border-bottom: 1px solid rgba(255,255,255,.07);
 }
-.toc::-webkit-scrollbar { display: none; }
-.toc button {
+.toc-bar::-webkit-scrollbar { display: none; }
+.toc-btn {
   background: none; border: none; cursor: pointer;
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase;
-  color: var(--steelmd); white-space: nowrap; padding: 5px 14px 5px 0;
-  flex-shrink: 0; transition: color .15s;
+  font-size: .52rem; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--steelmd); white-space: nowrap; padding: 10px 12px;
+  transition: color .2s;
 }
-.toc button:hover, .toc button.active { color: var(--amber2); }
+.toc-btn:hover, .toc-btn.active { color: var(--amber2); }
+
+/* ── LIB HOME BTN ────────────────────────────────────────── */
+.lib-home-btn {
+  position: absolute; top: 50%; right: 16px; transform: translateY(-50%);
+  display: inline-flex; align-items: center; gap: 5px;
+  font-family: 'IBM Plex Mono', monospace; font-size: 9px; font-weight: 600;
+  letter-spacing: .14em; text-transform: uppercase; text-decoration: none;
+  color: var(--amber2); background: rgba(232,120,0,.15);
+  border: 1px solid var(--amber2); border-radius: 20px;
+  padding: 6px 12px; min-height: 32px; white-space: nowrap; z-index: 10;
+  transition: background .2s;
+}
+.lib-home-btn:hover { background: rgba(232,120,0,.30); }
 
 /* ── LAYOUT ─────────────────────────────────── */
 .content { padding: 20px 5% 50px; max-width: 100%; }
@@ -172,18 +183,15 @@ footer span { color: var(--sand); }
 
   /* Show masthead as static block, hide nav and footer */
   .sticky-wrap { position: static !important; }
-  .toc, footer { display: none !important; }
+  .toc-bar, footer { display: none !important; }
+  .lib-home-btn { display: none !important; }
 
   /* Masthead print styling */
-  .masthead {
-    background: #2a2f3a !important;
-    padding: 8pt 10pt !important;
-    margin-bottom: 10pt !important;
-    border-bottom: 3pt solid #e07800 !important;
-  }
-  .ms-eyebrow { color: #6a7080 !important; font-size: 6pt !important; margin-bottom: 1pt !important; }
-  .ms-title   { color: #e07800 !important; font-size: 18pt !important; line-height: 1 !important; }
-  .ms-sub     { color: #e8d5a3 !important; font-size: 7pt !important; margin-top: 1pt !important; opacity: 1 !important; }
+  .masthead { padding: 4mm 8mm !important; break-after: avoid; }
+  .mh-eyebrow { font-size: 5pt !important; }
+  .mh-title   { font-size: 16pt !important; }
+  .mh-sub     { font-size: 5pt !important; }
+  .mh-vehicle { font-size: 4.5pt !important; }
 
   html, body {
     background: #fff !important;
@@ -306,18 +314,20 @@ footer span { color: var(--sand); }
 
 <div class="sticky-wrap">
   <div class="masthead">
-    <div class="ms-eyebrow">R19 — Overland Series · Tyre Review</div>
-    <div class="ms-title">265/75R16 All-Terrain Tyre Review</div>
-    <div class="ms-sub">2009 LC76 SW · 1HZ Low-Boost Turbo · Southern &amp; East Africa</div>
+    <a href="index.html" class="lib-home-btn" title="Library Index">⌂ Index</a>
+    <div class="mh-eyebrow">Overland Series · R19</div>
+    <div class="mh-title">265/75R16 All-Terrain Tyre Review</div>
+    <div class="mh-sub">8 Tyres · Scorecard · SA Pricing · Retailer Availability · Technical Notes</div>
+    <div class="mh-vehicle">2009 LC76 SW · 1HZ 4.2L Diesel · GVM 2,850 kg · Last Updated: April 2026</div>
   </div>
-  <nav class="toc" id="toc">
-    <button onclick="navTo('context')">Context</button>
-    <button onclick="navTo('shortlist')">Shortlist</button>
-    <button onclick="navTo('scorecard')">Scorecard</button>
-    <button onclick="navTo('comparison')">Comparison</button>
-    <button onclick="navTo('sidewall')">Technical Notes</button>
-    <button onclick="navTo('recommendation')">Recommendation</button>
-    <button onclick="navTo('availability')">Where to Buy</button>
+  <nav class="toc-bar" id="toc">
+    <button class="toc-btn active" data-target="context">Context</button>
+    <button class="toc-btn" data-target="shortlist">Shortlist</button>
+    <button class="toc-btn" data-target="scorecard">Scorecard</button>
+    <button class="toc-btn" data-target="comparison">Comparison</button>
+    <button class="toc-btn" data-target="sidewall">Technical Notes</button>
+    <button class="toc-btn" data-target="recommendation">Recommendation</button>
+    <button class="toc-btn" data-target="availability">Where to Buy</button>
   </nav>
 </div>
 
@@ -956,32 +966,32 @@ footer span { color: var(--sand); }
 </footer>
 
 <script>
-function navTo(id) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  const stickyH = document.querySelector('.sticky-wrap').offsetHeight;
-  const y = el.getBoundingClientRect().top + window.pageYOffset - stickyH - 12;
-  window.scrollTo({ top: y, behavior: 'smooth' });
-}
+// TOC scroll — canonical data-target pattern
+document.querySelectorAll('.toc-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = document.getElementById(btn.dataset.target);
+    if (target) {
+      const offset = document.querySelector('.sticky-wrap').offsetHeight + 8;
+      const top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }
+  });
+});
 
-// Active TOC state
-const sections = ['context','shortlist','scorecard','comparison','sidewall','recommendation','availability'];
-const buttons = document.querySelectorAll('.toc button');
-
-const observer = new IntersectionObserver((entries) => {
+// Active state via IntersectionObserver
+const sections = document.querySelectorAll('section[id]');
+const buttons = document.querySelectorAll('.toc-btn');
+const observer = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       buttons.forEach(b => b.classList.remove('active'));
-      const idx = sections.indexOf(entry.target.id);
-      if (idx > -1) buttons[idx].classList.add('active');
+      const btn = document.querySelector(`.toc-btn[data-target="${entry.target.id}"]`);
+      if (btn) btn.classList.add('active');
     }
   });
-}, { rootMargin: '-80px 0px -60% 0px', threshold: 0 });
+}, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
 
-sections.forEach(id => {
-  const el = document.getElementById(id);
-  if (el) observer.observe(el);
-});
+sections.forEach(s => observer.observe(s));
 </script>
 </body>
 </html>
