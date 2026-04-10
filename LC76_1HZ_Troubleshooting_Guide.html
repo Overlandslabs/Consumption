@@ -129,7 +129,8 @@
   .section-intro { font-size: 13px; color: var(--steelmd); margin-bottom: 14px; font-style: italic; }
 
   /* QUICK-REF MATRIX */
-  .matrix-table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-bottom: 24px; table-layout: fixed; }
+  .matrix-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; width: 100%; margin-bottom: 24px; }
+  .matrix-table { width: 100%; border-collapse: collapse; font-size: 12.5px; table-layout: fixed; min-width: 640px; }
   .matrix-table th {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 9px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
@@ -312,11 +313,6 @@
     .doc-title { font-size: 22px; }
     .matrix-table { font-size: 11px; }
     .matrix-table th, .matrix-table td { padding: 6px 8px; }
-    .matrix-table th:nth-child(1), .matrix-table td:nth-child(1) { width: 26%; }
-    .matrix-table th:nth-child(2), .matrix-table td:nth-child(2) { width: 17%; }
-    .matrix-table th:nth-child(3), .matrix-table td:nth-child(3) { width: 28%; }
-    .matrix-table th:nth-child(4), .matrix-table td:nth-child(4) { width: 17%; }
-    .matrix-table th:nth-child(5), .matrix-table td:nth-child(5) { width: 12%; }
     .smoke-grid { grid-template-columns: 1fr 1fr; }
     .sensor-grid { grid-template-columns: 1fr; }
     .diag-header { grid-template-columns: 1fr; }
@@ -363,6 +359,7 @@
     <div class="section-head">Quick Reference — Symptom Matrix</div>
     <p class="section-intro">Locate your symptom, note the severity, and jump to the relevant section. STOP = engine off immediately. CAUTION = investigate before continuing. MONITOR = track and investigate at next opportunity.</p>
 
+    <div class="matrix-scroll">
     <table class="matrix-table">
       <thead>
         <tr>
@@ -398,8 +395,7 @@
         <tr><td>Engine won't shut off with key</td><td><span class="sev-med">▲ CAUTION</span></td><td>Fuel cut solenoid stuck open, ignition wiring</td><td><span class="goto-link" onclick="gotoSec('s-extra')">Stall/Idle §3</span></td><td>—</td></tr>
       </tbody>
     </table>
-
-    <div class="xref-bar">
+    </div><!-- /matrix-scroll -->
       <span class="xref-label">Cross-ref:</span>
       <span class="xref-pill">R4 · 1HZ Engine Training — Field Fixes</span>
       <span class="xref-pill">R8 · Service History</span>
