@@ -1624,14 +1624,26 @@ function resetAll(){
 }
 
 // ── TOC NAVIGATION ───────────────────────────────────────
+// iOS standalone (home screen PWA) does not support window.scrollTo
+// with behavior:'smooth' reliably. Detect and use scrollIntoView fallback.
+const isStandalone = window.navigator.standalone === true ||
+  window.matchMedia('(display-mode: standalone)').matches;
+
 document.querySelectorAll('.toc-link[data-target]').forEach(btn => {
   btn.addEventListener('click', function(e){
     e.preventDefault();
     const target = document.getElementById(this.dataset.target);
     if(!target) return;
-    const navH = document.querySelector('.sticky-nav-unit').offsetHeight;
-    const top = target.getBoundingClientRect().top + window.pageYOffset - navH - 4;
-    window.scrollTo({top: top, behavior: 'smooth'});
+    if(isStandalone){
+      // iOS standalone: scrollTo smooth is unreliable, use instant scroll
+      const navH = document.querySelector('.sticky-nav-unit').offsetHeight;
+      const top = target.getBoundingClientRect().top + window.pageYOffset - navH - 4;
+      window.scrollTo(0, top);
+    } else {
+      const navH = document.querySelector('.sticky-nav-unit').offsetHeight;
+      const top = target.getBoundingClientRect().top + window.pageYOffset - navH - 4;
+      window.scrollTo({top: top, behavior: 'smooth'});
+    }
   });
 });
 
