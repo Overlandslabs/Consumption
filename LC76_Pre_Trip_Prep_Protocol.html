@@ -1,0 +1,1660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LC76 Library">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0d0e12">
+<link rel="manifest" href="manifest-ref.json">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>LC76 · Pre-Trip Preparation Protocol · R23</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500;600&family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0d0e12;--paper:#dad2c0;--paper2:#edeae0;--rule:#d4cfc4;
+  --amber:#b86800;--amber2:#e07800;
+  --steeldk:#2a2f3a;--steelmd:#6a7080;--steellt:#a8b0bc;
+  --red-warn:#B91C1C;--green-ok:#059669;
+  --mono:'IBM Plex Mono',monospace;
+  --sans:'Oswald',sans-serif;
+  --display:'Bebas Neue',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55}
+
+/* ── STICKY NAV UNIT ─────────────────────────────────── */
+.sticky-nav-unit{position:sticky;top:0;z-index:100;padding-top:env(safe-area-inset-top)}
+
+/* ── MASTHEAD ─────────────────────────────────────────── */
+.std-header{
+  background:var(--ink);
+  padding:18px 24px 14px;
+  position:relative;
+  border-bottom:3px solid var(--amber);
+}
+.std-eyebrow{
+  font-family:var(--mono);font-size:.5rem;letter-spacing:.28em;
+  text-transform:uppercase;color:var(--steelmd);margin-bottom:6px;
+}
+.std-title{
+  font-family:var(--display);font-size:clamp(1.9rem,5vw,2.8rem);
+  letter-spacing:.06em;color:var(--amber2);line-height:1;
+}
+.std-sub{
+  font-family:var(--mono);font-size:.54rem;letter-spacing:.12em;
+  color:rgba(255,200,100,.65);margin-top:5px;
+}
+.std-vehicle{
+  font-family:var(--mono);font-size:.48rem;letter-spacing:.08em;
+  color:var(--steelmd);margin-top:8px;
+}
+
+/* ── HOME PILL ────────────────────────────────────────── */
+.lib-home-btn{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:var(--mono);font-size:9px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;text-decoration:none;
+  color:var(--amber2);background:rgba(232,120,0,.15);
+  border:1px solid var(--amber2);border-radius:20px;
+  padding:6px 12px;min-height:32px;white-space:nowrap;
+  position:absolute;top:50%;right:16px;transform:translateY(-50%);
+  transition:background .2s;
+}
+.lib-home-btn:hover,.lib-home-btn:active{background:rgba(232,120,0,.30);}
+
+/* ── TOC BAR ──────────────────────────────────────────── */
+.toc-bar{
+  background:var(--steeldk);padding:7px 24px;
+  display:flex;align-items:center;gap:5px;flex-wrap:wrap;
+  border-bottom:2px solid var(--amber);
+}
+.toc-label{font-family:var(--mono);font-size:.48rem;letter-spacing:.18em;color:var(--steellt);text-transform:uppercase;margin-right:4px;flex-shrink:0}
+.toc-link{
+  font-family:var(--mono);font-size:.48rem;color:rgba(255,255,255,.45);
+  text-decoration:none;padding:2px 6px;border:1px solid transparent;
+  transition:all .12s;white-space:nowrap;cursor:pointer;background:none;
+}
+.toc-link:hover{color:var(--amber2);border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.06)}
+.toc-link.active{color:var(--amber2);border-color:var(--amber2);background:rgba(232,120,0,.1)}
+
+/* ── PROGRESS BAR ─────────────────────────────────────── */
+.progress-bar-wrap{
+  background:var(--ink);padding:4px 24px;
+  display:flex;align-items:center;gap:10px;
+}
+.progress-bar{flex:1;height:4px;background:rgba(255,255,255,.1);border-radius:2px}
+.progress-fill{height:100%;background:var(--amber2);border-radius:2px;transition:width .3s;width:0%}
+.progress-label{font-family:var(--mono);font-size:.48rem;color:var(--steellt);letter-spacing:.10em;white-space:nowrap}
+.reset-btn{
+  font-family:var(--mono);font-size:.50rem;letter-spacing:.10em;
+  color:rgba(255,255,255,.5);background:none;
+  border:1px solid rgba(255,255,255,.15);padding:3px 8px;
+  cursor:pointer;text-transform:uppercase;flex-shrink:0;
+}
+.reset-btn:hover{color:#fff;border-color:rgba(255,255,255,.4)}
+
+/* ── CONTENT WRAPPER ──────────────────────────────────── */
+.content{padding:20px 5% 80px;max-width:100%}
+
+/* ── SECTION HEADERS ──────────────────────────────────── */
+.sec-header{
+  display:flex;align-items:center;gap:12px;
+  padding:10px 5%;
+  background:var(--steeldk);
+  border-left:5px solid var(--amber2);
+  margin:28px 0 0;
+  scroll-margin-top:120px;
+}
+.sec-num{
+  font-family:var(--mono);font-size:.58rem;font-weight:600;
+  color:#fff;background:var(--amber);
+  padding:3px 8px;letter-spacing:.12em;flex-shrink:0;
+}
+.sec-title{
+  font-family:var(--display);font-size:1.7rem;letter-spacing:.10em;color:#fff;
+  line-height:1;
+}
+.sec-sub{
+  font-family:var(--mono);font-size:.46rem;letter-spacing:.10em;
+  color:var(--steellt);margin-left:auto;flex-shrink:0;
+}
+
+/* ── SUBSECTION ───────────────────────────────────────── */
+.subsec{
+  background:var(--paper2);
+  border-left:3px solid var(--amber);
+  padding:6px 16px 6px 14px;
+  margin:20px 0 10px;
+  display:flex;align-items:center;gap:10px;
+}
+.subsec-title{
+  font-family:var(--display);font-size:1.1rem;letter-spacing:.12em;color:var(--ink);
+}
+.subsec-tag{
+  font-family:var(--mono);font-size:.44rem;letter-spacing:.12em;
+  color:var(--steelmd);text-transform:uppercase;margin-left:auto;
+}
+
+/* ── DECISION CARDS ───────────────────────────────────── */
+.decision-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin:14px 0}
+.d-card{border-radius:2px;overflow:hidden}
+.d-card-head{padding:8px 14px;display:flex;align-items:center;gap:8px}
+.d-card-icon{font-size:1.1rem;line-height:1}
+.d-card-label{font-family:var(--display);font-size:1.1rem;letter-spacing:.10em;color:#fff}
+.d-card-body{padding:12px 14px;background:var(--paper2);border:1px solid var(--rule);border-top:none}
+.d-card-body ul{list-style:none;padding:0}
+.d-card-body li{
+  font-family:var(--mono);font-size:.58rem;color:var(--ink);
+  padding:4px 0;border-bottom:1px solid var(--rule);line-height:1.5;
+}
+.d-card-body li:last-child{border-bottom:none}
+.d-card-body li::before{content:"→ ";color:var(--amber2);font-weight:600}
+.d-replace .d-card-head{background:#7a1010}
+.d-test .d-card-head{background:#1a4a6a}
+.d-monitor .d-card-head{background:#4a3800}
+.d-leave .d-card-head{background:#2a4a2a}
+
+/* ── TASK ROWS ────────────────────────────────────────── */
+.task-list{margin:8px 0 18px}
+.task-row{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:8px 0;border-bottom:1px solid var(--rule);
+}
+.task-row:last-child{border-bottom:none}
+.task-row.critical{background:rgba(139,32,0,.04)}
+.task-check{
+  width:20px;height:20px;min-width:20px;
+  border:2px solid var(--rule);cursor:pointer;
+  transition:all .12s;margin-top:3px;position:relative;border-radius:2px;flex-shrink:0;
+}
+.task-check.checked{background:var(--amber);border-color:var(--amber)}
+.task-check.checked::after{
+  content:'✓';position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:.75rem;font-weight:700;
+}
+.task-content{flex:1}
+.task-head{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:3px}
+.task-cat{
+  font-family:var(--mono);font-size:.44rem;letter-spacing:.12em;
+  text-transform:uppercase;padding:1px 5px;border:1px solid;
+  white-space:nowrap;font-weight:600;
+}
+.task-name{font-family:var(--sans);font-size:.92rem;font-weight:600;color:var(--ink)}
+.crit-badge{
+  font-family:var(--mono);font-size:.42rem;letter-spacing:.12em;
+  color:#7a1010;background:#fff4f0;border:1px solid #c04030;
+  padding:1px 5px;text-transform:uppercase;font-weight:600;
+}
+.task-detail{font-family:var(--sans);font-size:.82rem;color:var(--steeldk);line-height:1.55}
+.task-spec{
+  font-family:var(--mono);font-size:.54rem;color:var(--steeldk);
+  margin-top:5px;letter-spacing:.04em;line-height:1.5;
+  border-top:1px solid var(--rule);padding-top:4px;
+}
+
+/* ── ALERT BOXES ──────────────────────────────────────── */
+.alert{
+  border-left:4px solid;padding:10px 14px;margin:12px 0;
+  font-family:var(--sans);font-size:.84rem;line-height:1.55;
+}
+.alert strong{font-weight:600;display:block;margin-bottom:3px;font-family:var(--mono);font-size:.54rem;letter-spacing:.10em;text-transform:uppercase}
+.alert-warn{background:#fff4f0;border-color:#B91C1C;color:#5a1010}
+.alert-warn strong{color:#B91C1C}
+.alert-note{background:#fffbe8;border-color:var(--amber2);color:#4a3000}
+.alert-note strong{color:var(--amber)}
+.alert-ok{background:#f0fff8;border-color:var(--green-ok);color:#0a3a20}
+.alert-ok strong{color:var(--green-ok)}
+.alert-info{background:var(--paper2);border-color:var(--steelmd);color:var(--steeldk)}
+.alert-info strong{color:var(--steelmd)}
+
+/* ── SPEC TABLE ───────────────────────────────────────── */
+.spec-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.82rem}
+.spec-table th{
+  background:var(--steeldk);color:#fff;
+  font-family:var(--mono);font-size:.46rem;letter-spacing:.12em;
+  text-transform:uppercase;padding:7px 10px;text-align:left;
+}
+.spec-table td{padding:6px 10px;border-bottom:1px solid var(--rule);vertical-align:top;font-family:var(--sans)}
+.spec-table tr:nth-child(even) td{background:var(--paper2)}
+.spec-table .mono{font-family:var(--mono);font-size:.70rem;color:var(--amber)}
+.spec-table .warn{color:var(--red-warn);font-weight:600}
+.spec-table .ok{color:var(--green-ok);font-weight:600}
+
+/* ── TRIAGE TABLE ─────────────────────────────────────── */
+.triage-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.82rem}
+.triage-table th{
+  background:var(--ink);color:#fff;
+  font-family:var(--mono);font-size:.46rem;letter-spacing:.12em;
+  text-transform:uppercase;padding:7px 10px;text-align:left;
+}
+.triage-table td{padding:7px 10px;border-bottom:1px solid var(--rule);font-family:var(--sans);vertical-align:top}
+.triage-table tr:nth-child(even) td{background:var(--paper2)}
+.verdict-replace{color:#7a1010;font-weight:600;font-family:var(--mono);font-size:.58rem;letter-spacing:.06em}
+.verdict-test{color:#1a4a6a;font-weight:600;font-family:var(--mono);font-size:.58rem;letter-spacing:.06em}
+.verdict-monitor{color:#4a3800;font-weight:600;font-family:var(--mono);font-size:.58rem;letter-spacing:.06em}
+.verdict-leave{color:#2a4a2a;font-weight:600;font-family:var(--mono);font-size:.58rem;letter-spacing:.06em}
+
+/* ── CROSS-REF BAR ────────────────────────────────────── */
+.xref-bar{
+  background:var(--steeldk);padding:8px 14px;
+  display:flex;align-items:center;flex-wrap:wrap;gap:6px;
+  margin:20px 0 8px;
+}
+.xref-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.18em;color:var(--steellt);text-transform:uppercase;flex-shrink:0;margin-right:4px}
+.xref-pill{
+  font-family:var(--mono);font-size:.46rem;letter-spacing:.10em;
+  color:var(--amber2);background:rgba(232,120,0,.12);
+  border:1px solid rgba(232,120,0,.4);padding:2px 8px;
+  text-decoration:none;white-space:nowrap;
+}
+.xref-pill:hover{background:rgba(232,120,0,.25)}
+
+/* ── BRIEF BLOCK ──────────────────────────────────────── */
+.brief-block{
+  background:var(--paper2);border:1px solid var(--rule);
+  padding:14px 16px;margin:10px 0;
+}
+.brief-block-title{
+  font-family:var(--mono);font-size:.52rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--amber);margin-bottom:8px;
+  border-bottom:1px solid var(--rule);padding-bottom:5px;
+}
+.brief-block ul{list-style:none;padding:0}
+.brief-block li{
+  font-family:var(--sans);font-size:.84rem;color:var(--ink);
+  padding:5px 0;border-bottom:1px solid var(--rule);line-height:1.55;
+}
+.brief-block li:last-child{border-bottom:none}
+.brief-block li::before{content:"▸ ";color:var(--amber2)}
+
+/* ── FOOTER ───────────────────────────────────────────── */
+.doc-footer{
+  background:var(--steeldk);color:var(--steellt);
+  font-family:var(--mono);font-size:.46rem;letter-spacing:.10em;
+  padding:12px 5%;margin-top:40px;
+  display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;
+}
+
+/* ── MOBILE ───────────────────────────────────────────── */
+@media(max-width:600px){
+  body{overflow-x:hidden}
+  .std-header{padding:14px 16px 12px}
+  .std-title{font-size:clamp(1.6rem,6vw,2.4rem)}
+  .toc-bar{padding:5px 12px!important;flex-wrap:nowrap!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch!important;scrollbar-width:none!important}
+  .toc-bar::-webkit-scrollbar{display:none}
+  .toc-link{font-size:.44rem!important;padding:2px 5px!important;white-space:nowrap!important}
+  .sec-header{padding:8px 16px;margin:16px 0 0}
+  .content{padding:14px 4% 60px}
+  .decision-grid{grid-template-columns:1fr}
+  .spec-table,.triage-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+}
+
+/* ══════════════════════════════════════════════════════════
+   PRINT CSS — FULL COLOUR FORCING
+   ══════════════════════════════════════════════════════════ */
+@media print{
+
+  /* ── MASTER COLOUR OVERRIDE ── */
+  *{
+    -webkit-print-color-adjust:exact !important;
+    print-color-adjust:exact !important;
+  }
+
+  @page{margin:7mm;size:A4}
+
+  /* hide interactive + nav elements */
+  .lib-home-btn,
+  .toc-bar,
+  .progress-bar-wrap,
+  .reset-btn{display:none!important}
+
+  /* sticky nav becomes static */
+  .sticky-nav-unit{position:static!important}
+
+  /* ── MASTHEAD ── */
+  .std-header{
+    background:#0d0e12!important;
+    padding:8px 14px 6px!important;
+    border-bottom:2px solid #e07800!important;
+    page-break-after:avoid;
+  }
+  .std-title{color:#e07800!important;font-size:1.5rem!important}
+  .std-sub{color:rgba(255,200,100,.80)!important}
+  .std-eyebrow,.std-vehicle{color:#6a7080!important}
+
+  /* ── SECTION HEADERS ── */
+  .sec-header{
+    background:#2a2f3a!important;
+    border-left:4px solid #e07800!important;
+    padding:6px 14px!important;
+    margin-top:10px!important;
+    page-break-after:avoid;
+  }
+  .sec-num{background:#b86800!important;color:#fff!important}
+  .sec-title{color:#fff!important;font-size:1.2rem!important}
+  .sec-sub{color:#a8b0bc!important}
+
+  /* ── SUBSECTION BARS ── */
+  .subsec{
+    background:#edeae0!important;
+    border-left:2px solid #b86800!important;
+    padding:4px 10px!important;
+    margin:8px 0 5px!important;
+    page-break-after:avoid;
+  }
+  .subsec-title{color:#0d0e12!important;font-size:.9rem!important}
+  .subsec-tag{color:#6a7080!important}
+
+  /* ── DECISION CARDS ── */
+  .decision-grid{grid-template-columns:repeat(2,1fr)!important}
+  .d-card{break-inside:avoid}
+  .d-replace .d-card-head{background:#7a1010!important}
+  .d-test .d-card-head{background:#1a4a6a!important}
+  .d-monitor .d-card-head{background:#4a3800!important}
+  .d-leave .d-card-head{background:#2a4a2a!important}
+  .d-card-label{color:#fff!important}
+  .d-card-body{background:#edeae0!important;border:1px solid #d4cfc4!important}
+  .d-card-body li{color:#0d0e12!important}
+  .d-card-body li::before{color:#e07800!important}
+
+  /* ── ALERT BOXES ── */
+  .alert-warn{background:#fff4f0!important;border-left-color:#B91C1C!important;color:#5a1010!important}
+  .alert-warn strong{color:#B91C1C!important}
+  .alert-note{background:#fffbe8!important;border-left-color:#e07800!important;color:#4a3000!important}
+  .alert-note strong{color:#b86800!important}
+  .alert-ok{background:#f0fff8!important;border-left-color:#059669!important;color:#0a3a20!important}
+  .alert-ok strong{color:#059669!important}
+  .alert-info{background:#edeae0!important;border-left-color:#6a7080!important;color:#2a2f3a!important}
+  .alert-info strong{color:#6a7080!important}
+  .alert{break-inside:avoid}
+
+  /* ── TABLES ── */
+  .spec-table th,
+  .triage-table th{background:#2a2f3a!important;color:#fff!important}
+  .spec-table tr:nth-child(even) td,
+  .triage-table tr:nth-child(even) td{background:#edeae0!important}
+  .spec-table tr,
+  .triage-table tr{break-inside:avoid}
+
+  /* ── VERDICT BADGES ── */
+  .verdict-replace{color:#7a1010!important}
+  .verdict-test{color:#1a4a6a!important}
+  .verdict-monitor{color:#4a3800!important}
+  .verdict-leave{color:#2a4a2a!important}
+
+  /* ── CRIT BADGE ── */
+  .crit-badge{background:#fff4f0!important;border-color:#c04030!important;color:#7a1010!important}
+
+  /* ── XREF BAR ── */
+  .xref-bar{
+    background:#2a2f3a!important;
+    padding:5px 10px!important;
+    break-inside:avoid;
+  }
+  .xref-label{color:#a8b0bc!important}
+  .xref-pill{
+    color:#e07800!important;
+    background:rgba(232,120,0,.15)!important;
+    border-color:rgba(232,120,0,.5)!important;
+  }
+
+  /* ── BRIEF BLOCKS ── */
+  .brief-block{
+    background:#edeae0!important;
+    border:1px solid #d4cfc4!important;
+    break-inside:avoid;
+  }
+  .brief-block-title{color:#b86800!important;border-bottom-color:#d4cfc4!important}
+  .brief-block li{color:#0d0e12!important;border-bottom-color:#d4cfc4!important}
+  .brief-block li::before{color:#e07800!important}
+
+  /* ── TASK ROWS ── */
+  .task-row{break-inside:avoid}
+  .task-row.critical{background:rgba(139,32,0,.06)!important}
+  .task-check{
+    width:12px!important;height:12px!important;min-width:12px!important;
+    border:1.5px solid #888!important;border-radius:1px!important;
+  }
+  .task-check.checked{background:none!important}
+  .task-check.checked::after{display:none!important}
+  .task-name{font-size:.78rem!important}
+  .task-detail{font-size:.72rem!important}
+  .task-spec{font-size:.50rem!important;color:#2a2f3a!important;border-top-color:#d4cfc4!important}
+
+  /* ── FOOTER ── */
+  .doc-footer{
+    background:#2a2f3a!important;
+    color:#a8b0bc!important;
+    padding:5px 14px!important;
+  }
+
+  .content{padding-bottom:10px!important}
+  body{font-size:7.5pt}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ STICKY NAV UNIT ════════════════════════════════════ -->
+<div class="sticky-nav-unit">
+<div class="std-header">
+  <a href="index.html" class="lib-home-btn" title="Library Index">⌂ Index</a>
+  <div class="std-eyebrow">Overland Series · R23</div>
+  <div class="std-title">Pre-Trip Preparation Protocol</div>
+  <div class="std-sub">2009 LC76 SW 1HZ &nbsp;·&nbsp; High-Mileage Expedition Prep &nbsp;·&nbsp; 300,000 km+</div>
+  <div class="std-vehicle">HZJ76R-RKMRS · 1HZ 4.2L Diesel · SAC Low-Boost Turbo · R151F 5-Speed · GVM 2,850 kg · April 2026</div>
+</div>
+<div class="toc-bar">
+  <span class="toc-label">Sections</span>
+  <span class="toc-link" onclick="scrollTo('s1')">1. Triage</span>
+  <span class="toc-link" onclick="scrollTo('s2')">2. Engine &amp; Fuel</span>
+  <span class="toc-link" onclick="scrollTo('s3')">3. Cooling</span>
+  <span class="toc-link" onclick="scrollTo('s4')">4. Drivetrain</span>
+  <span class="toc-link" onclick="scrollTo('s5')">5. Electrical</span>
+  <span class="toc-link" onclick="scrollTo('s6')">6. Workshop</span>
+</div>
+</div>
+<div class="progress-bar-wrap">
+  <div class="progress-bar"><div class="progress-fill" id="prog-fill"></div></div>
+  <span class="progress-label" id="prog-label">0 / 32 tasks</span>
+  <button class="reset-btn" onclick="resetAll()">&#9635; Reset</button>
+</div>
+
+<!-- ══ CONTENT ════════════════════════════════════════════ -->
+<div class="content">
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- S1 · TRIAGE FRAMEWORK                                   -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s1">
+  <span class="sec-num">S1</span>
+  <span class="sec-title">Triage Framework</span>
+  <span class="sec-sub">Decision Logic · 300,000+ km</span>
+</div>
+
+<div class="alert alert-warn" style="margin-top:16px">
+  <strong>⚠ Expedition Standard vs Daily Driver Standard</strong>
+  This vehicle is preparing for a two-year, 60,000+ km expedition across Southern and East Africa with no dealer support and limited workshop access in remote areas. The preparation standard must exceed what you would accept for a daily commute. Err on the side of replacement for any component where failure risk is elevated — the cost of replacement in Cape Town is a fraction of the cost of breakdown in the Luangwa Valley.
+</div>
+
+<div class="subsec">
+  <span class="subsec-title">The Four-Bucket System</span>
+  <span class="subsec-tag">Triage Logic</span>
+</div>
+
+<p style="font-family:var(--sans);font-size:.84rem;color:var(--steeldk);margin-bottom:14px;line-height:1.6">
+  Every item on this vehicle falls into one of four buckets before departure. Work through each system using this logic before booking workshop time — it focuses spending and prevents missed items.
+</p>
+
+<div class="decision-grid">
+  <div class="d-card d-replace">
+    <div class="d-card-head">
+      <span class="d-card-icon">🔴</span>
+      <span class="d-card-label">Replace Regardless</span>
+    </div>
+    <div class="d-card-body">
+      <ul>
+        <li>No service record and consequence of failure is high</li>
+        <li>Service interval exceeded by more than 20%</li>
+        <li>Rubber components — belts, hoses, seals on a 15+ year old vehicle</li>
+        <li>Interference engine timing belt with unknown history</li>
+        <li>Brake fluid (hygroscopic — absorbs moisture regardless of appearance)</li>
+        <li>Coolant (inhibitor depletion not visible — change on time)</li>
+        <li>Gearbox and diff oils with no confirmed change record</li>
+      </ul>
+    </div>
+  </div>
+  <div class="d-card d-test">
+    <div class="d-card-head">
+      <span class="d-card-icon">🔵</span>
+      <span class="d-card-label">Test &amp; Decide</span>
+    </div>
+    <div class="d-card-body">
+      <ul>
+        <li>Injectors — pop test gives measurable opening pressure; replace only if out of spec</li>
+        <li>Glow plugs — resistance test before replacement</li>
+        <li>Thermostat — test in hot water before assuming fault</li>
+        <li>Wheel bearings — check play and temperature after run</li>
+        <li>Viscous fan clutch — spin test and silicone leak inspection</li>
+        <li>Alternator — load test output before condemning</li>
+        <li>Clutch — measure free play; assess slip only under load</li>
+      </ul>
+    </div>
+  </div>
+  <div class="d-card d-monitor">
+    <div class="d-card-head">
+      <span class="d-card-icon">🟡</span>
+      <span class="d-card-label">Monitor &amp; Carry Spares</span>
+    </div>
+    <div class="d-card-body">
+      <ul>
+        <li>Injector pump — internal wear not diagnosable pre-failure; carry seal kit</li>
+        <li>Fuel lift pump — difficult to test definitively; carry spare</li>
+        <li>Radiator — inspect and pressure test; carry Stop Leak as emergency only</li>
+        <li>Water pump — check bearing play and weep hole; replace if any seeping</li>
+        <li>Power steering hoses — inspect at fittings; carry hydraulic repair kit</li>
+        <li>Suspension bushes — assess wear; known worn items replace pre-trip</li>
+      </ul>
+    </div>
+  </div>
+  <div class="d-card d-leave">
+    <div class="d-card-head">
+      <span class="d-card-icon">🟢</span>
+      <span class="d-card-label">Leave &amp; Reassess Later</span>
+    </div>
+    <div class="d-card-body">
+      <ul>
+        <li>Recently replaced items within their service interval</li>
+        <li>Components with recent workshop sign-off (e.g. Terrain Tamer clutch Feb 2026)</li>
+        <li>Cosmetic items — body, trim, non-structural</li>
+        <li>OEM rubber recently replaced and inspected</li>
+        <li>Items with low failure consequence and easy field repair</li>
+        <li>Anything replaced &lt; 20,000 km ago with no performance symptoms</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="subsec" style="margin-top:24px">
+  <span class="subsec-title">Triage Decision Table — Key Systems</span>
+  <span class="subsec-tag">~305,000 km Reference</span>
+</div>
+
+<table class="triage-table">
+  <thead>
+    <tr>
+      <th>System / Component</th>
+      <th>Known Status</th>
+      <th>Verdict</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Timing belt (1HZ)</strong></td>
+      <td>Done Apr 2025 @ 273,023 km — belt, tensioner, idler, cover</td>
+      <td><span class="verdict-leave">IN INTERVAL</span></td>
+      <td>~32,000 km on current belt. Confirm cam/crank seal status. Next due ~363,000 km</td>
+    </tr>
+    <tr>
+      <td><strong>Valve clearances</strong></td>
+      <td>No recorded check; 305,000 km</td>
+      <td><span class="verdict-replace">CHECK &amp; SET</span></td>
+      <td>Inspect and set to spec; tight clearances burn valves</td>
+    </tr>
+    <tr>
+      <td><strong>Fuel injectors</strong></td>
+      <td>Pop test date unclear</td>
+      <td><span class="verdict-test">TEST</span></td>
+      <td>Pop test all 6; replace nozzles only if outside spec</td>
+    </tr>
+    <tr>
+      <td><strong>Glow plugs</strong></td>
+      <td>No replacement record</td>
+      <td><span class="verdict-test">TEST</span></td>
+      <td>Resistance test all 6; replace failed or marginal</td>
+    </tr>
+    <tr>
+      <td><strong>Coolant system</strong></td>
+      <td>Changed Jan 2026 @ 293,949 km</td>
+      <td><span class="verdict-leave">IN INTERVAL</span></td>
+      <td>~11,000 km on fresh coolant. Pressure test still recommended. Next due Jan 2028</td>
+    </tr>
+    <tr>
+      <td><strong>Thermostat</strong></td>
+      <td>No replacement record</td>
+      <td><span class="verdict-replace">REPLACE</span></td>
+      <td>Cheap, high consequence — replace as insurance</td>
+    </tr>
+    <tr>
+      <td><strong>Clutch</strong></td>
+      <td>Terrain Tamer installed Feb 2026</td>
+      <td><span class="verdict-leave">LEAVE</span></td>
+      <td>New — confirm free play and leave</td>
+    </tr>
+    <tr>
+      <td><strong>Gearbox oil (R151F)</strong></td>
+      <td>Changed Feb 2025 @ 271,200 km · Cape Transmissions</td>
+      <td><span class="verdict-leave">IN INTERVAL</span></td>
+      <td>~34,000 km on fresh GL-4. Next due ~311,000 km. Monitor only</td>
+    </tr>
+    <tr>
+      <td><strong>Transfer case oil</strong></td>
+      <td>Full rebuild Feb 2025 @ 271,200 km · Cape Transmissions</td>
+      <td><span class="verdict-leave">IN INTERVAL</span></td>
+      <td>~34,000 km on rebuilt unit. Confirm breather extended pre-departure</td>
+    </tr>
+    <tr>
+      <td><strong>Diff oils F&amp;R</strong></td>
+      <td>Full rebuild both axles Feb 2025 @ 271,200 km</td>
+      <td><span class="verdict-leave">IN INTERVAL</span></td>
+      <td>~34,000 km on new oil. Confirm breather extensions. Monitor only</td>
+    </tr>
+    <tr>
+      <td><strong>Brake fluid</strong></td>
+      <td>Changed Jan 2026 @ 293,949 km · PW Auto Centre</td>
+      <td><span class="verdict-leave">IN INTERVAL</span></td>
+      <td>~11,000 km on fresh DOT 4. Confirm pedal feel. Next due Jan 2028</td>
+    </tr>
+    <tr>
+      <td><strong>Alternator</strong></td>
+      <td>Output not recently tested</td>
+      <td><span class="verdict-test">LOAD TEST</span></td>
+      <td>Critical for LiFePO4 charging — test under full load</td>
+    </tr>
+    <tr>
+      <td><strong>Pre-filter (fuel)</strong></td>
+      <td>May not be fitted</td>
+      <td><span class="verdict-replace">FIT IF ABSENT</span></td>
+      <td>Protect injection pump from African fuel; fit before departure</td>
+    </tr>
+    <tr>
+      <td><strong>Wheel bearings</strong></td>
+      <td>Replaced F&amp;R Feb 2025 @ 271,200 km · Cape Transmissions</td>
+      <td><span class="verdict-test">CONFIRM</span></td>
+      <td>~34,000 km on new bearings. Play check and hot run confirmation before departure</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="xref-bar">
+  <span class="xref-label">Cross-ref</span>
+  <a href="LC76_Reference_Card.html" class="xref-pill">R1 Reference Card</a>
+  <a href="LC76_Service_History.html" class="xref-pill">R8 Service History</a>
+  <a href="LC76_Engine_Training.html" class="xref-pill">R4 Engine Training</a>
+  <a href="LC76_1HZ_Troubleshooting_Guide.html" class="xref-pill">R18 Troubleshooting</a>
+</div>
+
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- S2 · ENGINE & FUEL SYSTEM                               -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s2">
+  <span class="sec-num">S2</span>
+  <span class="sec-title">Engine &amp; Fuel System</span>
+  <span class="sec-sub">1HZ 4.2L Diesel · SAC Turbo</span>
+</div>
+
+<div style="padding-top:10px">
+
+<div class="subsec">
+  <span class="subsec-title">Timing Belt</span>
+  <span class="subsec-tag">CRITICAL — Interference Engine</span>
+</div>
+
+<div class="alert alert-warn">
+  <strong>⚠ Catastrophic Failure Risk</strong>
+  The 1HZ uses a rubber timing belt driving the camshaft. This is an interference engine — if the belt skips or breaks, pistons contact open valves. The result is bent valves, damaged pistons, and a full engine rebuild. There is no service record for this belt on this vehicle. Replace before expedition. No exceptions.
+</div>
+
+<div class="task-list">
+  <div class="task-row critical">
+    <div class="task-check" onclick="tick(this)"></div>
+    <div class="task-content">
+      <div class="task-head">
+        <span class="task-cat" style="color:#7a1010;background:#fff4f0;border-color:#7a1010">Timing</span>
+        <span class="task-name">Timing belt replacement — belt, tensioner, idler</span>
+        <span class="crit-badge">CRITICAL</span>
+      </div>
+      <p class="task-detail">Timing belt, tensioner, idler, and cover were replaced April 2025 at 273,023 km by PW Auto Centre. Current odometer ~305,000 km = approximately 32,000 km on the current belt — within interval. No replacement required before the expedition. Confirm the cam and crank front seals were inspected at that service; if no record, inspect now. Next due: approximately 363,000 km or April 2030.</p>
+      <p class="task-spec">Status: DONE — Apr 2025 @ 273,023 km · PW Auto Centre · Belt, tensioner, idler, cover all replaced · ~32,000 km ago · Next due: ~363,000 km / 2030</p>
+    </div>
+  </div>
+  <div class="task-row critical">
+    <div class="task-check" onclick="tick(this)"></div>
+    <div class="task-content">
+      <div class="task-head">
+        <span class="task-cat" style="color:#7a1010;background:#fff4f0;border-color:#7a1010">Timing</span>
+        <span class="task-name">Cam seal and crank front seal — inspect and replace</span>
+        <span class="crit-badge">CRITICAL</span>
+      </div>
+      <p class="task-detail">The timing belt was replaced April 2025. Confirm whether cam and crank front seals were inspected or replaced at that service — check the PW Auto Centre invoice. If no seals were replaced at that time, inspect both now for any weeping. At ~32,000 km on the current belt, an oil-contaminated belt situation would already show symptoms. If seals are dry, leave and monitor.</p>
+      <p class="task-spec">Check Apr 2025 invoice for seal replacement. If seals not replaced then: inspect for weeping. Dry = monitor. Any wet seeping = replace now.</p>
+    </div>
+  </div>
+</div>
+
+<div class="subsec">
+  <span class="subsec-title">Valve Clearances</span>
+  <span class="subsec-tag">Priority — No Service Record</span>
+</div>
+
+<div class="alert alert-note">
+  <strong>Note — Tight Clearances Burn Valves</strong>
+  Valve clearances on the 1HZ tighten as valve seats wear. A tight exhaust valve that doesn't fully seat loses heat rapidly and burns. At 305,000 km with no recorded clearance check, this is a high-priority inspection. Tight is more common than loose and more dangerous.
+</div>
+
+<div class="task-list">
+  <div class="task-row critical">
+    <div class="task-check" onclick="tick(this)"></div>
+    <div class="task-content">
+      <div class="task-head">
+        <span class="task-cat" style="color:#7a1010;background:#fff4f0;border-color:#7a1010">Valves</span>
+        <span class="task-name">Valve clearance inspection and adjustment — all 12</span>
+        <span class="crit-badge">CRITICAL</span>
+      </div>
+      <p class="task-detail">Check all 12 valve clearances (6 inlet, 6 exhaust) cold. Record each measurement before and after adjustment. If clearances are consistently tight, this suggests significant valve seat wear — flag to the workshop for further assessment. Combine with the timing belt job where possible — the rocker cover is removed for timing belt access.</p>
+      <p class="task-spec">Cold clearance spec: Inlet 0.20 mm / Exhaust 0.30 mm. Engine cold (below 35°C). Record all measurements pre and post adjustment.</p>
+    </div>
+  </div>
+</div>
+
+<div class="subsec">
+  <span class="subsec-title">Fuel Injectors</span>
+  <span class="subsec-tag">Pop Test — Test &amp; Decide</span>
+</div>
+
+<div class="task-list">
+  <div class="task-row">
+    <div class="task-check" onclick="tick(this)"></div>
+    <div class="task-content">
+      <div class="task-head">
+        <span class="task-cat" style="color:#1a4a6a;background:#e8f4ff;border-color:#1a4a6a">Fuel</span>
+        <span class="task-name">Injector pop test — all 6 cylinders</span>
+      </div>
+      <p class="task-detail">Remove all 6 injectors and have them pop-tested on a bench tester. This measures opening pressure, spray pattern, and atomisation. Worn nozzles dribble fuel rather than atomising it — leading to black smoke, carbon deposits, and increased fuel consumption. Return cleaned and re-shimmed to spec. Replace nozzles on any injector outside spec.</p>
+      <p class="task-spec">1HZ injector opening pressure: 14.2–15.4 MPa (142–154 bar / 2060–2240 psi). Dirk Du Plessis (Dup Diesel) for injection work.</p>
+    </div>
+  </div>
+  <div class="task-row">
+    <div class="task-check" onclick="tick(this)"></div>
+    <div class="task-content">
+      <div class="task-head">
+        <span class="task-cat" style="color:#1a4a6a;background:#e8f4ff;border-color:#1a4a6a">Fuel</span>
+        <span class="task-name">Injection pump — external inspection and seal check</span>
+      </div>
+      <p class="task-detail">Assess the Denso VE-type injection pump indirectly: check for leaks at the governor cover and shaft seal. Check injection timing, smoke character on start and load, and fuel return volume. If leaking at any seal, have it rebuilt before departure. Carry a governor cover seal and shaft seal as spares regardless.</p>
+      <p class="task-spec">Check shaft seal and governor cover for weeping. Any concern — book Dup Diesel for assessment. Injection pump rebuild requires specialist equipment.</p>
+    </div>
+  </div>
+</div>
+
+<div class="subsec">
+  <span class="subsec-title">Fuel System — Pre-Filter &amp; Lift Pump</span>
+  <span class="subsec-tag">African Fuel Quality Protection</span>
+</div>
+
+<div class="alert alert-note">
+  <strong>African Fuel Quality — Real Risk</strong>
+  Diesel quality across Southern and East Africa varies significantly. Water contamination and particulates are common. The factory filter is the only protection on a standard system. A secondary pre-filter with water separator upstream of the lift pump adds critical protection and must be fitted before departure.
+</div>
+
+<div class="task-list">
+  <div class="task-row critical">
+    <div class="task-check" onclick="tick(this)"></div>
+    <div class="task-content">
+      <div class="task-head">
+        <span class="task-cat" style="color:#7a1010;background:#fff4f0;border-color:#7a1010">Fuel</span>
+        <span class="task-name">Secondary pre-filter with water separator — fit if absent</span>
+        <span class="crit-badge">CRITICAL</span>
+      </div>
+      <p class="task-detail">If a secondary pre-filter with water separator is not already fitted, install before departure. Fit upstream of the factory filter and lift pump — primary defence against contaminated fuel destroying the injection pump. Use a unit with a transparent bowl for field inspection and an easy drain valve. Carry 2 replacement filter elements.</p>
+      <p class="task-spec">Racor 500FG or equivalent. Fit between tank and factory filter. 10-micron minimum. Service every 10,000 km or when bowl shows sediment or water.</p>
+    </div>
+  </div>
+  <div class="task-row">
+    <div class="task-check" onclick="tick(this)"></div>
+    <div class="task-content">
+      <div class="task-head">
+        <span class="task-cat" style="color:#1a4a6a;background:#e8f4ff;border-color:#1a4a6a">Fuel</span>
+        <span class="task-name">Fuel lift pump condition check</span>
+      </div>
+      <p class="task-detail">Inspect the mechanical lift pump for external leaks. Check diaphragm condition by briefly cracking the outlet — weak or intermittent flow suggests wear. At 305,000 km, replacement or rebuild is reasonable insurance. A failed lift pump strands the vehicle immediately — carry a complete replacement pump regardless of current condition.</p>
+      <p class="task-spec">Carry complete replacement lift pump as a spare. Field replacement is straightforward. Check at same time as factory filter.</p>
+    </div>
+  </div>
+  <div class="task-row">
+    <div class="task-check" onclick="tick(this)"></div>
+    <div class="task-content">
+      <div class="task-head">
+        <span class="task-cat" style="color:#1a4a6a;background:#e8f4ff;border-color:#1a4a6a">Fuel</span>
+        <span class="task-name">Factory fuel filter replacement</span>
+      </div>
+      <p class="task-detail">Replace factory fuel filter before departure regardless of last change date. Inspect the old element for contamination, water, or unusual sediment. Drain water separator if fitted. Carry two spare factory filter elements for the expedition.</p>
+      <p class="task-spec">Replace every 30,000 km or annually. Drain water separator every 5,000 km in African conditions.</p>
+    </div>
+  </div>
+</div>
+
+<div class="subsec">
+  <span class="subsec-title">Glow Plugs</span>
+  <span class="subsec-tag">Test &amp; Decide</span>
+</div>
+
+<div class="task-list">
+  <div class="task-row">
+    <div class="task-check" onclick="tick(this)"></div>
+    <div class="task-content">
+      <div class="task-head">
+        <span class="task-cat" style="color:#1a4a6a;background:#e8f4ff;border-color:#1a4a6a">Electrical</span>
+        <span class="task-name">Glow plug resistance test — all 6</span>
+      </div>
+      <p class="task-detail">Disconnect the glow plug rail and test each plug with a multimeter. A working 1HZ glow plug reads approximately 0.6–1.5 Ω cold. Open circuit (OL) or shorted (0 Ω) means the plug has failed. If plugs have no replacement record, replace the full set — cheap relative to hard-start risk in cold highland conditions. Carry 2 spare plugs minimum.</p>
+      <p class="task-spec">Spec: ~0.6–1.5 Ω cold. Preheat time: 4–8 seconds at 12V. Carry 2 spare glow plugs minimum.</p>
+    </div>
+  </div>
+  <div class="task-row">
+    <div class="task-check" onclick="tick(this)"></div>
+    <div class="task-content">
+      <div class="task-head">
+        <span class="task-cat" style="color:#1a4a6a;background:#e8f4ff;border-color:#1a4a6a">Electrical</span>
+        <span class="task-name">Glow plug relay and timer circuit test</span>
+      </div>
+      <p class="task-detail">Test the glow plug relay — the glow indicator light should illuminate on ignition and extinguish after the correct preheat period. A failed relay means no preheat and very difficult cold starts. Relay failure is common on high-mileage 1HZ vehicles. Carry a spare relay.</p>
+      <p class="task-spec">Preheat light should illuminate 4–8 sec at normal temperature. Shorter or absent preheat — check relay and timer unit.</p>
+    </div>
+  </div>
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">Cross-ref</span>
+  <a href="LC76_Engine_Training.html" class="xref-pill">R4 Engine Training</a>
+  <a href="LC76_Service_History.html" class="xref-pill">R8 Service History</a>
+  <a href="LC76_1HZ_Troubleshooting_Guide.html" class="xref-pill">R18 Troubleshooting</a>
+  <a href="LC76_Spares_Tools.html" class="xref-pill">R3 Spares &amp; Tools</a>
+</div>
+</div><!-- end s2 inner -->
+
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- S3 · COOLING SYSTEM                                     -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s3">
+  <span class="sec-num">S3</span>
+  <span class="sec-title">Cooling System</span>
+  <span class="sec-sub">Flush · Pressure Test · Hoses · Fan</span>
+</div>
+
+<div style="padding-top:10px">
+
+<div class="alert alert-warn" style="margin-top:8px">
+  <strong>⚠ Non-Negotiable Pre-Departure System</strong>
+  The 1HZ generates significant heat, compounded by the SAC turbo and intercooler. Overheating in remote Africa — no recovery vehicle, no coolant available locally — ends the expedition. Full cooling system preparation is not optional.
+</div>
+
+<div class="subsec">
+  <span class="subsec-title">Coolant Flush &amp; Refill</span>
+  <span class="subsec-tag">Replace Regardless</span>
+</div>
+
+<div class="task-list">
+  <div class="task-row critical">
+    <div class="task-check" onclick="tick(this)"></div>
+    <div class="task-content">
+      <div class="task-head">
+        <span class="task-cat" style="color:#7a1010;background:#fff4f0;border-color:#7a1010">Cooling</span>
+        <span class="task-name">Full cooling system drain, flush and refill</span>
+        <span class="crit-badge">CRITICAL</span>
+      </div>
+      <p class="task-detail">Coolant was changed January 2026 at 293,949 km by PW Auto Centre. Current ~305,000 km = ~11,000 km on fresh coolant. Within the 2-year / 40,000 km interval. Check the overflow tank level before departure and inspect for any sweet smell or residue around the cap or hoses. Run a pressure test to confirm system integrity regardless — coolant age is fine but a pressure test is always worthwhile at this mileage. Next full change due approximately January 2028 or 333,000 km.</p>
+      <p class="task-spec">Status: DONE — Jan 2026 @ 293,949 km · PW Auto Centre · Toyota LLC 50/50 · ~11,000 km ago · Pressure test still recommended · Next due Jan 2028 / ~333,000 km.</p>
+    </div>
+  </div>
+</div>
+
+<div class="subsec">
+  <span class="subsec-title">Pressure Test</span>
+  <span class="subsec-tag">Test &amp; Decide</span>
+</div>
+
+<div class="task-list">
+  <div class="task-row critical">
+    <div class="task-check" onclick="tick(this)"></div>
+    <div class="task-content">
+      <div class="task-head">
+        <span class="task-cat" style="color:#7a1010;background:#fff4f0;border-color:#7a1010">Cooling</span>
+        <span class="task-name">Cooling system and pressure cap test</span>
+        <span class="crit-badge">CRITICAL</span>
+      </div>
+      <p class="task-detail">Use a radiator pressure tester to pressurise the system to the cap rating and hold for 10 minutes. Any pressure drop indicates a leak — check all hose connections, radiator core, heater matrix circuit, water pump weep hole, and head gasket interface. A weeping head gasket at 305,000 km is a real risk — inspect carefully. Also test the pressure cap itself — a weak cap causes premature boiling.</p>
+      <p class="task-spec">System pressure: approximately 88 kPa (0.88 bar / 13 psi). Hold test minimum 10 minutes. Cap should open at rated pressure. Any drop — investigate fully before departure.</p>
+    </div>
+  </div>
+</div>
+
+<div class="subsec">
+  <span class="subsec-title">Thermostat</span>
+  <span class="subsec-tag">Replace Regardless</span>
+</div>
+
+<div class="task-list">
+  <div class="task-row">
+    <div class="task-check" onclick="tick(this)"></div>
+    <div class="task-content">
+      <div class="task-head">
+        <span class="task-cat" style="color:#4a3800;background:#fffbe8;border-color:#4a3800">Cooling</span>
+        <span class="task-name">Thermostat and housing gasket replacement</span>
+      </div>
+      <p class="task-detail">Replace the thermostat regardless of apparent condition. A stuck-closed thermostat causes rapid overheating. Stuck-open causes slow warm-up, increased fuel consumption, and reduced heater output. At this mileage and age, replacement is cheap insurance. Replace the housing gasket or O-ring at the same time. Combine with the coolant flush.</p>
+      <p class="task-spec">1HZ thermostat opening temp: 82°C. Full-open: 95°C. Toyota OEM preferred. Part: 90916-03099 or equivalent.</p>
+    </div>
+  </div>
+</div>
+
+<div class="subsec">
+  <span class="subsec-title">Hoses, Clamps &amp; Water Pump</span>
+  <span class="subsec-tag">Inspect — Replace if Suspect</span>
+</div>
+
+<div class="task-list">
+  <div class="task-row critical">
+    <div class="task-check" onclick="tick(this)"></div>
+    <div class="task-content">
+      <div class="task-head">
+        <span class="task-cat" style="color:#7a1010;background:#fff4f0;border-color:#7a1010">Cooling</span>
+        <span class="task-name">All coolant hoses — squeeze test and clamp check</span>
+        <span class="crit-badge">CRITICAL</span>
+      </div>
+      <p class="task-detail">Inspect all coolant hoses cold — squeeze each one. It should feel firm but pliable, not cracked, hard, or spongy. Pull back the hose clamp to inspect the hose interior for cracking. Check clamps for corrosion and correct positioning. Bottom hose — check for internal collapse if the spring is weak. Any hose showing cracking or hardening: replace before departure. Any hose over 10 years old: replace regardless.</p>
+      <p class="task-spec">Replace any suspect hose. Toyota silicone hoses preferred for long-term reliability. Include bypass hose and heater hoses in inspection.</p>
+    </div>
+  </div>
+  <div class="task-row">
+    <div class="task-check" onclick="tick(this)"></div>
+    <div class="task-content">
+      <div class="task-head">
+        <span class="task-cat" style="color:#4a3800;background:#fffbe8;border-color:#4a3800">Cooling</span>
+        <span class="task-name">Water pump — bearing play and weep hole check</span>
+      </div>
+      <p class="task-detail">With engine cold, check for play in the water pump pulley — grip and rock it. No play should be detectable. Inspect the weep hole on the underside of the pump body — active weeping or drips indicate bearing seal failure and require replacement. If pump is original or has no replacement record at this mileage, replace proactively. Accessible during timing belt job.</p>
+      <p class="task-spec">No perceptible radial or axial pulley play. Weep hole: dried residue acceptable, active wet weeping means replace.</p>
+    </div>
+  </div>
+</div>
+
+<div class="subsec">
+  <span class="subsec-title">Viscous Fan Clutch</span>
+  <span class="subsec-tag">Test &amp; Decide</span>
+</div>
+
+<div class="task-list">
+  <div class="task-row">
+    <div class="task-check" onclick="tick(this)"></div>
+    <div class="task-content">
+      <div class="task-head">
+        <span class="task-cat" style="color:#1a4a6a;background:#e8f4ff;border-color:#1a4a6a">Cooling</span>
+        <span class="task-name">Viscous fan clutch — cold spin, wobble, and silicone check</span>
+      </div>
+      <p class="task-detail">Engine off and cold: attempt to spin the fan blade by hand — a serviceable cold clutch turns freely with minimal resistance. Check for silicone fluid leakage from the clutch body (wet or oily residue on fan or housing). Check for axial wobble in the clutch bearing. The critical failure mode is a clutch that freewheels hot — this removes cooling capacity exactly when you need it most. Any wobble, leakage, or hot freewheel test failure: replace.</p>
+      <p class="task-spec">Cold: spins freely. Hot (after highway run): resists rotation significantly. Silicone leak = replace. Axial play = replace.</p>
+    </div>
+  </div>
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">Cross-ref</span>
+  <a href="LC76_Engine_Training.html" class="xref-pill">R4 Engine Training</a>
+  <a href="LC76_1HZ_Troubleshooting_Guide.html" class="xref-pill">R18 Troubleshooting</a>
+  <a href="LC76_Service_History.html" class="xref-pill">R8 Service History</a>
+</div>
+</div><!-- end s3 inner -->
+
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- S4 · DRIVETRAIN & UNDERCARRIAGE                         -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s4">
+  <span class="sec-num">S4</span>
+  <span class="sec-title">Drivetrain &amp; Undercarriage</span>
+  <span class="sec-sub">R151F · Axles · Brakes · Bearings</span>
+</div>
+
+<div style="padding-top:10px">
+
+<div class="subsec">
+  <span class="subsec-title">Gearbox, Transfer Case &amp; Differentials</span>
+  <span class="subsec-tag">Oil Changes — Replace Regardless</span>
+</div>
+
+<div class="task-list">
+  <div class="task-row critical">
+    <div class="task-check" onclick="tick(this)"></div>
+    <div class="task-content">
+      <div class="task-head">
+        <span class="task-cat" style="color:#7a1010;background:#fff4f0;border-color:#7a1010">Gearbox</span>
+        <span class="task-name">R151F gearbox oil drain, inspect, and refill</span>
+        <span class="crit-badge">CRITICAL</span>
+      </div>
+      <p class="task-detail">Gearbox oil was changed February 2025 at 271,200 km by Cape Transmissions as part of a major drivetrain rebuild (gearbox bearings, 5th gear, transfer case rebuild). Current ~305,000 km = approximately 34,000 km on the fresh oil. Within the 40,000 km interval — does not require replacement before the expedition. Inspect drain plug magnet at next service or if any gearbox noise develops. Remember: GL-4 only in the R151F — GL-5 will destroy the synchronisers.</p>
+      <p class="task-spec">Status: DONE — Feb 2025 @ 271,200 km · Cape Transmissions · GL-4 75W-90 · ~34,000 km ago · Next due ~311,000 km. GL-5 prohibited.</p>
+    </div>
+  </div>
+  <div class="task-row critical">
+    <div class="task-check" onclick="tick(this)"></div>
+    <div class="task-content">
+      <div class="task-head">
+        <span class="task-cat" style="color:#7a1010;background:#fff4f0;border-color:#7a1010">Transfer</span>
+        <span class="task-name">Transfer case oil drain, inspect, and refill</span>
+        <span class="crit-badge">CRITICAL</span>
+      </div>
+      <p class="task-detail">Transfer case was fully rebuilt February 2025 at 271,200 km by Cape Transmissions — bearings, centre shaft, and gears replaced. Oil changed at the same time. Current ~305,000 km = ~34,000 km on the rebuilt unit. Well within interval. Inspect breather condition and extension before departure — confirm it is extended to snorkel height for any water crossing.</p>
+      <p class="task-spec">Status: DONE — Feb 2025 @ 271,200 km · Cape Transmissions · Full rebuild + oil change · ~34,000 km ago · Check breather extension before departure.</p>
+    </div>
+  </div>
+  <div class="task-row critical">
+    <div class="task-check" onclick="tick(this)"></div>
+    <div class="task-content">
+      <div class="task-head">
+        <span class="task-cat" style="color:#7a1010;background:#fff4f0;border-color:#7a1010">Diffs</span>
+        <span class="task-name">Front and rear differential oil drain, inspect, and refill</span>
+        <span class="crit-badge">CRITICAL</span>
+      </div>
+      <p class="task-detail">Both front and rear differentials were fully rebuilt February 2025 at 271,200 km by Cape Transmissions — solid spacer bearing kits, new wheel bearings, diff oil changed on both axles. Front diff also received a new CV joint (left outer) and full knuckle/spindle overhaul. Current ~305,000 km = ~34,000 km on the rebuilt units. Within interval. Confirm both diff breathers are extended to snorkel height before any water crossing. Inspect diff oil colour after the first long remote section.</p>
+      <p class="task-spec">Status: DONE — Feb 2025 @ 271,200 km · Cape Transmissions · Full diff rebuild, new bearings, new oil both axles · ~34,000 km ago · Confirm breather extensions pre-departure.</p>
+    </div>
+  </div>
+</div>
+
+<div class="subsec">
+  <span class="subsec-title">Propshafts &amp; Universal Joints</span>
+  <span class="subsec-tag">Grease &amp; Inspect</span>
+</div>
+
+<div class="task-list">
+  <div class="task-row">
+    <div class="task-check" onclick="tick(this)"></div>
+    <div class="task-content">
+      <div class="task-head">
+        <span class="task-cat" style="color:#4a3800;background:#fffbe8;border-color:#4a3800">Drivetrain</span>
+        <span class="task-name">Propshaft greasing — all nipples front and rear</span>
+      </div>
+      <p class="task-detail">All UJs were replaced February 2025 at 271,200 km by Propshaft Engineering as part of the drivetrain rebuild, and greased again January 2026 at 293,949 km. Current ~305,000 km = ~34,000 km on the new UJs and ~11,000 km since last grease. Grease all nipples before departure and after every extended water crossing or corrugated section.</p>
+      <p class="task-spec">Status: UJs replaced Feb 2025 · Greased Jan 2026 @ 293,949 km · Due grease before departure (~11,000 km since last). EP2 grease, all nipples.</p>
+    </div>
+  </div>
+  <div class="task-row">
+    <div class="task-check" onclick="tick(this)"></div>
+    <div class="task-content">
+      <div class="task-head">
+        <span class="task-cat" style="color:#1a4a6a;background:#e8f4ff;border-color:#1a4a6a">Drivetrain</span>
+        <span class="task-name">Universal joint wear check — all propshaft UJs</span>
+      </div>
+      <p class="task-detail">With vehicle raised and in neutral, rotate each propshaft and feel for looseness or clunking in UJ bearings. Grasp the propshaft and attempt to move it sideways — any perceptible movement indicates worn bearing cups. A worn UJ at expedition loads will eventually fracture, causing immediate propshaft loss. Replace any UJ showing play. Note: propshaft vibration at 80–100 km/h often indicates early UJ wear.</p>
+      <p class="task-spec">Zero perceptible play in any axis at any UJ. Replace any UJ with detectable looseness — they do not improve.</p>
+    </div>
+  </div>
+</div>
+
+<div class="subsec">
+  <span class="subsec-title">Clutch</span>
+  <span class="subsec-tag">Recently Replaced — Confirm Free Play</span>
+</div>
+
+<div class="task-list">
+  <div class="task-row">
+    <div class="task-check" onclick="tick(this)"></div>
+    <div class="task-content">
+      <div class="task-head">
+        <span class="task-cat" style="color:#2a4a2a;background:#f0fff8;border-color:#2a4a2a">Clutch</span>
+        <span class="task-name">Clutch free play and hydraulic circuit check</span>
+      </div>
+      <p class="task-detail">Terrain Tamer clutch installed February 2026. Confirm correct pedal free play — too little means the release bearing rides constantly on the pressure plate and wears prematurely; too much causes incomplete release. Check hydraulic fluid level and confirm no leaks at the slave cylinder. Test for full engagement and clean disengagement across all gears under load.</p>
+      <p class="task-spec">Free play at pedal: 10–15 mm. Hydraulic fluid: DOT 4 (shared reservoir with brakes). Confirm positive engagement under full load with no slip.</p>
+    </div>
+  </div>
+</div>
+
+<div class="subsec">
+  <span class="subsec-title">Brakes</span>
+  <span class="subsec-tag">Fluid Change + Full Inspection</span>
+</div>
+
+<div class="task-list">
+  <div class="task-row critical">
+    <div class="task-check" onclick="tick(this)"></div>
+    <div class="task-content">
+      <div class="task-head">
+        <span class="task-cat" style="color:#7a1010;background:#fff4f0;border-color:#7a1010">Brakes</span>
+        <span class="task-name">Full brake fluid change and bleed — all four corners</span>
+        <span class="crit-badge">CRITICAL</span>
+      </div>
+      <p class="task-detail">Brake fluid was changed January 2026 at 293,949 km by PW Auto Centre. Current ~305,000 km = ~11,000 km on fresh fluid. Within the 2-year interval. Confirm pedal feel is firm before departure. Inspect the reservoir level — any unexplained drop between now and departure means a leak somewhere in the system (note: shared reservoir with clutch). Next due: approximately January 2028.</p>
+      <p class="task-spec">Status: DONE — Jan 2026 @ 293,949 km · PW Auto Centre · DOT 4 · ~11,000 km ago · Next due Jan 2028. Confirm pedal feel and reservoir level before departure.</p>
+    </div>
+  </div>
+  <div class="task-row">
+    <div class="task-check" onclick="tick(this)"></div>
+    <div class="task-content">
+      <div class="task-head">
+        <span class="task-cat" style="color:#4a3800;background:#fffbe8;border-color:#4a3800">Brakes</span>
+        <span class="task-name">Pad, rotor and rear drum inspection</span>
+      </div>
+      <p class="task-detail">Inspect front brake pad thickness — minimum 4mm for expedition departure (new ≈ 12mm). Check rotors for scoring, blue heat discolouration, and runout. Rear drums — inspect shoes and drum surface for wear or glazing. Check drum adjuster operation. Confirm handbrake holds on a slope. Any pad under 4mm or rotor in question — replace before departure. Carry rear brake shoe set as spares.</p>
+      <p class="task-spec">Front pads: minimum 4mm for expedition. Rotor min thickness: stamped on rotor. Check drum internal diameter against max stamped.</p>
+    </div>
+  </div>
+</div>
+
+<div class="subsec">
+  <span class="subsec-title">Wheel Bearings &amp; CV Joints</span>
+  <span class="subsec-tag">Check — Replace if Any Play</span>
+</div>
+
+<div class="task-list">
+  <div class="task-row">
+    <div class="task-check" onclick="tick(this)"></div>
+    <div class="task-content">
+      <div class="task-head">
+        <span class="task-cat" style="color:#1a4a6a;background:#e8f4ff;border-color:#1a4a6a">Suspension</span>
+        <span class="task-name">Wheel bearing play check — all four corners</span>
+      </div>
+      <p class="task-detail">Front wheel bearings were replaced February 2025 at 271,200 km by Cape Transmissions as part of the front diff rebuild. Rear wheel bearings were replaced at the same time. Current ~305,000 km = ~34,000 km on new bearings. Bearings should be in good condition — however, confirm by jacking each corner and checking for play, and checking hub temperature after a 50 km run. No play and even hub temperatures = leave and monitor.</p>
+      <p class="task-spec">Status: Replaced Feb 2025 @ 271,200 km · Cape Transmissions (front and rear) · ~34,000 km ago · Confirm by play check and hot run before departure.</p>
+    </div>
+  </div>
+  <div class="task-row">
+    <div class="task-check" onclick="tick(this)"></div>
+    <div class="task-content">
+      <div class="task-head">
+        <span class="task-cat" style="color:#1a4a6a;background:#e8f4ff;border-color:#1a4a6a">Drivetrain</span>
+        <span class="task-name">Front CV joint boots and joint condition</span>
+      </div>
+      <p class="task-detail">Left outer CV joint was replaced February 2025 at 271,200 km by Cape Transmissions as part of the front knuckle overhaul. Inspect both CV boots carefully for any cracking or grease ejection since that service. Right outer CV joint was not listed as replaced — inspect that side particularly carefully. Any split boot means replacement of boot and full regrease minimum. Check for clicking under turning load on full lock.</p>
+      <p class="task-spec">Status: Left outer CV replaced Feb 2025 · Right outer — inspect carefully · Check both boots for cracking at folds · Carry one spare CV boot kit per axle.</p>
+    </div>
+  </div>
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">Cross-ref</span>
+  <a href="LC76_Drivetrain_Training_Guide.html" class="xref-pill">R13 Drivetrain</a>
+  <a href="LC76_Service_History.html" class="xref-pill">R8 Service History</a>
+  <a href="LC76_Reference_Card.html" class="xref-pill">R1 Reference Card</a>
+  <a href="LC76_Spares_Tools.html" class="xref-pill">R3 Spares &amp; Tools</a>
+</div>
+</div><!-- end s4 inner -->
+
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- S5 · ELECTRICAL & AUXILIARY SYSTEMS                     -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s5">
+  <span class="sec-num">S5</span>
+  <span class="sec-title">Electrical &amp; Auxiliary Systems</span>
+  <span class="sec-sub">Alternator · Victron · Lights · Fuses</span>
+</div>
+
+<div style="padding-top:10px">
+
+<div class="alert alert-note" style="margin-top:8px">
+  <strong>Note — LiFePO4 Charging Dependency</strong>
+  The Victron Smart LiFePO4 200Ah battery charges primarily via the Orion-Tr Smart 12/12-30A DC-DC charger from the alternator. An alternator that cannot maintain 13.8V+ under full electrical load means inadequate auxiliary charging. A load test before departure is critical — not optional.
+</div>
+
+<div class="subsec">
+  <span class="subsec-title">Alternator</span>
+  <span class="subsec-tag">CRITICAL — Load Test Required</span>
+</div>
+
+<div class="task-list">
+  <div class="task-row critical">
+    <div class="task-check" onclick="tick(this)"></div>
+    <div class="task-content">
+      <div class="task-head">
+        <span class="task-cat" style="color:#7a1010;background:#fff4f0;border-color:#7a1010">Electrical</span>
+        <span class="task-name">Alternator output load test</span>
+        <span class="crit-badge">CRITICAL</span>
+      </div>
+      <p class="task-detail">Test alternator output at idle and under full load — all accessories on: lights, ARB compressor, fan, charging loads. Voltage must remain 13.8–14.4V across all load conditions. A drop below 13.5V under load indicates a tired alternator struggling to support the LiFePO4 charging circuit. Also check for AC voltage ripple (exceeds 0.5V = failing rectifier diodes). A workshop battery/alternator tester can do this properly in under 20 minutes.</p>
+      <p class="task-spec">Idle, no load: 13.8–14.4V. Full load: minimum 13.5V. AC ripple: below 0.5V AC. 1HZ alternator: 80A standard. Check belt tension first — slippage produces identical symptoms to alternator wear.</p>
+    </div>
+  </div>
+  <div class="task-row">
+    <div class="task-check" onclick="tick(this)"></div>
+    <div class="task-content">
+      <div class="task-head">
+        <span class="task-cat" style="color:#4a3800;background:#fffbe8;border-color:#4a3800">Electrical</span>
+        <span class="task-name">Alternator belt tension and condition</span>
+      </div>
+      <p class="task-detail">Inspect the alternator / accessory belt for cracking, glazing, or fraying. Check tension — mid-span deflection 8–10 mm under moderate thumb pressure. A slipping belt mimics alternator failure and will also fail to drive the power steering pump and viscous fan bearing. Replace if any doubt. Carry a spare alternator belt.</p>
+      <p class="task-spec">Mid-span deflection: 8–10 mm. No cracking or glazing. Carry one spare alternator belt.</p>
+    </div>
+  </div>
+</div>
+
+<div class="subsec">
+  <span class="subsec-title">Starter Battery</span>
+  <span class="subsec-tag">Load Test</span>
+</div>
+
+<div class="task-list">
+  <div class="task-row">
+    <div class="task-check" onclick="tick(this)"></div>
+    <div class="task-content">
+      <div class="task-head">
+        <span class="task-cat" style="color:#1a4a6a;background:#e8f4ff;border-color:#1a4a6a">Electrical</span>
+        <span class="task-name">Starter battery load test</span>
+      </div>
+      <p class="task-detail">Test the starter battery under load using a battery tester — not just a resting voltage check. A battery can show 12.6V at rest but fail under the cranking load of a cold 1HZ diesel. If the battery is over 4 years old, or if there is any doubt about cold cranking performance, replace it before departure. A failed start battery in Africa is not a minor inconvenience.</p>
+      <p class="task-spec">Load test to 50% of CCA for 15 seconds — voltage must not drop below 9.6V. Battery over 4 years old before a two-year expedition: replace.</p>
+    </div>
+  </div>
+</div>
+
+<div class="subsec">
+  <span class="subsec-title">Victron Auxiliary System</span>
+  <span class="subsec-tag">Full Function Verification</span>
+</div>
+
+<div class="task-list">
+  <div class="task-row">
+    <div class="task-check" onclick="tick(this)"></div>
+    <div class="task-content">
+      <div class="task-head">
+        <span class="task-cat" style="color:#2a4a2a;background:#f0fff8;border-color:#2a4a2a">Victron</span>
+        <span class="task-name">Victron system full function check</span>
+      </div>
+      <p class="task-detail">With vehicle running, verify the Orion-Tr Smart DC-DC charger is active and charging the LiFePO4 at the correct rate. Confirm SmartSolar MPPT is functional — connect Hardkorr blanket and confirm MPPT tracking. Check BMV-712 readings: voltage, SOC, and current flow all correct. Confirm Smart BMS 12/200 shows no fault flags. Run VictronConnect on all devices and confirm all Bluetooth connections are active and all parameters within spec.</p>
+      <p class="task-spec">Orion-Tr: charging at up to 30A from alternator. MPPT 100/30: bulk/absorption/float cycle confirmed. BMV-712: SOC, V, A reading. BMS 12/200: no fault LEDs. LiFePO4 200Ah: check cell balance via BMS app.</p>
+    </div>
+  </div>
+  <div class="task-row">
+    <div class="task-check" onclick="tick(this)"></div>
+    <div class="task-content">
+      <div class="task-head">
+        <span class="task-cat" style="color:#2a4a2a;background:#f0fff8;border-color:#2a4a2a">Victron</span>
+        <span class="task-name">All wiring, connections, and fuse holders — inspection</span>
+      </div>
+      <p class="task-detail">Inspect all visible auxiliary system wiring for chafing, heat damage, or loose connections. Check all fuse holders — corroded fuse clips cause resistance and voltage drop under load. Pull-test any crimped connections that appear loose. Check the main fuse at the battery for corrosion. Document which fuse serves which circuit. Carry a complete spare fuse kit covering all ratings in the system.</p>
+      <p class="task-spec">All connections tight and corrosion-free. Wiring routed away from heat and sharp edges. Spare fuse kit must cover all ratings fitted to the vehicle.</p>
+    </div>
+  </div>
+</div>
+
+<div class="subsec">
+  <span class="subsec-title">Lights &amp; Circuits</span>
+  <span class="subsec-tag">Full Check</span>
+</div>
+
+<div class="task-list">
+  <div class="task-row">
+    <div class="task-check" onclick="tick(this)"></div>
+    <div class="task-content">
+      <div class="task-head">
+        <span class="task-cat" style="color:#4a3800;background:#fffbe8;border-color:#4a3800">Electrical</span>
+        <span class="task-name">All vehicle lights — full circuit test</span>
+      </div>
+      <p class="task-detail">Test every light circuit: headlights (low and high beam), fog lights, indicators (all four corners), hazards, brake lights (including third brake light), reversing light, interior lights, number plate lights, and any auxiliary driving lights. A non-functional brake light is both a safety risk and a cause of problems at border crossings — inspectors check these. Carry spare globes for all standard fittings. Check earth connections for corrosion — most lighting faults on older vehicles are earth-related.</p>
+      <p class="task-spec">All lights operational. Carry spare globe kit. Check and clean all lighting earth points at this service.</p>
+    </div>
+  </div>
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">Cross-ref</span>
+  <a href="LC76_Battery_Training_Guide.html" class="xref-pill">R5 Battery Training</a>
+  <a href="LC76_LiFePO4_System_Report.html" class="xref-pill">R7 LiFePO4 System</a>
+  <a href="LC76_Battery_Longevity_Report.html" class="xref-pill">R6 Battery Longevity</a>
+  <a href="LC76_Reference_Card.html" class="xref-pill">R1 Reference Card</a>
+</div>
+</div><!-- end s5 inner -->
+
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- S6 · WORKSHOP VISIT PROTOCOL                            -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s6">
+  <span class="sec-num">S6</span>
+  <span class="sec-title">Workshop Visit Protocol</span>
+  <span class="sec-sub">How to Brief · What to Ask · Sign-Off</span>
+</div>
+
+<div style="padding-top:10px">
+
+<div class="alert alert-info" style="margin-top:8px">
+  <strong>Context</strong>
+  Not all preparation work can or should be done at home. A diesel specialist with 1HZ experience adds significant value — particularly for timing belt, valve clearances, injector work, and injection pump concerns. This section covers how to brief a workshop effectively and what a pre-expedition sign-off should include.
+</div>
+
+<div class="subsec">
+  <span class="subsec-title">Documents to Bring</span>
+  <span class="subsec-tag">Workshop Briefing Pack</span>
+</div>
+
+<div class="brief-block">
+  <div class="brief-block-title">Bring to the Workshop</div>
+  <ul>
+    <li>Service history printout from R8 (LC76_Service_History.html) — the mechanic needs to see what has and hasn't been done</li>
+    <li>This document (R23) — bring the full prep list or the relevant sections as a workshop brief</li>
+    <li>R1 Reference Card (LC76_Reference_Card.html) — fluid specs, oil grades, tyre pressures, torque specs</li>
+    <li>Current odometer reading and target expedition departure date</li>
+    <li>SAC turbo service documentation — reconned August 2023 at 224,406 km (~80,600 km ago)</li>
+    <li>Any recent noise, smoke, or performance concerns noted in daily use</li>
+    <li>Photo record of any visible leaks, damage, or wear observed during your own pre-inspection</li>
+  </ul>
+</div>
+
+<div class="subsec" style="margin-top:18px">
+  <span class="subsec-title">How to Brief the Mechanic</span>
+  <span class="subsec-tag">Key Instructions</span>
+</div>
+
+<div class="brief-block">
+  <div class="brief-block-title">Priority Brief Points</div>
+  <ul>
+    <li><strong>This is an expedition vehicle preparing for 2 years in Africa — not a routine service.</strong> The standard is higher than a daily driver. Do not take shortcuts.</li>
+    <li>Timing belt has no service record — treat as if never replaced. Replace belt, tensioner, idler, and inspect cam and crank seals while cover is off.</li>
+    <li>Valve clearances have never been recorded — inspect and set to spec. Record all 12 measurements before and after adjustment.</li>
+    <li>Injectors: remove all 6 and pop-test on the bench. Return cleaned and shimmed. Replace nozzles on any injector outside spec. Do not clean and return without testing.</li>
+    <li>Ask to be shown the drain plug magnets from gearbox, transfer case, and diffs before refilling — you want to see what came out.</li>
+    <li>Do not change anything without informing you first — this is a learning exercise as well as a service.</li>
+    <li>Document everything — km at repair, parts fitted (brand and part number), before/after specs where applicable.</li>
+  </ul>
+</div>
+
+<div class="subsec" style="margin-top:18px">
+  <span class="subsec-title">What to Ask For vs Leave to Discretion</span>
+  <span class="subsec-tag">Ownership vs Expertise</span>
+</div>
+
+<table class="spec-table">
+  <thead>
+    <tr>
+      <th>Ask Specifically For</th>
+      <th>Leave to Their Discretion</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Timing belt, tensioner, idler — replace as a kit</td>
+      <td>Which brand parts (within quality brief)</td>
+    </tr>
+    <tr>
+      <td>All 6 injectors — pop test and return with pressure readings</td>
+      <td>Whether to replace nozzle tips (they will tell you if out of spec)</td>
+    </tr>
+    <tr>
+      <td>Valve clearances measured and documented — all 12</td>
+      <td>Rocker arm wear assessment — they will flag if severe</td>
+    </tr>
+    <tr>
+      <td>Drain plugs shown to you before any refill</td>
+      <td>Exact flushing procedure for cooling system</td>
+    </tr>
+    <tr>
+      <td>Brake fluid — full bleed, not a top-up</td>
+      <td>Brake pad brand selection (within spec)</td>
+    </tr>
+    <tr>
+      <td>Gearbox oil: GL-4 only — not GL-5</td>
+      <td>Transfer case oil spec confirmation (they may know variant better)</td>
+    </tr>
+    <tr>
+      <td>Alternator load test — written result required</td>
+      <td>Whether to replace or rebuild if marginal</td>
+    </tr>
+    <tr>
+      <td>Wheel bearing play check at all four corners</td>
+      <td>Hub shimming adjustment if adjustable type fitted</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="subsec" style="margin-top:18px">
+  <span class="subsec-title">Questions to Ask About Findings</span>
+  <span class="subsec-tag">Workshop Intelligence</span>
+</div>
+
+<div class="brief-block">
+  <div class="brief-block-title">Ask the Mechanic Directly</div>
+  <ul>
+    <li>"What did you find on the drain plug magnets — how much debris?" (quantify the wear level)</li>
+    <li>"What condition were the valve clearances in — which cylinders were tightest?" (tightest exhaust = most wear)</li>
+    <li>"Were there any signs of oil contamination on the timing belt or behind the timing cover?"</li>
+    <li>"What was the condition of the old thermostat — any sign of sticking?"</li>
+    <li>"What were the injector opening pressures before and after service?" (ask for the actual numbers)</li>
+    <li>"Did anything surprise you that wasn't on the brief?"</li>
+    <li>"Given what you've seen on this vehicle — is there anything you'd be concerned about for a two-year expedition?"</li>
+    <li>"What would you want checked at 350,000 km if the vehicle is in the field when it gets there?"</li>
+  </ul>
+</div>
+
+<div class="subsec" style="margin-top:18px">
+  <span class="subsec-title">Pre-Expedition Sign-Off</span>
+  <span class="subsec-tag">What a Proper Sign-Off Includes</span>
+</div>
+
+<div class="alert alert-ok">
+  <strong>✓ Expedition Sign-Off Standard</strong>
+  A proper pre-expedition sign-off from a diesel workshop is more than a stamp on an invoice. It should be a written statement — even if informal — that the mechanic has reviewed the key systems and is satisfied with their condition for extended remote use. Ask for this explicitly.
+</div>
+
+<div class="brief-block">
+  <div class="brief-block-title">Sign-Off Should Confirm</div>
+  <ul>
+    <li>Timing belt replaced at [km recorded] — belt, tensioner, idler, cam seal, crank front seal</li>
+    <li>Valve clearances set to spec — all 12 measurements recorded (before and after)</li>
+    <li>Injector pop test results — opening pressures for all 6 cylinders pre and post service</li>
+    <li>Cooling system: flushed, new coolant fitted, pressure test result (pass/fail and pressure held)</li>
+    <li>Thermostat replaced at [km recorded]</li>
+    <li>Gearbox, transfer case, and diff oils drained and refilled — drain plug magnet condition noted</li>
+    <li>Brake fluid fully bled — pedal feel confirmed firm and dry</li>
+    <li>Alternator load test result — voltage at idle and under full load</li>
+    <li>Wheel bearing check — all four corners, pass/fail noted</li>
+    <li>Any additional findings — actioned or documented as monitor items with recommended follow-up km</li>
+    <li>Mechanic name, workshop name, date, and vehicle odometer at the time</li>
+  </ul>
+</div>
+
+<div class="subsec" style="margin-top:18px">
+  <span class="subsec-title">Recommended Suppliers</span>
+  <span class="subsec-tag">Known Contacts — Western Cape</span>
+</div>
+
+<table class="spec-table">
+  <thead>
+    <tr>
+      <th>Supplier / Contact</th>
+      <th>Specialty</th>
+      <th>Use For</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Dirk Du Plessis — Dup Diesel</strong></td>
+      <td>Diesel engine, turbo, injection systems</td>
+      <td>Timing belt, injectors, injection pump, valve clearances, turbo check</td>
+    </tr>
+    <tr>
+      <td><strong>Snyman 4×4</strong></td>
+      <td>4WD systems, expedition assessment</td>
+      <td>Full vehicle assessment (planned), 4WD systems, drivetrain inspection</td>
+    </tr>
+    <tr>
+      <td><strong>Cape Transmissions — Aleric / Donovan</strong></td>
+      <td>Gearbox and drivetrain</td>
+      <td>R151F assessment if drain oil contamination warrants investigation</td>
+    </tr>
+    <tr>
+      <td><strong>First Alignment — Johan Viljoen</strong></td>
+      <td>Tyres, alignment, wheel bearings</td>
+      <td>Wheel bearing check, alignment after suspension work, tyre fitting</td>
+    </tr>
+    <tr>
+      <td><strong>Powerflow Exhausts — Andrea</strong></td>
+      <td>Exhaust systems</td>
+      <td>Exhaust integrity check, any exhaust work</td>
+    </tr>
+    <tr>
+      <td><strong>Suspension City — Conrad</strong></td>
+      <td>Suspension, OME systems</td>
+      <td>Suspension bush inspection, shock condition, lift verification</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="subsec" style="margin-top:20px">
+  <span class="subsec-title">Toyota Dealer Network — Expedition Route</span>
+  <span class="subsec-tag">Southern &amp; East Africa</span>
+</div>
+
+<div class="alert alert-info">
+  <strong>Toyota Coverage in Africa</strong>
+  Toyota operates through CFAO Mobility across Southern and East Africa. The Land Cruiser is Toyota's dominant vehicle in these markets — genuine parts availability is significantly better for the LC76 than for most other expedition vehicles. In major centres, dealers can typically source parts within days. In smaller towns, independent Toyota-experienced workshops are common. Always call ahead before assuming a dealer has 1HZ-specific parts in stock.
+</div>
+
+<table class="spec-table">
+  <thead>
+    <tr>
+      <th>Country</th>
+      <th>Distributor / Dealer</th>
+      <th>Key Locations</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>South Africa</strong></td>
+      <td>Toyota SA Motors (TSAM) · 200+ dealers</td>
+      <td>All major cities and towns nationwide</td>
+      <td>Toyota African Parts Centre in Boksburg (Gauteng) — largest automotive parts warehouse in Southern Hemisphere, services 36 Sub-Saharan countries</td>
+    </tr>
+    <tr>
+      <td><strong>Namibia</strong></td>
+      <td>Toyota Namibia (CFAO)</td>
+      <td>Windhoek (main), Swakopmund, Walvis Bay, Oshakati</td>
+      <td>Good parts availability in Windhoek. Supplied from TSAM Boksburg parts hub</td>
+    </tr>
+    <tr>
+      <td><strong>Botswana</strong></td>
+      <td>Toyota Botswana (CFAO)</td>
+      <td>Gaborone (main), Francistown, Maun</td>
+      <td>Maun is a key staging point for Okavango/Chobe expeditions — Toyota dealer present</td>
+    </tr>
+    <tr>
+      <td><strong>Zimbabwe</strong></td>
+      <td>Toyota by CFAO Zimbabwe · Croco Toyota</td>
+      <td>Harare (main), Bulawayo, Victoria Falls</td>
+      <td>Croco Toyota is the authorised dealer. Parts availability variable — call ahead for 1HZ-specific items. Victoria Falls location useful for Zambia border prep</td>
+    </tr>
+    <tr>
+      <td><strong>Zambia</strong></td>
+      <td>Toyota Zambia (CFAO Mobility)</td>
+      <td>Lusaka (multiple branches), Kitwe, Livingstone, Solwezi, Kabwe</td>
+      <td>Lusaka has multiple branches on Cairo Road. Livingstone branch useful near Zim border. Parts ordered through CFAO network</td>
+    </tr>
+    <tr>
+      <td><strong>Malawi</strong></td>
+      <td>Toyota Malawi (CFAO)</td>
+      <td>Blantyre (main), Lilongwe</td>
+      <td>Limited specialist diesel knowledge — use for genuine parts sourcing rather than complex engine work</td>
+    </tr>
+    <tr>
+      <td><strong>Tanzania</strong></td>
+      <td>Toyota Tanzania Ltd</td>
+      <td>Dar es Salaam (main), Arusha, Mwanza, Dodoma</td>
+      <td>Dar es Salaam has the main workshop. Arusha is the key access point for northern route (Serengeti, Ngorongoro). Land Cruiser extremely common — independent 1HZ knowledge widely available</td>
+    </tr>
+    <tr>
+      <td><strong>Kenya</strong></td>
+      <td>Toyota Kenya Ltd (CFAO)</td>
+      <td>Nairobi (main — multiple locations), Mombasa, Eldoret, Kisumu</td>
+      <td>Land Cruiser assembly was in Kenya from 1977. Strong 1HZ expertise. Nairobi Industrial Area has numerous independent LC specialists alongside the main dealer</td>
+    </tr>
+    <tr>
+      <td><strong>Uganda</strong></td>
+      <td>Toyota Uganda (CFAO)</td>
+      <td>Kampala (main)</td>
+      <td>Kampala dealer. Independent Land Cruiser workshops widely available — LC76/78 is the dominant vehicle for NGO and government fleets</td>
+    </tr>
+    <tr>
+      <td><strong>Mozambique</strong></td>
+      <td>Toyota Mozambique (CFAO)</td>
+      <td>Maputo (main), Beira</td>
+      <td>Maputo main dealer. Parts availability in northern Mozambique (Pemba, Nampula) limited — carry critical spares before entering</td>
+    </tr>
+    <tr>
+      <td><strong>Eswatini</strong></td>
+      <td>Toyota Eswatini (TSAM network)</td>
+      <td>Mbabane, Manzini</td>
+      <td>Served directly from TSAM South Africa parts hub</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="alert alert-note" style="margin-top:12px">
+  <strong>Field Reality Check</strong>
+  Dealer presence does not guarantee 1HZ part availability on the shelf. Injector nozzles, timing belt kits, and injection pump seals may need to be ordered from Johannesburg or Nairobi. For any complex diesel work away from South Africa, call the dealer in advance, describe the specific part needed (with part number from R1 Reference Card), and allow 3–7 days for sourcing. Independent diesel specialists in Nairobi and Lusaka often have better 1HZ stocks than franchise dealers.
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">Cross-ref</span>
+  <a href="LC76_Departure_Checklist.html" class="xref-pill">R2 Departure Checklist</a>
+  <a href="LC76_Reference_Card.html" class="xref-pill">R1 Reference Card</a>
+  <a href="LC76_Service_History.html" class="xref-pill">R8 Service History</a>
+  <a href="LC76_Drivetrain_Training_Guide.html" class="xref-pill">R13 Drivetrain</a>
+  <a href="LC76_Engine_Training.html" class="xref-pill">R4 Engine Training</a>
+  <a href="LC76_1HZ_Troubleshooting_Guide.html" class="xref-pill">R18 Troubleshooting</a>
+</div>
+
+</div><!-- end s6 inner -->
+
+</div><!-- end .content -->
+
+<!-- ══ FOOTER ═════════════════════════════════════════════ -->
+<div class="doc-footer">
+  <span>R23 · LC76 Pre-Trip Preparation Protocol · HZJ76R-RKMRS</span>
+  <span>1HZ 4.2L Diesel · SAC Low-Boost Turbo · ~305,000 km · April 2026</span>
+  <span>overlandslabs.github.io/Consumption</span>
+</div>
+
+<!-- ══ SCRIPTS ════════════════════════════════════════════ -->
+<script>
+const TOTAL_TASKS = 32;
+
+function tick(el){
+  el.classList.toggle('checked');
+  updateProgress();
+}
+
+function updateProgress(){
+  const checked = document.querySelectorAll('.task-check.checked').length;
+  const pct = (checked / TOTAL_TASKS * 100).toFixed(0);
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-label').textContent = checked + ' / ' + TOTAL_TASKS + ' tasks';
+}
+
+function resetAll(){
+  document.querySelectorAll('.task-check.checked').forEach(el => el.classList.remove('checked'));
+  updateProgress();
+}
+
+function scrollTo(id){
+  const el = document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+// IntersectionObserver — active TOC highlighting
+const sections = ['s1','s2','s3','s4','s5','s6'];
+const tocLinks = document.querySelectorAll('.toc-link');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      const idx = sections.indexOf(entry.target.id);
+      tocLinks.forEach((l, i) => l.classList.toggle('active', i === idx));
+    }
+  });
+}, {rootMargin: '-30% 0px -60% 0px'});
+
+sections.forEach(id => {
+  const el = document.getElementById(id);
+  if(el) observer.observe(el);
+});
+</script>
+
+<script>
+if('serviceWorker' in navigator && location.hostname !== 'www.claudeusercontent.com'){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('./sw.js')
+      .then(r => console.log('LC76 SW registered'))
+      .catch(e => console.log('SW error:', e));
+  });
+}
+</script>
+</body>
+</html>

@@ -18,28 +18,21 @@
 body{font-family:Oswald,sans-serif;background:var(--paper);color:var(--steeldk);line-height:1.5;-webkit-font-smoothing:antialiased}
 
 /* HEADER */
-/* ── CALC MASTHEAD ───────────────────────────────────────── */
-header{position:relative;background:var(--ink);color:#fff;padding:18px 24px 14px;overflow:hidden}
-header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--amber),var(--amber2),transparent)}
-.cm-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--steelmd);margin-bottom:8px}
-.cm-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.8rem,5vw,2.6rem);letter-spacing:.06em;color:#fff;line-height:1;margin-bottom:4px}
-.cm-title em{font-style:italic;color:var(--amber2)}
-.cm-sub{font-family:'IBM Plex Mono',monospace;font-size:.52rem;letter-spacing:.1em;color:rgba(255,200,100,.65);margin-bottom:6px}
-.cm-meta{font-family:'IBM Plex Mono',monospace;font-size:.48rem;letter-spacing:.08em;color:var(--steelmd)}
-
-/* ── LIB HOME BTN ────────────────────────────────────────── */
-.lib-home-btn{position:absolute;top:50%;right:16px;transform:translateY(-50%);display:inline-flex;align-items:center;gap:5px;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--amber2);background:rgba(232,120,0,.15);border:1px solid var(--amber2);border-radius:20px;padding:6px 12px;min-height:32px;white-space:nowrap;z-index:10;transition:background .2s}
-.lib-home-btn:hover,.lib-home-btn:active{background:rgba(232,120,0,.30)}
+header{background:var(--ink);color:#fff;padding:1rem 1.5rem;border-bottom:4px solid var(--amber2)}
+.header-title{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:2px;margin-bottom:.2rem}
+.header-title .accent{color:var(--amber2)}
+.header-subtitle{font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--amber);margin-bottom:.15rem}
+.header-meta{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--steelmd)}
 
 /* STICKY NAV */
 .sticky-wrap{position:sticky;top:0;z-index:100;background:var(--ink);padding-top:env(safe-area-inset-top)}
-.tab-bar{background:var(--steeldk);border-top:3px solid var(--amber2);border-bottom:1px solid rgba(255,255,255,.08);display:flex;gap:0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.tab-bar{display:flex;gap:0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .tab-bar::-webkit-scrollbar{display:none}
-.tab-btn{font-family:'IBM Plex Mono',monospace;font-size:.52rem;letter-spacing:.08em;text-transform:uppercase;
-  padding:10px 16px;border:none;background:none;color:var(--steelmd);
-  cursor:pointer;white-space:nowrap;transition:color .2s}
-.tab-btn.active{color:var(--amber2)}
-.tab-btn:hover:not(.active){color:#c8bfad}
+.tab-btn{font-family:Oswald,sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
+  padding:12px 20px;border:none;background:transparent;color:rgba(255,255,255,.55);
+  cursor:pointer;white-space:nowrap;border-bottom:3px solid transparent;margin-bottom:-3px;transition:all .2s}
+.tab-btn.active{color:#fff;border-bottom-color:var(--amber2)}
+.tab-btn:hover:not(.active){color:rgba(255,255,255,.8)}
 
 /* MAIN */
 main{max-width:100%;margin:0;padding:1rem 1.5rem 50px}
@@ -209,8 +202,8 @@ footer p{color:var(--amber)}
 
 /* MOBILE */
 @media(max-width:600px){
-  header{padding:14px 16px 12px}
-  .cm-title{font-size:1.6rem}
+  header{padding:1.2rem}
+  .header-title{font-size:2rem}
   main{padding:1.5rem 4% 60px}
   .size-selector{grid-template-columns:repeat(3,1fr);gap:.5rem}
   .results-grid{grid-template-columns:1fr 1fr}
@@ -227,32 +220,55 @@ footer p{color:var(--amber)}
   .tab-btn:not(.active){display:none}
   .panel:not(.active){display:block}
   body{font-size:9pt}
-  header{padding:4mm 8mm;break-after:avoid}
-  .cm-eyebrow{font-size:5pt}
-  .cm-title{font-size:16pt}
-  .cm-sub{font-size:5pt}
-  .cm-meta{font-size:4.5pt}
-  .lib-home-btn{display:none!important}
+  header{padding:.5cm;border-bottom:2pt solid var(--amber2)}
   main{padding:.3cm}
   .results-grid{display:grid}
   .comp-table{font-size:8pt}
 }
 
-
+/* Library home pill */
+header{position:relative;}
+.lib-home-btn{
+  position:absolute;
+  top:50%;
+  right:16px;
+  transform:translateY(-50%);
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:9px;
+  font-weight:600;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  text-decoration:none;
+  color:var(--amber2,#e07800);
+  background:rgba(232,120,0,.15);
+  border:1px solid var(--amber2,#e07800);
+  border-radius:20px;
+  padding:6px 12px;
+  min-height:32px;
+  white-space:nowrap;
+  z-index:10;
+  -webkit-tap-highlight-color:transparent;
+  transition:background .2s;
+}
+.lib-home-btn:hover,
+.lib-home-btn:active{background:rgba(232,120,0,.30);}
+@media print{.lib-home-btn{display:none!important}}
 </style>
 </head>
 <body>
 
 <div class="sticky-wrap"><header>
   <a href="index.html" class="lib-home-btn" title="Library Index">⌂ Index</a>
-  <div class="cm-eyebrow">LC76 SW · Field Tool</div>
-  <div class="cm-title">Tyre Pressure <em>Calculator</em></div>
-  <div class="cm-sub">265/75R16 Primary · 265/70R16 / 285/75R16 also covered · Bar primary</div>
-  <div class="cm-meta">HZJ76R-RKMRS · Cross-reference: R14 Tyre Management Guide</div>
+  <h1 class="header-title"><span class="accent">LC76</span> TYRE PRESSURE CALCULATOR</h1>
+  <p class="header-subtitle">HZJ76R · 265/70R16 Current · Terrain & Load Optimised</p>
+  <p class="header-meta">Field tool — works offline · Cross-reference: R14 Tyre Management Guide</p>
 </header>
   <div class="tab-bar">
-    <button class="tab-btn active" onclick="showTab('calc')">Calculator</button>
-    <button class="tab-btn" onclick="showTab('compare')">Tyre Comparison</button>
+    <button class="tab-btn active" onclick="showTab('calc')">⚙️ Calculator</button>
+    <button class="tab-btn" onclick="showTab('compare')">📊 Tyre Comparison</button>
   </div>
 </div>
 
@@ -404,7 +420,7 @@ footer p{color:var(--amber)}
 <!-- ═══════════════════════════════════════════════════ COMPARE PANEL -->
 <div id="panel-compare" class="panel">
 
-  <p class="comp-intro">Comparison of the three tyre sizes relevant to the LC76 upgrade path. Current fitment is 265/75R16. The 265/70R16 is the previous fitment; the 285/75R16 is a future option pending clearance confirmation. The 265/75R16 is a sidewall-only upgrade; the 285/75R16 adds both width and sidewall height. All three are available in LT (Light Truck) 10-ply load range.</p>
+  <p class="comp-intro">Comparison of the three tyre sizes relevant to the LC76 upgrade path. Current fitment is 265/70R16. The 265/75R16 is a sidewall-only upgrade; the 285/75R16 adds both width and sidewall height. All three are available in LT (Light Truck) 10-ply load range.</p>
 
   <!-- SPEC CARDS -->
   <div class="sec-head">Physical Specifications</div>
@@ -413,7 +429,7 @@ footer p{color:var(--amber)}
     <div class="spec-card current">
       <div class="spec-head">
         <span class="sc-size">265/70R16</span>
-        <span class="sc-tag">Previous fitment</span>
+        <span class="sc-tag">Current fitment <span class="current-badge">fitted</span></span>
       </div>
       <div class="spec-body">
         <div class="spec-row"><span class="spec-row-label">Overall Diameter</span><span class="spec-row-val">779 mm</span></div>
@@ -570,7 +586,7 @@ footer p{color:var(--amber)}
 
   <div class="note-box">
     <strong>Speedo correction:</strong> All LC76 speedometers read from the transfer case, not GPS. Fitting larger tyres means the vehicle travels further per tyre revolution — the speedo will read low (show 100 km/h when actually doing 103–107). Verify with GPS after any tyre size change. Also affects odometer accuracy for service intervals.<br><br>
-    <strong>Clearance check (285/75R16):</strong> Before committing, turn full lock both ways on full articulation and check clearance to wheel arch, brake lines, and front diff. The HZJ76R has reasonable clearance but 285-width can be tight. Snyman 4×4 assessment (May 2026) is the right time to confirm this.
+    <strong>Clearance check (285/75R16):</strong> Before committing, turn full lock both ways on full articulation and check clearance to wheel arch, brake lines, and front diff. The HZJ76R has reasonable clearance but 285-width can be tight. Confirm clearance before committing.
   </div>
 
 </div><!-- end compare panel -->
@@ -586,9 +602,9 @@ footer p{color:var(--amber)}
 // STATE
 // ─────────────────────────────────────────────
 var state = {
-  size: '265/75R16',
+  size: '265/70R16',
   terrain: 'highway',
-  payload: 500
+  payload: 350
 };
 
 // ─────────────────────────────────────────────
@@ -599,14 +615,14 @@ var state = {
 var BASE = {
   // format: {f: PSI front, r: PSI rear, fl: front low, fh: front high, rl: rear low, rh: rear high}
   highway: {
-    '265/70R16': {f:38,r:40,fl:36,fh:40,rl:38,rh:44,
-      rat:'Highway pressures based on LT load-inflation table for 121/118S 10PR at expedition weight. Rear higher for rear-biased load. Cold pressures — check before driving.',
+    '265/70R16': {f:35,r:37,fl:33,fh:37,rl:35,rh:40,
+      rat:'Highway pressures optimise fuel economy, tread life, and steering response. Rear runs 2 PSI higher to support load over the rear axle.',
       reinf:null},
-    '265/75R16': {f:37,r:40,fl:35,fh:39,rl:38,rh:43,
-      rat:'265/75R16 123/120R LT — expedition loaded. Taller sidewall runs slightly lower than 70-series but LT load requirements still demand higher pressures than many guides suggest. Rear higher for expedition rear-biased load.',
+    '265/75R16': {f:34,r:36,fl:32,fh:36,rl:34,rh:39,
+      rat:'Taller sidewall (75-series) needs slightly lower base pressure than the 70-series to achieve the same contact patch. Rear 2 PSI higher for load support.',
       reinf:null},
-    '285/75R16': {f:36,r:39,fl:34,fh:38,rl:37,rh:42,
-      rat:'285/75R16 126/123R LT — widest footprint requires sufficient inflation for load support. Taller and wider than 70-series but still needs adequate highway pressure at expedition weight. Rear higher for rear-biased load.',
+    '285/75R16': {f:33,r:35,fl:31,fh:35,rl:33,rh:38,
+      rat:'Wider and taller tyre achieves correct contact patch at lower pressure. Rear higher for rear-axle load. Monitor steering feel — if heavy, add 1 PSI front.',
       reinf:null},
   },
   gravel: {
@@ -654,11 +670,11 @@ var BASE = {
       reinf:'Before returning to gravel or tar: inflate front to 1.93 bar (28 PSI), rear to 2.07 bar (30 PSI).'},
   },
   rock: {
-    '265/70R16': {f:24,r:26,fl:22,fh:28,rl:24,rh:30,
-      rat:'Rock requires pressure low enough to conform but high enough to protect the 70-series sidewall from cuts on African ironstone and basalt. Stay at upper end on sharp rock — the 70-series has limited sidewall protection.',
+    '265/70R16': {f:22,r:24,fl:20,fh:26,rl:22,rh:28,
+      rat:'Rock requires low enough pressure to conform to surface and grip, but not so low the sidewall is vulnerable to cuts on sharp edges. The 70-series has less sidewall protection — stay at upper end of range on sharp rock.',
       reinf:'Before returning to gravel or tar: inflate front to 2.07 bar (30 PSI), rear to 2.21 bar (32 PSI).'},
-    '265/75R16': {f:22,r:24,fl:20,fh:26,rl:22,rh:26,
-      rat:'Taller 75-series sidewall (199 mm vs 186 mm) provides better cut resistance than 70-series. Can run slightly lower than 70-series while maintaining adequate sidewall protection against African ironstone and basalt.',
+    '265/75R16': {f:20,r:22,fl:18,fh:24,rl:20,rh:26,
+      rat:'Extra sidewall height provides meaningful cut resistance. Run lower than 70-series to increase conformity to rock surface. Good protection against rim strikes.',
       reinf:'Before returning to gravel or tar: inflate front to 2.00 bar (29 PSI), rear to 2.14 bar (31 PSI).'},
     '285/75R16': {f:18,r:20,fl:16,fh:22,rl:18,rh:24,
       rat:'Best tyre for rocky terrain — wide contact and tall sidewall maximise grip and protection. Lower pressure allows excellent rock conformity. Rim strike risk is lowest in the range.',

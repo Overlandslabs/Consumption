@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>R21 — Turbo Operations & Driver Discipline | HZJ76R-RKMRS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=Oswald:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:      #1C1410;
+    --paper:    #F5EDDA;
+    --paper2:   #EDE5D0;
+    --cream:    #F5EDDA;
+    --amber:    #b86800;
+    --amber2:   #e07800;
+    --rule:     #d4cfc4;
+    --steeldk:  #2a2f3a;
+    --steelmd:  #6a7080;
+    --red-warn: #B91C1C;
+    --green-ok: #059669;
+    --orange:   #c05a00;
+    --border:   #c8bfad;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  /* STICKY WRAP */
+  .sticky-wrap { position: sticky; top: 0; z-index: 100; background: var(--ink); padding-top: env(safe-area-inset-top); }
+
+  /* MASTHEAD */
+  .masthead { position: relative; background: var(--ink); color: #fff; padding: 18px 24px 14px; }
+  .lib-home-btn { position:absolute; top:50%; right:16px; transform:translateY(-50%); display:inline-flex; align-items:center; gap:5px; font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; text-decoration:none; color:var(--amber2); background:rgba(232,120,0,.15); border:1px solid var(--amber2); border-radius:20px; padding:6px 12px; min-height:32px; white-space:nowrap; z-index:10; transition:background .2s; }
+  .lib-home-btn:hover, .lib-home-btn:active { background:rgba(232,120,0,.30); }
+  @media print { .lib-home-btn { display:none !important; } }
+  .mh-eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: .5rem; letter-spacing: .28em; text-transform: uppercase; color: var(--steelmd); margin-bottom: 6px; }
+  .mh-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.8rem, 5vw, 2.6rem); letter-spacing: .06em; color: var(--amber2); line-height: 1; }
+  .mh-sub { font-family: 'IBM Plex Mono', monospace; font-size: .54rem; letter-spacing: .12em; color: rgba(255,200,100,.65); margin-top: 5px; }
+  .mh-vehicle { font-family: 'IBM Plex Mono', monospace; font-size: .48rem; letter-spacing: .08em; color: var(--steelmd); margin-top: 8px; }
+
+  /* TOC BAR */
+  .toc-bar {
+    background: var(--steeldk);
+    border-top: 3px solid var(--amber2);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    padding: 0 20px;
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .toc-bar::-webkit-scrollbar { display: none; }
+  .toc-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .52rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--steelmd);
+    background: none;
+    border: none;
+    padding: 10px 12px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color 0.15s;
+  }
+  .toc-btn:hover { color: #c8bfad; }
+  .toc-btn.active { color: var(--amber2); }
+
+  /* MAIN */
+  .main { padding: 20px 5% 60px; }
+
+  /* SECTION HEADINGS */
+  .section-head {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: var(--ink);
+    letter-spacing: 0.04em;
+    border-bottom: 2px solid var(--amber2);
+    padding-bottom: 4px;
+    margin-bottom: 14px;
+    margin-top: 28px;
+  }
+  .section-head:first-child { margin-top: 0; }
+  .section-intro { font-size: 13px; color: var(--steelmd); margin-bottom: 14px; font-style: italic; }
+
+  /* EGT RANGE TABLE */
+  .matrix-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; width: 100%; margin-bottom: 24px; }
+  .matrix-table { width: 100%; border-collapse: collapse; font-size: 12.5px; table-layout: fixed; min-width: 640px; }
+  .matrix-table th {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    background: var(--steeldk); color: #b0bcc8;
+    padding: 8px 12px; text-align: left; border: 1px solid rgba(255,255,255,0.07);
+  }
+  .matrix-table td { padding: 8px 12px; border: 1px solid var(--rule); vertical-align: top; line-height: 1.5; overflow-wrap: break-word; word-break: break-word; }
+  .matrix-table tr:nth-child(even) td { background: var(--paper2); }
+  .matrix-table tr:nth-child(odd) td { background: #faf6ee; }
+  .matrix-table tr:hover td { background: #ede0c4; }
+
+  /* STATUS BADGES */
+  .sev-stop   { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; color:var(--red-warn); letter-spacing:0.05em; }
+  .sev-warn   { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; color:var(--orange); letter-spacing:0.05em; }
+  .sev-ok     { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; color:var(--green-ok); letter-spacing:0.05em; }
+  .sev-high   { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; color:var(--red-warn); letter-spacing:0.05em; }
+  .sev-med    { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; color:var(--orange); letter-spacing:0.05em; }
+  .sev-low    { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; color:var(--steelmd); letter-spacing:0.05em; }
+
+  .mono { font-family:'IBM Plex Mono',monospace; font-size:11px; }
+
+  /* DIAG CARDS (collapsible) */
+  .diag-group { margin-bottom: 20px; }
+  .diag-group-title {
+    font-family: 'Bebas Neue', sans-serif; font-size: 16px; color: var(--amber2);
+    letter-spacing: 0.04em; background: var(--steeldk); padding: 8px 14px;
+  }
+  .diag-card { border: 1px solid var(--border); border-top: none; background: #fff; }
+  .diag-card + .diag-card { border-top: 1px solid var(--rule); }
+  .diag-header {
+    display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 16px;
+    padding: 11px 14px; background: var(--paper2); cursor: pointer; user-select: none;
+    border-bottom: 1px solid var(--rule);
+  }
+  .diag-header:hover { background: var(--paper); }
+  .diag-symptom { font-family:'Oswald',sans-serif; font-weight:500; font-size:14px; color:var(--ink); }
+  .diag-badge {
+    font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600;
+    letter-spacing:0.06em; padding:3px 8px; border-radius:2px; white-space:nowrap;
+  }
+  .badge-stop    { background:#fde8e8; color:var(--red-warn); border:1px solid #f8b0b0; }
+  .badge-caution { background:#fef3cd; color:#7c4a00; border:1px solid #f5d072; }
+  .badge-monitor { background:#e8f5e9; color:#1a6b3a; border:1px solid #88c899; }
+  .diag-body { padding: 10px 14px; display: none; }
+  .diag-body.open { display: block; }
+  .diag-arrow { font-size:10px; color:var(--steelmd); transition:transform 0.2s; flex-shrink:0; }
+  .diag-arrow.open { transform: rotate(180deg); }
+
+  /* CAUSE LIST */
+  .cause-list { list-style:none; margin: 10px 0 14px; }
+  .cause-list li { display:flex; gap:10px; align-items:flex-start; padding:6px 0; border-bottom:1px solid var(--rule); font-size:13px; }
+  .cause-list li:last-child { border-bottom:none; }
+  .cause-num {
+    font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600;
+    color:#fff; background:var(--steelmd); min-width:20px; height:20px;
+    border-radius:2px; display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; margin-top:1px;
+  }
+  .cause-text { flex:1; }
+  .cause-label { font-weight:500; color:var(--ink); }
+  .cause-note { color:var(--steelmd); font-size:12px; display:block; margin-top:2px; }
+
+  /* CHECK STEPS */
+  .check-steps { margin: 10px 0; }
+  .check-step { display:flex; gap:10px; align-items:flex-start; margin-bottom:8px; font-size:13px; }
+  .step-num {
+    font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600;
+    color:#fff; background:var(--amber); min-width:22px; height:22px;
+    border-radius:2px; display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; margin-top:1px;
+  }
+
+  /* ALERT BOXES */
+  .warn-box { background:#fde8e8; border-left:3px solid var(--red-warn); padding:9px 12px; font-size:12.5px; color:#7a1010; margin:10px 0; }
+  .note-box { background:#fef9e7; border-left:3px solid var(--amber); padding:9px 12px; font-size:12.5px; color:#5a3800; margin:10px 0; }
+  .ok-box   { background:#e8f5e9; border-left:3px solid var(--green-ok); padding:9px 12px; font-size:12.5px; color:#0d4a28; margin:10px 0; }
+
+  /* CROSS-REF BAR */
+  .xref-bar {
+    background:var(--steeldk); border:1px solid rgba(255,255,255,0.08);
+    padding:9px 14px; display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:12px; font-size:12px;
+  }
+  .xref-label { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:0.08em; color:var(--steelmd); text-transform:uppercase; white-space:nowrap; }
+  .xref-pill { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; color:var(--amber2); background:rgba(224,120,0,0.12); border:1px solid rgba(224,120,0,0.3); padding:2px 8px; border-radius:2px; white-space:nowrap; }
+
+  /* SMOKE GRID */
+  .smoke-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:8px; margin:10px 0; }
+  .smoke-card { border:1px solid var(--border); border-radius:2px; overflow:hidden; }
+  .smoke-header { padding:9px 14px; font-family:'Oswald',sans-serif; font-weight:500; font-size:14px; color:#fff; }
+  .smoke-body { padding:10px 14px; font-size:12.5px; background:#fff; color:var(--ink); }
+  .smoke-black { background:#1a1a1a; }
+  .smoke-white { background:#6a7080; }
+  .smoke-blue  { background:#1e5799; }
+  .smoke-grey  { background:#4a5568; }
+
+  /* INFO CARDS */
+  .info-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:10px; margin:10px 0; }
+  .info-card { border:1px solid var(--border); background:#fff; border-radius:2px; }
+  .info-title { font-family:'Oswald',sans-serif; font-weight:500; font-size:13px; background:var(--paper2); padding:8px 12px; border-bottom:1px solid var(--rule); color:var(--ink); }
+  .info-body { padding:10px 12px; font-size:12.5px; }
+  .info-row { display:flex; justify-content:space-between; gap:8px; padding:4px 0; border-bottom:1px solid var(--rule); align-items:baseline; }
+  .info-row:last-child { border-bottom:none; }
+  .info-key { color:var(--steelmd); font-size:12px; }
+  .info-val { font-family:'IBM Plex Mono',monospace; font-size:11px; color:var(--ink); font-weight:600; }
+  .val-ok   { color:var(--green-ok); }
+  .val-warn { color:var(--orange); }
+  .val-stop { color:var(--red-warn); }
+
+  /* EGT BAND VISUAL */
+  .egt-band-wrap { margin: 14px 0; }
+  .egt-band { display:flex; border-radius:2px; overflow:hidden; height:28px; }
+  .egt-seg { display:flex; align-items:center; justify-content:center; font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:0.06em; color:#fff; }
+  .egt-seg-labels { display:flex; margin-top:4px; }
+  .egt-seg-label { font-family:'IBM Plex Mono',monospace; font-size:8px; color:var(--steelmd); text-align:center; }
+
+  /* ALTITUDE TABLE */
+  .specs-table { width:100%; border-collapse:collapse; font-size:13px; margin:14px 0; table-layout:fixed; }
+  .specs-table th { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; background:var(--steeldk); color:#b0bcc8; padding:7px 12px; text-align:left; border:1px solid rgba(255,255,255,0.07); }
+  .specs-table td { padding:7px 12px; border:1px solid var(--rule); vertical-align:top; }
+  .specs-table tr:nth-child(even) td { background:var(--paper2); }
+  .specs-table tr:nth-child(odd) td  { background:#fff; }
+
+  /* PROTOCOL STEPS (cool-down) */
+  .protocol-list { list-style:none; margin:12px 0; counter-reset:proto; }
+  .protocol-list li { counter-increment:proto; display:flex; gap:12px; align-items:flex-start; padding:8px 0; border-bottom:1px solid var(--rule); font-size:13px; }
+  .protocol-list li:last-child { border-bottom:none; }
+  .proto-num {
+    font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600;
+    color:#fff; background:var(--steeldk); min-width:26px; height:26px;
+    border-radius:2px; display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+  .proto-text { flex:1; }
+  .proto-label { font-weight:500; color:var(--ink); display:block; margin-bottom:2px; }
+  .proto-note { color:var(--steelmd); font-size:12px; }
+
+  /* SECTION ANCHOR OFFSET */
+  .sa { scroll-margin-top: 90px; }
+
+  /* PRINT */
+  @media print {
+    @page { margin: 7mm; size: A4; }
+
+    /* Force browser to print background colours and images */
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
+
+    body { font-size: 7pt; background: #fff; line-height: 1.4; }
+    .sticky-wrap { position: static; }
+    .toc-bar { display: none; }
+
+    /* Masthead — restore dark background + amber title */
+    .masthead { padding: 4mm 8mm; break-after: avoid; background: #1C1410 !important; color: #fff !important; }
+    .mh-eyebrow { font-size: 5pt; color: #6a7080 !important; }
+    .mh-title { font-size: 16pt; color: #e07800 !important; }
+    .mh-sub { font-size: 5pt; color: rgba(255,200,100,.65) !important; }
+    .mh-vehicle { font-size: 4.5pt; color: #6a7080 !important; }
+
+    .main { padding: 8px 0 0; }
+
+    /* Section heads — amber underline */
+    .section-head { font-size: 11pt; margin-top: 10px; margin-bottom: 6px; padding-bottom: 3px; page-break-after: avoid; border-bottom: 2px solid #e07800 !important; color: #1C1410 !important; }
+    .section-intro { margin-bottom: 6px; font-size: 6.5pt; }
+
+    /* Diag group title — dark bar with amber text */
+    .diag-group { margin-bottom: 6px; }
+    .diag-group-title { font-size: 8pt; padding: 4px 8px; page-break-after: avoid; background: #2a2f3a !important; color: #e07800 !important; }
+    .diag-body { display: block !important; padding: 6px 8px; }
+    .diag-header { padding: 5px 8px; cursor: default; background: #EDE5D0 !important; }
+    .diag-arrow { display: none; }
+
+    /* Badges */
+    .diag-badge { font-size: 6pt; padding: 1px 4px; }
+    .badge-stop    { background: #fde8e8 !important; color: #B91C1C !important; border: 1px solid #f8b0b0 !important; }
+    .badge-caution { background: #fef3cd !important; color: #7c4a00 !important; border: 1px solid #f5d072 !important; }
+    .badge-monitor { background: #e8f5e9 !important; color: #1a6b3a !important; border: 1px solid #88c899 !important; }
+
+    .diag-symptom { font-size: 7.5pt; }
+    .diag-card { break-inside: avoid; }
+
+    /* Cause list */
+    .cause-list { margin: 4px 0 6px; }
+    .cause-list li { padding: 3px 0; font-size: 7pt; }
+    .cause-num { min-width: 16px; height: 16px; font-size: 8pt; background: #6a7080 !important; color: #fff !important; }
+    .cause-label { font-size: 7pt; }
+    .cause-note { font-size: 6.5pt; }
+
+    /* Step numbers */
+    .check-step { margin-bottom: 4px; font-size: 7pt; }
+    .step-num { min-width: 18px; height: 18px; font-size: 8pt; background: #b86800 !important; color: #fff !important; }
+
+    /* Alert boxes */
+    .warn-box { padding: 4px 8px; font-size: 6.5pt; margin: 4px 0; background: #fde8e8 !important; border-left: 3px solid #B91C1C !important; color: #7a1010 !important; }
+    .note-box { padding: 4px 8px; font-size: 6.5pt; margin: 4px 0; background: #fef9e7 !important; border-left: 3px solid #b86800 !important; color: #5a3800 !important; }
+    .ok-box   { padding: 4px 8px; font-size: 6.5pt; margin: 4px 0; background: #e8f5e9 !important; border-left: 3px solid #059669 !important; color: #0d4a28 !important; }
+
+    /* Xref bar */
+    .xref-bar { padding: 4px 8px; margin-top: 4px; background: #2a2f3a !important; border: 1px solid rgba(255,255,255,0.08) !important; }
+    .xref-label { font-size: 6pt; color: #6a7080 !important; }
+    .xref-pill  { font-size: 6pt; color: #e07800 !important; background: rgba(224,120,0,0.15) !important; border: 1px solid rgba(224,120,0,0.4) !important; }
+
+    /* Smoke cards */
+    .smoke-grid { grid-template-columns: repeat(4, 1fr); gap: 4px; margin: 6px 0; }
+    .smoke-card { break-inside: avoid; }
+    .smoke-header { padding: 4px 8px; font-size: 8pt; color: #fff !important; }
+    .smoke-black { background: #1a1a1a !important; }
+    .smoke-white { background: #6a7080 !important; }
+    .smoke-blue  { background: #1e5799 !important; }
+    .smoke-grey  { background: #4a5568 !important; }
+    .smoke-body { padding: 4px 8px; font-size: 6.5pt; background: #fff !important; }
+
+    /* Info cards */
+    .info-grid { grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 6px 0; }
+    .info-card { break-inside: avoid; }
+    .info-title { padding: 4px 8px; font-size: 7pt; background: #EDE5D0 !important; }
+    .info-body { padding: 4px 8px; }
+    .info-row { padding: 2px 0; }
+    .info-key, .info-val { font-size: 6.5pt; }
+    .val-ok   { color: #059669 !important; }
+    .val-warn { color: #c05a00 !important; }
+    .val-stop { color: #B91C1C !important; }
+
+    /* Tables */
+    .specs-table { font-size: 6.5pt; margin: 6px 0; }
+    .specs-table th { padding: 3px 6px; background: #2a2f3a !important; color: #b0bcc8 !important; }
+    .specs-table td { padding: 3px 6px; }
+    .specs-table tr:nth-child(even) td { background: #EDE5D0 !important; }
+    .specs-table tr:nth-child(odd)  td { background: #fff !important; }
+
+    .matrix-table { font-size: 6.5pt; margin-bottom: 8px; break-inside: auto; }
+    .matrix-table thead { display: table-header-group; }
+    .matrix-table th { padding: 3px 6px; background: #2a2f3a !important; color: #b0bcc8 !important; }
+    .matrix-table td { padding: 3px 6px; }
+    .matrix-table tr:nth-child(even) td { background: #EDE5D0 !important; }
+    .matrix-table tr:nth-child(odd)  td { background: #faf6ee !important; }
+
+    /* Severity text colours */
+    .sev-ok   { color: #059669 !important; }
+    .sev-warn { color: #c05a00 !important; }
+    .sev-stop { color: #B91C1C !important; }
+
+    /* EGT band */
+    .egt-band-wrap { break-inside: avoid; }
+    .egt-band .egt-seg:nth-child(1) { background: #059669 !important; color: #fff !important; }
+    .egt-band .egt-seg:nth-child(2) { background: #c05a00 !important; color: #fff !important; }
+    .egt-band .egt-seg:nth-child(3) { background: #B91C1C !important; color: #fff !important; }
+
+    /* Protocol steps */
+    .protocol-list li { padding: 4px 0; font-size: 7pt; }
+    .proto-num { min-width: 20px; height: 20px; font-size: 8pt; background: #2a2f3a !important; color: #fff !important; }
+    .proto-label { font-size: 7pt; }
+    .proto-note { font-size: 6.5pt; }
+    a { color: inherit; text-decoration: none; }
+  }
+
+  /* MOBILE */
+  @media (max-width: 600px) {
+    .masthead { padding: 14px 16px 12px; }
+    .mh-title { font-size: 1.6rem; }
+    .matrix-table { font-size: 11px; }
+    .matrix-table th, .matrix-table td { padding: 6px 8px; }
+    .smoke-grid { grid-template-columns: 1fr 1fr; }
+    .info-grid { grid-template-columns: 1fr; }
+    .diag-header { grid-template-columns: 1fr; }
+    .diag-header > div:last-child { justify-content: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<div class="sticky-wrap">
+  <div class="masthead">
+    <a href="index.html" class="lib-home-btn" title="Library Index">⌂ Index</a>
+    <div class="mh-eyebrow">Overland Series · R21</div>
+    <div class="mh-title">Turbo Operations &amp; Driver Discipline</div>
+    <div class="mh-sub">EGT Ranges · Boost &amp; Load Discipline · Altitude Effects · Cool-Down Protocol · Smoke Signals · Intercooler Checks</div>
+    <div class="mh-vehicle">2009 LC76 SW · 1HZ 4.2L Diesel · SAC Low-Boost Turbo + Intercooler · GVM 2,850 kg · Last Updated: April 2026</div>
+  </div>
+  <nav class="toc-bar">
+    <button class="toc-btn" data-target="s-egt">EGT Ranges</button>
+    <button class="toc-btn" data-target="s-boost">Boost &amp; Load</button>
+    <button class="toc-btn" data-target="s-altitude">Altitude</button>
+    <button class="toc-btn" data-target="s-cooldown">Cool-Down</button>
+    <button class="toc-btn" data-target="s-smoke">Smoke Signals</button>
+    <button class="toc-btn" data-target="s-intercooler">Intercooler</button>
+  </nav>
+</div>
+
+<div class="main">
+
+  <!-- ══ S1: EGT RANGES ══ -->
+  <div id="s-egt" class="sa">
+    <div class="section-head">1 — Normal EGT Operating Ranges</div>
+    <p class="section-intro">Exhaust gas temperature (EGT) is the single most important real-time health indicator for the turbocharged 1HZ. Your Madman pyrometer sensor is post-turbo (after the turbine, on the exhaust side). Add approximately 150°C to any post-turbo reading to estimate the true pre-turbo manifold temperature. Aluminium pistons melt at approximately 650°C pre-turbo — this is your hard ceiling.</p>
+
+    <div class="note-box">
+      <strong>Sensor position note:</strong> All threshold values below are expressed as <strong>post-turbo readings</strong> from the Madman pyrometer. Pre-turbo temperatures are approximately 150°C higher. Your alarm is set at 600°C post-turbo — this is correct. If you later relocate the sensor pre-turbo, alarm must be reset to 450°C.
+    </div>
+
+    <!-- EGT band visual -->
+    <div class="egt-band-wrap">
+      <div class="egt-band">
+        <div class="egt-seg" style="flex:3; background:#059669;">NORMAL</div>
+        <div class="egt-seg" style="flex:2; background:#c05a00;">WARNING</div>
+        <div class="egt-seg" style="flex:1.5; background:#B91C1C;">STOP NOW</div>
+      </div>
+      <div class="egt-seg-labels" style="gap:0;">
+        <div class="egt-seg-label" style="flex:3;">≤ 450°C post-turbo</div>
+        <div class="egt-seg-label" style="flex:2;">450–550°C post-turbo</div>
+        <div class="egt-seg-label" style="flex:1.5;">≥ 600°C post-turbo</div>
+      </div>
+    </div>
+
+    <!-- EGT matrix table -->
+    <div class="matrix-scroll">
+      <table class="matrix-table">
+        <thead>
+          <tr>
+            <th style="width:18%;">Condition</th>
+            <th style="width:18%;">Normal (post-turbo)</th>
+            <th style="width:18%;">Warning — Act</th>
+            <th style="width:22%;">Stop Now</th>
+            <th style="width:24%;">Driver Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Idle / warm-up</strong></td>
+            <td><span class="sev-ok mono">100–200°C</span></td>
+            <td><span class="sev-warn mono">&gt;280°C</span><br><span style="font-size:11px;color:var(--steelmd);">Check air filter</span></td>
+            <td><span class="sev-stop mono">&gt;350°C at idle</span><br><span style="font-size:11px;color:var(--steelmd);">Blocked intake or injector fault</span></td>
+            <td>Allow 3–5 min warm-up from cold before loading. High idle EGT at rest signals blocked air filter or runaway fuelling — investigate before driving.</td>
+          </tr>
+          <tr>
+            <td><strong>Highway cruise</strong><br><span style="font-size:11px;color:var(--steelmd);">80–100 km/h, flat, unladen</span></td>
+            <td><span class="sev-ok mono">250–370°C</span></td>
+            <td><span class="sev-warn mono">370–450°C</span><br><span style="font-size:11px;color:var(--steelmd);">Upshift or back off</span></td>
+            <td><span class="sev-stop mono">≥ 550°C</span></td>
+            <td>Maintain 5th gear at 90 km/h. Over-driving a 4.2L naturally-aspirated engine at 110 km/h sustained keeps EGT elevated. Drop to 90–95 on undulating or warm terrain.</td>
+          </tr>
+          <tr>
+            <td><strong>Loaded cruise</strong><br><span style="font-size:11px;color:var(--steelmd);">Near GVM, flat to rolling</span></td>
+            <td><span class="sev-ok mono">300–420°C</span></td>
+            <td><span class="sev-warn mono">420–500°C</span><br><span style="font-size:11px;color:var(--steelmd);">Ease throttle, upshift if possible</span></td>
+            <td><span class="sev-stop mono">≥ 580°C</span></td>
+            <td>Loaded vehicle near GVM (2,850 kg) will sit 50–80°C hotter than unladen at same speed. Allow more time for EGT to stabilise after hills before resuming cruise speed.</td>
+          </tr>
+          <tr>
+            <td><strong>Climbing — high range</strong><br><span style="font-size:11px;color:var(--steelmd);">4th or 5th, sustained gradient</span></td>
+            <td><span class="sev-ok mono">380–480°C</span></td>
+            <td><span class="sev-warn mono">480–540°C</span><br><span style="font-size:11px;color:var(--steelmd);">Downshift, reduce speed</span></td>
+            <td><span class="sev-stop mono">≥ 600°C</span></td>
+            <td>Watch EGT trend, not snapshot. If climbing and EGT is still rising at 500°C+, downshift before it climbs further. Never hold a gear to maintain speed at the cost of sustained high EGT.</td>
+          </tr>
+          <tr>
+            <td><strong>Climbing — low range</strong><br><span style="font-size:11px;color:var(--steelmd);">Steep technical terrain</span></td>
+            <td><span class="sev-ok mono">350–450°C</span></td>
+            <td><span class="sev-warn mono">450–520°C</span><br><span style="font-size:11px;color:var(--steelmd);">Pause, idle cool, continue</span></td>
+            <td><span class="sev-stop mono">≥ 580°C</span></td>
+            <td>Low range at low speed means less airflow through the intercooler — boost cooling is reduced. Short sections are fine; sustained low-range climbing (30+ min) on steep terrain requires EGT monitoring. Pause on flat sections to cool.</td>
+          </tr>
+          <tr>
+            <td><strong>Post-climb cooldown</strong><br><span style="font-size:11px;color:var(--steelmd);">Top of pass, cresting a hill</span></td>
+            <td><span class="sev-ok mono">Falling to &lt;350°C within 2–3 min</span></td>
+            <td><span class="sev-warn mono">Still &gt;450°C after 5 min gentle driving</span></td>
+            <td>—</td>
+            <td>After a long climb, allow 5–10 min of level driving before stopping engine. If parking immediately, idle for 3 min minimum before shutdown — this is critical for the turbo bearing (see Section 4).</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="xref-bar">
+      <span class="xref-label">Related:</span>
+      <span class="xref-pill">R4 · 1HZ Engine Training — EGT theory</span>
+      <span class="xref-pill">R18 · 1HZ Troubleshooting — High EGT fault diagnosis</span>
+    </div>
+  </div>
+
+  <!-- ══ S2: BOOST & LOAD DISCIPLINE ══ -->
+  <div id="s-boost" class="sa">
+    <div class="section-head">2 — Boost &amp; Load Discipline</div>
+    <p class="section-intro">The 1HZ is a robust but unforgiving engine under sustained abuse. Your SAC low-boost setup (7–10 psi) is deliberately conservative — it extends engine life significantly compared to high-boost conversions. Driver technique is what protects the turbo, the pistons, and the injection pump.</p>
+
+    <div class="diag-group">
+      <div class="diag-group-title">Gear Selection &amp; Lugging</div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div>
+            <div class="diag-symptom">Why lugging destroys a turbo diesel</div>
+            <div style="font-size:11px;color:var(--steelmd);margin-top:2px;">The single most common driver error on the 1HZ</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="diag-badge badge-stop">CRITICAL</span>
+            <span class="diag-arrow">▼</span>
+          </div>
+        </div>
+        <div class="diag-body">
+          <p style="font-size:13px;margin-bottom:10px;">Lugging means holding a high gear at low rpm under heavy load — the engine is working hard but spinning slowly. This is the most damaging operating mode for a turbocharged diesel.</p>
+          <ul class="cause-list">
+            <li>
+              <span class="cause-num">1</span>
+              <span class="cause-text">
+                <span class="cause-label">Low rpm = low oil pressure</span>
+                <span class="cause-note">The turbo bearing is oil-pressure-fed from the engine circuit. At low rpm under high combustion load, oil pressure is reduced exactly when the bearing needs it most. This is how turbo bearings fail.</span>
+              </span>
+            </li>
+            <li>
+              <span class="cause-num">2</span>
+              <span class="cause-text">
+                <span class="cause-label">Low rpm = less boost = less air = high EGT</span>
+                <span class="cause-note">The turbo needs exhaust gas velocity to spin up and produce boost. At low rpm that velocity is insufficient — the boost compensator limits fuel delivery, but combustion temperatures still spike. The engine is working hard on thin air.</span>
+              </span>
+            </li>
+            <li>
+              <span class="cause-num">3</span>
+              <span class="cause-text">
+                <span class="cause-label">Excessive combustion pressure stresses the head and pistons</span>
+                <span class="cause-note">The 1HZ has no oil-cooled pistons. Sustained high combustion load at low rpm — where cooling from piston crown movement is also reduced — accelerates piston and head gasket wear.</span>
+              </span>
+            </li>
+          </ul>
+          <div class="ok-box">
+            <strong>Rule of thumb:</strong> If the engine is straining and rpm is below 1,600 in a high gear on a hill — downshift. The 1HZ pulls hardest between 1,800–2,600 rpm. Keep it in that band under load.
+          </div>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div>
+            <div class="diag-symptom">Correct gear selection under load</div>
+            <div style="font-size:11px;color:var(--steelmd);margin-top:2px;">Hierarchy of choices when EGT or rpm is marginal</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="diag-badge badge-caution">TECHNIQUE</span>
+            <span class="diag-arrow">▼</span>
+          </div>
+        </div>
+        <div class="diag-body">
+          <div class="check-steps">
+            <div class="check-step">
+              <span class="step-num">1</span>
+              <span>Watch the EGT trend. A rising gauge under load is your warning — act before it reaches the warning band, not after.</span>
+            </div>
+            <div class="check-step">
+              <span class="step-num">2</span>
+              <span>If rpm drops below 1,600 under load and EGT is climbing — <strong>downshift immediately</strong>. Don't wait for the engine to bog.</span>
+            </div>
+            <div class="check-step">
+              <span class="step-num">3</span>
+              <span>If EGT is in the warning band (450–540°C post-turbo) and climbing — reduce throttle first, downshift second, reduce speed third.</span>
+            </div>
+            <div class="check-step">
+              <span class="step-num">4</span>
+              <span>On sustained climbs in high range, use 3rd or 4th to keep rpm above 2,000. Speed may drop to 60–70 km/h — that is correct technique, not a problem to overcome.</span>
+            </div>
+            <div class="check-step">
+              <span class="step-num">5</span>
+              <span>In low range on steep technical terrain, 2nd low is your workhorse. 1st low is for extreme slow-speed obstacles only — not for sustained power climbing.</span>
+            </div>
+          </div>
+          <div class="note-box">
+            <strong>R151F 5-speed:</strong> This gearbox has wide gear spacing. 4th to 3rd is a large rpm jump — use it decisively. Hesitating between gears under load makes the situation worse.
+          </div>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div>
+            <div class="diag-symptom">SAC boost compensator — how it governs fuelling</div>
+            <div style="font-size:11px;color:var(--steelmd);margin-top:2px;">Understanding why the engine feels flat below boost threshold</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="diag-badge badge-monitor">UNDERSTAND</span>
+            <span class="diag-arrow">▼</span>
+          </div>
+        </div>
+        <div class="diag-body">
+          <p style="font-size:13px;margin-bottom:10px;">The boost compensator is a small diaphragm-and-spring canister on top of the injection pump governor. A pipe connects it to the intake manifold post-intercooler. Its job is to match fuel delivery to actual available air.</p>
+          <ul class="cause-list">
+            <li>
+              <span class="cause-num">◆</span>
+              <span class="cause-text">
+                <span class="cause-label">Below boost threshold (idle, light load, low rpm)</span>
+                <span class="cause-note">The spring holds the diaphragm up. The push rod limits fuel delivery. The engine runs lean-ish — this is deliberate. Forcing more throttle below boost threshold produces black smoke and heat, not power.</span>
+              </span>
+            </li>
+            <li>
+              <span class="cause-num">◆</span>
+              <span class="cause-text">
+                <span class="cause-label">Above boost threshold (load, 1,800+ rpm, turbo spooled)</span>
+                <span class="cause-note">Boost pressure pushes the diaphragm down, freeing the push rod. Fuel delivery rises proportionally with available air. Power and torque respond. This is the engine's natural operating band.</span>
+              </span>
+            </li>
+            <li>
+              <span class="cause-num">◆</span>
+              <span class="cause-text">
+                <span class="cause-label">Failed compensator diaphragm</span>
+                <span class="cause-note">Engine feels flat under load as if the turbo isn't contributing. Fuel delivery cannot increase with boost even though boost is present. Carry a spare diaphragm kit — it is small and cheap.</span>
+              </span>
+            </li>
+          </ul>
+          <div class="ok-box">
+            <strong>Driver tip:</strong> The noticeable power step when the turbo comes on boost (around 1,800 rpm under load) is normal. Plan your gear selection to already be in the right gear <em>before</em> a steep section, so the turbo is already spooling when you need it.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="xref-bar">
+      <span class="xref-label">Related:</span>
+      <span class="xref-pill">R4 · 1HZ Engine Training — Boost compensator detail</span>
+      <span class="xref-pill">R18 · 1HZ Troubleshooting — Power loss diagnosis</span>
+    </div>
+  </div>
+
+  <!-- ══ S3: ALTITUDE EFFECTS ══ -->
+  <div id="s-altitude" class="sa">
+    <div class="section-head">3 — Altitude Effects</div>
+    <p class="section-intro">The expedition route crosses significant altitude variation — from coastal Southern Africa to the East African highlands and Lesotho/Ethiopian plateau. Altitude affects EGT, power output, and turbo behaviour in ways that require driver adjustment. This section is the planning reference for high-altitude legs.</p>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <div class="info-title">Why altitude raises EGT</div>
+        <div class="info-body" style="font-size:12.5px;">
+          <p>Air density drops with altitude. Thinner air means less oxygen per intake stroke. The turbo is a centrifugal compressor — it maintains pressure ratio, not absolute mass flow. At altitude it delivers the same pressure but less air mass. The result: combustion temperatures rise for the same throttle position. EGT climbs even if your driving style is unchanged.</p>
+          <p style="margin-top:8px;">The intercooler partially offsets this by cooling compressed air (which is denser), but cannot fully compensate for lower ambient air mass. Net effect: expect EGT to run 20–50°C hotter than sea-level equivalent driving for the same speed and load.</p>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="info-title">Power reduction at altitude</div>
+        <div class="info-body" style="font-size:12.5px;">
+          <p>Expect a noticeable power reduction above 1,500 m. As a rough guide:</p>
+          <div class="info-row"><span class="info-key">Sea level (Cape Town, Durban)</span><span class="info-val val-ok">Full power — 118 kW</span></div>
+          <div class="info-row"><span class="info-key">1,500 m (Johannesburg, Nairobi approaches)</span><span class="info-val val-warn">~5–8% reduction</span></div>
+          <div class="info-row"><span class="info-key">2,000 m (Addis Ababa, Lesotho central)</span><span class="info-val val-warn">~10–14% reduction</span></div>
+          <div class="info-row"><span class="info-key">2,400 m (Ethiopian plateau, Sani Pass top)</span><span class="info-val val-stop">~16–20% reduction</span></div>
+          <p style="margin-top:8px;font-size:11.5px;color:var(--steelmd);">The turbocharged 1HZ handles altitude better than a naturally-aspirated engine but is not immune. GVM-loaded, you will notice the difference above 2,000 m.</p>
+        </div>
+      </div>
+    </div>
+
+    <table class="specs-table">
+      <thead>
+        <tr>
+          <th style="width:26%;">Location / Region</th>
+          <th style="width:16%;">Approx. Altitude</th>
+          <th style="width:20%;">Expected EGT Rise vs. Sea Level</th>
+          <th style="width:38%;">Driver Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Cape Town, Durban, Maputo</td>
+          <td><span class="mono">0–200 m</span></td>
+          <td><span class="sev-ok">Baseline</span></td>
+          <td>Full performance. EGT reference values in Section 1 are calibrated here.</td>
+        </tr>
+        <tr>
+          <td>Johannesburg / Highveld plateau</td>
+          <td><span class="mono">1,500–1,800 m</span></td>
+          <td><span class="sev-warn">+20–30°C</span></td>
+          <td>Already at altitude for much of the Highveld. EGT warning thresholds apply with less margin — watch on long highway climbs.</td>
+        </tr>
+        <tr>
+          <td>Lesotho highlands / Drakensberg passes</td>
+          <td><span class="mono">2,000–3,400 m</span></td>
+          <td><span class="sev-warn">+30–50°C</span></td>
+          <td>Sani Pass summit is 2,875 m. Heavily loaded — downshift early and often. Allow longer EGT cool-down times at top. Watch for slower turbo spool-up.</td>
+        </tr>
+        <tr>
+          <td>Nairobi / Kenyan highlands</td>
+          <td><span class="mono">1,500–2,100 m</span></td>
+          <td><span class="sev-warn">+20–35°C</span></td>
+          <td>Nairobi sits at 1,795 m. City driving with load in warm conditions will see EGT approach warning band more quickly. Allow cooling time in traffic.</td>
+        </tr>
+        <tr>
+          <td>Ethiopian plateau (Addis Ababa / Simien Mts)</td>
+          <td><span class="mono">2,000–3,000 m</span></td>
+          <td><span class="sev-stop">+40–60°C</span></td>
+          <td>Most demanding altitude on the planned route. Loaded EGT on climbs can reach warning band quickly. Reduce cruise speed by 10–15 km/h as a preventative measure. Ensure coolant is fresh and viscous fan is functioning.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="warn-box">
+      <strong>Combined altitude + heat:</strong> The East African highlands are often both high and hot. Elevated ambient temperature reduces intercooler efficiency (less temperature differential to reject heat into). The combination of 2,000 m altitude and 30°C ambient is more stressful than either factor alone. Reduce cruise speed, increase EGT vigilance, and allow longer cool-down periods before shutdown.
+    </div>
+
+    <div class="ok-box">
+      <strong>Altitude adaptation tip:</strong> When arriving at high altitude after driving from lower elevation, allow 10–15 min of easy driving before any demanding section. The engine will find its equilibrium; don't make large throttle demands immediately on arrival.
+    </div>
+
+    <div class="xref-bar">
+      <span class="xref-label">Related:</span>
+      <span class="xref-pill">R4 · 1HZ Engine Training — Turbocharger theory</span>
+      <span class="xref-pill">Section 1 — EGT thresholds (post-turbo readings)</span>
+    </div>
+  </div>
+
+  <!-- ══ S4: COOL-DOWN PROTOCOL ══ -->
+  <div id="s-cooldown" class="sa">
+    <div class="section-head">4 — Cool-Down Protocol</div>
+    <p class="section-intro">Turbo bearing coking — carbon deposits baked into the bearing housing from hot residual oil after immediate shutdown — is the leading preventable cause of turbo failure. The fix costs nothing: idle time before switch-off. This section defines when and how long.</p>
+
+    <div class="diag-group">
+      <div class="diag-group-title">Why the Bearing Needs Idle Time</div>
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div>
+            <div class="diag-symptom">The coking failure mechanism</div>
+            <div style="font-size:11px;color:var(--steelmd);margin-top:2px;">What happens when you shut down immediately after hard work</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="diag-badge badge-stop">CRITICAL</span>
+            <span class="diag-arrow">▼</span>
+          </div>
+        </div>
+        <div class="diag-body">
+          <ul class="cause-list">
+            <li>
+              <span class="cause-num">1</span>
+              <span class="cause-text">
+                <span class="cause-label">Under load, the turbo shaft spins at up to 100,000 rpm</span>
+                <span class="cause-note">The bearing is lubricated by pressurised engine oil. At operating temperature, the housing and turbine are at 400–600°C. Oil is continuously circulating, carrying heat away.</span>
+              </span>
+            </li>
+            <li>
+              <span class="cause-num">2</span>
+              <span class="cause-text">
+                <span class="cause-label">At shutdown, oil circulation stops instantly</span>
+                <span class="cause-note">The turbine is still spinning (coasting down) in a 400–600°C housing with no oil flow. The residual oil in the bearing housing is now stationary in a very hot environment.</span>
+              </span>
+            </li>
+            <li>
+              <span class="cause-num">3</span>
+              <span class="cause-text">
+                <span class="cause-label">Residual oil bakes to carbon deposits</span>
+                <span class="cause-note">These deposits build up over repeated immediate shutdowns. Carbon in the bearing clearances causes shaft wear, vibration, and eventually catastrophic bearing failure. This process is called coking and it is cumulative and irreversible.</span>
+              </span>
+            </li>
+          </ul>
+          <div class="warn-box">
+            <strong>Your turbo history:</strong> SAC low-boost turbo was reconditioned August 2023 at 224,406 km. It now has approximately 80,600 km on the reconditioned unit. Protect this investment — turbo reconditioning costs R8,000–R15,000 and is now overdue for inspection as part of the Snyman 4×4 assessment (May 2026).
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="diag-group">
+      <div class="diag-group-title">Idle-Before-Shutdown Protocol</div>
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div>
+            <div class="diag-symptom">Minimum idle times by workload</div>
+            <div style="font-size:11px;color:var(--steelmd);margin-top:2px;">Applied every time the engine is switched off after more than light use</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="diag-badge badge-stop">ALWAYS DO THIS</span>
+            <span class="diag-arrow">▼</span>
+          </div>
+        </div>
+        <div class="diag-body">
+          <table class="specs-table">
+            <thead>
+              <tr>
+                <th style="width:30%;">Prior workload</th>
+                <th style="width:20%;">Minimum idle</th>
+                <th style="width:50%;">Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Short town run, light load, flat</td>
+                <td><span class="mono sev-ok">1–2 min</span></td>
+                <td>Low EGT — turbo housing not at full temperature. Still worth idling briefly.</td>
+              </tr>
+              <tr>
+                <td>Highway cruise, 60+ min</td>
+                <td><span class="mono sev-warn">2–3 min</span></td>
+                <td>Standard after any sustained highway run. Do not skip.</td>
+              </tr>
+              <tr>
+                <td>Loaded highway, rolling terrain</td>
+                <td><span class="mono sev-warn">3 min</span></td>
+                <td>Higher bearing temperatures under sustained load require longer cool-down.</td>
+              </tr>
+              <tr>
+                <td>Long climb, mountain pass</td>
+                <td><span class="mono sev-stop">3–5 min minimum</span></td>
+                <td>EGT may still be above 300°C after cresting. Idle until exhaust is cool to the back of the hand held near (not on) the outlet.</td>
+              </tr>
+              <tr>
+                <td>Sustained low range, steep terrain</td>
+                <td><span class="mono sev-stop">5 min minimum</span></td>
+                <td>Extended high-load, low-speed operation is hardest on the turbo bearing. Full 5 min idle is mandatory. Check for oil leaks around turbo after parking.</td>
+              </tr>
+              <tr>
+                <td>Any session where EGT reached warning band (450°C+)</td>
+                <td><span class="mono sev-stop">5 min</span></td>
+                <td>Regardless of what caused it. High EGT means high bearing temperature. Non-negotiable.</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="ok-box" style="margin-top:10px;">
+            <strong>Practical rule for camp:</strong> When you pull into camp after any driving of more than 10 minutes, idle for 3 minutes before switching off. Make it automatic. If you drove a difficult track or a long climb, stay at the wheel for 5 minutes with engine at idle before switching off. Use the time to write notes, check maps, or radio camp.
+          </div>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div>
+            <div class="diag-symptom">Emergency immediate shutdown — when it is unavoidable</div>
+            <div style="font-size:11px;color:var(--steelmd);margin-top:2px;">Fire, accident, or safety-critical stop</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="diag-badge badge-caution">EXCEPTION</span>
+            <span class="diag-arrow">▼</span>
+          </div>
+        </div>
+        <div class="diag-body">
+          <p style="font-size:13px;margin-bottom:10px;">Occasionally an immediate shutdown cannot be avoided — fire risk, accident, oil warning, runaway fuelling. When this happens:</p>
+          <div class="check-steps">
+            <div class="check-step">
+              <span class="step-num">1</span>
+              <span>Shut down — safety first, always. Accept the bearing risk.</span>
+            </div>
+            <div class="check-step">
+              <span class="step-num">2</span>
+              <span>Once safe to do so (not a fire situation), check the turbo oil feed line is not leaking and the drain line is clear.</span>
+            </div>
+            <div class="check-step">
+              <span class="step-num">3</span>
+              <span>On next start-up, idle for 5 minutes before driving. Check for unusual noise from the turbo — a new whine or grinding after an emergency shutdown is a warning sign.</span>
+            </div>
+            <div class="check-step">
+              <span class="step-num">4</span>
+              <span>Log the event in the fault log. Arrange turbo inspection at next service stop if any symptoms develop.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="xref-bar">
+      <span class="xref-label">Related:</span>
+      <span class="xref-pill">R10 · Emergency Procedures — Immediate shutdown procedure</span>
+      <span class="xref-pill">R4 · 1HZ Engine Training — Turbo bearing detail</span>
+    </div>
+  </div>
+
+  <!-- ══ S5: SMOKE SIGNALS ══ -->
+  <div id="s-smoke" class="sa">
+    <div class="section-head">5 — Smoke as Real-Time Feedback</div>
+    <p class="section-intro">Exhaust smoke colour is a direct tuning signal visible in the mirror while driving. Learning to read it gives you real-time information about combustion quality without gauges. This section covers smoke interpretation during normal driving. For smoke associated with fault conditions, see R18 — 1HZ Troubleshooting.</p>
+
+    <div class="note-box">
+      <strong>Scope of this section:</strong> Smoke you observe <em>while driving normally</em> — under load, at startup, during deceleration. Persistent smoke indicating a fault condition (e.g. blue smoke from a worn turbo seal, constant black from a stuck injector) is covered in R18 Section S-Smoke.
+    </div>
+
+    <div class="smoke-grid">
+      <div class="smoke-card">
+        <div class="smoke-header smoke-black">Black Smoke</div>
+        <div class="smoke-body">
+          <p><strong>What it means:</strong> Incomplete combustion — too much fuel relative to available air.</p>
+          <p style="margin-top:6px;"><strong>When it's normal:</strong></p>
+          <ul style="margin:4px 0 4px 14px;font-size:12px;">
+            <li>Brief puff on hard acceleration from low rpm — turbo catching up to fuelling demand</li>
+            <li>Transient puff on gear change under full throttle</li>
+          </ul>
+          <p style="margin-top:6px;"><strong>When it's a signal to act:</strong></p>
+          <ul style="margin:4px 0 4px 14px;font-size:12px;">
+            <li>Sustained black smoke at cruise — over-fuelling, injector issue, air restriction</li>
+            <li>Heavy black smoke on every acceleration — boost compensator failed or air filter blocked</li>
+          </ul>
+          <p style="margin-top:6px;font-size:11.5px;color:var(--steelmd);"><em>Driver action:</em> Brief puff — normal, continue. Sustained — back off throttle. If it persists, investigate before continuing.</p>
+        </div>
+      </div>
+
+      <div class="smoke-card">
+        <div class="smoke-header smoke-white">White / Grey Smoke</div>
+        <div class="smoke-body">
+          <p><strong>What it means:</strong> Unburned fuel vapour or water vapour in the exhaust.</p>
+          <p style="margin-top:6px;"><strong>When it's normal:</strong></p>
+          <ul style="margin:4px 0 4px 14px;font-size:12px;">
+            <li>White vapour on cold start in cool/cold weather — condensation in exhaust system, disappears within 2–3 min of warm-up</li>
+            <li>Light grey puff at startup in high humidity</li>
+          </ul>
+          <p style="margin-top:6px;"><strong>When it's a signal to investigate:</strong></p>
+          <ul style="margin:4px 0 4px 14px;font-size:12px;">
+            <li>White smoke persisting beyond warm-up (5+ min) — possible coolant entering combustion via head gasket</li>
+            <li>Sweet smell with white smoke — almost certainly coolant. Stop engine.</li>
+          </ul>
+          <p style="margin-top:6px;font-size:11.5px;color:var(--steelmd);"><em>Driver action:</em> Normal cold-start vapour — continue. Persistent white smoke with sweet smell — stop and investigate immediately. See R18.</p>
+        </div>
+      </div>
+
+      <div class="smoke-card">
+        <div class="smoke-header smoke-blue">Blue Smoke</div>
+        <div class="smoke-body">
+          <p><strong>What it means:</strong> Oil being burned in the combustion chamber.</p>
+          <p style="margin-top:6px;"><strong>When a small amount can be normal:</strong></p>
+          <ul style="margin:4px 0 4px 14px;font-size:12px;">
+            <li>Brief blue puff on first start after extended rest — oil drainback past valve seals overnight. Disappears in 30 seconds.</li>
+          </ul>
+          <p style="margin-top:6px;"><strong>When it signals a problem:</strong></p>
+          <ul style="margin:4px 0 4px 14px;font-size:12px;">
+            <li>Blue smoke under load or at constant cruise — turbo seal failure (oil entering intake via compressor housing)</li>
+            <li>Blue smoke on deceleration — valve stem seals worn</li>
+            <li>Blue smoke accompanied by oil film on intercooler hoses — turbo seal confirmed</li>
+          </ul>
+          <p style="margin-top:6px;font-size:11.5px;color:var(--steelmd);"><em>Driver action:</em> Morning puff — normal. Sustained blue under load — check oil level, inspect intercooler pipes for oil film. See R18 for turbo seal diagnosis.</p>
+        </div>
+      </div>
+
+      <div class="smoke-card">
+        <div class="smoke-header smoke-grey">Smoke Combinations</div>
+        <div class="smoke-body">
+          <p><strong>Black + high EGT:</strong> Air restriction or compensator failure. Insufficient air for fuel being delivered — combustion temperatures spike. Check air filter first.</p>
+          <p style="margin-top:8px;"><strong>White + coolant loss:</strong> Head gasket. Stop engine. Do not continue. Turbo will be at risk from coolant entering oil circuit.</p>
+          <p style="margin-top:8px;"><strong>Blue + oil consumption:</strong> Turbo seals. Monitor oil level daily. Can continue at low load with awareness, but plan a workshop stop. Heavy blue with rapid oil consumption — stop and arrange transport.</p>
+          <p style="margin-top:8px;"><strong>All three intermittently:</strong> Multiple issues or significant engine wear. Full inspection required before continuing expedition.</p>
+          <p style="margin-top:8px;font-size:11.5px;color:var(--steelmd);">When in doubt about smoke — pull over, idle for 3 minutes, and observe from behind. Smoke colour is easiest to read at idle against a light sky or neutral background.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="xref-bar">
+      <span class="xref-label">Fault diagnosis:</span>
+      <span class="xref-pill">R18 · 1HZ Troubleshooting — Smoke section (persistent / fault conditions)</span>
+      <span class="xref-label" style="margin-left:8px;">Related:</span>
+      <span class="xref-pill">R4 · 1HZ Engine Training — Combustion theory</span>
+    </div>
+  </div>
+
+  <!-- ══ S6: INTERCOOLER & BOOST SYSTEM ══ -->
+  <div id="s-intercooler" class="sa">
+    <div class="section-head">6 — Intercooler &amp; Boost System Checks</div>
+    <p class="section-intro">Your intercooler was installed July 2012 at 50,637 km and now has approximately 255,000 km on it. The boost system — intercooler, hoses, clamps, and boost compensator line — is a pressurised circuit. Any leak degrades intercooler efficiency, reduces power, and raises EGT. Check this circuit as part of every pre-departure inspection.</p>
+
+    <div class="note-box">
+      <strong>Intercooler age:</strong> At 255,000 km of service, the intercooler's internal fins can develop partial blockage from accumulated oil mist (normal with a turbo diesel), and the external fins can become blocked with dust and insect debris on African roads. Neither can be confirmed without inspection. Flag for Snyman 4×4 assessment (May 2026).
+    </div>
+
+    <div class="diag-group">
+      <div class="diag-group-title">Boost Leak Checks</div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div>
+            <div class="diag-symptom">Symptoms of a boost leak — what you feel and hear</div>
+            <div style="font-size:11px;color:var(--steelmd);margin-top:2px;">Earliest detection is by feel and sound, not instruments</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="diag-badge badge-caution">MONITOR</span>
+            <span class="diag-arrow">▼</span>
+          </div>
+        </div>
+        <div class="diag-body">
+          <ul class="cause-list">
+            <li>
+              <span class="cause-num">1</span>
+              <span class="cause-text">
+                <span class="cause-label">Hissing sound under boost</span>
+                <span class="cause-note">The clearest sign. A distinct hiss or whistle from the engine bay under hard acceleration or uphill — audible over engine noise through an open window. Pinpoint location with the engine under load (passenger listens with window down while driver loads the engine).</span>
+              </span>
+            </li>
+            <li>
+              <span class="cause-num">2</span>
+              <span class="cause-text">
+                <span class="cause-label">Power feels soft / boost doesn't build as expected</span>
+                <span class="cause-note">A leaking boost pipe means the pressure being built by the turbo is partially escaping before it reaches the engine. The compensator sees reduced pressure, limits fuelling, and power drops. Feels like the turbo isn't doing its job.</span>
+              </span>
+            </li>
+            <li>
+              <span class="cause-num">3</span>
+              <span class="cause-text">
+                <span class="cause-label">EGT higher than usual for same conditions</span>
+                <span class="cause-note">If EGT is consistently running 30–50°C higher than previous identical conditions (same road, same load, same ambient temperature) — a boost leak is reducing the air charge and causing the engine to run hotter for the same fuel delivery.</span>
+              </span>
+            </li>
+            <li>
+              <span class="cause-num">4</span>
+              <span class="cause-text">
+                <span class="cause-label">Increased black smoke on acceleration</span>
+                <span class="cause-note">Less air reaching the engine means the combustion mixture is richer — the compensator tries to compensate but cannot fully correct for lost boost pressure at the intake.</span>
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div>
+            <div class="diag-symptom">Boost system inspection — what to check and when</div>
+            <div style="font-size:11px;color:var(--steelmd);margin-top:2px;">Pre-departure routine and post-corrugated-road check</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="diag-badge badge-caution">ROUTINE</span>
+            <span class="diag-arrow">▼</span>
+          </div>
+        </div>
+        <div class="diag-body">
+          <div class="check-steps">
+            <div class="check-step">
+              <span class="step-num">1</span>
+              <span><strong>Turbo outlet hose to intercooler</strong> — squeeze the hose; it should feel firm and not spongy. Check both hose clamps are tight. Look for cracks at bends and where the hose meets the metal pipes — this is where age failure happens first.</span>
+            </div>
+            <div class="check-step">
+              <span class="step-num">2</span>
+              <span><strong>Intercooler to intake manifold hose</strong> — same squeeze test. On a front-mount intercooler, this hose runs from the intercooler outlet back to the intake. Check for oil weeping on the outside of the hose — this indicates a leaking turbo seal pushing oil through the boost circuit.</span>
+            </div>
+            <div class="check-step">
+              <span class="step-num">3</span>
+              <span><strong>Intercooler fins (external)</strong> — visual check. Mud, dust, and dead insects pack into the fins and reduce airflow. Flush with water or blow clear with compressed air when accessible. A clogged intercooler raises charge air temperature and defeats its purpose.</span>
+            </div>
+            <div class="check-step">
+              <span class="step-num">4</span>
+              <span><strong>Boost compensator pipe</strong> — a small-diameter rubber hose from the intake manifold (post-intercooler) to the injection pump compensator canister. Check it is seated at both ends and has no cracks. A split here means the compensator sees no pressure signal and cannot increase fuelling under boost.</span>
+            </div>
+            <div class="check-step">
+              <span class="step-num">5</span>
+              <span><strong>After corrugated roads</strong> — vibration can loosen hose clamps and work hoses off their unions. Run a hand along all boost pipes after any long corrugated section. Retighten clamps as needed.</span>
+            </div>
+          </div>
+          <div class="note-box" style="margin-top:10px;">
+            <strong>Intercooler boots (internal oil film):</strong> Disconnect a boost hose at the intercooler and look inside with a torch. A light oily film is normal (blowby and turbo vapour). Wet pooled oil indicates turbo seal failure — investigate before continuing heavy work.
+          </div>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div>
+            <div class="diag-symptom">Degraded intercooler — feel and performance signals</div>
+            <div style="font-size:11px;color:var(--steelmd);margin-top:2px;">Harder to detect without before/after comparison — know the signs</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <span class="diag-badge badge-monitor">MONITOR</span>
+            <span class="diag-arrow">▼</span>
+          </div>
+        </div>
+        <div class="diag-body">
+          <p style="font-size:13px;margin-bottom:10px;">An intercooler degrades gradually — blocked fins reduce airflow, internal oil buildup reduces heat exchange efficiency, and age can cause internal core failure. Signs:</p>
+          <ul class="cause-list">
+            <li>
+              <span class="cause-num">◆</span>
+              <span class="cause-text">
+                <span class="cause-label">Charge air feels hot (relative)</span>
+                <span class="cause-note">The intercooler outlet pipe should be noticeably cooler to the touch than the turbo outlet pipe after a run. If both are similarly hot, the intercooler is not rejecting heat effectively.</span>
+              </span>
+            </li>
+            <li>
+              <span class="cause-num">◆</span>
+              <span class="cause-text">
+                <span class="cause-label">EGT consistently higher than previous seasons</span>
+                <span class="cause-note">A baseline comparison over time is the most reliable indicator. If the same road at the same load now produces EGT 40–60°C higher than a year ago, intercooler degradation is a suspect alongside turbo wear and air filter condition.</span>
+              </span>
+            </li>
+            <li>
+              <span class="cause-num">◆</span>
+              <span class="cause-text">
+                <span class="cause-label">Internal core leak — boost pressure drops suddenly</span>
+                <span class="cause-note">A cracked intercooler core leaks internally — boost pressure drops dramatically and the engine feels severely down on power. This is rare but can happen with age and African road vibration. Usually accompanied by an audible hiss from the intercooler area.</span>
+              </span>
+            </li>
+          </ul>
+          <div class="ok-box">
+            <strong>Pre-expedition action:</strong> Have the intercooler inspected and pressure-tested as part of the Snyman 4×4 assessment (May 2026) given its age and mileage. At 255,000 km of service it has earned a professional inspection before a two-year expedition.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="xref-bar">
+      <span class="xref-label">Pre-departure checks:</span>
+      <span class="xref-pill">R2 · Departure Checklist — Boost system items</span>
+      <span class="xref-label" style="margin-left:8px;">Fault diagnosis:</span>
+      <span class="xref-pill">R18 · 1HZ Troubleshooting — Power loss &amp; boost fault</span>
+      <span class="xref-pill">R4 · 1HZ Engine Training — Intercooler detail</span>
+    </div>
+  </div>
+
+</div><!-- end .main -->
+
+<script>
+  function toggleDiag(header) {
+    const body = header.nextElementSibling;
+    const arrow = header.querySelector('.diag-arrow');
+    const isOpen = body.classList.contains('open');
+    body.classList.toggle('open', !isOpen);
+    arrow.classList.toggle('open', !isOpen);
+  }
+
+  const tocBtns = document.querySelectorAll('.toc-btn');
+  tocBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const el = document.getElementById(btn.dataset.target);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        tocBtns.forEach(b => b.classList.toggle('active', b.dataset.target === id));
+      }
+    });
+  }, { rootMargin: '-60px 0px -70% 0px', threshold: 0 });
+
+  document.querySelectorAll('.sa').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

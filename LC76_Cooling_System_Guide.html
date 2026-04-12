@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>R22 — 1HZ Cooling System Guide | HZJ76R-RKMRS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=Oswald:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:      #1C1410;
+    --paper:    #F5EDDA;
+    --paper2:   #EDE5D0;
+    --cream:    #F5EDDA;
+    --amber:    #b86800;
+    --amber2:   #e07800;
+    --rule:     #d4cfc4;
+    --steeldk:  #2a2f3a;
+    --steelmd:  #6a7080;
+    --red-warn: #B91C1C;
+    --green-ok: #059669;
+    --orange:   #c05a00;
+    --border:   #c8bfad;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  /* STICKY WRAP */
+  .sticky-wrap { position: sticky; top: 0; z-index: 100; background: var(--ink); padding-top: env(safe-area-inset-top); }
+
+  /* MASTHEAD */
+  .masthead { position: relative; background: var(--ink); color: #fff; padding: 18px 24px 14px; }
+
+  /* Library home pill */
+  .lib-home-btn { position:absolute; top:50%; right:16px; transform:translateY(-50%); display:inline-flex; align-items:center; gap:5px; font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; text-decoration:none; color:var(--amber2); background:rgba(232,120,0,.15); border:1px solid var(--amber2); border-radius:20px; padding:6px 12px; min-height:32px; white-space:nowrap; z-index:10; transition:background .2s; }
+  .lib-home-btn:hover, .lib-home-btn:active { background:rgba(232,120,0,.30); }
+  @media print { .lib-home-btn { display:none !important; } }
+
+  .mh-eyebrow  { font-family:'IBM Plex Mono',monospace; font-size:.5rem; letter-spacing:.28em; text-transform:uppercase; color:var(--steelmd); margin-bottom:6px; }
+  .mh-title    { font-family:'Bebas Neue',sans-serif; font-size:clamp(1.8rem,5vw,2.6rem); letter-spacing:.06em; color:var(--amber2); line-height:1; }
+  .mh-sub      { font-family:'IBM Plex Mono',monospace; font-size:.54rem; letter-spacing:.12em; color:rgba(255,200,100,.65); margin-top:5px; }
+  .mh-vehicle  { font-family:'IBM Plex Mono',monospace; font-size:.48rem; letter-spacing:.08em; color:var(--steelmd); margin-top:8px; }
+
+  /* TOC BAR */
+  .toc-bar {
+    background: var(--steeldk);
+    border-top: 3px solid var(--amber2);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    padding: 0 20px;
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .toc-bar::-webkit-scrollbar { display: none; }
+  .toc-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .52rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--steelmd);
+    background: none;
+    border: none;
+    padding: 10px 12px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color 0.15s;
+  }
+  .toc-btn:hover  { color: #c8bfad; }
+  .toc-btn.active { color: var(--amber2); }
+
+  /* MAIN */
+  .main { padding: 20px 5% 60px; }
+
+  /* SECTION HEADINGS */
+  .section-head {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: var(--ink);
+    letter-spacing: 0.04em;
+    border-bottom: 2px solid var(--amber2);
+    padding-bottom: 4px;
+    margin-bottom: 14px;
+    margin-top: 28px;
+  }
+  .section-head:first-child { margin-top: 0; }
+  .section-intro { font-size: 13px; color: var(--steelmd); margin-bottom: 14px; font-style: italic; }
+
+  /* SECTION ANCHOR OFFSET */
+  .sa { scroll-margin-top: 90px; }
+
+  /* SUBSECTION TITLE */
+  .sub-head {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 15px;
+    color: var(--amber2);
+    letter-spacing: 0.04em;
+    background: var(--steeldk);
+    padding: 8px 14px;
+    margin-bottom: 0;
+  }
+
+  /* COMPONENT GRID */
+  .comp-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:10px; margin:14px 0; }
+  .comp-card { border:1px solid var(--border); background:#fff; border-radius:2px; overflow:hidden; }
+  .comp-card-head { font-family:'Oswald',sans-serif; font-weight:500; font-size:13px; background:var(--paper2); padding:8px 12px; border-bottom:1px solid var(--rule); color:var(--ink); display:flex; align-items:center; justify-content:space-between; }
+  .comp-card-body { padding:10px 12px; font-size:12.5px; line-height:1.55; color:var(--ink); }
+  .comp-tag { font-family:'IBM Plex Mono',monospace; font-size:8px; font-weight:600; letter-spacing:.08em; padding:2px 6px; border-radius:2px; }
+  .tag-active  { background:rgba(5,150,105,.12); color:var(--green-ok); border:1px solid rgba(5,150,105,.3); }
+  .tag-passive { background:rgba(106,112,128,.12); color:var(--steelmd); border:1px solid rgba(106,112,128,.3); }
+  .tag-wear    { background:rgba(192,90,0,.12); color:var(--orange); border:1px solid rgba(192,90,0,.3); }
+
+  /* FLOW DIAGRAM */
+  .flow-wrap { background:var(--steeldk); border:1px solid rgba(255,255,255,.08); padding:16px; margin:14px 0; overflow-x:auto; }
+  .flow-title { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--steelmd); margin-bottom:12px; }
+  .flow-row { display:flex; align-items:center; flex-wrap:nowrap; gap:0; margin:4px 0; }
+  .flow-node { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); padding:5px 10px; border-radius:2px; white-space:nowrap; flex-shrink:0; }
+  .flow-node.hot  { background:rgba(185,28,28,.25); border-color:rgba(185,28,28,.5); color:#fca5a5; }
+  .flow-node.cool { background:rgba(5,150,105,.2); border-color:rgba(5,150,105,.4); color:#6ee7b7; }
+  .flow-node.mech { background:rgba(224,120,0,.2); border-color:rgba(224,120,0,.4); color:#fcd34d; }
+  .flow-arrow { font-size:12px; color:var(--steelmd); padding:0 6px; flex-shrink:0; }
+  .flow-note { font-family:'IBM Plex Mono',monospace; font-size:9px; color:var(--steelmd); margin-left:8px; font-style:italic; }
+
+  /* SPECS TABLE */
+  .specs-table { width:100%; border-collapse:collapse; font-size:13px; margin:14px 0; table-layout:fixed; }
+  .specs-table th { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; background:var(--steeldk); color:#b0bcc8; padding:7px 12px; text-align:left; border:1px solid rgba(255,255,255,.07); }
+  .specs-table td { padding:7px 12px; border:1px solid var(--rule); vertical-align:top; }
+  .specs-table tr:nth-child(even) td { background:var(--paper2); }
+  .specs-table tr:nth-child(odd)  td { background:#fff; }
+  .mono { font-family:'IBM Plex Mono',monospace; font-size:11px; }
+
+  /* DIAG CARDS */
+  .diag-group { margin-bottom: 20px; }
+  .diag-group-title {
+    font-family:'Bebas Neue',sans-serif; font-size:16px; color:var(--amber2);
+    letter-spacing:.04em; background:var(--steeldk); padding:8px 14px;
+  }
+  .diag-card { border:1px solid var(--border); border-top:none; background:#fff; }
+  .diag-card + .diag-card { border-top:1px solid var(--rule); }
+  .diag-header {
+    display:grid; grid-template-columns:1fr auto; align-items:center; gap:16px;
+    padding:11px 14px; background:var(--paper2); cursor:pointer; user-select:none;
+    border-bottom:1px solid var(--rule);
+  }
+  .diag-header:hover { background:var(--paper); }
+  .diag-symptom { font-family:'Oswald',sans-serif; font-weight:500; font-size:14px; color:var(--ink); }
+  .diag-badge {
+    font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600;
+    letter-spacing:.06em; padding:3px 8px; border-radius:2px; white-space:nowrap;
+  }
+  .badge-stop    { background:#fde8e8; color:var(--red-warn); border:1px solid #f8b0b0; }
+  .badge-caution { background:#fef3cd; color:#7c4a00; border:1px solid #f5d072; }
+  .badge-monitor { background:#e8f5e9; color:#1a6b3a; border:1px solid #88c899; }
+  .diag-body { padding:10px 14px; display:none; }
+  .diag-body.open { display:block; }
+  .diag-arrow { font-size:10px; color:var(--steelmd); transition:transform .2s; flex-shrink:0; }
+  .diag-arrow.open { transform:rotate(180deg); }
+
+  /* CAUSE LIST */
+  .cause-list { list-style:none; margin:10px 0 14px; }
+  .cause-list li { display:flex; gap:10px; align-items:flex-start; padding:6px 0; border-bottom:1px solid var(--rule); font-size:13px; }
+  .cause-list li:last-child { border-bottom:none; }
+  .cause-num {
+    font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600;
+    color:#fff; background:var(--steelmd); min-width:20px; height:20px;
+    border-radius:2px; display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; margin-top:1px;
+  }
+  .cause-text { flex:1; }
+  .cause-label { font-weight:500; color:var(--ink); }
+  .cause-note  { color:var(--steelmd); font-size:12px; display:block; margin-top:2px; }
+
+  /* CHECK STEPS */
+  .check-steps { margin:10px 0; }
+  .check-step  { display:flex; gap:10px; align-items:flex-start; margin-bottom:8px; font-size:13px; }
+  .step-num {
+    font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600;
+    color:#fff; background:var(--amber); min-width:22px; height:22px;
+    border-radius:2px; display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; margin-top:1px;
+  }
+  .step-stop {
+    font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600;
+    color:#fff; background:var(--red-warn); min-width:22px; height:22px;
+    border-radius:2px; display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; margin-top:1px;
+  }
+
+  /* CHECKLIST */
+  .checklist { list-style:none; margin:10px 0; }
+  .checklist li {
+    display:flex; gap:10px; align-items:flex-start;
+    padding:7px 0; border-bottom:1px solid var(--rule); font-size:13px;
+  }
+  .checklist li:last-child { border-bottom:none; }
+  .cl-num {
+    font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600;
+    color:#fff; background:var(--steeldk); min-width:22px; height:22px;
+    border-radius:2px; display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; margin-top:1px;
+  }
+  .cl-text { flex:1; }
+  .cl-label { font-weight:500; color:var(--ink); }
+  .cl-note  { color:var(--steelmd); font-size:11.5px; display:block; margin-top:2px; font-family:'IBM Plex Mono',monospace; letter-spacing:.02em; }
+  .cl-crit  { background:var(--steeldk); }
+
+  /* ALERT BOXES */
+  .warn-box { background:#fde8e8; border-left:3px solid var(--red-warn); padding:9px 12px; font-size:12.5px; color:#7a1010; margin:10px 0; }
+  .note-box { background:#fef9e7; border-left:3px solid var(--amber); padding:9px 12px; font-size:12.5px; color:#5a3800; margin:10px 0; }
+  .ok-box   { background:#e8f5e9; border-left:3px solid var(--green-ok); padding:9px 12px; font-size:12.5px; color:#0d4a28; margin:10px 0; }
+  .info-box { background:#e8eef8; border-left:3px solid #3b6abf; padding:9px 12px; font-size:12.5px; color:#1a2f5a; margin:10px 0; }
+
+  /* CROSS-REF BAR */
+  .xref-bar {
+    background:var(--steeldk); border:1px solid rgba(255,255,255,.08);
+    padding:9px 14px; display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:12px; font-size:12px;
+  }
+  .xref-label { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.08em; color:var(--steelmd); text-transform:uppercase; white-space:nowrap; }
+  .xref-pill  { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; color:var(--amber2); background:rgba(224,120,0,.12); border:1px solid rgba(224,120,0,.3); padding:2px 8px; border-radius:2px; white-space:nowrap; }
+
+  /* PROTOCOL STEPS — numbered action cards */
+  .protocol-list { margin:14px 0; }
+  .proto-step {
+    display:flex; gap:12px; align-items:flex-start;
+    border:1px solid var(--border); border-top:none; background:#fff; padding:10px 14px;
+  }
+  .proto-step:first-child { border-top:1px solid var(--border); }
+  .proto-num {
+    font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600;
+    color:#fff; background:var(--steeldk); min-width:26px; height:26px;
+    border-radius:2px; display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; margin-top:1px;
+  }
+  .proto-num.red   { background:var(--red-warn); }
+  .proto-num.amber { background:var(--amber); }
+  .proto-body { flex:1; }
+  .proto-label { font-weight:500; font-size:14px; color:var(--ink); }
+  .proto-note  { font-size:12.5px; color:var(--steelmd); margin-top:3px; }
+
+  /* WEAK-ITEM CARDS */
+  .weak-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:10px; margin:14px 0; }
+  .weak-card { border:1px solid var(--border); border-radius:2px; overflow:hidden; }
+  .weak-head {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:9px 14px; background:var(--paper2); border-bottom:1px solid var(--rule);
+  }
+  .weak-title { font-family:'Oswald',sans-serif; font-weight:500; font-size:14px; color:var(--ink); }
+  .risk-badge { font-family:'IBM Plex Mono',monospace; font-size:8px; font-weight:600; letter-spacing:.06em; padding:2px 7px; border-radius:2px; }
+  .risk-high   { background:#fde8e8; color:var(--red-warn); border:1px solid #f8b0b0; }
+  .risk-med    { background:#fef3cd; color:#7c4a00; border:1px solid #f5d072; }
+  .risk-low    { background:#e8f5e9; color:#1a6b3a; border:1px solid #88c899; }
+  .weak-body { padding:10px 14px; font-size:12.5px; line-height:1.55; background:#fff; }
+  .weak-km { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--steelmd); margin-top:6px; display:block; }
+
+  /* FAULT LOG */
+  .log-table { width:100%; border-collapse:collapse; font-size:12.5px; margin:14px 0; table-layout:fixed; }
+  .log-table th { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; background:var(--steeldk); color:#b0bcc8; padding:7px 12px; text-align:left; border:1px solid rgba(255,255,255,.07); }
+  .log-table td { padding:7px 12px; border:1px solid var(--rule); background:#fff; }
+  .log-table td.fill { background:var(--paper2); color:var(--steelmd); font-style:italic; font-size:11px; }
+
+  /* PRINT */
+  @media print {
+    @page { margin: 7mm; size: A4; }
+
+    /* Force all background colours and images to print */
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+
+    body { font-size: 7.5pt; background: #fff; line-height: 1.4; }
+    .sticky-wrap { position: static; }
+    .toc-bar { display: none; }
+
+    /* Masthead — restore dark background + amber title */
+    .masthead { padding: 4mm 8mm; break-after: avoid; background: #1C1410 !important; color: #fff !important; }
+    .mh-eyebrow { font-size: 5pt; color: #6a7080 !important; }
+    .mh-title { font-size: 16pt; color: #e07800 !important; }
+    .mh-sub, .mh-vehicle { font-size: 5pt; }
+
+    .main { padding: 4mm 0 10mm; }
+
+    /* Section headings — restore amber underline */
+    .section-head { font-size: 14pt; margin-top: 8mm; page-break-after: avoid; break-after: avoid; border-bottom: 2pt solid #e07800 !important; }
+    .sub-head { font-size: 11pt; page-break-after: avoid; break-after: avoid; background: #2a2f3a !important; color: #e07800 !important; }
+
+    /* Component & weakness cards — small cards no-break; large diag cards can break */
+    .comp-card, .weak-card { break-inside: avoid; }
+    .diag-card { break-inside: auto; }
+    .diag-header { break-after: avoid; }
+    .diag-body { break-inside: auto; }
+    .comp-card-head { background: #EDE5D0 !important; }
+    .weak-head { background: #EDE5D0 !important; }
+
+    /* Risk badges */
+    .risk-high { background: #fde8e8 !important; color: #B91C1C !important; }
+    .risk-med  { background: #fef3cd !important; color: #7c4a00 !important; }
+    .risk-low  { background: #e8f5e9 !important; color: #1a6b3a !important; }
+
+    /* Component tags */
+    .tag-active  { background: rgba(5,150,105,.12) !important; color: #059669 !important; }
+    .tag-passive { background: rgba(106,112,128,.12) !important; color: #6a7080 !important; }
+    .tag-wear    { background: rgba(192,90,0,.12) !important; color: #c05a00 !important; }
+
+    /* Flow diagram */
+    .flow-wrap { break-inside: avoid; background: #2a2f3a !important; }
+    .flow-node      { background: rgba(255,255,255,.1) !important; color: #fff !important; border-color: rgba(255,255,255,.2) !important; }
+    .flow-node.hot  { background: rgba(185,28,28,.25) !important; color: #fca5a5 !important; }
+    .flow-node.cool { background: rgba(5,150,105,.2) !important; color: #6ee7b7 !important; }
+    .flow-node.mech { background: rgba(224,120,0,.2) !important; color: #fcd34d !important; }
+
+    /* Diag cards */
+    .diag-group-title { background: #2a2f3a !important; color: #e07800 !important; }
+    .diag-header { background: #EDE5D0 !important; }
+    .diag-body { display: block !important; }
+    .diag-arrow { display: none; }
+
+    /* Diag badges */
+    .badge-stop    { background: #fde8e8 !important; color: #B91C1C !important; }
+    .badge-caution { background: #fef3cd !important; color: #7c4a00 !important; }
+    .badge-monitor { background: #e8f5e9 !important; color: #1a6b3a !important; }
+
+    /* Cause/step number chips */
+    .cause-num { background: #6a7080 !important; color: #fff !important; }
+    .step-num  { background: #b86800 !important; color: #fff !important; }
+    .step-stop { background: #B91C1C !important; color: #fff !important; }
+    .cl-num    { background: #2a2f3a !important; color: #fff !important; }
+    .proto-num        { background: #2a2f3a !important; color: #fff !important; }
+    .proto-num.red    { background: #B91C1C !important; color: #fff !important; }
+    .proto-num.amber  { background: #b86800 !important; color: #fff !important; }
+
+    /* Alert boxes */
+    .warn-box  { break-inside: avoid; background: #fde8e8 !important; border-left: 3pt solid #B91C1C !important; color: #7a1010 !important; }
+    .note-box  { break-inside: avoid; background: #fef9e7 !important; border-left: 3pt solid #b86800 !important; color: #5a3800 !important; }
+    .ok-box    { break-inside: avoid; background: #e8f5e9 !important; border-left: 3pt solid #059669 !important; color: #0d4a28 !important; }
+    .info-box  { break-inside: avoid; background: #e8eef8 !important; border-left: 3pt solid #3b6abf !important; color: #1a2f5a !important; }
+
+    /* Specs & log table headers */
+    .specs-table thead { display: table-header-group; }
+    .specs-table th { background: #2a2f3a !important; color: #b0bcc8 !important; }
+    .log-table { break-inside: auto; }
+    .log-table thead { display: table-header-group; }
+    .log-table th { background: #2a2f3a !important; color: #b0bcc8 !important; }
+    .log-table td.fill { background: #EDE5D0 !important; }
+
+    /* Cross-ref bar */
+    .xref-bar  { background: #2a2f3a !important; border: 1px solid rgba(255,255,255,.08) !important; }
+    .xref-pill { background: rgba(224,120,0,.12) !important; color: #e07800 !important; border: 1px solid rgba(224,120,0,.3) !important; }
+
+    a { color: var(--ink); text-decoration: none; }
+    .checklist li { break-inside: avoid; }
+    .proto-step { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="sticky-wrap">
+  <div class="masthead">
+    <a href="index.html" class="lib-home-btn">⌂ Index</a>
+    <div class="mh-eyebrow">HZJ76R-RKMRS · Overland Reference Library · R22</div>
+    <div class="mh-title">1HZ Cooling System Guide</div>
+    <div class="mh-sub">System Architecture · Wear Items · Service Specs · Field Diagnosis · Overheating Protocol · Pre-Departure Checks</div>
+    <div class="mh-vehicle">2009 LC76 SW · 1HZ 4.2L Diesel · SAC Low-Boost Turbo · ~305,000 km · HZJ76R-RKMRS</div>
+  </div>
+  <nav class="toc-bar">
+    <button class="toc-btn" data-target="s-arch">Architecture</button>
+    <button class="toc-btn" data-target="s-weak">Weaknesses</button>
+    <button class="toc-btn" data-target="s-service">Service Specs</button>
+    <button class="toc-btn" data-target="s-diag">Field Diagnosis</button>
+    <button class="toc-btn" data-target="s-protocol">Overheat Protocol</button>
+    <button class="toc-btn" data-target="s-checklist">Pre-Departure</button>
+    <button class="toc-btn" data-target="s-log">Fault Log</button>
+  </nav>
+</div>
+
+<div class="main">
+
+  <!-- ══ SECTION 1: ARCHITECTURE ══ -->
+  <div id="s-arch" class="sa">
+    <div class="section-head">System Architecture</div>
+    <p class="section-intro">The 1HZ runs a conventional pressurised liquid cooling circuit. With the SAC turbo and front-mount intercooler fitted, two additional cooling loops are active — turbo coolant feed/return and the intercooler air path. Understanding how these connect is essential for correct diagnosis.</p>
+
+    <!-- Coolant flow diagram -->
+    <div class="flow-wrap">
+      <div class="flow-title">Coolant Circuit Flow — Engine Hot (Thermostat Open)</div>
+      <div class="flow-row">
+        <div class="flow-node hot">Engine Block / Head</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node hot">Turbo Coolant Feed</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node">Upper Hose</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node cool">Radiator (top tank)</div>
+      </div>
+      <div class="flow-row" style="margin-top:8px;">
+        <div class="flow-node cool">Radiator (bottom tank)</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node">Lower Hose</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node mech">Water Pump</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node">Engine Block</div>
+      </div>
+      <div class="flow-row" style="margin-top:8px;">
+        <div class="flow-node">Heater Core Feed</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node">Cabin Heater Core</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node">Return to block</div>
+        <div class="flow-note">Parallel circuit — always flowing when engine is running</div>
+      </div>
+      <div class="flow-row" style="margin-top:8px;">
+        <div class="flow-node">Overflow Tank</div>
+        <div class="flow-arrow">↔</div>
+        <div class="flow-node">Radiator Cap</div>
+        <div class="flow-note">Pressure cap vents to overflow; coolant drawn back on cool-down</div>
+      </div>
+    </div>
+
+    <!-- Component cards -->
+    <div class="comp-grid">
+
+      <div class="comp-card">
+        <div class="comp-card-head">Radiator <span class="comp-tag tag-passive">PASSIVE</span></div>
+        <div class="comp-card-body">
+          Cross-flow aluminium-core radiator. Hot coolant enters the top tank from the upper hose, passes through tubes across the core, exits the bottom tank via the lower hose. Viscous fan pulls air through the core when the vehicle is stationary or slow-moving. At road speed, ram air does the majority of the work. The 1HZ radiator is adequate for the stock engine; the SAC turbo increases thermal load — a clean, unblocked core is non-negotiable.
+          <br><br>Pressure rating: <span class="mono">88–108 kPa (0.88–1.08 bar)</span> via the radiator cap.
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-card-head">Thermostat <span class="comp-tag tag-active">ACTIVE</span></div>
+        <div class="comp-card-body">
+          Wax-pellet thermostat in the thermostat housing on the front of the engine. Controls coolant temperature by opening at 82°C (standard) or 88°C (high-temp variant). Below opening temperature, coolant is blocked from entering the radiator and recirculates internally — allowing the engine to reach operating temperature quickly. A failed-open thermostat causes chronic under-temperature and poor fuel economy. A failed-closed thermostat causes rapid overheating.
+          <br><br>Opening temp: <span class="mono">82°C (std) · Full open: 97°C</span>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-card-head">Water Pump <span class="comp-tag tag-active">ACTIVE</span></div>
+        <div class="comp-card-body">
+          Belt-driven centrifugal pump on the front of the engine, driven by the accessory belt. Circulates coolant through the entire system. The impeller and shaft seal are wear items — shaft play or weeping from the weep hole indicates imminent failure. At high km, impeller erosion reduces flow before the seal fails. Replace proactively at major service intervals rather than waiting for a roadside failure.
+          <br><br>Drive: <span class="mono">Accessory belt (shared with alternator)</span>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-card-head">Viscous Fan Clutch <span class="comp-tag tag-wear">WEAR ITEM</span></div>
+        <div class="comp-card-body">
+          Fluid-coupling fan drive mounted on the water pump nose. Temperature-sensitive bimetallic spring on the clutch face controls the silicone fluid coupling — when hot air from the radiator strikes the spring, the fan locks up and pulls maximum airflow. When cool (highway speed, cold ambient), the clutch slips to reduce noise and parasitic load. The most common single cause of 1HZ overheating at high km is a failed viscous fan clutch that no longer locks up.
+          <br><br>Spin test: <span class="mono">Cold engine — strong resistance. Hot stopped — very strong resistance.</span>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-card-head">Overflow / Expansion Tank <span class="comp-tag tag-passive">PASSIVE</span></div>
+        <div class="comp-card-body">
+          Translucent reservoir connected to the radiator cap overflow nipple. Captures coolant expelled under pressure and returns it to the radiator as the system cools. Not a pressurised component — do not confuse the overflow tank level with the radiator level. Always check the radiator directly (cold engine only) in addition to the tank. Low overflow level that returns to normal indicates a functioning system; chronic overflow loss indicates a pressure leak or head gasket issue.
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-card-head">Turbo Coolant Circuit <span class="comp-tag tag-active">ACTIVE</span></div>
+        <div class="comp-card-body">
+          The SAC turbo is water-cooled as well as oil-cooled. A coolant feed line from the engine supplies the turbo bearing housing; a return line routes back to the block. This circuit continues to circulate heat after shutdown (heat soak) — do not remove the coolant cap immediately after a hard run. The turbo coolant lines are a potential leak point at high km: inspect for weeping at the banjo fittings at each service.
+          <br><br>Post-shutdown: <span class="mono">Allow 2–3 min idle before key-off after hard work.</span>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-card-head">Heater Core Circuit <span class="comp-tag tag-active">ACTIVE</span></div>
+        <div class="comp-card-body">
+          Small heat exchanger in the cabin HVAC box, connected in parallel with the main circuit. Coolant flows through it continuously regardless of heater setting — the blend door controls cabin temperature by mixing heater core air with fresh air. This parallel loop is a useful emergency heat dump: turning the heater to full hot and fan to maximum adds significant cooling capacity when the main system is struggling.
+          <br><br>Emergency use: <span class="mono">+15–20% effective cooling capacity in extremis.</span>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-card-head">Intercooler (Air Circuit) <span class="comp-tag tag-passive">PASSIVE</span></div>
+        <div class="comp-card-body">
+          The front-mount intercooler cools compressed air from the turbo before it enters the intake manifold. It is not part of the coolant circuit — it is an air-to-air heat exchanger. However, it sits in front of the radiator and any blockage (mud, insect pack, brush debris) will reduce airflow through the radiator behind it. Inspect and clean the intercooler face at each stop in dense scrub or after water crossings involving mud.
+        </div>
+      </div>
+
+    </div><!-- /comp-grid -->
+
+    <div class="xref-bar">
+      <span class="xref-label">See also:</span>
+      <span class="xref-pill">R4 · 1HZ Engine Training — engine theory &amp; layout</span>
+      <span class="xref-pill">R18 · 1HZ Troubleshooting — overheating fault tree</span>
+    </div>
+  </div><!-- /s-arch -->
+
+
+  <!-- ══ SECTION 2: WEAKNESSES ══ -->
+  <div id="s-weak" class="sa">
+    <div class="section-head">Known Weaknesses &amp; Wear Items</div>
+    <p class="section-intro">The 1HZ cooling system is fundamentally robust, but four specific failure modes account for the vast majority of overheating events at high km. Know these. Inspect them at every service.</p>
+
+    <div class="weak-grid">
+
+      <div class="weak-card">
+        <div class="weak-head">
+          <span class="weak-title">Viscous Fan Clutch Failure</span>
+          <span class="risk-badge risk-high">HIGH RISK</span>
+        </div>
+        <div class="weak-body">
+          The single most common cause of 1HZ overheating, particularly at low speed or stationary idle in hot conditions. The silicone fluid in the clutch degrades over time, reducing the coupling's ability to lock up. The fan may spin freely (near-zero resistance) at any temperature — the engine will overheat in traffic within minutes. Failure is often gradual: the engine may run fine at highway speed (where ram air provides cooling) but overheat when stopped in traffic. Because it looks fine on a cursory inspection, failed viscous clutches are routinely missed.
+          <span class="weak-km">⚠ At 305,000 km: if this clutch has never been replaced, treat it as a pre-departure mandatory item.</span>
+        </div>
+      </div>
+
+      <div class="weak-card">
+        <div class="weak-head">
+          <span class="weak-title">Thermostat Housing Corrosion</span>
+          <span class="risk-badge risk-high">HIGH RISK</span>
+        </div>
+        <div class="weak-body">
+          The thermostat housing on the 1HZ is cast alloy. With the wrong coolant inhibitor (see Service Specs), corrosion pits form around the thermostat seat and the O-ring face. This causes weeping leaks at the housing joint — initially minor, progressively worse. In extreme cases the corrosion penetrates the housing wall. Inspect the housing face and outlet neck at every coolant service. Replace the housing O-ring whenever the thermostat is removed. A small weep at the housing joint will become a roadside emergency within 10,000–20,000 km.
+          <span class="weak-km">Risk window: 80,000+ km / any period of straight-water or incorrect inhibitor use.</span>
+        </div>
+      </div>
+
+      <div class="weak-card">
+        <div class="weak-head">
+          <span class="weak-title">Water Pump Seal &amp; Impeller Wear</span>
+          <span class="risk-badge risk-med">MEDIUM RISK</span>
+        </div>
+        <div class="weak-body">
+          Water pump shaft seal failure weeps coolant from the weep hole below the pump body — a clear early warning sign. Impeller erosion (from cavitation or straight-water operation) reduces circulation efficiency before any external signs appear. At 305,000 km, any original water pump is operating on borrowed time. Shaft play — detectable by gripping the fan hub and rocking it radially — indicates bearing wear and imminent failure. Never run a pump that shows shaft play; bearing failure can strip the impeller off the shaft.
+          <span class="weak-km">Typical life: 120,000–150,000 km. Replace at reconditioning intervals.</span>
+        </div>
+      </div>
+
+      <div class="weak-card">
+        <div class="weak-head">
+          <span class="weak-title">Radiator Tube Blockage</span>
+          <span class="risk-badge risk-med">MEDIUM RISK</span>
+        </div>
+        <div class="weak-body">
+          Silted coolant and scale accumulation progressively narrows radiator tube cross-section, reducing flow rate and heat transfer. The effect is cumulative and insidious — capacity reduction of 30–40% can occur before any obvious symptoms appear. The engine may run at normal temperature in mild conditions but overheat on long grades or in hot ambient temperatures. A full coolant flush at the correct interval is the primary prevention. If the system has ever run on straight water, assume silting is in progress.
+          <span class="weak-km">Risk window: any 1HZ not flushed within the last 40,000 km.</span>
+        </div>
+      </div>
+
+      <div class="weak-card">
+        <div class="weak-head">
+          <span class="weak-title">Radiator Cap Pressure Failure</span>
+          <span class="risk-badge risk-low">LOW / OVERLOOKED</span>
+        </div>
+        <div class="weak-body">
+          The radiator cap maintains system pressure, raising the coolant boiling point to ~120°C. A faulty cap that holds insufficient pressure reduces this margin significantly — the system will boil at temperatures that would otherwise be safe. Cap failure is often missed because it is not obvious on visual inspection; a faulty cap can still seal but not hold pressure. Test with a pressure gauge at every coolant service. Replacement cost is negligible; the risk of skipping it is not.
+          <span class="weak-km">Test spec: 88–108 kPa (0.88–1.08 bar). Replace every 2 years regardless.</span>
+        </div>
+      </div>
+
+      <div class="weak-card">
+        <div class="weak-head">
+          <span class="weak-title">Head Gasket Vulnerability</span>
+          <span class="risk-badge risk-high">HIGH CONSEQUENCE</span>
+        </div>
+        <div class="weak-body">
+          The 1HZ head gasket is not unusually weak, but the engine is intolerant of sustained overheating. The alloy head and iron block expand at different rates; a single severe overheat episode can cause head gasket failure or a warped head. A turbocharged 1HZ runs higher peak temperatures than the naturally aspirated version — the margin for error is smaller. Head gasket failure is the catastrophic outcome of any unaddressed cooling system fault. Prevention is the entire strategy.
+          <span class="weak-km">⚠ Any overheat event beyond the first temperature warning requires investigation before continuing.</span>
+        </div>
+      </div>
+
+    </div><!-- /weak-grid -->
+
+    <div class="xref-bar">
+      <span class="xref-label">See also:</span>
+      <span class="xref-pill">R18 · Troubleshooting — cooling fault diagnosis</span>
+      <span class="xref-pill">R8 · Service History — cooling system record</span>
+    </div>
+  </div><!-- /s-weak -->
+
+
+  <!-- ══ SECTION 3: SERVICE SPECS ══ -->
+  <div id="s-service" class="sa">
+    <div class="section-head">Service Intervals &amp; Specifications</div>
+    <p class="section-intro">Correct coolant specification is critical for aluminium component longevity in the 1HZ. Africa's water quality and temperature extremes demand a strict approach. Never compromise on this.</p>
+
+    <table class="specs-table">
+      <colgroup>
+        <col style="width:28%">
+        <col style="width:30%">
+        <col style="width:42%">
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>Specification</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Coolant type</td>
+          <td><span class="mono">OAT or HOAT ethylene glycol</span></td>
+          <td>Organic Acid Technology or Hybrid OAT. Toyota Super Long Life Coolant (SLLC, pink/red) is HOAT — the correct type. Do not use green/blue IAT (Inorganic Additive Technology) coolants — they deplete inhibitors rapidly and cause corrosion in aluminium housings.</td>
+        </tr>
+        <tr>
+          <td>Inhibitor chemistry</td>
+          <td><span class="mono">OAT / HOAT — NO silicates</span></td>
+          <td>Silicate-based inhibitors (traditional green coolant) are incompatible with aluminium over long service life. They cause pitting corrosion in the thermostat housing and water pump. Do not mix green IAT with HOAT/OAT under any circumstances.</td>
+        </tr>
+        <tr>
+          <td>Mix ratio</td>
+          <td><span class="mono">50% coolant : 50% water</span></td>
+          <td>50/50 is the standard mix for African conditions. This gives freeze protection to approximately −37°C and raises the boiling point to ~129°C at 0.9 bar system pressure. Do not exceed 70% coolant — richer mixes reduce heat transfer efficiency.</td>
+        </tr>
+        <tr>
+          <td>Water quality</td>
+          <td><span class="mono">Distilled or demineralised only</span></td>
+          <td>Tap water contains calcium, magnesium, and chlorides that cause scale deposits and accelerate corrosion. In the field, use distilled water from a camp store or pharmacy. Never use borehole or river water directly — it will silt the system.</td>
+        </tr>
+        <tr>
+          <td>Flush interval</td>
+          <td><span class="mono">Every 40,000 km or 2 years</span></td>
+          <td>Full drain, flush with clean water, refill with fresh 50/50 mix. Do not top up indefinitely — inhibitor package depletes over time regardless of colour. Use a pH test strip to check inhibitor strength if in doubt (target: pH 8.0–9.5).</td>
+        </tr>
+        <tr>
+          <td>Radiator cap test</td>
+          <td><span class="mono">88–108 kPa (0.88–1.08 bar)</span></td>
+          <td>Test with a cooling system pressure tester at every coolant service. A cap that holds below 70 kPa must be replaced. Cost is negligible. Carry a spare cap — it is a field-replaceable item that can prevent a head gasket.</td>
+        </tr>
+        <tr>
+          <td>System pressure test</td>
+          <td><span class="mono">Hold 90–100 kPa for 10 min</span></td>
+          <td>Pressurize the cold system via the radiator filler neck. A drop of more than 5 kPa in 10 minutes indicates a leak. Check hose clamps, hose ends, thermostat housing, water pump, turbo coolant lines, and radiator core first.</td>
+        </tr>
+        <tr>
+          <td>Thermostat replacement</td>
+          <td><span class="mono">Every 80,000 km or at any overheat event</span></td>
+          <td>Thermostats are cheap. At 305,000 km, thermostat history is uncertain — replace as part of any cooling system service. Always replace the thermostat housing O-ring at the same time.</td>
+        </tr>
+        <tr>
+          <td>Water pump replacement</td>
+          <td><span class="mono">At major overhaul or on shaft play/weep</span></td>
+          <td>No fixed km interval — inspect at every service. Replace immediately if shaft play is detected or weeping is observed from the weep hole. Proactive replacement during any major engine work is recommended at 300,000+ km.</td>
+        </tr>
+        <tr>
+          <td>Hoses &amp; clamps</td>
+          <td><span class="mono">Inspect every 20,000 km; replace on hardening/cracking</span></td>
+          <td>Squeeze test: a healthy hose feels firm but pliable. A hose that is hard and unyielding, or that collapses under slight pressure, is near end of life. Inspect all clamps for corrosion and correct seating. Spring clamps should be replaced with screw-type clamps if disturbed.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="sub-head">What to Avoid — Hard Rules</div>
+    <div style="border:1px solid var(--border); background:#fff; padding:14px 16px; margin-top:0; margin-bottom:14px;">
+      <div class="check-steps">
+        <div class="check-step">
+          <div class="step-stop">✗</div>
+          <div><strong>Straight water (emergency top-up only).</strong> In an emergency, clean water is better than overheating — but flush and refill with correct mix as soon as possible. Straight water causes scale and provides no corrosion inhibition.</div>
+        </div>
+        <div class="check-step">
+          <div class="step-stop">✗</div>
+          <div><strong>Green IAT coolant (silicate-based).</strong> Incompatible with the aluminium thermostat housing and pump body. Will cause pitting corrosion within one service interval. Toyota SLLC or a quality HOAT only.</div>
+        </div>
+        <div class="check-step">
+          <div class="step-stop">✗</div>
+          <div><strong>Mixing different coolant types.</strong> Green + red = degraded inhibitor package and potential precipitation of deposits. Drain and flush completely before changing coolant type.</div>
+        </div>
+        <div class="check-step">
+          <div class="step-stop">✗</div>
+          <div><strong>Coolant stop-leak products.</strong> Sealant particles can block radiator tubes, thermostat bypass ports, and heater core passages. A stop-leak fix will cost more to correct than the original repair.</div>
+        </div>
+        <div class="check-step">
+          <div class="step-stop">✗</div>
+          <div><strong>Removing the radiator cap on a hot engine.</strong> The system is pressurised. Removing the cap when hot can cause explosive coolant release, severe scalding, and air ingestion. Always allow the engine to cool before opening the system.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="xref-bar">
+      <span class="xref-label">Records in:</span>
+      <span class="xref-pill">R8 · Service History — cooling flush dates</span>
+      <span class="xref-label" style="margin-left:8px;">Pre-departure use:</span>
+      <span class="xref-pill">R2 · Departure Checklist — cooling system items</span>
+    </div>
+  </div><!-- /s-service -->
+
+
+  <!-- ══ SECTION 4: FIELD DIAGNOSIS ══ -->
+  <div id="s-diag" class="sa">
+    <div class="section-head">Field Diagnosis</div>
+    <p class="section-intro">Temperature gauge behaviour is your primary early warning system. Understand what normal looks like so that any deviation is immediately obvious. Then work through the differential systematically — most cooling faults can be isolated in 15 minutes without tools.</p>
+
+    <div class="note-box">💡 <strong>Normal operating range:</strong> Gauge should settle between the 1/4 and 1/2 mark after warm-up. Consistent upper-half readings are abnormal. Gauge reaching the red zone requires immediate action — this is not a "keep an eye on it" situation.</div>
+
+    <!-- Temperature gauge behaviour -->
+    <div class="diag-group">
+      <div class="diag-group-title">§1 · Temperature Gauge Behaviour — What It Means</div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <span class="diag-symptom">Gauge rises quickly to mid-range, stays there</span>
+          <div style="display:flex;align-items:center;gap:8px;"><span class="diag-badge badge-monitor">NORMAL</span><span class="diag-arrow">▼</span></div>
+        </div>
+        <div class="diag-body">
+          Normal thermostat behaviour. Engine warms up, thermostat opens at 82°C, gauge stabilises between ¼ and ½. Stays in this band under most operating conditions. This is the target.
+          <div class="ok-box">✓ No action required. Maintain this as the baseline for comparison.</div>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <span class="diag-symptom">Gauge stays low (below ¼), warm-up takes too long, heater blows cold</span>
+          <div style="display:flex;align-items:center;gap:8px;"><span class="diag-badge badge-caution">INVESTIGATE</span><span class="diag-arrow">▼</span></div>
+        </div>
+        <div class="diag-body">
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Thermostat stuck open or missing</span><span class="cause-note">A failed-open thermostat allows constant flow through the radiator even when cold. Fuel economy worsens, engine never reaches optimal operating temperature, oil takes longer to come up to viscosity. Replace thermostat — do not operate without one.</span></div></li>
+          </ul>
+          <div class="note-box">💡 Under-temperature is not harmless — poor fuel economy, increased bore wash (fuel dilution of oil), and higher piston ring wear. Fix it before the expedition.</div>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <span class="diag-symptom">Gauge climbs into upper third at highway speed — normal in town, high on road</span>
+          <div style="display:flex;align-items:center;gap:8px;"><span class="diag-badge badge-caution">INVESTIGATE</span><span class="diag-arrow">▼</span></div>
+        </div>
+        <div class="diag-body">
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Radiator blockage or partial core failure</span><span class="cause-note">Enough cooling capacity at speed with ram air assist, but marginal at highway speeds with load. Inspect radiator core externally for fin damage and debris. A core flow test or borescope inspection is needed to assess internal tube blockage.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Reduced coolant circulation</span><span class="cause-note">Water pump impeller erosion — adequate flow at idle, insufficient under full-load circulation demands. Check for weep hole drips. Confirm pump shaft has zero radial play.</span></div></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <span class="diag-symptom">Gauge normal at speed, climbs rapidly when stopped in traffic or idling</span>
+          <div style="display:flex;align-items:center;gap:8px;"><span class="diag-badge badge-stop">STOP &amp; DIAGNOSE</span><span class="diag-arrow">▼</span></div>
+        </div>
+        <div class="diag-body">
+          This is the classic viscous fan clutch failure pattern. At speed, ram air does the work — fan is irrelevant. Stationary, the fan must pull air through the core. If it can't, temperature climbs rapidly.
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Viscous fan clutch not locking up</span><span class="cause-note">Stop the engine safely. Allow to cool slightly. Spin the fan blade by hand — on a healthy cold clutch, it should have strong resistance and require real effort to turn. A fan that spins freely or with minimal resistance is failed. If possible, confirm by feeling the bimetallic coil on the clutch face — it should be flat when cold, slightly curled when hot.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Intercooler face blocked</span><span class="cause-note">The front-mount intercooler sits ahead of the radiator. Dense bush, mud, or insect pack blocking the intercooler face restricts airflow through the radiator behind it. Inspect and clear the intercooler face before condemning the fan clutch.</span></div></li>
+          </ul>
+          <div class="warn-box">⚠ Do not continue to idle with a suspected failed fan clutch. The gauge will reach the red zone within 3–5 minutes of stationary idling in hot ambient temperatures.</div>
+        </div>
+      </div>
+
+    </div><!-- /diag-group -->
+
+    <!-- Differential diagnosis -->
+    <div class="diag-group">
+      <div class="diag-group-title">§2 · Differential Diagnosis — Overheat Cause</div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <span class="diag-symptom">Overheating — determine whether fan clutch, thermostat, water pump, or head gasket</span>
+          <div style="display:flex;align-items:center;gap:8px;"><span class="diag-badge badge-stop">STOP &amp; DIAGNOSE</span><span class="diag-arrow">▼</span></div>
+        </div>
+        <div class="diag-body">
+          <p style="font-size:13px;margin-bottom:10px;">Work through this sequence in order. Do not skip steps — each one rules out or confirms a cause before moving to the next.</p>
+          <div class="check-steps">
+            <div class="check-step">
+              <div class="step-num">1</div>
+              <div><strong>Check fan clutch first.</strong> Engine off, cooled enough to handle safely. Spin the fan blade by hand. Should be stiff — requires real effort. If it spins freely: fan clutch has failed. This is your most likely cause. Do not proceed without addressing it.</div>
+            </div>
+            <div class="check-step">
+              <div class="step-num">2</div>
+              <div><strong>Check coolant level.</strong> Cold engine only — open radiator cap slowly and check level. Low level indicates a leak, not a fan or thermostat issue. Inspect all hoses, joints, and the radiator for the source before proceeding.</div>
+            </div>
+            <div class="check-step">
+              <div class="step-num">3</div>
+              <div><strong>Check upper radiator hose temperature.</strong> Engine warm, running. Carefully feel (or press) the upper hose. It should be hot — if it is cool or cold while the engine is above 82°C, the thermostat is stuck closed and coolant is not flowing to the radiator.</div>
+            </div>
+            <div class="check-step">
+              <div class="step-num">4</div>
+              <div><strong>Check water pump.</strong> With engine off and cooled: check for drips from the weep hole below the pump body, and for any radial play in the fan hub / pump shaft. If either is present, pump is failing.</div>
+            </div>
+            <div class="check-step">
+              <div class="step-num">5</div>
+              <div><strong>Check for head gasket signs.</strong> Cold engine. Remove radiator cap and inspect coolant surface — white milky froth or oily film indicates combustion gases or oil contamination. Check dipstick for milky oil (water in oil). Also check for sweet white exhaust smoke from the tailpipe at steady running.</div>
+            </div>
+            <div class="check-step">
+              <div class="step-num">6</div>
+              <div><strong>Check intercooler and radiator face.</strong> Inspect the intercooler and radiator for debris, mud, or bent fins blocking airflow. At highway speed this is less critical, but in slow-speed off-road or loaded driving, restricted airflow through a partially blocked core is sufficient to cause overheating.</div>
+            </div>
+          </div>
+          <div class="note-box">💡 If no cause is found in steps 1–6 and overheating persists under load, suspect radiator tube blockage (internal silting) — requires a workshop flow test or replacement to confirm.</div>
+        </div>
+      </div>
+
+    </div><!-- /diag-group -->
+
+    <!-- Head gasket signs -->
+    <div class="diag-group">
+      <div class="diag-group-title">§3 · Head Gasket — Early Warning Signs</div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <span class="diag-symptom">Suspected head gasket failure or early compromise</span>
+          <div style="display:flex;align-items:center;gap:8px;"><span class="diag-badge badge-stop">STOP &amp; ASSESS</span><span class="diag-arrow">▼</span></div>
+        </div>
+        <div class="diag-body">
+          <p style="font-size:13px;margin-bottom:10px;">Head gasket failure on a turbocharged 1HZ is a serious event. Early detection prevents a minor repair becoming a full engine rebuild. Know these signs.</p>
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">White milky froth in the coolant reservoir or radiator</span><span class="cause-note">Combustion gases and/or oil entering the coolant creates an emulsion. Check with a torch — any milky foam or oily surface sheen is significant. This is the most reliable field indicator.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Milky oil on the dipstick or under the oil cap</span><span class="cause-note">Coolant entering the oil forms a grey-brown emulsion (sometimes called "mayonnaise"). Check the dipstick and the underside of the oil filler cap. Note: a small amount of condensation in a cold engine can look similar — check again after full warm-up.</span></div></li>
+            <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Sweet-smelling white exhaust smoke at steady running</span><span class="cause-note">Coolant burning in the combustion chamber produces sweet white/blue-white smoke. Distinct from the white puff of condensation on a cold start (which clears quickly). Persistent white smoke with a sweet smell at operating temperature is significant.</span></div></li>
+            <li><div class="cause-num">4</div><div class="cause-text"><span class="cause-label">Coolant level dropping with no visible external leak</span><span class="cause-note">If the system holds pressure but coolant level keeps dropping, it is going somewhere internal. Check the combustion chambers and oil. A combustion gas test kit (block tester, available at auto parts stores) is definitive — it detects hydrocarbons in the coolant.</span></div></li>
+            <li><div class="cause-num">5</div><div class="cause-text"><span class="cause-label">Bubbles in the coolant with engine running</span><span class="cause-note">Remove the radiator cap (cold engine), start the engine, watch the coolant surface while idling. Sustained bubbling is combustion gas entering the coolant through a failed gasket. Do not confuse with normal thermostat opening turbulence.</span></div></li>
+          </ul>
+          <div class="warn-box">⚠ A 1HZ with two or more of these signs should not be driven until the head gasket is confirmed intact or replaced. Continuing to drive a compromised head gasket will warp the cylinder head — turning a gasket job into a full head recondition.</div>
+        </div>
+      </div>
+
+    </div><!-- /diag-group -->
+
+    <div class="xref-bar">
+      <span class="xref-label">See also:</span>
+      <span class="xref-pill">R18 · 1HZ Troubleshooting — full overheating fault tree</span>
+      <span class="xref-pill">R4 · Engine Training — theory and component layout</span>
+    </div>
+  </div><!-- /s-diag -->
+
+
+  <!-- ══ SECTION 5: OVERHEAT PROTOCOL ══ -->
+  <div id="s-protocol" class="sa">
+    <div class="section-head">Overheating Response Protocol</div>
+    <p class="section-intro">This is the immediate-action sequence for a temperature gauge climbing into or through the upper zone while driving. Speed matters — every minute at elevated temperature increases the risk of head gasket and head damage. Follow this sequence without deviation.</p>
+
+    <div class="warn-box">⚠ <strong>The 1HZ head is intolerant of sustained overheating.</strong> A turbocharged engine runs higher peak temperatures than naturally aspirated. The margin between "hot" and "damaged" is narrow. Do not rationalise continuing to drive.</div>
+
+    <div class="sub-head" style="margin-top:14px;">Immediate Actions — Gauge Entering Upper Zone</div>
+    <div class="protocol-list" style="margin-top:0;">
+      <div class="proto-step">
+        <div class="proto-num amber">1</div>
+        <div class="proto-body">
+          <div class="proto-label">Turn heater to FULL HOT, fan to MAXIMUM immediately</div>
+          <div class="proto-note">This is not optional and it is not a comfort sacrifice — it dumps heat from the heater core into the cabin rather than the coolant circuit. It can reduce coolant temperature by 5–10°C and buy you time to safely stop. Do this before anything else while still moving.</div>
+        </div>
+      </div>
+      <div class="proto-step">
+        <div class="proto-num amber">2</div>
+        <div class="proto-body">
+          <div class="proto-label">Reduce load immediately — downshift, reduce throttle, get off the hill if possible</div>
+          <div class="proto-note">Reducing engine load reduces heat input. If on a hill, try to reach the crest or a flat section. Avoid steep climbs at full throttle with a hot engine.</div>
+        </div>
+      </div>
+      <div class="proto-step">
+        <div class="proto-num amber">3</div>
+        <div class="proto-body">
+          <div class="proto-label">Find a safe place to stop — do not stop on a hill or in traffic if avoidable</div>
+          <div class="proto-note">If safe to do so, keep the vehicle moving slowly (airflow helps). A steady 40 km/h in a low gear is better than sitting stationary while you look for a spot. Do not stop with the engine pointed uphill — coolant distribution in a stationary engine favours level ground.</div>
+        </div>
+      </div>
+      <div class="proto-step">
+        <div class="proto-num red">4</div>
+        <div class="proto-body">
+          <div class="proto-label">If gauge reaches red zone: STOP THE ENGINE — do not idle</div>
+          <div class="proto-note">A stationary idling engine with a compromised cooling system (failed fan clutch, low coolant, blocked radiator) is generating heat faster than it is dissipating it. An idling engine at red-zone temperature will cause more damage in 2 minutes than switching it off immediately. Stop the engine. Do not restart until the cause is identified.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-head" style="margin-top:14px;">After Stopping — Assessment Sequence</div>
+    <div class="protocol-list" style="margin-top:0;">
+      <div class="proto-step">
+        <div class="proto-num amber">5</div>
+        <div class="proto-body">
+          <div class="proto-label">Do NOT open the radiator cap. Wait a minimum of 20 minutes.</div>
+          <div class="proto-note">The system is pressurised and extremely hot. Opening the cap immediately can cause the coolant to flash to steam and spray scalding liquid. If you must check coolant level urgently, place a thick rag over the cap, press down and turn slowly to release pressure before removing. Never do this if the engine is still ticking or you can hear boiling.</div>
+        </div>
+      </div>
+      <div class="proto-step">
+        <div class="proto-num amber">6</div>
+        <div class="proto-body">
+          <div class="proto-label">Check coolant level (when safe), inspect for external leaks</div>
+          <div class="proto-note">Walk around the vehicle while waiting — visible coolant on the ground, steam from hose ends, or dripping from the water pump area locates the problem fast. Check the intercooler and radiator face for blockage. Inspect hose clamps and connections.</div>
+        </div>
+      </div>
+      <div class="proto-step">
+        <div class="proto-num amber">7</div>
+        <div class="proto-body">
+          <div class="proto-label">Perform fan clutch spin test</div>
+          <div class="proto-note">Engine off, engine cooled to safe temperature. Spin the fan blade by hand. Strong resistance = fan clutch is functional. Spins freely = confirmed failed. If failed and no spare is available, see limping options below.</div>
+        </div>
+      </div>
+      <div class="proto-step">
+        <div class="proto-num amber">8</div>
+        <div class="proto-body">
+          <div class="proto-label">Check for head gasket signs before restarting</div>
+          <div class="proto-note">Inspect coolant surface for milky froth. Check dipstick for emulsified oil. If either is present, do not restart — the head gasket is compromised and further driving will worsen the damage. Arrange recovery.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-head" style="margin-top:14px;">Limp Protocol — Failed Fan Clutch, No Spare</div>
+    <div class="info-box" style="margin-top:0;">
+      <strong>Emergency only — use this to reach workshop assistance, not to continue the trip.</strong><br><br>
+      A failed viscous fan clutch can be temporarily managed by keeping the vehicle moving at 60–80 km/h where ram airflow does the fan's job. Travel at dawn/dusk in extreme heat. Stop frequently to check temperature. Use the heater technique at all times. Never idle — stop the engine when stationary for more than 2 minutes. Night driving is preferable in hot regions if this is the only option.<br><br>
+      Do not attempt steep off-road passes, heavy sand, or river crossings with a failed fan clutch. The engine will overheat in minutes under those conditions.
+    </div>
+
+    <div class="sub-head" style="margin-top:14px;">Head Gasket Risk — Stop vs Limp Decision</div>
+    <div class="protocol-list" style="margin-top:0;">
+      <div class="proto-step">
+        <div class="proto-num red">!</div>
+        <div class="proto-body">
+          <div class="proto-label">STOP and arrange recovery if any of these are present</div>
+          <div class="proto-note">Milky froth in coolant · Milky oil on dipstick · Sweet white smoke at operating temperature · Coolant bubbling in radiator with engine running · Coolant loss with no external leak found. Driving with these signs is a decision to scrap the engine.</div>
+        </div>
+      </div>
+      <div class="proto-step">
+        <div class="proto-num amber">?</div>
+        <div class="proto-body">
+          <div class="proto-label">LIMP with monitoring if: single overheat event, cause identified and stabilised, no head gasket signs</div>
+          <div class="proto-note">If you identified the cause (e.g., hose clamp leak, loose connection), repaired it, coolant level restored, no head gasket signs present — monitor closely for the next 50 km. Stop and check every 15 minutes. Any recurrence — stop.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="xref-bar">
+      <span class="xref-label">Engine theory:</span>
+      <span class="xref-pill">R4 · 1HZ Engine Training</span>
+      <span class="xref-label" style="margin-left:8px;">Full fault tree:</span>
+      <span class="xref-pill">R18 · 1HZ Troubleshooting Guide</span>
+      <span class="xref-label" style="margin-left:8px;">Emergency first aid:</span>
+      <span class="xref-pill">R10 · Emergency Procedures</span>
+    </div>
+  </div><!-- /s-protocol -->
+
+
+  <!-- ══ SECTION 6: PRE-DEPARTURE CHECKLIST ══ -->
+  <div id="s-checklist" class="sa">
+    <div class="section-head">Pre-Departure Inspection Checklist</div>
+    <p class="section-intro">20-point cooling system inspection. Complete before every major departure and after any off-road section involving deep water or heavy brush. Tick physically — do not estimate from memory.</p>
+
+    <div class="note-box">💡 This checklist must be completed with the engine <strong>cold</strong> (not started for at least 2 hours) except where noted. Opening a pressurised system on a warm engine is dangerous.</div>
+
+    <ul class="checklist">
+      <li>
+        <div class="cl-num">01</div>
+        <div class="cl-text">
+          <span class="cl-label">Coolant level — radiator</span>
+          <span class="cl-note">Remove cap (cold engine). Level should be visible at or near the filler neck. Add 50/50 mix if low. If significantly low with no obvious leak, investigate before departure.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">02</div>
+        <div class="cl-text">
+          <span class="cl-label">Coolant level — overflow tank</span>
+          <span class="cl-note">Check level against MIN/MAX markings on the reservoir. Top up with 50/50 mix if below MIN. A consistently empty overflow tank suggests the system is losing coolant — find the source.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">03</div>
+        <div class="cl-text">
+          <span class="cl-label">Coolant condition — colour and clarity</span>
+          <span class="cl-note">Coolant should be clear or slightly coloured (pink/red for Toyota SLLC). Brown, rust-coloured, or milky coolant indicates contamination. Milky = oil/combustion gas contamination. Brown = scale and corrosion. Schedule a flush if discoloured.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">04</div>
+        <div class="cl-text">
+          <span class="cl-label">No milky froth or oily film on coolant surface</span>
+          <span class="cl-note">Inspect the coolant surface in the radiator and overflow tank with a torch. Any milky emulsion or iridescent oil film = potential head gasket compromise. Do not depart until investigated.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">05</div>
+        <div class="cl-text">
+          <span class="cl-label">Oil dipstick — no milky emulsion</span>
+          <span class="cl-note">Check dipstick and underside of oil filler cap. Grey-brown emulsion indicates coolant in oil. A single event may produce a small amount of condensation — recheck after a full warm-up cycle before declaring a fault.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">06</div>
+        <div class="cl-text">
+          <span class="cl-label">Upper radiator hose — condition and clamp</span>
+          <span class="cl-note">Squeeze test: should feel firm but pliable, not hard and brittle. No surface cracking visible. Inspect the clamp at both ends — fully seated, no corrosion. Feel for any coolant seepage or staining at the hose ends.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">07</div>
+        <div class="cl-text">
+          <span class="cl-label">Lower radiator hose — condition and clamp</span>
+          <span class="cl-note">Same checks as upper hose. The lower hose is under partial vacuum when the engine cools — a weakened lower hose can collapse internally, restricting flow without any external signs. Look for kinking or deformation.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">08</div>
+        <div class="cl-text">
+          <span class="cl-label">Heater hoses — condition, routing, and clamps</span>
+          <span class="cl-note">Trace both heater hoses from the engine to the firewall and back. Inspect for rubbing against brackets or sharp edges, soft spots, and clamp seating. A failed heater hose is a common surprise coolant loss — easily preventable.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">09</div>
+        <div class="cl-text">
+          <span class="cl-label">Turbo coolant lines — no weeping at banjo fittings</span>
+          <span class="cl-note">Inspect the coolant feed and return banjo fittings at the turbo bearing housing for any staining or dried coolant deposits. Tighten if finger-loose but do not over-torque banjo bolts. Carry spare copper banjo washers.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">10</div>
+        <div class="cl-text">
+          <span class="cl-label">Water pump weep hole — no drips</span>
+          <span class="cl-note">Inspect the small weep hole on the underside of the water pump body. A dry hole is correct. Any coolant dripping or dried white deposits indicates seal wear — pump replacement should be scheduled imminently.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">11</div>
+        <div class="cl-text">
+          <span class="cl-label">Water pump shaft — zero radial play</span>
+          <span class="cl-note">Grip the fan hub firmly and attempt to rock it in any radial direction. Any detectable movement (not rotational) indicates bearing wear. If play is present: do not depart. Replace the pump.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">12</div>
+        <div class="cl-text">
+          <span class="cl-label">Viscous fan clutch — cold spin test</span>
+          <span class="cl-note">Spin the fan blade by hand with the engine cold. It should resist firmly — not spin freely. Note the resistance as a baseline. Abnormally easy spinning = degraded silicone fluid = replace before departure.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">13</div>
+        <div class="cl-text">
+          <span class="cl-label">Fan blades — intact, no cracks</span>
+          <span class="cl-note">Visually inspect each fan blade for cracks, chips, or bending. A cracked fan blade can shed at high RPM — causing severe engine bay damage. Any cracking = replace the fan assembly immediately.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">14</div>
+        <div class="cl-text">
+          <span class="cl-label">Accessory belt — tension and condition</span>
+          <span class="cl-note">The accessory belt drives the water pump and alternator. Check tension (should deflect 10–13 mm under firm thumb pressure at the longest span). Inspect for glazing, fraying, or cracking. A belt failure stops the water pump — immediate overheat follows.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">15</div>
+        <div class="cl-text">
+          <span class="cl-label">Thermostat housing — no staining or weeping</span>
+          <span class="cl-note">Inspect the thermostat housing joint face and outlet neck for dried coolant deposits or staining. Any white crystalline deposit or greenish staining indicates a weeping O-ring. Replace the O-ring at the next service stop.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">16</div>
+        <div class="cl-text">
+          <span class="cl-label">Radiator cap — pressure rating confirmed, seals intact</span>
+          <span class="cl-note">Inspect the cap's rubber seals for cracking or deformation. Confirm the pressure rating is stamped on the cap (88–108 kPa / 0.9 bar). If in doubt or cap is over 2 years old, replace. Carry a spare cap — it costs nothing and can save the engine.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">17</div>
+        <div class="cl-text">
+          <span class="cl-label">Radiator core face — clear of debris</span>
+          <span class="cl-note">Inspect the radiator face for mud, insects, seed pods, or grass seeds packed between the fins. A garden hose from the engine side forward clears blockages. In severe cases, soft brush carefully from front. Bent fins can be straightened with a fin comb.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">18</div>
+        <div class="cl-text">
+          <span class="cl-label">Intercooler core face — clear of debris</span>
+          <span class="cl-note">The intercooler sits in front of the radiator and blocks airflow when packed with debris. Inspect and clear the same way as the radiator face. After any deep water crossing with mud, inspect both the intercooler and radiator before continuing.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">19</div>
+        <div class="cl-text">
+          <span class="cl-label">Spare coolant stock confirmed — 50/50 mix, correct type</span>
+          <span class="cl-note">Carry minimum 2 litres of pre-mixed 50/50 HOAT/OAT coolant. Label clearly. Do not use tap water for top-up unless it is a true emergency and a full flush will follow at the next opportunity. Carry a spare radiator cap.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">20</div>
+        <div class="cl-text">
+          <span class="cl-label">Post warm-up check (engine running) — no leaks, gauge settling correctly</span>
+          <span class="cl-note">Start engine, run to operating temperature. Gauge should settle between ¼ and ½. Inspect the engine bay after 5 minutes at idle for any new drips or steam. Confirm heater produces hot air (confirms thermostat has opened and coolant is circulating). Only then declare the cooling system ready.</span>
+        </div>
+      </li>
+    </ul>
+
+    <div class="xref-bar">
+      <span class="xref-label">Related checklist:</span>
+      <span class="xref-pill">R2 · Departure Checklist — full vehicle pre-departure</span>
+      <span class="xref-label" style="margin-left:8px;">Service records:</span>
+      <span class="xref-pill">R8 · Service History — cooling system log</span>
+    </div>
+  </div><!-- /s-checklist -->
+
+
+  <!-- ══ FAULT LOG ══ -->
+  <div id="s-log" class="sa">
+    <div class="section-head">Cooling System Fault Log</div>
+    <p class="section-intro">Record all cooling system events, symptoms, actions, and parts used. Transfer significant events to R8 Service History.</p>
+
+    <table class="log-table">
+      <thead>
+        <tr>
+          <th style="width:9%">Date</th>
+          <th style="width:8%">Km</th>
+          <th style="width:12%">Location</th>
+          <th style="width:18%">Symptom</th>
+          <th style="width:18%">Diagnosis</th>
+          <th style="width:20%">Action taken</th>
+          <th style="width:15%">Parts used</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="fill">dd/mm/yy</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td></tr>
+        <tr><td class="fill">dd/mm/yy</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td></tr>
+        <tr><td class="fill">dd/mm/yy</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td></tr>
+        <tr><td class="fill">dd/mm/yy</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td></tr>
+        <tr><td class="fill">dd/mm/yy</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td></tr>
+        <tr><td class="fill">dd/mm/yy</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td></tr>
+      </tbody>
+    </table>
+
+    <div class="xref-bar">
+      <span class="xref-label">Transfer to:</span>
+      <span class="xref-pill">R8 · Service &amp; Repair History</span>
+      <span class="xref-label" style="margin-left:8px;">Field fault diagnosis:</span>
+      <span class="xref-pill">R18 · 1HZ Troubleshooting Guide</span>
+      <span class="xref-label" style="margin-left:8px;">Emergency actions:</span>
+      <span class="xref-pill">R10 · Emergency Procedures</span>
+    </div>
+  </div><!-- /s-log -->
+
+</div><!-- /main -->
+
+<script>
+  function toggleDiag(header) {
+    const body = header.nextElementSibling;
+    const arrow = header.querySelector('.diag-arrow');
+    const isOpen = body.classList.contains('open');
+    body.classList.toggle('open', !isOpen);
+    arrow.classList.toggle('open', !isOpen);
+  }
+
+  const tocBtns = document.querySelectorAll('.toc-btn');
+  tocBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const el = document.getElementById(btn.dataset.target);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        tocBtns.forEach(b => b.classList.toggle('active', b.dataset.target === id));
+      }
+    });
+  }, { rootMargin: '-60px 0px -70% 0px', threshold: 0 });
+
+  document.querySelectorAll('.sa').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
