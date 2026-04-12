@@ -1,0 +1,2063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>R20 — Seal &amp; Gasket Atlas — LC76 Overland</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:#0d0e12; --paper:#dad2c0; --paper2:#edeae0;
+  --amber:#b86800; --amber2:#e07800;
+  --rule:#d4cfc4; --steeldk:#2a2f3a; --steelmd:#6a7080;
+  --red-warn:#B91C1C; --green-ok:#059669;
+  --ochre:#c8891a; --sand:#e8d5a3; --clay:#a0522d;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+body { background: var(--paper); color: var(--ink); font-family: 'Oswald', sans-serif; line-height: 1.6; }
+
+/* ── STICKY NAV ─────────────────────────────── */
+.sticky-wrap { position: sticky; top: 0; z-index: 100; }
+.masthead {
+  background: var(--steeldk);
+  padding: 14px 5% 10px;
+  border-bottom: 3px solid var(--amber2);
+  position: relative;
+}
+.ms-eyebrow { font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--steelmd); margin-bottom: 4px; }
+.ms-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(26px, 5vw, 38px); color: var(--amber2); line-height: 1; letter-spacing: .02em; }
+.ms-sub { font-size: 11px; color: var(--sand); letter-spacing: .06em; text-transform: uppercase; margin-top: 3px; opacity: .8; }
+.ms-vehicle { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: .08em; text-transform: uppercase; color: var(--steelmd); margin-top: 5px; }
+
+/* ⌂ Index pill */
+.lib-home-btn {
+  position: absolute; top: 50%; right: 16px; transform: translateY(-50%);
+  font-family: 'IBM Plex Mono', monospace; font-size: 9px;
+  letter-spacing: .1em; text-transform: uppercase;
+  background: rgba(232,120,0,.18);
+  color: var(--amber2);
+  border: 1px solid rgba(232,120,0,.45);
+  border-radius: 3px;
+  padding: 5px 10px; text-decoration: none; line-height: 1;
+  white-space: nowrap; z-index: 10;
+  -webkit-tap-highlight-color: transparent;
+  transition: background .2s, border-color .2s;
+}
+.lib-home-btn:hover, .lib-home-btn:active {
+  background: rgba(232,120,0,.30); border-color: var(--amber2);
+}
+@media print { .lib-home-btn { display: none !important; } }
+
+.toc {
+  background: #1e2229;
+  padding: 8px 5%;
+  display: flex; gap: 0; flex-wrap: nowrap;
+  overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
+.toc::-webkit-scrollbar { display: none; }
+.toc button {
+  background: none; border: none; cursor: pointer;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9.5px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--steelmd); white-space: nowrap; padding: 5px 14px 5px 0;
+  flex-shrink: 0; transition: color .15s;
+}
+.toc button:hover, .toc button.active { color: var(--amber2); }
+
+/* ── LAYOUT ─────────────────────────────────── */
+.content { padding: 20px 5% 60px; max-width: 100%; }
+section { margin-bottom: 30px; }
+
+/* ── HEADINGS ───────────────────────────────── */
+.section-label {
+  font-family: 'IBM Plex Mono', monospace; font-size: 9px;
+  letter-spacing: .22em; text-transform: uppercase; color: var(--steelmd);
+  border-bottom: 1px solid var(--rule); padding-bottom: 4px; margin-bottom: 10px;
+}
+h2 { font-family: 'Bebas Neue', sans-serif; font-size: clamp(20px, 3vw, 26px); color: var(--ink); letter-spacing: .03em; margin-bottom: 6px; }
+h3 { font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--amber); margin: 14px 0 5px; }
+h4 { font-family: 'Oswald', sans-serif; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--ink); margin: 10px 0 4px; }
+
+p { font-size: 13px; color: #2a2a2a; line-height: 1.55; margin-bottom: 7px; }
+strong { color: var(--ink); }
+
+/* ── INTRO PANEL ────────────────────────────── */
+.intro-panel {
+  background: var(--steeldk); color: var(--sand);
+  border-left: 4px solid var(--amber2);
+  padding: 14px 18px; margin-bottom: 16px; border-radius: 0 4px 4px 0;
+}
+.intro-panel p { color: var(--sand); font-size: 12px; margin-bottom: 6px; }
+.intro-panel p:last-child { margin-bottom: 0; }
+.intro-panel strong { color: var(--amber2); }
+
+/* ── PRIORITY LIST ──────────────────────────── */
+.prio-table { width: 100%; border-collapse: collapse; font-size: 12px; background: #fff; border: 1px solid var(--rule); }
+.prio-table th { background: var(--steeldk); color: var(--sand); font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; padding: 8px 10px; text-align: left; }
+.prio-table td { font-family: 'Oswald', sans-serif; font-size: 12px; padding: 7px 10px; border-bottom: 1px solid var(--rule); color: #2a2a2a; vertical-align: top; }
+.prio-table tr:last-child td { border-bottom: none; }
+.prio-table tr:nth-child(even) td { background: var(--paper2); }
+.prio-rank { font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 600; color: var(--amber); width: 28px; text-align: center; }
+.prio-dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 5px; vertical-align: middle; }
+.dot-red { background: var(--red-warn); }
+.dot-amber { background: var(--amber2); }
+.dot-green { background: var(--green-ok); }
+
+/* ── COMPONENT CARDS ────────────────────────── */
+.comp-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+@media (min-width: 860px) { .comp-grid { grid-template-columns: 1fr 1fr; } }
+
+.seal-card {
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--amber);
+  border-radius: 3px;
+  padding: 10px 13px 11px;
+  break-inside: avoid;
+}
+.seal-card.prio-red { border-left-color: var(--red-warn); }
+.seal-card.prio-amb { border-left-color: var(--amber2); }
+.seal-card.prio-grn { border-left-color: var(--green-ok); }
+
+.sc-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; margin-bottom: 4px; }
+.sc-name { font-family: 'Oswald', sans-serif; font-size: 13px; font-weight: 600; color: var(--ink); line-height: 1.25; flex: 1; }
+.sc-pill {
+  font-family: 'IBM Plex Mono', monospace; font-size: 8.5px;
+  letter-spacing: .08em; text-transform: uppercase;
+  padding: 2px 6px; border-radius: 2px; font-weight: 600;
+  white-space: nowrap; flex-shrink: 0;
+}
+.pill-red { background: rgba(185,28,28,.1); color: var(--red-warn); border: 1px solid rgba(185,28,28,.3); }
+.pill-amb { background: rgba(232,120,0,.1); color: var(--amber); border: 1px solid rgba(232,120,0,.35); }
+.pill-grn { background: rgba(5,150,105,.1); color: var(--green-ok); border: 1px solid rgba(5,150,105,.3); }
+
+.sc-loc {
+  font-family: 'IBM Plex Mono', monospace; font-size: 9px;
+  letter-spacing: .05em; color: var(--steelmd);
+  background: var(--paper2); padding: 3px 7px; border-radius: 2px;
+  display: inline-block; margin-bottom: 6px;
+}
+
+.sc-field { margin-top: 5px; }
+.sc-label {
+  font-family: 'IBM Plex Mono', monospace; font-size: 8.5px;
+  letter-spacing: .08em; text-transform: uppercase;
+  color: var(--steelmd); display: block; margin-bottom: 1px;
+}
+.sc-text { font-family: 'Oswald', sans-serif; font-size: 11.5px; color: #2a2a2a; line-height: 1.45; }
+.sc-text strong { color: var(--ink); }
+
+/* ── CALLOUTS ──────────────────────────────── */
+.callout { border-left: 3px solid var(--amber2); background: rgba(184,104,0,.07); padding: 9px 13px; margin: 10px 0; border-radius: 0 3px 3px 0; }
+.callout p { font-size: 12px; margin-bottom: 4px; }
+.callout p:last-child { margin-bottom: 0; }
+.callout.info { border-color: var(--green-ok); background: rgba(5,150,105,.07); }
+.callout.warn { border-color: var(--red-warn); background: rgba(185,28,28,.06); }
+
+/* ── SYMPTOM INDEX ─────────────────────────── */
+.sx-table { width: 100%; border-collapse: collapse; font-size: 12px; background: #fff; border: 1px solid var(--rule); }
+.sx-table th { background: var(--steeldk); color: var(--sand); font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; padding: 7px 10px; text-align: left; }
+.sx-table td { font-family: 'Oswald', sans-serif; font-size: 12px; padding: 7px 10px; border-bottom: 1px solid var(--rule); color: #2a2a2a; vertical-align: top; }
+.sx-table tr:last-child td { border-bottom: none; }
+.sx-table tr:nth-child(even) td { background: var(--paper2); }
+.sx-sym { font-weight: 600; color: var(--ink); width: 34%; }
+.sx-fluid { font-family: 'IBM Plex Mono', monospace; font-size: 9.5px; letter-spacing: .05em; color: var(--amber); text-transform: uppercase; width: 15%; }
+
+/* ── CHECKLIST ─────────────────────────────── */
+.check-list { background: #fff; border: 1px solid var(--rule); padding: 12px 16px; }
+.check-item { display: flex; align-items: flex-start; gap: 10px; padding: 6px 0; border-bottom: 1px dashed var(--rule); font-size: 12px; }
+.check-item:last-child { border-bottom: none; }
+.check-box { flex-shrink: 0; width: 14px; height: 14px; border: 1.5px solid var(--steelmd); border-radius: 2px; margin-top: 2px; }
+.check-text { flex: 1; color: #2a2a2a; line-height: 1.5; }
+.check-text strong { color: var(--ink); }
+.check-num { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--amber); font-weight: 600; min-width: 22px; }
+
+/* ── XREF PILLS ────────────────────────────── */
+.xref-bar { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; align-items: center; }
+.xref-label { font-family: 'IBM Plex Mono', monospace; font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--steelmd); }
+.xref-pill {
+  font-family: 'IBM Plex Mono', monospace; font-size: 9px;
+  letter-spacing: .06em; text-transform: uppercase;
+  background: var(--paper2); color: var(--amber);
+  padding: 3px 8px; border-radius: 2px; border: 1px solid var(--rule);
+}
+
+/* ── FOOTER ────────────────────────────────── */
+footer { background: var(--steeldk); color: var(--steelmd); font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .08em; text-align: center; padding: 14px 5%; border-top: 2px solid var(--amber2); margin-top: 20px; }
+footer span { color: var(--sand); }
+
+/* ── PRINT CSS (Design Guidelines v1.2 §16) ── */
+@media print {
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+  @page { margin: 7mm; size: A4; }
+
+  .sticky-wrap { position: static !important; }
+  .toc, footer { display: none !important; }
+
+  html, body {
+    background: #fff !important;
+    font-size: 7.5pt !important;
+    line-height: 1.35 !important;
+    color: #111 !important;
+  }
+
+  .masthead {
+    background: #2a2f3a !important;
+    padding: 6pt 8pt !important;
+    margin-bottom: 6pt !important;
+    border-bottom: 2pt solid #e07800 !important;
+  }
+  .ms-eyebrow { color: #6a7080 !important; font-size: 6pt !important; margin-bottom: 1pt !important; }
+  .ms-title   { color: #e07800 !important; font-size: 16pt !important; line-height: 1 !important; }
+  .ms-sub     { color: #e8d5a3 !important; font-size: 6.5pt !important; margin-top: 1pt !important; opacity: 1 !important; }
+  .ms-vehicle { color: #6a7080 !important; font-size: 5.5pt !important; margin-top: 2pt !important; }
+
+  .content { padding: 0 !important; }
+  section { margin-bottom: 6pt !important; }
+
+  .section-label { font-size: 6pt !important; padding-bottom: 2pt !important; margin-bottom: 3pt !important; border-bottom: 0.5pt solid #ccc !important; }
+  h2 { font-size: 12pt !important; margin-bottom: 2pt !important; }
+  h3 { font-size: 7.5pt !important; margin: 5pt 0 2pt !important; }
+  h4 { font-size: 7pt !important; margin: 4pt 0 1pt !important; }
+  p  { font-size: 7pt !important; line-height: 1.35 !important; margin-bottom: 3pt !important; }
+
+  .intro-panel {
+    background: #2a2f3a !important;
+    padding: 4pt 6pt !important;
+    margin-bottom: 5pt !important;
+    border-left: 2pt solid #e07800 !important;
+  }
+  .intro-panel p { font-size: 6.5pt !important; margin-bottom: 2pt !important; color: #e8d5a3 !important; }
+  .intro-panel strong { color: #e07800 !important; }
+
+  /* Priority table */
+  .prio-table { font-size: 6.5pt !important; break-inside: auto !important; }
+  .prio-table thead { display: table-header-group; }
+  .prio-table th { font-size: 5.5pt !important; padding: 2.5pt 4pt !important; background: #2a2f3a !important; color: #e8d5a3 !important; }
+  .prio-table td { font-size: 6.5pt !important; padding: 2pt 4pt !important; }
+  .prio-table tr { break-inside: avoid !important; }
+
+  /* Component cards: 3-column in print for density */
+  .comp-grid {
+    display: block !important;
+    columns: 3 !important;
+    column-gap: 4pt !important;
+  }
+  .seal-card {
+    display: inline-block !important;
+    width: 100% !important;
+    break-inside: avoid !important;
+    margin-bottom: 3pt !important;
+    padding: 3pt 5pt 4pt !important;
+    border: 0.5pt solid #ccc !important;
+    border-left: 1.5pt solid #b86800 !important;
+    background: #fff !important;
+  }
+  .seal-card.prio-red { border-left-color: #B91C1C !important; }
+  .seal-card.prio-amb { border-left-color: #e07800 !important; }
+  .seal-card.prio-grn { border-left-color: #059669 !important; }
+
+  .sc-head { margin-bottom: 1pt !important; gap: 4pt !important; }
+  .sc-name { font-size: 6.5pt !important; }
+  .sc-pill { font-size: 5pt !important; padding: 0.5pt 3pt !important; }
+  .sc-loc { font-size: 5pt !important; padding: 1pt 3pt !important; margin-bottom: 2pt !important; background: #edeae0 !important; }
+  .sc-field { margin-top: 1.5pt !important; }
+  .sc-label { font-size: 5pt !important; margin-bottom: 0 !important; }
+  .sc-text { font-size: 6pt !important; line-height: 1.3 !important; }
+
+  /* Symptom table */
+  .sx-table { font-size: 6.5pt !important; break-inside: auto !important; }
+  .sx-table thead { display: table-header-group; }
+  .sx-table th { font-size: 5.5pt !important; padding: 2.5pt 4pt !important; background: #2a2f3a !important; color: #e8d5a3 !important; }
+  .sx-table td { font-size: 6pt !important; padding: 2pt 4pt !important; }
+  .sx-table tr { break-inside: avoid !important; }
+
+  /* Checklist: page break OK, but rows stay together */
+  .check-list { padding: 4pt 6pt !important; break-inside: auto !important; }
+  .check-item { padding: 2pt 0 !important; font-size: 6.5pt !important; break-inside: avoid !important; }
+  .check-box { width: 8pt !important; height: 8pt !important; border: 0.75pt solid #6a7080 !important; }
+  .check-text { font-size: 6.5pt !important; line-height: 1.3 !important; }
+  .check-num { font-size: 5.5pt !important; }
+
+  /* Callouts */
+  .callout { padding: 3pt 5pt !important; margin: 3pt 0 !important; border-left: 1.5pt solid #e07800 !important; background: rgba(184,104,0,.06) !important; break-inside: avoid !important; }
+  .callout.info { border-left-color: #059669 !important; background: rgba(5,150,105,.06) !important; }
+  .callout.warn { border-left-color: #B91C1C !important; background: rgba(185,28,28,.05) !important; }
+  .callout p { font-size: 6pt !important; margin-bottom: 1pt !important; }
+
+  /* Xref */
+  .xref-bar { margin-top: 3pt !important; gap: 3pt !important; }
+  .xref-label, .xref-pill { font-size: 5.5pt !important; padding: 1pt 4pt !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="sticky-wrap">
+  <div class="masthead">
+    <a href="index.html" class="lib-home-btn" title="Library Index">⌂ Index</a>
+    <div class="ms-eyebrow">R20 — Overland Series · Reference Atlas</div>
+    <div class="ms-title">Seal &amp; Gasket Atlas</div>
+    <div class="ms-sub">Failure Map · Field Diagnosis · Pre-Departure Inspection</div>
+    <div class="ms-vehicle">2009 LC76 SW · 1HZ 4.2L · R151F · HF1A · ~305,000 km · Last updated: 12 April 2026</div>
+  </div>
+  <nav class="toc" id="toc">
+    <button onclick="navTo('overview')">Overview</button>
+    <button onclick="navTo('priority')">Priority Watch</button>
+    <button onclick="navTo('engine-oil')">§1 Engine Oil</button>
+    <button onclick="navTo('engine-coolant')">§2 Coolant</button>
+    <button onclick="navTo('fuel')">§3 Fuel</button>
+    <button onclick="navTo('turbo')">§4 Turbo</button>
+    <button onclick="navTo('gearbox')">§5 Gearbox</button>
+    <button onclick="navTo('transfer')">§6 Transfer</button>
+    <button onclick="navTo('front-axle')">§7 Front Axle</button>
+    <button onclick="navTo('rear-axle')">§8 Rear Axle</button>
+    <button onclick="navTo('hydraulics')">§9 Brakes/Clutch</button>
+    <button onclick="navTo('steering')">§10 Steering</button>
+    <button onclick="navTo('suspension')">§11 Suspension</button>
+    <button onclick="navTo('aircon')">§12 A/C</button>
+    <button onclick="navTo('symptoms')">§13 Symptom Index</button>
+    <button onclick="navTo('inspection')">§14 Inspection</button>
+    <button onclick="navTo('xref')">§15 Cross-Refs</button>
+  </nav>
+</div>
+
+<div class="content">
+
+  <!-- ─── OVERVIEW ─── -->
+  <section id="overview">
+    <div class="section-label">00 — Overview</div>
+    <h2>Why This Document Exists</h2>
+
+    <div class="intro-panel">
+      <p>The LC76 has more than <strong>120 individual seals, gaskets and O-rings</strong> that can leak. On a 305,000 km expedition vehicle, any one of them can cost you a day, a week, or the whole trip — depending on what it seals and where you are when it fails.</p>
+      <p>This atlas is not a repair manual. It is a <strong>failure map</strong>. Each seal is listed with what it seals, how failure presents in the field, and what the operational impact is — so that when you see an oil drip, a weep stain, or a fluid level dropping, you can locate the source quickly and know whether it's a "stop now" or a "monitor and top up" situation.</p>
+      <p>Cross-reference with <strong>R3</strong> (what to carry), <strong>R4</strong> (engine component context), <strong>R8</strong> (this vehicle's service history), <strong>R13</strong> (drivetrain), and <strong>R18</strong> (symptom-based troubleshooting).</p>
+    </div>
+
+    <h3>How to Read the Cards</h3>
+    <p>Each seal card has a <strong>priority stripe</strong> on its left edge:</p>
+    <p><span class="prio-dot dot-red"></span><strong>Red</strong> — Stop driving. Loss of this seal ends the day or damages the vehicle. &nbsp; <span class="prio-dot dot-amber"></span><strong>Amber</strong> — Monitor and top up. You can drive, but plan a fix. &nbsp; <span class="prio-dot dot-green"></span><strong>Green</strong> — Cosmetic or slow weep. Not urgent.</p>
+
+    <div class="callout warn">
+      <p><strong>Scope boundary.</strong> This document does not contain torque specs, disassembly procedures, or OEM part numbers. For what to carry, see R3. For how to diagnose by symptom, see R18. For service intervals, see R8.</p>
+    </div>
+  </section>
+
+
+  <!-- ─── PRIORITY WATCH LIST ─── -->
+  <section id="priority">
+    <div class="section-label">01 — Priority Watch List</div>
+    <h2>Top 10 Seals to Watch on This Vehicle</h2>
+    <p>Ranked by likelihood × consequence given 305,000 km, known front-axle history, SAC turbo, and the 2028 departure horizon. This is the list to inspect at every pre-trip check and at every service.</p>
+
+    <table class="prio-table">
+      <thead>
+        <tr>
+          <th style="width:30px;">#</th>
+          <th>Seal / Location</th>
+          <th style="width:18%;">When to Replace</th>
+          <th style="width:14%;">Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="prio-rank">1</td>
+          <td><strong>Front crank seal + cam seal + IP drive seal</strong> — all three behind the timing cover</td>
+          <td>Next timing belt change, no exceptions</td>
+          <td><span class="prio-dot dot-red"></span>RED</td>
+        </tr>
+        <tr>
+          <td class="prio-rank">2</td>
+          <td><strong>Valve cover (rocker cover) gasket</strong> — fire risk if oil drips onto turbo manifold</td>
+          <td>Any visible weep — immediate</td>
+          <td><span class="prio-dot dot-red"></span>RED</td>
+        </tr>
+        <tr>
+          <td class="prio-rank">3</td>
+          <td><strong>Front knuckle trunnion and inner axle seals</strong> — repeat-offender zone, ~12 seals per corner</td>
+          <td>Full knuckle rebuild pre-departure if any weep</td>
+          <td><span class="prio-dot dot-amber"></span>AMBER</td>
+        </tr>
+        <tr>
+          <td class="prio-rank">4</td>
+          <td><strong>Front &amp; rear diff pinion seals</strong> — and extend breathers before any water crossing</td>
+          <td>Replace with any weep; breathers before every trip</td>
+          <td><span class="prio-dot dot-amber"></span>AMBER</td>
+        </tr>
+        <tr>
+          <td class="prio-rank">5</td>
+          <td><strong>Injection pump side-cover &amp; rear-cover O-rings</strong> — Denso specialists identify as #1 failure point on high-km 1HZ</td>
+          <td>Full pump reseal before departure if any fuel weep</td>
+          <td><span class="prio-dot dot-amber"></span>AMBER</td>
+        </tr>
+        <tr>
+          <td class="prio-rank">6</td>
+          <td><strong>Rear main crankshaft seal</strong> — drip from bellhousing drain hole</td>
+          <td>Replace with next clutch job (any opportunity)</td>
+          <td><span class="prio-dot dot-amber"></span>AMBER</td>
+        </tr>
+        <tr>
+          <td class="prio-rank">7</td>
+          <td><strong>Transfer case front output + shift rod O-rings</strong></td>
+          <td>When case is opened for any reason</td>
+          <td><span class="prio-dot dot-green"></span>GREEN</td>
+        </tr>
+        <tr>
+          <td class="prio-rank">8</td>
+          <td><strong>Clutch slave cylinder seal</strong> — scheduled failure mode; carry a spare unit, not just fluid</td>
+          <td>Carry complete spare slave cylinder</td>
+          <td><span class="prio-dot dot-red"></span>RED</td>
+        </tr>
+        <tr>
+          <td class="prio-rank">9</td>
+          <td><strong>Power steering pump &amp; steering box seals</strong> — age-related, rarely sudden</td>
+          <td>Replace with any weep; pre-departure inspection</td>
+          <td><span class="prio-dot dot-green"></span>GREEN</td>
+        </tr>
+        <tr>
+          <td class="prio-rank">10</td>
+          <td><strong>Water pump face seal</strong> — engineered weep hole warning</td>
+          <td>Replace pump at first weep-hole drip</td>
+          <td><span class="prio-dot dot-amber"></span>AMBER</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="callout info">
+      <p><strong>Note on item 2.</strong> A weeping valve cover on a naturally-aspirated 1HZ is a nuisance. On your turbo setup, the exhaust manifold runs to 600°C under load, directly below the valve cover. A rubber gasket costs nothing and takes 20 minutes. Do not tolerate any seep.</p>
+    </div>
+  </section>
+
+
+  <!-- ═════════════════ §1 ENGINE OIL SEALS ═════════════════ -->
+  <section id="engine-oil">
+    <div class="section-label">02 — §1 Engine · Oil-Sealing Surfaces</div>
+    <h2>Engine Oil Seals</h2>
+    <p>The 1HZ has well-known oil-leak zones — most are at the front of the engine (timing case), the valve cover, and the rear main. None are hidden or mysterious; all are documented on the 70 Series forums and all are fixable with common tools. The key is catching them before they become three-fluid cross-contamination events.</p>
+
+    <div class="comp-grid">
+
+      <div class="seal-card prio-red">
+        <div class="sc-head">
+          <div class="sc-name">1.1 &nbsp;Front Crankshaft Oil Seal</div>
+          <div class="sc-pill pill-red">CRITICAL</div>
+        </div>
+        <div class="sc-loc">Behind crank pulley · inside timing cover</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Engine oil at the crankshaft nose where the shaft exits the block into the timing case.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Oil film down the front of the block, thrown by belt speed onto the radiator core and sump. Often misdiagnosed as a sump gasket leak.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text"><strong>Oil contaminates the timing belt.</strong> A contaminated belt fails early and destroys the head (interference engine). Replace with every timing belt — no exceptions.</div></div>
+      </div>
+
+      <div class="seal-card prio-red">
+        <div class="sc-head">
+          <div class="sc-name">1.2 &nbsp;Camshaft Front Oil Seal</div>
+          <div class="sc-pill pill-red">CRITICAL</div>
+        </div>
+        <div class="sc-loc">Top of timing case · behind cam sprocket</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Engine oil at the camshaft nose where it exits the cylinder head.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Oil inside the timing cover, weeping out the lower edge and flung forward.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Same as front crank seal — contaminates the timing belt. Replace with every belt change.</div></div>
+      </div>
+
+      <div class="seal-card prio-red">
+        <div class="sc-head">
+          <div class="sc-name">1.3 &nbsp;Injection Pump Drive Shaft Seal</div>
+          <div class="sc-pill pill-red">CRITICAL</div>
+        </div>
+        <div class="sc-loc">Behind IP sprocket · inside timing case</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Engine oil between the timing case and the injection pump body. If this fails inward, oil level in the IP rises over time.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Oil drip behind the IP; or rising fuel level in the engine oil if the seal fails the other way.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Often missed on timing belt jobs. Replace with every belt change alongside front crank and cam seals — the three seals are accessed together.</div></div>
+      </div>
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">1.4 &nbsp;Timing Cover Gasket / RTV Bead</div>
+          <div class="sc-pill pill-amb">MONITOR</div>
+        </div>
+        <div class="sc-loc">Between timing cover and block</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Engine oil inside the timing case.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Weep along the lower cover-to-block seam where oil pools. Drips onto front crossmember.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Usually slow. Replace with timing belt service.</div></div>
+      </div>
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">1.5 &nbsp;Oil Pump Cover O-Ring / Shaft Seal</div>
+          <div class="sc-pill pill-amb">MONITOR</div>
+        </div>
+        <div class="sc-loc">Inside front cover · driven off crank nose</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Pressurised oil inside the oil pump housing.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Slow weep from the front of the engine, indistinguishable from front crank seal without proper inspection.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Access requires timing cover removal — do with timing belt job.</div></div>
+      </div>
+
+      <div class="seal-card prio-red">
+        <div class="sc-head">
+          <div class="sc-name">1.6 &nbsp;Valve Cover (Rocker) Gasket</div>
+          <div class="sc-pill pill-red">FIRE RISK</div>
+        </div>
+        <div class="sc-loc">Perimeter of rocker cover · top of head</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Engine oil inside the rocker cover above the valve train.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Oil weep down the side of the head, visible as black streak. Smell of burning oil under load.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text"><strong>Drips onto exhaust manifold (600°C with turbo).</strong> Fire risk. Replace immediately — 20-minute job, cheap part. RTV bead acceptable as field fix if gasket unavailable.</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">1.7 &nbsp;Valve Cover Bolt Grommets</div>
+          <div class="sc-pill pill-grn">COSMETIC</div>
+        </div>
+        <div class="sc-loc">Under each rocker cover bolt</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Small rubber washers under each cover bolt. Part of the valve cover gasket kit.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Oil weeps from under individual bolt heads even with a new gasket.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Always replace with main gasket — do not reuse.</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">1.8 &nbsp;Oil Filler Cap O-Ring</div>
+          <div class="sc-pill pill-grn">COSMETIC</div>
+        </div>
+        <div class="sc-loc">Inside the oil filler cap</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Crankcase breather pressure at the fill point.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Oil mist escapes around the cap; smell of oil in the engine bay.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Replace the cap entirely — O-rings not sold separately.</div></div>
+      </div>
+
+      <div class="seal-card prio-red">
+        <div class="sc-head">
+          <div class="sc-name">1.9 &nbsp;Head Gasket</div>
+          <div class="sc-pill pill-red">CRITICAL</div>
+        </div>
+        <div class="sc-loc">Block deck to cylinder head · 12-bolt clamped</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Three circuits: combustion (&gt;1000 bar), coolant, oil.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">White exhaust steam · bubbles in coolant reservoir · mayonnaise under oil cap. Any one sign: stop engine.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text"><strong>Complete strip and rebuild.</strong> Never field-fixable. The 1HZ only fails this when overheated — monitor temperature gauge constantly. See R4 §2.1 and R18 cooling section.</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">1.10 &nbsp;Oil Cooler Sandwich Plate O-Rings</div>
+          <div class="sc-pill pill-grn">MONITOR</div>
+        </div>
+        <div class="sc-loc">Where oil cooler mounts to block</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Engine oil flow between the block and the oil cooler heat exchanger.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Oil weep at oil cooler mating face; can also cross-contaminate with coolant internally.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Replace O-rings at any sign of seep. If coolant appears in oil, cooler itself has failed internally — a bigger job.</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">1.11 &nbsp;Oil Pressure Sender Seal Washer</div>
+          <div class="sc-pill pill-grn">COSMETIC</div>
+        </div>
+        <div class="sc-loc">Threaded into block near oil filter</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Engine oil at the pressure sender threads.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Slow drip on the side of the block.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Crush washer — replace on removal. Carry a selection.</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">1.12 &nbsp;Dipstick Tube O-Ring</div>
+          <div class="sc-pill pill-grn">COSMETIC</div>
+        </div>
+        <div class="sc-loc">Base of dipstick tube · into block</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Crankcase at the dipstick tube entry point.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Oil weep at the base of the tube.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Trivial. Replace on removal.</div></div>
+      </div>
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">1.13 &nbsp;Sump (Oil Pan) Gasket</div>
+          <div class="sc-pill pill-amb">MONITOR</div>
+        </div>
+        <div class="sc-loc">Full perimeter · sump to block</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Engine oil reservoir at the bottom of the block.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Oil drip at any point along the sump-to-block seam.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Drops require sump removal (R4 §1.2). Vulnerable to impact damage — bash plate protects it. Field patch: JB Weld on cleaned area.</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">1.14 &nbsp;Sump Drain Plug Washer</div>
+          <div class="sc-pill pill-grn">ROUTINE</div>
+        </div>
+        <div class="sc-loc">Under drain plug</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Engine oil at the drain point.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Drip from drain plug after oil change.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Crush washer. Replace at every oil change. Carry spares.</div></div>
+      </div>
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">1.15 &nbsp;Rear Main Crankshaft Seal</div>
+          <div class="sc-pill pill-amb">MAJOR JOB</div>
+        </div>
+        <div class="sc-loc">Rear of block · into bellhousing</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Engine oil at the crankshaft rear where it exits the block into the bellhousing.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Oil drip from the bellhousing drain hole. Often confused with gearbox input shaft seal — <em>both</em> drip from the same hole.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Requires gearbox and flywheel removal. Monitor level and top up — you can drive for thousands of km with a slow rear main weep. Replace with next clutch job.</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">1.16 &nbsp;Breather Hose Grommets</div>
+          <div class="sc-pill pill-grn">COSMETIC</div>
+        </div>
+        <div class="sc-loc">Rocker cover breather to intake</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Crankcase blow-by gases routed to intake.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Oil mist around the breather connections; slight intake vacuum loss.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Cheap to replace. Check when changing air filter.</div></div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ═════════════════ §2 COOLANT SEALS ═════════════════ -->
+  <section id="engine-coolant">
+    <div class="section-label">03 — §2 Engine · Coolant-Sealing Surfaces</div>
+    <h2>Coolant Seals</h2>
+    <p>The 1HZ head gasket only fails from overheating — so every seal in the coolant circuit is effectively head-gasket protection. Any coolant leak is a priority item, regardless of how small.</p>
+
+    <div class="comp-grid">
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">2.1 &nbsp;Water Pump Gasket</div>
+          <div class="sc-pill pill-amb">MONITOR</div>
+        </div>
+        <div class="sc-loc">Water pump to block</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Coolant between pump housing and block.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Coolant weep at the pump mounting face.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Replace pump + gasket together (R4 §4.1). Typically done at timing belt service because the pump is behind the timing cover on the 1HZ.</div></div>
+      </div>
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">2.2 &nbsp;Water Pump Face Seal (Internal)</div>
+          <div class="sc-pill pill-amb">EARLY WARNING</div>
+        </div>
+        <div class="sc-loc">Internal · signalled via weep hole</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Coolant inside the pump body against the spinning impeller shaft.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text"><strong>Coolant drip from the engineered weep hole under the pump body.</strong> This is Toyota's designed early-warning system.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Plan pump replacement at first drip from weep hole. You have days to weeks, not hours. A squeal at startup = bearing wear imminent.</div></div>
+      </div>
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">2.3 &nbsp;Thermostat Housing Gasket</div>
+          <div class="sc-pill pill-amb">MONITOR</div>
+        </div>
+        <div class="sc-loc">Front of cylinder head</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Coolant at the housing-to-head mating face.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Weep at the housing, often seen as a crusty white deposit on the casting.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Replace gasket at first weep — do with thermostat replacement.</div></div>
+      </div>
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">2.4 &nbsp;Coolant Hose Clamps &amp; Hose Ends</div>
+          <div class="sc-pill pill-amb">MONITOR</div>
+        </div>
+        <div class="sc-loc">Upper/lower radiator · heater · bypass</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Functionally the hose end + clamp is the seal between the hose and its metal union.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Coolant weep at hose ends. Swollen or cracked hose.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Tighten or replace clamp. Carry spare stainless worm-drive clamps and full hose set (R3 §7).</div></div>
+      </div>
+
+      <div class="seal-card prio-red">
+        <div class="sc-head">
+          <div class="sc-name">2.5 &nbsp;Core Plugs (Freeze Plugs)</div>
+          <div class="sc-pill pill-red">CATASTROPHIC</div>
+        </div>
+        <div class="sc-loc">Side and rear of block · 38mm + 48mm</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Cast-in coolant passages at the machining access points.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Sudden gush of coolant from the side or rear of the block. Rust-through failure from old plain water use.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Total coolant loss within minutes. You carry 2× spares (R3 §7.1). Field replacement is possible but access can be awkward depending on which plug.</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">2.6 &nbsp;Coolant Temp Sender Seal Washer</div>
+          <div class="sc-pill pill-grn">COSMETIC</div>
+        </div>
+        <div class="sc-loc">Threaded into thermostat housing</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Coolant at the sender threads.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Slow weep around sender body.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Copper crush washer. Replace on removal.</div></div>
+      </div>
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">2.7 &nbsp;Heater Hose Unions at Firewall</div>
+          <div class="sc-pill pill-amb">MONITOR</div>
+        </div>
+        <div class="sc-loc">Firewall · cabin heater feed/return</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Coolant flow to the cabin heater core.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Coolant drip inside cabin on the passenger footwell, or in the engine bay at firewall.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">A cabin coolant smell means heater core or firewall union leak. You can bypass the heater core entirely in the field by joining the feed and return hoses with a short bypass pipe.</div></div>
+      </div>
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">2.8 &nbsp;Radiator Tank Crimp Seals</div>
+          <div class="sc-pill pill-amb">KNOWN WEAKNESS</div>
+        </div>
+        <div class="sc-loc">Plastic tank · alloy core · crimped seam</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">The top and bottom plastic tanks are crimped to the alloy core with a rubber gasket behind the crimp.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Coolant weeping along the tank-to-core seam, usually on the top tank first.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Radiator replacement is the only real fix. Stop-leak is a last resort for limp-home. <strong>Note:</strong> your replacement radiator has a quality warning in Service History — cross-reference before trip.</div></div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ═════════════════ §3 FUEL SYSTEM ═════════════════ -->
+  <section id="fuel">
+    <div class="section-label">04 — §3 Fuel System · Injection Pump &amp; Injectors</div>
+    <h2>Fuel Seals</h2>
+    <p>The 1HZ Denso inline injection pump is the second most common leak source on a high-km 1HZ, after the valve cover. Forum consensus from Denso specialists is that the side covers and rear cover O-rings are the first to fail, typically around 250–300k km. Your vehicle is now in that window.</p>
+
+    <div class="callout warn">
+      <p><strong>Fuel system cleanliness is non-negotiable.</strong> A grain of dust in the IP or injectors causes expensive damage. Any work on this system must be done in a clean environment, and any parts must be new or freshly cleaned.</p>
+    </div>
+
+    <div class="comp-grid">
+
+      <div class="seal-card prio-red">
+        <div class="sc-head">
+          <div class="sc-name">3.1 &nbsp;IP Front Drive Shaft Oil Seal</div>
+          <div class="sc-pill pill-red">CRITICAL</div>
+        </div>
+        <div class="sc-loc">Between IP body and timing case</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Engine oil in the timing case on one side, fuel/pump oil on the other.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Oil leak behind the pump; or rising oil level (fuel entering sump); or milky oil.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Replace with front crank + cam seal at timing belt service.</div></div>
+      </div>
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">3.2 &nbsp;IP Side Cover O-Rings (×2)</div>
+          <div class="sc-pill pill-amb">#1 FAILURE</div>
+        </div>
+        <div class="sc-loc">Side of injection pump body</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Diesel fuel inside the pump body at the side access covers.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Diesel weep on the side of the pump. Fuel smell in engine bay. Drips on front diff housing visible underneath.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Denso specialists identify these as the most common 1HZ pump leak. Can sometimes be replaced in situ. Best: full pump reseal by Dup Diesel pre-departure.</div></div>
+      </div>
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">3.3 &nbsp;IP Rear Cover / Governor Gasket</div>
+          <div class="sc-pill pill-amb">#2 FAILURE</div>
+        </div>
+        <div class="sc-loc">Rear end of IP body</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Fuel inside the pump's governor chamber.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Diesel weep at the back of the pump.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Usually requires pump removal for proper reseal.</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">3.4 &nbsp;IP Top Cover Gasket</div>
+          <div class="sc-pill pill-grn">MONITOR</div>
+        </div>
+        <div class="sc-loc">Top of pump · over governor mechanism</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Governor mechanism chamber.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Fuel weep on top of pump; drips onto intake manifold.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Full reseal job.</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">3.5 &nbsp;Speed Sensor / Tacho Drive O-Ring</div>
+          <div class="sc-pill pill-grn">MONITOR</div>
+        </div>
+        <div class="sc-loc">Top cover of pump</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Small shaft penetration at top of pump.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Small fuel drip at sensor body.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Known frequent weeper per forum reports. Replace with full reseal.</div></div>
+      </div>
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">3.6 &nbsp;Delivery Valve Holder Copper Washers (×6)</div>
+          <div class="sc-pill pill-amb">HIGH PRESSURE</div>
+        </div>
+        <div class="sc-loc">Top of IP · high-pressure line exits</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">High-pressure fuel at each of the 6 line takeoffs from the pump.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Fuel weep at the base of the injector lines where they meet the pump. Can also be confused with a split injector pipe.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Copper crush washers. Replace on any disturbance. Carry spares.</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">3.7 &nbsp;ACSD (Auto Cold Start Device) Seals</div>
+          <div class="sc-pill pill-grn">BLANK OFF</div>
+        </div>
+        <div class="sc-loc">Top of IP · coolant circuit connection</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">The wax-element cold-start device uses coolant circulation; can leak both fuel and coolant.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Mixed fuel/coolant weep near the ACSD mechanism.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Forum consensus: if ACSD fails, fit a blanking plate rather than rebuild. Does not affect hot running.</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">3.8 &nbsp;Fuel Cut Solenoid O-Ring</div>
+          <div class="sc-pill pill-grn">MONITOR</div>
+        </div>
+        <div class="sc-loc">Top of IP</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Solenoid body into the pump housing.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Fuel weep at solenoid threads.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Replace O-ring on removal.</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">3.9 &nbsp;Fuel Inlet Banjo Washers</div>
+          <div class="sc-pill pill-grn">ROUTINE</div>
+        </div>
+        <div class="sc-loc">Low-pressure fuel inlet to IP</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Low-pressure fuel supply at banjo bolt.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Diesel weep at banjo bolt.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Copper crush washers — replace on any disturbance. Carry a selection.</div></div>
+      </div>
+
+      <div class="seal-card prio-red">
+        <div class="sc-head">
+          <div class="sc-name">3.10 &nbsp;Injector Seat Copper Washer (×6)</div>
+          <div class="sc-pill pill-red">CRITICAL</div>
+        </div>
+        <div class="sc-loc">Under each injector body · in head</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Combustion gas + injector body seat against the head.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text"><strong>Black soot halo</strong> around one injector. Hot-starting trouble on that cylinder. Whistling noise under load.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Combustion blow-by erodes the washer seat on the head over time. Catch early — damaged seats require machining. Copper; always replace on any injector removal.</div></div>
+      </div>
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">3.11 &nbsp;Injector Return Line O-Rings (×6)</div>
+          <div class="sc-pill pill-amb">CARRY</div>
+        </div>
+        <div class="sc-loc">Top of each injector · return line banjo</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Low-pressure fuel return from injector back to tank.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Diesel weep on top of the head at each injector. Fuel smell in engine bay.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">You already carry these per R3. Quick field fix — 5 minutes per injector.</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">3.12 &nbsp;Nozzle Cap Nut Internal Seal</div>
+          <div class="sc-pill pill-grn">WORKSHOP</div>
+        </div>
+        <div class="sc-loc">Inside each injector</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Internal injector pressure at the nozzle stack.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Hard starting · knock · rough idle · smoke. Identified by diesel compression tester.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Not field serviceable. Injector sent to Dup Diesel for test and recondition.</div></div>
+      </div>
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">3.13 &nbsp;Fuel Filter Housing O-Rings</div>
+          <div class="sc-pill pill-amb">ROUTINE</div>
+        </div>
+        <div class="sc-loc">Primary + secondary filter bowls</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Diesel inside filter housings.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Fuel weep at filter base or where housing meets head.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Replace with every filter change. Secondary pre-filter (planned but not yet installed) will add another set.</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">3.14 &nbsp;Water-in-Fuel Sensor O-Ring</div>
+          <div class="sc-pill pill-grn">MONITOR</div>
+        </div>
+        <div class="sc-loc">Base of primary filter bowl</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Diesel at the sensor/drain screw.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Diesel drip under the filter after water drain cycle.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Replace with any drain-plug service.</div></div>
+      </div>
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">3.15 &nbsp;Lift Pump Diaphragm &amp; Cover Gasket</div>
+          <div class="sc-pill pill-amb">CARRY KIT</div>
+        </div>
+        <div class="sc-loc">Fuel lift pump · mounted on block</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Diaphragm isolates engine oil from low-pressure fuel; cover gasket seals the pump housing.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Fuel in oil sump (rising level, thin oil, diesel smell); or external fuel weep.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">You carry a diaphragm kit per R3. 30-minute field fix.</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">3.16 &nbsp;Fuel Line Banjo Washers (various)</div>
+          <div class="sc-pill pill-grn">ROUTINE</div>
+        </div>
+        <div class="sc-loc">Every fuel line union</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Fuel at every banjo bolt connection in the system.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Diesel weep at union.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Copper crush washers. Carry a varied selection.</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">3.17 &nbsp;Fuel Tank Sender O-Ring</div>
+          <div class="sc-pill pill-grn">MONITOR</div>
+        </div>
+        <div class="sc-loc">Top of fuel tank</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Tank access at the level sender.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Diesel weep on top of tank; fuel smell in cabin.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Tank drop to replace. Not urgent unless weeping heavily.</div></div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ═════════════════ §4 TURBO ═════════════════ -->
+  <section id="turbo">
+    <div class="section-label">05 — §4 Turbocharger</div>
+    <h2>Turbo Seals (SAC Low-Boost)</h2>
+    <p>Your SAC turbo is the highest-temperature component on the vehicle. Its seals run at exhaust-gas temperatures up to 600°C with constant oil feed — a harsh environment. Turbo reconned Aug 2023 by SAC at 224,406 km; current service life ~80,600 km on the rebuild.</p>
+
+    <div class="comp-grid">
+
+      <div class="seal-card prio-red">
+        <div class="sc-head">
+          <div class="sc-name">4.1 &nbsp;Turbo Oil Feed Line Banjo Washers</div>
+          <div class="sc-pill pill-red">CRITICAL</div>
+        </div>
+        <div class="sc-loc">Top of turbo body · from engine oil gallery</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Pressurised engine oil feed to the turbo bearing.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Oil leak at the feed line fitting · smoke · oil drip onto exhaust manifold.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text"><strong>Fire risk on the manifold.</strong> Copper crush washers. Replace on any disturbance. Loss of oil feed kills turbo bearing in seconds.</div></div>
+      </div>
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">4.2 &nbsp;Turbo Oil Drain Flange Gasket</div>
+          <div class="sc-pill pill-amb">MONITOR</div>
+        </div>
+        <div class="sc-loc">Base of turbo · to block</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Oil return from turbo back to the sump.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Oil weep at the turbo base · drips to bell housing area.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Metal gasket, usually simple flange replacement when turbo is off.</div></div>
+      </div>
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">4.3 &nbsp;Turbo Compressor Shaft Seal</div>
+          <div class="sc-pill pill-amb">WEAR WARNING</div>
+        </div>
+        <div class="sc-loc">Internal · compressor side</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Engine oil from entering the compressed-air intake.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text"><strong>Oily film inside the intercooler piping.</strong> Blue smoke under load. Oil drips from intercooler hose joiners.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Indicates approaching turbo rebuild. Not a field repair. Check intercooler pipes regularly (R4 §7.5).</div></div>
+      </div>
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">4.4 &nbsp;Turbo Turbine Shaft Seal</div>
+          <div class="sc-pill pill-amb">WEAR WARNING</div>
+        </div>
+        <div class="sc-loc">Internal · exhaust side</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Engine oil from entering the exhaust stream.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text"><strong>Blue smoke on overrun</strong> (when lifting off throttle). Smell of burning oil from exhaust.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Requires turbo rebuild. Back to SAC for reconditioning.</div></div>
+      </div>
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">4.5 &nbsp;Exhaust Manifold Gasket</div>
+          <div class="sc-pill pill-amb">CARRY</div>
+        </div>
+        <div class="sc-loc">Between manifold and head</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Exhaust gas at each of the 6 ports.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Rhythmic tick at idle · loss of boost · tick disappears at revs.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">You carry a spare (R3 §1.5). Field replacement 60–90 min.</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">4.6 &nbsp;Turbo-to-Downpipe Gasket</div>
+          <div class="sc-pill pill-grn">MONITOR</div>
+        </div>
+        <div class="sc-loc">Exit side of turbo</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Exhaust gas at the turbine outlet.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Exhaust leak noise at the turbo base · soot streaks.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Studs and gasket — not urgent but annoying. Done with any exhaust work.</div></div>
+      </div>
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">4.7 &nbsp;Intercooler Hose Clamps &amp; Silicone Joiners</div>
+          <div class="sc-pill pill-amb">BOOST LEAK</div>
+        </div>
+        <div class="sc-loc">Turbo outlet to intake manifold</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Compressed air between turbo and engine.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text"><strong>Loud pop or hiss under load</strong> · sudden power loss · black smoke · whistling noise.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Most common turbo fault. Retighten clamps — they vibrate loose. Soapy water test at idle. See R4 field fix "Turbo Boost Leak Diagnosis".</div></div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ═════════════════ §5 GEARBOX ═════════════════ -->
+  <section id="gearbox">
+    <div class="section-label">06 — §5 Gearbox R151F</div>
+    <h2>Gearbox Seals</h2>
+    <p>The R151F uses Castrol Transmax Manual 75W-90. Total capacity is small, so any leak drops the level fast. Gearbox seals are generally robust but age catches up with all of them at 300k km.</p>
+
+    <div class="comp-grid">
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">5.1 &nbsp;Front Input Shaft Seal</div>
+          <div class="sc-pill pill-amb">MAJOR JOB</div>
+        </div>
+        <div class="sc-loc">Behind clutch release bearing · in bellhousing</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Gearbox oil at the input shaft where it enters the clutch housing.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text"><strong>Oil drip from the bellhousing drain hole</strong> — same hole as rear main seal. Contaminates the clutch.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Requires gearbox removal. Replace with next clutch job. If dripping heavily, check clutch for slip — oil on friction plate causes slip.</div></div>
+      </div>
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">5.2 &nbsp;Rear Output Shaft Seal</div>
+          <div class="sc-pill pill-amb">MONITOR</div>
+        </div>
+        <div class="sc-loc">Rear of gearbox · at transfer case adapter</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Gearbox oil at the output shaft feeding the transfer case.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Oil weep at the gearbox-to-transfer case joint.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Usually shared with transfer case input seal. Access requires transfer case removal.</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">5.3 &nbsp;Shift Tower Gasket</div>
+          <div class="sc-pill pill-grn">MONITOR</div>
+        </div>
+        <div class="sc-loc">Top of gearbox · under gear lever boot</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Oil at the shift tower base.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Oil smell in cabin · oil on the outside of the tower · wet rubber boot.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Cover removal and gasket replacement from the cabin side. Straightforward.</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">5.4 &nbsp;Side / Inspection Plate Gasket</div>
+          <div class="sc-pill pill-grn">MONITOR</div>
+        </div>
+        <div class="sc-loc">Side of gearbox case</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Oil at the access cover.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Oil weep at the side cover perimeter.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Paper gasket or RTV bead. Simple replacement.</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">5.5 &nbsp;Drain &amp; Fill Plug Washers</div>
+          <div class="sc-pill pill-grn">ROUTINE</div>
+        </div>
+        <div class="sc-loc">Underside · side of gearbox</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Oil at the drain and fill points.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Drip from plug after oil change.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Plugs can vibrate loose on corrugations — check at every stop in rough terrain (R3 §5.3 field note).</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">5.6 &nbsp;Speedo Drive O-Ring</div>
+          <div class="sc-pill pill-grn">COSMETIC</div>
+        </div>
+        <div class="sc-loc">Gearbox output · speedo cable entry</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Oil at the speedo drive gear housing.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Small drip at speedo cable union.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Replace on removal.</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">5.7 &nbsp;Reverse Light Switch Washer</div>
+          <div class="sc-pill pill-grn">COSMETIC</div>
+        </div>
+        <div class="sc-loc">Side of gearbox</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Oil at reverse switch threads.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Slow weep at switch.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Crush washer. Trivial.</div></div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ═════════════════ §6 TRANSFER CASE ═════════════════ -->
+  <section id="transfer">
+    <div class="section-label">07 — §6 Transfer Case HF1A</div>
+    <h2>Transfer Case Seals</h2>
+    <p>The transfer case sits directly behind the gearbox. 2.1L capacity. Its seals see a mix of high load (4L operation) and long idle periods (front output at rest in 2H). Front output seal is the most common weeper.</p>
+
+    <div class="comp-grid">
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">6.1 &nbsp;Front Output Shaft Seal</div>
+          <div class="sc-pill pill-amb">COMMON WEEP</div>
+        </div>
+        <div class="sc-loc">Front of transfer case · to front propshaft</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Transfer case oil at the front output shaft where front propshaft attaches.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Oil weep onto bash plate directly below transfer case front face.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Common high-km 70 Series weeper. Replace with front propshaft off — moderate job.</div></div>
+      </div>
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">6.2 &nbsp;Rear Output Shaft Seal</div>
+          <div class="sc-pill pill-amb">MONITOR</div>
+        </div>
+        <div class="sc-loc">Rear of transfer case · to rear propshaft</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Transfer case oil at the rear output.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Oil drip at rear of transfer case.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Similar job to front — propshaft off, seal replace.</div></div>
+      </div>
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">6.3 &nbsp;Input Shaft Seal (Gearbox Side)</div>
+          <div class="sc-pill pill-amb">SHARED</div>
+        </div>
+        <div class="sc-loc">Between gearbox and transfer case</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Oil boundary between R151F and HF1A.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Oil drip at the gearbox-transfer joint.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Either gearbox or transfer case must come out. Do with any gearbox work.</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">6.4 &nbsp;Shift Rod O-Rings (×3)</div>
+          <div class="sc-pill pill-grn">MONITOR</div>
+        </div>
+        <div class="sc-loc">Top of transfer case · shift rod entries</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">The three shift rods (2H/4H, 4L, and the front disconnect on some variants) enter the case through seals.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Oil weep at shift rod penetrations · oil visible at the base of the shift linkage.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Slow weeper. Can replace without major disassembly.</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">6.5 &nbsp;Inspection Cover Gaskets</div>
+          <div class="sc-pill pill-grn">COSMETIC</div>
+        </div>
+        <div class="sc-loc">Top and side access covers</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Oil at the case access covers.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Weep at cover perimeter.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Trivial. Replace on removal.</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">6.6 &nbsp;Drain / Fill / Level Plug Washers</div>
+          <div class="sc-pill pill-grn">ROUTINE</div>
+        </div>
+        <div class="sc-loc">Underside of transfer case</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Oil at service points.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Drip from plug.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Crush washers. Check at every stop in rough terrain.</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">6.7 &nbsp;PTO Cover Plate Gasket</div>
+          <div class="sc-pill pill-grn">COSMETIC</div>
+        </div>
+        <div class="sc-loc">Side of case · blanking plate</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Oil at the PTO port blanking plate (your vehicle has no PTO).</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Weep at the blanking plate.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Gasket or RTV. Trivial.</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">6.8 &nbsp;Gearbox-to-Transfer Adapter Gasket</div>
+          <div class="sc-pill pill-grn">MONITOR</div>
+        </div>
+        <div class="sc-loc">Mating face · R151F to HF1A</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Oil at the adapter plate between the two cases.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Oil weep at the join.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Case separation required. Done with any major drivetrain work.</div></div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ═════════════════ §7 FRONT AXLE ═════════════════ -->
+  <section id="front-axle">
+    <div class="section-label">08 — §7 Front Axle</div>
+    <h2>Front Axle Seals — the Big One</h2>
+    <p>This is the single most seal-dense area on the vehicle. <strong>Each front corner has approximately 12 individual seals</strong> — inner and outer axle, knuckle ball, trunnions, Birfield, hub bearings, free-wheel hub, and the hub cap. Your Oct 2023 axle seal work and Nov 2023 hub set replacement at Matatiele were in this zone, and it's the area most likely to need attention again before departure.</p>
+
+    <div class="callout warn">
+      <p><strong>You have prior history with the front diff.</strong> A pinion seal has been replaced at least once per project notes. Expect this to be a recurring maintenance item and plan for a full knuckle rebuild pre-departure if there is any sign of weep.</p>
+    </div>
+
+    <h3>Differential (Centre)</h3>
+    <div class="comp-grid">
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">7.1 &nbsp;Front Pinion Nose Seal</div>
+          <div class="sc-pill pill-amb">REPEAT OFFENDER</div>
+        </div>
+        <div class="sc-loc">Front of diff · front propshaft flange</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Diff oil at the pinion shaft where front propshaft connects.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Oil weep behind pinion flange · drip onto front crossmember.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text"><strong>Your vehicle's history.</strong> Slow weep = top up and monitor. Fast drop = stop and inspect. Replace promptly.</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">7.2 &nbsp;Third Member (Pumpkin) Gasket</div>
+          <div class="sc-pill pill-grn">MONITOR</div>
+        </div>
+        <div class="sc-loc">Diff centre section to axle housing</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Diff oil at the removable centre section mating face (if applicable on this axle).</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Oil weep at the circular seam of the pumpkin.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Paper gasket. Do with any diff rebuild.</div></div>
+      </div>
+
+      <div class="seal-card prio-red">
+        <div class="sc-head">
+          <div class="sc-name">7.3 &nbsp;Front Diff Breather</div>
+          <div class="sc-pill pill-red">EXTEND</div>
+        </div>
+        <div class="sc-loc">Top of diff housing · hose to snorkel</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Allows pressure equalisation; keeps water out on submersion.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Hot diff + cold water = vacuum + water ingress into diff. <strong>Milky oil after crossing.</strong></div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text"><strong>Extend breather to snorkel height before any water crossing.</strong> Check oil colour immediately after any submersion — milky = drain and replace within hours (R4 §10.3).</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">7.4 &nbsp;Diff Drain / Fill Plug Washers</div>
+          <div class="sc-pill pill-grn">ROUTINE</div>
+        </div>
+        <div class="sc-loc">Diff housing underside / side</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Diff oil at service points.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Drip from plug.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Crush washers. Stock spares.</div></div>
+      </div>
+
+    </div>
+
+    <h3>Per Corner (×2 sides)</h3>
+    <div class="comp-grid">
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">7.5 &nbsp;Inner Axle Seal (axle tube to knuckle)</div>
+          <div class="sc-pill pill-amb">KEY SEAL</div>
+        </div>
+        <div class="sc-loc">Between axle tube and steering knuckle</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Separates diff oil from Birfield grease at the inner knuckle.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Diff oil mixes with knuckle grease · knuckle overfills · oil weeps out knuckle ball seal.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Full front axle seal kit replacement. You carry this per R3 §5.1.</div></div>
+      </div>
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">7.6 &nbsp;Knuckle Ball Gasket / Felt Wiper</div>
+          <div class="sc-pill pill-amb">COMMON WEEP</div>
+        </div>
+        <div class="sc-loc">Around the chrome knuckle ball</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Knuckle grease inside the chromed ball as it rotates for steering.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text"><strong>Grease on the swivel housing and back of the wheel.</strong> Classic symptom you already document in R3.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Half-day job per side to rebuild. Carry full axle seal kit.</div></div>
+      </div>
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">7.7 &nbsp;Upper Trunnion (Kingpin) Seal</div>
+          <div class="sc-pill pill-amb">MONITOR</div>
+        </div>
+        <div class="sc-loc">Top of steering knuckle</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Grease inside the upper kingpin bearing.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Grease weep at top of knuckle · steering becomes stiff or notchy.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Part of full knuckle rebuild kit.</div></div>
+      </div>
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">7.8 &nbsp;Lower Trunnion Seal</div>
+          <div class="sc-pill pill-amb">MONITOR</div>
+        </div>
+        <div class="sc-loc">Bottom of steering knuckle</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Grease inside the lower kingpin bearing.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Grease weep at bottom of knuckle.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Same as upper — part of full knuckle rebuild.</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">7.9 &nbsp;Trunnion Shims &amp; Paper Gaskets</div>
+          <div class="sc-pill pill-grn">SHIM SET</div>
+        </div>
+        <div class="sc-loc">Between trunnion cap and knuckle</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Preload adjustment for the kingpin bearing; also seals the joint.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Weep at the trunnion cap face.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Shim adjustment required on reassembly for correct preload. Critical for steering feel.</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">7.10 &nbsp;Knuckle Inspection Plate Gasket</div>
+          <div class="sc-pill pill-grn">COSMETIC</div>
+        </div>
+        <div class="sc-loc">Back of knuckle</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Access cover for inspecting the Birfield.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Grease weep at the cover perimeter.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Paper gasket or RTV. Trivial.</div></div>
+      </div>
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">7.11 &nbsp;Birfield Inner Seal</div>
+          <div class="sc-pill pill-amb">CRITICAL GREASE</div>
+        </div>
+        <div class="sc-loc">Inner end of Birfield cup</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Moly grease inside the Birfield cup.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text"><strong>Clicking or clunking on full lock in 4WD</strong> — grease lost, balls running dry.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Birfield destruction if not caught. Repack with Toyota moly grease only — never general bearing grease (R4 §11.5). Full knuckle rebuild.</div></div>
+      </div>
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">7.12 &nbsp;Hub Inner Grease Seal</div>
+          <div class="sc-pill pill-amb">MONITOR</div>
+        </div>
+        <div class="sc-loc">Inside wheel hub · behind inner bearing</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Wheel bearing grease; prevents diff oil / knuckle grease from reaching the brakes.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Grease or oil on front brake rotors · brake squeal or grab.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Brake contamination is unsafe. Replace with wheel bearing service. Repack bearings (R3 §5.1 field note).</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">7.13 &nbsp;Hub-to-Spindle Outer Felt</div>
+          <div class="sc-pill pill-grn">WEATHER SEAL</div>
+        </div>
+        <div class="sc-loc">Outer face of hub</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Protects the outer bearing from dust and water ingress.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Grit in bearing · bearing noise on wheel rotation.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Always replace at bearing service.</div></div>
+      </div>
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">7.14 &nbsp;Free-Wheel Hub Body O-Ring</div>
+          <div class="sc-pill pill-amb">WATER ENTRY</div>
+        </div>
+        <div class="sc-loc">Where auto-hub meets the spindle</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Water and dust from entering the hub engagement mechanism.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text"><strong>Auto-hub fails to engage</strong> · clicking or no drive to front wheel in 4WD · water inside hub after crossing.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Your Nov 2023 hub replacement addressed this. Expected wear item. Use manual LOCK before crossings — don't trust auto mechanism when it matters.</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">7.15 &nbsp;Free-Wheel Hub Cap Gasket</div>
+          <div class="sc-pill pill-grn">WEATHER SEAL</div>
+        </div>
+        <div class="sc-loc">Outermost end cap on wheel centre</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Seals the free-wheel hub cap to the hub body.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Water ingress after crossings · grease flung out during wheel rotation.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Inspect at any wheel removal. Cheap to replace.</div></div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ═════════════════ §8 REAR AXLE ═════════════════ -->
+  <section id="rear-axle">
+    <div class="section-label">09 — §8 Rear Axle</div>
+    <h2>Rear Axle Seals</h2>
+    <p>Full-floating rear axle — simpler than the front by a large margin. The advantage: fewer seals, and a broken rear axle shaft can be removed in 10 minutes without dropping the wheel (R4 §11.8).</p>
+
+    <div class="comp-grid">
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">8.1 &nbsp;Rear Pinion Nose Seal</div>
+          <div class="sc-pill pill-amb">MONITOR</div>
+        </div>
+        <div class="sc-loc">Front of rear diff · propshaft flange</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Rear diff oil at the pinion shaft.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Oil weep at the rear pinion flange.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Standard replacement. You can drive for thousands of km with a slow weep if you top up.</div></div>
+      </div>
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">8.2 &nbsp;Rear Axle Shaft Hub Flange O-Ring</div>
+          <div class="sc-pill pill-amb">MONITOR</div>
+        </div>
+        <div class="sc-loc">Under 6-bolt flange at each rear hub</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Diff oil at the shaft flange where it bolts to the hub.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Oil weep at the 6-bolt flange on the hub face.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Simple fix — remove shaft, replace O-ring, refit.</div></div>
+      </div>
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">8.3 &nbsp;Rear Hub Wheel Bearing Grease Seal (×2)</div>
+          <div class="sc-pill pill-amb">BRAKE RISK</div>
+        </div>
+        <div class="sc-loc">Inside each rear hub</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Wheel bearing grease; isolates from diff oil and brakes.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Oil or grease on rear brake drums · brake contamination · brake grab or squeal.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Brake safety risk. Repack bearings at service intervals. Replace seals after any water crossing (R3 §5.4).</div></div>
+      </div>
+
+      <div class="seal-card prio-red">
+        <div class="sc-head">
+          <div class="sc-name">8.4 &nbsp;Rear Diff Breather</div>
+          <div class="sc-pill pill-red">EXTEND</div>
+        </div>
+        <div class="sc-loc">Top of diff housing · hose to snorkel</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Pressure equalisation; water keep-out on submersion.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Milky oil after crossing.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text"><strong>Extend before every trip.</strong> Same principle as front diff.</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">8.5 &nbsp;Drain / Fill Plug Washers</div>
+          <div class="sc-pill pill-grn">ROUTINE</div>
+        </div>
+        <div class="sc-loc">Rear diff housing</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Diff oil at service points.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Drip from plug.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Crush washers. Stock spares.</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">8.6 &nbsp;Rear Diff Inspection Cover Gasket</div>
+          <div class="sc-pill pill-grn">MONITOR</div>
+        </div>
+        <div class="sc-loc">Back of diff housing (if applicable)</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Access cover for diff internals.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Oil weep at cover perimeter.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Paper gasket or RTV. Done with any diff service.</div></div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ═════════════════ §9 HYDRAULICS ═════════════════ -->
+  <section id="hydraulics">
+    <div class="section-label">10 — §9 Brakes &amp; Clutch Hydraulics</div>
+    <h2>Brake &amp; Clutch Seals</h2>
+    <p>Critical safety-item seals. The brake and clutch hydraulic systems share the same fluid reservoir on this vehicle — a clutch leak shows up as dropping brake fluid level, so any unexplained fluid drop means check both circuits.</p>
+
+    <div class="callout warn">
+      <p><strong>Shared reservoir warning.</strong> A failing clutch slave cylinder can pull fluid from the brake circuit. If brake fluid drops and brakes feel normal, check the clutch slave before assuming a brake leak.</p>
+    </div>
+
+    <div class="comp-grid">
+
+      <div class="seal-card prio-red">
+        <div class="sc-head">
+          <div class="sc-name">9.1 &nbsp;Brake Master Cylinder Internal Seals</div>
+          <div class="sc-pill pill-red">CRITICAL</div>
+        </div>
+        <div class="sc-loc">Engine bay · firewall</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Brake fluid pressure inside the master cylinder bores.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text"><strong>Brake pedal slowly drops to the floor under sustained pressure.</strong> Often no external leak. Potentially total brake loss.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Master replacement — do not try to rebuild in the field. Carry complete spare unit if possible.</div></div>
+      </div>
+
+      <div class="seal-card prio-red">
+        <div class="sc-head">
+          <div class="sc-name">9.2 &nbsp;Clutch Master Cylinder Seals</div>
+          <div class="sc-pill pill-red">CRITICAL</div>
+        </div>
+        <div class="sc-loc">Engine bay · firewall · shares reservoir</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Clutch hydraulic pressure.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Soft clutch pedal · pedal to the floor · brake fluid dropping in reservoir with no brake leak.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Loss of clutch. You can shift without clutch in emergency (match revs) — see R13 Field Fixes.</div></div>
+      </div>
+
+      <div class="seal-card prio-red">
+        <div class="sc-head">
+          <div class="sc-name">9.3 &nbsp;Clutch Slave Cylinder Seal &amp; Dust Boot</div>
+          <div class="sc-pill pill-red">COMMON FAILURE</div>
+        </div>
+        <div class="sc-loc">On bellhousing · passenger side</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Clutch hydraulic pressure at the slave piston.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text"><strong>Most common clutch hydraulic failure.</strong> Fluid visible around bellhousing · dropping reservoir · spongy pedal.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text"><strong>Carry a complete spare slave cylinder</strong>, not just fluid. 30-minute field replacement (R13 Field Fixes). You already carry a bleed kit + DOT 4 (R3 §5.5).</div></div>
+      </div>
+
+      <div class="seal-card prio-red">
+        <div class="sc-head">
+          <div class="sc-name">9.4 &nbsp;Front Brake Caliper Piston Seals (×2)</div>
+          <div class="sc-pill pill-red">SAFETY</div>
+        </div>
+        <div class="sc-loc">Behind each front caliper piston</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Brake fluid inside each caliper bore.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Fluid weep behind pad · squealing brake · dragging brake · dropping reservoir level.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Caliper rebuild kit. Replace boot and square-section seal. Don't drive with a contaminated disc.</div></div>
+      </div>
+
+      <div class="seal-card prio-red">
+        <div class="sc-head">
+          <div class="sc-name">9.5 &nbsp;Rear Wheel Cylinder Cup Seals (×2)</div>
+          <div class="sc-pill pill-red">SAFETY</div>
+        </div>
+        <div class="sc-loc">Inside each rear drum</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Brake fluid inside each rear wheel cylinder.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Brake fluid soaked into drum lining · rear brake imbalance · dropping reservoir.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Replace wheel cylinder rather than rebuild in field. Clean or replace shoes if contaminated.</div></div>
+      </div>
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">9.6 &nbsp;Brake Flex Hose Ends</div>
+          <div class="sc-pill pill-amb">AGE FAIL</div>
+        </div>
+        <div class="sc-loc">Each wheel corner · chassis to caliper</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Crimped end of flex hose to banjo fitting.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Bulging hose under pressure · weep at crimp · brake dragging (internal delamination).</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Replace all four flex hoses pre-departure if age unknown. Stainless braided upgrade worth considering.</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">9.7 &nbsp;Brake Line Flare Washers</div>
+          <div class="sc-pill pill-grn">ROUTINE</div>
+        </div>
+        <div class="sc-loc">Hard line unions</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Brake fluid at some hard-line unions (copper washers where used).</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Weep at union.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Replace on any line disturbance.</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">9.8 &nbsp;Proportioning Valve Seals</div>
+          <div class="sc-pill pill-grn">MONITOR</div>
+        </div>
+        <div class="sc-loc">Load-sensing valve on rear axle</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Brake fluid in the load-sensing valve body.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Weep at the valve body · rear brake imbalance.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Replace valve assembly — not usually field-rebuildable.</div></div>
+      </div>
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">9.9 &nbsp;Vacuum Brake Booster Seal</div>
+          <div class="sc-pill pill-amb">PEDAL HARDNESS</div>
+        </div>
+        <div class="sc-loc">Between booster and master cylinder</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Vacuum inside the brake booster chamber.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Hard brake pedal · high effort required · engine idle change when braking.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Booster replacement. Brakes still work without vacuum assist, just very heavy.</div></div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ═════════════════ §10 STEERING ═════════════════ -->
+  <section id="steering">
+    <div class="section-label">11 — §10 Steering</div>
+    <h2>Steering Seals</h2>
+    <p>Power steering uses ATF Dexron II (R4 §9.4). Small reservoir (1.3L) means any leak is felt quickly as heavy steering.</p>
+
+    <div class="comp-grid">
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">10.1 &nbsp;Steering Box Input Shaft Seal</div>
+          <div class="sc-pill pill-amb">MONITOR</div>
+        </div>
+        <div class="sc-loc">Top of box · where column enters</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Power steering fluid at the input shaft.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">PS fluid drip onto driver's-side chassis rail · reservoir level dropping.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Replace with box rebuild. Top up as interim measure.</div></div>
+      </div>
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">10.2 &nbsp;Steering Box Sector Shaft Seal</div>
+          <div class="sc-pill pill-amb">MONITOR</div>
+        </div>
+        <div class="sc-loc">Bottom of box · pitman arm exit</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">PS fluid at the sector shaft.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Fluid drip onto frame · visible staining at pitman arm.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Replace with box rebuild. Most visible of the steering box seals.</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">10.3 &nbsp;Steering Box Top Cover O-Ring</div>
+          <div class="sc-pill pill-grn">MONITOR</div>
+        </div>
+        <div class="sc-loc">Top cover of steering box</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">PS fluid inside the gear cavity.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Weep at the top cover perimeter.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Cover removal possible in place. Replace with any adjustment work.</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">10.4 &nbsp;PS High-Pressure Hose Fittings</div>
+          <div class="sc-pill pill-grn">MONITOR</div>
+        </div>
+        <div class="sc-loc">Pump to box · high-pressure line</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Fluid at the high-pressure line unions (O-rings at some points).</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">PS fluid weep at line ends · groaning on lock · low reservoir.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Replace O-rings on any line disturbance. Whole hose replacement if splitting.</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">10.5 &nbsp;PS Return Hose Clamp</div>
+          <div class="sc-pill pill-grn">ROUTINE</div>
+        </div>
+        <div class="sc-loc">Box/pump to reservoir</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Low-pressure return flow.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Weep at hose clamp.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Retighten or replace clamp. Trivial.</div></div>
+      </div>
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">10.6 &nbsp;Power Steering Pump Shaft Seal</div>
+          <div class="sc-pill pill-amb">CONFUSING LEAK</div>
+        </div>
+        <div class="sc-loc">Front of pump · belt-drive end</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">PS fluid at the pump input shaft.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text"><strong>Fluid drip down the front of the engine</strong> — commonly mistaken for front crank seal leak. Groaning on full lock.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Check fluid colour to identify — PS fluid is reddish. Pump replacement or reseal.</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">10.7 &nbsp;PS Reservoir Cap Seal</div>
+          <div class="sc-pill pill-grn">COSMETIC</div>
+        </div>
+        <div class="sc-loc">Reservoir cap</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Reservoir at the cap.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Fluid mist around cap under high temp.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Replace cap assembly.</div></div>
+      </div>
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">10.8 &nbsp;Tie Rod &amp; Drag Link Ball Joint Boots</div>
+          <div class="sc-pill pill-amb">GREASE RETENTION</div>
+        </div>
+        <div class="sc-loc">Ends of tie rod and drag link</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Grease inside each ball joint (not a fluid seal, but functionally equivalent).</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Split boot · grease flung · steering looseness and shimmy over rough ground.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Replace the whole ball joint — boots not available separately. Carry one spare tie rod end and one drag link end (R3).</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">10.9 &nbsp;Steering Damper Seal</div>
+          <div class="sc-pill pill-grn">MONITOR</div>
+        </div>
+        <div class="sc-loc">Lateral under front axle</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Oil inside the damper body at the shaft.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Oil streaks down the body · steering wobble or shimmy on corrugations.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Wear item. Replace the whole damper.</div></div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ═════════════════ §11 SUSPENSION ═════════════════ -->
+  <section id="suspension">
+    <div class="section-label">12 — §11 Suspension</div>
+    <h2>Suspension Seals</h2>
+
+    <div class="comp-grid">
+
+      <div class="seal-card prio-amb">
+        <div class="sc-head">
+          <div class="sc-name">11.1 &nbsp;Shock Absorber Shaft Seals (×4)</div>
+          <div class="sc-pill pill-amb">WEAR ITEM</div>
+        </div>
+        <div class="sc-loc">Top of each shock body</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Oil and gas inside the shock body at the shaft.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Oil streaks down the shock body · soft uncontrolled ride · bouncing after bumps.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">OME shocks at 305k km are well past typical life. Replace as a set (F or R) not individually. Inspect at every service.</div></div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ═════════════════ §12 A/C ═════════════════ -->
+  <section id="aircon">
+    <div class="section-label">13 — §12 Air Conditioning</div>
+    <h2>Air Conditioning Seals</h2>
+    <p>A/C seals leak refrigerant (R134a) not fluid — failure shows as loss of cooling rather than a puddle. Lower priority for an overlanding rig but worth noting.</p>
+
+    <div class="comp-grid">
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">12.1 &nbsp;A/C Compressor Shaft Seal</div>
+          <div class="sc-pill pill-grn">MONITOR</div>
+        </div>
+        <div class="sc-loc">Front of compressor · belt-drive end</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Refrigerant and compressor oil at the drive shaft.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Refrigerant loss · loss of cold output · oily residue around clutch.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Workshop regas and reseal.</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">12.2 &nbsp;High / Low Line O-Rings</div>
+          <div class="sc-pill pill-grn">MONITOR</div>
+        </div>
+        <div class="sc-loc">Every A/C line union</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Refrigerant at line-to-component unions.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Slow refrigerant loss over weeks · progressive cooling decline.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Replace all O-rings at any regas.</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">12.3 &nbsp;Condenser &amp; Evaporator Fittings</div>
+          <div class="sc-pill pill-grn">MONITOR</div>
+        </div>
+        <div class="sc-loc">Condenser (front of radiator); evaporator (dash)</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Refrigerant at heat exchanger unions.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Refrigerant loss.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Workshop job.</div></div>
+      </div>
+
+      <div class="seal-card prio-grn">
+        <div class="sc-head">
+          <div class="sc-name">12.4 &nbsp;Expansion Valve O-Ring</div>
+          <div class="sc-pill pill-grn">MONITOR</div>
+        </div>
+        <div class="sc-loc">Behind dash · at evaporator</div>
+        <div class="sc-field"><span class="sc-label">What It Seals</span><div class="sc-text">Refrigerant at the expansion valve port.</div></div>
+        <div class="sc-field"><span class="sc-label">Failure Symptom</span><div class="sc-text">Refrigerant loss into cabin.</div></div>
+        <div class="sc-field"><span class="sc-label">Field Impact</span><div class="sc-text">Workshop.</div></div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ═════════════════ §13 SYMPTOM INDEX ═════════════════ -->
+  <section id="symptoms">
+    <div class="section-label">14 — §13 Field Diagnosis · Symptom Index</div>
+    <h2>Symptom Reverse Lookup</h2>
+    <p>When you see a drip, a stain, or a falling level, use this table to narrow down the source. Cross-reference with the seal cards above for detail.</p>
+
+    <table class="sx-table">
+      <thead>
+        <tr>
+          <th>Symptom Observed</th>
+          <th>Fluid</th>
+          <th>Likely Sources (most → least likely)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="sx-sym">Oil drip from bellhousing drain hole</td>
+          <td class="sx-fluid">Engine Oil<br/>OR Gearbox</td>
+          <td>Rear main crank seal (1.15) · Gearbox input shaft seal (5.1) · Clutch slave leaking from above. <strong>Check fluid smell and viscosity to identify.</strong></td>
+        </tr>
+        <tr>
+          <td class="sx-sym">Oil film down front of block, onto radiator</td>
+          <td class="sx-fluid">Engine Oil</td>
+          <td>Front crank seal (1.1) · Cam seal (1.2) · Oil pump cover (1.5) · Timing cover gasket (1.4) · Power steering pump shaft seal (10.6 — different colour).</td>
+        </tr>
+        <tr>
+          <td class="sx-sym">Oil weep down side of cylinder head</td>
+          <td class="sx-fluid">Engine Oil</td>
+          <td>Valve cover gasket (1.6) · Valve cover bolt grommets (1.7). <strong>Fire risk on turbo manifold.</strong></td>
+        </tr>
+        <tr>
+          <td class="sx-sym">White smoke · bubbling coolant · mayo under oil cap</td>
+          <td class="sx-fluid">Coolant/Oil</td>
+          <td><strong>HEAD GASKET (1.9) — STOP ENGINE.</strong> Also check oil cooler (1.10) for secondary cross-contamination.</td>
+        </tr>
+        <tr>
+          <td class="sx-sym">Coolant drip from water pump area</td>
+          <td class="sx-fluid">Coolant</td>
+          <td>Water pump face seal via weep hole (2.2) · Water pump gasket (2.1) · Thermostat housing (2.3). Weep-hole drip = early warning, plan replacement.</td>
+        </tr>
+        <tr>
+          <td class="sx-sym">Sudden gush of coolant from side of block</td>
+          <td class="sx-fluid">Coolant</td>
+          <td>Core plug blown out (2.5). Total loss in minutes. Carry spares.</td>
+        </tr>
+        <tr>
+          <td class="sx-sym">Coolant smell inside cabin · wet footwell</td>
+          <td class="sx-fluid">Coolant</td>
+          <td>Heater hose union at firewall (2.7) · Heater core (internal). Bypass heater core as emergency field fix.</td>
+        </tr>
+        <tr>
+          <td class="sx-sym">Diesel weep on side of injection pump</td>
+          <td class="sx-fluid">Diesel</td>
+          <td>IP side cover O-rings (3.2) · IP rear cover (3.3) · Delivery valve washers (3.6). Per Denso specialists, (3.2) is #1 failure point.</td>
+        </tr>
+        <tr>
+          <td class="sx-sym">Black soot halo around one injector</td>
+          <td class="sx-fluid">Combustion</td>
+          <td>Injector seat copper washer (3.10). Catch early — damaged seats require machining.</td>
+        </tr>
+        <tr>
+          <td class="sx-sym">Rising engine oil level · diesel smell in oil</td>
+          <td class="sx-fluid">Diesel in Oil</td>
+          <td>Lift pump diaphragm (3.15) · IP front drive shaft seal (3.1). Change oil immediately; find source.</td>
+        </tr>
+        <tr>
+          <td class="sx-sym">Oily film inside intercooler piping</td>
+          <td class="sx-fluid">Engine Oil</td>
+          <td>Turbo compressor shaft seal (4.3). Indicates approaching turbo rebuild.</td>
+        </tr>
+        <tr>
+          <td class="sx-sym">Blue smoke on overrun</td>
+          <td class="sx-fluid">Engine Oil</td>
+          <td>Turbo turbine shaft seal (4.4) · worn piston rings/valve stem seals (R4).</td>
+        </tr>
+        <tr>
+          <td class="sx-sym">Loud pop or hiss · sudden power loss</td>
+          <td class="sx-fluid">Air (Boost)</td>
+          <td>Intercooler hose clamp (4.7) · Split silicone joiner. Soapy water test at idle.</td>
+        </tr>
+        <tr>
+          <td class="sx-sym">Grease on back of front wheel / swivel housing</td>
+          <td class="sx-fluid">Knuckle Grease</td>
+          <td>Knuckle ball gasket (7.6) · Upper/lower trunnion seals (7.7, 7.8) · Inner axle seal (7.5).</td>
+        </tr>
+        <tr>
+          <td class="sx-sym">Clicking / clunking on full lock in 4WD</td>
+          <td class="sx-fluid">(none)</td>
+          <td>Birfield wear from lost grease (Birfield inner seal 7.11 failed earlier). Full knuckle rebuild.</td>
+        </tr>
+        <tr>
+          <td class="sx-sym">Oil drip at rear of front propshaft flange</td>
+          <td class="sx-fluid">Diff Oil</td>
+          <td>Front pinion nose seal (7.1). Your known repeat.</td>
+        </tr>
+        <tr>
+          <td class="sx-sym">Milky oil after water crossing</td>
+          <td class="sx-fluid">Water in Oil</td>
+          <td>Breather not extended (7.3 front / 8.4 rear) · hub inner seal (7.12 / 8.3). Drain and replace within hours.</td>
+        </tr>
+        <tr>
+          <td class="sx-sym">Oil/grease on front or rear brake disc/drum</td>
+          <td class="sx-fluid">Grease/Oil</td>
+          <td>Hub inner grease seal (7.12 front / 8.3 rear). <strong>Brake safety issue — do not drive.</strong></td>
+        </tr>
+        <tr>
+          <td class="sx-sym">Brake pedal slowly drops to floor</td>
+          <td class="sx-fluid">Brake Fluid</td>
+          <td>Master cylinder internal seals (9.1). Often no external leak.</td>
+        </tr>
+        <tr>
+          <td class="sx-sym">Soft clutch pedal · reservoir dropping</td>
+          <td class="sx-fluid">DOT 4</td>
+          <td>Clutch slave cylinder (9.3) · Clutch master (9.2). Check slave first — most common.</td>
+        </tr>
+        <tr>
+          <td class="sx-sym">Groaning on full steering lock</td>
+          <td class="sx-fluid">ATF Dexron II</td>
+          <td>Low PS fluid from any leak · PS pump shaft seal (10.6) · Steering box seals (10.1, 10.2). Check reservoir first.</td>
+        </tr>
+        <tr>
+          <td class="sx-sym">Oil streaks down shock body · floaty ride</td>
+          <td class="sx-fluid">Shock Oil</td>
+          <td>Shock shaft seal (11.1). Replace as a set.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="xref-bar">
+      <span class="xref-label">See also:</span>
+      <span class="xref-pill">R18 · Symptom Trees</span>
+      <span class="xref-pill">R4 · Engine Components</span>
+      <span class="xref-pill">R13 · Drivetrain Fixes</span>
+    </div>
+  </section>
+
+
+  <!-- ═════════════════ §14 INSPECTION ═════════════════ -->
+  <section id="inspection">
+    <div class="section-label">15 — §14 Pre-Departure Seal Inspection Protocol</div>
+    <h2>Pre-Trip Seal Inspection — 20 Points</h2>
+    <p>A systematic walk-around to catch weeps before they become trip-enders. Do this at every pre-expedition check and at every major service. Designed to print as a standalone A4 page for the workshop.</p>
+
+    <div class="check-list">
+
+      <h4>Engine Bay (clean first, then inspect)</h4>
+      <div class="check-item">
+        <div class="check-box"></div><div class="check-num">01</div>
+        <div class="check-text"><strong>Valve cover perimeter</strong> — any oil weep down the sides of the head. Check all cover bolts finger-tight. Sniff for burning oil.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-box"></div><div class="check-num">02</div>
+        <div class="check-text"><strong>Front of engine / timing cover</strong> — oil film on pulley, radiator, crossmember. Any drip = front crank/cam/IP drive seal. Fix before next timing belt.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-box"></div><div class="check-num">03</div>
+        <div class="check-text"><strong>Water pump weep hole</strong> — any coolant drip from the underside of the pump body = internal seal failing. Plan replacement.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-box"></div><div class="check-num">04</div>
+        <div class="check-text"><strong>Injection pump all sides</strong> — clean pump, run engine, torch inspection. Particular attention to side covers, rear cover, delivery valves.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-box"></div><div class="check-num">05</div>
+        <div class="check-text"><strong>Turbo area</strong> — oil feed banjo, drain flange, compressor inlet. Pull an intercooler hose end to check for oil film inside = compressor seal wear.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-box"></div><div class="check-num">06</div>
+        <div class="check-text"><strong>All coolant hoses</strong> — squeeze each cold. Soft/swollen = replace. Check clamps for corrosion.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-box"></div><div class="check-num">07</div>
+        <div class="check-text"><strong>Power steering pump and box</strong> — check fluid colour on pump nose, box input and sector shafts. ATF Dexron II is reddish — distinguishes from engine oil.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-box"></div><div class="check-num">08</div>
+        <div class="check-text"><strong>Brake &amp; clutch reservoir</strong> — fluid level at MAX? Any unexplained drop = master/slave/caliper/wheel cylinder leak.</div>
+      </div>
+
+      <h4>Underside (on ramps or pit)</h4>
+      <div class="check-item">
+        <div class="check-box"></div><div class="check-num">09</div>
+        <div class="check-text"><strong>Sump &amp; bellhousing drain hole</strong> — any drip? Rear main seal or gearbox input seal. Note fluid type.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-box"></div><div class="check-num">10</div>
+        <div class="check-text"><strong>Gearbox case and plugs</strong> — drain and fill plugs torqued? Side covers dry? Shift tower base dry?</div>
+      </div>
+      <div class="check-item">
+        <div class="check-box"></div><div class="check-num">11</div>
+        <div class="check-text"><strong>Transfer case front output</strong> — most common weep point. Check directly below front output flange for oil drip.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-box"></div><div class="check-num">12</div>
+        <div class="check-text"><strong>Transfer case shift rods</strong> — three shift rod entries on top. Any oil dampness?</div>
+      </div>
+      <div class="check-item">
+        <div class="check-box"></div><div class="check-num">13</div>
+        <div class="check-text"><strong>Front diff pinion seal</strong> — check directly behind the front propshaft flange. Your known weep area — inspect carefully.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-box"></div><div class="check-num">14</div>
+        <div class="check-text"><strong>Rear diff pinion seal</strong> — same check at rear propshaft flange.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-box"></div><div class="check-num">15</div>
+        <div class="check-text"><strong>Front and rear diff breathers</strong> — both extended to snorkel height? Hoses intact? No kinks? <strong>Non-negotiable before any water.</strong></div>
+      </div>
+      <div class="check-item">
+        <div class="check-box"></div><div class="check-num">16</div>
+        <div class="check-text"><strong>Front knuckles — both sides</strong> — grease or oil on swivel housing? Grease on back of wheel rim? Full knuckle rebuild required if present.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-box"></div><div class="check-num">17</div>
+        <div class="check-text"><strong>Free-wheel hub end caps</strong> — check both front hubs for water staining or grease weeping. Test manual LOCK operation.</div>
+      </div>
+
+      <h4>Wheel Off (one corner at a time)</h4>
+      <div class="check-item">
+        <div class="check-box"></div><div class="check-num">18</div>
+        <div class="check-text"><strong>Front brake rotors</strong> — clean and dry? Any grease or oil contamination from hub seal = do not depart until fixed.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-box"></div><div class="check-num">19</div>
+        <div class="check-text"><strong>Rear brake drum inner face</strong> — any fluid staining? Wheel cylinder or hub seal leak — safety critical.</div>
+      </div>
+      <div class="check-item">
+        <div class="check-box"></div><div class="check-num">20</div>
+        <div class="check-text"><strong>Shock absorbers F &amp; R</strong> — oil streaks down the body of any shock = seal failing, replace as a set.</div>
+      </div>
+
+    </div>
+
+    <div class="callout info">
+      <p><strong>Workflow tip.</strong> Pressure-wash the underside and engine bay thoroughly a day before inspection, then drive a short distance. Any fresh oil on a clean surface will be visible and traceable to its source. Inspecting a filthy vehicle is useless.</p>
+    </div>
+  </section>
+
+
+  <!-- ═════════════════ §15 XREF ═════════════════ -->
+  <section id="xref">
+    <div class="section-label">16 — §15 Cross-References</div>
+    <h2>Library Cross-References</h2>
+    <p>This atlas is a failure map, not a stand-alone document. Use alongside:</p>
+    <div class="xref-bar">
+      <span class="xref-label">Related:</span>
+      <span class="xref-pill">R3 · Bush Spares &amp; Tools — what to carry</span>
+      <span class="xref-pill">R4 · 1HZ Engine Training — component theory</span>
+      <span class="xref-pill">R8 · Service History — vehicle-specific record</span>
+      <span class="xref-pill">R13 · Drivetrain Training — field fixes</span>
+      <span class="xref-pill">R18 · 1HZ Troubleshooting — symptom trees</span>
+    </div>
+    <p style="margin-top:14px;"><strong>R3</strong> tells you what parts to carry. <strong>R4</strong> and <strong>R13</strong> explain how the components work. <strong>R18</strong> gives you the symptom-based decision trees for in-field diagnosis. <strong>R8</strong> is the authoritative record of what has been done to this specific vehicle. This atlas (R20) is the map of <em>where things leak and what it costs you when they do</em>.</p>
+  </section>
+
+</div>
+
+<footer>
+  LC76 Overland Reference Library · <span>R20 — Seal &amp; Gasket Atlas</span> · 1HZ · R151F · HF1A · Updated April 2026
+</footer>
+
+<script>
+function navTo(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const stickyH = document.querySelector('.sticky-wrap').offsetHeight;
+  const y = el.getBoundingClientRect().top + window.pageYOffset - stickyH - 12;
+  window.scrollTo({ top: y, behavior: 'smooth' });
+}
+
+// Active TOC state via IntersectionObserver
+const sections = ['overview','priority','engine-oil','engine-coolant','fuel','turbo','gearbox','transfer','front-axle','rear-axle','hydraulics','steering','suspension','aircon','symptoms','inspection','xref'];
+const buttons = document.querySelectorAll('.toc button');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      buttons.forEach(b => b.classList.remove('active'));
+      const idx = sections.indexOf(entry.target.id);
+      if (idx > -1 && buttons[idx]) buttons[idx].classList.add('active');
+    }
+  });
+}, { rootMargin: '-80px 0px -60% 0px', threshold: 0 });
+
+sections.forEach(id => {
+  const el = document.getElementById(id);
+  if (el) observer.observe(el);
+});
+</script>
+</body>
+</html>
