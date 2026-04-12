@@ -106,7 +106,6 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
   background:var(--steeldk);
   border-left:5px solid var(--amber2);
   margin:28px 0 0;
-  scroll-margin-top:120px;
 }
 .sec-num{
   font-family:var(--mono);font-size:.58rem;font-weight:600;
@@ -450,12 +449,12 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 </div>
 <div class="toc-bar">
   <span class="toc-label">Sections</span>
-  <span class="toc-link" onclick="scrollTo('s1')">1. Triage</span>
-  <span class="toc-link" onclick="scrollTo('s2')">2. Engine &amp; Fuel</span>
-  <span class="toc-link" onclick="scrollTo('s3')">3. Cooling</span>
-  <span class="toc-link" onclick="scrollTo('s4')">4. Drivetrain</span>
-  <span class="toc-link" onclick="scrollTo('s5')">5. Electrical</span>
-  <span class="toc-link" onclick="scrollTo('s6')">6. Workshop</span>
+  <span class="toc-link" onclick="scrollToSection('s1')">1. Triage</span>
+  <span class="toc-link" onclick="scrollToSection('s2')">2. Engine &amp; Fuel</span>
+  <span class="toc-link" onclick="scrollToSection('s3')">3. Cooling</span>
+  <span class="toc-link" onclick="scrollToSection('s4')">4. Drivetrain</span>
+  <span class="toc-link" onclick="scrollToSection('s5')">5. Electrical</span>
+  <span class="toc-link" onclick="scrollToSection('s6')">6. Workshop</span>
 </div>
 </div>
 <div class="progress-bar-wrap">
@@ -1623,10 +1622,24 @@ function resetAll(){
   updateProgress();
 }
 
-function scrollTo(id){
+function scrollToSection(id){
   const el = document.getElementById(id);
-  if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+  if(!el) return;
+  const navH = document.querySelector('.sticky-nav-unit').offsetHeight;
+  const top = el.getBoundingClientRect().top + window.pageYOffset - navH - 4;
+  window.scrollTo({top: top, behavior: 'smooth'});
 }
+
+// Set scroll-margin-top dynamically so IntersectionObserver active state and
+// browser anchor navigation also respect the sticky height
+function updateScrollMargins(){
+  const navH = document.querySelector('.sticky-nav-unit').offsetHeight;
+  document.querySelectorAll('.sec-header').forEach(el => {
+    el.style.scrollMarginTop = (navH + 4) + 'px';
+  });
+}
+updateScrollMargins();
+window.addEventListener('resize', updateScrollMargins);
 
 // IntersectionObserver — active TOC highlighting
 const sections = ['s1','s2','s3','s4','s5','s6'];
