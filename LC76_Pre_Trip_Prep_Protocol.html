@@ -1624,30 +1624,26 @@ function resetAll(){
 }
 
 // ── TOC NAVIGATION ───────────────────────────────────────
-// iOS standalone (home screen PWA) does not support window.scrollTo
-// with behavior:'smooth' reliably. Detect and use scrollIntoView fallback.
-const isStandalone = window.navigator.standalone === true ||
-  window.matchMedia('(display-mode: standalone)').matches;
+// Use scrollIntoView — the scroll-margin-top set by updateScrollMargins()
+// handles the sticky offset. Use 'instant' in iOS standalone where smooth
+// scrollIntoView is also unreliable.
+const isIOSStandalone = ('standalone' in navigator) && navigator.standalone;
 
 document.querySelectorAll('.toc-link[data-target]').forEach(btn => {
   btn.addEventListener('click', function(e){
     e.preventDefault();
     const target = document.getElementById(this.dataset.target);
     if(!target) return;
-    if(isStandalone){
-      // iOS standalone: scrollTo smooth is unreliable, use instant scroll
-      const navH = document.querySelector('.sticky-nav-unit').offsetHeight;
-      const top = target.getBoundingClientRect().top + window.pageYOffset - navH - 4;
-      window.scrollTo(0, top);
-    } else {
-      const navH = document.querySelector('.sticky-nav-unit').offsetHeight;
-      const top = target.getBoundingClientRect().top + window.pageYOffset - navH - 4;
-      window.scrollTo({top: top, behavior: 'smooth'});
-    }
+    target.scrollIntoView({
+      behavior: isIOSStandalone ? 'instant' : 'smooth',
+      block: 'start'
+    });
   });
 });
 
-// ── DYNAMIC SCROLL-MARGIN (keeps section flush below sticky on anchor nav) ──
+// ── DYNAMIC SCROLL-MARGIN ────────────────────────────────
+// Measures sticky nav height and sets scroll-margin-top on all section
+// headers so scrollIntoView lands below the sticky bar on all screen sizes.
 function updateScrollMargins(){
   const navH = document.querySelector('.sticky-nav-unit').offsetHeight;
   document.querySelectorAll('.sec-header').forEach(el => {
