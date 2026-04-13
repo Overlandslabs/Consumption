@@ -76,7 +76,6 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
   font-family:var(--mono);font-size:.48rem;color:rgba(255,255,255,.45);
   text-decoration:none;padding:2px 6px;border:1px solid transparent;
   transition:all .12s;white-space:nowrap;cursor:pointer;
-  touch-action:manipulation;user-select:none;-webkit-user-select:none;
 }
 .toc-link:hover{color:var(--amber2);border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.06)}
 .toc-link.active{color:var(--amber2);border-color:var(--amber2);background:rgba(232,120,0,.1)}
@@ -450,12 +449,12 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 </div>
 <div class="toc-bar">
   <span class="toc-label">Sections</span>
-  <span class="toc-link" data-target="s1">1. Triage</span>
-  <span class="toc-link" data-target="s2">2. Engine &amp; Fuel</span>
-  <span class="toc-link" data-target="s3">3. Cooling</span>
-  <span class="toc-link" data-target="s4">4. Drivetrain</span>
-  <span class="toc-link" data-target="s5">5. Electrical</span>
-  <span class="toc-link" data-target="s6">6. Workshop</span>
+  <a href="javascript:void(0)" onclick="document.getElementById('s1').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">1. Triage</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s2').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">2. Engine &amp; Fuel</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s3').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">3. Cooling</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s4').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">4. Drivetrain</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s5').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">5. Electrical</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s6').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">6. Workshop</a>
 </div>
 </div>
 <div class="progress-bar-wrap">
@@ -1623,27 +1622,7 @@ function resetAll(){
   updateProgress();
 }
 
-// ── TOC NAVIGATION ───────────────────────────────────────
-// Use scrollIntoView — the scroll-margin-top set by updateScrollMargins()
-// handles the sticky offset. Use 'instant' in iOS standalone where smooth
-// scrollIntoView is also unreliable.
-const isIOSStandalone = ('standalone' in navigator) && navigator.standalone;
-
-document.querySelectorAll('.toc-link[data-target]').forEach(btn => {
-  btn.addEventListener('click', function(e){
-    e.preventDefault();
-    const target = document.getElementById(this.dataset.target);
-    if(!target) return;
-    target.scrollIntoView({
-      behavior: isIOSStandalone ? 'instant' : 'smooth',
-      block: 'start'
-    });
-  });
-});
-
 // ── DYNAMIC SCROLL-MARGIN ────────────────────────────────
-// Measures sticky nav height and sets scroll-margin-top on all section
-// headers so scrollIntoView lands below the sticky bar on all screen sizes.
 function updateScrollMargins(){
   const navH = document.querySelector('.sticky-nav-unit').offsetHeight;
   document.querySelectorAll('.sec-header').forEach(el => {
