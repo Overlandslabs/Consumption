@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>R24 — 1HZ Fuel System &amp; Diesel Quality Guide | HZJ76R-RKMRS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=Oswald:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:      #1C1410;
+    --paper:    #F5EDDA;
+    --paper2:   #EDE5D0;
+    --cream:    #F5EDDA;
+    --amber:    #b86800;
+    --amber2:   #e07800;
+    --rule:     #d4cfc4;
+    --steeldk:  #2a2f3a;
+    --steelmd:  #6a7080;
+    --red-warn: #B91C1C;
+    --green-ok: #059669;
+    --orange:   #c05a00;
+    --border:   #c8bfad;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
+
+  body {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  /* STICKY WRAP */
+  .sticky-wrap { position: sticky; top: 0; z-index: 100; background: var(--ink); padding-top: env(safe-area-inset-top); }
+
+  /* MASTHEAD */
+  .masthead { position: relative; background: var(--ink); color: #fff; padding: 18px 24px 14px; }
+  .lib-home-btn { position:absolute; top:50%; right:16px; transform:translateY(-50%); display:inline-flex; align-items:center; gap:5px; font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; text-decoration:none; color:var(--amber2); background:rgba(232,120,0,.15); border:1px solid var(--amber2); border-radius:20px; padding:6px 12px; min-height:32px; white-space:nowrap; z-index:10; transition:background .2s; }
+  .lib-home-btn:hover, .lib-home-btn:active { background:rgba(232,120,0,.30); }
+  @media print { .lib-home-btn { display:none !important; } }
+
+  .mh-eyebrow  { font-family:'IBM Plex Mono',monospace; font-size:.5rem; letter-spacing:.28em; text-transform:uppercase; color:var(--steelmd); margin-bottom:6px; }
+  .mh-title    { font-family:'Bebas Neue',sans-serif; font-size:clamp(1.8rem,5vw,2.6rem); letter-spacing:.06em; color:var(--amber2); line-height:1; }
+  .mh-sub      { font-family:'IBM Plex Mono',monospace; font-size:.54rem; letter-spacing:.12em; color:rgba(255,200,100,.65); margin-top:5px; }
+  .mh-vehicle  { font-family:'IBM Plex Mono',monospace; font-size:.48rem; letter-spacing:.08em; color:var(--steelmd); margin-top:8px; }
+
+  /* TOC BAR */
+  .toc-bar {
+    background: var(--steeldk);
+    border-top: 3px solid var(--amber2);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    padding: 0 20px;
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .toc-bar::-webkit-scrollbar { display: none; }
+  .toc-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .52rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--steelmd);
+    background: none;
+    border: none;
+    padding: 10px 12px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color 0.15s;
+  }
+  .toc-btn:hover  { color: #c8bfad; }
+  .toc-btn.active { color: var(--amber2); }
+
+  /* MAIN */
+  .main { padding: 28px 5% 80px; max-width: 100%; }
+
+  /* SECTION HEADINGS */
+  .section-head {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: var(--ink);
+    letter-spacing: 0.04em;
+    border-bottom: 2px solid var(--amber2);
+    padding-bottom: 4px;
+    margin-bottom: 14px;
+    margin-top: 28px;
+  }
+  .section-head:first-child { margin-top: 0; }
+  .section-intro { font-size: 13px; color: var(--steelmd); margin-bottom: 14px; font-style: italic; }
+
+  /* SECTION ANCHOR OFFSET */
+  .sa { scroll-margin-top: 130px; }
+
+  /* SUBSECTION TITLE */
+  .sub-head {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 15px;
+    color: var(--amber2);
+    letter-spacing: 0.04em;
+    background: var(--steeldk);
+    padding: 8px 14px;
+    margin-bottom: 0;
+    margin-top: 16px;
+  }
+
+  /* COMPONENT GRID */
+  .comp-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:10px; margin:14px 0; }
+  .comp-card { border:1px solid var(--border); background:#fff; border-radius:2px; overflow:hidden; }
+  .comp-card-head { font-family:'Oswald',sans-serif; font-weight:500; font-size:13px; background:var(--paper2); padding:8px 12px; border-bottom:1px solid var(--rule); color:var(--ink); display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  .comp-card-body { padding:10px 12px; font-size:12.5px; line-height:1.55; color:var(--ink); }
+  .comp-tag { font-family:'IBM Plex Mono',monospace; font-size:8px; font-weight:600; letter-spacing:.08em; padding:2px 6px; border-radius:2px; white-space:nowrap; }
+  .tag-active  { background:rgba(5,150,105,.12); color:var(--green-ok); border:1px solid rgba(5,150,105,.3); }
+  .tag-passive { background:rgba(106,112,128,.12); color:var(--steelmd); border:1px solid rgba(106,112,128,.3); }
+  .tag-wear    { background:rgba(192,90,0,.12); color:var(--orange); border:1px solid rgba(192,90,0,.3); }
+  .tag-planned { background:rgba(59,106,191,.12); color:#3b6abf; border:1px solid rgba(59,106,191,.3); }
+
+  /* FLOW DIAGRAM */
+  .flow-wrap { background:var(--steeldk); border:1px solid rgba(255,255,255,.08); padding:16px; margin:14px 0; overflow-x:auto; }
+  .flow-title { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--steelmd); margin-bottom:12px; }
+  .flow-row { display:flex; align-items:center; flex-wrap:nowrap; gap:0; margin:4px 0; }
+  .flow-node { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); padding:5px 10px; border-radius:2px; white-space:nowrap; flex-shrink:0; }
+  .flow-node.feed   { background:rgba(5,150,105,.2);  border-color:rgba(5,150,105,.4);  color:#6ee7b7; }
+  .flow-node.filt   { background:rgba(224,120,0,.2);  border-color:rgba(224,120,0,.4);  color:#fcd34d; }
+  .flow-node.press  { background:rgba(185,28,28,.25); border-color:rgba(185,28,28,.5);  color:#fca5a5; }
+  .flow-node.ret    { background:rgba(106,112,128,.25); border-color:rgba(106,112,128,.5); color:#d0d6dd; }
+  .flow-arrow { font-size:12px; color:var(--steelmd); padding:0 6px; flex-shrink:0; }
+  .flow-note { font-family:'IBM Plex Mono',monospace; font-size:9px; color:var(--steelmd); margin-left:8px; font-style:italic; }
+  .flow-legend { display:flex; flex-wrap:wrap; gap:10px; margin-top:12px; padding-top:10px; border-top:1px solid rgba(255,255,255,.08); }
+  .flow-legend .flow-node { font-size:9px; padding:3px 7px; }
+
+  /* SPECS TABLE */
+  .specs-table { width:100%; border-collapse:collapse; font-size:13px; margin:14px 0; table-layout:fixed; }
+  .specs-table th { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; background:var(--steeldk); color:#b0bcc8; padding:7px 12px; text-align:left; border:1px solid rgba(255,255,255,.07); }
+  .specs-table td { padding:7px 12px; border:1px solid var(--rule); vertical-align:top; }
+  .specs-table tr:nth-child(even) td { background:var(--paper2); }
+  .specs-table tr:nth-child(odd)  td { background:#fff; }
+  .mono { font-family:'IBM Plex Mono',monospace; font-size:11px; }
+
+  /* DIAG CARDS */
+  .diag-group { margin-bottom: 20px; }
+  .diag-group-title {
+    font-family:'Bebas Neue',sans-serif; font-size:16px; color:var(--amber2);
+    letter-spacing:.04em; background:var(--steeldk); padding:8px 14px;
+  }
+  .diag-card { border:1px solid var(--border); border-top:none; background:#fff; }
+  .diag-card + .diag-card { border-top:1px solid var(--rule); }
+  .diag-header {
+    display:grid; grid-template-columns:1fr auto auto; align-items:center; gap:16px;
+    padding:11px 14px; background:var(--paper2); cursor:pointer; user-select:none;
+    border-bottom:1px solid var(--rule);
+  }
+  .diag-header:hover { background:var(--paper); }
+  .diag-symptom { font-family:'Oswald',sans-serif; font-weight:500; font-size:14px; color:var(--ink); }
+  .diag-badge {
+    font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600;
+    letter-spacing:.06em; padding:3px 8px; border-radius:2px; white-space:nowrap;
+  }
+  .badge-stop    { background:#fde8e8; color:var(--red-warn); border:1px solid #f8b0b0; }
+  .badge-caution { background:#fef3cd; color:#7c4a00; border:1px solid #f5d072; }
+  .badge-monitor { background:#e8f5e9; color:#1a6b3a; border:1px solid #88c899; }
+  .diag-body { padding:10px 14px; display:none; }
+  .diag-body.open { display:block; }
+  .diag-arrow { font-size:10px; color:var(--steelmd); transition:transform .2s; flex-shrink:0; }
+  .diag-arrow.open { transform:rotate(180deg); }
+
+  /* CAUSE LIST */
+  .cause-list { list-style:none; margin:10px 0 14px; }
+  .cause-list li { display:flex; gap:10px; align-items:flex-start; padding:6px 0; border-bottom:1px solid var(--rule); font-size:13px; }
+  .cause-list li:last-child { border-bottom:none; }
+  .cause-num {
+    font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600;
+    color:#fff; background:var(--steelmd); min-width:20px; height:20px;
+    border-radius:2px; display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; margin-top:1px;
+  }
+  .cause-text { flex:1; }
+  .cause-label { font-weight:500; color:var(--ink); }
+  .cause-note  { color:var(--steelmd); font-size:12px; display:block; margin-top:2px; }
+
+  /* CHECK STEPS (inline) */
+  .check-steps { margin:10px 0; }
+  .check-step  { display:flex; gap:10px; align-items:flex-start; margin-bottom:8px; font-size:13px; }
+  .step-num {
+    font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600;
+    color:#fff; background:var(--amber); min-width:22px; height:22px;
+    border-radius:2px; display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; margin-top:1px;
+  }
+  .step-stop {
+    font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600;
+    color:#fff; background:var(--red-warn); min-width:22px; height:22px;
+    border-radius:2px; display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; margin-top:1px;
+  }
+
+  /* CHECKLIST */
+  .checklist { list-style:none; margin:10px 0; }
+  .checklist li {
+    display:flex; gap:10px; align-items:flex-start;
+    padding:7px 0; border-bottom:1px solid var(--rule); font-size:13px;
+  }
+  .checklist li:last-child { border-bottom:none; }
+  .cl-num {
+    font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600;
+    color:#fff; background:var(--steeldk); min-width:22px; height:22px;
+    border-radius:2px; display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; margin-top:1px;
+  }
+  .cl-text { flex:1; }
+  .cl-label { font-weight:500; color:var(--ink); }
+  .cl-note  { color:var(--steelmd); font-size:12px; display:block; margin-top:2px; font-family:'Oswald',sans-serif; font-weight:300; }
+
+  /* ALERT BOXES */
+  .warn-box { background:#fde8e8; border-left:3px solid var(--red-warn); padding:9px 12px; font-size:12.5px; color:#7a1010; margin:10px 0; }
+  .note-box { background:#fef9e7; border-left:3px solid var(--amber); padding:9px 12px; font-size:12.5px; color:#5a3800; margin:10px 0; }
+  .ok-box   { background:#e8f5e9; border-left:3px solid var(--green-ok); padding:9px 12px; font-size:12.5px; color:#0d4a28; margin:10px 0; }
+  .info-box { background:#e8eef8; border-left:3px solid #3b6abf; padding:9px 12px; font-size:12.5px; color:#1a2f5a; margin:10px 0; }
+
+  /* CROSS-REF BAR */
+  .xref-bar {
+    background:var(--steeldk); border:1px solid rgba(255,255,255,.08);
+    padding:9px 14px; display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:12px; font-size:12px;
+  }
+  .xref-label { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.08em; color:var(--steelmd); text-transform:uppercase; white-space:nowrap; }
+  .xref-pill  { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; color:var(--amber2); background:rgba(224,120,0,.12); border:1px solid rgba(224,120,0,.3); padding:2px 8px; border-radius:2px; white-space:nowrap; }
+
+  /* PROTOCOL STEPS */
+  .protocol-list { margin:14px 0; }
+  .proto-step {
+    display:flex; gap:12px; align-items:flex-start;
+    border:1px solid var(--border); border-top:none; background:#fff; padding:10px 14px;
+  }
+  .proto-step:first-child { border-top:1px solid var(--border); }
+  .proto-num {
+    font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600;
+    color:#fff; background:var(--steeldk); min-width:26px; height:26px;
+    border-radius:2px; display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; margin-top:1px;
+  }
+  .proto-num.red   { background:var(--red-warn); }
+  .proto-num.amber { background:var(--amber); }
+  .proto-body { flex:1; }
+  .proto-label { font-weight:500; font-size:14px; color:var(--ink); }
+  .proto-note  { font-size:12.5px; color:var(--steelmd); margin-top:3px; }
+
+  /* QUALITY CARDS */
+  .qual-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:10px; margin:14px 0; }
+  .qual-card { border:1px solid var(--border); border-radius:2px; overflow:hidden; background:#fff; }
+  .qual-head {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:9px 14px; background:var(--paper2); border-bottom:1px solid var(--rule);
+  }
+  .qual-title { font-family:'Oswald',sans-serif; font-weight:500; font-size:14px; color:var(--ink); }
+  .risk-badge { font-family:'IBM Plex Mono',monospace; font-size:8px; font-weight:600; letter-spacing:.06em; padding:2px 7px; border-radius:2px; }
+  .risk-high   { background:#fde8e8; color:var(--red-warn); border:1px solid #f8b0b0; }
+  .risk-med    { background:#fef3cd; color:#7c4a00; border:1px solid #f5d072; }
+  .risk-low    { background:#e8f5e9; color:#1a6b3a; border:1px solid #88c899; }
+  .qual-body { padding:10px 14px; font-size:12.5px; line-height:1.55; }
+  .qual-km { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--steelmd); margin-top:6px; display:block; }
+
+  /* REGION TABLE */
+  .region-table { width:100%; border-collapse:collapse; font-size:12.5px; margin:14px 0; }
+  .region-table th { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; background:var(--steeldk); color:#b0bcc8; padding:8px 12px; text-align:left; border:1px solid rgba(255,255,255,.07); }
+  .region-table td { padding:8px 12px; border:1px solid var(--rule); vertical-align:top; }
+  .region-table tr:nth-child(even) td { background:var(--paper2); }
+  .region-table tr:nth-child(odd)  td { background:#fff; }
+  .region-table .reg-name { font-family:'Oswald',sans-serif; font-weight:500; font-size:13px; }
+  .reg-tag { font-family:'IBM Plex Mono',monospace; font-size:8px; font-weight:600; padding:2px 6px; border-radius:2px; white-space:nowrap; }
+  .reg-ok    { background:#e8f5e9; color:#1a6b3a; border:1px solid #88c899; }
+  .reg-mix   { background:#fef3cd; color:#7c4a00; border:1px solid #f5d072; }
+  .reg-bad   { background:#fde8e8; color:var(--red-warn); border:1px solid #f8b0b0; }
+
+  /* FUEL LOG */
+  .log-table { width:100%; border-collapse:collapse; font-size:12.5px; margin:14px 0; table-layout:fixed; }
+  .log-table th { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; background:var(--steeldk); color:#b0bcc8; padding:7px 12px; text-align:left; border:1px solid rgba(255,255,255,.07); }
+  .log-table td { padding:7px 12px; border:1px solid var(--rule); background:#fff; }
+  .log-table td.fill { background:var(--paper2); color:var(--steelmd); font-style:italic; font-size:11px; }
+
+  /* PRINT */
+  @media print {
+    @page { margin: 7mm; size: A4; }
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    body { font-size: 7.5pt; background: #fff; line-height: 1.4; }
+    .sticky-wrap { position: static; }
+    .toc-bar { display: none; }
+    .masthead { padding: 4mm 8mm; break-after: avoid; background: #1C1410 !important; color: #fff !important; }
+    .mh-eyebrow { font-size: 5pt; color: #6a7080 !important; }
+    .mh-title { font-size: 16pt; color: #e07800 !important; }
+    .mh-sub, .mh-vehicle { font-size: 5pt; }
+    .main { padding: 4mm 0 10mm; }
+    .section-head { font-size: 14pt; margin-top: 8mm; page-break-after: avoid; break-after: avoid; border-bottom: 2pt solid #e07800 !important; }
+    .sub-head { font-size: 11pt; page-break-after: avoid; break-after: avoid; background: #2a2f3a !important; color: #e07800 !important; }
+    .comp-card, .qual-card { break-inside: avoid; }
+    .racor-card { width: 100% !important; display: block !important; max-width: 100% !important; }
+    .diag-card { break-inside: auto; }
+    .diag-header { break-after: avoid; }
+    .diag-body { break-inside: auto; display: block !important; }
+    .diag-arrow { display: none; }
+    .comp-card-head, .qual-head { background: #EDE5D0 !important; }
+    .tag-active  { background: rgba(5,150,105,.12) !important; color: #059669 !important; }
+    .tag-passive { background: rgba(106,112,128,.12) !important; color: #6a7080 !important; }
+    .tag-wear    { background: rgba(192,90,0,.12) !important; color: #c05a00 !important; }
+    .tag-planned { background: rgba(59,106,191,.12) !important; color: #3b6abf !important; }
+    .risk-high { background: #fde8e8 !important; color: #B91C1C !important; }
+    .risk-med  { background: #fef3cd !important; color: #7c4a00 !important; }
+    .risk-low  { background: #e8f5e9 !important; color: #1a6b3a !important; }
+    .flow-wrap { break-inside: avoid; background: #2a2f3a !important; }
+    .flow-node      { background: rgba(255,255,255,.1) !important; color: #fff !important; }
+    .flow-node.feed  { background: rgba(5,150,105,.2)  !important; color: #6ee7b7 !important; }
+    .flow-node.filt  { background: rgba(224,120,0,.2)  !important; color: #fcd34d !important; }
+    .flow-node.press { background: rgba(185,28,28,.25) !important; color: #fca5a5 !important; }
+    .flow-node.ret   { background: rgba(106,112,128,.25) !important; color: #d0d6dd !important; }
+    .diag-group-title { background: #2a2f3a !important; color: #e07800 !important; }
+    .diag-header { background: #EDE5D0 !important; }
+    .badge-stop    { background: #fde8e8 !important; color: #B91C1C !important; }
+    .badge-caution { background: #fef3cd !important; color: #7c4a00 !important; }
+    .badge-monitor { background: #e8f5e9 !important; color: #1a6b3a !important; }
+    .cause-num { background: #6a7080 !important; color: #fff !important; }
+    .step-num  { background: #b86800 !important; color: #fff !important; }
+    .step-stop { background: #B91C1C !important; color: #fff !important; }
+    .cl-num    { background: #2a2f3a !important; color: #fff !important; }
+    .proto-num        { background: #2a2f3a !important; color: #fff !important; }
+    .proto-num.red    { background: #B91C1C !important; color: #fff !important; }
+    .proto-num.amber  { background: #b86800 !important; color: #fff !important; }
+    .warn-box  { break-inside: avoid; background: #fde8e8 !important; border-left: 3pt solid #B91C1C !important; color: #7a1010 !important; }
+    .note-box  { break-inside: avoid; background: #fef9e7 !important; border-left: 3pt solid #b86800 !important; color: #5a3800 !important; }
+    .ok-box    { break-inside: avoid; background: #e8f5e9 !important; border-left: 3pt solid #059669 !important; color: #0d4a28 !important; }
+    .info-box  { break-inside: avoid; background: #e8eef8 !important; border-left: 3pt solid #3b6abf !important; color: #1a2f5a !important; }
+    .specs-table thead, .region-table thead, .log-table thead { display: table-header-group; }
+    .specs-table th, .region-table th, .log-table th { background: #2a2f3a !important; color: #b0bcc8 !important; }
+    .log-table td.fill { background: #EDE5D0 !important; }
+    .xref-bar  { background: #2a2f3a !important; border: 1px solid rgba(255,255,255,.08) !important; }
+    .xref-pill { background: rgba(224,120,0,.12) !important; color: #e07800 !important; border: 1px solid rgba(224,120,0,.3) !important; }
+    .reg-ok  { background: #e8f5e9 !important; color: #1a6b3a !important; }
+    .reg-mix { background: #fef3cd !important; color: #7c4a00 !important; }
+    .reg-bad { background: #fde8e8 !important; color: #B91C1C !important; }
+    a { color: var(--ink); text-decoration: none; }
+    .checklist li { break-inside: avoid; }
+    .proto-step { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="sticky-wrap">
+  <div class="masthead">
+    <a href="index.html" class="lib-home-btn">⌂ Index</a>
+    <div class="mh-eyebrow">HZJ76R-RKMRS · Overland Reference Library · R24</div>
+    <div class="mh-title">Fuel System &amp; Diesel Quality Guide</div>
+    <div class="mh-sub">Architecture · Components · Diesel Quality · Filtration · Field Diagnosis · Bad-Fuel Protocol · Sourcing · Pre-Departure</div>
+    <div class="mh-vehicle">2009 LC76 SW · 1HZ 4.2L Diesel · Denso VE Rotary Injection · SAC Low-Boost Turbo · 145L Main + 2×20L Aux · HZJ76R-RKMRS</div>
+  </div>
+  <nav class="toc-bar">
+    <button class="toc-btn" data-target="s-arch">Architecture</button>
+    <button class="toc-btn" data-target="s-comp">Components</button>
+    <button class="toc-btn" data-target="s-quality">Diesel Quality</button>
+    <button class="toc-btn" data-target="s-filt">Filtration</button>
+    <button class="toc-btn" data-target="s-diag">Field Diagnosis</button>
+    <button class="toc-btn" data-target="s-protocol">Bad-Fuel Protocol</button>
+    <button class="toc-btn" data-target="s-source">Sourcing</button>
+    <button class="toc-btn" data-target="s-checklist">Pre-Departure</button>
+    <button class="toc-btn" data-target="s-log">Fuel Log</button>
+  </nav>
+</div>
+
+<div class="main">
+
+  <!-- ══ SECTION 1: ARCHITECTURE ══ -->
+  <div id="s-arch" class="sa">
+    <div class="section-head">Fuel System Architecture</div>
+    <p class="section-intro">The 1HZ is mechanically fuelled — no ECU, no common rail, no electronic injectors. Diesel is lifted from the tank, filtered, pressurised by a Denso VE rotary injection pump, and delivered to six mechanical injectors via individual hard lines. Return fuel is routed back to the tank. The entire fuel path is mechanical and serviceable in the field with basic tools — this is the engine's defining strength for African overlanding, but it is absolutely dependent on fuel cleanliness.</p>
+
+    <div class="flow-wrap">
+      <div class="flow-title">Fuel Path — Tank to Injectors (Normal Operation)</div>
+      <div class="flow-row">
+        <div class="flow-node feed">Main Tank 145L</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node feed">Fuel Pickup</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node filt">Primary Filter (water separator)</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node feed">Hand Primer</div>
+      </div>
+      <div class="flow-row" style="margin-top:8px;">
+        <div class="flow-node filt">Pre-Filter (planned, inline)</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node filt">Secondary Filter (fine)</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node press">Denso VE Injection Pump</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node press">Injectors × 6</div>
+      </div>
+      <div class="flow-row" style="margin-top:8px;">
+        <div class="flow-node press">Injector tips</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node">Combustion Chamber</div>
+        <div class="flow-note">Mechanical atomisation — no electronic control</div>
+      </div>
+      <div class="flow-row" style="margin-top:8px;">
+        <div class="flow-node ret">Injector Return</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node ret">Pump Return</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node ret">Return Line to Tank</div>
+        <div class="flow-note">~60–70% of lifted fuel returns — pump cooling &amp; lubrication</div>
+      </div>
+      <div class="flow-row" style="margin-top:8px;">
+        <div class="flow-node feed">2 × 20L Desert Fox Aux</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node filt">Transfer funnel + filter</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node feed">Main Tank</div>
+        <div class="flow-note">Manual transfer — never bypass filtration</div>
+      </div>
+
+      <div class="flow-legend">
+        <div class="flow-node feed">FEED (low pressure)</div>
+        <div class="flow-node filt">FILTRATION</div>
+        <div class="flow-node press">HIGH PRESSURE</div>
+        <div class="flow-node ret">RETURN</div>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <strong>Why this matters in Africa:</strong> The Denso VE rotary pump has tolerances measured in microns. Particulates, water, and the wrong fuel chemistry will destroy it — and a replacement rotary pump is a workshop job, not a bush repair. Every defence against bad fuel in this document is ultimately protecting the pump and injectors. The filters are your firewall. Keep them good.
+    </div>
+
+    <div class="note-box">
+      <strong>Mechanical simplicity is both shield and liability.</strong> A mechanical 1HZ will run on fuel that would stop a modern common-rail engine. But when it does fail on bad fuel, there are no sensors to tell you which component failed — you diagnose by symptom, smell, and dipstick. This guide is structured around that reality.
+    </div>
+  </div><!-- /s-arch -->
+
+
+  <!-- ══ SECTION 2: COMPONENTS ══ -->
+  <div id="s-comp" class="sa">
+    <div class="section-head">Fuel System Components</div>
+    <p class="section-intro">Each component, its role, its failure mode, and where it sits in the 1HZ fuel path.</p>
+
+    <div class="comp-grid">
+
+      <div class="comp-card">
+        <div class="comp-card-head">Main Fuel Tank <span class="comp-tag tag-passive">PASSIVE</span></div>
+        <div class="comp-card-body">
+          145 L steel tank under the vehicle, fed by the filler neck aft of the rear door. Internal baffles reduce slosh on corrugations. Water and debris collect at the lowest point over years of use. Factory tanks in this vintage do not have a dedicated water drain — contamination is only removed by draining the pickup line or dropping the tank.
+          <br><br>Capacity: <span class="mono">145 L · ~1,400 km range at 10 L/100km</span>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-card-head">Auxiliary Fuel — Desert Fox <span class="comp-tag tag-passive">PASSIVE</span></div>
+        <div class="comp-card-body">
+          2 × 20 L collapsible bladder cells, stored when empty, deployed for extended-range legs. Contents must be filtered on transfer through the Racor RFF8C funnel — bladder cells can shed particles and accumulate moisture from condensation. Never pour auxiliary fuel directly into the tank without the funnel.
+          <br><br>Aux capacity: <span class="mono">40 L · adds ~400 km at 10 L/100km</span>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-card-head">Fuel Pickup &amp; Sender <span class="comp-tag tag-passive">PASSIVE</span></div>
+        <div class="comp-card-body">
+          Pickup tube draws fuel from the bottom of the tank, with a coarse strainer sock. Sender unit floats on the fuel and reports level to the dash gauge. Running the tank below ¼ on corrugated terrain risks uncovering the pickup and drawing air — this is a leading cause of roadside stalls in overlanders. Keep a ¼-tank floor in rough country.
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-card-head">Primary Filter / Water Separator <span class="comp-tag tag-wear">WEAR</span></div>
+        <div class="comp-card-body">
+          Spin-on canister filter mounted on the engine bay firewall. Primary role is to trap larger particulates and separate water from the fuel — water sits at the bottom of the bowl and is drained via a tap. This is the <em>first</em> line of defence. Water should be drained at every fill-up in suspect regions. Change the element on schedule or after any bad-fuel event.
+          <br><br>Interval: <span class="mono">10,000 km · earlier in bad regions</span>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-card-head">Secondary Filter (Fine) <span class="comp-tag tag-wear">WEAR</span></div>
+        <div class="comp-card-body">
+          Fine-element filter downstream of the primary, protecting the injection pump from any particulates the primary missed. Typical rating is 2–5 micron — compared to the primary's ~30 micron. This filter is the last barrier before the pump. A blocked secondary causes progressive power loss and eventually stalling under load. Change it with — or just after — the primary.
+          <br><br>Interval: <span class="mono">10,000–20,000 km · or under-load power loss</span>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-card-head">Pre-Filter (Planned) <span class="comp-tag tag-planned">PLANNED</span></div>
+        <div class="comp-card-body">
+          Additional water-separating pre-filter planned for installation before the trip — sits <em>before</em> the factory primary filter and catches bulk water and heavy particulates. Adds a cheap, expendable firewall, extends life of the factory filters, and gives a visible bowl for field inspection. Common choices: Donaldson, Racor, or equivalent with clear bowl.
+          <br><br>Install target: <span class="mono">Pre-departure · spec TBC with Dup Diesel</span>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-card-head">Hand Primer <span class="comp-tag tag-active">ACTIVE</span></div>
+        <div class="comp-card-body">
+          Manual plunger on top of (or adjacent to) the primary filter housing. Used to bleed air out of the fuel system after filter changes, after running the tank dry, or after any fuel line disturbance. Pump until the primer goes stiff — that means the filters and lines are full. No primer action means it is stuck or seized.
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-card-head">Denso VE Injection Pump <span class="comp-tag tag-active">ACTIVE</span></div>
+        <div class="comp-card-body">
+          Heart of the mechanical fuel system. A rotary plunger pump driven off the timing belt, mechanically controlled by the throttle linkage and internal governor. Generates high pressure, meters fuel per injection, and distributes it to the six injectors in firing order. Lubricated and cooled by the diesel flowing through it — this is why return fuel flow matters.
+          <br><br>Rebuild cost: <span class="mono">High · bush-repair: not possible</span>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-card-head">Injectors (×6) <span class="comp-tag tag-active">ACTIVE</span></div>
+        <div class="comp-card-body">
+          Mechanical pop-off injectors — a spring-loaded pintle opens when fuel pressure exceeds the set point, atomising fuel into the pre-combustion chamber. No electronic control. Failure modes: stuck open (misfire, white smoke), stuck closed (dead cylinder), partial spray pattern (black smoke, lost power). Can be pop-tested and swapped in the field if spares carried.
+          <br><br>Pop pressure: <span class="mono">~140 bar · test on bench</span>
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-card-head">Glow Plugs (×6) <span class="comp-tag tag-active">ACTIVE</span></div>
+        <div class="comp-card-body">
+          Not strictly fuel system, but critical to cold-start combustion. 1HZ uses traditional in-chamber glow plugs, heated via the glow circuit for a few seconds before cranking. Failed glow plugs prevent cold start below ~10°C ambient, especially at altitude in highland Africa. Included here because glow-plug failure is frequently misdiagnosed as "bad fuel" after a cold night.
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-card-head">Fuel Lines &amp; Hard Pipes <span class="comp-tag tag-passive">PASSIVE</span></div>
+        <div class="comp-card-body">
+          Low-pressure feed and return lines are rubber hose with clamps. High-pressure delivery lines from pump to injectors are steel, pre-formed, one per cylinder. Rubber lines perish with age and heat; steel lines crack at flares after decades of vibration. Any weep on a high-pressure line is a stop-and-inspect event — pressurised diesel at 140 bar can inject into skin.
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-card-head">Return Line <span class="comp-tag tag-passive">PASSIVE</span></div>
+        <div class="comp-card-body">
+          Routes unused diesel from the injection pump and injector tops back to the tank. 60–70% of the fuel lifted from the tank actually returns unused — it is the pump's cooling and lubrication path. A blocked return line causes progressive pump overheating and eventual seizure. Check return flow any time the pump is disturbed.
+        </div>
+      </div>
+
+    </div>
+
+    <div class="sub-head">Key Service Specifications</div>
+    <table class="specs-table">
+      <thead>
+        <tr>
+          <th style="width:38%">Item</th>
+          <th style="width:32%">Specification</th>
+          <th style="width:30%">Interval / Note</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Primary fuel filter element</td><td class="mono">OEM spin-on · water separator</td><td class="mono">10,000 km / bad-fuel event</td></tr>
+        <tr><td>Secondary fuel filter element</td><td class="mono">OEM fine 2–5 μm</td><td class="mono">10,000–20,000 km</td></tr>
+        <tr><td>Water drain from primary bowl</td><td class="mono">Open tap, drain to clear fuel</td><td class="mono">Every refuel in suspect region</td></tr>
+        <tr><td>Hand priming after filter change</td><td class="mono">Until plunger goes hard</td><td class="mono">Mandatory</td></tr>
+        <tr><td>Injector pop pressure</td><td class="mono">~140 bar ± tolerance</td><td class="mono">Bench test / workshop</td></tr>
+        <tr><td>Injection timing (static)</td><td class="mono">Per workshop manual</td><td class="mono">On pump removal / rebuild</td></tr>
+        <tr><td>Tank fuel floor on corrugations</td><td class="mono">¼ tank minimum</td><td class="mono">Prevents pickup uncovering</td></tr>
+        <tr><td>Aux fuel transfer</td><td class="mono">Via funnel + filter</td><td class="mono">Never direct pour</td></tr>
+      </tbody>
+    </table>
+
+    <div class="xref-bar">
+      <span class="xref-label">Engine context:</span>
+      <span class="xref-pill">R4 · 1HZ Engine Training</span>
+      <span class="xref-label" style="margin-left:8px;">Filter stock:</span>
+      <span class="xref-pill">R3 · Spares &amp; Tools</span>
+    </div>
+  </div><!-- /s-comp -->
+
+
+  <!-- ══ SECTION 3: DIESEL QUALITY IN AFRICA ══ -->
+  <div id="s-quality" class="sa">
+    <div class="section-head">Diesel Quality in Africa</div>
+    <p class="section-intro">African diesel varies dramatically by country, by station, and by tanker delivery. The four threats to the 1HZ are water, particulates, biodiesel content, and sulphur-related chemistry. Know what you are likely to encounter before you leave the tar.</p>
+
+    <div class="sub-head">The Four Threats</div>
+
+    <div class="qual-grid">
+
+      <div class="qual-card">
+        <div class="qual-head"><div class="qual-title">Water Contamination</div><span class="risk-badge risk-high">HIGH</span></div>
+        <div class="qual-body">
+          By far the most common issue. Sources: condensation in underground tanks overnight, rainwater ingress at damaged filler caps, deliberate adulteration (rare but it happens), bladder-cell condensation, and jerry cans left half-full in the sun. Water in diesel causes corrosion of the injection pump internals, cavitation damage on plunger faces, and flame-out in the injector spray pattern.
+          <span class="qual-km">Field signs: cloudy fuel, bowl separation, rough idle, misfire on warm-up</span>
+        </div>
+      </div>
+
+      <div class="qual-card">
+        <div class="qual-head"><div class="qual-title">Particulate Contamination</div><span class="risk-badge risk-high">HIGH</span></div>
+        <div class="qual-body">
+          Sand, rust flakes, tank sludge, and biological growth (diesel bug). The 1HZ's injection pump is destroyed by abrasive particulates — even small amounts wear plunger faces and seat surfaces. Sources: old underground tanks with internal corrosion, jerry cans that have been scrubbed with abrasive, and filler necks without strainers.
+          <span class="qual-km">Field signs: filter blackening, rapid filter clog, power loss under load</span>
+        </div>
+      </div>
+
+      <div class="qual-card">
+        <div class="qual-head"><div class="qual-title">Biodiesel Blends</div><span class="risk-badge risk-med">MEDIUM</span></div>
+        <div class="qual-body">
+          Some African countries mandate biodiesel blends — typically B5 to B20 (5–20% biodiesel). The 1HZ tolerates B5 easily, tolerates B10 with vigilance, and starts to have trouble at B20+ because biodiesel attacks older rubber hoses, dissolves tank sediment (causing filter clogs), and has a higher cold-point. Pump seals from the late-90s / early-2000s are particularly at risk from higher biodiesel ratios over time.
+          <span class="qual-km">Field signs: rubber line swelling, filter clogging after a few tanks, cold-start trouble</span>
+        </div>
+      </div>
+
+      <div class="qual-card">
+        <div class="qual-head"><div class="qual-title">High Sulphur Diesel</div><span class="risk-badge risk-low">LOW</span></div>
+        <div class="qual-body">
+          Much of Africa still sells high-sulphur diesel (&gt;500 ppm), sometimes up to 3,000+ ppm. Good news for the 1HZ: a mechanical pre-EGR, pre-DPF engine like this one actually prefers higher sulphur because sulphur aids pump and injector lubricity. Bad news: higher sulphur increases sooting, accelerates engine oil contamination, and shortens oil change intervals. Not a threat to the pump, but a driver for shorter oil service intervals.
+          <span class="qual-km">Field signs: dirtier exhaust, oil darkens faster, higher sulphur smell</span>
+        </div>
+      </div>
+
+      <div class="qual-card">
+        <div class="qual-head"><div class="qual-title">Diesel Bug (Microbial Growth)</div><span class="risk-badge risk-med">MEDIUM</span></div>
+        <div class="qual-body">
+          Bacteria and fungi that live at the fuel/water interface in the tank. Thrive where tanks are rarely drained and water sits. Produces a dark slime that clogs filters and feeds acidic by-products that corrode tank and pump surfaces. More common in aux fuel storage (bladder cells, jerry cans) than in the main tank on a vehicle that runs regularly.
+          <span class="qual-km">Field signs: dark slime in primary bowl, filter elements dark and slimy</span>
+        </div>
+      </div>
+
+      <div class="qual-card">
+        <div class="qual-head"><div class="qual-title">Adulteration (Kerosene/Petrol)</div><span class="risk-badge risk-high">HIGH</span></div>
+        <div class="qual-body">
+          Diluting diesel with kerosene (paraffin) is common in some regions to stretch supply and margins. Small amounts are usually harmless, but significant kerosene cuts lower viscosity and damage pump lubrication over time. Petrol contamination is far more dangerous — even small amounts can destroy the injection pump from loss of lubricity. Unmistakable smell: petrol fumes instead of diesel.
+          <span class="qual-km">Field signs: petrol smell, unusually thin-feeling fuel, sudden power drop</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="sub-head">Regional Fuel Quality — Broad Guidance</div>
+    <p class="section-intro">Broad generalisations only. Quality varies by station and by tanker. Always follow the sourcing strategy in Section 7 regardless of country-level reputation.</p>
+
+    <table class="region-table">
+      <thead>
+        <tr>
+          <th style="width:22%">Region / Country</th>
+          <th style="width:14%">General Quality</th>
+          <th>Notes for the 1HZ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="reg-name">South Africa</td>
+          <td><span class="reg-tag reg-ok">GOOD</span></td>
+          <td>Major brand stations reliable. 50 ppm available in urban areas, 500 ppm rural. B5 standard. No operational concerns.</td>
+        </tr>
+        <tr>
+          <td class="reg-name">Eswatini</td>
+          <td><span class="reg-tag reg-ok">GOOD</span></td>
+          <td>Fuel imported from South Africa via the same supply chain — quality effectively mirrors SA. Major brand stations (Engen, Galp, Puma) on main routes between Mbabane, Manzini, and the border posts. No operational concerns.</td>
+        </tr>
+        <tr>
+          <td class="reg-name">Lesotho</td>
+          <td><span class="reg-tag reg-ok">GOOD</span></td>
+          <td>Fuel imported from South Africa — quality matches SA at major-brand stations in Maseru and along the main routes. Mountain interior (Sani Pass, Katse, Mokhotlong) — fewer stations, lower turnover, top up before leaving the lowlands. Cold-start altitude considerations apply in the Maluti highlands.</td>
+        </tr>
+        <tr>
+          <td class="reg-name">Namibia</td>
+          <td><span class="reg-tag reg-ok">GOOD</span></td>
+          <td>Quality broadly on par with SA. Major brand stations are the safer choice in remote areas (Engen, Puma, BP, Shell).</td>
+        </tr>
+        <tr>
+          <td class="reg-name">Angola</td>
+          <td><span class="reg-tag reg-mix">VARIABLE</span></td>
+          <td>Major oil producer with subsidised diesel, but retail quality is uneven. Sonangol and Puma stations in Luanda and along the main coastal corridor are generally acceptable. Inland and southern routes (Lubango, Cuando Cubango) — quality drops, supply is thinner, and station turnover is lower. Carry full aux fuel for any leg off the main routes. Drain primary bowl at every fill.</td>
+        </tr>
+        <tr>
+          <td class="reg-name">Botswana</td>
+          <td><span class="reg-tag reg-ok">GOOD</span></td>
+          <td>Good urban supply. Remote stations less consistent — carry aux fuel and top up at major towns.</td>
+        </tr>
+        <tr>
+          <td class="reg-name">Zimbabwe</td>
+          <td><span class="reg-tag reg-mix">VARIABLE</span></td>
+          <td>Supply disruption drives quality swings. Shortages encourage drawing from old tanks. Drain primary bowl every fill.</td>
+        </tr>
+        <tr>
+          <td class="reg-name">Zambia</td>
+          <td><span class="reg-tag reg-mix">VARIABLE</span></td>
+          <td>Urban brand stations acceptable. Lusaka and Livingstone are fine. Remote areas — expect higher water and particulates.</td>
+        </tr>
+        <tr>
+          <td class="reg-name">Malawi</td>
+          <td><span class="reg-tag reg-mix">VARIABLE</span></td>
+          <td>Frequent supply shortages. When stations finally receive tankers, everyone draws from freshly stirred-up tanks — schedule fill-ups after the first day of a new delivery, not the morning of arrival.</td>
+        </tr>
+        <tr>
+          <td class="reg-name">Mozambique</td>
+          <td><span class="reg-tag reg-mix">VARIABLE</span></td>
+          <td>Coastal cities reasonable. Northern Mozambique supply is thin — carry aux fuel. Biodiesel blends present.</td>
+        </tr>
+        <tr>
+          <td class="reg-name">Tanzania</td>
+          <td><span class="reg-tag reg-mix">VARIABLE</span></td>
+          <td>Dar es Salaam and Arusha acceptable. Interior varies. Watch for water contamination after rainy season.</td>
+        </tr>
+        <tr>
+          <td class="reg-name">Kenya</td>
+          <td><span class="reg-tag reg-mix">VARIABLE</span></td>
+          <td>Nairobi supply is good. Northern Kenya and remote areas — assume poor quality and filter accordingly.</td>
+        </tr>
+        <tr>
+          <td class="reg-name">Uganda</td>
+          <td><span class="reg-tag reg-mix">VARIABLE</span></td>
+          <td>Kampala reasonable. Rural stations inconsistent. Biodiesel blend exposure likely.</td>
+        </tr>
+        <tr>
+          <td class="reg-name">Rwanda</td>
+          <td><span class="reg-tag reg-ok">GOOD</span></td>
+          <td>Tight regulation and good infrastructure. Kigali and main highway stations consistent.</td>
+        </tr>
+        <tr>
+          <td class="reg-name">Ethiopia</td>
+          <td><span class="reg-tag reg-bad">POOR</span></td>
+          <td>Known for high particulates, variable quality, and supply disruption. Filter aggressively, change filters more frequently, carry extra aux.</td>
+        </tr>
+        <tr>
+          <td class="reg-name">DRC (eastern)</td>
+          <td><span class="reg-tag reg-bad">POOR</span></td>
+          <td>Fuel quality highly variable, adulteration more common. Avoid jerry can fuel from informal sources where possible.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="note-box">
+      <strong>These tags are directional, not predictive.</strong> Overland forums and fellow travellers on the ground give the freshest picture — a "good" country can have a bad station on a bad day, and the reverse is true. Use sourcing strategy (Section 7), not country reputation, as your primary defence.
+    </div>
+  </div><!-- /s-quality -->
+
+
+  <!-- ══ SECTION 4: FILTRATION STRATEGY ══ -->
+  <div id="s-filt" class="sa">
+    <div class="section-head">Filtration Strategy</div>
+    <p class="section-intro">Filtration is the firewall between dirty African diesel and the Denso injection pump. The strategy is staged: catch bulk contamination early and cheaply, polish to fine tolerance before the pump, and change elements before they're blocked.</p>
+
+    <div class="sub-head">Three-Stage Filtration Philosophy</div>
+
+    <div class="protocol-list">
+      <div class="proto-step">
+        <div class="proto-num">1</div>
+        <div class="proto-body">
+          <div class="proto-label">Stage 1 — Pre-Filter (planned, inline, ~30 μm with water separator)</div>
+          <div class="proto-note">Cheapest and most expendable. Catches bulk water and large particulates. Clear bowl allows visual inspection at every fuel stop. Element is cheap to replace. This is the layer that absorbs the worst of a bad-fuel event.</div>
+        </div>
+      </div>
+      <div class="proto-step">
+        <div class="proto-num">2</div>
+        <div class="proto-body">
+          <div class="proto-label">Stage 2 — Factory Primary Filter (OEM, ~30 μm with water separator)</div>
+          <div class="proto-note">Second line of defence. With a pre-filter upstream, its life is extended significantly. Drain water bowl at every refuel in suspect regions. Change element on schedule or earlier if bowl shows contamination.</div>
+        </div>
+      </div>
+      <div class="proto-step">
+        <div class="proto-num">3</div>
+        <div class="proto-body">
+          <div class="proto-label">Stage 3 — Factory Secondary Filter (OEM, 2–5 μm fine)</div>
+          <div class="proto-note">Final barrier before the injection pump. Fine-element filter catches anything the first two layers missed. A blocked secondary is itself a symptom — something got past the earlier stages, investigate upstream. Change with or immediately after the primary.</div>
+        </div>
+      </div>
+      <div class="proto-step">
+        <div class="proto-num">4</div>
+        <div class="proto-body">
+          <div class="proto-label">Stage 4 — Racor RFF8C Filter Funnel (for aux fuel transfer)</div>
+          <div class="proto-note">A heavy-duty filter-in-a-funnel used for every transfer from jerry cans or Desert Fox cells to the main tank. This is not a "filter" in the pump sense but the only barrier between dubious aux fuel and the tank. Cheap, effective, and non-negotiable. See the Racor box below for what it does and what it does not do.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-head">Racor RFF8C — Aux Fuel Transfer Funnel</div>
+    <div class="comp-card racor-card" style="margin:14px 0; width:100%; display:block;">
+      <div class="comp-card-head">Racor RFF8C Filter Funnel <span class="comp-tag tag-active">CARRIED</span></div>
+        <div class="comp-card-body">
+          Heavy-duty filter-in-a-funnel from Parker Racor. Permanent Teflon-coated stainless steel filter element rated at 50 micron. Industrial-grade black electro-conductive polypropylene body — carbon-loaded so it dissipates static charge when grounded during fuel transfer (a real safety feature, not marketing). Used for every transfer from Desert Fox cells, jerry cans, and any informal fuel source into the main tank.
+          <br><br>
+          <strong>What it does:</strong>
+          <ul style="margin:6px 0 6px 18px; font-size:12px; line-height:1.5;">
+            <li>Catches particulates down to ~50 micron — sand, rust flakes, tank scale, debris</li>
+            <li>Repels <em>free</em> water — droplets bead off the hydrophobic mesh and stay above the filter while clean fuel passes through</li>
+            <li>Allows visual inspection of fuel as it pours — cloudy, coloured, or contaminated fuel is immediately obvious in the funnel before it reaches the tank</li>
+            <li>Static-safe for grounded refuelling</li>
+            <li>Permanent element — no cartridges to carry, no consumables to run out of</li>
+          </ul>
+          <strong>What it does not do:</strong>
+          <ul style="margin:6px 0 6px 18px; font-size:12px; line-height:1.5;">
+            <li>Does not remove <em>emulsified</em> water — water already dissolved or suspended in the fuel as a fine emulsion passes straight through. Emulsified water is what the factory primary filter / water separator is for.</li>
+            <li>Does not catch particulates finer than ~50 micron — that is the secondary filter's job</li>
+            <li>Does not "clean" already-contaminated fuel in storage — only filters during pour</li>
+          </ul>
+          <strong>Field discipline:</strong>
+          <ul style="margin:6px 0 0 18px; font-size:12px; line-height:1.5;">
+            <li>Never touch the inner mesh element — finger oils degrade the hydrophobic coating</li>
+            <li>Pour slowly enough that you can watch the fuel — speed defeats the purpose</li>
+            <li>If water collects above the mesh, stop pouring, decant the contents into the waste container, and inspect the source jerry can</li>
+            <li>Rinse and dry after use; store clean and dust-free</li>
+            <li>Specs: <span class="mono">RFF8C · 50 μm · 18.9 L/min max · 254 mm tall · 216 mm dia</span></li>
+          </ul>
+        </div>
+      </div>
+
+    <div class="info-box">
+      <strong>The honest limit of the funnel:</strong> The RFF8C is a coarse first line of defence — 50 micron is generous compared to the secondary filter's 2–5 micron, and it is blind to emulsified water. It is exactly the right tool for the job because it is fast, robust, has no consumables, and lets you <em>see</em> the fuel going into the tank. Anything finer than 50 μm or any emulsified water is caught downstream by the pre-filter, primary, and secondary. The system is staged for a reason — do not expect the funnel to do a job it was never designed for.
+    </div>
+
+    <div class="sub-head">Filter Change Intervals</div>
+    <table class="specs-table">
+      <thead>
+        <tr>
+          <th style="width:34%">Condition</th>
+          <th style="width:22%">Pre-Filter</th>
+          <th style="width:22%">Primary</th>
+          <th style="width:22%">Secondary</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Good fuel, tar roads</td><td class="mono">15,000 km</td><td class="mono">10,000 km</td><td class="mono">20,000 km</td></tr>
+        <tr><td>Variable quality, mixed driving</td><td class="mono">10,000 km</td><td class="mono">7,500 km</td><td class="mono">15,000 km</td></tr>
+        <tr><td>Poor quality region</td><td class="mono">5,000 km</td><td class="mono">5,000 km</td><td class="mono">10,000 km</td></tr>
+        <tr><td>After bad-fuel event</td><td class="mono">Immediate</td><td class="mono">Immediate</td><td class="mono">Immediate</td></tr>
+        <tr><td>Water in primary bowl</td><td class="mono">Drain &amp; inspect</td><td class="mono">Drain at every fill</td><td class="mono">Inspect element</td></tr>
+        <tr><td>Progressive power loss</td><td class="mono">Inspect first</td><td class="mono">Replace</td><td class="mono">Replace</td></tr>
+      </tbody>
+    </table>
+
+    <div class="sub-head">Spares to Carry</div>
+    <ul class="checklist">
+      <li>
+        <div class="cl-num">1</div>
+        <div class="cl-text">
+          <span class="cl-label">3 × primary filter elements (OEM spin-on)</span>
+          <span class="cl-note">One for scheduled service, one for bad-fuel recovery, one reserve. Verify part number with Dup Diesel before trip.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">2</div>
+        <div class="cl-text">
+          <span class="cl-label">3 × secondary (fine) filter elements</span>
+          <span class="cl-note">Same logic as primary. Keep in sealed bags in a cool, dark part of the vehicle — filter media degrades with heat and UV.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">3</div>
+        <div class="cl-text">
+          <span class="cl-label">2 × pre-filter elements (once installed)</span>
+          <span class="cl-note">Pre-filter element spec and quantity to confirm at install. Planned: Donaldson or equivalent clear-bowl unit.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">4</div>
+        <div class="cl-text">
+          <span class="cl-label">1 × Racor RFF8C filter funnel (carried)</span>
+          <span class="cl-note">Lives permanently in the aux-fuel kit. Permanent stainless mesh element — no consumable cartridges. 50 μm rating, free-water repelling, static-safe. See Section 4 spec card.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">5</div>
+        <div class="cl-text">
+          <span class="cl-label">Filter wrench / strap wrench</span>
+          <span class="cl-note">Seized spin-on filters after 10,000 km of corrugations need a proper tool — do not rely on hand-tight removal.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">6</div>
+        <div class="cl-text">
+          <span class="cl-label">Clean, dated fuel drain container (5 L minimum)</span>
+          <span class="cl-note">For draining primary bowl, tank pickup, and contaminated fuel during a bad-fuel event. Label clearly — "contaminated diesel" — and dispose responsibly, never reuse.</span>
+        </div>
+      </li>
+    </ul>
+
+    <div class="xref-bar">
+      <span class="xref-label">Stock list:</span>
+      <span class="xref-pill">R3 · Spares &amp; Tools</span>
+      <span class="xref-label" style="margin-left:8px;">Service log:</span>
+      <span class="xref-pill">R8 · Service History</span>
+    </div>
+  </div><!-- /s-filt -->
+
+
+  <!-- ══ SECTION 5: FIELD DIAGNOSIS ══ -->
+  <div id="s-diag" class="sa">
+    <div class="section-head">Field Diagnosis — Fuel-Related Symptoms</div>
+    <p class="section-intro">Symptoms that point to the fuel system, likely causes, and what to check. Tap a row to expand.</p>
+
+    <div class="diag-group">
+      <div class="diag-group-title">Starting &amp; Idle</div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Hard cold start, fires on 3–4 cylinders then clears</div>
+          <div class="diag-badge badge-caution">CAUTION</div>
+          <div class="diag-arrow">▼</div>
+        </div>
+        <div class="diag-body">
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Failed glow plug(s)</span><span class="cause-note">Most common cause — misdiagnosed as bad fuel. Test each plug individually.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Water in primary bowl</span><span class="cause-note">Check and drain. Water settles overnight and is drawn on first cold start.</span></div></li>
+            <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Air in fuel lines</span><span class="cause-note">Possible after running near-empty or recent filter change. Prime until hard.</span></div></li>
+            <li><div class="cause-num">4</div><div class="cause-text"><span class="cause-label">Partially blocked secondary filter</span><span class="cause-note">Starves pump at low rpm, clears as revs rise. Inspect or replace.</span></div></li>
+          </ul>
+          <div class="check-steps">
+            <div class="check-step"><div class="step-num">1</div><div>Check primary filter bowl for water. Drain to clear fuel.</div></div>
+            <div class="check-step"><div class="step-num">2</div><div>Test each glow plug in turn — failed plugs show no continuity.</div></div>
+            <div class="check-step"><div class="step-num">3</div><div>Prime the hand primer until it goes hard — confirms no air lock.</div></div>
+            <div class="check-step"><div class="step-num">4</div><div>If symptom persists, replace secondary filter and re-test.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Engine runs rough at idle, smooths at 1500+ rpm</div>
+          <div class="diag-badge badge-caution">CAUTION</div>
+          <div class="diag-arrow">▼</div>
+        </div>
+        <div class="diag-body">
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Water contamination in fuel</span><span class="cause-note">Water disrupts spray pattern worst at low fuel delivery. Drain bowl.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Stuck / fouled injector</span><span class="cause-note">One injector delivering poor spray. Cylinder balance test needed.</span></div></li>
+            <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Low-quality fuel, high kerosene content</span><span class="cause-note">Lower viscosity disrupts combustion at low rpm. Dilute with known-good fuel if possible.</span></div></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Will not start, cranks strongly, no fire at all</div>
+          <div class="diag-badge badge-stop">STOP</div>
+          <div class="diag-arrow">▼</div>
+        </div>
+        <div class="diag-body">
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">No fuel reaching pump</span><span class="cause-note">Blocked filter, collapsed feed line, or tank run dry on corrugations.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Severe air lock in fuel system</span><span class="cause-note">After filter change without bleeding, or after running tank dry.</span></div></li>
+            <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Injection pump shutoff solenoid failed</span><span class="cause-note">Electrical solenoid that cuts off fuel at key-off. Can fail shut.</span></div></li>
+            <li><div class="cause-num">4</div><div class="cause-text"><span class="cause-label">Badly contaminated fuel (water or petrol)</span><span class="cause-note">Severe contamination prevents combustion entirely.</span></div></li>
+          </ul>
+          <div class="check-steps">
+            <div class="check-step"><div class="step-stop">!</div><div>Do not crank continuously — cook the starter and drain the battery. Diagnose first.</div></div>
+            <div class="check-step"><div class="step-num">1</div><div>Confirm fuel in tank and not below pickup level.</div></div>
+            <div class="check-step"><div class="step-num">2</div><div>Hand-prime until hard. If it never goes hard, air is getting in upstream of filters.</div></div>
+            <div class="check-step"><div class="step-num">3</div><div>Crack a high-pressure line at one injector while cranking — if no fuel appears, pump is not delivering.</div></div>
+            <div class="check-step"><div class="step-num">4</div><div>Inspect primary bowl for gross contamination. Proceed to Bad-Fuel Protocol if so.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="diag-group">
+      <div class="diag-group-title">Power &amp; Running</div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Progressive power loss under load, recovers at low demand</div>
+          <div class="diag-badge badge-caution">CAUTION</div>
+          <div class="diag-arrow">▼</div>
+        </div>
+        <div class="diag-body">
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Blocked secondary filter</span><span class="cause-note">Classic symptom: filter can flow enough at light load but not at full demand.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Blocked primary filter</span><span class="cause-note">Same logic, one stage earlier. Inspect bowl for contamination.</span></div></li>
+            <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Tank pickup screen partially blocked</span><span class="cause-note">Less common but occurs after years of sediment build-up.</span></div></li>
+            <li><div class="cause-num">4</div><div class="cause-text"><span class="cause-label">Fuel cap vent blocked</span><span class="cause-note">Creates vacuum in tank, starves pump. Loosen cap — if symptom clears, vent is the cause.</span></div></li>
+          </ul>
+          <div class="check-steps">
+            <div class="check-step"><div class="step-num">1</div><div>Loosen fuel cap while driving. Symptom clears → vent blocked.</div></div>
+            <div class="check-step"><div class="step-num">2</div><div>Replace secondary filter. Most common cause of this exact symptom.</div></div>
+            <div class="check-step"><div class="step-num">3</div><div>If unresolved, replace primary and inspect bowl contents carefully.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Sudden total power loss, engine stalls, will not restart</div>
+          <div class="diag-badge badge-stop">STOP</div>
+          <div class="diag-arrow">▼</div>
+        </div>
+        <div class="diag-body">
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Fuel starvation — tank low on corrugations</span><span class="cause-note">Pickup uncovered by slosh. Add fuel, prime, restart.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Completely blocked filter</span><span class="cause-note">Final stage of a bad-fuel event. Replace and bleed.</span></div></li>
+            <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Fuel line split or clamp failure</span><span class="cause-note">Visible as leak or air draw. Inspect under bonnet before starting.</span></div></li>
+            <li><div class="cause-num">4</div><div class="cause-text"><span class="cause-label">Injection pump shutoff solenoid cut out</span><span class="cause-note">Electrical — check wiring to solenoid on top of pump.</span></div></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Heavy black smoke under load</div>
+          <div class="diag-badge badge-caution">CAUTION</div>
+          <div class="diag-arrow">▼</div>
+        </div>
+        <div class="diag-body">
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Over-fuelling from pump</span><span class="cause-note">Common on 1HZ tuned pumps. Max-fuel screw set too rich.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Restricted air intake</span><span class="cause-note">Dirty air filter after dusty driving. Check intake first.</span></div></li>
+            <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Worn / poor spray-pattern injectors</span><span class="cause-note">Raw fuel in cylinder instead of fine atomisation.</span></div></li>
+            <li><div class="cause-num">4</div><div class="cause-text"><span class="cause-label">Turbo under-boosting</span><span class="cause-note">Less air, same fuel → black smoke. See R21 Turbo Operations.</span></div></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">White / blue smoke at idle or light load</div>
+          <div class="diag-badge badge-caution">CAUTION</div>
+          <div class="diag-arrow">▼</div>
+        </div>
+        <div class="diag-body">
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Water in fuel (white smoke, steam smell)</span><span class="cause-note">Classic sign. Drain primary bowl, change filters.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Injector dribbling (stuck open)</span><span class="cause-note">Raw fuel into cylinder without atomisation — smoke is unburnt diesel.</span></div></li>
+            <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Cold engine, under-temp thermostat</span><span class="cause-note">Normal transient smoke until engine warms. Clears above operating temp.</span></div></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Fuel smell in cabin or engine bay</div>
+          <div class="diag-badge badge-stop">STOP</div>
+          <div class="diag-arrow">▼</div>
+        </div>
+        <div class="diag-body">
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Leak at high-pressure line to injector</span><span class="cause-note">Hair-crack at flared fitting. Stop and inspect immediately — injected diesel is dangerous.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Weeping injector seal</span><span class="cause-note">Copper washer under injector failed. Smell comes with heat.</span></div></li>
+            <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Tank filler neck or breather leak</span><span class="cause-note">Especially noticeable with a full tank on a slope.</span></div></li>
+            <li><div class="cause-num">4</div><div class="cause-text"><span class="cause-label">Return line split</span><span class="cause-note">Low-pressure leak but can be substantial — check all return hoses.</span></div></li>
+          </ul>
+          <div class="check-steps">
+            <div class="check-step"><div class="step-stop">!</div><div>Any fuel smell with engine heat is a fire risk. Stop, diagnose, fix before continuing.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="xref-bar">
+      <span class="xref-label">Full troubleshooting tree:</span>
+      <span class="xref-pill">R18 · 1HZ Troubleshooting Guide</span>
+      <span class="xref-label" style="margin-left:8px;">Engine context:</span>
+      <span class="xref-pill">R4 · Engine Training</span>
+    </div>
+  </div><!-- /s-diag -->
+
+
+  <!-- ══ SECTION 6: BAD-FUEL PROTOCOL ══ -->
+  <div id="s-protocol" class="sa">
+    <div class="section-head">Bad-Fuel Response Protocol</div>
+    <p class="section-intro">What to do when you realise, or strongly suspect, that you have just filled the tank with contaminated diesel. Speed matters — every kilometre driven on bad fuel pushes contamination deeper into the system.</p>
+
+    <div class="warn-box">
+      <strong>Trigger for this protocol:</strong> Any of — visible water or slime in primary bowl shortly after a fill, progressive power loss within 50 km of a fill, sudden rough running after a fill, unmistakable petrol smell, fuel cloudiness in the bowl. If in doubt, run the protocol. The cost of a protective response is cheap; the cost of ignoring it is a pump rebuild.
+    </div>
+
+    <div class="sub-head">Stage 1 — Stop Spreading Contamination</div>
+    <div class="protocol-list">
+      <div class="proto-step">
+        <div class="proto-num red">1</div>
+        <div class="proto-body">
+          <div class="proto-label">Stop driving. Shut down the engine.</div>
+          <div class="proto-note">Every minute of running circulates contamination further. Do not try to "limp" somewhere — the damage scales with distance run on bad fuel. Pick a safe pull-off and stop.</div>
+        </div>
+      </div>
+      <div class="proto-step">
+        <div class="proto-num amber">2</div>
+        <div class="proto-body">
+          <div class="proto-label">Confirm the diagnosis at the primary filter bowl.</div>
+          <div class="proto-note">Open the drain tap on the primary filter bowl and collect the first 100 ml into a clean container. Inspect: clear amber = clean. Cloudy white = water. Two layers = water and diesel separated. Dark slime = diesel bug. Petrol smell = adulteration. Match what you see to the action below.</div>
+        </div>
+      </div>
+      <div class="proto-step">
+        <div class="proto-num amber">3</div>
+        <div class="proto-body">
+          <div class="proto-label">Record the source station and time.</div>
+          <div class="proto-note">Station name, GPS, time of fill, volume purchased, pump number if noted. This matters for warning other travellers and for any dispute with the station.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-head">Stage 2 — Drain and Flush</div>
+    <div class="protocol-list">
+      <div class="proto-step">
+        <div class="proto-num">4</div>
+        <div class="proto-body">
+          <div class="proto-label">Drain the primary filter bowl completely.</div>
+          <div class="proto-note">Open the drain tap and run fuel into the waste container until you see clean fuel. Cap the drain.</div>
+        </div>
+      </div>
+      <div class="proto-step">
+        <div class="proto-num">5</div>
+        <div class="proto-body">
+          <div class="proto-label">Replace the primary filter element.</div>
+          <div class="proto-note">Remove the spin-on, drain its contents into the waste container, fit the new element with a light smear of clean diesel on the sealing ring. Tighten by hand plus ¾ turn. Never start dry — always pre-fill the new filter with clean diesel from your reserve if possible.</div>
+        </div>
+      </div>
+      <div class="proto-step">
+        <div class="proto-num">6</div>
+        <div class="proto-body">
+          <div class="proto-label">Replace the secondary (fine) filter element.</div>
+          <div class="proto-note">Assume it is contaminated. The fine filter is what actually protects the pump — do not skip it even if it "looks fine." Fit the new element the same way: light oil on seal, hand-tight plus ¾ turn.</div>
+        </div>
+      </div>
+      <div class="proto-step">
+        <div class="proto-num">7</div>
+        <div class="proto-body">
+          <div class="proto-label">Decide: drain the main tank, or dilute?</div>
+          <div class="proto-note">If gross contamination (large water slug, obvious slime, petrol smell): tank must be drained. This is a roadside job only possible with access to a drain plug or with a siphon pump — otherwise you need a workshop. If mild contamination (cloudy fuel, minor water): you can often dilute by topping up with clean fuel and running it through the filters, changing filters again after ~100 km.</div>
+        </div>
+      </div>
+      <div class="proto-step">
+        <div class="proto-num">8</div>
+        <div class="proto-body">
+          <div class="proto-label">Prime the fuel system.</div>
+          <div class="proto-note">Operate the hand primer until it goes hard. This confirms filters are full and the pump inlet is pressurised. Crack the bleed screws on the secondary filter if air is stubborn.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-head">Stage 3 — Restart and Observe</div>
+    <div class="protocol-list">
+      <div class="proto-step">
+        <div class="proto-num">9</div>
+        <div class="proto-body">
+          <div class="proto-label">Start the engine. Expect rough running for 1–2 minutes.</div>
+          <div class="proto-note">Air in the injector lines will cause initial roughness. Do not rev — let it self-bleed at idle. If it will not start after 10–15 seconds of cranking, crack a high-pressure line at an injector and crank briefly to bleed air further.</div>
+        </div>
+      </div>
+      <div class="proto-step">
+        <div class="proto-num">10</div>
+        <div class="proto-body">
+          <div class="proto-label">Run at idle for 5 minutes. Watch the primary bowl.</div>
+          <div class="proto-note">Any new water or contamination will start to accumulate visibly in the bowl. If the bowl shows new water within minutes, the tank is still delivering contaminated fuel — see step 7.</div>
+        </div>
+      </div>
+      <div class="proto-step">
+        <div class="proto-num">11</div>
+        <div class="proto-body">
+          <div class="proto-label">Drive gently, short distance first.</div>
+          <div class="proto-note">10–20 km of gentle driving to confirm the system is stable. Do not haul, do not push the engine. You are testing, not travelling.</div>
+        </div>
+      </div>
+      <div class="proto-step">
+        <div class="proto-num amber">12</div>
+        <div class="proto-body">
+          <div class="proto-label">Change filters again after ~100 km.</div>
+          <div class="proto-note">Any residual contamination will show up in this second filter change. Inspect the elements carefully — if they are dirty, you still have contamination in the tank.</div>
+        </div>
+      </div>
+      <div class="proto-step">
+        <div class="proto-num amber">13</div>
+        <div class="proto-body">
+          <div class="proto-label">Log the event in the fuel log and service history.</div>
+          <div class="proto-note">Date, km, source station, symptoms, actions, filter counts used. Transfer significant events to R8 Service History.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-head">Petrol Contamination — Treat as Worst Case</div>
+    <div class="warn-box">
+      <strong>If you smell petrol in the tank:</strong> Do not run the engine. Even a small petrol fraction destroys injection pump lubricity rapidly. The protocol becomes: drain the tank completely, refill with clean diesel, change all filters, prime, then start. If you have already run the engine on petrol-contaminated fuel, the pump and injectors may need workshop inspection before continuing. This is not a protocol you can execute casually — if petrol is suspected, get to a workshop.
+    </div>
+
+    <div class="xref-bar">
+      <span class="xref-label">Emergency context:</span>
+      <span class="xref-pill">R10 · Emergency Procedures</span>
+      <span class="xref-label" style="margin-left:8px;">Troubleshooting tree:</span>
+      <span class="xref-pill">R18 · 1HZ Troubleshooting Guide</span>
+    </div>
+  </div><!-- /s-protocol -->
+
+
+  <!-- ══ SECTION 7: SOURCING STRATEGY ══ -->
+  <div id="s-source" class="sa">
+    <div class="section-head">Fuel Sourcing Strategy — Africa</div>
+    <p class="section-intro">The best defence against bad fuel is never buying it. These rules are cheap, consistent, and work anywhere on the continent.</p>
+
+    <div class="sub-head">Rules for Every Fill</div>
+    <ul class="checklist">
+      <li>
+        <div class="cl-num">1</div>
+        <div class="cl-text">
+          <span class="cl-label">Prefer major-brand stations on major routes</span>
+          <span class="cl-note">Engen, Shell, BP, Puma, TotalEnergies — branded stations have more tanker turnover, higher standards, and reputation at stake. Not foolproof, but consistently better odds than independent pumps.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">2</div>
+        <div class="cl-text">
+          <span class="cl-label">Busy station = fresh fuel</span>
+          <span class="cl-note">High turnover means tankers arrive often and fuel does not sit in underground tanks for weeks picking up water. A quiet station in a quiet town is a warning sign.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">3</div>
+        <div class="cl-text">
+          <span class="cl-label">Avoid filling right after a tanker delivery</span>
+          <span class="cl-note">Fresh delivery stirs up sediment in the underground tank. Ideal window: 12–24 hours after a delivery, when sediment has settled but the fuel is still fresh. If you see a tanker leaving, consider moving on to the next station.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">4</div>
+        <div class="cl-text">
+          <span class="cl-label">Check the pump nozzle for dirt before insertion</span>
+          <span class="cl-note">Cheap and quick. A filthy nozzle means filthy fuel dispensing practices. Walk to another station if necessary.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">5</div>
+        <div class="cl-text">
+          <span class="cl-label">Fill slowly — no high-flow mode</span>
+          <span class="cl-note">High-flow creates turbulence in the underground tank and stirs up settled sediment. Slow fill = cleaner fuel.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">6</div>
+        <div class="cl-text">
+          <span class="cl-label">Keep the main tank above ¼ in rough country</span>
+          <span class="cl-note">Protects the pickup from slosh uncovering and reduces condensation surface area inside the tank.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">7</div>
+        <div class="cl-text">
+          <span class="cl-label">Drain the primary filter bowl at every fill in suspect regions</span>
+          <span class="cl-note">Cheap insurance. Takes 30 seconds and catches water contamination before it reaches the secondary filter and pump.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">8</div>
+        <div class="cl-text">
+          <span class="cl-label">Ask fellow overlanders before committing in remote towns</span>
+          <span class="cl-note">iOverlander, Tracks4Africa forum, and word of mouth at campsites are the freshest signal on station quality. Local knowledge beats a published map every time.</span>
+        </div>
+      </li>
+    </ul>
+
+    <div class="sub-head">Jerry Cans &amp; Auxiliary Fuel</div>
+    <ul class="checklist">
+      <li>
+        <div class="cl-num">1</div>
+        <div class="cl-text">
+          <span class="cl-label">Only buy jerry-can fuel from trusted sources</span>
+          <span class="cl-note">Informal fuel sellers operating from drums by the roadside are the single highest-risk source. Sometimes unavoidable in very remote areas, but never the default.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">2</div>
+        <div class="cl-text">
+          <span class="cl-label">Always filter on transfer to tank — Racor RFF8C funnel</span>
+          <span class="cl-note">The Racor RFF8C lives in the aux-fuel kit. Catches particulates to ~50 μm and repels free water. Pour slowly enough to inspect the fuel as it goes in. Non-negotiable on every jerry-can or Desert Fox transfer.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">3</div>
+        <div class="cl-text">
+          <span class="cl-label">Inspect aux fuel visually before transfer</span>
+          <span class="cl-note">Pour a sample into a clean glass jar and hold to the light. Cloudy, coloured, or particulate-visible fuel does not go in the tank.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">4</div>
+        <div class="cl-text">
+          <span class="cl-label">Empty Desert Fox cells between trips</span>
+          <span class="cl-note">Do not store fuel in bladder cells long-term. Condensation builds up, biological growth starts. Drain, rinse lightly with clean fuel, store dry.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">5</div>
+        <div class="cl-text">
+          <span class="cl-label">Keep jerry cans out of direct sun</span>
+          <span class="cl-note">Temperature cycling drives condensation. Store in shade where possible — in-vehicle storage is usually cooler than roof rack.</span>
+        </div>
+      </li>
+    </ul>
+
+    <div class="sub-head">Fuel Additives</div>
+    <div class="info-box">
+      <strong>Approach:</strong> minimal. The 1HZ's simplicity does not need additives as a normal practice. Reserve them for specific scenarios.
+    </div>
+    <ul class="checklist">
+      <li>
+        <div class="cl-num">1</div>
+        <div class="cl-text">
+          <span class="cl-label">Biocide — for long aux fuel storage</span>
+          <span class="cl-note">If Desert Fox cells will sit with fuel for more than a few weeks, a diesel biocide reduces microbial growth risk. Follow manufacturer dosing exactly — overdose is harmful.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">2</div>
+        <div class="cl-text">
+          <span class="cl-label">Injector cleaner — occasional, not routine</span>
+          <span class="cl-note">One treatment per tank at service intervals is reasonable. Do not add at every fill — it is not chewing gum, it is detergent chemistry.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">3</div>
+        <div class="cl-text">
+          <span class="cl-label">Anti-gel — high-altitude or cold regions only</span>
+          <span class="cl-note">Relevant in Ethiopian highlands and cold mountain passes. Not needed at low altitude. Follow the dose for expected minimum temperatures.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">4</div>
+        <div class="cl-text">
+          <span class="cl-label">Avoid "all-in-one" magic potions</span>
+          <span class="cl-note">Additive-stacked products with lubricity enhancers, cetane boosters, and cleaners are marketed heavily. Most are snake oil on a mechanical engine. Eco not ego — spend the money on filters.</span>
+        </div>
+      </li>
+    </ul>
+
+    <div class="xref-bar">
+      <span class="xref-label">Country planning:</span>
+      <span class="xref-pill">R15 · Border Crossings</span>
+      <span class="xref-label" style="margin-left:8px;">Range planning:</span>
+      <span class="xref-pill">Fuel Range Calculator · Trip Fuel Planner</span>
+    </div>
+  </div><!-- /s-source -->
+
+
+  <!-- ══ SECTION 8: PRE-DEPARTURE CHECKLIST ══ -->
+  <div id="s-checklist" class="sa">
+    <div class="section-head">Pre-Departure Fuel System Checklist</div>
+    <p class="section-intro">Before a major trip — short-list of fuel-system items to verify. Supplements the full R2 Departure Checklist.</p>
+
+    <ul class="checklist">
+      <li>
+        <div class="cl-num">1</div>
+        <div class="cl-text">
+          <span class="cl-label">Primary fuel filter — fresh or within interval, known age</span>
+          <span class="cl-note">Not just "recent" — verify date in service history. Replace if older than 6 months even if km is low.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">2</div>
+        <div class="cl-text">
+          <span class="cl-label">Secondary fuel filter — fresh or within interval</span>
+          <span class="cl-note">Same logic. Fine element degrades on the shelf — date matters as much as mileage.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">3</div>
+        <div class="cl-text">
+          <span class="cl-label">Pre-filter installed, element fresh, bowl inspected clear</span>
+          <span class="cl-note">Post-install. Confirm clear bowl shows no water after first 1,000 km of shakedown driving.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">4</div>
+        <div class="cl-text">
+          <span class="cl-label">Hand primer function verified</span>
+          <span class="cl-note">Prime and confirm it goes hard. A seized primer discovered after a bad-fuel event is an expensive surprise.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">5</div>
+        <div class="cl-text">
+          <span class="cl-label">Water drained from primary bowl — clean fuel confirmed</span>
+          <span class="cl-note">Run drain tap until clear fuel flows. Log that the baseline is clean.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">6</div>
+        <div class="cl-text">
+          <span class="cl-label">All low-pressure fuel hoses inspected, no perishing or swelling</span>
+          <span class="cl-note">Feed hoses from tank to primary, primary to secondary, secondary to pump, and return. Replace any hose showing cracks or soft spots.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">7</div>
+        <div class="cl-text">
+          <span class="cl-label">All fuel line clamps tight, no weeps</span>
+          <span class="cl-note">Check with engine running at idle and under a rag-wipe for fresh diesel.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">8</div>
+        <div class="cl-text">
+          <span class="cl-label">High-pressure lines inspected — no cracks at flares, no weep marks</span>
+          <span class="cl-note">Visual inspection only — do not loosen flares unnecessarily. A spare flare wrench lives with tools.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">9</div>
+        <div class="cl-text">
+          <span class="cl-label">Main tank — no visible rust on filler neck, cap seal intact</span>
+          <span class="cl-note">Rust on the filler neck is the main ingress path for rainwater. Fix before trip, not on the road.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">10</div>
+        <div class="cl-text">
+          <span class="cl-label">Fuel cap vent confirmed functional</span>
+          <span class="cl-note">Blocked vent creates starvation symptoms that mimic a blocked filter. Quick test: unscrew mid-drive and see if any symptom changes.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">11</div>
+        <div class="cl-text">
+          <span class="cl-label">Glow plugs — all tested, all functional</span>
+          <span class="cl-note">Critical for highland Africa cold starts. Test each plug individually, not just "the car started OK."</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">12</div>
+        <div class="cl-text">
+          <span class="cl-label">Desert Fox cells — clean, dry inside, no odour</span>
+          <span class="cl-note">Open, inspect, air out. Reject any cell with a musty or biological smell.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">13</div>
+        <div class="cl-text">
+          <span class="cl-label">Racor RFF8C filter funnel packed in aux-fuel kit, mesh clean and dry</span>
+          <span class="cl-note">Packed where it is found, not where it is stored — in the jerry can bag with the Desert Fox cells, not the spares locker. Inspect mesh visually for damage; do not touch the element with bare hands.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">14</div>
+        <div class="cl-text">
+          <span class="cl-label">Filter spares count matches R3 stocking list</span>
+          <span class="cl-note">3 × primary, 3 × secondary, 2 × pre-filter minimum. Physical count, not "I remember packing them."</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">15</div>
+        <div class="cl-text">
+          <span class="cl-label">Fuel drain container — clean, labelled, accessible</span>
+          <span class="cl-note">5L minimum, clearly marked "contaminated diesel." Packed where it can be reached without unloading the vehicle.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">16</div>
+        <div class="cl-text">
+          <span class="cl-label">Filter wrench or strap wrench packed with fuel-filter spares</span>
+          <span class="cl-note">Together, not separate. A spin-on filter seized on 10,000 km of corrugations will not budge by hand.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">17</div>
+        <div class="cl-text">
+          <span class="cl-label">Post-service idle run — no smoke, no fuel smell, gauge settles normally</span>
+          <span class="cl-note">Final sign-off after any filter change. Run for 10 minutes at idle plus 10 minutes at 1,500 rpm, inspect all fittings for weeps.</span>
+        </div>
+      </li>
+    </ul>
+
+    <div class="xref-bar">
+      <span class="xref-label">Full checklist:</span>
+      <span class="xref-pill">R2 · Departure Checklist</span>
+      <span class="xref-label" style="margin-left:8px;">Service records:</span>
+      <span class="xref-pill">R8 · Service History</span>
+    </div>
+  </div><!-- /s-checklist -->
+
+
+  <!-- ══ SECTION 9: FUEL LOG ══ -->
+  <div id="s-log" class="sa">
+    <div class="section-head">Fuel Quality &amp; Event Log</div>
+    <p class="section-intro">Record every fuel fill where quality or source warrants a note — and every bad-fuel event, no matter how minor. Transfer significant events to R8 Service History.</p>
+
+    <table class="log-table">
+      <thead>
+        <tr>
+          <th style="width:9%">Date</th>
+          <th style="width:8%">Km</th>
+          <th style="width:14%">Country / Station</th>
+          <th style="width:9%">Litres</th>
+          <th style="width:18%">Fuel condition</th>
+          <th style="width:20%">Symptoms / Action</th>
+          <th style="width:22%">Filter changes / Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="fill">dd/mm/yy</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td></tr>
+        <tr><td class="fill">dd/mm/yy</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td></tr>
+        <tr><td class="fill">dd/mm/yy</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td></tr>
+        <tr><td class="fill">dd/mm/yy</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td></tr>
+        <tr><td class="fill">dd/mm/yy</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td></tr>
+        <tr><td class="fill">dd/mm/yy</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td></tr>
+        <tr><td class="fill">dd/mm/yy</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td></tr>
+        <tr><td class="fill">dd/mm/yy</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td></tr>
+      </tbody>
+    </table>
+
+    <div class="xref-bar">
+      <span class="xref-label">Transfer to:</span>
+      <span class="xref-pill">R8 · Service &amp; Repair History</span>
+      <span class="xref-label" style="margin-left:8px;">Field fault diagnosis:</span>
+      <span class="xref-pill">R18 · 1HZ Troubleshooting Guide</span>
+      <span class="xref-label" style="margin-left:8px;">Emergency actions:</span>
+      <span class="xref-pill">R10 · Emergency Procedures</span>
+    </div>
+  </div><!-- /s-log -->
+
+</div><!-- /main -->
+
+<script>
+  function toggleDiag(header) {
+    const body = header.nextElementSibling;
+    const arrow = header.querySelector('.diag-arrow');
+    const isOpen = body.classList.contains('open');
+    body.classList.toggle('open', !isOpen);
+    arrow.classList.toggle('open', !isOpen);
+  }
+
+  const tocBtns = document.querySelectorAll('.toc-btn');
+  tocBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const el = document.getElementById(btn.dataset.target);
+      if (el) {
+        const stickyH = document.querySelector('.sticky-wrap').offsetHeight;
+        const top = el.getBoundingClientRect().top + window.pageYOffset - stickyH - 8;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    });
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        tocBtns.forEach(b => b.classList.toggle('active', b.dataset.target === id));
+      }
+    });
+  }, { rootMargin: '-130px 0px -70% 0px', threshold: 0 });
+
+  document.querySelectorAll('.sa').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

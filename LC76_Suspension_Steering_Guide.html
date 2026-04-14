@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>R25 — Suspension &amp; Steering Field Guide | HZJ76R-RKMRS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=Oswald:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:      #1C1410;
+    --paper:    #F5EDDA;
+    --paper2:   #EDE5D0;
+    --cream:    #F5EDDA;
+    --amber:    #b86800;
+    --amber2:   #e07800;
+    --rule:     #d4cfc4;
+    --steeldk:  #2a2f3a;
+    --steelmd:  #6a7080;
+    --red-warn: #B91C1C;
+    --green-ok: #059669;
+    --orange:   #c05a00;
+    --border:   #c8bfad;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
+
+  body {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  /* STICKY WRAP */
+  .sticky-wrap { position: sticky; top: 0; z-index: 100; background: var(--ink); padding-top: env(safe-area-inset-top); }
+
+  /* MASTHEAD */
+  .masthead { position: relative; background: var(--ink); color: #fff; padding: 18px 24px 14px; }
+  .lib-home-btn { position:absolute; top:50%; right:16px; transform:translateY(-50%); display:inline-flex; align-items:center; gap:5px; font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; text-decoration:none; color:var(--amber2); background:rgba(232,120,0,.15); border:1px solid var(--amber2); border-radius:20px; padding:6px 12px; min-height:32px; white-space:nowrap; z-index:10; transition:background .2s; }
+  .lib-home-btn:hover, .lib-home-btn:active { background:rgba(232,120,0,.30); }
+  @media print { .lib-home-btn { display:none !important; } }
+
+  .mh-eyebrow  { font-family:'IBM Plex Mono',monospace; font-size:.5rem; letter-spacing:.28em; text-transform:uppercase; color:var(--steelmd); margin-bottom:6px; }
+  .mh-title    { font-family:'Bebas Neue',sans-serif; font-size:clamp(1.8rem,5vw,2.6rem); letter-spacing:.06em; color:var(--amber2); line-height:1; }
+  .mh-sub      { font-family:'IBM Plex Mono',monospace; font-size:.54rem; letter-spacing:.12em; color:rgba(255,200,100,.65); margin-top:5px; }
+  .mh-vehicle  { font-family:'IBM Plex Mono',monospace; font-size:.48rem; letter-spacing:.08em; color:var(--steelmd); margin-top:8px; }
+
+  /* TOC BAR */
+  .toc-bar {
+    background: var(--steeldk);
+    border-top: 3px solid var(--amber2);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    padding: 0 20px;
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .toc-bar::-webkit-scrollbar { display: none; }
+  .toc-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .52rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--steelmd);
+    background: none;
+    border: none;
+    padding: 10px 12px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color 0.15s;
+  }
+  .toc-btn:hover  { color: #c8bfad; }
+  .toc-btn.active { color: var(--amber2); }
+
+  /* MAIN */
+  .main { padding: 28px 5% 80px; max-width: 100%; }
+
+  /* SECTION HEADINGS */
+  .section-head {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: var(--ink);
+    letter-spacing: 0.04em;
+    border-bottom: 2px solid var(--amber2);
+    padding-bottom: 4px;
+    margin-bottom: 14px;
+    margin-top: 28px;
+  }
+  .section-head:first-child { margin-top: 0; }
+  .section-intro { font-size: 13px; color: var(--steelmd); margin-bottom: 14px; font-style: italic; }
+
+  /* SECTION ANCHOR OFFSET */
+  .sa { scroll-margin-top: 130px; }
+
+  /* SUBSECTION TITLE */
+  .sub-head {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 15px;
+    color: var(--amber2);
+    letter-spacing: 0.04em;
+    background: var(--steeldk);
+    padding: 8px 14px;
+    margin-bottom: 0;
+    margin-top: 16px;
+  }
+
+  /* COMPONENT GRID */
+  .comp-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:10px; margin:14px 0; }
+  .comp-card { border:1px solid var(--border); background:#fff; border-radius:2px; overflow:hidden; }
+  .comp-card-head { font-family:'Oswald',sans-serif; font-weight:500; font-size:13px; background:var(--paper2); padding:8px 12px; border-bottom:1px solid var(--rule); color:var(--ink); display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  .comp-card-body { padding:10px 12px; font-size:12.5px; line-height:1.55; color:var(--ink); }
+  .comp-tag { font-family:'IBM Plex Mono',monospace; font-size:8px; font-weight:600; letter-spacing:.08em; padding:2px 6px; border-radius:2px; white-space:nowrap; }
+  .tag-active  { background:rgba(5,150,105,.12); color:var(--green-ok); border:1px solid rgba(5,150,105,.3); }
+  .tag-passive { background:rgba(106,112,128,.12); color:var(--steelmd); border:1px solid rgba(106,112,128,.3); }
+  .tag-wear    { background:rgba(192,90,0,.12); color:var(--orange); border:1px solid rgba(192,90,0,.3); }
+  .tag-planned { background:rgba(59,106,191,.12); color:#3b6abf; border:1px solid rgba(59,106,191,.3); }
+
+  /* FLOW DIAGRAM */
+  .flow-wrap { background:var(--steeldk); border:1px solid rgba(255,255,255,.08); padding:16px; margin:14px 0; overflow-x:auto; }
+  .flow-title { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--steelmd); margin-bottom:12px; }
+  .flow-row { display:flex; align-items:center; flex-wrap:nowrap; gap:0; margin:4px 0; }
+  .flow-node { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); padding:5px 10px; border-radius:2px; white-space:nowrap; flex-shrink:0; }
+  .flow-node.spring { background:rgba(5,150,105,.2);  border-color:rgba(5,150,105,.4);  color:#6ee7b7; }
+  .flow-node.damp   { background:rgba(224,120,0,.2);  border-color:rgba(224,120,0,.4);  color:#fcd34d; }
+  .flow-node.locate { background:rgba(185,28,28,.25); border-color:rgba(185,28,28,.5);  color:#fca5a5; }
+  .flow-node.steer  { background:rgba(106,112,128,.25); border-color:rgba(106,112,128,.5); color:#d0d6dd; }
+  .flow-arrow { font-size:12px; color:var(--steelmd); padding:0 6px; flex-shrink:0; }
+  .flow-note { font-family:'IBM Plex Mono',monospace; font-size:10px; color:#b0bcc8; margin-left:8px; font-style:italic; }
+  .flow-legend { display:flex; flex-wrap:wrap; gap:10px; margin-top:12px; padding-top:10px; border-top:1px solid rgba(255,255,255,.08); }
+  .flow-legend .flow-node { font-size:9px; padding:3px 7px; }
+
+  /* SPECS TABLE */
+  .specs-table { width:100%; border-collapse:collapse; font-size:13px; margin:14px 0; table-layout:fixed; }
+  .specs-table th { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; background:var(--steeldk); color:#b0bcc8; padding:7px 12px; text-align:left; border:1px solid rgba(255,255,255,.07); }
+  .specs-table td { padding:7px 12px; border:1px solid var(--rule); vertical-align:top; }
+  .specs-table tr:nth-child(even) td { background:var(--paper2); }
+  .specs-table tr:nth-child(odd)  td { background:#fff; }
+  .mono { font-family:'IBM Plex Mono',monospace; font-size:11px; }
+
+  /* DIAG CARDS */
+  .diag-group { margin-bottom: 20px; }
+  .diag-group-title {
+    font-family:'Bebas Neue',sans-serif; font-size:16px; color:var(--amber2);
+    letter-spacing:.04em; background:var(--steeldk); padding:8px 14px;
+  }
+  .diag-card { border:1px solid var(--border); border-top:none; background:#fff; }
+  .diag-card + .diag-card { border-top:1px solid var(--rule); }
+  .diag-header {
+    display:grid; grid-template-columns:1fr auto auto; align-items:center; gap:16px;
+    padding:11px 14px; background:var(--paper2); cursor:pointer; user-select:none;
+    border-bottom:1px solid var(--rule);
+  }
+  .diag-header:hover { background:var(--paper); }
+  .diag-symptom { font-family:'Oswald',sans-serif; font-weight:500; font-size:14px; color:var(--ink); }
+  .diag-badge {
+    font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600;
+    letter-spacing:.06em; padding:3px 8px; border-radius:2px; white-space:nowrap;
+  }
+  .badge-stop    { background:#fde8e8; color:var(--red-warn); border:1px solid #f8b0b0; }
+  .badge-caution { background:#fef3cd; color:#7c4a00; border:1px solid #f5d072; }
+  .badge-monitor { background:#e8f5e9; color:#1a6b3a; border:1px solid #88c899; }
+  .diag-body { padding:10px 14px; display:none; }
+  .diag-body.open { display:block; }
+  .diag-arrow { font-size:10px; color:var(--steelmd); transition:transform .2s; flex-shrink:0; }
+  .diag-arrow.open { transform:rotate(180deg); }
+
+  /* CAUSE LIST */
+  .cause-list { list-style:none; margin:10px 0 14px; }
+  .cause-list li { display:flex; gap:10px; align-items:flex-start; padding:6px 0; border-bottom:1px solid var(--rule); font-size:13px; }
+  .cause-list li:last-child { border-bottom:none; }
+  .cause-num {
+    font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600;
+    color:#fff; background:var(--steelmd); min-width:20px; height:20px;
+    border-radius:2px; display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; margin-top:1px;
+  }
+  .cause-text { flex:1; }
+  .cause-label { font-weight:500; color:var(--ink); }
+  .cause-note  { color:var(--steelmd); font-size:12px; display:block; margin-top:2px; }
+
+  /* CHECK STEPS (inline) */
+  .check-steps { margin:10px 0; }
+  .check-step  { display:flex; gap:10px; align-items:flex-start; margin-bottom:8px; font-size:13px; }
+  .step-num {
+    font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600;
+    color:#fff; background:var(--amber); min-width:22px; height:22px;
+    border-radius:2px; display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; margin-top:1px;
+  }
+  .step-stop {
+    font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600;
+    color:#fff; background:var(--red-warn); min-width:22px; height:22px;
+    border-radius:2px; display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; margin-top:1px;
+  }
+
+  /* CHECKLIST */
+  .checklist { list-style:none; margin:10px 0; }
+  .checklist li {
+    display:flex; gap:10px; align-items:flex-start;
+    padding:7px 0; border-bottom:1px solid var(--rule); font-size:13px;
+  }
+  .checklist li:last-child { border-bottom:none; }
+  .cl-num {
+    font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600;
+    color:#fff; background:var(--steeldk); min-width:22px; height:22px;
+    border-radius:2px; display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; margin-top:1px;
+  }
+  .cl-text { flex:1; }
+  .cl-label { font-weight:500; color:var(--ink); }
+  .cl-note  { color:var(--steelmd); font-size:12px; display:block; margin-top:2px; font-family:'Oswald',sans-serif; font-weight:300; }
+
+  /* ALERT BOXES */
+  .warn-box { background:#fde8e8; border-left:3px solid var(--red-warn); padding:9px 12px; font-size:12.5px; color:#7a1010; margin:10px 0; }
+  .note-box { background:#fef9e7; border-left:3px solid var(--amber); padding:9px 12px; font-size:12.5px; color:#5a3800; margin:10px 0; }
+  .ok-box   { background:#e8f5e9; border-left:3px solid var(--green-ok); padding:9px 12px; font-size:12.5px; color:#0d4a28; margin:10px 0; }
+  .info-box { background:#e8eef8; border-left:3px solid #3b6abf; padding:9px 12px; font-size:12.5px; color:#1a2f5a; margin:10px 0; }
+
+  /* CROSS-REF BAR */
+  .xref-bar {
+    background:var(--steeldk); border:1px solid rgba(255,255,255,.08);
+    padding:9px 14px; display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:12px; font-size:12px;
+  }
+  .xref-label { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.08em; color:var(--steelmd); text-transform:uppercase; white-space:nowrap; }
+  .xref-pill  { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; color:var(--amber2); background:rgba(224,120,0,.12); border:1px solid rgba(224,120,0,.3); padding:2px 8px; border-radius:2px; white-space:nowrap; }
+
+  /* PROTOCOL STEPS */
+  .protocol-list { margin:14px 0; }
+  .proto-step {
+    display:flex; gap:12px; align-items:flex-start;
+    border:1px solid var(--border); border-top:none; background:#fff; padding:10px 14px;
+  }
+  .proto-step:first-child { border-top:1px solid var(--border); }
+  .proto-num {
+    font-family:'IBM Plex Mono',monospace; font-size:12px; font-weight:600;
+    color:#fff; background:var(--steeldk); min-width:26px; height:26px;
+    border-radius:2px; display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; margin-top:1px;
+  }
+  .proto-num.red   { background:var(--red-warn); }
+  .proto-num.amber { background:var(--amber); }
+  .proto-body { flex:1; }
+  .proto-label { font-weight:500; font-size:14px; color:var(--ink); }
+  .proto-note  { font-size:12.5px; color:var(--steelmd); margin-top:3px; }
+
+  /* WEAR / RISK CARDS */
+  .qual-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:10px; margin:14px 0; }
+  .qual-card { border:1px solid var(--border); border-radius:2px; overflow:hidden; background:#fff; }
+  .qual-head {
+    display:flex; align-items:center; justify-content:space-between;
+    padding:9px 14px; background:var(--paper2); border-bottom:1px solid var(--rule);
+  }
+  .qual-title { font-family:'Oswald',sans-serif; font-weight:500; font-size:14px; color:var(--ink); }
+  .risk-badge { font-family:'IBM Plex Mono',monospace; font-size:8px; font-weight:600; letter-spacing:.06em; padding:2px 7px; border-radius:2px; }
+  .risk-high   { background:#fde8e8; color:var(--red-warn); border:1px solid #f8b0b0; }
+  .risk-med    { background:#fef3cd; color:#7c4a00; border:1px solid #f5d072; }
+  .risk-low    { background:#e8f5e9; color:#1a6b3a; border:1px solid #88c899; }
+  .qual-body { padding:10px 14px; font-size:12.5px; line-height:1.55; }
+  .qual-km { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--steelmd); margin-top:6px; display:block; }
+
+  /* INSPECTION LOG */
+  .log-table { width:100%; border-collapse:collapse; font-size:12.5px; margin:14px 0; table-layout:fixed; }
+  .log-table th { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; background:var(--steeldk); color:#b0bcc8; padding:7px 12px; text-align:left; border:1px solid rgba(255,255,255,.07); }
+  .log-table td { padding:7px 12px; border:1px solid var(--rule); background:#fff; }
+  .log-table td.fill { background:var(--paper2); color:var(--steelmd); font-style:italic; font-size:11px; }
+
+  /* PRINT */
+  @media print {
+    @page { margin: 7mm; size: A4; }
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    body { font-size: 7.5pt; background: #fff; line-height: 1.4; }
+    .sticky-wrap { position: static; }
+    .toc-bar { display: none; }
+    .masthead { padding: 4mm 8mm; break-after: avoid; background: #1C1410 !important; color: #fff !important; }
+    .mh-eyebrow { font-size: 5pt; color: #6a7080 !important; }
+    .mh-title { font-size: 16pt; color: #e07800 !important; }
+    .mh-sub, .mh-vehicle { font-size: 5pt; }
+    .main { padding: 4mm 0 10mm; }
+    .section-head { font-size: 14pt; margin-top: 8mm; page-break-after: avoid; break-after: avoid; border-bottom: 2pt solid #e07800 !important; }
+    .sub-head { font-size: 11pt; page-break-after: avoid; break-after: avoid; background: #2a2f3a !important; color: #e07800 !important; }
+    .comp-card, .qual-card { break-inside: avoid; }
+    .diag-card { break-inside: auto; }
+    .diag-header { break-after: avoid; }
+    .diag-body { break-inside: auto; display: block !important; }
+    .diag-arrow { display: none; }
+    .comp-card-head, .qual-head { background: #EDE5D0 !important; }
+    .tag-active  { background: rgba(5,150,105,.12) !important; color: #059669 !important; }
+    .tag-passive { background: rgba(106,112,128,.12) !important; color: #6a7080 !important; }
+    .tag-wear    { background: rgba(192,90,0,.12) !important; color: #c05a00 !important; }
+    .tag-planned { background: rgba(59,106,191,.12) !important; color: #3b6abf !important; }
+    .risk-high { background: #fde8e8 !important; color: #B91C1C !important; }
+    .risk-med  { background: #fef3cd !important; color: #7c4a00 !important; }
+    .risk-low  { background: #e8f5e9 !important; color: #1a6b3a !important; }
+    .flow-wrap { break-inside: avoid; background: #2a2f3a !important; }
+    .flow-node        { background: rgba(255,255,255,.1) !important; color: #fff !important; }
+    .flow-node.spring { background: rgba(5,150,105,.2)  !important; color: #6ee7b7 !important; }
+    .flow-node.damp   { background: rgba(224,120,0,.2)  !important; color: #fcd34d !important; }
+    .flow-node.locate { background: rgba(185,28,28,.25) !important; color: #fca5a5 !important; }
+    .flow-node.steer  { background: rgba(106,112,128,.25) !important; color: #d0d6dd !important; }
+    .diag-group-title { background: #2a2f3a !important; color: #e07800 !important; }
+    .diag-header { background: #EDE5D0 !important; }
+    .badge-stop    { background: #fde8e8 !important; color: #B91C1C !important; }
+    .badge-caution { background: #fef3cd !important; color: #7c4a00 !important; }
+    .badge-monitor { background: #e8f5e9 !important; color: #1a6b3a !important; }
+    .cause-num { background: #6a7080 !important; color: #fff !important; }
+    .step-num  { background: #b86800 !important; color: #fff !important; }
+    .step-stop { background: #B91C1C !important; color: #fff !important; }
+    .cl-num    { background: #2a2f3a !important; color: #fff !important; }
+    .proto-num        { background: #2a2f3a !important; color: #fff !important; }
+    .proto-num.red    { background: #B91C1C !important; color: #fff !important; }
+    .proto-num.amber  { background: #b86800 !important; color: #fff !important; }
+    .warn-box  { break-inside: avoid; background: #fde8e8 !important; border-left: 3pt solid #B91C1C !important; color: #7a1010 !important; }
+    .note-box  { break-inside: avoid; background: #fef9e7 !important; border-left: 3pt solid #b86800 !important; color: #5a3800 !important; }
+    .ok-box    { break-inside: avoid; background: #e8f5e9 !important; border-left: 3pt solid #059669 !important; color: #0d4a28 !important; }
+    .info-box  { break-inside: avoid; background: #e8eef8 !important; border-left: 3pt solid #3b6abf !important; color: #1a2f5a !important; }
+    .specs-table thead, .log-table thead { display: table-header-group; }
+    .specs-table th, .log-table th { background: #2a2f3a !important; color: #b0bcc8 !important; }
+    .log-table td.fill { background: #EDE5D0 !important; }
+    .xref-bar  { background: #2a2f3a !important; border: 1px solid rgba(255,255,255,.08) !important; }
+    .xref-pill { background: rgba(224,120,0,.12) !important; color: #e07800 !important; border: 1px solid rgba(224,120,0,.3) !important; }
+    a { color: var(--ink); text-decoration: none; }
+    .checklist li { break-inside: avoid; }
+    .proto-step { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="sticky-wrap">
+  <div class="masthead">
+    <a href="index.html" class="lib-home-btn">⌂ Index</a>
+    <div class="mh-eyebrow">HZJ76R-RKMRS · Overland Reference Library · R25</div>
+    <div class="mh-title">Suspension &amp; Steering Field Guide</div>
+    <div class="mh-sub">Architecture · Components · Wear &amp; Failure · Inspection · Field Diagnosis · Post-Impact · Load Limits · Geometry · Pre-Departure</div>
+    <div class="mh-vehicle">2009 LC76 SW · Solid Axles F&amp;R · Coil Front / Leaf Rear · OME Medium 400 kg Constant · 2" Lift · Recirculating Ball Steering · GVM 2,850 kg · HZJ76R-RKMRS</div>
+  </div>
+  <nav class="toc-bar">
+    <button class="toc-btn" data-target="s-arch">Architecture</button>
+    <button class="toc-btn" data-target="s-comp">Components</button>
+    <button class="toc-btn" data-target="s-wear">Wear &amp; Failure</button>
+    <button class="toc-btn" data-target="s-inspect">Inspection</button>
+    <button class="toc-btn" data-target="s-diag">Field Diagnosis</button>
+    <button class="toc-btn" data-target="s-impact">Post-Impact</button>
+    <button class="toc-btn" data-target="s-load">Load &amp; Travel</button>
+    <button class="toc-btn" data-target="s-geom">Geometry Checks</button>
+    <button class="toc-btn" data-target="s-checklist">Pre-Departure</button>
+    <button class="toc-btn" data-target="s-log">Inspection Log</button>
+  </nav>
+</div>
+
+<div class="main">
+
+  <!-- ══ SECTION 1: ARCHITECTURE ══ -->
+  <div id="s-arch" class="sa">
+    <div class="section-head">Suspension &amp; Steering Architecture</div>
+    <p class="section-intro">The HZJ76R-RKMRS rides on solid axles at both ends. The front is coil sprung on twin leading arms with a panhard rod for lateral location and a front stabiliser bar. The rear is leaf sprung — multi-leaf packs clamped to the axle with U-bolts, pinned at the front eye and shackled at the rear, locating the axle fore-aft, laterally, and vertically from the leaves alone. No rear control arms, no panhard, no A-frame. Steering is hydraulically-assisted recirculating ball, with a single drag link from the pitman arm to the right knuckle and a tie rod between the knuckles. Everything is mechanical, repairable, and inspectable with hand tools — the same defining strength as the engine.</p>
+
+    <div class="flow-wrap">
+      <div class="flow-title">Front Axle — Coil Sprung, Radius-Arm Located</div>
+      <div class="flow-row">
+        <div class="flow-node spring">Front Coils ×2 (OME 859)</div>
+        <div class="flow-arrow">+</div>
+        <div class="flow-node damp">Front Shocks ×2 (OME N181)</div>
+        <div class="flow-arrow">+</div>
+        <div class="flow-node locate">Leading Arms L &amp; R</div>
+        <div class="flow-arrow">+</div>
+        <div class="flow-node locate">Front Panhard</div>
+        <div class="flow-note">Springs carry load · shocks damp · arms locate fore-aft · panhard locates side-to-side</div>
+      </div>
+      <div class="flow-row" style="margin-top:8px;">
+        <div class="flow-node locate">Front Stabiliser Bar</div>
+        <div class="flow-arrow">+</div>
+        <div class="flow-node locate">Stabiliser Bushes &amp; Links</div>
+        <div class="flow-note">Reduces body roll in corners — bushes are the wear item</div>
+      </div>
+      <div class="flow-row" style="margin-top:8px;">
+        <div class="flow-node steer">Steering Box (recirc. ball)</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node steer">Pitman Arm</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node steer">Drag Link</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node steer">RH Knuckle Arm</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node steer">Tie Rod</div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node steer">LH Knuckle</div>
+      </div>
+      <div class="flow-row" style="margin-top:8px;">
+        <div class="flow-node locate">King Pins (upper &amp; lower)</div>
+        <div class="flow-arrow">↔</div>
+        <div class="flow-node locate">Swivel Hub Housing</div>
+        <div class="flow-arrow">↔</div>
+        <div class="flow-node locate">Knuckle / Inner Seal</div>
+        <div class="flow-note">Carry steering loads &amp; seal the front diff CV in oil bath</div>
+      </div>
+
+      <div class="flow-title" style="margin-top:18px;">Rear Axle — Leaf Sprung, Self-Locating</div>
+      <div class="flow-row">
+        <div class="flow-node spring">Rear Leaf Packs ×2 (OME CS058R)</div>
+        <div class="flow-arrow">+</div>
+        <div class="flow-node locate">U-Bolts ×4</div>
+        <div class="flow-arrow">+</div>
+        <div class="flow-node locate">Front Eye (fixed hanger)</div>
+        <div class="flow-arrow">+</div>
+        <div class="flow-node locate">Greasable Shackles (rear)</div>
+        <div class="flow-note">Leaf pack provides springing AND all axle location — fore-aft, lateral, vertical</div>
+      </div>
+      <div class="flow-row" style="margin-top:8px;">
+        <div class="flow-node damp">Rear Shocks ×2 (OME 63111)</div>
+        <div class="flow-arrow">+</div>
+        <div class="flow-node locate">Stone Guard Kit</div>
+        <div class="flow-note">Damping &amp; protection of the leaf pack from stone strikes</div>
+      </div>
+
+      <div class="flow-legend">
+        <div class="flow-node spring">SPRING (load)</div>
+        <div class="flow-node damp">DAMPER</div>
+        <div class="flow-node locate">LOCATING / STRUCTURAL</div>
+        <div class="flow-node steer">STEERING</div>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <strong>Why this matters in Africa:</strong> Solid axles with coil front and leaf rear are the most field-serviceable suspension layout on any modern touring vehicle. Every bush, every shackle, every leaf can be inspected with a torch and a pry bar, and most can be replaced with hand tools. But at 307,000 km, the original components are well past their design life — what is on the truck now is the second or third generation of nearly everything that wears. This guide is structured around that reality.
+    </div>
+
+    <div class="note-box">
+      <strong>Mechanical simplicity is both shield and liability.</strong> A 76 will keep going with a leaking shock, a torn bush, a missing U-bolt nut, or a wallowing steering box — and the handling degrades gradually enough that the driver normalises it without noticing. The failure point then moves to the next weak link. The whole point of inspection is to catch creep before it becomes a roadside event. Trust the tape measure, the torque wrench, and the pry bar — not the seat of your pants.
+    </div>
+
+    <table class="specs-table">
+      <thead>
+        <tr><th style="width:30%">System</th><th>Configuration as fitted</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Front springs</td><td>OME Coil 859 (OME Medium, 400 kg constant load rating)</td></tr>
+        <tr><td>Front shocks</td><td>OME Nitrocharger Plus N181 · fitted April 2023 @ 221,000 km (G-Tec)</td></tr>
+        <tr><td>Front location</td><td>Twin leading arms + panhard rod + front stabiliser bar. Leading arm chassis-end support bracket on front diff plated &amp; welded June 2025 @ 275,000 km (Suspension City) — historic repair point, inspect.</td></tr>
+        <tr><td>Front kingpins / knuckles</td><td>Traditional upper &amp; lower king pin / trunnion bearings, shim-adjustable preload. Full front knuckle / spindle overhaul kit fitted February 2025 @ 271,200 km (Cape Transmissions).</td></tr>
+        <tr><td>Rear springs</td><td>OME CS058R leaf pack · fitted January 2026 @ 294,500 km (4×4 Megaworld). Broken original leaf triggered replacement.</td></tr>
+        <tr><td>Rear shocks</td><td>OME Nitrocharger Plus 63111 · fitted January 2026 @ 294,500 km (4×4 Megaworld)</td></tr>
+        <tr><td>Rear hardware</td><td>New U-bolts, greasable shackle bushes, stone guard kit — all fitted January 2026 with the leaf replacement.</td></tr>
+        <tr><td>Lift</td><td>OME 40–50 mm (2")</td></tr>
+        <tr><td>Steering box</td><td>Recirculating ball, hydraulic power assist, engine-driven pump. No idler arm; single drag link path.</td></tr>
+        <tr><td>Wheels / tyres</td><td>Maxxis AT811-03 265/70R16 (upgrade to 265/75R16 tracked in R19)</td></tr>
+        <tr><td>Wheelbase / track</td><td>Wheelbase 2,730 mm · Front track 1,520 mm · Rear track 1,425 mm — rear is 95 mm narrower than front, a known 76 SW characteristic.</td></tr>
+        <tr><td>Mass targets</td><td>GVM 2,850 kg · kerb ~2,160 kg · payload budget ~690 kg. OME Medium is rated for the GVM, not above.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="note-box">
+      <strong>Rear track is 95 mm narrower than front.</strong> Every 76 SW drives a wheel path where the rear wheels track inside the front. On cambered roads this shifts load distribution slightly, and in mud or deep sand the rear wheels do not run in the front ruts. It is a known characteristic and not a fault — do not try to diagnose it as wear. Options for narrowing the gap (offset rims, spacers, TrueTrac) are tracked in the Reference Card but not fitted.
+    </div>
+  </div><!-- /s-arch -->
+
+
+  <!-- ══ SECTION 2: COMPONENTS ══ -->
+  <div id="s-comp" class="sa">
+    <div class="section-head">Suspension &amp; Steering Components</div>
+    <p class="section-intro">Each component, its role, its dominant wear mode, and where it sits in the system. Tags: <span class="comp-tag tag-active">ACTIVE</span> works under load, <span class="comp-tag tag-passive">PASSIVE</span> structural, <span class="comp-tag tag-wear">WEAR</span> consumable, <span class="comp-tag tag-planned">PLANNED</span> upgrade or future replacement.</p>
+
+    <!-- FRONT SUSPENSION SUB-BLOCK -->
+    <div class="sub-head">Front Suspension</div>
+    <div class="comp-grid">
+
+      <div class="comp-card">
+        <div class="comp-card-head">Front Coils — OME 859 <span class="comp-tag tag-active">ACTIVE</span></div>
+        <div class="comp-card-body">
+          OME Medium-rate coils, 400 kg constant load. Matched to a permanently-loaded touring 76 with bullbar and winch — stiffer than stock but not harsh unloaded. Sag over time is the main wear mode: measure ride height annually and compare against baseline, not against "looks right." A single sagged or broken coil shows as one low corner.
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-card-head">Front Shocks — OME Nitrocharger+ N181 <span class="comp-tag tag-wear">WEAR</span></div>
+        <div class="comp-card-body">
+          Fitted April 2023 at 221,000 km (G-Tec). At 307,000 km they have ~86,000 km of mixed touring on them — inside useful life but approaching the half-way mark of a realistic touring envelope. Heat fade on long corrugations is the single most common touring failure: the shock still moves but stops damping. Replace as a pair, never individually.
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-card-head">Front Leading Arms L &amp; R <span class="comp-tag tag-passive">PASSIVE</span></div>
+        <div class="comp-card-body">
+          Twin leading arms locate the front axle fore-aft and resist brake torque. The arms themselves rarely fail; the bushes at each end (chassis and axle) are the wear item. The chassis-end support bracket on the front diff housing was plated and welded in June 2025 (Suspension City, Conrad) after historic stress cracking — that repair is a specific inspection point on every wheel-off service.
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-card-head">Leading Arm Bushes <span class="comp-tag tag-wear">WEAR</span></div>
+        <div class="comp-card-body">
+          Four bushes total (two per arm). Crush, split, and dry out with age and heat. Lower-arm control bushes replaced during the 2023 front knuckle/hub work at 245,370 km. Pry test each bush individually; carry a spare kit as a bush spare. Worn bushes give vague steering, brake-dive that takes the axle with it, and clunks over speed bumps.
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-card-head">Front Panhard Rod <span class="comp-tag tag-passive">PASSIVE</span></div>
+        <div class="comp-card-body">
+          Single bar from chassis to axle that locates the front axle laterally. With a 2" lift the panhard angle shifts the axle slightly off-centre — usually accepted. Bushes at both ends are wear items; the rod itself is structural and should be inspected for bending after any underbody impact.
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-card-head">Front Panhard Bushes <span class="comp-tag tag-wear">WEAR</span></div>
+        <div class="comp-card-body">
+          The bush at each end of the panhard rod takes the full lateral load of the front axle. When they wear, the front end "walks" laterally over corrugations and on cambered roads. Pry test with a bar between rod and bracket — any visible movement is too much.
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-card-head">Front Stabiliser Bar <span class="comp-tag tag-active">ACTIVE</span></div>
+        <div class="comp-card-body">
+          Anti-roll bar across the front axle, reducing body roll in corners. The bar itself is structural; the bushes and end links are the wear items. Front stabiliser bush kit replaced April 2025 at 273,023 km (PW Auto Centre). Knocks over small bumps when the bushes wear — listen for metallic chatter from the front end on rough roads.
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-card-head">King Pins (upper &amp; lower) <span class="comp-tag tag-active">ACTIVE</span></div>
+        <div class="comp-card-body">
+          Tapered roller / trunnion bearings that carry steering pivot loads at the top and bottom of each swivel hub. Preload shim-adjustable. Symptoms of wear: vague centre, knock when going over a bump while turning, uneven tyre wear across the front. Front knuckle/spindle overhaul kit fitted February 2025 at 271,200 km (Cape Transmissions) — reset the baseline.
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-card-head">Swivel Hub / Swivel Ball <span class="comp-tag tag-passive">PASSIVE</span></div>
+        <div class="comp-card-body">
+          The chrome swivel ball is the spherical surface the inner seal rides on. Must be smooth and uncorroded — pitting destroys the inner seal in short order and diff oil migrates into the swivel housing or out onto the brake disc. Inspect for rust, pitting, and seal track wear at every wheel-off service.
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-card-head">Swivel Hub Seal / Sideshaft Seal <span class="comp-tag tag-wear">WEAR</span></div>
+        <div class="comp-card-body">
+          Felt-and-rubber seal keeping swivel hub oil in and dust out. Left-front sideshaft seal has been a recurring problem — replaced August 2025 at 278,675 km (Northam Toyota) and gasket replaced again January 2026 at 293,949 km (PW Auto Centre). Inspect left front inside wheel and brake disc for oil weep at every service. Cross-reference R20 Seal &amp; Gasket Atlas for part numbers; carry a seal kit as a bush spare.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- REAR SUSPENSION SUB-BLOCK -->
+    <div class="sub-head">Rear Suspension</div>
+    <div class="comp-grid">
+
+      <div class="comp-card">
+        <div class="comp-card-head">Rear Leaf Packs — OME CS058R <span class="comp-tag tag-active">ACTIVE</span></div>
+        <div class="comp-card-body">
+          Multi-leaf packs clamped to the axle with U-bolts. Carry load, provide springing, AND locate the axle fore-aft and laterally — there is no separate panhard or control arm to share the load. Fitted January 2026 at 294,500 km (4×4 Megaworld) after a broken leaf on the original pack. The entire rear suspension state is effectively baselined to that service date.
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-card-head">Rear Shocks — OME Nitrocharger+ 63111 <span class="comp-tag tag-wear">WEAR</span></div>
+        <div class="comp-card-body">
+          Fitted January 2026 at 294,500 km with the new leaf packs. Rear shocks take a harder life than front shocks on a touring 76 because the rear carries the heavier constant load and runs hotter on corrugations. A failed rear shock shows as porpoising over undulations, "skipping" rear end on washboard, and accelerated rear tyre wear.
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-card-head">U-Bolts ×4 <span class="comp-tag tag-passive">PASSIVE</span></div>
+        <div class="comp-card-body">
+          Four U-bolts per side (two per leaf pack) clamp the pack to the axle. New U-bolts fitted January 2026 with the new leaf packs. These are critical — a loose U-bolt lets the axle shift on the spring pack under load and can destroy the leaf pack within a single heavy trip. Re-torque after the first 500 km of trip use, then at every 5,000 km interval for the first 20,000 km, then at every service.
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-card-head">Greasable Shackle Bushes <span class="comp-tag tag-wear">WEAR</span></div>
+        <div class="comp-card-body">
+          Greasable shackle bushes fitted January 2026. Unlike standard rubber bushes, these have zerks and must be field-greased at every service interval — this is the whole point of the greasable design. Last regreased March 2026 at 296,000 km (Suspension City) after a squeak developed. Squeaks = add to the grease schedule, do not ignore.
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-card-head">Front Spring Eye &amp; Hanger <span class="comp-tag tag-passive">PASSIVE</span></div>
+        <div class="comp-card-body">
+          Fixed mount — the front of each leaf pack is pinned to a chassis hanger. No moving parts in normal service, but the pin wears and the hanger can crack under extreme loads. Inspect the hanger-to-chassis weld, the pin head and nut, and the bush inside the spring eye at every wheel-off service.
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-card-head">Leaf Pack Centre Bolt <span class="comp-tag tag-passive">PASSIVE</span></div>
+        <div class="comp-card-body">
+          The centre bolt passes through every leaf in the pack and locates the pack on the axle spring pad. If the centre bolt shears or the nut loosens, the pack can walk on the axle and alter rear-end geometry. Inspect visually for a snug head and nut at every service — any gap or rust-streak between leaves near the bolt head means it has moved.
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-card-head">Stone Guard Kit <span class="comp-tag tag-passive">PASSIVE</span></div>
+        <div class="comp-card-body">
+          Fitted January 2026 with the new leaf packs. Protects the leaf pack from stone strikes — on African gravel, a stone hit to a leaf can chip the leaf surface and start a stress crack that grows into a broken leaf over thousands of km. Inspect guard for damage after any significant gravel run.
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-card-head">Axle Bump Stops <span class="comp-tag tag-passive">PASSIVE</span></div>
+        <div class="comp-card-body">
+          Rubber stops that limit upward axle travel and protect the shock body from over-compression. Inspect for cracking, splitting, and missing pieces at every wheel-off service. With the 2" lift, bump stop clearance has shifted from standard — any further loss from spring sag accelerates bump-stop impact on the shock.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- STEERING SUB-BLOCK -->
+    <div class="sub-head">Steering</div>
+    <div class="comp-grid">
+
+      <div class="comp-card">
+        <div class="comp-card-head">Steering Box (recirc. ball) <span class="comp-tag tag-active">ACTIVE</span></div>
+        <div class="comp-card-body">
+          Hydraulically assisted recirculating ball box bolted to the chassis. Internal slack accumulates with km and corrugation. Adjustment screw on top can take up some slack, but only after confirming no internal damage — over-adjustment binds the box on lock. Most 76s past 250,000 km benefit from a recon or replacement eventually. Symptom: dead spot at centre, vague return-to-centre. Free play was adjusted at 202,066 km (Toyota Malelane) — next adjustment or recon to be assessed as slack creeps back.
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-card-head">Pitman Arm <span class="comp-tag tag-passive">PASSIVE</span></div>
+        <div class="comp-card-body">
+          Steel arm splined to the steering box output shaft, connecting the box to the drag link. Rarely fails, but the splines can loosen under repeated heavy loads and the taper at the drag link end must be confirmed tight. Check pitman nut torque at every wheel-off service.
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-card-head">Drag Link <span class="comp-tag tag-active">ACTIVE</span></div>
+        <div class="comp-card-body">
+          Single rod from the pitman arm to the right knuckle steering arm. Two ball joints, one each end, both critical and both wearing. A worn drag link end is the most common cause of "death wobble" precursor symptoms on the 76. Carry one spare drag link assembly as a bush spare, or at minimum the ball joint ends.
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-card-head">Drag Link Ends (×2) <span class="comp-tag tag-wear">WEAR</span></div>
+        <div class="comp-card-body">
+          Sealed ball joints at each end of the drag link. Test by gripping the link near the joint and trying to rock it vertically — any perceptible movement is failure. Boot torn? The grease is gone and the joint is on borrowed time. These are the highest-priority steering wear items on a high-mileage 76.
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-card-head">Tie Rod <span class="comp-tag tag-active">ACTIVE</span></div>
+        <div class="comp-card-body">
+          Rod between the two front knuckles, sets toe and transmits steering input from the right knuckle to the left. Two ball joints (one per end), both wear items. A bent tie rod from rock impact is a common fault on hard tracks — inspect for straightness after any underbody hit. Tie rod end free play was adjusted at 202,066 km (Toyota Malelane) — baseline for future wear tracking.
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-card-head">Tie Rod Ends (×2) <span class="comp-tag tag-wear">WEAR</span></div>
+        <div class="comp-card-body">
+          Same construction and same test as drag link ends. Tear in the boot is a fast countdown to failure. Carry tie rod ends as bush spares — these are simple roadside replacements with a tie rod end puller.
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-card-head">Power Steering Pump <span class="comp-tag tag-active">ACTIVE</span></div>
+        <div class="comp-card-body">
+          Engine-driven hydraulic pump that feeds the steering box. Failure modes: belt slip (replace belt at intervals), seal leaks (check reservoir level monthly), pump whine (low fluid, air ingress, or pump end-of-life). Without power assist the 76 is steerable but heavy at low speed.
+        </div>
+      </div>
+
+      <div class="comp-card">
+        <div class="comp-card-head">Steering Damper <span class="comp-tag tag-wear">WEAR</span></div>
+        <div class="comp-card-body">
+          Horizontal damper between axle and tie rod (or drag link, depending on fitment) that absorbs road feedback and damps oscillation. Critical for predictable steering on corrugation. Test off the truck: should resist movement firmly in both directions. Replace if it moves under hand pressure.
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /s-comp -->
+
+
+  <!-- ══ SECTION 3: WEAR & FAILURE MODES ══ -->
+  <div id="s-wear" class="sa">
+    <div class="section-head">Wear &amp; Failure Modes — 76 Series at 300,000+ km</div>
+    <p class="section-intro">What fails first on a touring 76 living on African roads, ranked by frequency and consequence. Risk tags reflect the cost of ignoring the issue.</p>
+
+    <div class="qual-grid">
+
+      <div class="qual-card">
+        <div class="qual-head">
+          <div class="qual-title">Leaf Spring Breakage (Rear)</div>
+          <span class="risk-badge risk-high">HIGH</span>
+        </div>
+        <div class="qual-body">
+          The failure mode that took out the original rear pack in January 2026. A chipped leaf surface starts a stress crack that grows slowly until the leaf shears. Usually one of the main leaves, usually under load, usually on corrugation. The truck remains drivable but geometry is compromised and the remaining leaves carry double load. Stone guard kit reduces the risk; visual inspection of leaf edges and faces confirms the state.
+          <span class="qual-km">Onset: variable · Current pack: fresh as of Jan 2026 @ 294,500 km</span>
+        </div>
+      </div>
+
+      <div class="qual-card">
+        <div class="qual-head">
+          <div class="qual-title">U-Bolt Loosening</div>
+          <span class="risk-badge risk-high">HIGH</span>
+        </div>
+        <div class="qual-body">
+          New U-bolts stretch slightly on first load cycles and must be re-torqued after the first 500 km of hard use. If this is missed, the pack walks on the axle, centre bolt shears, and the axle shifts. Early symptom is a fresh rust-streak around the U-bolt base; confirmed with a torque wrench. First re-torque is a non-negotiable item for any new leaf fitment.
+          <span class="qual-km">First re-torque: 500 km after fitment · Then every 5,000 km until 20,000 km stable</span>
+        </div>
+      </div>
+
+      <div class="qual-card">
+        <div class="qual-head">
+          <div class="qual-title">Shock Fade &amp; Heat-Cycle Failure</div>
+          <span class="risk-badge risk-high">HIGH</span>
+        </div>
+        <div class="qual-body">
+          OME shocks work hard on a loaded touring rig, and long African corrugation runs heat-cycle them past their design envelope. A faded shock still moves but no longer damps — the axle skips, tyres wear, the truck "floats" over undulations. Replace as a pair, axle by axle, never individually. Front pair is from April 2023 (~86,000 km on them); rear pair is fresh (Jan 2026).
+          <span class="qual-km">Touring life: 60,000–100,000 km depending on terrain and load</span>
+        </div>
+      </div>
+
+      <div class="qual-card">
+        <div class="qual-head">
+          <div class="qual-title">Drag Link &amp; Tie Rod End Wear</div>
+          <span class="risk-badge risk-high">HIGH</span>
+        </div>
+        <div class="qual-body">
+          Sealed ball joints with grease for life — and on a 76, "life" is much shorter than the rest of the steering hardware. Worn ends are the most common cause of vague centre, "death wobble" precursor symptoms, and a steering wheel that doesn't quite return to centre. Carry spares; replacement is a roadside job with a separator.
+          <span class="qual-km">Touring life: 80,000–120,000 km · Boot tear = immediate end of life</span>
+        </div>
+      </div>
+
+      <div class="qual-card">
+        <div class="qual-head">
+          <div class="qual-title">Leaf Pack Bush Wear (Front Eye &amp; Shackles)</div>
+          <span class="risk-badge risk-med">MED</span>
+        </div>
+        <div class="qual-body">
+          Front spring eye bush and shackle bushes accumulate wear. With greasable shackles fitted Jan 2026, the shackle end is maintainable — grease at every service, and any squeak means "add grease," not "replace yet." The front eye bush is a solid bush, non-greasable, and fails silently. Pry test during inspection.
+          <span class="qual-km">Greasable shackles: grease every 5,000 km · Squeak = immediate regrease</span>
+        </div>
+      </div>
+
+      <div class="qual-card">
+        <div class="qual-head">
+          <div class="qual-title">King Pin Bearing Slack</div>
+          <span class="risk-badge risk-med">MED</span>
+        </div>
+        <div class="qual-body">
+          King pin trunnion bearings carry steering pivot loads and accumulate slack with km. Symptoms: knock from the front end when turning over a bump, vague centre, accelerated inner-edge tyre wear. Front knuckle/spindle overhaul at 271,200 km (Feb 2025) reset this. Next reset assessment is by symptom, not mileage.
+          <span class="qual-km">Last reset: Feb 2025 @ 271,200 km (Cape Transmissions)</span>
+        </div>
+      </div>
+
+      <div class="qual-card">
+        <div class="qual-head">
+          <div class="qual-title">Steering Box Internal Slack</div>
+          <span class="risk-badge risk-med">MED</span>
+        </div>
+        <div class="qual-body">
+          Internal wear in the recirculating ball mechanism produces a dead spot at centre — the wheel turns 5–10° before the front wheels respond. The top adjustment screw can take up some slack, but only on a healthy box; over-adjustment binds the box on full lock. Last free-play adjustment was April 2021 at 202,066 km (Toyota Malelane) — so ~105,000 km since then.
+          <span class="qual-km">Common reset/recon window: 250,000–350,000 km</span>
+        </div>
+      </div>
+
+      <div class="qual-card">
+        <div class="qual-head">
+          <div class="qual-title">Left-Front Sideshaft Seal (Recurring)</div>
+          <span class="risk-badge risk-med">MED</span>
+        </div>
+        <div class="qual-body">
+          The left-front sideshaft oil seal has been a repeat issue on this truck — replaced August 2025 at 278,675 km (Northam Toyota) and axle gasket replaced again January 2026 at 293,949 km (PW Auto Centre). Inspect the inside of the left front wheel and disc for oil weep at every wheel-off service. Do not assume the last repair was permanent.
+          <span class="qual-km">History: Aug 2025 (278,675 km) + Jan 2026 (293,949 km)</span>
+        </div>
+      </div>
+
+      <div class="qual-card">
+        <div class="qual-head">
+          <div class="qual-title">Coil Spring Sag (Front)</div>
+          <span class="risk-badge risk-med">MED</span>
+        </div>
+        <div class="qual-body">
+          Front coils sag with age and load but typically slower than a rear pack because the front carries less constant mass. First symptom is reduced bump-stop clearance, second is altered steering geometry as front-rear balance shifts. Annual ride-height measurement against baseline is the only reliable way to catch it.
+          <span class="qual-km">Onset: from 100,000 km · Replacement trigger: measured sag &gt;15 mm</span>
+        </div>
+      </div>
+
+      <div class="qual-card">
+        <div class="qual-head">
+          <div class="qual-title">Front Stabiliser Bush Wear</div>
+          <span class="risk-badge risk-low">LOW</span>
+        </div>
+        <div class="qual-body">
+          Stabiliser bar bushes and end links clunk over small bumps when worn. Stabiliser bush kit replaced April 2025 at 273,023 km (PW Auto Centre). Easy roadside replacement if a spare kit is carried.
+          <span class="qual-km">Touring life: 50,000–80,000 km</span>
+        </div>
+      </div>
+
+      <div class="qual-card">
+        <div class="qual-head">
+          <div class="qual-title">Steering Damper End-of-Life</div>
+          <span class="risk-badge risk-low">LOW</span>
+        </div>
+        <div class="qual-body">
+          Damper fails and the truck develops a wobble or oscillation under braking on rough roads. Cheap to carry as a spare, easy to replace roadside. Test by hand off the truck — should resist movement firmly in both directions.
+          <span class="qual-km">Touring life: 60,000–100,000 km on corrugation-heavy routes</span>
+        </div>
+      </div>
+
+      <div class="qual-card">
+        <div class="qual-head">
+          <div class="qual-title">Bump Stop Cracking</div>
+          <span class="risk-badge risk-low">LOW</span>
+        </div>
+        <div class="qual-body">
+          Rubber bump stops crack and crumble with UV exposure and repeated heavy compression. Missing bump stops let the shock take the over-travel load directly — fastest path to a blown shock body. Check at every wheel-off service.
+          <span class="qual-km">Inspection: visual at every brake service</span>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /s-wear -->
+
+
+  <!-- ══ SECTION 4: INSPECTION METHODOLOGY ══ -->
+  <div id="s-inspect" class="sa">
+    <div class="section-head">Inspection Methodology</div>
+    <p class="section-intro">Where, when, and with what tools. Suspension and steering inspection on a high-km 76 is not optional — it is the only way slack stays measured rather than guessed.</p>
+
+    <div class="sub-head">Inspection Intervals</div>
+    <table class="specs-table">
+      <thead>
+        <tr><th style="width:30%">Interval</th><th>What to check</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Daily — touring</td><td>Walk-around: visual on shocks (any new wetness?), leaf packs visible &amp; unbroken, tyre pressures, no obvious sag or lean.</td></tr>
+        <tr><td>Weekly — touring</td><td>Fresh oil weep at swivels (especially left front), panhard rod and bush visual, drag link and tie rod ends (visual + pry test if anything looks suspect), shackle grease condition.</td></tr>
+        <tr><td>Every 5,000 km</td><td>Pry-bar test on all bushes. Pry test on drag link and tie rod ends. Grease the greasable shackles. Ride height check (four corners) against baseline. Steering linkage lubrication (grease nipples).</td></tr>
+        <tr><td>Every 10,000 km</td><td>Wheel-off inspection both front: king pin freeplay, swivel seal condition, brake hose chafing. Front-end alignment sanity check against tyre wear pattern. Visual leaf pack inspection — centre bolt, U-bolt tightness, stone guard condition.</td></tr>
+        <tr><td>Every 20,000 km</td><td>Full suspension bolt torque check — including U-bolts, leaf pack hanger bolts, panhard bolts, leading arm bolts, steering box mount, pitman arm nut. Shock inspection for oil weep or body damage.</td></tr>
+        <tr><td>Annually or pre-trip</td><td>Full bush, shock, and bearing audit. Replace any bush past visual or pry test. Verify swivel hub oil level. Verify leading arm bracket weld condition on the front diff housing (historic repair point).</td></tr>
+      </tbody>
+    </table>
+
+    <div class="sub-head">Tools Required</div>
+    <ul class="cause-list">
+      <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Pry bar — long, 600 mm minimum.</span><span class="cause-note">The single most useful suspension diagnostic tool. Lever between bush and bracket, between rod and chassis, between knuckle and arm. Movement = wear.</span></div></li>
+      <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Tape measure / steel rule.</span><span class="cause-note">Ride height measurement against baseline. Record values, do not eyeball.</span></div></li>
+      <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Torque wrench, 10–200 Nm range + larger for U-bolts.</span><span class="cause-note">U-bolts and leaf hangers need specific torque figures, not "tight enough." Leaf pack U-bolt torque is critical after any new fitment.</span></div></li>
+      <li><div class="cause-num">4</div><div class="cause-text"><span class="cause-label">Tie rod end / ball joint separator.</span><span class="cause-note">Pickle fork or screw-type separator. Carry one. Without it, replacing a tie rod end roadside is misery.</span></div></li>
+      <li><div class="cause-num">5</div><div class="cause-text"><span class="cause-label">Grease gun + grease cartridges.</span><span class="cause-note">Greasable shackle bushes need service grease at every 5,000 km interval. Without the gun, the greasable design is pointless.</span></div></li>
+      <li><div class="cause-num">6</div><div class="cause-text"><span class="cause-label">Wheel chocks &amp; jack stands.</span><span class="cause-note">Both axles need to be off the ground and secured for any meaningful pry-bar test. Never trust the trolley jack alone.</span></div></li>
+      <li><div class="cause-num">7</div><div class="cause-text"><span class="cause-label">Torch &amp; mirror.</span><span class="cause-note">For inspecting bushes and seals you cannot reach by hand. Half the suspension is hidden until you light it up.</span></div></li>
+    </ul>
+
+    <div class="sub-head">The Pry-Bar Bush Test</div>
+    <div class="check-steps">
+      <div class="check-step"><div class="step-num">1</div><div>Vehicle on flat ground, axle weighted (wheels on ground or on stands under the axle, not the chassis).</div></div>
+      <div class="check-step"><div class="step-num">2</div><div>Insert the pry bar between the suspect arm or rod and its mounting bracket — chassis end first, axle end second.</div></div>
+      <div class="check-step"><div class="step-num">3</div><div>Apply firm, controlled leverage in the direction the bush is loaded under road use (vertically for leading arms, laterally for the panhard, vertically/laterally for leaf shackles).</div></div>
+      <div class="check-step"><div class="step-num">4</div><div>Watch the bush itself, not the arm. A healthy bush deforms slightly and returns. A worn bush opens visibly, shows daylight, or moves with no resistance.</div></div>
+      <div class="check-step"><div class="step-num">5</div><div>Repeat for every bush in the system. Note any that fail or look marginal. Do not partially replace — buy the kit, do them all.</div></div>
+    </div>
+
+    <div class="sub-head">Ride Height Baseline</div>
+    <div class="info-box">
+      <strong>Set a baseline now and record it.</strong> Measure the distance from the centre of each wheel hub to the corresponding wheel arch lip, with the truck on flat level ground, fuel and water tanks at a known state (full or empty — record which), and no people or kit in the cab. Record all four values to the nearest mm. Re-measure annually or before any departure. A 15 mm drop on either rear corner is a leaf pack wear warning. A drop on one front corner only is a settled coil.
+    </div>
+  </div><!-- /s-inspect -->
+
+
+  <!-- ══ SECTION 5: FIELD DIAGNOSIS ══ -->
+  <div id="s-diag" class="sa">
+    <div class="section-head">Field Diagnosis — Symptom to Cause</div>
+    <p class="section-intro">Tap any symptom to expand. Each card lists the likely causes ranked by probability for a 76 at this mileage on African roads, with a recommended check sequence.</p>
+
+    <div class="diag-group">
+      <div class="diag-group-title">Steering Symptoms</div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Vague centre / dead spot in the steering wheel</div>
+          <span class="diag-badge badge-caution">CAUTION</span>
+          <span class="diag-arrow">▼</span>
+        </div>
+        <div class="diag-body">
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Worn drag link or tie rod ends.</span><span class="cause-note">Most common cause on a 76 at 300k+ km. Pry test each ball joint individually. Movement = replace.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Steering box internal slack.</span><span class="cause-note">Test: with engine running and wheels straight, ask a helper to rock the steering wheel ±5°. The pitman arm should move with the wheel, not lag behind it.</span></div></li>
+            <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">King pin freeplay.</span><span class="cause-note">Wheel off, grip top and bottom of tyre, rock vertically. Any perceptible movement = king pin or bearing wear. Knuckle overhaul done Feb 2025 @ 271k — should be tight.</span></div></li>
+            <li><div class="cause-num">4</div><div class="cause-text"><span class="cause-label">Worn front panhard bushes.</span><span class="cause-note">Pry between rod and bracket. Lateral movement = bush replacement.</span></div></li>
+          </ul>
+          <div class="note-box">Order of investigation: drag link / tie rod ends first (cheap, quick, common), then king pins, then steering box. Do not adjust the steering box top screw to compensate for ball joint wear — you will mask the real fault and bind the box at full lock.</div>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Steering wheel does not return to centre after a turn</div>
+          <span class="diag-badge badge-caution">CAUTION</span>
+          <span class="diag-arrow">▼</span>
+        </div>
+        <div class="diag-body">
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Caster incorrectly set.</span><span class="cause-note">Historic issue on this truck — originally mis-set by First Alignment (Johan), corrected June 2025 by Conrad at Suspension City. If self-centring degrades, retest caster with a trusted shop. Conrad is the trusted contact.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">King pin bearings over-tight or seized.</span><span class="cause-note">Jack the front off the ground and turn each wheel by hand. Should turn freely with light resistance. Notchy or heavy = king pin issue.</span></div></li>
+            <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Power steering pump fluid low or air-bound.</span><span class="cause-note">Check reservoir, top up if needed, bleed by lock-to-lock cycling with engine running.</span></div></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">High-frequency wobble at speed (death wobble precursor)</div>
+          <span class="diag-badge badge-stop">STOP</span>
+          <span class="diag-arrow">▼</span>
+        </div>
+        <div class="diag-body">
+          <div class="warn-box"><strong>Stop driving above the speed where the wobble starts.</strong> Solid axle wobble is self-amplifying — once it starts, it does not fade until you slow down. It will damage steering components and can cause loss of control. This is a fault to fix at the next opportunity, not at the next service.</div>
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Worn drag link or tie rod end (any one of four).</span><span class="cause-note">Single most common trigger. Inspect all four ball joints by hand and pry test.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Failed steering damper.</span><span class="cause-note">Test off the truck — should resist firmly in both directions. Movement under hand pressure = replace.</span></div></li>
+            <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Out-of-balance front wheel or buckled rim.</span><span class="cause-note">Inspect rims, check tyre wear pattern, rebalance if any doubt.</span></div></li>
+            <li><div class="cause-num">4</div><div class="cause-text"><span class="cause-label">Worn front panhard bush or rod.</span><span class="cause-note">Pry test. Bent rod can develop after a heavy underbody hit — visual check.</span></div></li>
+            <li><div class="cause-num">5</div><div class="cause-text"><span class="cause-label">Loose pitman arm nut.</span><span class="cause-note">Torque check at the pitman arm-to-box splines. Loose = immediate retorque.</span></div></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Heavy / notchy steering at low speed</div>
+          <span class="diag-badge badge-monitor">MONITOR</span>
+          <span class="diag-arrow">▼</span>
+        </div>
+        <div class="diag-body">
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Power steering fluid low.</span><span class="cause-note">Check reservoir, top up with correct fluid. Inspect for leaks at pump, hoses, box.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Power steering belt slipping.</span><span class="cause-note">Visual check, tension check. Replace if glazed or cracked.</span></div></li>
+            <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">King pin preload over-tight.</span><span class="cause-note">Notchy quality especially at low speed off-road = king pin shim error or seized bearing. Workshop call.</span></div></li>
+            <li><div class="cause-num">4</div><div class="cause-text"><span class="cause-label">Steering box top screw over-adjusted.</span><span class="cause-note">If the screw has been wound in to chase a dead spot, it may now be binding the box on lock. Back off slightly and retest.</span></div></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Truck pulls to one side on a flat road</div>
+          <span class="diag-badge badge-caution">CAUTION</span>
+          <span class="diag-arrow">▼</span>
+        </div>
+        <div class="diag-body">
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Tyre pressures unequal L/R.</span><span class="cause-note">Always check tyre pressures first — cheapest and most common cause.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Caster drift — especially pulling LEFT.</span><span class="cause-note">This exact symptom is the one that triggered the June 2025 Suspension City repair (original First Alignment castor correction was wrong). Conrad at Suspension City is the trusted workshop for re-checking caster.</span></div></li>
+            <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Front wheel alignment — toe out of spec.</span><span class="cause-note">Inspect inner-edge tyre wear pattern. Heavy feathering = toe error.</span></div></li>
+            <li><div class="cause-num">4</div><div class="cause-text"><span class="cause-label">Brake drag on one front wheel.</span><span class="cause-note">After a road run, hand-test wheel temperature. Hot one side = sticking caliper or hose.</span></div></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="diag-group">
+      <div class="diag-group-title">Suspension Symptoms</div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Visible broken leaf in the rear pack</div>
+          <span class="diag-badge badge-stop">STOP</span>
+          <span class="diag-arrow">▼</span>
+        </div>
+        <div class="diag-body">
+          <div class="warn-box"><strong>Reduce speed immediately and find a safe place to inspect.</strong> A broken leaf does not usually disable the truck, but it shifts the load onto the remaining leaves, alters ride height, and can allow the axle to shift under the pack. Continued hard driving will take out the rest of the pack.</div>
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Confirm which leaf is broken and where.</span><span class="cause-note">Main leaf (top) = critical, drive slowly to workshop. Secondary leaf = reduce speed and distance. Any break = do not load the truck further.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Check U-bolt torque and centre bolt.</span><span class="cause-note">A broken leaf can have started from a loose U-bolt letting the pack walk on the axle. Retorque before continuing.</span></div></li>
+            <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Reduce load if possible.</span><span class="cause-note">Offload water, fuel, non-essential kit if the situation allows. Less load = less stress on the remaining leaves.</span></div></li>
+            <li><div class="cause-num">4</div><div class="cause-text"><span class="cause-label">Plan the route to a workshop.</span><span class="cause-note">Avoid corrugation, avoid fast highway speeds. Moderate gravel at reduced speed is usually safer than fast tar.</span></div></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Skipping / hopping rear axle on washboard</div>
+          <span class="diag-badge badge-caution">CAUTION</span>
+          <span class="diag-arrow">▼</span>
+        </div>
+        <div class="diag-body">
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Faded or failed rear shocks.</span><span class="cause-note">Most common cause on a touring 76. Current rear shocks are fresh (Jan 2026 @ 294,500 km) — if skipping starts within that life, suspect other causes first.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Tyre pressures too high for the surface.</span><span class="cause-note">Drop rear pressures by 0.2–0.3 bar and re-test before condemning the shocks.</span></div></li>
+            <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">U-bolts loose — pack walking on axle.</span><span class="cause-note">Early leaf-pack fault. Torque check all four U-bolts immediately.</span></div></li>
+            <li><div class="cause-num">4</div><div class="cause-text"><span class="cause-label">Shackle bushes worn or dry.</span><span class="cause-note">Greasable shackles — add grease first, reassess. If squeak persists, inspect bush condition.</span></div></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Squeak from rear suspension</div>
+          <span class="diag-badge badge-monitor">MONITOR</span>
+          <span class="diag-arrow">▼</span>
+        </div>
+        <div class="diag-body">
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Dry shackle bushes.</span><span class="cause-note">This exact fault presented March 2026 at 296,000 km — regreased by Suspension City. Greasable shackles are designed to be field-greased; squeak = grease gun time, not a replacement decision.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Dry front spring eye bush.</span><span class="cause-note">Non-greasable — if grease does not cure the squeak, the front eye is suspect.</span></div></li>
+            <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Leaves rubbing dry against each other.</span><span class="cause-note">Normal on a leaf pack if the silicone/slip pads have dried out. Not a fault, but add it to the inspection note.</span></div></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Clunk under power on / power off (front or rear)</div>
+          <span class="diag-badge badge-caution">CAUTION</span>
+          <span class="diag-arrow">▼</span>
+        </div>
+        <div class="diag-body">
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Worn front leading arm bushes.</span><span class="cause-note">Most common source on a 76. Pry test all four leading arm bushes (chassis end and axle end).</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Loose U-bolt or shackle.</span><span class="cause-note">Rear-end clunks on torque reversal. Torque-check all four U-bolts and both shackle bolts.</span></div></li>
+            <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Worn front stabiliser bushes.</span><span class="cause-note">Usually a metallic chatter rather than a clunk, but worth a pry test. Replaced Apr 2025 @ 273k.</span></div></li>
+            <li><div class="cause-num">4</div><div class="cause-text"><span class="cause-label">Loose pitman arm nut.</span><span class="cause-note">Front end clunk under steering load. Immediate retorque.</span></div></li>
+          </ul>
+          <div class="note-box">Cross-check against R13 Drivetrain Training before condemning suspension bushes — a worn UJ or diff input flange can mimic the same clunk.</div>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Truck leans noticeably to one side at rest</div>
+          <span class="diag-badge badge-caution">CAUTION</span>
+          <span class="diag-arrow">▼</span>
+        </div>
+        <div class="diag-body">
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Broken leaf (rear) or settled coil (front).</span><span class="cause-note">Measure ride height all four corners against baseline. The low corner identifies the affected spring.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Loose U-bolt — rear axle shifted on pack.</span><span class="cause-note">Visual: is the axle still centred on the spring pad? Has the centre bolt moved? Torque-check the U-bolts.</span></div></li>
+            <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Asymmetric load in the kit.</span><span class="cause-note">Eliminate before condemning the spring — relocate kit and re-measure.</span></div></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Porpoising over undulations at speed</div>
+          <span class="diag-badge badge-monitor">MONITOR</span>
+          <span class="diag-arrow">▼</span>
+        </div>
+        <div class="diag-body">
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Faded or failed shocks — usually rear first.</span><span class="cause-note">Classic shock failure symptom. The springs cycle freely with no damping. Current rear shocks are fresh — suspect fronts first (older pair from Apr 2023).</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Heavily loaded or imbalanced rear.</span><span class="cause-note">Check load distribution against R11 Packing Optimisation before blaming the shocks.</span></div></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Oil weeping down the inside of a front wheel</div>
+          <span class="diag-badge badge-caution">CAUTION</span>
+          <span class="diag-arrow">▼</span>
+        </div>
+        <div class="diag-body">
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Failed swivel hub or sideshaft seal — especially left front.</span><span class="cause-note">Known recurring issue on this truck — left-front sideshaft seal replaced Aug 2025 and axle gasket replaced Jan 2026. Inspect swivel hub oil level and the inside of the brake disc for contamination.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Cracked swivel housing.</span><span class="cause-note">Rare but happens after impact. Visual inspection.</span></div></li>
+            <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Brake fluid leak from caliper or hose.</span><span class="cause-note">Confirm fluid identity — diff oil is dark and gear-smelling, brake fluid is clear/amber and astringent.</span></div></li>
+          </ul>
+          <div class="warn-box"><strong>Brake disc contaminated with diff oil = no useful front braking on that wheel.</strong> Clean disc and pads with brake cleaner, replace the seal at the next opportunity, and reduce expectations of front braking until the seal is replaced.</div>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Visible shock body damage / leak / dent</div>
+          <span class="diag-badge badge-stop">STOP</span>
+          <span class="diag-arrow">▼</span>
+        </div>
+        <div class="diag-body">
+          <div class="warn-box"><strong>A dented shock body cannot be safely used.</strong> The shaft will bind or seize at the dent, the seal will fail, and the shock can lock under compression — a serious handling event. Replace the affected shock and its pair as soon as possible. In the field, if no spare is available, run on the remaining three but reduce speed and avoid heavy off-road use.</div>
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Underbody impact — rock, log, kerb.</span><span class="cause-note">Check the shock mounts for cracks at the same time. Any crack = workshop repair before further use.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Seal failure from heat-cycling.</span><span class="cause-note">Look for fresh oil mist around the seal. Wet shock body with light oil staining = end of useful life.</span></div></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div><!-- /s-diag -->
+
+
+  <!-- ══ SECTION 6: POST-IMPACT PROTOCOL ══ -->
+  <div id="s-impact" class="sa">
+    <div class="section-head">Post-Impact Inspection Protocol</div>
+    <p class="section-intro">Run this protocol after any significant underbody hit, deep washout, side impact, or hard landing off a step. Do not rely on "feels OK" — bent and cracked components fail later, not at the moment of the hit.</p>
+
+    <div class="warn-box"><strong>Definition of "significant impact":</strong> any hit hard enough that you said anything out loud, any hit that left a visible mark on the underbody, any hit that altered the steering feel even briefly, any landing off a step where you felt the shocks bottom out, any side scrape against a rock or stump that touched the steering arms or links.</div>
+
+    <div class="protocol-list">
+
+      <div class="proto-step">
+        <div class="proto-num red">1</div>
+        <div class="proto-body">
+          <div class="proto-label">Stop in a safe place. Do not push on if anything in the steering feels wrong.</div>
+          <div class="proto-note">A small change in steering feel after an impact is a signal, not a tolerance. Stop, inspect, decide.</div>
+        </div>
+      </div>
+
+      <div class="proto-step">
+        <div class="proto-num">2</div>
+        <div class="proto-body">
+          <div class="proto-label">Visual inspection — walk around the truck.</div>
+          <div class="proto-note">Look at all four corners. Anything obviously bent, hanging, leaking, or out of place? Take photos of anything suspect for later comparison.</div>
+        </div>
+      </div>
+
+      <div class="proto-step">
+        <div class="proto-num">3</div>
+        <div class="proto-body">
+          <div class="proto-label">Underbody inspection — get under the truck.</div>
+          <div class="proto-note">Tie rod and drag link straightness (sight along each rod), panhard rod straight, all four shock bodies for new dents or wetness, all suspension mounts for cracks at the welds, leaf packs unbroken, U-bolts still tight, leaf hangers and shackles intact.</div>
+        </div>
+      </div>
+
+      <div class="proto-step">
+        <div class="proto-num">4</div>
+        <div class="proto-body">
+          <div class="proto-label">Steering box and leading arm bracket inspection.</div>
+          <div class="proto-note">Steering box bolts to chassis rail — inspect for cracks, deformation, or paint flaking. The leading arm support bracket on the front diff housing is a specific inspection point (historic repair weld from June 2025) — inspect the weld and surrounding metal for fresh cracks. A cracked steering box mount or a cracked leading arm bracket is a stop-and-fix fault.</div>
+        </div>
+      </div>
+
+      <div class="proto-step">
+        <div class="proto-num">5</div>
+        <div class="proto-body">
+          <div class="proto-label">Tyre and rim inspection.</div>
+          <div class="proto-note">Bent rim? Sidewall damage? Bead seal compromised? A damaged rim from a hard impact often only shows up as a slow leak hours later — mark it now and re-check pressures in the morning.</div>
+        </div>
+      </div>
+
+      <div class="proto-step">
+        <div class="proto-num amber">6</div>
+        <div class="proto-body">
+          <div class="proto-label">Slow test drive — straight line, light steering inputs.</div>
+          <div class="proto-note">Find a flat clear area. Drive forward 50 m, brake gently, reverse 20 m, brake gently, turn lock-to-lock at low speed. Listen and feel for new noises, new pulls, new clunks, new vibration.</div>
+        </div>
+      </div>
+
+      <div class="proto-step">
+        <div class="proto-num amber">7</div>
+        <div class="proto-body">
+          <div class="proto-label">Speed test — incrementally up to road speed.</div>
+          <div class="proto-note">Build up gradually: 30, 50, 70, 90 km/h. Any new wobble, vibration, or pull = stop and re-inspect. Do not push through a new symptom.</div>
+        </div>
+      </div>
+
+      <div class="proto-step">
+        <div class="proto-num">8</div>
+        <div class="proto-body">
+          <div class="proto-label">Re-check 24 hours later.</div>
+          <div class="proto-note">Tyre pressures, fresh fluid leaks, shock body weeping, suspension bolts still tight, U-bolt torque. Some impact damage manifests as slow leaks or loosening over a day of driving.</div>
+        </div>
+      </div>
+
+      <div class="proto-step">
+        <div class="proto-num">9</div>
+        <div class="proto-body">
+          <div class="proto-label">Log the event.</div>
+          <div class="proto-note">Add to the inspection log at the end of this document and to R8 Service History. Record location, terrain, what you hit, what you found, what you did. Future inspections rely on knowing where the truck has been hurt.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="info-box">
+      <strong>Tie rod and drag link are the highest-priority impact items.</strong> Both are exposed, both are made from relatively soft tube, both can bend without obviously breaking, and a bent rod alters the toe and self-centring behaviour. Sight along each rod from one end against a known straight reference. If in doubt, remove and check on a flat surface.
+    </div>
+  </div><!-- /s-impact -->
+
+
+  <!-- ══ SECTION 7: LOAD & TRAVEL LIMITS ══ -->
+  <div id="s-load" class="sa">
+    <div class="section-head">Load &amp; Travel Limits</div>
+    <p class="section-intro">The OME Medium (400 kg constant) kit is rated for the GVM, not above it. Overloading does not just stress the springs — it eats bump stop clearance, accelerates shock fade, alters geometry, and shortens bush life.</p>
+
+    <table class="specs-table">
+      <thead>
+        <tr><th style="width:35%">Mass figure</th><th>Value</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>GVM (manufacturer)</td><td>2,850 kg</td></tr>
+        <tr><td>Kerb mass (estimate)</td><td>~2,160 kg</td></tr>
+        <tr><td>Payload budget</td><td>~690 kg (people, kit, fuel, water, recovery, food)</td></tr>
+        <tr><td>Maximum tow mass</td><td>Not used — no trailer in expedition plan</td></tr>
+        <tr><td>Suspension rating</td><td>OME Medium · 400 kg constant load · matched to GVM</td></tr>
+      </tbody>
+    </table>
+
+    <div class="warn-box">
+      <strong>Going over GVM is the fastest way to wreck the suspension.</strong> Leaf packs sag, U-bolts loosen faster, bump stop clearance disappears, shocks take direct over-travel hits, and bush wear accelerates. There is no safe margin above 2,850 kg on this truck — what fits in the budget is the budget. Cross-reference R11 Packing Optimisation Guide for category-by-category mass control.
+    </div>
+
+    <div class="sub-head">What Overloading Looks Like</div>
+    <div class="qual-grid">
+      <div class="qual-card">
+        <div class="qual-head"><div class="qual-title">Reduced bump stop clearance</div><span class="risk-badge risk-high">HIGH</span></div>
+        <div class="qual-body">First and most reliable indicator. Measure clearance at all four corners against baseline. If the rear has lost more than 15 mm, the truck is either overloaded or the rear leaves are sagging — both bad, both fixable.</div>
+      </div>
+      <div class="qual-card">
+        <div class="qual-head"><div class="qual-title">Shock body running hot</div><span class="risk-badge risk-high">HIGH</span></div>
+        <div class="qual-body">After a corrugation run, hand-test the shock body — warm is normal, too-hot-to-touch is the shock working past its envelope. Overload accelerates fade. A shock that runs hot under load will not last a long expedition.</div>
+      </div>
+      <div class="qual-card">
+        <div class="qual-head"><div class="qual-title">U-bolts loosening early</div><span class="risk-badge risk-high">HIGH</span></div>
+        <div class="qual-body">New U-bolts on a well-loaded 76 should be stable within 5,000 km. If you are having to re-torque them at 1,000 km intervals, something is wrong — either the load is too high, the leaves have already settled abnormally, or the initial torque was wrong.</div>
+      </div>
+      <div class="qual-card">
+        <div class="qual-head"><div class="qual-title">Front-end light at speed</div><span class="risk-badge risk-med">MED</span></div>
+        <div class="qual-body">If the rear is overloaded, the front lifts, geometry shifts, and steering goes vague at speed. Re-balance the load before re-tuning the suspension.</div>
+      </div>
+      <div class="qual-card">
+        <div class="qual-head"><div class="qual-title">Bush wear accelerating</div><span class="risk-badge risk-med">MED</span></div>
+        <div class="qual-body">Bushes have a service life measured in load-cycles, not just kilometres. Heavy load doubles or triples the cycle load and halves the bush life. Catching this means catching it in inspection — by the time bushes are visibly torn, they have been working overloaded for thousands of km.</div>
+      </div>
+      <div class="qual-card">
+        <div class="qual-head"><div class="qual-title">Leaf pack sag</div><span class="risk-badge risk-med">MED</span></div>
+        <div class="qual-body">Leaf packs settle with load-cycles, not just age. A new pack with a heavy constant load sags faster than a lightly-loaded older pack. The ride height drop is the measurement that matters — not how the rear "looks."</div>
+      </div>
+    </div>
+
+    <div class="sub-head">Travel &amp; Bump Stop</div>
+    <div class="info-box">
+      With the 2" lift, suspension travel is recalculated against the new ride height. Bump stop clearance and the shock travel envelope are workshop-verified items. Confirm at the next workshop service whether the bump stop spacers (if fitted) and shock lengths are correctly matched to the lift height — mismatched components are the most common cause of premature shock failure on lifted trucks.
+    </div>
+  </div><!-- /s-load -->
+
+
+  <!-- ══ SECTION 8: STEERING GEOMETRY CHECKS ══ -->
+  <div id="s-geom" class="sa">
+    <div class="section-head">Steering Geometry Checks After Heavy Corrugation</div>
+    <p class="section-intro">Long stretches of corrugation pound the front-end alignment out of spec — toe drifts, components shift on their mounts, and tyre wear changes within hundreds of km if alignment is wrong. After any 500+ km of heavy corrugation, run these checks before the wear becomes expensive.</p>
+
+    <div class="sub-head">The Three Geometry Numbers That Matter</div>
+    <table class="specs-table">
+      <thead>
+        <tr><th style="width:18%">Setting</th><th style="width:32%">What it controls</th><th>Field check</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Toe</strong></td><td>How parallel the front wheels are. The most likely setting to drift on corrugation. Wrong toe = fastest tyre wear of any geometry error.</td><td>String-line method or measure between front-wheel rim faces, front and rear of the wheel, at hub height. Difference is the toe value. Compare against baseline.</td></tr>
+        <tr><td><strong>Caster</strong></td><td>How far forward the steering axis tilts. Determines self-centring. Reduced after a lift if no correction was applied. <strong>This is the known problem area on this truck</strong> — mis-set by First Alignment, corrected June 2025 by Conrad at Suspension City.</td><td>Workshop measurement only. In the field, the symptom is the test: clean return to centre after a turn = caster acceptable. Pull to the left under cruise = revisit Conrad at Suspension City.</td></tr>
+        <tr><td><strong>Camber</strong></td><td>Vertical tilt of the wheel. Solid axle 76: camber is fixed by the axle. Should not change.</td><td>If camber appears wrong on a 76, suspect a bent axle housing or knuckle, not a wandering setting. Workshop call.</td></tr>
+      </tbody>
+    </table>
+
+    <div class="sub-head">Field Toe Check — String Line Method</div>
+    <div class="check-steps">
+      <div class="check-step"><div class="step-num">1</div><div>Truck on flat level ground, wheels straight ahead, no driver in the cab.</div></div>
+      <div class="check-step"><div class="step-num">2</div><div>Run a string line along each side of the truck, parallel to the centreline, just touching the front and rear tyres at sidewall mid-height.</div></div>
+      <div class="check-step"><div class="step-num">3</div><div>Measure the gap between the string and the front edge of the front tyre, then the gap to the rear edge of the front tyre, on each side.</div></div>
+      <div class="check-step"><div class="step-num">4</div><div>If the front-edge gap is smaller than the rear-edge gap, the wheel is toed in. If larger, toed out. Both wheels should match, and total toe-in should be within factory spec (a few mm in).</div></div>
+      <div class="check-step"><div class="step-num">5</div><div>If toe is significantly off, suspect the tie rod (bent or moved on its threads). Adjustment is by loosening the tie rod clamps and turning the rod itself — quarter turn at a time, re-measure each time.</div></div>
+    </div>
+
+    <div class="note-box">
+      <strong>The string method is not a workshop alignment.</strong> It is a sanity check that catches gross errors before they destroy a set of tyres. For a proper alignment, use a trusted shop: <strong>Conrad at Suspension City (Maitland)</strong> is the trusted contact after the First Alignment caster correction went wrong in 2025. Any future full geometry work goes through Conrad.
+    </div>
+
+    <div class="sub-head">Tyre Wear as a Geometry Indicator</div>
+    <ul class="cause-list">
+      <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Inner-edge wear, both fronts.</span><span class="cause-note">Toe-out, or excessive negative caster, or both. Check toe first.</span></div></li>
+      <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Outer-edge wear, both fronts.</span><span class="cause-note">Toe-in. Less common after corrugation than toe-out.</span></div></li>
+      <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Feathering across the tread (sharp-edged ridges).</span><span class="cause-note">Toe error of either direction — the angle is wrong, the tyre is being scrubbed sideways every metre.</span></div></li>
+      <li><div class="cause-num">4</div><div class="cause-text"><span class="cause-label">One-sided wear on one wheel only.</span><span class="cause-note">Bent component on that side — tie rod, knuckle, or steering arm. Visual inspection.</span></div></li>
+      <li><div class="cause-num">5</div><div class="cause-text"><span class="cause-label">Cupping or scalloping on either front.</span><span class="cause-note">Failed shock or king pin slack — not a geometry issue. Check shocks and king pins.</span></div></li>
+    </ul>
+  </div><!-- /s-geom -->
+
+
+  <!-- ══ SECTION 9: PRE-DEPARTURE CHECKLIST ══ -->
+  <div id="s-checklist" class="sa">
+    <div class="section-head">Pre-Departure Suspension &amp; Steering Checklist</div>
+    <p class="section-intro">Run this in full before any major trip. Items here are non-negotiable for a high-km 76 about to take on African roads. Tick nothing on memory — confirm each item physically.</p>
+
+    <ul class="checklist">
+      <li>
+        <div class="cl-num">1</div>
+        <div class="cl-text">
+          <span class="cl-label">Ride height measured at all four corners and matched against baseline (within 15 mm)</span>
+          <span class="cl-note">Recorded in the inspection log. Any corner low = investigate before departure, do not depart hoping it is fine.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">2</div>
+        <div class="cl-text">
+          <span class="cl-label">All four shocks visually inspected — no leaks, no dents, no fresh oil mist</span>
+          <span class="cl-note">A shock that is wet around the seal is at end of life, regardless of km. Current fronts are from Apr 2023 (~86k km on them) — under extra scrutiny.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">3</div>
+        <div class="cl-text">
+          <span class="cl-label">Rear leaf packs visually inspected — all leaves intact, no fresh cracks</span>
+          <span class="cl-note">Walk both sides of the vehicle with a torch. Look at the edges and faces of every leaf, especially the main (top) leaf. Any chip or crack = workshop call before departure.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">4</div>
+        <div class="cl-text">
+          <span class="cl-label">Leaf pack U-bolts torque-checked to spec — all four</span>
+          <span class="cl-note">Non-negotiable. Loose U-bolt = pack walks on axle = broken leaf. Torque figures confirmed from 4×4 Megaworld fitment spec.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">5</div>
+        <div class="cl-text">
+          <span class="cl-label">Shackle bushes greased — both sides, greasable zerks</span>
+          <span class="cl-note">Grease gun on each zerk until clean grease emerges. Any squeak after this = further inspection, not more grease.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">6</div>
+        <div class="cl-text">
+          <span class="cl-label">Leaf pack centre bolts checked — no gap between leaves at the bolt head</span>
+          <span class="cl-note">Visual only — any gap, rust streak, or movement at the centre bolt = the pack has started walking. Workshop call.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">7</div>
+        <div class="cl-text">
+          <span class="cl-label">Front stone guard kit intact and undamaged</span>
+          <span class="cl-note">Fitted Jan 2026 with the new leaves. Inspect for damage after any heavy gravel run and before any major departure.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">8</div>
+        <div class="cl-text">
+          <span class="cl-label">Pry-bar test on every front bush — leading arms, panhard, stabiliser</span>
+          <span class="cl-note">Four leading arm bushes (both ends × two arms), two panhard bushes, stabiliser bar bushes and end links.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">9</div>
+        <div class="cl-text">
+          <span class="cl-label">Drag link and tie rod ends — pry test all four ball joints</span>
+          <span class="cl-note">Boots intact, no movement under hand pressure, no tear or weep. Any failure = replace before departure.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">10</div>
+        <div class="cl-text">
+          <span class="cl-label">King pin freeplay test — both fronts off the ground</span>
+          <span class="cl-note">Grip top and bottom of tyre, rock vertically. Knuckle overhaul was Feb 2025 @ 271k — should still be tight. Any perceptible movement = workshop call.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">11</div>
+        <div class="cl-text">
+          <span class="cl-label">Left-front swivel / sideshaft — inspect for oil weep on disc and inside wheel</span>
+          <span class="cl-note">Recurring fault point on this truck. Top up swivel oil if low, check brake disc for contamination.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">12</div>
+        <div class="cl-text">
+          <span class="cl-label">Leading arm support bracket weld (front diff) inspected</span>
+          <span class="cl-note">Plated and welded June 2025 by Conrad at Suspension City. Inspect the weld and surrounding metal for any new crack or paint flake.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">13</div>
+        <div class="cl-text">
+          <span class="cl-label">Steering box mounting bolts torqued to spec</span>
+          <span class="cl-note">All bolts at the chassis-rail mount. No fresh paint cracks at the mounting bracket weld.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">14</div>
+        <div class="cl-text">
+          <span class="cl-label">Pitman arm nut torque verified</span>
+          <span class="cl-note">Loose pitman = catastrophic steering loss. Confirm torque, do not just visually check.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">15</div>
+        <div class="cl-text">
+          <span class="cl-label">Steering damper functional — hand test off the truck</span>
+          <span class="cl-note">Should resist firmly in both directions through full travel. Replace if it moves under hand pressure.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">16</div>
+        <div class="cl-text">
+          <span class="cl-label">Power steering fluid level correct, no leaks at pump or box</span>
+          <span class="cl-note">Inspect hoses for chafing or sweating. Test for whine on cold start — air ingress is a developing leak.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">17</div>
+        <div class="cl-text">
+          <span class="cl-label">Wheel alignment confirmed — caster &amp; toe within factory spec</span>
+          <span class="cl-note">String check minimum for toe. Last alignment: Hi-Q Paarden Eiland (Jerome) — Jan 2026 @ 294,500 km.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">18</div>
+        <div class="cl-text">
+          <span class="cl-label">Bump stops F &amp; R inspected — no cracks, no missing chunks</span>
+          <span class="cl-note">Visible from underneath at each wheel. Cracked or missing = order replacements before departure.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">19</div>
+        <div class="cl-text">
+          <span class="cl-label">Bush spares packed — leading arm kit, panhard kit, drag link / tie rod ends, stabiliser bush kit</span>
+          <span class="cl-note">Cross-reference R3 Spares &amp; Tools. Carry the kit, not single bushes — partial replacement is wasted effort.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">20</div>
+        <div class="cl-text">
+          <span class="cl-label">Tie rod end / ball joint separator tool + grease gun packed</span>
+          <span class="cl-note">Separator with spares, grease gun with consumables. Without these tools the spares kit is useless in the field.</span>
+        </div>
+      </li>
+      <li>
+        <div class="cl-num">21</div>
+        <div class="cl-text">
+          <span class="cl-label">Inspection log set up and reviewed</span>
+          <span class="cl-note">Last entry reviewed, baseline ride height confirmed, any open items closed before departure.</span>
+        </div>
+      </li>
+    </ul>
+
+    <div class="xref-bar">
+      <span class="xref-label">Full checklist:</span>
+      <span class="xref-pill">R2 · Departure Checklist</span>
+      <span class="xref-label" style="margin-left:8px;">Service records:</span>
+      <span class="xref-pill">R8 · Service History</span>
+      <span class="xref-label" style="margin-left:8px;">Spares stocking:</span>
+      <span class="xref-pill">R3 · Spares &amp; Tools</span>
+    </div>
+  </div><!-- /s-checklist -->
+
+
+  <!-- ══ SECTION 10: INSPECTION LOG ══ -->
+  <div id="s-log" class="sa">
+    <div class="section-head">Inspection &amp; Fault Log</div>
+    <p class="section-intro">Record every suspension/steering inspection, every bush or component replacement, and every post-impact event. Transfer significant work to R8 Service History.</p>
+
+    <table class="log-table">
+      <thead>
+        <tr>
+          <th style="width:9%">Date</th>
+          <th style="width:8%">Km</th>
+          <th style="width:14%">Inspection type</th>
+          <th style="width:22%">What was checked / found</th>
+          <th style="width:22%">Action taken</th>
+          <th style="width:25%">Notes / parts replaced</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="fill">dd/mm/yy</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td></tr>
+        <tr><td class="fill">dd/mm/yy</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td></tr>
+        <tr><td class="fill">dd/mm/yy</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td></tr>
+        <tr><td class="fill">dd/mm/yy</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td></tr>
+        <tr><td class="fill">dd/mm/yy</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td></tr>
+        <tr><td class="fill">dd/mm/yy</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td></tr>
+        <tr><td class="fill">dd/mm/yy</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td></tr>
+        <tr><td class="fill">dd/mm/yy</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td><td class="fill">—</td></tr>
+      </tbody>
+    </table>
+
+    <div class="xref-bar">
+      <span class="xref-label">Transfer to:</span>
+      <span class="xref-pill">R8 · Service &amp; Repair History</span>
+      <span class="xref-label" style="margin-left:8px;">Drivetrain context:</span>
+      <span class="xref-pill">R13 · Drivetrain Training</span>
+      <span class="xref-label" style="margin-left:8px;">Spares list:</span>
+      <span class="xref-pill">R3 · Spares &amp; Tools</span>
+      <span class="xref-label" style="margin-left:8px;">Seal references:</span>
+      <span class="xref-pill">R20 · Seal &amp; Gasket Atlas</span>
+      <span class="xref-label" style="margin-left:8px;">Engine cross-symptoms:</span>
+      <span class="xref-pill">R18 · 1HZ Troubleshooting</span>
+      <span class="xref-label" style="margin-left:8px;">Post-incident:</span>
+      <span class="xref-pill">R10 · Emergency Procedures</span>
+    </div>
+  </div><!-- /s-log -->
+
+</div><!-- /main -->
+
+<script>
+  function toggleDiag(header) {
+    const body = header.nextElementSibling;
+    const arrow = header.querySelector('.diag-arrow');
+    const isOpen = body.classList.contains('open');
+    body.classList.toggle('open', !isOpen);
+    arrow.classList.toggle('open', !isOpen);
+  }
+
+  const tocBtns = document.querySelectorAll('.toc-btn');
+  tocBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const el = document.getElementById(btn.dataset.target);
+      if (el) {
+        const stickyH = document.querySelector('.sticky-wrap').offsetHeight;
+        const top = el.getBoundingClientRect().top + window.pageYOffset - stickyH - 8;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    });
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        tocBtns.forEach(b => b.classList.toggle('active', b.dataset.target === id));
+      }
+    });
+  }, { rootMargin: '-130px 0px -70% 0px', threshold: 0 });
+
+  document.querySelectorAll('.sa').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
