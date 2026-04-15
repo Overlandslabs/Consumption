@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>R28 — Driving Conditions Guide | HZJ76R-RKMRS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=Oswald:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:      #1C1410;
+    --paper:    #F5EDDA;
+    --paper2:   #EDE5D0;
+    --amber:    #b86800;
+    --amber2:   #e07800;
+    --rule:     #d4cfc4;
+    --steeldk:  #2a2f3a;
+    --steelmd:  #6a7080;
+    --red-warn: #B91C1C;
+    --green-ok: #059669;
+    --orange:   #c05a00;
+    --border:   #c8bfad;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
+
+  body {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  /* STICKY WRAP */
+  .sticky-wrap { position: sticky; top: 0; z-index: 100; background: var(--ink); padding-top: env(safe-area-inset-top); }
+
+  /* MASTHEAD */
+  .masthead { position: relative; background: var(--ink); color: #fff; padding: 18px 24px 14px; }
+  .lib-home-btn { position:absolute; top:50%; right:16px; transform:translateY(-50%); display:inline-flex; align-items:center; gap:5px; font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; text-decoration:none; color:var(--amber2); background:rgba(232,120,0,.15); border:1px solid var(--amber2); border-radius:20px; padding:6px 12px; min-height:32px; white-space:nowrap; z-index:10; transition:background .2s; }
+  .lib-home-btn:hover, .lib-home-btn:active { background:rgba(232,120,0,.30); }
+  @media print { .lib-home-btn { display:none !important; } }
+
+  .mh-eyebrow  { font-family:'IBM Plex Mono',monospace; font-size:.5rem; letter-spacing:.28em; text-transform:uppercase; color:var(--steelmd); margin-bottom:6px; }
+  .mh-title    { font-family:'Bebas Neue',sans-serif; font-size:clamp(1.8rem,5vw,2.6rem); letter-spacing:.06em; color:var(--amber2); line-height:1; }
+  .mh-sub      { font-family:'IBM Plex Mono',monospace; font-size:.54rem; letter-spacing:.12em; color:rgba(255,200,100,.65); margin-top:5px; }
+  .mh-vehicle  { font-family:'IBM Plex Mono',monospace; font-size:.48rem; letter-spacing:.08em; color:var(--steelmd); margin-top:8px; }
+
+  /* TOC BAR */
+  .toc-bar {
+    background: var(--steeldk);
+    border-top: 3px solid var(--amber2);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    padding: 0 20px;
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .toc-bar::-webkit-scrollbar { display: none; }
+  .toc-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .52rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--steelmd);
+    background: none;
+    border: none;
+    padding: 10px 12px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color 0.15s;
+  }
+  .toc-btn:hover  { color: #c8bfad; }
+  .toc-btn.active { color: var(--amber2); }
+
+  /* MAIN */
+  .main { padding: 28px 5% 80px; max-width: 100%; }
+
+  /* SECTION HEADINGS */
+  .section-head {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: var(--ink);
+    letter-spacing: 0.04em;
+    border-bottom: 2px solid var(--amber2);
+    padding-bottom: 4px;
+    margin-bottom: 14px;
+    margin-top: 28px;
+  }
+  .section-head:first-child { margin-top: 0; }
+  .section-intro { font-size: 13px; color: var(--steelmd); margin-bottom: 14px; font-style: italic; }
+
+  /* SECTION ANCHOR OFFSET */
+  .sa { scroll-margin-top: 130px; }
+
+  /* SUBSECTION TITLE */
+  .sub-head {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 15px;
+    color: var(--amber2);
+    letter-spacing: 0.04em;
+    background: var(--steeldk);
+    padding: 8px 14px;
+    margin-bottom: 0;
+    margin-top: 16px;
+  }
+
+  /* PRINCIPLE CARDS GRID */
+  .principle-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:10px; margin:14px 0; }
+  .principle-card { border:1px solid var(--border); border-top:3px solid var(--amber2); background:#fff; border-radius:2px; padding:14px 14px 12px; }
+  .p-num   { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.12em; color:var(--steelmd); text-transform:uppercase; margin-bottom:4px; }
+  .p-title { font-family:'Bebas Neue',sans-serif; font-size:17px; color:var(--amber2); letter-spacing:.04em; margin-bottom:6px; line-height:1.1; }
+  .p-body  { font-size:12.5px; color:var(--ink); line-height:1.55; }
+
+  /* PRESSURE TABLE */
+  .specs-table { width:100%; border-collapse:collapse; font-size:13px; margin:14px 0; table-layout:fixed; }
+  .specs-table th { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; background:var(--steeldk); color:#b0bcc8; padding:7px 12px; text-align:left; border:1px solid rgba(255,255,255,.07); }
+  .specs-table td { padding:7px 12px; border:1px solid var(--rule); vertical-align:top; }
+  .specs-table tr:nth-child(even) td { background:var(--paper2); }
+  .specs-table tr:nth-child(odd)  td { background:#fff; }
+  .mono { font-family:'IBM Plex Mono',monospace; font-size:11px; }
+
+  /* TERRAIN CARDS */
+  .terrain-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:10px; margin:14px 0; }
+  .terrain-card { border:1px solid var(--border); background:#fff; border-radius:2px; overflow:hidden; }
+  .tc-head { background:var(--steeldk); padding:9px 12px; display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  .tc-name { font-family:'Oswald',sans-serif; font-weight:500; font-size:13px; color:#fff; }
+  .tc-tag  { font-family:'IBM Plex Mono',monospace; font-size:8px; font-weight:600; letter-spacing:.06em; padding:2px 6px; border-radius:2px; white-space:nowrap; }
+  .tag-high   { background:rgba(185,28,28,.3); color:#fca5a5; border:1px solid rgba(185,28,28,.5); }
+  .tag-med    { background:rgba(192,90,0,.25); color:#fdba74; border:1px solid rgba(192,90,0,.5); }
+  .tag-low    { background:rgba(5,150,105,.2); color:#6ee7b7; border:1px solid rgba(5,150,105,.4); }
+  .tc-body { padding:10px 12px; font-size:12px; line-height:1.55; color:var(--ink); }
+
+  /* CHECKLIST */
+  .checklist { list-style:none; margin:10px 0; }
+  .checklist li { display:flex; gap:10px; align-items:flex-start; padding:7px 0; border-bottom:1px solid var(--rule); font-size:13px; }
+  .checklist li:last-child { border-bottom:none; }
+  .cl-num  { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; color:#fff; background:var(--steeldk); min-width:22px; height:22px; border-radius:2px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .cl-text { flex:1; }
+  .cl-label { font-weight:500; color:var(--ink); }
+  .cl-note  { color:var(--steelmd); font-size:12px; display:block; margin-top:2px; font-family:'Oswald',sans-serif; font-weight:300; }
+
+  /* CAUSE / STEP LISTS */
+  .cause-list { list-style:none; margin:10px 0 14px; }
+  .cause-list li { display:flex; gap:10px; align-items:flex-start; padding:6px 0; border-bottom:1px solid var(--rule); font-size:13px; }
+  .cause-list li:last-child { border-bottom:none; }
+  .cause-num  { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; color:#fff; background:var(--steelmd); min-width:20px; height:20px; border-radius:2px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .cause-text { flex:1; }
+  .cause-label { font-weight:500; color:var(--ink); }
+  .cause-note  { color:var(--steelmd); font-size:12px; display:block; margin-top:2px; }
+
+  /* STEP LIST (amber) */
+  .check-steps { margin:10px 0; }
+  .check-step  { display:flex; gap:10px; align-items:flex-start; margin-bottom:8px; font-size:13px; }
+  .step-num  { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; color:#fff; background:var(--amber); min-width:22px; height:22px; border-radius:2px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .step-stop { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; color:#fff; background:var(--red-warn); min-width:22px; height:22px; border-radius:2px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+
+  /* ALERT BOXES */
+  .warn-box { background:#fde8e8; border-left:3px solid var(--red-warn); padding:9px 12px; font-size:12.5px; color:#7a1010; margin:10px 0; }
+  .note-box { background:#fef9e7; border-left:3px solid var(--amber); padding:9px 12px; font-size:12.5px; color:#5a3800; margin:10px 0; }
+  .ok-box   { background:#e8f5e9; border-left:3px solid var(--green-ok); padding:9px 12px; font-size:12.5px; color:#0d4a28; margin:10px 0; }
+  .info-box { background:#e8eef8; border-left:3px solid #3b6abf; padding:9px 12px; font-size:12.5px; color:#1a2f5a; margin:10px 0; }
+
+  /* CROSS-REF BAR */
+  .xref-bar { background:var(--steeldk); border:1px solid rgba(255,255,255,.08); padding:9px 14px; display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:12px; font-size:12px; }
+  .xref-label { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.08em; color:var(--steelmd); text-transform:uppercase; white-space:nowrap; }
+  .xref-pill  { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; color:var(--amber2); background:rgba(224,120,0,.12); border:1px solid rgba(224,120,0,.3); padding:2px 8px; border-radius:2px; white-space:nowrap; }
+
+  /* SIGNAL CHAIN */
+  .signal-chain { display:flex; align-items:center; flex-wrap:wrap; gap:4px; margin:14px 0; }
+  .sc-step  { font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; color:#fff; background:var(--amber); padding:7px 12px; border-radius:2px; white-space:nowrap; }
+  .sc-stop  { font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; color:#fff; background:var(--red-warn); padding:7px 12px; border-radius:2px; white-space:nowrap; }
+  .sc-arrow { font-size:14px; color:var(--steelmd); }
+
+  /* PRESSURE BADGE */
+  .pres-badge { display:inline-flex; align-items:baseline; gap:4px; font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:14px; color:var(--amber2); background:rgba(224,120,0,.1); border:1px solid rgba(224,120,0,.3); padding:3px 10px; border-radius:2px; }
+  .pres-sub   { font-size:10px; color:var(--steelmd); font-weight:400; }
+
+  /* SIGNAL CHART - 3-col */
+  .three-q { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:10px; margin:14px 0; }
+  .q-card  { border:2px solid var(--amber2); background:var(--steeldk); padding:12px 14px; border-radius:2px; }
+  .q-num   { font-family:'IBM Plex Mono',monospace; font-size:24px; font-weight:600; color:var(--amber2); line-height:1; margin-bottom:4px; }
+  .q-text  { font-family:'Oswald',sans-serif; font-weight:500; font-size:14px; color:#fff; line-height:1.3; margin-bottom:6px; }
+  .q-note  { font-family:'IBM Plex Mono',monospace; font-size:10px; color:#b0bcc8; line-height:1.4; }
+  .q-yes   { color:var(--green-ok); font-weight:600; }
+  .q-no    { color:#fca5a5; font-weight:600; }
+
+  /* NOT-TO-DO LIST */
+  .notodo-list { list-style:none; margin:10px 0; }
+  .notodo-list li { display:flex; gap:10px; align-items:flex-start; padding:8px 0; border-bottom:1px solid var(--rule); font-size:13px; }
+  .notodo-list li:last-child { border-bottom:none; }
+  .notodo-x     { font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; color:#fff; background:var(--red-warn); min-width:22px; height:22px; border-radius:2px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .notodo-text  { flex:1; }
+  .notodo-label { font-weight:500; color:var(--ink); }
+  .notodo-note  { color:var(--steelmd); font-size:12px; display:block; margin-top:2px; }
+
+  /* NIGHT RISK BAND */
+  .risk-band { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:8px; margin:14px 0; }
+  .rb-card { border-radius:2px; padding:12px; }
+  .rb-high { background:#fde8e8; border:1px solid #f8b0b0; }
+  .rb-med  { background:#fef3cd; border:1px solid #f5d072; }
+  .rb-low  { background:#e8f5e9; border:1px solid #88c899; }
+  .rb-label { font-family:'IBM Plex Mono',monospace; font-size:8px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; margin-bottom:5px; }
+  .rb-high .rb-label { color:var(--red-warn); }
+  .rb-med  .rb-label { color:#7c4a00; }
+  .rb-low  .rb-label { color:#1a6b3a; }
+  .rb-text { font-size:12px; line-height:1.5; }
+  .rb-high .rb-text { color:#7a1010; }
+  .rb-med  .rb-text { color:#5a3800; }
+  .rb-low  .rb-text { color:#0d4a28; }
+
+  /* PRINT */
+  @media print {
+    @page { margin: 7mm; size: A4; }
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    body { font-size: 7.5pt; background: #fff; line-height: 1.4; }
+    .sticky-wrap { position: static; }
+    .toc-bar { display: none; }
+    .masthead { padding: 4mm 8mm; break-after: avoid; background: #1C1410 !important; color: #fff !important; }
+    .mh-eyebrow { font-size: 5pt; color: #6a7080 !important; }
+    .mh-title { font-size: 16pt; color: #e07800 !important; }
+    .mh-sub, .mh-vehicle { font-size: 5pt; }
+    .main { padding: 4mm 0 10mm; }
+    .section-head { font-size: 14pt; margin-top: 8mm; page-break-after: avoid; break-after: avoid; border-bottom: 2pt solid #e07800 !important; }
+    .sub-head { font-size: 11pt; page-break-after: avoid; break-after: avoid; background: #2a2f3a !important; color: #e07800 !important; }
+    .principle-card { break-inside: avoid; }
+    .terrain-card  { break-inside: avoid; }
+    .q-card        { break-inside: avoid; }
+    .rb-card       { break-inside: avoid; }
+    .warn-box  { break-inside: avoid; background: #fde8e8 !important; border-left: 3pt solid #B91C1C !important; color: #7a1010 !important; }
+    .note-box  { break-inside: avoid; background: #fef9e7 !important; border-left: 3pt solid #b86800 !important; color: #5a3800 !important; }
+    .ok-box    { break-inside: avoid; background: #e8f5e9 !important; border-left: 3pt solid #059669 !important; color: #0d4a28 !important; }\
+    .info-box  { break-inside: avoid; background: #e8eef8 !important; border-left: 3pt solid #3b6abf !important; color: #1a2f5a !important; }
+    .xref-bar  { background: #2a2f3a !important; border: 1px solid rgba(255,255,255,.08) !important; }
+    .xref-pill { background: rgba(224,120,0,.12) !important; color: #e07800 !important; border: 1px solid rgba(224,120,0,.3) !important; }
+    .specs-table thead { display: table-header-group; }
+    .specs-table th { background: #2a2f3a !important; color: #b0bcc8 !important; }
+    .cause-num  { background: #6a7080 !important; color: #fff !important; }
+    .step-num   { background: #b86800 !important; color: #fff !important; }
+    .step-stop  { background: #B91C1C !important; color: #fff !important; }
+    .cl-num     { background: #2a2f3a !important; color: #fff !important; }
+    .notodo-x   { background: #B91C1C !important; color: #fff !important; }
+    .sc-step    { background: #b86800 !important; color: #fff !important; }
+    .sc-stop    { background: #B91C1C !important; color: #fff !important; }
+    .checklist li   { break-inside: avoid; }
+    .notodo-list li { break-inside: avoid; }
+    .signal-chain   { break-inside: avoid; }
+    .pres-badge { background: rgba(224,120,0,.1) !important; border: 1pt solid rgba(224,120,0,.3) !important; color: #e07800 !important; }
+    .q-card { background: #2a2f3a !important; }
+    .q-text { color: #fff !important; }
+    .rb-high { background: #fde8e8 !important; }
+    .rb-med  { background: #fef3cd !important; }
+    .rb-low  { background: #e8f5e9 !important; }
+    a { color: var(--ink); text-decoration: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="sticky-wrap">
+  <div class="masthead">
+    <a href="index.html" class="lib-home-btn">⌂ Index</a>
+    <div class="mh-eyebrow">HZJ76R-RKMRS · Overland Reference Library · R28</div>
+    <div class="mh-title">Driving Conditions Guide</div>
+    <div class="mh-sub">Sand · Mud · Rock · Water · Corrugations · Altitude · Night · Steep Uphill · Steep Downhill · Pre-Terrain Checklist</div>
+    <div class="mh-vehicle">2009 LC76 SW · 1HZ 4.2L Diesel · SAC Low-Boost Turbo · R151F 5-speed · OME Suspension · 265/75R16 AT · ~305,000 km · HZJ76R-RKMRS</div>
+  </div>
+  <nav class="toc-bar">
+    <button class="toc-btn" data-target="s-sand">Sand</button>
+    <button class="toc-btn" data-target="s-mud">Mud</button>
+    <button class="toc-btn" data-target="s-rock">Rock</button>
+    <button class="toc-btn" data-target="s-water">Water</button>
+    <button class="toc-btn" data-target="s-corrugations">Corrugations</button>
+    <button class="toc-btn" data-target="s-altitude">Altitude</button>
+    <button class="toc-btn" data-target="s-night">Night</button>
+    <button class="toc-btn" data-target="s-uphill">Uphill</button>
+    <button class="toc-btn" data-target="s-downhill">Downhill</button>
+    <button class="toc-btn" data-target="s-checklist">Pre-Terrain</button>
+  </nav>
+</div>
+
+<div class="main">
+
+  <!-- ══ SECTION 1: SAND ══ -->
+  <div id="s-sand" class="sa">
+    <div class="section-head">1 — Sand</div>
+    <p class="section-intro">Sand is the most forgiving of the serious terrain types — but only if you read it correctly and arrive with your tyres already deflated. Overconfidence and under-preparation kill more sand runs than anything else. This section covers the 76 specifically: 2,850 kg GVM, long wheelbase, and 265/75R16 AT tyres at 690 kg payload budget.</p>
+
+    <div class="sub-head">Reading Sand Before You Enter</div>
+    <div class="cause-list">
+      <li>
+        <span class="cause-num">1</span>
+        <span class="cause-text"><span class="cause-label">Colour.</span> <span class="cause-note">Wet or damp sand is usually darker and more compact — better traction. Pale, dry, bleached sand is soft and powdery — worst traction. On beaches, the wet tidal band gives a firm surface; the dry zone above the high-water mark is the danger zone.</span></span>
+      </li>
+      <li>
+        <span class="cause-num">2</span>
+        <span class="cause-text"><span class="cause-label">Texture and crust.</span> <span class="cause-note">A wind-blown crust feels firm underfoot but will not support the 76's weight. Punch through it with your boot heel before committing. Salt pans with sand overlay behave similarly — soft underneath a deceptive hard cap.</span></span>
+      </li>
+      <li>
+        <span class="cause-num">3</span>
+        <span class="cause-text"><span class="cause-label">Moisture cue.</span> <span class="cause-note">Look for vegetation line: dense growth marks higher moisture content and more compact sand. Bare bowls below the vegetation line are typically the softest spots. Track other vehicles — if wheel tracks sink more than 30 mm, drop pressure before entry.</span></span>
+      </li>
+      <li>
+        <span class="cause-num">4</span>
+        <span class="cause-text"><span class="cause-label">Dune face angles.</span> <span class="cause-note">Windward face = gradual rise, compacted. Leeward face (slip face) = steep, loose, soft. Never attack a slip face at speed. On dune crests, approach slowly — the leeward drop may be steeper than the climb.</span></span>
+      </li>
+      <li>
+        <span class="cause-num">5</span>
+        <span class="cause-text"><span class="cause-label">Wind direction.</span> <span class="cause-note">Prevailing wind blows sand off the windward face and deposits it on the leeward side. If the wind is in your face as you climb, the slope is firm. If the wind is at your back on a face, you are on the soft slip side.</span></span>
+      </li>
+    </div>
+
+    <div class="sub-head">Tyre Pressure for Sand — 265/75R16 AT</div>
+    <p style="font-size:13px;color:var(--steelmd);margin:10px 0 6px;font-style:italic;">Bar is primary. PSI shown alongside. Pressures are for 265/75R16 AT tyres at estimated expedition load (~2,450 kg actual). Confirm with Tyre Pressure Calculator before first sand section — vehicle weight changes pressure targets.</p>
+
+    <table class="specs-table">
+      <thead>
+        <tr>
+          <th style="width:24%">Sand Type</th>
+          <th style="width:20%">Pressure (bar)</th>
+          <th style="width:18%">Pressure (PSI)</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Firm beach / wet tidal</strong></td>
+          <td class="mono">1.2–1.4 bar</td>
+          <td class="mono">17–20 PSI</td>
+          <td>Lower end if below high-water mark and soft underfoot. Watch sidewall bulge.</td>
+        </tr>
+        <tr>
+          <td><strong>Dry inland track</strong></td>
+          <td class="mono">1.0–1.2 bar</td>
+          <td class="mono">15–17 PSI</td>
+          <td>Standard desert track sand. Footprint visibly wider at 1.0 bar — improves flotation markedly on the 76's weight.</td>
+        </tr>
+        <tr>
+          <td><strong>Soft inland / dunes</strong></td>
+          <td class="mono">0.8–1.0 bar</td>
+          <td class="mono">12–15 PSI</td>
+          <td>Deep, soft, or loose sand. Do not go below 0.8 bar on 265/75R16 AT — risk of bead separation and sidewall fold under the 76's weight.</td>
+        </tr>
+        <tr>
+          <td><strong>Dune slip face</strong></td>
+          <td class="mono">0.8 bar</td>
+          <td class="mono">12 PSI</td>
+          <td>Minimum for this tyre size and vehicle weight. Combine with maximum momentum commitment. Do not attempt in isolation.</td>
+        </tr>
+      </tbody>
+    </table>
+
+
+
+    <div class="sub-head">Momentum Management</div>
+    <div class="cause-list">
+      <li>
+        <span class="cause-num">1</span>
+        <span class="cause-text"><span class="cause-label">Commit before you enter.</span> <span class="cause-note">Hesitation in sand is the most common cause of bogging. If conditions are marginal, stop before the section, walk the line, deflate to target pressure, then enter with purpose. The time to decide is not while you are moving.</span></span>
+      </li>
+      <li>
+        <span class="cause-num">2</span>
+        <span class="cause-text"><span class="cause-label">Maintain a steady throttle.</span> <span class="cause-note">Not fast — consistent. The turbo 1HZ likes a mid-rev working range in soft sand (not lugging, not over-revving). Smooth, progressive throttle preserves the footprint and avoids wheelspin that digs the vehicle in.</span></span>
+      </li>
+      <li>
+        <span class="cause-num">3</span>
+        <span class="cause-text"><span class="cause-label">The stall point.</span> <span class="cause-note">When forward motion stops or slows dramatically under sustained throttle, you have found the stall point. Immediately ease off — continued wheelspin digs you in at an accelerating rate. The vehicle can recover from a gentle stop; it cannot recover from a buried axle.</span></span>
+      </li>
+      <li>
+        <span class="cause-num">4</span>
+        <span class="cause-text"><span class="cause-label">Long wheelbase penalty.</span> <span class="cause-note">The LC76 SW has a 2,850 mm wheelbase. In cross-dune or uneven sand, the belly clearance advantage of a short-wheelbase vehicle is absent. Stay aware of high-centering risk in soft bowl crossings. See Section 3 (Rock) for break-over angle context.</span></span>
+      </li>
+    </div>
+
+    <div class="sub-head">Line Selection</div>
+    <ul class="checklist">
+      <li><span class="cl-num">▸</span><span class="cl-text"><span class="cl-label">Follow existing tracks where possible.</span> <span class="cl-note">Compacted by previous vehicles — superior traction. Exception: if tracks are deeply rutted, drive alongside them rather than in them — the rut walls may snag your diff or sills.</span></span></li>
+      <li><span class="cl-num">▸</span><span class="cl-text"><span class="cl-label">Ride the crests, not the troughs.</span> <span class="cl-note">Crest sand is wind-compacted and drier. Trough sand collects loose material and moisture — softer and more variable. Where possible, keep wheels on high ground between dunes.</span></span></li>
+      <li><span class="cl-num">▸</span><span class="cl-text"><span class="cl-label">Avoid soft bowls.</span> <span class="cl-note">Circular depressions in dune fields collect the finest, loosest sand — almost always the deepest soft spots. Go around them, not through them.</span></span></li>
+      <li><span class="cl-num">▸</span><span class="cl-text"><span class="cl-label">Approach dune faces straight.</span> <span class="cl-note">Any angle less than perpendicular to the face creates a side-loading risk on the 76 — the suspension lifts uphill and the downhill wheels sink. Straight up, straight down.</span></span></li>
+    </ul>
+
+    <div class="sub-head">Corrective Techniques</div>
+    <div class="cause-list">
+      <li>
+        <span class="cause-num">1</span>
+        <span class="cause-text"><span class="cause-label">Steering into a sink.</span> <span class="cause-note">If the nose starts to dive into soft sand, a small steering correction toward the firmer side (usually upwind) can redirect weight. Do not over-steer — large corrections in soft sand steer the vehicle off-line while the tyres continue forward, causing it to dig sideways.</span></span>
+      </li>
+      <li>
+        <span class="cause-num">2</span>
+        <span class="cause-text"><span class="cause-label">Power out vs dig in — the decision.</span> <span class="cause-note">If momentum is still present, maintain throttle and steer for the firmest available line. If motion has stopped completely, ease off immediately. Applying power from a dead stop in deep sand buries you. The recovery sequence is: ease off → assess → reverse on your existing track if possible → reassess entry.</span></span>
+      </li>
+      <li>
+        <span class="cause-num">3</span>
+        <span class="cause-text"><span class="cause-label">Rocking.</span> <span class="cause-note">Alternate short forward and reverse movements to create a compacted platform under the tyres. Maximum three or four cycles — after that, you are just deepening the hole. If rocking does not produce forward motion, stop and deploy recovery gear.</span></span>
+      </li>
+    </div>
+
+    <div class="sub-head">Recovery Pre-Set Before a Sand Section</div>
+    <div class="ok-box">
+      <strong>Before entering any long or serious sand section,</strong> the following must already be done — not done when you are stuck:
+    </div>
+    <ul class="checklist">
+      <li><span class="cl-num">1</span><span class="cl-text"><span class="cl-label">Tyre pressure deflated to target.</span> <span class="cl-note">Not "I'll drop them if I need to." Drop them before entry. Reflating on the far side is not an emergency.</span></span></li>
+      <li><span class="cl-num">2</span><span class="cl-text"><span class="cl-label">Recovery boards in reach.</span> <span class="cl-note">Not strapped to a roof rack under a load. Accessible within 30 seconds of stopping.</span></span></li>
+      <li><span class="cl-num">3</span><span class="cl-text"><span class="cl-label">Front tow point clear.</span> <span class="cl-note">Snatch block and tow strap accessible. Not buried under camp gear.</span></span></li>
+      <li><span class="cl-num">4</span><span class="cl-text"><span class="cl-label">4WD low range engaged.</span> <span class="cl-note">Engaged before entering soft sand — not attempted mid-section. The part-time transfer case must be engaged while stationary or at very low speed.</span></span></li>
+      <li><span class="cl-num">5</span><span class="cl-text"><span class="cl-label">Windows up, not cracked.</span> <span class="cl-note">Fine blowing sand enters cabin immediately. Cracking reduces not eliminates ingress. Close fully in active sand sections.</span></span></li>
+      <li><span class="cl-num">6</span><span class="cl-text"><span class="cl-label">Air filter status confirmed.</span> <span class="cl-note">Check pre-cleaner condition before extended sand running. Cross-ref R4, R18.</span></span></li>
+    </ul>
+
+    <div class="xref-bar">
+      <span class="xref-label">Cross-reference</span>
+      <span class="xref-pill">R9 Vehicle Recovery</span>
+      <span class="xref-pill">R14 Tyre Management</span>
+      <span class="xref-pill">R19 AT Tyre Review</span>
+      <span class="xref-pill">Tyre Pressure Calculator</span>
+    </div>
+  </div><!-- /s-sand -->
+
+
+  <!-- ══ SECTION 2: MUD ══ -->
+  <div id="s-mud" class="sa">
+    <div class="section-head">2 — Mud</div>
+    <p class="section-intro">Mud is sand's more unforgiving cousin. The variables are harder to read, the consequences of mistakes are more immediate, and the cleaning aftermath cannot be skipped. The 1HZ and the 76's intake path introduce specific risks in thick or splashing mud that do not apply to other terrain types.</p>
+
+    <div class="sub-head">Mud Types — Different Physics, Different Risks</div>
+
+    <div class="terrain-grid">
+      <div class="terrain-card">
+        <div class="tc-head">
+          <span class="tc-name">Clay Mud</span>
+          <span class="tc-tag tag-high">HIGH RISK</span>
+        </div>
+        <div class="tc-body">Dense, sticky, rapidly packs tyre treads to a slick surface. Traction disappears fast. Builds up in wheel arches and clogs brakes. Never power through — momentum and line selection are everything. Exit speed matters; do not brake in clay mud.</div>
+      </div>
+
+      <div class="terrain-card">
+        <div class="tc-head">
+          <span class="tc-name">Black Cotton</span>
+          <span class="tc-tag tag-high">EXTREME</span>
+        </div>
+        <div class="tc-body">Vertisol clay soil found across parts of East and Central Africa. When wet: vehicle sinks and slides unpredictably, traction near zero. When drying: surface sets to concrete hardness with deep ruts. Rule: if it is black cotton, assess whether the risk of crossing is acceptable. No technique substitutes for a dry track.</div>
+      </div>
+
+      <div class="terrain-card">
+        <div class="tc-head">
+          <span class="tc-name">Sand-Mud Mix</span>
+          <span class="tc-tag tag-med">MODERATE</span>
+        </div>
+        <div class="tc-body">Looser consistency, less suction than clay. Treads self-clean better. Often found on floodplain edges and river crossings. Key risk is hidden depth — the surface looks shallow but the vehicle can sink axle-deep unexpectedly. Probe with a stick before crossing any unfamiliar patch over 20 m long.</div>
+      </div>
+
+      <div class="terrain-card">
+        <div class="tc-head">
+          <span class="tc-name">Tropical Laterite</span>
+          <span class="tc-tag tag-med">VARIABLE</span>
+        </div>
+        <div class="tc-body">Red-iron soil common across many parts of Africa. Dry: excellent traction. Wet: surface becomes incredibly slippery — similar to oiled clay with a very thin grip window. Cross-camber on laterite roads in rain requires extreme speed reduction and deliberate line. Laterite dust also packs air filters rapidly when dry.</div>
+      </div>
+    </div>
+
+    <div class="sub-head">Approach and Line</div>
+    <ul class="checklist">
+      <li><span class="cl-num">▸</span><span class="cl-text"><span class="cl-label">Where to cross, not how fast.</span> <span class="cl-note">Walk the crossing before committing the vehicle. Probe depth. Locate the highest, most compact ground. Entry and exit angles matter — a steep exit bank will sink the front axle into the far edge of the crossing.</span></span></li>
+      <li><span class="cl-num">▸</span><span class="cl-text"><span class="cl-label">Approach straight.</span> <span class="cl-note">Angled entry to a mud crossing allows one side to sink faster than the other. Once a vehicle starts to lean in mud, recovery is very difficult. Straight in, straight out where the terrain allows.</span></span></li>
+      <li><span class="cl-num">▸</span><span class="cl-text"><span class="cl-label">Survey the exit before entry.</span> <span class="cl-note">A passable entry with an impassable exit is a trap. Walk the whole crossing, not just the entry.</span></span></li>
+      <li><span class="cl-num">▸</span><span class="cl-text"><span class="cl-label">Tyre pressure.</span> <span class="cl-note">In clay and black cotton, lower pressure is a double-edged sword — wider footprint but lower ground clearance and more suction. On most mud types, standard sand-deflated pressures (1.2–1.4 bar / 17–20 PSI) are appropriate. Do not go to extreme sand pressures on mud.</span></span></li>
+    </ul>
+
+    <div class="sub-head">Throttle and Steering Discipline</div>
+    <div class="cause-list">
+      <li>
+        <span class="cause-num">1</span>
+        <span class="cause-text"><span class="cause-label">Smooth, consistent throttle.</span> <span class="cause-note">In mud, wheelspin is your enemy. The moment a tyre breaks traction in clay or black cotton, it excavates a hole that the vehicle sinks into. Apply power steadily and progressively — the turbo 1HZ's torque is an asset; its sudden onset is a liability in mud.</span></span>
+      </li>
+      <li>
+        <span class="cause-num">2</span>
+        <span class="cause-text"><span class="cause-label">Minimal steering corrections.</span> <span class="cause-note">Every steering input pushes the front tyres sideways through the mud rather than forward. Once you have selected your line, hold it with the smallest corrections possible. Large corrections mid-crossing create resistance and slow you down critically.</span></span>
+      </li>
+      <li>
+        <span class="cause-num">3</span>
+        <span class="cause-text"><span class="cause-label">Do not stop.</span> <span class="cause-note">Once you are committed and moving, finish the crossing. Stopping in mud to reconsider is rarely recoverable without assistance. If you must stop, deploy recovery gear immediately — do not allow the vehicle to settle deeper.</span></span>
+      </li>
+    </div>
+
+    <div class="warn-box">
+      <strong>When you stop moving in mud — immediate response:</strong> Ease off throttle instantly. Do not spin wheels. Assess depth, suction, and available anchor points before your next move. Rocking (forward/reverse alternating) works briefly in light mud; in heavy clay or black cotton it deepens the hole rapidly. Deploy recovery boards or call for a snatch recovery. Cross-ref R9.
+    </div>
+
+    <div class="sub-head">Mud and the 1HZ — Intake, Cooling, Underbody</div>
+    <div class="cause-list">
+      <li>
+        <span class="cause-num">1</span>
+        <span class="cause-text"><span class="cause-label">Air filter risk.</span> <span class="cause-note">The 1HZ's air intake path runs through the pre-cleaner and paper element. Fine mud spray — particularly laterite dust mixed with rain — bypasses the pre-cleaner and loads the main element rapidly. Check and service the air filter after any extended mud running. A restricted filter dramatically reduces power and increases EGT. Cross-ref R4, R18.</span></span>
+      </li>
+      <li>
+        <span class="cause-num">2</span>
+        <span class="cause-text"><span class="cause-label">Radiator blockage.</span> <span class="cause-note">Mud splatter packs the radiator core within a single crossing in thick conditions. Monitor coolant temperature continuously in mud work. At first sign of rising temperature, stop and clean the radiator face — flush with water, not pressure (the core fins bend easily). Cross-ref R22.</span></span>
+      </li>
+      <li>
+        <span class="cause-num">3</span>
+        <span class="cause-text"><span class="cause-label">Underbody packing.</span> <span class="cause-note">Clay mud sets hard under the vehicle. After a heavy mud section, inspect and clear: leaf spring pockets (impedes suspension articulation), diff breather tubes (check for mud packing), undercarriage generally. Do not let clay set before cleaning — it becomes concrete.</span></span>
+      </li>
+    </div>
+
+    <div class="sub-head">Post-Mud Inspection Priorities</div>
+    <ul class="checklist">
+      <li><span class="cl-num">1</span><span class="cl-text"><span class="cl-label">Brakes.</span> <span class="cl-note">Mud packs between pads and rotors, causing temporary brake fade or noise. After a mud crossing, drag the brakes gently for 50 m at low speed to clear mud from the rotors. Check that brake feel returns to normal within 200 m.</span></span></li>
+      <li><span class="cl-num">2</span><span class="cl-text"><span class="cl-label">Diff breathers.</span> <span class="cl-note">Front axle, rear axle, and transfer case breathers can become submerged or packed. Check that they are clear and unobstructed. If any show signs of mud ingress, check diff oil immediately for water contamination (milky appearance).</span></span></li>
+      <li><span class="cl-num">3</span><span class="cl-text"><span class="cl-label">Front hubs.</span> <span class="cl-note">Even with manually-locked hubs, mud can work into the hub seal interface. Cross-ref R13 drivetrain section for hub inspection procedure after heavy mud work.</span></span></li>
+      <li><span class="cl-num">4</span><span class="cl-text"><span class="cl-label">Air filter.</span> <span class="cl-note">Check pre-cleaner and main element. Tap out, inspect, replace if in doubt. On expedition, carry at least one spare main element.</span></span></li>
+      <li><span class="cl-num">5</span><span class="cl-text"><span class="cl-label">Underbody pack.</span> <span class="cl-note">While vehicle is still accessible and mud is still wet, clear spring pockets, shock lower mounts, and any packed material from brake components.</span></span></li>
+    </ul>
+
+    <div class="xref-bar">
+      <span class="xref-label">Cross-reference</span>
+      <span class="xref-pill">R9 Vehicle Recovery</span>
+      <span class="xref-pill">R13 Drivetrain</span>
+      <span class="xref-pill">R22 Cooling System</span>
+      <span class="xref-pill">R27 Bush Mechanics</span>
+    </div>
+  </div><!-- /s-mud -->
+
+
+  <!-- ══ SECTION 3: ROCK / TECHNICAL TERRAIN ══ -->
+  <div id="s-rock" class="sa">
+    <div class="section-head">3 — Rock / Technical Terrain</div>
+    <p class="section-intro">Rock and technical terrain rewards patience and penalises urgency more than any other surface. The 76 SW's long wheelbase is its primary liability here — the break-over angle is reduced compared to a short-wheelbase vehicle, and the rear overhang can strike on exit ramps. Speed is measured in metres per minute, not km/h.</p>
+
+    <div class="sub-head">Tyre Pressure on Rock</div>
+    <p style="font-size:13px;color:var(--steelmd);margin:10px 0 8px;font-style:italic;">Lower pressure increases sidewall flex and ground contact — but too low on sharp rock creates sidewall cuts that go through the carcass. The 265/75R16 AT has a reasonable sidewall height for this compromise.</p>
+
+    <table class="specs-table">
+      <thead>
+        <tr>
+          <th style="width:28%">Rock Type</th>
+          <th style="width:20%">Pressure (bar)</th>
+          <th style="width:18%">Pressure (PSI)</th>
+          <th>Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Hard smooth rock / ledge work</strong></td>
+          <td class="mono">1.6–1.8 bar</td>
+          <td class="mono">23–26 PSI</td>
+          <td>Sidewall protection priority. Smooth surface means grip is not tyre-footprint limited. Maintain structural integrity.</td>
+        </tr>
+        <tr>
+          <td><strong>Broken rock / boulder field</strong></td>
+          <td class="mono">1.4–1.6 bar</td>
+          <td class="mono">20–23 PSI</td>
+          <td>Some flex benefit for contouring irregular surfaces. Do not go below 1.4 bar on sharp angular rock with the 76's GVM.</td>
+        </tr>
+        <tr>
+          <td><strong>Rocky track / corrugated stone</strong></td>
+          <td class="mono">1.8–2.0 bar</td>
+          <td class="mono">26–29 PSI</td>
+          <td>Sidewall protection on square-edged stone predominates. Lower pressure gives more pinch-flat risk than traction benefit.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="warn-box">
+      <strong>Minimum rock pressure — 1.4 bar (20 PSI).</strong> Below this on sharp rock, the 265/75R16 AT sidewall flexes enough to contact the rock face at the tyre bead area. A bead bruise does not fail immediately — it fails 20 km later under load. Maintain the 35 PSI (2.4 bar) top-up capability in your compressor kit to restore pressure quickly after soft terrain transitions to rock.
+    </div>
+
+    <div class="sub-head">Wheel Placement — Tyre, Not Vehicle</div>
+    <div class="principle-grid">
+      <div class="principle-card">
+        <div class="p-num">Principle 01</div>
+        <div class="p-title">One Wheel at a Time</div>
+        <div class="p-body">Plan each wheel placement individually before moving. Identify where each tyre will land before applying power. In a boulder field, the right line is the one where three wheels are stable while the fourth crosses the obstacle — not the one that looks straightest from the driver's seat.</div>
+      </div>
+      <div class="principle-card">
+        <div class="p-num">Principle 02</div>
+        <div class="p-title">Drive the Tyres</div>
+        <div class="p-body">Your point of focus should be the tyre contact patch, not the bonnet. Where the tyre sits determines everything: clearance, stability, articulation. Develop the habit of memorising exactly where your tyres are relative to obstacles — on the 76, left front tyre is approximately 850 mm inboard of the left mirror and 300 mm in from the door sill.</div>
+      </div>
+      <div class="principle-card">
+        <div class="p-num">Principle 03</div>
+        <div class="p-title">Use the Suspension</div>
+        <div class="p-body">The OME medium lift setup on this vehicle is designed for cross-axle articulation. Let it work. Keeping three tyres on the ground while the fourth lifts is normal and correct. Do not rush the crossing — give the suspension time to articulate before applying more power.</div>
+      </div>
+      <div class="principle-card">
+        <div class="p-num">Principle 04</div>
+        <div class="p-title">Momentum is Minimal</div>
+        <div class="p-body">Rock driving speed is near-walking pace. The goal is control, not speed. Momentum helps only in rare specific situations (climbing out of a deep step). For all other rock work, creep through under power — the brakes are for stopping safely, not for slowing on the obstacle.</div>
+      </div>
+    </div>
+
+    <div class="sub-head">Diff Locks — When to Engage and Disengage</div>
+    <div class="cause-list">
+      <li>
+        <span class="cause-num">1</span>
+        <span class="cause-text"><span class="cause-label">Engage before the obstacle, not on it.</span> <span class="cause-note">The transfer case and front/rear diff locks must be engaged and confirmed before you enter technical terrain. Attempting to engage a diff lock when one wheel is spinning or airborne can damage the locking mechanism. Stop, engage, confirm light, then enter.</span></span>
+      </li>
+      <li>
+        <span class="cause-num">2</span>
+        <span class="cause-text"><span class="cause-label">Disengage before returning to open terrain.</span> <span class="cause-note">A locked diff on a flat, grippy surface creates understeer and places severe stress on the drivetrain when cornering. The 76's front diff lock in particular must be disengaged before returning to maintained tracks. Cross-ref R13.</span></span>
+      </li>
+      <li>
+        <span class="cause-num">3</span>
+        <span class="cause-text"><span class="cause-label">Part-time 4WD — no centre differential lock (CDL).</span> <span class="cause-note">This vehicle has no CDL. In 4WD on a grippy surface, transmission wind-up occurs. Never use 4H on hard tar or compacted gravel — return to 2H when the terrain improves. Cross-ref R13.</span></span>
+      </li>
+    </div>
+
+    <div class="sub-head">Approach, Break-Over, and Departure Angles — LC76 SW</div>
+    <div class="info-box">
+      <strong>LC76 SW geometry:</strong> Approach angle ~35°. Break-over angle ~20° (reduced by long 2,850 mm wheelbase). Departure angle ~25° (rear overhang and tow bar receiver reduce effective clearance). The break-over angle is the critical constraint — the belly between the axles will ground on any obstacle the clearance geometry suggests should be passable. When in doubt, use a spotter for break-over assessment before crossing step obstacles.
+    </div>
+
+    <div class="sub-head">Spotter Signals</div>
+    <ul class="checklist">
+      <li><span class="cl-num">▸</span><span class="cl-text"><span class="cl-label">Spotter positions beside and slightly behind the driver's door</span> — good sight line to front obstacle and rear departure. Never directly behind the vehicle.</span></li>
+      <li><span class="cl-num">▸</span><span class="cl-text"><span class="cl-label">Come forward:</span> <span class="cl-note">Open hand, palm up, beckoning gesture. Speed control by gesture pace — slow beckoning = creep.</span></span></li>
+      <li><span class="cl-num">▸</span><span class="cl-text"><span class="cl-label">Stop immediately:</span> <span class="cl-note">Fist raised and held. Non-negotiable — driver responds immediately without question.</span></span></li>
+      <li><span class="cl-num">▸</span><span class="cl-text"><span class="cl-label">Steer left / steer right:</span> <span class="cl-note">Flat hand pointing in direction. Degree of urgency shown by speed of gesture and distance of point.</span></span></li>
+      <li><span class="cl-num">▸</span><span class="cl-text"><span class="cl-label">Reverse:</span> <span class="cl-note">Both hands, palms facing driver, pushing backward motion.</span></span></li>
+      <li><span class="cl-num">▸</span><span class="cl-text"><span class="cl-label">OK / proceed without guidance:</span> <span class="cl-note">Both thumbs up. Spotter steps clear.</span></span></li>
+    </ul>
+
+    <div class="warn-box">
+      <strong>High-centering:</strong> The 76 SW is at genuine risk of high-centering on sharp step obstacles due to its reduced break-over angle. Prevention: never assume clearance — use a spotter for any step obstacle over approximately 250 mm. Response once high-centred: do not spin wheels, assess which axle is the primary support point, deploy high-lift jack and recovery boards. Cross-ref R9.
+    </div>
+
+    <div class="xref-bar">
+      <span class="xref-label">Cross-reference</span>
+      <span class="xref-pill">R9 Vehicle Recovery</span>
+      <span class="xref-pill">R13 Drivetrain Training</span>
+      <span class="xref-pill">R14 Tyre Management</span>
+      <span class="xref-pill">Tyre Pressure Calculator</span>
+    </div>
+  </div><!-- /s-rock -->
+
+
+  <!-- ══ SECTION 4: WATER CROSSINGS ══ -->
+  <div id="s-water" class="sa">
+    <div class="section-head">4 — Water Crossings</div>
+    <p class="section-intro">A water crossing is one of the few off-road situations where a single mistake can result in total vehicle loss rather than a recoverable bog. The decision to cross requires discipline: the vehicle is not built for submersion, and ego has drowned more overlanders' equipment than any river. Walk it first. Always.</p>
+
+    <div class="sub-head">Assessment Before Entry</div>
+    <div class="three-q">
+      <div class="q-card">
+        <div class="q-num">Q1</div>
+        <div class="q-text">What is the depth?</div>
+        <div class="q-note"><span class="q-yes">Safe limit:</span> ~600 mm without snorkel. Walk it with a stick. At vehicle-width, check mid-channel depth, not just edges. Deep entry channel and shallow far side is still a crossing — assess the deep point.</div>
+      </div>
+      <div class="q-card">
+        <div class="q-num">Q2</div>
+        <div class="q-text">What is the current?</div>
+        <div class="q-note"><span class="q-yes">Passable:</span> You can stand in it without bracing hard.<br><span class="q-no">Danger:</span> Thigh-deep current that moves you = vehicle-moving force. Water moving a vehicle sideways at depth creates capsize or sweeping risk.</div>
+      </div>
+      <div class="q-card">
+        <div class="q-num">Q3</div>
+        <div class="q-text">What is the bottom?</div>
+        <div class="q-note">Rock: firm but tyre slip risk. Sand/gravel: usually firm unless fine silt. Clay/mud: can sink suddenly. Probe with stick for soft patches. Hidden obstacles — submerged rocks, tree limbs — are common. Walk the line.</div>
+      </div>
+    </div>
+
+    <div class="sub-head">Pre-Crossing Preparation</div>
+
+    <div class="signal-chain">
+      <span class="sc-step">Front hubs locked</span>
+      <span class="sc-arrow">→</span>
+      <span class="sc-step">Low range engaged</span>
+      <span class="sc-arrow">→</span>
+      <span class="sc-step">Diff locks set</span>
+      <span class="sc-arrow">→</span>
+      <span class="sc-step">Windows cracked</span>
+      <span class="sc-arrow">→</span>
+      <span class="sc-step">Snorkel confirmed clear</span>
+      <span class="sc-arrow">→</span>
+      <span class="sc-step">Entry point confirmed</span>
+    </div>
+
+    <div class="note-box">
+      <strong>Windows cracked, not open.</strong> In a submersion or capsizing event, electric windows may fail — a cracked window allows water pressure to equalise more quickly and the door to be opened. This is not permission to enter a crossing where submersion is a likely outcome. It is a safety measure for worst-case unexpected depth changes.
+    </div>
+
+    <div class="sub-head">Crossing Technique</div>
+    <div class="cause-list">
+      <li>
+        <span class="cause-num">1</span>
+        <span class="cause-text"><span class="cause-label">Slow and steady — maintain bow wave.</span> <span class="cause-note">Enter at a consistent pace that creates a small bow wave ahead of the vehicle. The bow wave reduces the effective water depth around the engine bay by 50–100 mm. A speed of 5–8 km/h is typically correct. Too slow = no wave protection; too fast = wave breaks over the bonnet.</span></span>
+      </li>
+      <li>
+        <span class="cause-num">2</span>
+        <span class="cause-text"><span class="cause-label">Do not stop mid-crossing.</span> <span class="cause-note">Stopping kills the bow wave and allows water depth to equalise around the vehicle — including around the exhaust outlet and diff breathers. If you stop unavoidably, restart immediately and maintain momentum.</span></span>
+      </li>
+      <li>
+        <span class="cause-num">3</span>
+        <span class="cause-text"><span class="cause-label">Do not change gear mid-crossing.</span> <span class="cause-note">Select second gear low range before entry. Maintain it throughout. A gear change mid-crossing interrupts power and can allow water ingestion through the exhaust on overrun.</span></span>
+      </li>
+    </div>
+
+    <div class="sub-head">1HZ-Specific: Air Intake and Depth Limits</div>
+    <div class="info-box">
+      <strong>Without snorkel:</strong> The standard 1HZ air intake is positioned approximately 600 mm above ground level. Crossing depth should not exceed 500–550 mm without a snorkel — allowing margin for wave action and uneven bottoms. The engine ingesting water causes hydraulic lock — connecting rod failure. This is not recoverable in the field.<br><br>
+      <strong>With snorkel installed:</strong> Practical crossing depth increases to approximately 800 mm (water at door sill level) depending on crossing speed and wave management. This vehicle does not currently have a snorkel fitted. Until one is installed, the 600 mm rule applies strictly.
+    </div>
+
+    <div class="sub-head">Post-Crossing Inspection</div>
+    <ul class="checklist">
+      <li><span class="cl-num">1</span><span class="cl-text"><span class="cl-label">Brake drag to dry rotors.</span> <span class="cl-note">Immediately after exit, apply light sustained brake pressure for 100–150 m to dry and clean the brake rotors and pads. Check that brake feel returns to full normal within 300 m.</span></span></li>
+      <li><span class="cl-num">2</span><span class="cl-text"><span class="cl-label">Diff and hub inspection for water ingress.</span> <span class="cl-note">After any crossing above 400 mm, check differential oil for water contamination (check plug — milky or foamy oil is contaminated). Front hubs: check for water in the hub cavity. Cross-ref R13.</span></span></li>
+      <li><span class="cl-num">3</span><span class="cl-text"><span class="cl-label">Air filter inspection.</span> <span class="cl-note">Any crossing where bow wave exceeded bonnet height — check the air filter immediately. Water in the filter element restricts airflow and can allow moisture into the intake tract.</span></span></li>
+      <li><span class="cl-num">4</span><span class="cl-text"><span class="cl-label">Service history trigger.</span> <span class="cl-note">Any deep crossing (above 400 mm) should be logged in R8 Service History as a maintenance trigger: diff oil check, brake inspection, hub inspection at or before next scheduled service.</span></span></li>
+    </ul>
+
+    <div class="warn-box">
+      <strong>Fail states — know these before you enter:</strong><br>
+      <strong>Stalled mid-crossing:</strong> Do not attempt to restart. Attempting to restart a hydrostatically locked engine destroys it. Winch or snatch-recover the vehicle rearward immediately. Cross-ref R9.<br>
+      <strong>Swept vehicle:</strong> If current begins to move the vehicle sideways, exit via the upstream door (opens against the current, easier to push open). Do not fight the current from inside the vehicle.<br>
+      <strong>Door seal failure:</strong> Water entering the cabin rapidly — exit via window if doors cannot be opened due to pressure. Practice window-exit drill before needing it.
+    </div>
+
+    <div class="xref-bar">
+      <span class="xref-label">Cross-reference</span>
+      <span class="xref-pill">R8 Service History</span>
+      <span class="xref-pill">R9 Vehicle Recovery</span>
+      <span class="xref-pill">R13 Drivetrain Training</span>
+    </div>
+  </div><!-- /s-water -->
+
+
+  <!-- ══ SECTION 5: CORRUGATIONS ══ -->
+  <div id="s-corrugations" class="sa">
+    <div class="section-head">5 — Corrugations</div>
+    <p class="section-intro">Corrugations are the daily reality of remote overland travel — not a dramatic terrain challenge, but a relentless mechanical stress test that loosens fasteners, fatigues components, and degrades the vehicle over thousands of kilometres. They are also the terrain type most likely to be underestimated.</p>
+
+    <div class="sub-head">The Physics of Corrugation</div>
+    <div class="cause-list">
+      <li>
+        <span class="cause-num">1</span>
+        <span class="cause-text"><span class="cause-label">Resonant frequency trap.</span> <span class="cause-note">Corrugations form at the resonant frequency of the average vehicle's suspension. At low speed, the vehicle bounces into every corrugation. There is typically a speed band — often 70–90 km/h on gravel — where the vehicle "floats" above the corrugations on its suspension. This is not intuitive: going faster feels smoother and is in fact less damaging to the vehicle.</span></span>
+      </li>
+      <li>
+        <span class="cause-num">2</span>
+        <span class="cause-text"><span class="cause-label">Finding the float speed.</span> <span class="cause-note">The OME medium-lift setup on this vehicle (coils front, leaf rear) shifts the float speed slightly compared to standard. Experiment on the first corrugated section to find the speed where harshness reduces. The 76 typically floats at around 75–85 km/h on established corrugated gravel roads. Conditions vary: a loaded vehicle floats differently from an unloaded one.</span></span>
+      </li>
+      <li>
+        <span class="cause-num">3</span>
+        <span class="cause-text"><span class="cause-label">When float is not possible.</span> <span class="cause-note">On severely corrugated tracks or where speed is restricted by curves, terrain, or dust, slow down to below 30 km/h and pick a line — often the edge of the track has fewer corrugations than the centre. Accept the rough ride. Do not try to float in marginal conditions where speed itself creates hazard.</span></span>
+      </li>
+    </div>
+
+    <div class="sub-head">Load Distribution Effect</div>
+    <div class="note-box">
+      The rear leaf spring setup reacts to corrugations differently at different load levels. An unloaded 76 with an empty roof and bare cargo bay will bounce more harshly than an expedition-loaded vehicle because the leaves are stiffer relative to the weight. The OME CS058R rear leaf is rated for medium-heavy loads — at full expedition load (~2,450 kg actual), the suspension is in its operating range and corrugation behaviour improves. Position heavier, denser cargo low and rearward for best corrugation compliance.
+    </div>
+
+    <div class="sub-head">Fastener and Component Fatigue — Known LC76 Vulnerabilities</div>
+    <div class="terrain-grid">
+      <div class="terrain-card">
+        <div class="tc-head">
+          <span class="tc-name">Exhaust System</span>
+          <span class="tc-tag tag-high">HIGH FATIGUE</span>
+        </div>
+        <div class="tc-body">The factory and aftermarket exhaust hangers crack at the weld points over extended corrugation exposure. The Powerflow system (Andrea) uses better hanger material, but check all hanger points after 500 km of corrugated driving. Exhaust noise increase is the primary symptom.</div>
+      </div>
+
+      <div class="terrain-card">
+        <div class="tc-head">
+          <span class="tc-name">Body Mounts & Bolts</span>
+          <span class="tc-tag tag-high">HIGH FATIGUE</span>
+        </div>
+        <div class="tc-body">The 76 body-to-chassis mounting bolts loosen progressively on corrugations. Include all body mount bolts in the post-corrugation inspection. Loose mounts cause body creak, misaligned doors, and eventual fatigue cracking around the mount points.</div>
+      </div>
+
+      <div class="terrain-card">
+        <div class="tc-head">
+          <span class="tc-name">Shock Absorber Mounts</span>
+          <span class="tc-tag tag-med">MODERATE</span>
+        </div>
+        <div class="tc-body">Upper and lower mount bolts (OME Nitrocharger Plus front and rear) work loose on sustained corrugations. Check torque on both front N181 and rear 63111 mounts after 500 km corrugated sections. A loose shock mount sounds like a rhythmic knock on rough surfaces.</div>
+      </div>
+
+      <div class="terrain-card">
+        <div class="tc-head">
+          <span class="tc-name">Electrical Connections</span>
+          <span class="tc-tag tag-med">VARIABLE</span>
+        </div>
+        <div class="tc-body">Vibration fatigues crimp connections, Deutsch connector retention springs, and Victron-to-battery terminal connections. After 1,000 km of significant corrugation, inspect all electrical connections in the cargo area — particularly the LiFePO4 battery terminals and BMS connections.</div>
+      </div>
+
+      <div class="terrain-card">
+        <div class="tc-head">
+          <span class="tc-name">Wheel Nut Torque</span>
+          <span class="tc-tag tag-high">CRITICAL</span>
+        </div>
+        <div class="tc-body">Wheel nuts back off on corrugations — more so at float speed where vibration frequency couples with the lug nut thread pitch. Check wheel nut torque every 500 km on extended corrugated sections. 120 Nm standard. A loose wheel sounds like a rhythmic rumble or whump at speed.</div>
+      </div>
+
+      <div class="terrain-card">
+        <div class="tc-head">
+          <span class="tc-name">Roof Rack Mounting</span>
+          <span class="tc-tag tag-med">MODERATE</span>
+        </div>
+        <div class="tc-body">Any roof-mounted rack on the 76 creates a high centre-of-gravity vibration amplifier. Roof rack attachment bolts — to the roof rail and gutter — fatigue progressively. Check all rack mounts at each post-corrugation inspection. A loose rack damages the roof rail and can eventually deform the roof skin.</div>
+      </div>
+    </div>
+
+    <div class="sub-head">Tyre Pressures on Corrugations</div>
+    <div class="ok-box">
+      <strong>Corrugation pressure:</strong> Slightly above sand deflation pressure — typically <span style="font-family:'IBM Plex Mono',monospace; font-weight:600;">1.6–1.8 bar (23–26 PSI)</span> for the 265/75R16 AT at expedition load. Lower pressures on corrugations increase sidewall flexing that generates heat and risks bead loosening at float speeds. The extra 0.2–0.4 bar above sand pressure protects the sidewall and maintains vehicle control at higher speeds.
+    </div>
+
+    <div class="sub-head">Post-Corrugation Inspection Checklist</div>
+    <ul class="checklist">
+      <li><span class="cl-num">1</span><span class="cl-text"><span class="cl-label">Wheel nut torque — all five per wheel.</span> <span class="cl-note">120 Nm. Use torque wrench, not feel.</span></span></li>
+      <li><span class="cl-num">2</span><span class="cl-text"><span class="cl-label">Exhaust hanger visual — all mounting points.</span> <span class="cl-note">Check for cracks, detachment, rubber deterioration.</span></span></li>
+      <li><span class="cl-num">3</span><span class="cl-text"><span class="cl-label">Shock mount bolts — front and rear, both sides.</span> <span class="cl-note">Check torque. Creaking or knocking on bumps = first symptom.</span></span></li>
+      <li><span class="cl-num">4</span><span class="cl-text"><span class="cl-label">Body mount bolts — accessible points.</span> <span class="cl-note">Front and rear body-to-chassis mounts particularly.</span></span></li>
+      <li><span class="cl-num">5</span><span class="cl-text"><span class="cl-label">Roof rack mounts — all attachment points.</span></span></li>
+      <li><span class="cl-num">6</span><span class="cl-text"><span class="cl-label">Electrical connections — Victron battery terminals and BMS.</span></span></li>
+      <li><span class="cl-num">7</span><span class="cl-text"><span class="cl-label">General cargo bay walkthrough — what has moved, shifted, or come loose.</span></span></li>
+    </ul>
+  </div><!-- /s-corrugations -->
+
+
+  <!-- ══ SECTION 6: ALTITUDE ══ -->
+  <div id="s-altitude" class="sa">
+    <div class="section-head">6 — Altitude</div>
+    <p class="section-intro">The route crosses significant altitude changes — from sea level coastal sections to plateau elevations above 3,000 m. Altitude affects the 1HZ's performance, the turbocharger's operating envelope, cold-start behaviour, and the cooling system's ability to maintain safe temperatures.</p>
+
+    <div class="sub-head">1HZ Power Loss at Altitude</div>
+    <div class="info-box">
+      <strong>Naturally-aspirated baseline:</strong> The 1HZ loses approximately 3% of power per 300 m of altitude above sea level due to reduced air density. The SAC low-boost turbocharger partially compensates — but turbo boost pressure also falls as air density decreases. At 3,000 m altitude, expect power to be noticeably reduced — reserve your assessment of the engine's condition for sea-level operation. What feels like an engine problem at altitude may simply be altitude derating. Cross-ref R4, R18.
+    </div>
+
+    <div class="sub-head">EGT Behaviour at Altitude</div>
+    <div class="cause-list">
+      <li>
+        <span class="cause-num">1</span>
+        <span class="cause-text"><span class="cause-label">EGT rises at altitude under equivalent load.</span> <span class="cause-note">Less oxygen per unit volume means the injected fuel-to-air ratio increases for a given throttle position. The engine runs richer at altitude without any change in driver input, which raises exhaust gas temperature. If you have an EGT gauge, establish your sea-level normal range first and apply an altitude correction of approximately +20–30°C per 1,000 m under equivalent load. Cross-ref R21 Turbo Operations.</span></span>
+      </li>
+      <li>
+        <span class="cause-num">2</span>
+        <span class="cause-text"><span class="cause-label">Manage EGT proactively at altitude.</span> <span class="cause-note">On steep climbs above 2,000 m, reduce load by selecting a lower gear earlier than you would at sea level. This keeps engine speed higher and fuelling lower for a given road speed, reducing EGT. Do not sustain maximum throttle on long climbs at high altitude — rest the engine on descents.</span></span>
+      </li>
+    </div>
+
+    <div class="sub-head">Diesel Quality at Altitude</div>
+    <div class="note-box">
+      Diesel quality at remote high-altitude fuel depots can be variable — older or degraded stock is more common the further you are from major supply routes. Poor-quality diesel burns less efficiently, raises EGT further, and can produce visible black smoke under load at altitude even from a healthy engine. If the vehicle produces heavy black smoke on a grade and clears at lower altitude, consider fuel quality as the variable. Cross-ref R24 Fuel System Guide.
+    </div>
+
+    <div class="sub-head">Cold Starting at Altitude</div>
+    <div class="cause-list">
+      <li>
+        <span class="cause-num">1</span>
+        <span class="cause-text"><span class="cause-label">Glow plug discipline — full cycle.</span> <span class="cause-note">At altitude above 2,000 m with overnight ambient temperatures below 5°C, the glow plug warm-up cycle is critical. Allow the full glow indicator to complete and hold for a further 3–5 seconds before cranking. The 1HZ requires a successful compression ignition — thin air and cold temperatures reduce the margin available for a marginal glow plug. Cross-ref R4, R18.</span></span>
+      </li>
+      <li>
+        <span class="cause-num">2</span>
+        <span class="cause-text"><span class="cause-label">Wait — do not crank repeatedly.</span> <span class="cause-note">If the engine does not fire on the first crank, wait 30 seconds before the second attempt. Repeated cranking without waiting floods the cylinders with unburnt fuel, contaminating the oil and making the next start attempt harder. Two full glow cycles if necessary. Cross-ref R18 for non-start diagnostic sequence.</span></span>
+      </li>
+    </div>
+
+    <div class="sub-head">Mountain Pass Technique</div>
+    <div class="cause-list">
+      <li>
+        <span class="cause-num">1</span>
+        <span class="cause-text"><span class="cause-label">Engine braking on long descents — gear selection.</span> <span class="cause-note">Select the same gear you would use to climb the grade. On a long 10% descent, if you climbed in 2nd low range, descend in 2nd low range. The R151F and transfer case provide engine braking that spares the brakes on sustained grades. Avoid riding the brakes continuously — brake fade on a mountain pass is a serious emergency.</span></span>
+      </li>
+      <li>
+        <span class="cause-num">2</span>
+        <span class="cause-text"><span class="cause-label">Brake fade prevention.</span> <span class="cause-note">Apply brakes firmly to scrub speed, then release fully to allow cooling. Do not drag brakes. If brake pedal begins to feel soft or spongy on a long descent, stop immediately, allow 5–10 minutes of cooling with wheels stationary, then continue with more aggressive engine braking. Cross-ref R10 Emergency Procedures.</span></span>
+      </li>
+    </div>
+
+    <div class="sub-head">Cooling System at Altitude</div>
+    <div class="warn-box">
+      <strong>Boiling point drops with altitude:</strong> At sea level, coolant with a 50/50 mix boils at approximately 129°C (with a 1.0 bar pressure cap). At 3,000 m altitude, atmospheric pressure is reduced, and the system boiling point drops by approximately 9–12°C. A borderline cooling system that manages at sea level can overheat on a long Alpine-style climb at altitude. The pressure cap's condition is critical — a weakened cap that vents early reduces the boiling point further. Check pressure cap condition before any high-altitude section. Cross-ref R22 Cooling System Guide.
+    </div>
+
+    <div class="xref-bar">
+      <span class="xref-label">Cross-reference</span>
+      <span class="xref-pill">R4 Engine Training</span>
+      <span class="xref-pill">R10 Emergency Procedures</span>
+      <span class="xref-pill">R18 1HZ Troubleshooting</span>
+      <span class="xref-pill">R21 Turbo Operations</span>
+      <span class="xref-pill">R22 Cooling System</span>
+      <span class="xref-pill">R24 Fuel System Guide</span>
+    </div>
+  </div><!-- /s-altitude -->
+
+
+  <!-- ══ SECTION 7: NIGHT DRIVING ══ -->
+  <div id="s-night" class="sa">
+    <div class="section-head">7 — Night Driving</div>
+    <p class="section-intro">The default position for overland travel in remote areas is: do not drive after dark. This is not timidity — it is risk management. In most situations, the risks of driving at night outweigh any schedule benefit. This section defines when the rule applies, when exceptions are warranted, and how to manage night driving when unavoidable.</p>
+
+    <div class="sub-head">When to Drive at Night — and When Not To</div>
+    <div class="risk-band">
+      <div class="rb-card rb-high">
+        <div class="rb-label">High Risk — Do Not Drive</div>
+        <div class="rb-text">Rural roads after 21:00. Unfamiliar road. Near major waterhole or park boundary. Livestock country. No GPS waypoints loaded. Fatigued driver or co-driver. Any technical terrain ahead.</div>
+      </div>
+      <div class="rb-card rb-med">
+        <div class="rb-label">Moderate Risk — Proceed With Caution</div>
+        <div class="rb-text">Known road, well-lit town-to-town section. GPS waypoints confirmed. Both occupants alert. Speed under 80 km/h. Clear weather, good visibility. Defined destination within 60 minutes. Stopping points identified on route.</div>
+      </div>
+      <div class="rb-card rb-low">
+        <div class="rb-label">Lower Risk — Acceptable If Required</div>
+        <div class="rb-text">Paved well-trafficked road. Urban or peri-urban context. Daylight departure delayed unavoidably. Short distance to known safe stopping point. Both occupants involved and alert. Agreed stopping criteria in place.</div>
+      </div>
+    </div>
+
+    <div class="note-box">
+      <strong>The rule:</strong> Do not drive after dark unless the risk of stopping outweighs the risk of driving. An empty fuel tank, a dangerous stopping environment, or an impending border closure may all justify night driving. But "we want to make the next campsite" does not. If in doubt, stop before dark and resume at dawn.
+    </div>
+
+    <div class="sub-head">Lighting</div>
+    <div class="cause-list">
+      <li>
+        <span class="cause-num">1</span>
+        <span class="cause-text"><span class="cause-label">Factory headlight output.</span> <span class="cause-note">The 76 series factory H4 headlights provide adequate but not generous illumination at speeds over 70 km/h. At 100 km/h on an unfamiliar road in darkness, stopping distance may exceed visible range. If night driving is a regular expectation, supplementary lighting is appropriate.</span></span>
+      </li>
+      <li>
+        <span class="cause-num">2</span>
+        <span class="cause-text"><span class="cause-label">Supplementary lighting philosophy.</span> <span class="cause-note">Driving lights mounted at bumper height give better road surface illumination than roof-mounted lights, which produce a flat, shadow-reducing light. Roof lights are useful for slow navigation and camp work, not high-speed night driving. Do not over-light to the point where you feel confident exceeding safe speeds.</span></span>
+      </li>
+    </div>
+
+    <div class="sub-head">Animal Strike Risk</div>
+    <div class="warn-box">
+      Livestock (cattle, donkeys, goats) and large game near waterholes are the primary night driving hazard in remote areas. Animals on dark roads are often not visible until they are within 30–50 m. A speed of 60–70 km/h at night in rural livestock country gives adequate stopping distance; 100 km/h does not. Hitting a large animal at speed is a severe accident — vehicle-totalling, injury-causing. Slow down after dark in animal country. There is no exception.
+    </div>
+
+    <div class="sub-head">Navigation at Night</div>
+    <ul class="checklist">
+      <li><span class="cl-num">▸</span><span class="cl-text"><span class="cl-label">GPS-only navigation after dark.</span> <span class="cl-note">Map-reading at night requires interior light, which destroys night vision. Load waypoints and route before sunset. Use voice guidance or a co-driver managing the GPS display. The driver's eyes remain on the road. Cross-ref R16.</span></span></li>
+      <li><span class="cl-num">▸</span><span class="cl-text"><span class="cl-label">Pre-set the return-to-road waypoint before entering any off-road night section.</span> <span class="cl-note">If night driving is forced by circumstance mid-track, mark your current GPS position before the track begins so you can navigate back if necessary.</span></span></li>
+      <li><span class="cl-num">▸</span><span class="cl-text"><span class="cl-label">Do not use internal map light while driving.</span> <span class="cl-note">Even brief interior lighting destroys night adaptation. Allow 10 minutes for full night vision recovery.</span></span></li>
+    </ul>
+
+    <div class="sub-head">Fatigue Management</div>
+    <div class="cause-list">
+      <li>
+        <span class="cause-num">1</span>
+        <span class="cause-text"><span class="cause-label">The 22:00 rule.</span> <span class="cause-note">After 22:00, the default position is stop unless there is a specific and compelling reason to continue. Fatigue impairment at 22:00 after a full day of driving is equivalent to low-level intoxication. This is not negotiable on the expedition. Agree it before departure.</span></span>
+      </li>
+      <li>
+        <span class="cause-num">2</span>
+        <span class="cause-text"><span class="cause-label">Co-driver role at night.</span> <span class="cause-note">The co-driver is the driver's dedicated safety system after dark: navigating, watching for animals and obstacles, monitoring fuel and time, and monitoring the driver for fatigue signs. The co-driver does not sleep until the vehicle is stopped for the night.</span></span>
+      </li>
+      <li>
+        <span class="cause-num">3</span>
+        <span class="cause-text"><span class="cause-label">Stopping criteria.</span> <span class="cause-note">Pre-agree: the co-driver has authority to call a stop at any time without discussion. The driver does not argue. Agreed stopping criteria might include: any sign of driver microsleep, inability to follow GPS directions, two missed turns, eye fatigue assessment by co-driver. Once called, it is called.</span></span>
+      </li>
+    </div>
+
+    <div class="sub-head">Camp Selection When Forced to Stop in Darkness</div>
+    <ul class="checklist">
+      <li><span class="cl-num">▸</span><span class="cl-text"><span class="cl-label">Visibility.</span> <span class="cl-note">Choose a position visible from the road — you may need assistance, and a completely hidden vehicle is harder to find. But do not camp on the road itself or immediately adjacent to the driving line.</span></span></li>
+      <li><span class="cl-num">▸</span><span class="cl-text"><span class="cl-label">Elevation.</span> <span class="cl-note">If possible, slightly higher than surrounding ground — reduces cold air pooling, improves tent drainage, and keeps you above flash flood run-off lines.</span></span></li>
+      <li><span class="cl-num">▸</span><span class="cl-text"><span class="cl-label">Drainage.</span> <span class="cl-note">Do not camp in a dry riverbed, watercourse, or obvious drainage channel regardless of how dry conditions appear. Flash floods travel at night with no warning.</span></span></li>
+      <li><span class="cl-num">▸</span><span class="cl-text"><span class="cl-label">Proximity to road.</span> <span class="cl-note">Close enough for security visibility, not so close that passing vehicles (headlights, noise) disturb rest or that a road incident involves your camp. 20–50 m is typically appropriate.</span></span></li>
+    </ul>
+
+    <div class="xref-bar">
+      <span class="xref-label">Cross-reference</span>
+      <span class="xref-pill">R16 Comms &amp; Navigation</span>
+      <span class="xref-pill">R10 Emergency Procedures</span>
+    </div>
+  </div><!-- /s-night -->
+
+
+  <!-- ══ SECTION 8: STEEP UPHILL ══ -->
+  <div id="s-uphill" class="sa">
+    <div class="section-head">8 — Steep Uphill</div>
+    <p class="section-intro">Steep climbs demand commitment, correct gear selection before the slope, and a clear plan for what to do if momentum is lost. The 1HZ's turbo lag and the R151F's gear ratios mean that arriving at a climb in the wrong gear is not recoverable mid-face. Preparation is everything.</p>
+
+    <div class="sub-head">Before You Climb</div>
+    <div class="cause-list">
+      <li>
+        <span class="cause-num">1</span>
+        <span class="cause-text"><span class="cause-label">Select gear before the base of the climb.</span> <span class="cause-note">Identify the correct gear while you still have momentum on flat ground. On a steep loose slope, a gear change mid-climb stalls the vehicle. As a starting point: 2nd or 3rd low range for loose/rocky steep terrain; 1st low range for very steep or severely rutted faces. The turbo 1HZ has power in the mid-rev range — do not lug it in too high a gear.</span></span>
+      </li>
+      <li>
+        <span class="cause-num">2</span>
+        <span class="cause-text"><span class="cause-label">Walk the line if uncertain.</span> <span class="cause-note">A steep climb that is not clearly passable from the base should be walked first. Check: surface traction (loose rock, soft soil, wet grass — each behaves differently), rut depth, crest shape (blind crests that drop sharply on the far side), and exit at the top. A passable climb with an impassable exit is a trap.</span></span>
+      </li>
+      <li>
+        <span class="cause-num">3</span>
+        <span class="cause-text"><span class="cause-label">Diff locks: engage before the slope.</span> <span class="cause-note">If the surface is loose, wet, or rocky, engage rear diff lock (and front if required) before the base of the climb. A spinning wheel mid-climb on a steep face causes immediate loss of momentum and directional control. Stop on flat ground, engage, confirm, then climb.</span></span>
+      </li>
+      <li>
+        <span class="cause-num">4</span>
+        <span class="cause-text"><span class="cause-label">Tyre pressure appropriate for surface.</span> <span class="cause-note">Sand uphill: deflated to sand target. Rock uphill: sidewall protection pressure (1.6–1.8 bar). Mud uphill: standard deflated pressure. Attempting a steep mud or sand climb on road pressures dramatically reduces available traction.</span></span>
+      </li>
+    </div>
+
+    <div class="sub-head">Climbing Technique</div>
+    <div class="cause-list">
+      <li>
+        <span class="cause-num">1</span>
+        <span class="cause-text"><span class="cause-label">Commit fully — smooth, sustained throttle.</span> <span class="cause-note">Hesitation on a steep climb wastes the momentum that carries the vehicle through the hard section. Apply throttle progressively before the slope steepens and hold it. The turbo 1HZ responds well to consistent demand — do not feather the throttle on the face. Keep revs in the working range (1,600–2,400 rpm) where torque is available.</span></span>
+      </li>
+      <li>
+        <span class="cause-num">2</span>
+        <span class="cause-text"><span class="cause-label">Straight up the fall line where possible.</span> <span class="cause-note">Any angle off the fall line on a steep slope creates a lateral lean. The 76 SW's high centre of gravity (roof tent loaded, tall suspension) makes a traversing angle on steep loose ground a rollover risk. Where the terrain forces an angled approach, assess the lean angle critically before committing.</span></span>
+      </li>
+      <li>
+        <span class="cause-num">3</span>
+        <span class="cause-text"><span class="cause-label">Crest with caution — do not crest blind at speed.</span> <span class="cause-note">Reduce speed as the bonnet reaches the crest. The far side may drop sharply, have a soft landing, or be occupied. Approach the last few metres of any blind crest slowly enough to stop if required.</span></span>
+      </li>
+    </div>
+
+    <div class="sub-head">If You Lose Momentum Mid-Climb</div>
+    <div class="warn-box">
+      <strong>Losing momentum mid-climb is an emergency situation.</strong> The vehicle is on a steep slope with no forward motion. Your options narrow immediately — act in the correct sequence:
+    </div>
+
+    <div class="check-steps">
+      <div class="check-step">
+        <span class="step-num">1</span>
+        <span>Apply the footbrake firmly and hold the vehicle stationary. Do not let it roll backward uncontrolled.</span>
+      </div>
+      <div class="check-step">
+        <span class="step-num">2</span>
+        <span>Depress the clutch simultaneously with the brake — do not stall the engine if avoidable. A running engine gives you options; a stalled engine removes them temporarily.</span>
+      </div>
+      <div class="check-step">
+        <span class="step-num">3</span>
+        <span>Assess: Is a second attempt viable? Is there enough grip, and was momentum the only issue? If yes — hold on the brake, select the correct gear, build revs, and release the brake with controlled clutch engagement for a rolling restart on the slope.</span>
+      </div>
+      <div class="check-step">
+        <span class="step-num">4</span>
+        <span>If a second attempt is not viable — controlled reverse descent is the exit. See Section 9 (Steep Downhill) for reverse descent procedure. Do not attempt to turn around on a steep face.</span>
+      </div>
+      <div class="check-step">
+        <span class="step-stop">!</span>
+        <span><strong>Do not attempt a U-turn on a steep or loose slope.</strong> A turning vehicle on a steep face is at extreme rollover risk. Reverse down in a straight line is always safer than turning.</span>
+      </div>
+    </div>
+
+    <div class="sub-head">If the Engine Stalls Mid-Climb</div>
+    <div class="check-steps">
+      <div class="check-step">
+        <span class="step-stop">!</span>
+        <span><strong>Brake immediately and hold the vehicle.</strong> If on a very steep face, apply the handbrake as a secondary hold while you restart. Do not allow the vehicle to roll before the engine is running.</span>
+      </div>
+      <div class="check-step">
+        <span class="step-num">1</span>
+        <span>Keep the vehicle in gear. Depress clutch. Apply footbrake firmly. Apply handbrake if slope is severe.</span>
+      </div>
+      <div class="check-step">
+        <span class="step-num">2</span>
+        <span>Restart the engine — full glow cycle if the engine is cold, direct crank if warm. The 1HZ restarts readily when warm.</span>
+      </div>
+      <div class="check-step">
+        <span class="step-num">3</span>
+        <span>Once running, assess: attempt the climb again or reverse down. If the stall was caused by insufficient revs or a gear that was too high — select a lower gear before the next attempt.</span>
+      </div>
+      <div class="check-step">
+        <span class="step-num">4</span>
+        <span>To move off on the slope: hold on footbrake, engage gear, raise revs to 1,800–2,000 rpm, release footbrake while engaging clutch progressively. Hill-start technique — do not rush the clutch release on a steep face.</span>
+      </div>
+    </div>
+
+    <div class="xref-bar">
+      <span class="xref-label">Cross-reference</span>
+      <span class="xref-pill">R9 Vehicle Recovery</span>
+      <span class="xref-pill">R13 Drivetrain Training</span>
+      <span class="xref-pill">R18 1HZ Troubleshooting</span>
+    </div>
+  </div><!-- /s-uphill -->
+
+
+  <!-- ══ SECTION 9: STEEP DOWNHILL ══ -->
+  <div id="s-downhill" class="sa">
+    <div class="section-head">9 — Steep Downhill</div>
+    <p class="section-intro">Steep descents are where vehicles are lost. Brake fade, loss of directional control, and rollover all occur on descents — rarely on climbs. The 1HZ and R151F provide strong engine braking that is the primary control tool. The brakes are for supplemental speed management, not primary descent control.</p>
+
+    <div class="sub-head">Before You Descend</div>
+    <div class="cause-list">
+      <li>
+        <span class="cause-num">1</span>
+        <span class="cause-text"><span class="cause-label">Walk the descent if you cannot see the bottom.</span> <span class="cause-note">A blind descent is the most dangerous situation in technical driving. Walk to the bottom. Check surface condition, rut depth, any step drops mid-face, and the run-out at the base. Confirm you can stop safely at the bottom — a water crossing or soft bowl at the base of a steep descent is a trap.</span></span>
+      </li>
+      <li>
+        <span class="cause-num">2</span>
+        <span class="cause-text"><span class="cause-label">Select gear before the edge.</span> <span class="cause-note">Same gear you would use to climb the equivalent grade. On a 10–15% sustained slope: 2nd low range. On very steep faces (25%+): 1st low range. Select the gear on flat ground at the top, before the nose tips over. Do not change gear mid-descent on a steep or loose slope.</span></span>
+      </li>
+      <li>
+        <span class="cause-num">3</span>
+        <span class="cause-text"><span class="cause-label">Diff locks: rear engaged on loose or rutted descents.</span> <span class="cause-note">A locked rear diff prevents one rear wheel from spinning faster than the other if traction is uneven — which stabilises the rear of the vehicle on descent. Front diff lock on very steep technical descents where front wheel placement is critical. Disengage before returning to open terrain. Cross-ref R13.</span></span>
+      </li>
+    </div>
+
+    <div class="sub-head">Descent Technique</div>
+    <div class="cause-list">
+      <li>
+        <span class="cause-num">1</span>
+        <span class="cause-text"><span class="cause-label">Engine braking is primary — brakes are secondary.</span> <span class="cause-note">In the correct low range gear, the 1HZ provides strong compression braking. This is consistent, fade-free, and uses no consumable. Keep the clutch fully engaged throughout the descent — do not coast in neutral or with the clutch depressed. Coasting removes all engine braking and sends the vehicle toward brake-only control.</span></span>
+      </li>
+      <li>
+        <span class="cause-num">2</span>
+        <span class="cause-text"><span class="cause-label">Straight down the fall line where possible.</span> <span class="cause-note">Same principle as uphill — any lateral angle increases rollover risk. On loose descents, a vehicle that begins to rotate sideways on the slope is very difficult to recover. If the terrain forces an angled descent, slow to a near-crawl before introducing any angle.</span></span>
+      </li>
+      <li>
+        <span class="cause-num">3</span>
+        <span class="cause-text"><span class="cause-label">Brake application: firm and release, not drag.</span> <span class="cause-note">If supplemental braking is needed beyond engine braking, apply the brakes firmly to scrub speed, then release fully to allow rotor cooling and tyre rotation to resume. Continuous light brake application (dragging) heats rotors rapidly and causes fade. On a long descent, intermittent firm application is safer than sustained light application.</span></span>
+      </li>
+      <li>
+        <span class="cause-num">4</span>
+        <span class="cause-text"><span class="cause-label">Do not brake in corners on loose surfaces.</span> <span class="cause-note">Braking while steering on a loose steep descent transfers weight forward and reduces rear traction exactly when rear stability is most needed. Scrub speed in the straight before the corner, not during it.</span></span>
+      </li>
+    </div>
+
+    <div class="sub-head">Brake Fade — Recognition and Response</div>
+    <div class="warn-box">
+      <strong>Brake fade on a descent is an emergency.</strong> Symptoms: pedal feels normal but vehicle does not slow; pedal travel increases; burning smell. If this occurs on a descent:
+    </div>
+    <div class="check-steps">
+      <div class="check-step">
+        <span class="step-stop">!</span>
+        <span><strong>Do not pump the brakes repeatedly</strong> — this introduces air and reduces remaining effectiveness. Hold the pedal firmly and progressively.</span>
+      </div>
+      <div class="check-step">
+        <span class="step-num">1</span>
+        <span>Downshift immediately if not already in lowest available gear. Maximum engine braking is the priority.</span>
+      </div>
+      <div class="check-step">
+        <span class="step-num">2</span>
+        <span>If the vehicle is still accelerating uncontrollably, steer toward any uphill escape — a bank, embankment, or side slope — to arrest speed through ground resistance.</span>
+      </div>
+      <div class="check-step">
+        <span class="step-num">3</span>
+        <span>Once stopped or slowed to safe speed, stop the vehicle and allow brakes to cool with wheels stationary for a minimum of 10 minutes before proceeding. Cross-ref R10.</span>
+      </div>
+    </div>
+
+    <div class="sub-head">Reverse Descent — When Forward Is Not Possible</div>
+    <div class="cause-list">
+      <li>
+        <span class="cause-num">1</span>
+        <span class="cause-text"><span class="cause-label">When to reverse down.</span> <span class="cause-note">If a climb attempt has failed and the top cannot be reached, reverse descent is the correct exit. It is also correct when arriving at the top of a descent that turns out to be impassable. Never attempt to turn a loaded 76 on a steep or loose face — reverse is always safer.</span></span>
+      </li>
+      <li>
+        <span class="cause-num">2</span>
+        <span class="cause-text"><span class="cause-label">Reverse gear provides the strongest engine braking available.</span> <span class="cause-note">In low range reverse, the 1HZ provides very strong compression braking on descent. This is the correct gear for a controlled reverse descent on a steep face — not 1st forward with the vehicle going backward.</span></span>
+      </li>
+      <li>
+        <span class="cause-num">3</span>
+        <span class="cause-text"><span class="cause-label">Use a spotter for reverse descents.</span> <span class="cause-note">The driver has no clear visibility of the descent line while reversing. Mary-Ann spots from alongside — never directly behind the vehicle. Standard spotter signals apply (see Section 3). The spotter controls the line and calls stops; the driver controls speed.</span></span>
+      </li>
+      <li>
+        <span class="cause-num">4</span>
+        <span class="cause-text"><span class="cause-label">Maintain straight alignment.</span> <span class="cause-note">Any steering input while reversing down a steep slope tends to amplify — a small correction becomes a large swing. Keep inputs minimal. If the rear starts to slide sideways, steer into the slide (toward the direction the rear is moving) with a small, immediate correction.</span></span>
+      </li>
+    </div>
+
+    <div class="sub-head">If the Engine Stalls Mid-Descent</div>
+    <div class="check-steps">
+      <div class="check-step">
+        <span class="step-stop">!</span>
+        <span><strong>Apply footbrake and handbrake immediately.</strong> A stalled engine on a descent removes all engine braking. The vehicle will accelerate if not held. Secure the vehicle before doing anything else.</span>
+      </div>
+      <div class="check-step">
+        <span class="step-num">1</span>
+        <span>Hold on footbrake. Apply handbrake as secondary hold. Remain in gear (clutch depressed).</span>
+      </div>
+      <div class="check-step">
+        <span class="step-num">2</span>
+        <span>Restart the engine — full glow if cold, direct crank if warm. Do not rush; the vehicle is secured.</span>
+      </div>
+      <div class="check-step">
+        <span class="step-num">3</span>
+        <span>Once running, release handbrake, keep footbrake applied, and resume descent in the correct gear with clutch fully engaged. Engine braking is immediately restored on clutch engagement.</span>
+      </div>
+      <div class="check-step">
+        <span class="step-num">4</span>
+        <span>Investigate why the stall occurred before attempting any further steep terrain. Common causes: clutch slip under load, incorrect gear selection, throttle lifted suddenly mid-face. Cross-ref R18.</span>
+      </div>
+    </div>
+
+    <div class="xref-bar">
+      <span class="xref-label">Cross-reference</span>
+      <span class="xref-pill">R9 Vehicle Recovery</span>
+      <span class="xref-pill">R10 Emergency Procedures</span>
+      <span class="xref-pill">R13 Drivetrain Training</span>
+      <span class="xref-pill">R18 1HZ Troubleshooting</span>
+    </div>
+  </div><!-- /s-downhill -->
+
+
+  <!-- ══ SECTION 10: PRE-TERRAIN CHECKLIST ══ -->
+  <div id="s-checklist" class="sa">
+    <div class="section-head">10 — Pre-Terrain Checklist</div>
+    <p class="section-intro">A 15-point audit to complete before entering any serious terrain — sand, mud, rock, water crossing, or sustained technical section. This is not a tick-box formality. It is the difference between a controlled entry and an uncontrolled one. The list takes under five minutes if the vehicle is properly maintained. Do it every time.</p>
+
+    <div class="warn-box">
+      <strong>Rule:</strong> This checklist is completed while stationary, before the terrain begins — not at the first problem after entering. If the check reveals an issue, resolve it before entry.
+    </div>
+
+    <ul class="checklist">
+      <li>
+        <span class="cl-num">1</span>
+        <span class="cl-text">
+          <span class="cl-label">Tyre pressures confirmed and set for terrain type.</span>
+          <span class="cl-note">Check actual pressure with gauge — not by feel. Use Tyre Pressure Calculator for terrain-specific targets. Deflate before entry, not after the first soft patch. Cross-ref R14, Tyre Pressure Calculator.</span>
+        </span>
+      </li>
+      <li>
+        <span class="cl-num">2</span>
+        <span class="cl-text">
+          <span class="cl-label">Front hubs: locked or free as appropriate.</span>
+          <span class="cl-note">Manual hubs: confirm engagement by feel and check (not just switch position). Locked for all 4WD terrain. Free for return to tar.</span>
+        </span>
+      </li>
+      <li>
+        <span class="cl-num">3</span>
+        <span class="cl-text">
+          <span class="cl-label">Transfer case: 4L or 4H selected and engaged.</span>
+          <span class="cl-note">Engage before terrain — not mid-section. Confirm indicator light where fitted. 4L for all technical terrain, deep sand, mud, rock. 4H for fast corrugated gravel where speed is maintained. Cross-ref R13.</span>
+        </span>
+      </li>
+      <li>
+        <span class="cl-num">4</span>
+        <span class="cl-text">
+          <span class="cl-label">Diff locks tested: front and rear actuated and confirmed.</span>
+          <span class="cl-note">Turn the wheel slightly against the lock engagement to confirm each diff lock is seated. A diff lock that activates the indicator but has not fully engaged will fail at the worst moment. Cross-ref R13.</span>
+        </span>
+      </li>
+      <li>
+        <span class="cl-num">5</span>
+        <span class="cl-text">
+          <span class="cl-label">Recovery gear: accessible without unpacking.</span>
+          <span class="cl-note">Recovery boards, snatch strap, shackles, and hi-lift jack base within 30-second access. Not at the bottom of the cargo bay under all provisions.</span>
+        </span>
+      </li>
+      <li>
+        <span class="cl-num">6</span>
+        <span class="cl-text">
+          <span class="cl-label">Front and rear tow points: clear and accessible.</span>
+          <span class="cl-note">Snatch ring or shackle fitted. Not obstructed by a spare wheel, snorkel fitting, or cargo overhang.</span>
+        </span>
+      </li>
+      <li>
+        <span class="cl-num">7</span>
+        <span class="cl-text">
+          <span class="cl-label">Fuel level: adequate to complete the section and return if necessary.</span>
+          <span class="cl-note">Terrain driving consumes significantly more fuel than road driving — sand and mud can double consumption. If the section is remote and return is the only exit, you need sufficient fuel for two transits. Cross-ref Fuel Range Calculator.</span>
+        </span>
+      </li>
+      <li>
+        <span class="cl-num">8</span>
+        <span class="cl-text">
+          <span class="cl-label">GPS waypoint set for re-entry point or camp.</span>
+          <span class="cl-note">If the terrain section has a single exit, mark the entry point so you can navigate back. In featureless dune or bush terrain, disorientation is a real risk. Cross-ref R16.</span>
+        </span>
+      </li>
+      <li>
+        <span class="cl-num">9</span>
+        <span class="cl-text">
+          <span class="cl-label">Communication check: satellite device on, known contact briefed.</span>
+          <span class="cl-note">If entering a remote section, activate your Garmin inReach or equivalent. Confirm your last known contact knows your plan and expected exit time. Cross-ref R16.</span>
+        </span>
+      </li>
+      <li>
+        <span class="cl-num">10</span>
+        <span class="cl-text">
+          <span class="cl-label">Time of day: can this section be completed before dark?</span>
+          <span class="cl-note">If the terrain section takes longer than expected, will you be driving at night or camping in the terrain? Factor this before entry, not during. Cross-ref Section 7 (Night Driving).</span>
+        </span>
+      </li>
+      <li>
+        <span class="cl-num">11</span>
+        <span class="cl-text">
+          <span class="cl-label">Weather observation: any indication of rain or change?</span>
+          <span class="cl-note">Rain during a mud or water crossing section can make a passable route impassable in hours. Sand that is firm in dry conditions becomes heavily compacted or washed out in rain. Check sky and recent weather track before committing.</span>
+        </span>
+      </li>
+      <li>
+        <span class="cl-num">12</span>
+        <span class="cl-text">
+          <span class="cl-label">Partner awareness: Mary-Ann briefed on section type and exit plan.</span>
+          <span class="cl-note">Both occupants agree on what the section involves, what the risks are, and what the plan is if things go wrong — before entry. No surprises mid-section.</span>
+        </span>
+      </li>
+      <li>
+        <span class="cl-num">13</span>
+        <span class="cl-text">
+          <span class="cl-label">Air filter condition: pre-cleaner checked.</span>
+          <span class="cl-note">Especially before dusty, sandy, or laterite sections. A heavily loaded pre-cleaner before a long section is a risk. Clean it. Cross-ref R4.</span>
+        </span>
+      </li>
+      <li>
+        <span class="cl-num">14</span>
+        <span class="cl-text">
+          <span class="cl-label">Coolant temperature normal before terrain entry.</span>
+          <span class="cl-note">Entering slow technical terrain with a cooling system already at upper operating range leaves no margin for the increased load of low-speed high-throttle work. Allow the engine to normalise before low-speed technical work. Cross-ref R22.</span>
+        </span>
+      </li>
+      <li>
+        <span class="cl-num">15</span>
+        <span class="cl-text">
+          <span class="cl-label">Compressor and inflation kit accessible.</span>
+          <span class="cl-note">After terrain, tyres must be re-inflated before returning to road speeds. Compressor in reach, not packed under camp load. ARB dual, VIAIR, or equivalent — confirm it works before a long remote section. Cross-ref R14.</span>
+        </span>
+      </li>
+    </ul>
+
+    <div class="xref-bar">
+      <span class="xref-label">Cross-reference</span>
+      <span class="xref-pill">R2 Departure Checklist</span>
+      <span class="xref-pill">R9 Vehicle Recovery</span>
+      <span class="xref-pill">R13 Drivetrain Training</span>
+      <span class="xref-pill">R14 Tyre Management</span>
+      <span class="xref-pill">R16 Comms &amp; Navigation</span>
+      <span class="xref-pill">R22 Cooling System</span>
+      <span class="xref-pill">R27 Bush Mechanics</span>
+      <span class="xref-pill">Tyre Pressure Calculator</span>
+      <span class="xref-pill">Fuel Range Calculator</span>
+    </div>
+
+  </div><!-- /s-checklist -->
+
+</div><!-- /main -->
+
+<script>
+  // TOC scroll
+  document.querySelectorAll('.toc-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.getAttribute('data-target');
+      const el = document.getElementById(id);
+      if (!el) return;
+      const stickyH = document.querySelector('.sticky-wrap').offsetHeight;
+      const top = el.getBoundingClientRect().top + window.scrollY - stickyH - 8;
+      window.scrollTo({ top, behavior: 'smooth' });
+    });
+  });
+
+  // IntersectionObserver for active TOC state
+  const sections = ['s-sand','s-mud','s-rock','s-water','s-corrugations','s-altitude','s-night','s-uphill','s-downhill','s-checklist'];
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        document.querySelectorAll('.toc-btn').forEach(b => b.classList.remove('active'));
+        const id = entry.target.id;
+        const btn = document.querySelector(`.toc-btn[data-target="${id}"]`);
+        if (btn) btn.classList.add('active');
+      }
+    });
+  }, {
+    rootMargin: '-20% 0px -60% 0px',
+    threshold: 0
+  });
+
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) observer.observe(el);
+  });
+</script>
+
+</body>
+</html>
