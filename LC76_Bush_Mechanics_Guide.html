@@ -1,0 +1,1488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>R27 — Bush Mechanics Field Guide | HZJ76R-RKMRS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=Oswald:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:      #1C1410;
+    --paper:    #F5EDDA;
+    --paper2:   #EDE5D0;
+    --cream:    #F5EDDA;
+    --amber:    #b86800;
+    --amber2:   #e07800;
+    --rule:     #d4cfc4;
+    --steeldk:  #2a2f3a;
+    --steelmd:  #6a7080;
+    --red-warn: #B91C1C;
+    --green-ok: #059669;
+    --orange:   #c05a00;
+    --border:   #c8bfad;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
+
+  body {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  /* STICKY WRAP */
+  .sticky-wrap { position: sticky; top: 0; z-index: 100; background: var(--ink); padding-top: env(safe-area-inset-top); }
+
+  /* MASTHEAD */
+  .masthead { position: relative; background: var(--ink); color: #fff; padding: 18px 24px 14px; }
+  .lib-home-btn { position:absolute; top:50%; right:16px; transform:translateY(-50%); display:inline-flex; align-items:center; gap:5px; font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; text-decoration:none; color:var(--amber2); background:rgba(232,120,0,.15); border:1px solid var(--amber2); border-radius:20px; padding:6px 12px; min-height:32px; white-space:nowrap; z-index:10; transition:background .2s; }
+  .lib-home-btn:hover, .lib-home-btn:active { background:rgba(232,120,0,.30); }
+  @media print { .lib-home-btn { display:none !important; } }
+
+  .mh-eyebrow  { font-family:'IBM Plex Mono',monospace; font-size:.5rem; letter-spacing:.28em; text-transform:uppercase; color:var(--steelmd); margin-bottom:6px; }
+  .mh-title    { font-family:'Bebas Neue',sans-serif; font-size:clamp(1.8rem,5vw,2.6rem); letter-spacing:.06em; color:var(--amber2); line-height:1; }
+  .mh-sub      { font-family:'IBM Plex Mono',monospace; font-size:.54rem; letter-spacing:.12em; color:rgba(255,200,100,.65); margin-top:5px; }
+  .mh-vehicle  { font-family:'IBM Plex Mono',monospace; font-size:.48rem; letter-spacing:.08em; color:var(--steelmd); margin-top:8px; }
+
+  /* TOC BAR */
+  .toc-bar {
+    background: var(--steeldk);
+    border-top: 3px solid var(--amber2);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    padding: 0 20px;
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .toc-bar::-webkit-scrollbar { display: none; }
+  .toc-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .52rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--steelmd);
+    background: none;
+    border: none;
+    padding: 10px 12px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color 0.15s;
+  }
+  .toc-btn:hover  { color: #c8bfad; }
+  .toc-btn.active { color: var(--amber2); }
+
+  /* MAIN */
+  .main { padding: 28px 5% 80px; max-width: 100%; }
+
+  /* SECTION HEADINGS */
+  .section-head {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: var(--ink);
+    letter-spacing: 0.04em;
+    border-bottom: 2px solid var(--amber2);
+    padding-bottom: 4px;
+    margin-bottom: 14px;
+    margin-top: 28px;
+  }
+  .section-head:first-child { margin-top: 0; }
+  .section-intro { font-size: 13px; color: var(--steelmd); margin-bottom: 14px; font-style: italic; }
+
+  /* SECTION ANCHOR OFFSET */
+  .sa { scroll-margin-top: 130px; }
+
+  /* SUBSECTION TITLE */
+  .sub-head {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 15px;
+    color: var(--amber2);
+    letter-spacing: 0.04em;
+    background: var(--steeldk);
+    padding: 8px 14px;
+    margin-bottom: 0;
+    margin-top: 16px;
+  }
+
+  /* PRINCIPLE CARDS GRID */
+  .principle-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:10px; margin:14px 0; }
+  .principle-card { border:1px solid var(--border); border-top:3px solid var(--amber2); background:#fff; border-radius:2px; padding:14px 14px 12px; }
+  .p-num { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.12em; color:var(--steelmd); text-transform:uppercase; margin-bottom:4px; }
+  .p-title { font-family:'Bebas Neue',sans-serif; font-size:17px; color:var(--amber2); letter-spacing:.04em; margin-bottom:6px; line-height:1.1; }
+  .p-body { font-size:12.5px; color:var(--ink); line-height:1.55; }
+
+  /* MATERIAL CARDS GRID */
+  .material-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:10px; margin:14px 0; }
+  .material-card { border:1px solid var(--border); background:#fff; border-radius:2px; overflow:hidden; }
+  .mat-head { background:var(--paper2); padding:8px 12px; border-bottom:1px solid var(--rule); display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  .mat-name { font-family:'Oswald',sans-serif; font-weight:500; font-size:13px; color:var(--ink); }
+  .mat-tag { font-family:'IBM Plex Mono',monospace; font-size:8px; font-weight:600; letter-spacing:.06em; padding:2px 6px; border-radius:2px; white-space:nowrap; }
+  .tag-fix   { background:rgba(5,150,105,.12); color:var(--green-ok); border:1px solid rgba(5,150,105,.3); }
+  .tag-seal  { background:rgba(59,106,191,.12); color:#3b6abf; border:1px solid rgba(59,106,191,.3); }
+  .tag-bind  { background:rgba(192,90,0,.12); color:var(--orange); border:1px solid rgba(192,90,0,.3); }
+  .tag-chem  { background:rgba(106,112,128,.12); color:var(--steelmd); border:1px solid rgba(106,112,128,.3); }
+  .mat-body { padding:10px 12px; font-size:12px; line-height:1.55; color:var(--ink); }
+  .mat-cap { font-weight:500; color:var(--ink); font-size:12px; }
+  .mat-limit { color:var(--red-warn); font-size:11.5px; margin-top:4px; display:block; font-family:'IBM Plex Mono',monospace; }
+
+  /* DIAG CARDS */
+  .diag-group { margin-bottom: 20px; }
+  .diag-group-title {
+    font-family:'Bebas Neue',sans-serif; font-size:16px; color:var(--amber2);
+    letter-spacing:.04em; background:var(--steeldk); padding:8px 14px;
+  }
+  .diag-card { border:1px solid var(--border); border-top:none; background:#fff; }
+  .diag-card + .diag-card { border-top:1px solid var(--rule); }
+  .diag-header {
+    display:grid; grid-template-columns:1fr auto auto; align-items:center; gap:16px;
+    padding:11px 14px; background:var(--paper2); cursor:pointer; user-select:none;
+    border-bottom:1px solid var(--rule);
+  }
+  .diag-header:hover { background:var(--paper); }
+  .diag-symptom { font-family:'Oswald',sans-serif; font-weight:500; font-size:14px; color:var(--ink); }
+  .diag-badge {
+    font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600;
+    letter-spacing:.06em; padding:3px 8px; border-radius:2px; white-space:nowrap;
+  }
+  .badge-stop    { background:#fde8e8; color:var(--red-warn); border:1px solid #f8b0b0; }
+  .badge-caution { background:#fef3cd; color:#7c4a00; border:1px solid #f5d072; }
+  .badge-monitor { background:#e8f5e9; color:#1a6b3a; border:1px solid #88c899; }
+  .diag-body { padding:10px 14px; display:none; }
+  .diag-body.open { display:block; }
+  .diag-arrow { font-size:10px; color:var(--steelmd); transition:transform .2s; flex-shrink:0; }
+  .diag-arrow.open { transform:rotate(180deg); }
+
+  /* CAUSE / STEP LISTS */
+  .cause-list { list-style:none; margin:10px 0 14px; }
+  .cause-list li { display:flex; gap:10px; align-items:flex-start; padding:6px 0; border-bottom:1px solid var(--rule); font-size:13px; }
+  .cause-list li:last-child { border-bottom:none; }
+  .cause-num { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; color:#fff; background:var(--steelmd); min-width:20px; height:20px; border-radius:2px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .cause-text { flex:1; }
+  .cause-label { font-weight:500; color:var(--ink); }
+  .cause-note  { color:var(--steelmd); font-size:12px; display:block; margin-top:2px; }
+
+  .check-steps { margin:10px 0; }
+  .check-step  { display:flex; gap:10px; align-items:flex-start; margin-bottom:8px; font-size:13px; }
+  .step-num {
+    font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600;
+    color:#fff; background:var(--amber); min-width:22px; height:22px;
+    border-radius:2px; display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; margin-top:1px;
+  }
+  .step-stop {
+    font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600;
+    color:#fff; background:var(--red-warn); min-width:22px; height:22px;
+    border-radius:2px; display:flex; align-items:center; justify-content:center;
+    flex-shrink:0; margin-top:1px;
+  }
+
+  /* DECISION TREE */
+  .tree-wrap { background:var(--steeldk); border:1px solid rgba(255,255,255,.08); padding:18px; margin:14px 0; overflow-x:auto; }
+  .tree-title { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--steelmd); margin-bottom:16px; }
+  .tree-row { display:flex; align-items:flex-start; gap:0; margin:6px 0; flex-wrap:nowrap; }
+  .tree-node { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); padding:6px 10px; border-radius:2px; white-space:nowrap; flex-shrink:0; line-height:1.3; }
+  .tree-node.start   { background:rgba(224,120,0,.25);  border-color:rgba(224,120,0,.5); color:#fcd34d; }
+  .tree-node.fix     { background:rgba(5,150,105,.2);   border-color:rgba(5,150,105,.4); color:#6ee7b7; }
+  .tree-node.limp    { background:rgba(192,90,0,.25);   border-color:rgba(192,90,0,.5);  color:#fdba74; }
+  .tree-node.stop    { background:rgba(185,28,28,.3);   border-color:rgba(185,28,28,.5); color:#fca5a5; }
+  .tree-node.ask     { background:rgba(59,106,191,.2);  border-color:rgba(59,106,191,.4);color:#93c5fd; }
+  .tree-arrow { font-size:13px; color:var(--steelmd); padding:7px 6px 0; flex-shrink:0; align-self:flex-start; }
+  .tree-label { font-family:'IBM Plex Mono',monospace; font-size:9px; color:var(--steelmd); padding:9px 4px 0; flex-shrink:0; }
+  .tree-indent { padding-left:24px; border-left:2px solid rgba(255,255,255,.08); margin:4px 0 4px 12px; }
+  .tree-branch { display:flex; align-items:flex-start; gap:6px; margin:4px 0; }
+  .tree-branch-label { font-family:'IBM Plex Mono',monospace; font-size:8px; font-weight:600; color:var(--steelmd); padding-top:7px; flex-shrink:0; min-width:24px; }
+  .three-q { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:10px; margin:14px 0; }
+  .q-card { border:2px solid var(--amber2); background:var(--steeldk); padding:12px 14px; border-radius:2px; }
+  .q-num  { font-family:'IBM Plex Mono',monospace; font-size:24px; font-weight:600; color:var(--amber2); line-height:1; margin-bottom:4px; }
+  .q-text { font-family:'Oswald',sans-serif; font-weight:500; font-size:14px; color:#fff; line-height:1.3; margin-bottom:6px; }
+  .q-note { font-family:'IBM Plex Mono',monospace; font-size:10px; color:#b0bcc8; line-height:1.4; }
+  .q-yes  { color:var(--green-ok); font-weight:600; }
+  .q-no   { color:#fca5a5; font-weight:600; }
+
+  /* CHECKLIST */
+  .checklist { list-style:none; margin:10px 0; }
+  .checklist li { display:flex; gap:10px; align-items:flex-start; padding:7px 0; border-bottom:1px solid var(--rule); font-size:13px; }
+  .checklist li:last-child { border-bottom:none; }
+  .cl-num { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; color:#fff; background:var(--steeldk); min-width:22px; height:22px; border-radius:2px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .cl-text { flex:1; }
+  .cl-label { font-weight:500; color:var(--ink); }
+  .cl-note  { color:var(--steelmd); font-size:12px; display:block; margin-top:2px; font-family:'Oswald',sans-serif; font-weight:300; }
+
+  /* ALERT BOXES */
+  .warn-box { background:#fde8e8; border-left:3px solid var(--red-warn); padding:9px 12px; font-size:12.5px; color:#7a1010; margin:10px 0; }
+  .note-box { background:#fef9e7; border-left:3px solid var(--amber); padding:9px 12px; font-size:12.5px; color:#5a3800; margin:10px 0; }
+  .ok-box   { background:#e8f5e9; border-left:3px solid var(--green-ok); padding:9px 12px; font-size:12.5px; color:#0d4a28; margin:10px 0; }
+  .info-box { background:#e8eef8; border-left:3px solid #3b6abf; padding:9px 12px; font-size:12.5px; color:#1a2f5a; margin:10px 0; }
+
+  /* CROSS-REF BAR */
+  .xref-bar { background:var(--steeldk); border:1px solid rgba(255,255,255,.08); padding:9px 14px; display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:12px; font-size:12px; }
+  .xref-label { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.08em; color:var(--steelmd); text-transform:uppercase; white-space:nowrap; }
+  .xref-pill  { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; color:var(--amber2); background:rgba(224,120,0,.12); border:1px solid rgba(224,120,0,.3); padding:2px 8px; border-radius:2px; white-space:nowrap; }
+
+  /* LIMP STRATEGY TABLE */
+  .specs-table { width:100%; border-collapse:collapse; font-size:13px; margin:14px 0; table-layout:fixed; }
+  .specs-table th { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; background:var(--steeldk); color:#b0bcc8; padding:7px 12px; text-align:left; border:1px solid rgba(255,255,255,.07); }
+  .specs-table td { padding:7px 12px; border:1px solid var(--rule); vertical-align:top; }
+  .specs-table tr:nth-child(even) td { background:var(--paper2); }
+  .specs-table tr:nth-child(odd)  td { background:#fff; }
+  .mono { font-family:'IBM Plex Mono',monospace; font-size:11px; }
+
+  /* FAULT LOG TABLE */
+  .log-table { width:100%; border-collapse:collapse; font-size:12.5px; margin:14px 0; table-layout:fixed; }
+  .log-table th { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; background:var(--steeldk); color:#b0bcc8; padding:7px 12px; text-align:left; border:1px solid rgba(255,255,255,.07); }
+  .log-table td { padding:10px 12px; border:1px solid var(--rule); background:#fff; vertical-align:top; }
+  .log-table td.fill { background:var(--paper2); color:var(--steelmd); font-style:italic; font-size:11px; }
+
+  /* STOP & CALL SIGNAL CHAIN */
+  .signal-chain { display:flex; align-items:center; flex-wrap:wrap; gap:4px; margin:14px 0; }
+  .sc-step { font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; color:#fff; background:var(--red-warn); padding:7px 12px; border-radius:2px; white-space:nowrap; }
+  .sc-arrow { font-size:14px; color:var(--steelmd); }
+
+  /* NOT-TO-DO LIST */
+  .notodo-list { list-style:none; margin:10px 0; }
+  .notodo-list li { display:flex; gap:10px; align-items:flex-start; padding:8px 0; border-bottom:1px solid var(--rule); font-size:13px; }
+  .notodo-list li:last-child { border-bottom:none; }
+  .notodo-x { font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; color:#fff; background:var(--red-warn); min-width:22px; height:22px; border-radius:2px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .notodo-text { flex:1; }
+  .notodo-label { font-weight:500; color:var(--ink); }
+  .notodo-note  { color:var(--steelmd); font-size:12px; display:block; margin-top:2px; }
+
+  /* PRINT */
+  @media print {
+    @page { margin: 7mm; size: A4; }
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    body { font-size: 7.5pt; background: #fff; line-height: 1.4; }
+    .sticky-wrap { position: static; }
+    .toc-bar { display: none; }
+    .masthead { padding: 4mm 8mm; break-after: avoid; background: #1C1410 !important; color: #fff !important; }
+    .mh-eyebrow { font-size: 5pt; color: #6a7080 !important; }
+    .mh-title { font-size: 16pt; color: #e07800 !important; }
+    .mh-sub, .mh-vehicle { font-size: 5pt; }
+    .main { padding: 4mm 0 10mm; }
+    .section-head { font-size: 14pt; margin-top: 8mm; page-break-after: avoid; break-after: avoid; border-bottom: 2pt solid #e07800 !important; }
+    .sub-head { font-size: 11pt; page-break-after: avoid; break-after: avoid; background: #2a2f3a !important; color: #e07800 !important; }
+    .principle-card { break-inside: avoid; }
+    .material-card  { break-inside: avoid; }
+    .q-card         { break-inside: avoid; }
+    .diag-card { break-inside: auto; }
+    .diag-header { break-after: avoid; background: #EDE5D0 !important; }
+    .diag-body { display: block !important; break-inside: auto; }
+    .diag-arrow { display: none; }
+    .diag-group-title { background: #2a2f3a !important; color: #e07800 !important; }
+    .badge-stop    { background: #fde8e8 !important; color: #B91C1C !important; }
+    .badge-caution { background: #fef3cd !important; color: #7c4a00 !important; }
+    .badge-monitor { background: #e8f5e9 !important; color: #1a6b3a !important; }
+    .cause-num { background: #6a7080 !important; color: #fff !important; }
+    .step-num  { background: #b86800 !important; color: #fff !important; }
+    .step-stop { background: #B91C1C !important; color: #fff !important; }
+    .cl-num    { background: #2a2f3a !important; color: #fff !important; }
+    .notodo-x  { background: #B91C1C !important; color: #fff !important; }
+    .warn-box  { break-inside: avoid; background: #fde8e8 !important; border-left: 3pt solid #B91C1C !important; color: #7a1010 !important; }
+    .note-box  { break-inside: avoid; background: #fef9e7 !important; border-left: 3pt solid #b86800 !important; color: #5a3800 !important; }
+    .ok-box    { break-inside: avoid; background: #e8f5e9 !important; border-left: 3pt solid #059669 !important; color: #0d4a28 !important; }
+    .info-box  { break-inside: avoid; background: #e8eef8 !important; border-left: 3pt solid #3b6abf !important; color: #1a2f5a !important; }
+    .xref-bar  { background: #2a2f3a !important; border: 1px solid rgba(255,255,255,.08) !important; }
+    .xref-pill { background: rgba(224,120,0,.12) !important; color: #e07800 !important; border: 1px solid rgba(224,120,0,.3) !important; }
+    .specs-table thead, .log-table thead { display: table-header-group; }
+    .specs-table th, .log-table th { background: #2a2f3a !important; color: #b0bcc8 !important; }
+    .log-table td.fill { background: #EDE5D0 !important; }
+    .tree-wrap { break-inside: avoid; background: #2a2f3a !important; }
+    .tree-node.start { background: rgba(224,120,0,.25) !important; color: #fcd34d !important; }
+    .tree-node.fix   { background: rgba(5,150,105,.2)  !important; color: #6ee7b7 !important; }
+    .tree-node.limp  { background: rgba(192,90,0,.25)  !important; color: #fdba74 !important; }
+    .tree-node.stop  { background: rgba(185,28,28,.3)  !important; color: #fca5a5 !important; }
+    .tree-node.ask   { background: rgba(59,106,191,.2) !important; color: #93c5fd !important; }
+    .q-card { background: #2a2f3a !important; }
+    .q-text { color: #fff !important; }
+    .mat-head { background: #EDE5D0 !important; }
+    .tag-fix   { background: rgba(5,150,105,.12) !important; color: #059669 !important; }
+    .tag-seal  { background: rgba(59,106,191,.12) !important; color: #3b6abf !important; }
+    .tag-bind  { background: rgba(192,90,0,.12) !important; color: #c05a00 !important; }
+    .tag-chem  { background: rgba(106,112,128,.12) !important; color: #6a7080 !important; }
+    .sc-step { background: #B91C1C !important; color: #fff !important; }
+    .principle-card { border-top: 3pt solid #e07800 !important; }
+    .p-title { color: #e07800 !important; }
+    a { color: var(--ink); text-decoration: none; }
+    .checklist li { break-inside: avoid; }
+    .notodo-list li { break-inside: avoid; }
+    .signal-chain { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<div class="sticky-wrap">
+  <div class="masthead">
+    <a href="index.html" class="lib-home-btn">⌂ Index</a>
+    <div class="mh-eyebrow">HZJ76R-RKMRS · Overland Reference Library · R27</div>
+    <div class="mh-title">Bush Mechanics Field Guide</div>
+    <div class="mh-sub">Mindset · Triage · Materials · Techniques · Limp Strategy · Stop &amp; Call · Documentation · Pre-Departure Audit</div>
+    <div class="mh-vehicle">2009 LC76 SW · 1HZ 4.2L Diesel · SAC Low-Boost Turbo · R151F 5-speed · OME Suspension · ~305,000 km · HZJ76R-RKMRS</div>
+  </div>
+  <nav class="toc-bar">
+    <button class="toc-btn" data-target="s-mindset">Mindset</button>
+    <button class="toc-btn" data-target="s-triage">Triage</button>
+    <button class="toc-btn" data-target="s-materials">Materials</button>
+    <button class="toc-btn" data-target="s-techniques">Techniques</button>
+    <button class="toc-btn" data-target="s-limp">Limp Strategy</button>
+    <button class="toc-btn" data-target="s-stop">Stop &amp; Call</button>
+    <button class="toc-btn" data-target="s-notdo">Not To Do</button>
+    <button class="toc-btn" data-target="s-doc">Documentation</button>
+    <button class="toc-btn" data-target="s-checklist">Pre-Departure</button>
+    <button class="toc-btn" data-target="s-log">Fault Log</button>
+  </nav>
+</div>
+
+<div class="main">
+
+  <!-- ══ SECTION 1: MINDSET ══ -->
+  <div id="s-mindset" class="sa">
+    <div class="section-head">1 — Mindset</div>
+    <p class="section-intro">The difference between a field repair that gets you home and one that strands you permanently is almost never about tools or parts. It is about the state of mind you bring before you touch anything. These eight principles apply to every roadside situation, from a flat tyre to a blown head gasket.</p>
+
+    <div class="principle-grid">
+
+      <div class="principle-card">
+        <div class="p-num">Principle 01</div>
+        <div class="p-title">Stop · Breathe · Think</div>
+        <div class="p-body">The first impulse after a breakdown is to act. Resist it. Stop the vehicle safely. Get out and walk around it. Give yourself three minutes before touching a single bolt. Adrenaline makes you miss the obvious and creates new problems faster than it solves old ones. The truck isn't going anywhere.</div>
+      </div>
+
+      <div class="principle-card">
+        <div class="p-num">Principle 02</div>
+        <div class="p-title">Diagnose Before You Touch</div>
+        <div class="p-body">Identify the fault with confidence before dismantling anything. What system is it? What is the symptom — smoke, noise, leak, loss of function? What changed just before the failure? A wrong diagnosis strips threads, loses irreplaceable clips, and wastes time. One correct diagnosis saves five wrong repairs.</div>
+      </div>
+
+      <div class="principle-card">
+        <div class="p-num">Principle 03</div>
+        <div class="p-title">Never Make It Worse</div>
+        <div class="p-body">The golden rule of field mechanics. If your repair attempt might cause a second failure on top of the first — a stripped thread, a cracked housing, a contaminated circuit — stop. A drivable vehicle with a leaking hose clamp is infinitely better than an immovable vehicle with a cracked manifold you created trying to fix it.</div>
+      </div>
+
+      <div class="principle-card">
+        <div class="p-num">Principle 04</div>
+        <div class="p-title">Slow Is Fast</div>
+        <div class="p-body">Field repairs done in a hurry take three times as long as field repairs done carefully. Torque fasteners. Clean surfaces before sealing. Lay out removed parts in order. The 20 minutes you spend doing it properly saves the three hours you'd spend redoing it 50 km down the road — after dark, in the rain.</div>
+      </div>
+
+      <div class="principle-card">
+        <div class="p-num">Principle 05</div>
+        <div class="p-title">Document Everything</div>
+        <div class="p-body">Photograph the fault before and after. Write down what you did, what materials you used, how long it took, and what the vehicle's condition was when you drove away. This record is your transfer note to a workshop and your evidence that the repair was sound. Use the Fault Log at the end of this guide.</div>
+      </div>
+
+      <div class="principle-card">
+        <div class="p-num">Principle 06</div>
+        <div class="p-title">Two Sets of Eyes</div>
+        <div class="p-body">Before you reassemble anything, have Mary-Ann walk the repair with you. A second pair of eyes will find the thing you missed — the hose not fully seated, the clip not clicked home, the wire routed over a hot surface. This is not optional. It has prevented stranding more than once on long trips.</div>
+      </div>
+
+      <div class="principle-card">
+        <div class="p-num">Principle 07</div>
+        <div class="p-title">Temporary Means Temporary</div>
+        <div class="p-body">A bush repair is a field fix to reach the next workshop, not a permanent solution. Know what it is. Write "TEMP" in the Fault Log. Inform the workshop exactly what was done. A JB Weld patch on a cracked housing buys you time — it does not replace the housing. Do not convince yourself otherwise.</div>
+      </div>
+
+      <div class="principle-card">
+        <div class="p-num">Principle 08</div>
+        <div class="p-title">Know What You Cannot Fix</div>
+        <div class="p-body">A cracked block, a snapped crank, a shattered transfer case, a seized turbo bearing, a burnt valve. Know this list before you leave. Not every failure has a field fix, and attempting a repair beyond your skill level with inadequate tools turns a recoverable situation into a recovery. The Stop &amp; Call protocol (Section 6) applies here.</div>
+      </div>
+
+    </div>
+
+    <div class="note-box">
+      <strong>Australian bush mechanic tradition:</strong> The Australian outback overlanding culture — from which much of African overlanding inherited its approach — is built on one rule: be methodical, not heroic. A methodical driver with a set of spanners and a roll of wire has extracted more vehicles from the desert than any amount of enthusiasm with no plan.
+    </div>
+  </div><!-- /s-mindset -->
+
+
+  <!-- ══ SECTION 2: TRIAGE ══ -->
+  <div id="s-triage" class="sa">
+    <div class="section-head">2 — Triage</div>
+    <p class="section-intro">Triage is the discipline of deciding — quickly and correctly — what category of response a failure demands. There are three outcomes: Fix Here, Limp Out, or Stop and Call. The decision tree below and the Three Questions test give you a repeatable framework. Use them before emotions take over.</p>
+
+    <div class="sub-head">The Three Questions Test</div>
+    <p style="font-size:13px;color:var(--steelmd);margin:10px 0 6px;font-style:italic;">Answer all three honestly before you start any field repair. One "No" shifts the outcome.</p>
+
+    <div class="three-q">
+      <div class="q-card">
+        <div class="q-num">Q1</div>
+        <div class="q-text">Do you know exactly what is wrong?</div>
+        <div class="q-note"><span class="q-yes">YES →</span> Proceed to Q2.<br><span class="q-no">NO →</span> Diagnose first. Do not start dismantling on a guess. Review R18 Troubleshooting Guide.</div>
+      </div>
+      <div class="q-card">
+        <div class="q-num">Q2</div>
+        <div class="q-text">Do you have the materials to fix it?</div>
+        <div class="q-note"><span class="q-yes">YES →</span> Proceed to Q3.<br><span class="q-no">NO →</span> Check Section 3 for improvisation options. If nothing works, assess limp or stop.</div>
+      </div>
+      <div class="q-card">
+        <div class="q-num">Q3</div>
+        <div class="q-text">Do you have the skill and tools to do the repair safely?</div>
+        <div class="q-note"><span class="q-yes">YES →</span> Fix it. Use Section 4 technique cards.<br><span class="q-no">NO →</span> Limp strategy (Section 5) or Stop &amp; Call (Section 6).</div>
+      </div>
+    </div>
+
+    <div class="sub-head">Decision Tree — Fix / Limp / Stop</div>
+
+    <div class="tree-wrap">
+      <div class="tree-title">TRIAGE DECISION FRAMEWORK — HZJ76R-RKMRS</div>
+
+      <div style="margin-bottom:14px;">
+        <div class="tree-row">
+          <div class="tree-node start">FAILURE OCCURS</div>
+          <div class="tree-arrow">→</div>
+          <div class="tree-node ask">Safe location?</div>
+        </div>
+        <div class="tree-indent">
+          <div class="tree-branch"><div class="tree-branch-label">NO →</div><div class="tree-node stop">Move vehicle first. Fire / injury = Stop &amp; Call immediately.</div></div>
+          <div class="tree-branch"><div class="tree-branch-label">YES ↓</div></div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:14px;">
+        <div class="tree-row">
+          <div class="tree-node ask">Q1: Fault identified?</div>
+        </div>
+        <div class="tree-indent">
+          <div class="tree-branch"><div class="tree-branch-label">NO →</div><div class="tree-node">Diagnose. Check R18. Do not guess.</div></div>
+          <div class="tree-branch"><div class="tree-branch-label">YES ↓</div></div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:14px;">
+        <div class="tree-row">
+          <div class="tree-node ask">Danger to drive further?</div>
+        </div>
+        <div class="tree-indent">
+          <div class="tree-branch"><div class="tree-branch-label">YES →</div><div class="tree-node stop">STOP. Overheating, brake loss, steering failure, structural fracture = do not move.</div></div>
+          <div class="tree-branch"><div class="tree-branch-label">NO ↓</div></div>
+        </div>
+      </div>
+
+      <div style="margin-bottom:14px;">
+        <div class="tree-row">
+          <div class="tree-node ask">Q2 + Q3: Materials &amp; skill available?</div>
+        </div>
+        <div class="tree-indent">
+          <div class="tree-branch"><div class="tree-branch-label">YES →</div><div class="tree-node fix">FIX HERE — use Section 4. Document. Monitor.</div></div>
+          <div class="tree-branch"><div class="tree-branch-label">PART →</div><div class="tree-node limp">LIMP OUT — use Section 5. Set speed, interval, destination.</div></div>
+          <div class="tree-branch"><div class="tree-branch-label">NO →</div><div class="tree-node stop">STOP &amp; CALL — use Section 6. Activate comms.</div></div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.1);">
+        <div class="tree-node fix" style="font-size:9px;">FIX HERE = full repair possible</div>
+        <div class="tree-node limp" style="font-size:9px;">LIMP OUT = vehicle drivable, degraded</div>
+        <div class="tree-node stop" style="font-size:9px;">STOP &amp; CALL = self-recovery not possible</div>
+      </div>
+    </div>
+
+    <div class="warn-box">
+      <strong>Driving degraded:</strong> Any limp-mode decision requires continuous monitoring. Establish stop intervals (every 10–20 km), exit criteria (the condition that forces you to stop completely), and a destination. Never limp indefinitely without a plan.
+    </div>
+
+    <div class="xref-bar">
+      <span class="xref-label">Cross-reference</span>
+      <span class="xref-pill">R10 Emergency Procedures</span>
+      <span class="xref-pill">R16 Comms &amp; Navigation</span>
+      <span class="xref-pill">R18 1HZ Troubleshooting</span>
+    </div>
+  </div><!-- /s-triage -->
+
+
+  <!-- ══ SECTION 3: MATERIALS ══ -->
+  <div id="s-materials" class="sa">
+    <div class="section-head">3 — Universal Repair Materials</div>
+    <p class="section-intro">These 15 materials live permanently in the vehicle. Each one earns its weight by solving multiple problems across multiple systems. Know their capabilities and — critically — their limits before you reach for them under pressure.</p>
+
+    <div class="material-grid">
+
+      <div class="material-card">
+        <div class="mat-head"><span class="mat-name">JB Weld (Original)</span><span class="mat-tag tag-fix">STRUCTURAL</span></div>
+        <div class="mat-body">
+          <div class="mat-cap">Two-part steel-reinforced epoxy. Bonds metal, plastic, ceramic. Cures to ~280°C max (normal cure). Full strength at 24 h; working strength at 4–6 h.</div>
+          <span class="mat-limit">✕ Not for head or block cracks under pressure. Not for brake or steering hydraulics. Not a substitute for welding structural joints. Temperature limit matters — sump and manifold use ExtremeHeat variant only.</span>
+        </div>
+      </div>
+
+      <div class="material-card">
+        <div class="mat-head"><span class="mat-name">Pratley Steel Putty</span><span class="mat-tag tag-fix">STRUCTURAL</span></div>
+        <div class="mat-body">
+          <div class="mat-cap">Two-part epoxy putty. Hand-kneadable, sets hard in 30–45 min. Fills voids, patches cracks. Can be drilled, tapped and filed when cured.</div>
+          <span class="mat-limit">✕ Not for high-cycle vibration joints. Not for head gasket or injector seat area. Limited heat tolerance — keeps it away from exhaust manifolds.</span>
+        </div>
+      </div>
+
+      <div class="material-card">
+        <div class="mat-head"><span class="mat-name">Self-Amalgamating Tape</span><span class="mat-tag tag-seal">SEAL</span></div>
+        <div class="mat-body">
+          <div class="mat-cap">Silicone-based tape that fuses to itself under tension with no adhesive. Waterproof, fuel-resistant, rated to ~200°C. Works on hoses, wiring, and irregular shapes. Apply stretched to 50% of original length for full seal.</div>
+          <span class="mat-limit">✕ Temporary fix only on pressurised hoses — especially coolant under boost. Not suitable for oil under pressure. Inspect every 200 km after application.</span>
+        </div>
+      </div>
+
+      <div class="material-card">
+        <div class="mat-head"><span class="mat-name">Duct Tape</span><span class="mat-tag tag-bind">BIND</span></div>
+        <div class="mat-body">
+          <div class="mat-cap">Cloth-reinforced pressure-sensitive tape. Air ducting, bodywork, cable bundling, dust sealing, boot patching. Works on dry surfaces only.</div>
+          <span class="mat-limit">✕ Not fuel, oil, or coolant rated. Fails rapidly in heat above 60°C. Not a structural fix. Not a seal under fluid pressure.</span>
+        </div>
+      </div>
+
+      <div class="material-card">
+        <div class="mat-head"><span class="mat-name">Cable Ties (Assorted)</span><span class="mat-tag tag-bind">BIND</span></div>
+        <div class="mat-body">
+          <div class="mat-cap">UV-rated nylon, 100 mm through 400 mm lengths. Bundle wiring, secure hoses, replace broken clips, lash loose body panels, hold radiator overflow hose. Carry 50+ of each size.</div>
+          <span class="mat-limit">✕ No structural load. UV grades degrade over time — inspect annually. Do not run over hot surfaces — use a heat shield if routing near exhaust.</span>
+        </div>
+      </div>
+
+      <div class="material-card">
+        <div class="mat-head"><span class="mat-name">Fencing Wire (3 m)</span><span class="mat-tag tag-bind">BIND</span></div>
+        <div class="mat-body">
+          <div class="mat-cap">Galvanised mild steel wire. The original bush fix — it can lash, bind, substitute for a broken clip or bracket, hold a cracked exhaust pipe, and keep a loose heat shield quiet. Twist with pliers for tension.</div>
+          <span class="mat-limit">✕ Conduct hazard near wiring — insulate any contact points with tape. Not a replacement for a structural fastener. Vibrates loose — check at every stop.</span>
+        </div>
+      </div>
+
+      <div class="material-card">
+        <div class="mat-head"><span class="mat-name">Hose Clamps (Assorted)</span><span class="mat-tag tag-seal">SEAL</span></div>
+        <div class="mat-body">
+          <div class="mat-cap">Stainless worm-drive clamps, 20 mm through 80 mm. Secure hoses, compress self-amalgamating tape patches, clamp split hoses, hold improvised splices. Carry 4–6 of each size.</div>
+          <span class="mat-limit">✕ Overtightening cuts rubber hoses. Not for rigid pipe joints without rubber buffer. Check torque after first heat cycle following installation.</span>
+        </div>
+      </div>
+
+      <div class="material-card">
+        <div class="mat-head"><span class="mat-name">Ratchet Straps (×2)</span><span class="mat-tag tag-bind">BIND</span></div>
+        <div class="mat-body">
+          <div class="mat-cap">25 mm × 5 m, 750 kg WLL each. Secondary leaf spring lashing if a spring breaks, body panel retention, load control, towing anchor. Dual use: recovery and repair.</div>
+          <span class="mat-limit">✕ Not a substitute for structural leaf spring replacement — emergency only, limited to walking pace. Do not exceed rated WLL. Never cross-load hooks.</span>
+        </div>
+      </div>
+
+      <div class="material-card">
+        <div class="mat-head"><span class="mat-name">Thread Lock + Anti-Seize</span><span class="mat-tag tag-chem">CHEMICAL</span></div>
+        <div class="mat-body">
+          <div class="mat-cap">Loctite 243 (medium thread lock) and Copaslip anti-seize paste. Secure reinstalled fasteners against vibration. Anti-seize on exhaust studs, suspension bolts, caliper guide pins — prevents future seizure in dissimilar metals.</div>
+          <span class="mat-limit">✕ Thread lock on fasteners that may need future field removal — use sparingly. Anti-seize on brake disc or drum mating surfaces compromises torque retention.</span>
+        </div>
+      </div>
+
+      <div class="material-card">
+        <div class="mat-head"><span class="mat-name">Soap (Bar)</span><span class="mat-tag tag-seal">SEAL</span></div>
+        <div class="mat-body">
+          <div class="mat-cap">Ordinary hard soap applied to a slow coolant hose leak or a weeping joint will swell in contact with water and seal temporarily. Also acts as tyre bead lubricant during a field tyre swap. Carry a 100 g bar.</div>
+          <span class="mat-limit">✕ Temporary and low-pressure only. Washes out once coolant flow resumes fully. Inspect repair at every stop. Replace with correct hose at next workshop.</span>
+        </div>
+      </div>
+
+      <div class="material-card">
+        <div class="mat-head"><span class="mat-name">Gun Gum / Exhaust Putty</span><span class="mat-tag tag-seal">SEAL</span></div>
+        <div class="mat-body">
+          <div class="mat-cap">High-temperature exhaust repair compound (up to 1,000°C). Seals cracks, holes, and joint leaks in the exhaust system. Apply to clean metal, wrap with aluminium tape for reinforcement, cure by running engine progressively hot.</div>
+          <span class="mat-limit">✕ Does not bond to oily surfaces — degrease first. Vibrates loose on flex joints. Temporary fix for pinhole cracks only — does not bridge large structural breaks.</span>
+        </div>
+      </div>
+
+      <div class="material-card">
+        <div class="mat-head"><span class="mat-name">Wire + Crimp Terminals</span><span class="mat-tag tag-chem">ELECTRICAL</span></div>
+        <div class="mat-body">
+          <div class="mat-cap">2.5 mm² and 4 mm² automotive wire, assorted crimp terminals, butt splices, heat-shrink sleeves. Repair broken harness wires, replace blown inline fuses, bridge corroded connectors. Carry a crimping tool.</div>
+          <span class="mat-limit">✕ Solder joints over crimps if possible — crimps in high-vibration areas work loose over time. Route repairs away from heat and sharp edges. Label all new wires.</span>
+        </div>
+      </div>
+
+      <div class="material-card">
+        <div class="mat-head"><span class="mat-name">Brake Cleaner</span><span class="mat-tag tag-chem">CHEMICAL</span></div>
+        <div class="mat-body">
+          <div class="mat-cap">Non-residue solvent. Degreases surfaces before JB Weld, Pratley, or exhaust putty application. Cleans electrical contacts. Removes fuel from air filter if accidentally over-fuelled. Evaporates without trace.</div>
+          <span class="mat-limit">✕ Highly flammable — never use near a flame or hot exhaust. Attacks rubber — keep off hoses, seals, and painted surfaces. Do not inhale.</span>
+        </div>
+      </div>
+
+      <div class="material-card">
+        <div class="mat-head"><span class="mat-name">Spare Fasteners (Assorted)</span><span class="mat-tag tag-fix">STRUCTURAL</span></div>
+        <div class="mat-body">
+          <div class="mat-cap">M6, M8, M10, M12 hex bolts and nuts in stainless, plus a set of split washers and flat washers for each. U-bolt nuts (rear leaf spring size). Carry in a labelled zip-lock bag. Critical — lost hardware is the most common stranding cause after flat tyres.</div>
+          <span class="mat-limit">✕ Match thread pitch and grade to original. Do not replace high-tensile structural bolts (suspension, steering, propshaft) with inferior hardware.</span>
+        </div>
+      </div>
+
+      <div class="material-card">
+        <div class="mat-head"><span class="mat-name">Rags (Clean)</span><span class="mat-tag tag-chem">GENERAL</span></div>
+        <div class="mat-body">
+          <div class="mat-cap">Cotton or microfibre rags for surface cleaning before sealing, oil absorption, improvised padding or insulation, and general cleanup. A clean work surface is the single most effective tool for preventing a second fault during a repair.</div>
+          <span class="mat-limit">✕ Oil-soaked rags are a fire risk — store separately and dispose of at next fuel stop. Never use synthetic fabrics near the exhaust system.</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="xref-bar">
+      <span class="xref-label">Cross-reference</span>
+      <span class="xref-pill">R3 Bush Spares &amp; Tools</span>
+      <span class="xref-pill">R24 Fuel System Guide</span>
+    </div>
+  </div><!-- /s-materials -->
+
+
+  <!-- ══ SECTION 4: TECHNIQUES ══ -->
+  <div id="s-techniques" class="sa">
+    <div class="section-head">4 — Field Repair Techniques</div>
+    <p class="section-intro">Tap any card to expand. Each technique is specific to the 1HZ / 76 Series platform. Cards are organised by system — Cooling, Fuel, Suspension &amp; Steering, Drivetrain, Electrical, Body &amp; Chassis. Badge colours indicate urgency: RED = stop immediately, AMBER = monitor and manage, GREEN = continue with care.</p>
+
+    <!-- COOLING -->
+    <div class="diag-group">
+      <div class="diag-group-title">Cooling System</div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Split or leaking coolant hose</div>
+          <span class="diag-badge badge-caution">AMBER — Monitor</span>
+          <span class="diag-arrow">▼</span>
+        </div>
+        <div class="diag-body">
+          <div class="note-box"><strong>Before you start:</strong> Let the system cool completely. Opening a hot cooling system cap causes severe steam burns. Wait 30 minutes minimum after engine off.</div>
+          <div class="check-steps">
+            <div class="check-step"><div class="step-num">1</div><div>Locate the leak visually. Check upper hose (thermostat to radiator), lower hose (radiator to pump), and both turbo intercooler hoses. Wipe dry and watch for the drip source — don't assume.</div></div>
+            <div class="check-step"><div class="step-num">2</div><div>If it is a pinhole or small split: dry the area thoroughly, apply self-amalgamating tape directly over the split under tension. Wrap 50 mm either side. Add a hose clamp over the tape at the split point to compress it.</div></div>
+            <div class="check-step"><div class="step-num">3</div><div>If the hose is split near a fitting or has fully failed: if you carry a spare hose, replace it. If not, cut the damaged section out cleanly, bridge the gap with the closest diameter hose section from your spares, and double-clamp each end.</div></div>
+            <div class="check-step"><div class="step-num">4</div><div>Refill with water (not coolant — label the level so workshop can correct mix ratio). Bleed air by running engine with cap off until thermostat opens and coolant flows freely. Top up. Replace cap.</div></div>
+            <div class="check-step"><div class="step-num">5</div><div>Run engine and watch repair. Check level again after 5 minutes running. If level drops rapidly — stop. The repair has not held.</div></div>
+          </div>
+          <div class="ok-box">Limp: Carry extra water. Stop every 20 km to check level. Keep load light and speed below 80 km/h. Avoid steep climbs. Target nearest workshop within 150 km.</div>
+          <div class="xref-bar" style="margin-top:10px;"><span class="xref-label">See also</span><span class="xref-pill">R22 Cooling System Guide</span></div>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Radiator core leak or damage</div>
+          <span class="diag-badge badge-stop">RED — Stop Risk</span>
+          <span class="diag-arrow">▼</span>
+        </div>
+        <div class="diag-body">
+          <div class="warn-box"><strong>Do not continue driving with an uncontrolled radiator leak.</strong> The 1HZ has no temperature warning light — you will find out you have overheated from white steam and a cooked engine, not from an alarm.</div>
+          <div class="check-steps">
+            <div class="check-step"><div class="step-num">1</div><div>Identify the leak location — top or bottom tank (usually plastic on the replacement radiators common in SA), core tubes (aluminium), or end header seam.</div></div>
+            <div class="check-step"><div class="step-num">2</div><div>For a leaking plastic tank seam or small tank crack: Dry thoroughly. Knead Pratley Steel Putty and press firmly over the crack. Smooth to a dome shape so it is under compression against water pressure. Allow 30–45 min cure. Do not pressurise until set.</div></div>
+            <div class="check-step"><div class="step-num">3</div><div>For a bent or fractured aluminium core tube: if a row of tubes is crushed (stone impact), you can block that row entirely by squeezing both ends with pliers — losing ~10% of cooling capacity but stopping the leak. Not ideal; acceptable as a temporary measure.</div></div>
+            <div class="check-step"><div class="step-num">4</div><div>Top up with water. Run carefully with cap off to check leak is contained. Replace the cap only once you are satisfied the leak is sealed.</div></div>
+          </div>
+          <div class="ok-box">Limp only if leak is confirmed sealed and level stable. Absolute maximum 100 km at reduced speed. Do not climb steep hills. Watch temp gauge continuously — the 1HZ has no overheat warning alarm; install a temperature alert if you can.</div>
+          <div class="note-box"><strong>SA radiator quality warning:</strong> Many replacement radiators sold in SA for the 1HZ use inferior plastic tanks that crack under normal operating pressure. If you have fitted a non-OEM radiator without verifying origin, carry Pratley Putty as non-negotiable insurance.</div>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Thermostat failure (stuck open or closed)</div>
+          <span class="diag-badge badge-caution">AMBER — System dependent</span>
+          <span class="diag-arrow">▼</span>
+        </div>
+        <div class="diag-body">
+          <div class="check-steps">
+            <div class="check-step"><div class="step-num">1</div><div>Determine failure mode. Stuck open: engine runs cold, heats slowly, never reaches full operating temp — drives but fuel economy and power suffer. Stuck closed: rapid overheating within 10–15 min of driving — dangerous, stop immediately.</div></div>
+            <div class="check-step"><div class="step-num">2</div><div>If stuck closed (overheating): once cool, remove thermostat housing (two bolts, top of engine at front, accessible with basic tools). Remove thermostat. Reinstall housing with paper gasket substitute (cut from a fuel box or cereal box — JB Weld can seal the joint). Run without thermostat.</div></div>
+            <div class="check-step"><div class="step-num">3</div><div>Running without a thermostat: the engine runs cool and takes longer to warm up. This is acceptable for short-term limping. The lack of thermostat means the water pump sees slightly reduced flow efficiency — but it is a safe, drivable condition.</div></div>
+            <div class="check-step"><div class="step-num">4</div><div>If stuck open and no overheating risk: simply drive. Monitor fuel consumption increase. Replace thermostat at next workshop.</div></div>
+          </div>
+          <div class="ok-box">Without thermostat: fully drivable for several hundred km at normal speed. Carry a replacement (82°C rated for the 1HZ) — a thermostat weighs 80 g and costs R50.</div>
+          <div class="xref-bar" style="margin-top:10px;"><span class="xref-label">See also</span><span class="xref-pill">R22 Cooling System Guide</span><span class="xref-pill">R4 Engine Training</span></div>
+        </div>
+      </div>
+
+    </div><!-- /cooling -->
+
+    <!-- FUEL -->
+    <div class="diag-group">
+      <div class="diag-group-title">Fuel System</div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Fuel tank slow leak (stone strike or crack)</div>
+          <span class="diag-badge badge-caution">AMBER — Fire risk</span>
+          <span class="diag-arrow">▼</span>
+        </div>
+        <div class="diag-body">
+          <div class="warn-box"><strong>Fuel leaks near a hot exhaust are a fire risk.</strong> Check the leak location relative to the exhaust path before attempting any repair.</div>
+          <div class="check-steps">
+            <div class="check-step"><div class="step-num">1</div><div>Identify the exact leak — drip or seep? Location on the tank? If it is near a weld seam or drain plug, assess whether the tank can be drained to a safe level before repair.</div></div>
+            <div class="check-step"><div class="step-num">2</div><div>For a pinhole or stone impact crack on a plastic or metal tank: clean and degrease thoroughly with brake cleaner. Allow to fully dry. Knead JB Weld or Pratley Putty and press firmly over the crack. Build up a thick dome — you need compressive mass.</div></div>
+            <div class="check-step"><div class="step-num">3</div><div>Allow full cure (minimum 4 h for JB Weld). Do not fill or start engine during cure.</div></div>
+            <div class="check-step"><div class="step-num">4</div><div>After cure, fill slowly and watch the patch for seep. If it holds, drive. If seep restarts, do not continue — you need a workshop.</div></div>
+          </div>
+          <div class="ok-box">If the repair holds: run with reduced tank level (less head pressure). Inspect patch every stop. Do not use aux cells if the main tank leak is unrepaired.</div>
+          <div class="xref-bar" style="margin-top:10px;"><span class="xref-label">See also</span><span class="xref-pill">R24 Fuel System Guide</span></div>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Bad or contaminated fuel (water / dirt ingestion)</div>
+          <span class="diag-badge badge-caution">AMBER — Drivability</span>
+          <span class="diag-arrow">▼</span>
+        </div>
+        <div class="diag-body">
+          <div class="check-steps">
+            <div class="check-step"><div class="step-num">1</div><div>Symptoms: loss of power, rough running, black or white smoke change, hard starting, injector rattle. Sudden onset after a fuel fill = contaminated source.</div></div>
+            <div class="check-step"><div class="step-num">2</div><div>Check the Racor pre-filter bowl — if it shows water or sediment, drain it. Open the drain tap at the bottom of the bowl, drain until only clean fuel runs. Reclose. If the bowl is more than 50% contaminated, replace the filter element.</div></div>
+            <div class="check-step"><div class="step-num">3</div><div>If the engine has stopped and will not restart after filter drain: you may need to bleed the system. Crack the bleed nipple on the injection pump, prime the lift pump by hand (small lever on the side of the pump) until fuel runs bubble-free. Retighten. Attempt restart.</div></div>
+            <div class="check-step"><div class="step-num">4</div><div>If you have clean fuel in aux cells, dilute the contaminated main tank by adding clean fuel. The larger volume reduces concentration. Do not drain the main tank in the field unless you have sufficient clean replacement.</div></div>
+          </div>
+          <div class="ok-box">Post-bleed, engine should restart and improve within a few km as clean fuel washes through. Continue to workshop. Replace both filter elements at next opportunity.</div>
+          <div class="xref-bar" style="margin-top:10px;"><span class="xref-label">See also</span><span class="xref-pill">R24 Fuel System Guide — Bad-Fuel Protocol</span></div>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Lift pump weep or failure (no fuel pressure)</div>
+          <span class="diag-badge badge-stop">RED — Engine will stop</span>
+          <span class="diag-arrow">▼</span>
+        </div>
+        <div class="diag-body">
+          <div class="check-steps">
+            <div class="check-step"><div class="step-num">1</div><div>The 1HZ lift pump is engine-driven (camshaft-actuated diaphragm). Failure symptoms: gradual power loss, engine stumbles and cuts under load, hard starting. Weep from pump body = diaphragm cracking.</div></div>
+            <div class="check-step"><div class="step-num">2</div><div>If the pump has failed and you carry a spare: replace it. Two bolts, disconnect inlet and outlet lines (plug outlet immediately to prevent injection pump air ingress), fit new pump, bleed system as above.</div></div>
+            <div class="check-step"><div class="step-num">3</div><div>If no spare pump: gravity feed is possible on a flat road if the tank is above the injection pump height and lines are clear. Remove lift pump body and bridge the inlet to outlet with a short piece of hose and two clamps. This only works with fuel above tank level — it will not overcome a negative head.</div></div>
+            <div class="check-step"><div class="step-num">4</div><div>Carry a spare lift pump — they cost under R400 and weigh 400 g. It is one of the most cost-effective spares on the 1HZ.</div></div>
+          </div>
+          <div class="xref-bar" style="margin-top:10px;"><span class="xref-label">See also</span><span class="xref-pill">R24 Fuel System Guide</span><span class="xref-pill">R3 Spares &amp; Tools</span></div>
+        </div>
+      </div>
+
+    </div><!-- /fuel -->
+
+    <!-- SUSPENSION & STEERING -->
+    <div class="diag-group">
+      <div class="diag-group-title">Suspension &amp; Steering</div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Broken rear leaf spring (leaf fracture)</div>
+          <span class="diag-badge badge-caution">AMBER — Drivable with care</span>
+          <span class="diag-arrow">▼</span>
+        </div>
+        <div class="diag-body">
+          <div class="check-steps">
+            <div class="check-step"><div class="step-num">1</div><div>Identify: vehicle corners low, metallic creak or grind under load, or visible leaf separating from the pack. The OME CS058R rear pack has multiple leaves — a single broken leaf usually still leaves the vehicle drivable at reduced load.</div></div>
+            <div class="check-step"><div class="step-num">2</div><div>Remove broken leaf if it is protruding and risk contact with tyre or wheel arch. Use a jack and axle stand to safely relieve spring pressure, undo the U-bolt if needed to extract the fragment.</div></div>
+            <div class="check-step"><div class="step-num">3</div><div>Carry two full-length 38 mm × 8 mm flat steel ratchet straps or a spare leaf. Thread the strap under the leaf pack and over the axle housing — this provides a compressive substitute. A good ratchet strap arrangement can carry 200–300 kg at walking pace.</div></div>
+            <div class="check-step"><div class="step-num">4</div><div>Redistribute payload to the opposite corner to minimise asymmetric load. Carry water on the opposite side if possible.</div></div>
+          </div>
+          <div class="ok-box">Limp: max 30 km/h, no corrugations, no heavy payload on the affected corner. Carry spare U-bolts (new ones were fitted January 2026 — have a set of the same size).</div>
+          <div class="xref-bar" style="margin-top:10px;"><span class="xref-label">See also</span><span class="xref-pill">R25 Suspension &amp; Steering Guide</span><span class="xref-pill">R3 Spares &amp; Tools</span></div>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Sheared or loose U-bolt</div>
+          <span class="diag-badge badge-caution">AMBER — Axle shift risk</span>
+          <span class="diag-arrow">▼</span>
+        </div>
+        <div class="diag-body">
+          <div class="warn-box">A loose U-bolt allows the axle to shift on the spring pack. This causes dog-tracking (vehicle crabbing sideways) and uneven braking. Do not drive fast with a loose U-bolt.</div>
+          <div class="check-steps">
+            <div class="check-step"><div class="step-num">1</div><div>If you carry spare U-bolts: replace. Jack the axle, remove the cross-member plate, slide out the old U-bolt, replace, torque to 90 Nm (use a torque wrench or estimated half-arm leverage with a 600 mm breaker). Re-torque after 50 km.</div></div>
+            <div class="check-step"><div class="step-num">2</div><div>If no spare U-bolt: do not remove the failed one. Bind the spring pack to the axle housing with two ratchet straps crossed diagonally. This is a very short-term fix — 20 km maximum at walking pace. You need a replacement.</div></div>
+            <div class="check-step"><div class="step-num">3</div><div>Check axle alignment after any U-bolt failure: stand 5 m behind the vehicle. Rear axle should be perpendicular to the vehicle centreline. If it has shifted, you need to reposition it before driving any distance.</div></div>
+          </div>
+          <div class="xref-bar" style="margin-top:10px;"><span class="xref-label">See also</span><span class="xref-pill">R25 Suspension &amp; Steering Guide</span></div>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Tie rod or drag link damage (bent or joint failure)</div>
+          <span class="diag-badge badge-stop">RED — Steering compromised</span>
+          <span class="diag-arrow">▼</span>
+        </div>
+        <div class="diag-body">
+          <div class="warn-box"><strong>A failed drag link or tie rod = uncontrolled steering.</strong> This is a Stop condition. Do not attempt to drive on a failed steering component.</div>
+          <div class="check-steps">
+            <div class="check-step"><div class="step-num">1</div><div>Assess: is the rod bent (vehicle cannot track straight) or has the ball joint failed completely (wheel has unpredictable movement under load)?</div></div>
+            <div class="check-step"><div class="step-num">2</div><div>Bent rod: if you carry a spare tie rod or drag link (strongly recommended at 305,000 km), replace it. If not, a bent tie rod can sometimes be straightened by rolling under a vehicle tyre with progressive weight — imprecise but may restore enough function to walk pace.</div></div>
+            <div class="check-step"><div class="step-num">3</div><div>Failed ball joint with separation: if the rod end has pulled from the taper, you cannot continue. Even if you reconnect it temporarily, the taper is damaged and will re-separate under cornering load. Stop &amp; Call.</div></div>
+            <div class="check-step"><div class="step-num">4</div><div>Tie rod ends and drag link ends on the 76 were new at 271,200 km (Feb 2025). They should still have significant life. But at 305,000 km on African roads, inspection is mandatory at each service.</div></div>
+          </div>
+          <div class="xref-bar" style="margin-top:10px;"><span class="xref-label">See also</span><span class="xref-pill">R25 Suspension &amp; Steering Guide</span><span class="xref-pill">R9 Recovery Guide</span></div>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Broken or failed shock absorber</div>
+          <span class="diag-badge badge-monitor">GREEN — Drivable</span>
+          <span class="diag-arrow">▼</span>
+        </div>
+        <div class="diag-body">
+          <div class="check-steps">
+            <div class="check-step"><div class="step-num">1</div><div>Symptoms: excessive bounce on corrugations, fluid-wetted shock body, clanking from suspension on washboard. A blown shock is uncomfortable but not immediately dangerous.</div></div>
+            <div class="check-step"><div class="step-num">2</div><div>If the shock body has separated from the mount or is dragging: remove it entirely. The vehicle will handle poorly but will drive. This is preferable to a dragging shock that contacts the tyre.</div></div>
+            <div class="check-step"><div class="step-num">3</div><div>With a blown shock fitted: reduce speed significantly on corrugations and rough surfaces. The spring pack still supports the vehicle — the shock simply no longer damps oscillation. Excessive speed will fatigue the leaf pack or coil spring faster.</div></div>
+          </div>
+          <div class="ok-box">Fully drivable without the shock. Limit speed to 60 km/h on rough roads. Do not exceed 100 km/h on tar. Replace at next main workshop.</div>
+        </div>
+      </div>
+
+    </div><!-- /suspension -->
+
+    <!-- DRIVETRAIN -->
+    <div class="diag-group">
+      <div class="diag-group-title">Drivetrain</div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Broken propshaft (universal joint failure)</div>
+          <span class="diag-badge badge-stop">RED — Drive loss</span>
+          <span class="diag-arrow">▼</span>
+        </div>
+        <div class="diag-body">
+          <div class="check-steps">
+            <div class="check-step"><div class="step-num">1</div><div>Symptoms: sudden severe vibration with metallic impact. Rear propshaft failure is survivable (front diff still drives via front prop). Front propshaft failure: you still have rear drive. Total loss of drive = both propshafts or transfer case failure.</div></div>
+            <div class="check-step"><div class="step-num">2</div><div>If the broken propshaft is still attached but flailing: it must be removed before driving. It will destroy the tunnel, diff flange, and potentially rupture the fuel tank. Jack, disconnect flanges at both ends, remove. Store the prop in the roof rack.</div></div>
+            <div class="check-step"><div class="step-num">3</div><div>With rear propshaft removed: front axle 4WD remains operable. Engage 4H and drive on front wheels only — a legitimate limp-out on the 76's part-time system. Do not exceed 80 km/h. Avoid tight turning circles (diff windup).</div></div>
+            <div class="check-step"><div class="step-num">4</div><div>With front propshaft removed: rear 2WD remains. This is your normal highway mode anyway. Drive normally until workshop.</div></div>
+          </div>
+          <div class="ok-box">Single propshaft loss is a recoverable situation. The 76 Series part-time 4WD architecture makes this one of the more field-friendly drivetrain failures.</div>
+          <div class="xref-bar" style="margin-top:10px;"><span class="xref-label">See also</span><span class="xref-pill">R13 Drivetrain Training Guide</span></div>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">CV joint or front wheel bearing failure</div>
+          <span class="diag-badge badge-caution">AMBER — Speed limited</span>
+          <span class="diag-arrow">▼</span>
+        </div>
+        <div class="diag-body">
+          <div class="check-steps">
+            <div class="check-step"><div class="step-num">1</div><div>Symptoms: clicking on full lock in 4WD (CV wear), grinding growl on the move (wheel bearing), or visible grease expulsion from a torn CV boot (imminent joint failure).</div></div>
+            <div class="check-step"><div class="step-num">2</div><div>A worn CV boot with exposed joint: clean the joint, pack with as much grease as possible, wrap the boot area in self-amalgamating tape to retain grease. This is temporary — the joint will fail within 500–1,000 km without a proper boot.</div></div>
+            <div class="check-step"><div class="step-num">3</div><div>A failed CV joint: if the vehicle is in 4WD mode, switch to 2WD to remove load from the front axle. Lock hubs to free if equipped. Reduce speed and avoid harsh steering lock. The front axle on the 76 has traditional trunnion / king pin setup — not a modern independent suspension — so bearing replacement in the field with a hub puller is possible but takes 2–3 hours with the right tools.</div></div>
+          </div>
+          <div class="xref-bar" style="margin-top:10px;"><span class="xref-label">See also</span><span class="xref-pill">R13 Drivetrain Training Guide</span><span class="xref-pill">R25 Suspension Guide</span></div>
+        </div>
+      </div>
+
+    </div><!-- /drivetrain -->
+
+    <!-- ELECTRICAL -->
+    <div class="diag-group">
+      <div class="diag-group-title">Electrical System</div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Charging fault — alternator or DC-DC failure</div>
+          <span class="diag-badge badge-caution">AMBER — Manage loads</span>
+          <span class="diag-arrow">▼</span>
+        </div>
+        <div class="diag-body">
+          <div class="check-steps">
+            <div class="check-step"><div class="step-num">1</div><div>Diagnosis: BMV-712 showing negative amperage while driving = alternator not charging. Check battery voltage at engine bay with multimeter — should be 13.8–14.4 V at idle with charging. Below 12.8 V = alternator fault or connection loss.</div></div>
+            <div class="check-step"><div class="step-num">2</div><div>Check the alternator belt — if it has snapped or slipped, the alternator is not turning. 1HZ uses a simple V-belt. Replacement: release tensioner, remove old belt, fit spare (carry one). Takes 20 minutes.</div></div>
+            <div class="check-step"><div class="step-num">3</div><div>If belt is intact but charging is absent: check alternator output terminal connection (positive post, usually 10 mm bolt). Corrosion here is common in Africa's humidity. Clean with brake cleaner and sandpaper. Reconnect firmly.</div></div>
+            <div class="check-step"><div class="step-num">4</div><div>Orion-Tr Smart DC-DC failure: the LiFePO4 secondary bank will not charge from the alternator, but the vehicle's starter battery is unaffected — the Orion is isolated. Reduce secondary bank loads (fridge, lighting). Solar continues charging. Drive normally.</div></div>
+          </div>
+          <div class="ok-box">Without alternator: 12V starter battery will drain within 2–4 hours of driving (electrical loads). Reduce all non-essential loads. The 200Ah LiFePO4 bank via Victron BMS is completely isolated — it will not drain the starter battery. Prioritise reaching a workshop with an alternator specialist.</div>
+          <div class="xref-bar" style="margin-top:10px;"><span class="xref-label">See also</span><span class="xref-pill">R5 Battery Training Guide</span><span class="xref-pill">R7 LiFePO4 System Report</span></div>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Broken wiring or connector (harness damage)</div>
+          <span class="diag-badge badge-caution">AMBER — Trace first</span>
+          <span class="diag-arrow">▼</span>
+        </div>
+        <div class="diag-body">
+          <div class="check-steps">
+            <div class="check-step"><div class="step-num">1</div><div>Trace before you cut. Which circuit is affected? Identify by what stopped working. On the 1HZ, the engine has almost no ECU-controlled circuits — if the engine runs, most electrical faults are accessory or secondary bank issues only.</div></div>
+            <div class="check-step"><div class="step-num">2</div><div>Check fuses first. The 76 has main fuse box under the bonnet and a second block behind the glove box. Carry 5 A, 10 A, 15 A, 20 A, 30 A spare fuses of each type (blade and glass). A repeatedly blown fuse means a short — find it before you replace again.</div></div>
+            <div class="check-step"><div class="step-num">3</div><div>For a broken wire: identify both ends, strip 10 mm of insulation, join with a crimp butt splice, heat-shrink the joint. If the wire is inaccessible, run a temporary bridge wire in parallel using your spare wire — tape it away from any moving or hot parts.</div></div>
+            <div class="check-step"><div class="step-num">4</div><div>For a damaged connector: inspect the pin contacts. Corroded pins can often be cleaned with brake cleaner and a fine pick. Bent pins can be straightened with a jeweller's screwdriver. A terminal that has pulled from a connector housing can be re-inserted by depressing the locking tab.</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Starter motor or solenoid fault (no-crank)</div>
+          <span class="diag-badge badge-stop">RED — Engine will not start</span>
+          <span class="diag-arrow">▼</span>
+        </div>
+        <div class="diag-body">
+          <div class="check-steps">
+            <div class="check-step"><div class="step-num">1</div><div>Distinguish: click-click = solenoid engaging but no motor rotation (dead starter or bad earth). Single heavy click = solenoid failing to hold. Silence = solenoid not receiving signal.</div></div>
+            <div class="check-step"><div class="step-num">2</div><div>Check battery voltage first (multimeter). If below 12.2 V, the battery may simply be discharged — charge or jump from the 200Ah LiFePO4 bank via the Orion, or jump from another vehicle.</div></div>
+            <div class="check-step"><div class="step-num">3</div><div>Check all cable connections at the starter motor: positive (heavy cable from battery), earth to block, and the thin solenoid trigger wire. Corrosion on any of these will prevent starting. Clean and reconnect.</div></div>
+            <div class="check-step"><div class="step-num">4</div><div>If the R151F is in gear and the clutch is not fully depressed, the starter inhibit switch prevents cranking — check the clutch is fully depressed to the floor.</div></div>
+            <div class="check-step"><div class="step-num">5</div><div>Bump/push start: the 1HZ can be compression-started in 2nd gear at walking pace on a slope. With four people pushing or a slight downhill, this is a realistic field option and confirms the engine itself is functional.</div></div>
+          </div>
+          <div class="ok-box">Bump-start success + electrical fault diagnosis = drive to nearest town. Have the starter bench-tested on arrival.</div>
+        </div>
+      </div>
+
+    </div><!-- /electrical -->
+
+    <!-- ENGINE OIL LEAKS -->
+    <div class="diag-group">
+      <div class="diag-group-title">Engine Oil Leaks</div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Valve cover / rocker cover gasket leak</div>
+          <span class="diag-badge badge-caution">AMBER — Fire risk with turbo</span>
+          <span class="diag-arrow">▼</span>
+        </div>
+        <div class="diag-body">
+          <div class="note-box"><strong>On the turbo 76:</strong> the exhaust manifold runs directly below the valve cover and reaches 600°C under load. Any valve cover oil seep drips onto this manifold and burns. This is a fire risk — not cosmetic. Do not tolerate any seep on a turbocharged 1HZ.</div>
+          <div class="check-steps">
+            <div class="check-step"><div class="step-num">1</div><div>Symptoms: oil smell burning on engine bay heat, blue smoke at idle from the top of the engine, oil residue on the top of the block or on the intercooler pipework above.</div></div>
+            <div class="check-step"><div class="step-num">2</div><div>Clean the top of the engine with brake cleaner. Dry it fully. Run for 10 minutes and identify exactly where the oil is originating — valve cover gasket seam, individual bolt grommet, or filler cap O-ring.</div></div>
+            <div class="check-step"><div class="step-num">3</div><div>Field fix for gasket seam seep: clean the mating surface area thoroughly. Apply a thin bead of RTV silicone (grey or black, high-temp rated) along the seam from the outside. This is a surface seal, not a structural fix. Allow 1 h cure before running.</div></div>
+            <div class="check-step"><div class="step-num">4</div><div>For a leaking filler cap O-ring: wrap the cap threads with PTFE tape as a temporary measure. Replace the entire cap at the next workshop (O-rings are not sold separately).</div></div>
+            <div class="check-step"><div class="step-num">5</div><div>Carry a valve cover gasket set (gasket + bolt grommets) — it weighs under 100 g and takes 20 minutes to replace on the 1HZ. The job is accessible with standard tools.</div></div>
+          </div>
+          <div class="ok-box">Fully drivable with RTV field fix applied. Inspect at every stop. Replace gasket properly at next workshop — do not carry an unaddressed valve cover seep into a remote leg.</div>
+          <div class="xref-bar" style="margin-top:10px;"><span class="xref-label">See also</span><span class="xref-pill">R20 Seal &amp; Gasket Atlas §1.6</span><span class="xref-pill">R21 Turbo Operations Guide</span></div>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Sump gasket or sump plug weep</div>
+          <span class="diag-badge badge-monitor">GREEN — Monitor rate</span>
+          <span class="diag-arrow">▼</span>
+        </div>
+        <div class="diag-body">
+          <div class="check-steps">
+            <div class="check-step"><div class="step-num">1</div><div>Identify the source. Sump gasket leaks appear as a film of oil on the flat bottom surface of the sump. A weeping sump plug shows as a defined drip from the drain hole. Do not confuse with rear main seal (oil at the back of the sump where the gearbox mates to the engine).</div></div>
+            <div class="check-step"><div class="step-num">2</div><div>Sump plug weep: tighten carefully — the sump on the 1HZ is cast aluminium and the thread strips easily. If the plug is weeping rather than dripping, a new copper crush washer is usually all it needs. Carry 4× M14 copper crush washers in the spares bag.</div></div>
+            <div class="check-step"><div class="step-num">3</div><div>If the sump plug thread has stripped: JB Weld on a stripped aluminium thread buys one or two more drain cycles. For a field fix only, clean the thread, apply JB Weld to the plug threads, reinsert — this is one-time-use only. Workshop must helicoil the thread on return.</div></div>
+            <div class="check-step"><div class="step-num">4</div><div>Sump gasket seam seep: clean and dry the seam area. Apply high-temp RTV silicone externally along the seam. Allow 1 h cure before filling with oil or running.</div></div>
+            <div class="check-step"><div class="step-num">5</div><div>Monitor oil level at every stop — carry 2 L spare engine oil minimum. Top up to maintain level in the safe zone on the dipstick. Never run the 1HZ below the minimum mark — particularly critical with the turbo, which depends on clean oil supply to the bearing housing.</div></div>
+          </div>
+          <div class="ok-box">A slow seep (losing less than 100 ml per 200 km) is manageable with monitoring. A drip that increases = stop and re-examine. Running low on oil with the SAC turbo is a very expensive failure — the turbo bearing destroys itself within minutes of oil starvation.</div>
+          <div class="xref-bar" style="margin-top:10px;"><span class="xref-label">See also</span><span class="xref-pill">R20 Seal &amp; Gasket Atlas §1.3</span><span class="xref-pill">R21 Turbo Operations Guide</span></div>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Front crankshaft oil seal leak (oil thrown onto timing belt)</div>
+          <span class="diag-badge badge-stop">RED — Belt contamination risk</span>
+          <span class="diag-arrow">▼</span>
+        </div>
+        <div class="diag-body">
+          <div class="warn-box"><strong>This is the most dangerous oil leak on the 1HZ.</strong> Oil contamination on the rubber timing belt causes the belt to slip and fail. The 1HZ is an interference engine — a failed timing belt bends the valves and destroys the head. A front crank seal leak is a Stop &amp; Workshop condition, not a limp-and-monitor condition.</div>
+          <div class="check-steps">
+            <div class="check-step"><div class="step-num">1</div><div>Identify: oil flung onto the front of the engine, down the front of the block, and onto the radiator core. Often mistaken for a sump gasket leak. The distinction is height — crank seal oil appears on the front of the engine at crank pulley height, not just at the bottom.</div></div>
+            <div class="check-step"><div class="step-num">2</div><div>Inspect the timing belt access cover. If you can get to the belt: look for oil sheen, glazing, or darkening of the belt surface. Any oily belt = the belt is compromised. It must be replaced.</div></div>
+            <div class="check-step"><div class="step-num">3</div><div>If the seal is weeping but the belt is confirmed dry and the leak is slow: clean the crank nose, apply Pratley Putty around the seal lip as a temporary dam. This buys limited time — perhaps 200 km at reduced speed — to reach a workshop. No more.</div></div>
+            <div class="check-step"><div class="step-num">4</div><div>There is no safe field replacement for a crank seal in bush conditions — it requires the crank pulley to be pulled, which needs a puller tool. If you carry a puller and the replacement seal, the job is possible on the 1HZ, but time-consuming (2–3 h). Replace the timing belt at the same time — do not put a new seal behind a potentially contaminated belt.</div></div>
+          </div>
+          <div class="warn-box">HZJ76R-RKMRS has no valve clearance service on record at 305,000 km. A bent valve from timing belt failure on top of this service gap = very expensive head rebuild. The front crank seal is a direct threat to the belt. Inspect it at every service.</div>
+          <div class="xref-bar" style="margin-top:10px;"><span class="xref-label">See also</span><span class="xref-pill">R20 Seal &amp; Gasket Atlas §1.1</span><span class="xref-pill">R4 Engine Training</span><span class="xref-pill">R18 1HZ Troubleshooting</span></div>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Injection pump side-cover O-ring fuel leak</div>
+          <span class="diag-badge badge-caution">AMBER — Fire + fuel loss</span>
+          <span class="diag-arrow">▼</span>
+        </div>
+        <div class="diag-body">
+          <div class="check-steps">
+            <div class="check-step"><div class="step-num">1</div><div>The Denso VE rotary injection pump on the 1HZ has two side-cover O-rings which are the single most common pump leak on high-mileage engines (250–300k+ km). Symptoms: diesel weep on the side of the pump body, fuel smell in the engine bay, drips on the front diff housing underneath.</div></div>
+            <div class="check-step"><div class="step-num">2</div><div>Field fix: clean and degrease the area. Apply self-amalgamating tape tightly wrapped around the pump body at the side cover seam. This is a containment measure only — it will not stop the leak but will slow it. Suitable for 100–200 km to a workshop.</div></div>
+            <div class="check-step"><div class="step-num">3</div><div><strong>Do not attempt to remove the side covers in the field.</strong> The injection pump interior requires a clean environment — any dirt ingress destroys precision components. This is a workshop O-ring replacement only.</div></div>
+            <div class="check-step"><div class="step-num">4</div><div>Monitor fuel level carefully — a weeping pump can lose meaningful fuel volume over a long day. Check the dipstick area under the pump at every stop.</div></div>
+          </div>
+          <div class="ok-box">Drivable with tape containment. Reduce exposure time — prioritise reaching Dirk (Dup Diesel) or any Denso-trained fuel injection specialist. The O-ring kit is inexpensive and the job is under 1 h for a specialist.</div>
+          <div class="xref-bar" style="margin-top:10px;"><span class="xref-label">See also</span><span class="xref-pill">R20 Seal &amp; Gasket Atlas §3.2</span><span class="xref-pill">R24 Fuel System Guide</span></div>
+        </div>
+      </div>
+
+    </div><!-- /engine-oil -->
+
+    <!-- ADDITIONAL 1HZ FAILURES -->
+    <div class="diag-group">
+      <div class="diag-group-title">1HZ — Additional Known Failures</div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Viscous fan clutch failure (overheating at low speed)</div>
+          <span class="diag-badge badge-stop">RED — Overheat risk</span>
+          <span class="diag-arrow">▼</span>
+        </div>
+        <div class="diag-body">
+          <div class="note-box"><strong>This is the most common cause of 1HZ overheating.</strong> The viscous fan clutch is a silicone-fluid coupling that should lock the fan blade to near-full pulley speed when the engine is hot or at low vehicle speed. When it fails, the fan freewheels and provides almost no cooling at low speed — exactly when you need it most in sand, technical terrain, or crawling traffic.</div>
+          <div class="check-steps">
+            <div class="check-step"><div class="step-num">1</div><div>Test (engine off, key out, fully cold): grip the fan blade and spin it by hand. A healthy clutch offers significant resistance — the silicone fluid is engaged. A failed clutch spins freely with one finger. Any freely-spinning fan = replace before the next remote trip.</div></div>
+            <div class="check-step"><div class="step-num">2</div><div>A failed viscous clutch cannot be repaired in the field — the silicone fluid is sealed inside. There is no field fix. If you discover this on trip, your only option is to manage engine temperature through behaviour.</div></div>
+            <div class="check-step"><div class="step-num">3</div><div>Behavioural mitigation with a failed clutch: avoid prolonged low-speed work (sand, technical rock). Stop and idle at higher RPM (1,500 RPM) with park brake on if temperature rises — the fan works better at higher engine speed. Keep coolant level full. Avoid towing. Maximise airflow through the grille (remove any bull bar-mounted accessories that block airflow).</div></div>
+            <div class="check-step"><div class="step-num">4</div><div>If temperature gauge rises even on highway: pull over, idle engine at higher RPM with bonnet open until it drops. If it won't recover, Stop &amp; Call.</div></div>
+          </div>
+          <div class="warn-box">A 1HZ with a failed viscous clutch driving slowly on a sand track in 35°C heat will overheat. This is a pre-departure inspection item — test the fan before every remote trip, not after you have already left.</div>
+          <div class="xref-bar" style="margin-top:10px;"><span class="xref-label">See also</span><span class="xref-pill">R18 1HZ Troubleshooting — Overheating</span><span class="xref-pill">R22 Cooling System Guide</span></div>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Radiator blocked externally (mud, insects, seeds)</div>
+          <span class="diag-badge badge-caution">AMBER — Common on bush tracks</span>
+          <span class="diag-arrow">▼</span>
+        </div>
+        <div class="diag-body">
+          <div class="check-steps">
+            <div class="check-step"><div class="step-num">1</div><div>The 76 Series intercooler sits directly in front of the radiator. In African bush conditions, the gap between the two fills rapidly with seed pods, dried grass, insects, and compacted mud. The result is a progressive reduction in airflow — the engine runs hotter on each successive day until it overheats without any mechanical failure.</div></div>
+            <div class="check-step"><div class="step-num">2</div><div>Inspect the radiator/intercooler gap at every stop on bush tracks. Look from the side — can you see daylight through the fins? If not, it needs clearing.</div></div>
+            <div class="check-step"><div class="step-num">3</div><div>Field clearing: remove the intercooler-to-radiator bridging panel if fitted. Use compressed air (12V tyre compressor works) from the engine side to blow debris out toward the front of the vehicle. A soft brush on a long handle can dislodge compacted material. Do not use high-pressure water on a hot radiator.</div></div>
+            <div class="check-step"><div class="step-num">4</div><div>If no compressed air is available: a gentle flush with a container of water from the engine bay side, with the radiator at ambient temperature, will clear loose debris.</div></div>
+          </div>
+          <div class="ok-box">Once cleared, coolant temperatures should return to normal immediately. This is a maintenance task, not a repair — build it into the daily walkaround. A blocked core that goes unnoticed compounds with a marginal viscous clutch to produce overheating very quickly.</div>
+          <div class="xref-bar" style="margin-top:10px;"><span class="xref-label">See also</span><span class="xref-pill">R22 Cooling System Guide</span></div>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Glow plug failure (hard cold starting)</div>
+          <span class="diag-badge badge-monitor">GREEN — Warm conditions</span>
+          <span class="diag-arrow">▼</span>
+        </div>
+        <div class="diag-body">
+          <div class="check-steps">
+            <div class="check-step"><div class="step-num">1</div><div>The 1HZ has six glow plugs (one per cylinder). In warm African conditions (above 15°C ambient), the 1HZ will cold-start on three or four functioning glow plugs. Below 5°C, all six are needed. Symptoms: slow to start in the morning, white smoke that takes longer than usual to clear, rough idle when cold.</div></div>
+            <div class="check-step"><div class="step-num">2</div><div>Test each plug: disconnect the harness bus bar (one bolt), use a multimeter on continuity or resistance across each plug to chassis earth. A good plug reads 0.5–2 Ω. An open circuit = failed plug. A short to earth = also failed. Note which positions have failed.</div></div>
+            <div class="check-step"><div class="step-num">3</div><div>Failed plugs cannot be field-repaired — they require replacement. However, on the Southern African trip corridor, cold starts below 10°C are rare. In a warm climate, two or three failed plugs may not noticeably affect starting. Use a longer glow period (hold the key in position II for 10–15 s) to compensate for a partial set.</div></div>
+            <div class="check-step"><div class="step-num">4</div><div>If all six plugs have failed and it is cold: ether (cold start fluid) sprayed briefly into the intake will start the engine. Carry a small can. Use sparingly — ether is hard on the 1HZ on repeated use. This is a one-time measure, not a habit.</div></div>
+          </div>
+          <div class="ok-box">One to two failed plugs in warm conditions: continue and replace at next workshop. Three or more failed plugs: replace before any high-altitude or cold-weather section of the route.</div>
+          <div class="xref-bar" style="margin-top:10px;"><span class="xref-label">See also</span><span class="xref-pill">R18 1HZ Troubleshooting</span><span class="xref-pill">R4 Engine Training</span></div>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Power steering pump or box weep (fluid loss)</div>
+          <span class="diag-badge badge-monitor">GREEN — Monitor level</span>
+          <span class="diag-arrow">▼</span>
+        </div>
+        <div class="diag-body">
+          <div class="check-steps">
+            <div class="check-step"><div class="step-num">1</div><div>Symptoms: light whine or groan on full steering lock, increasing steering effort, fluid drips on the front crossmember. The 76 Series uses an engine-driven hydraulic pump feeding a recirculating ball steering box. Seal weeps are age-related on this platform and rarely sudden.</div></div>
+            <div class="check-step"><div class="step-num">2</div><div>Identify leak point: pump body (output shaft seal), high-pressure hose connections, steering box input shaft, or steering box output shaft (pitman arm seal).</div></div>
+            <div class="check-step"><div class="step-num">3</div><div>Field fix for a weeping hose fitting: tighten the banjo bolt (check for a copper washer — replace if available). For a weeping hose body, wrap with self-amalgamating tape and a hose clamp. Power steering hoses are high-pressure — a proper field patch will hold for 200–300 km.</div></div>
+            <div class="check-step"><div class="step-num">4</div><div>Top up the PS reservoir with ATF Dexron III (the 76's PS system uses ATF, not specific PS fluid). Carry 500 ml. Check level at each stop.</div></div>
+            <div class="check-step"><div class="step-num">5</div><div>If PS fluid is completely lost and pump starts groaning: reduce steering lock usage to protect the pump. At near-zero fluid the pump will fail — if that happens, steering becomes heavy (manual) but the vehicle remains steerable. Drive slowly to the nearest town.</div></div>
+          </div>
+          <div class="ok-box">A slow weep managed with top-ups is a long-term situation that does not prevent driving. Replace the seals at the next suitable workshop. Carry 500 ml ATF Dexron III as standard.</div>
+          <div class="xref-bar" style="margin-top:10px;"><span class="xref-label">See also</span><span class="xref-pill">R25 Suspension &amp; Steering Guide</span><span class="xref-pill">R20 Seal &amp; Gasket Atlas §9</span></div>
+        </div>
+      </div>
+
+    </div><!-- /additional-1hz -->
+
+    <!-- BODY/CHASSIS -->
+    <div class="diag-group">
+      <div class="diag-group-title">Body &amp; Chassis</div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Cracked or broken chassis mount (bracket, tab, or boss)</div>
+          <span class="diag-badge badge-caution">AMBER — Load-dependent</span>
+          <span class="diag-arrow">▼</span>
+        </div>
+        <div class="diag-body">
+          <div class="check-steps">
+            <div class="check-step"><div class="step-num">1</div><div>Identify what the mount supports. A cracked body mount (non-structural) is far less serious than a cracked suspension or diff mount. Assess load path before deciding response.</div></div>
+            <div class="check-step"><div class="step-num">2</div><div>For a broken body mount or panel bracket: clean, apply JB Weld to both surfaces, clamp with a G-clamp or cable ties if possible. Support with a backing plate (cut from aluminium or steel sheet) if the joint will be in tension.</div></div>
+            <div class="check-step"><div class="step-num">3</div><div>For a cracked suspension pickup point (the forward leading arm chassis bracket on this vehicle was plated and welded at Suspension City in June 2025 — inspect this mount at every departure): this requires welding. A temporary fix is to triangulate with a ratchet strap or wire as a tension brace and immediately reduce load and speed. Do not continue in this condition beyond the nearest workshop.</div></div>
+          </div>
+          <div class="note-box">The front suspension leading arm chassis bracket on HZJ76R-RKMRS was repaired at 275,000 km. It is a known inspection point. Any sign of movement or cracking here = Stop &amp; Call immediately.</div>
+          <div class="xref-bar" style="margin-top:10px;"><span class="xref-label">See also</span><span class="xref-pill">R25 Suspension &amp; Steering Guide</span></div>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Broken or cracked exhaust (pipe or manifold joint)</div>
+          <span class="diag-badge badge-monitor">GREEN — Nuisance, manage</span>
+          <span class="diag-arrow">▼</span>
+        </div>
+        <div class="diag-body">
+          <div class="check-steps">
+            <div class="check-step"><div class="step-num">1</div><div>Symptoms: loud ticking or popping from exhaust, increased exhaust noise. An exhaust leak is not normally a safety emergency — it is a nuisance and long-term engine inefficiency issue.</div></div>
+            <div class="check-step"><div class="step-num">2</div><div>Carbon will often self-seal minor leaks over time as deposits form at the crack. If the leak is audible but small, continue and inspect at each stop.</div></div>
+            <div class="check-step"><div class="step-num">3</div><div>For a larger leak or joint separation: clean the area (the exhaust must be fully cold), apply Gun Gum putty over the crack or joint, wrap with aluminium exhaust tape, and cure by running the engine at idle for 15 minutes then driving gently for 30 minutes.</div></div>
+            <div class="check-step"><div class="step-num">4</div><div>Fencing wire can lash a separated mid-pipe temporarily. Route it over the pipe and around the nearest chassis hanger point. This is a noise fix, not a structural fix.</div></div>
+          </div>
+          <div class="warn-box">Do not route exhaust repairs near the turbo downpipe — the SAC turbo operates at very high temperatures at that junction. Gun Gum is rated for these temperatures but requires correct cure before high-boost running.</div>
+          <div class="xref-bar" style="margin-top:10px;"><span class="xref-label">See also</span><span class="xref-pill">R21 Turbo Operations Guide</span></div>
+        </div>
+      </div>
+
+    </div><!-- /body-chassis -->
+
+    <div class="xref-bar">
+      <span class="xref-label">Cross-reference</span>
+      <span class="xref-pill">R18 1HZ Troubleshooting Guide</span>
+      <span class="xref-pill">R20 Seal &amp; Gasket Atlas</span>
+      <span class="xref-pill">R21 Turbo Operations Guide</span>
+      <span class="xref-pill">R22 Cooling System Guide</span>
+      <span class="xref-pill">R24 Fuel System Guide</span>
+      <span class="xref-pill">R25 Suspension &amp; Steering Guide</span>
+    </div>
+  </div><!-- /s-techniques -->
+
+
+  <!-- ══ SECTION 5: LIMP STRATEGY ══ -->
+  <div id="s-limp" class="sa">
+    <div class="section-head">5 — Limp Strategy</div>
+    <p class="section-intro">A vehicle that can move, even slowly, is vastly better than one that cannot. Limp mode is a structured decision — not a desperate gamble. Define your parameters before you drive. Know what condition will force you to stop completely before you get in.</p>
+
+    <div class="note-box"><strong>Limp mode requires three defined limits before you move:</strong> (1) Maximum speed. (2) Maximum distance between inspection stops. (3) Exit condition — the observable symptom that forces you to stop immediately. If any exit condition is triggered, you stop, you do not continue.</div>
+
+    <table class="specs-table">
+      <thead>
+        <tr>
+          <th style="width:20%">Fault Type</th>
+          <th style="width:15%">Max Speed</th>
+          <th style="width:15%">Stop Interval</th>
+          <th style="width:30%">Monitor</th>
+          <th style="width:20%">Exit Condition</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Patched coolant hose</strong></td>
+          <td class="mono">80 km/h</td>
+          <td class="mono">20 km</td>
+          <td>Coolant level, patch integrity, temp gauge</td>
+          <td>Any coolant loss &gt;100 ml per stop</td>
+        </tr>
+        <tr>
+          <td><strong>Broken rear leaf (pack intact)</strong></td>
+          <td class="mono">30 km/h</td>
+          <td class="mono">20 km</td>
+          <td>Strap tension, corner height, tyre contact</td>
+          <td>Tyre contact with arch or body</td>
+        </tr>
+        <tr>
+          <td><strong>Blown rear shock</strong></td>
+          <td class="mono">60 km/h tar / 40 km/h gravel</td>
+          <td class="mono">50 km</td>
+          <td>Ride quality, wheel bearing temp</td>
+          <td>Shock body contacting tyre</td>
+        </tr>
+        <tr>
+          <td><strong>Front propshaft removed, 2WD</strong></td>
+          <td class="mono">100 km/h</td>
+          <td class="mono">Normal</td>
+          <td>Rear diff temperature, noises</td>
+          <td>Any grinding from rear diff</td>
+        </tr>
+        <tr>
+          <td><strong>Rear propshaft removed, 4H</strong></td>
+          <td class="mono">60 km/h</td>
+          <td class="mono">30 km</td>
+          <td>Front diff temperature, steering load, tight turns</td>
+          <td>Clunking from front axle on turns</td>
+        </tr>
+        <tr>
+          <td><strong>No alternator (belt)</strong></td>
+          <td class="mono">Normal</td>
+          <td class="mono">1 h max</td>
+          <td>Battery voltage (BMV-712). Below 11.5 V = stop.</td>
+          <td>Battery voltage below 11.5 V</td>
+        </tr>
+        <tr>
+          <td><strong>Fuel tank patch</strong></td>
+          <td class="mono">80 km/h</td>
+          <td class="mono">30 km</td>
+          <td>Drip below tank, smell, fuel level drop rate</td>
+          <td>Any visible fuel drip restarts</td>
+        </tr>
+        <tr>
+          <td><strong>Exhaust repair (Gun Gum)</strong></td>
+          <td class="mono">Normal</td>
+          <td class="mono">50 km</td>
+          <td>Listen for noise change, check repair visually when cool</td>
+          <td>Noise becomes suddenly louder</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="warn-box">
+      <strong>Temperature and pressure rise under load.</strong> A repair that held at idle may fail under boost on a steep climb. If your limp route involves significant ascent, extend your stop interval accordingly. 1HZ under load = higher coolant temp, higher boost pressure, higher vibration amplitude. All of these stress a field repair harder than flat highway cruising.
+    </div>
+
+    <div class="xref-bar">
+      <span class="xref-label">Cross-reference</span>
+      <span class="xref-pill">R9 Vehicle Recovery Guide</span>
+      <span class="xref-pill">R21 Turbo Operations Guide</span>
+    </div>
+  </div><!-- /s-limp -->
+
+
+  <!-- ══ SECTION 6: STOP & CALL ══ -->
+  <div id="s-stop" class="sa">
+    <div class="section-head">6 — Stop &amp; Call</div>
+    <p class="section-intro">Some failures cannot be fixed in the field and cannot safely be limped out. This is not failure — it is correct judgement. The following conditions require you to stop the vehicle, secure it and the crew, and activate the communications sequence.</p>
+
+    <div class="sub-head">Immediate Stop Conditions — Do Not Drive</div>
+
+    <ul class="checklist">
+      <li><div class="cl-num" style="background:var(--red-warn);">✕</div><div class="cl-text"><span class="cl-label">Uncontrolled coolant loss — active overheating.</span><span class="cl-note">The 1HZ does not have an overheat alarm. Steam from the bonnet, temperature gauge pegged high, or coolant loss that does not respond to the patch = stop now. An overheated 1HZ can bend the head and destroy the engine in minutes.</span></div></li>
+      <li><div class="cl-num" style="background:var(--red-warn);">✕</div><div class="cl-text"><span class="cl-label">Steering loss or significant freeplay on a moving vehicle.</span><span class="cl-note">A failed drag link or ball joint that produces wheel wander at speed = stop immediately. Pull over gently without sudden inputs.</span></div></li>
+      <li><div class="cl-num" style="background:var(--red-warn);">✕</div><div class="cl-text"><span class="cl-label">Brake failure or significant pedal fade.</span><span class="cl-note">If the brake pedal goes to the floor or you have asymmetric braking causing the vehicle to pull hard under braking, stop. Use engine braking and handbrake to stop if service brakes are lost.</span></div></li>
+      <li><div class="cl-num" style="background:var(--red-warn);">✕</div><div class="cl-text"><span class="cl-label">Propshaft still attached and flailing.</span><span class="cl-note">A propshaft oscillating under the vehicle will destroy the tunnel, rupture the fuel tank, and can fracture brake and fuel lines. Stop and remove before driving.</span></div></li>
+      <li><div class="cl-num" style="background:var(--red-warn);">✕</div><div class="cl-text"><span class="cl-label">Cracked block or head (white steam from exhaust with coolant loss).</span><span class="cl-note">White sweet-smelling steam from the exhaust combined with coolant level drop = head gasket or crack. This is terminal until a workshop rebuild. Stop immediately.</span></div></li>
+      <li><div class="cl-num" style="background:var(--red-warn);">✕</div><div class="cl-text"><span class="cl-label">Fire — any smoke from the engine bay or chassis that is not steam.</span><span class="cl-note">Stop, kill ignition, all out, extinguisher if accessible and safe, then distance from vehicle. Do not re-enter. Activate emergency beacon.</span></div></li>
+      <li><div class="cl-num" style="background:var(--red-warn);">✕</div><div class="cl-text"><span class="cl-label">Structural fracture at a suspension or steering pickup point.</span><span class="cl-note">The forward leading arm bracket on this vehicle (known repair point, June 2025) or any welded joint at a diff mount showing active movement = Stop &amp; Call. Driving on a fractured suspension pickup causes total wheel departure.</span></div></li>
+    </ul>
+
+    <div class="sub-head">Communication Activation Sequence</div>
+
+    <div class="signal-chain">
+      <div class="sc-step">1. Confirm position (GPS)</div>
+      <div class="sc-arrow">→</div>
+      <div class="sc-step">2. Safety check — crew, fire, hazard</div>
+      <div class="sc-arrow">→</div>
+      <div class="sc-step">3. Attempt phone / satphone</div>
+      <div class="sc-arrow">→</div>
+      <div class="sc-step">4. If no signal → activate PLB / Garmin inReach SOS</div>
+      <div class="sc-arrow">→</div>
+      <div class="sc-step">5. Set up shelter, signal flag, conserve battery</div>
+    </div>
+
+    <div class="info-box">
+      <strong>Before activating an emergency beacon:</strong> Confirm the situation genuinely exceeds your self-rescue capability. A PLB activation initiates a SAR (Search and Rescue) response that costs significant resources. The test: can you solve this in the next 24 hours using your own kit, skills, and communications? If yes — solve it. If no — activate.
+    </div>
+
+    <div class="note-box">
+      <strong>Leave a note.</strong> If you leave the vehicle to walk out, write on paper: GPS coordinates, your heading and destination, number of people, vehicle registration, date and time, and your medical status. Tape it to the inside of the windscreen. This is standard overland practice.
+    </div>
+
+    <div class="xref-bar">
+      <span class="xref-label">Cross-reference</span>
+      <span class="xref-pill">R10 Emergency Procedures Guide</span>
+      <span class="xref-pill">R16 Comms &amp; Navigation Guide</span>
+      <span class="xref-pill">R9 Vehicle Recovery Guide</span>
+    </div>
+  </div><!-- /s-stop -->
+
+
+  <!-- ══ SECTION 7: WHAT NOT TO DO ══ -->
+  <div id="s-notdo" class="sa">
+    <div class="section-head">7 — What Not To Do</div>
+    <p class="section-intro">These are the repairs and decisions that routinely turn a recoverable situation into a permanent stranding. Most are well-documented across African and Australian bush mechanics communities — and most happen to experienced drivers who should know better.</p>
+
+    <ul class="notodo-list">
+      <li><div class="notodo-x">✕</div><div class="notodo-text"><span class="notodo-label">Do not open the cooling system cap when the engine is hot.</span><span class="notodo-note">Even a system that "looks" settled can spray boiling coolant. Wait a minimum of 30 minutes after shutdown. Place a rag over the cap and turn slowly to release pressure before removing.</span></div></li>
+      <li><div class="notodo-x">✕</div><div class="notodo-text"><span class="notodo-label">Do not add cold water to an overheated engine.</span><span class="notodo-note">Thermal shock on a hot cast-iron 1HZ block can crack the block or head. If you must add water, idle the engine and add slowly in small increments while running.</span></div></li>
+      <li><div class="notodo-x">✕</div><div class="notodo-text"><span class="notodo-label">Do not keep driving on an overheating engine.</span><span class="notodo-note">Five minutes of over-temperature on the 1HZ bends the head. The 1HZ has no electronic overheat warning. If the temperature gauge moves into the danger zone, you have seconds to pull over — not minutes.</span></div></li>
+      <li><div class="notodo-x">✕</div><div class="notodo-text"><span class="notodo-label">Do not assume a fuse failure is random — find the short first.</span><span class="notodo-note">Replacing a blown fuse without finding the short will blow the replacement. Replacing with a higher-rated fuse will melt the wire and potentially start a fire. A 10 A circuit gets a 10 A fuse, no exceptions.</span></div></li>
+      <li><div class="notodo-x">✕</div><div class="notodo-text"><span class="notodo-label">Do not remove the injection pump cover in the field.</span><span class="notodo-note">The Denso VE rotary injection pump requires specialist tools and a clean environment to service. Any contamination introduced during a field attempt will destroy the pump. If the pump has failed, Stop &amp; Call.</span></div></li>
+      <li><div class="notodo-x">✕</div><div class="notodo-text"><span class="notodo-label">Do not apply JB Weld or Pratley to a wet or oily surface.</span><span class="notodo-note">Either compound will not adhere. Degrease with brake cleaner, dry completely, then apply. A poorly bonded repair is worse than no repair — it will fail under load and take the surrounding material with it.</span></div></li>
+      <li><div class="notodo-x">✕</div><div class="notodo-text"><span class="notodo-label">Do not drive on a SAT propshaft that is still physically attached but vibrating.</span><span class="notodo-note">A vibrating propshaft will fatigue-crack the diff flanges, punch holes in the tunnel, and sever brake lines. Remove it entirely before driving. Store it properly — you may need it again.</span></div></li>
+      <li><div class="notodo-x">✕</div><div class="notodo-text"><span class="notodo-label">Do not over-torque a fastener on a cold engine or in aluminium.</span><span class="notodo-note">Aluminium heads and brackets are soft. African field mechanics tend to overtighten when they're nervous. Use a torque wrench. If you are guessing, err slightly under and recheck when warm.</span></div></li>
+      <li><div class="notodo-x">✕</div><div class="notodo-text"><span class="notodo-label">Do not mix brake fluid types.</span><span class="notodo-note">The 76 uses DOT 3/DOT 4. Mixing with DOT 5 (silicone) will contaminate the entire system and destroy seals. If topping up, use the same spec that is already in the system. If in doubt, do not top up and drive conservatively until you can confirm.</span></div></li>
+      <li><div class="notodo-x">✕</div><div class="notodo-text"><span class="notodo-label">Do not improvise a hydraulic brake or clutch line repair without a proper flare kit.</span><span class="notodo-note">A hose clamp on a brake line will not hold. A JB Weld patch on a brake line will not hold. A brake line leak is a Stop condition — the vehicle cannot be safely driven until the line is replaced or professionally repaired.</span></div></li>
+      <li><div class="notodo-x">✕</div><div class="notodo-text"><span class="notodo-label">Do not drive in 4WD on dry tar for more than a few hundred metres.</span><span class="notodo-note">The 76 has a part-time 4WD system with no centre differential. On hard, high-traction surfaces, drivetrain windup will stress the transfer case, front diff, and propshafts. On tar: 2WD only unless you are specifically navigating a section of 4WD terrain.</span></div></li>
+      <li><div class="notodo-x">✕</div><div class="notodo-text"><span class="notodo-label">Do not leave a field repair unmonitored on the next drive.</span><span class="notodo-note">Stop 10 km after any field repair and inspect it. The first heat-and-vibration cycle is when repairs fail. Catching a failed repair early at 10 km is far better than discovering it at 100 km.</span></div></li>
+    </ul>
+  </div><!-- /s-notdo -->
+
+
+  <!-- ══ SECTION 8: DOCUMENTATION ══ -->
+  <div id="s-doc" class="sa">
+    <div class="section-head">8 — Field Documentation</div>
+    <p class="section-intro">A field repair that is not documented is a ticking clock. Workshop mechanics cannot properly diagnose what they cannot see, and a temporary repair that is forgotten becomes a permanent risk. Good documentation also builds your own fault pattern awareness over time.</p>
+
+    <div class="sub-head">What to Record for Every Fault Event</div>
+
+    <ul class="checklist">
+      <li><div class="cl-num">1</div><div class="cl-text"><span class="cl-label">Date, location (GPS coordinates), and odometer reading.</span><span class="cl-note">The minimum addressable record. Cross-reference to trip log for route context.</span></div></li>
+      <li><div class="cl-num">2</div><div class="cl-text"><span class="cl-label">What the fault was — system, symptom, and your diagnosis.</span><span class="cl-note">Distinguish between what you observed and what you concluded. "Coolant level dropped 200 ml — suspected hose split at lower radiator inlet" is more useful than "overheating issue".</span></div></li>
+      <li><div class="cl-num">3</div><div class="cl-text"><span class="cl-label">What you did — materials, procedure, time taken.</span><span class="cl-note">Be specific. "Applied one layer self-amalgamating tape and two 40 mm hose clamps to split at lower radiator hose, 60 mm from inlet stub" gives the workshop exactly what they need to see.</span></div></li>
+      <li><div class="cl-num">4</div><div class="cl-text"><span class="cl-label">Photographs — before and after repair, from multiple angles.</span><span class="cl-note">A photograph is worth three paragraphs of description. Take more than you think you need. WhatsApp to workshop contact in advance if connectivity allows.</span></div></li>
+      <li><div class="cl-num">5</div><div class="cl-text"><span class="cl-label">Condition on departure — is the repair holding? Any residual symptoms?</span><span class="cl-note">Note any residual noise, smell, or handling change. If the repair appeared sound at departure, note that too — it is evidence that the procedure was correct.</span></div></li>
+      <li><div class="cl-num">6</div><div class="cl-text"><span class="cl-label">Mark it clearly as TEMPORARY with the required permanent repair.</span><span class="cl-note">Write "TEMP — requires hose replacement" or "TEMP — requires TIG weld to chassis bracket". Do not let the word "temporary" become ambiguous over time.</span></div></li>
+    </ul>
+
+    <div class="sub-head">Transfer to R8 Service History</div>
+    <div class="info-box">
+      Every field fault event — whether repaired or not — must be transferred to R8 (Service History) on return. Record it in the Repairs & Events section with the same detail used in the Fault Log. This ensures the service history reflects the vehicle's actual state at all times, and that workshop contacts (Dirk / Dup Diesel, Cape Transmissions, Suspension City) have a complete record when they next see the vehicle.
+    </div>
+
+    <div class="sub-head">Photograph Protocol</div>
+    <div class="check-steps">
+      <div class="check-step"><div class="step-num">1</div><div>Wide shot — entire system area showing context of the fault.</div></div>
+      <div class="check-step"><div class="step-num">2</div><div>Close-up — the actual fault point, in focus, before any repair.</div></div>
+      <div class="check-step"><div class="step-num">3</div><div>In progress — the repair being applied (useful for confirming procedure was correct).</div></div>
+      <div class="check-step"><div class="step-num">4</div><div>Post-repair — same angle as the close-up, showing the completed work.</div></div>
+      <div class="check-step"><div class="step-num">5</div><div>Label photos with a naming convention: [Date]_[System]_[Fault] e.g. 2028-07-14_CoolantHose_Lower.</div></div>
+    </div>
+
+    <div class="xref-bar">
+      <span class="xref-label">Cross-reference</span>
+      <span class="xref-pill">R8 Service History</span>
+    </div>
+  </div><!-- /s-doc -->
+
+
+  <!-- ══ SECTION 9: PRE-DEPARTURE CHECKLIST ══ -->
+  <div id="s-checklist" class="sa">
+    <div class="section-head">9 — Pre-Departure Skills &amp; Tool Audit</div>
+    <p class="section-intro">This checklist audits your readiness to execute field repairs before you leave for a remote area. It is not a mechanical inspection — it is a capability audit. Complete it before any trip where recovery or workshop support is more than 150 km away.</p>
+
+    <ul class="checklist">
+      <li><div class="cl-num">1</div><div class="cl-text"><span class="cl-label">JB Weld and Pratley Putty — in date and unopened or sealed.</span><span class="cl-note">Expired product sets soft. Check the mixed remaining in tube kits — partially used two-part epoxy does not store reliably beyond 12 months once opened.</span></div></li>
+      <li><div class="cl-num">2</div><div class="cl-text"><span class="cl-label">Self-amalgamating tape — at least two rolls, tested not brittle.</span><span class="cl-note">Tape that has dried out will not amalgamate. Test by pulling a 30 cm length and stretching to 50% — it should stretch without tearing.</span></div></li>
+      <li><div class="cl-num">3</div><div class="cl-text"><span class="cl-label">Hose clamp set — correct sizes for coolant and turbo hoses.</span><span class="cl-note">Measure the upper and lower radiator hose OD and turbo inlet OD. Carry 2× clamps per hose size. Check stainless grade — cheap mild steel clamps corrode and snap.</span></div></li>
+      <li><div class="cl-num">4</div><div class="cl-text"><span class="cl-label">Spare alternator belt — correct part number for 1HZ.</span><span class="cl-note">Mark the part number on the belt bag. The 1HZ uses a V-belt, not a serpentine. Replacement in the field takes 20 minutes. Carry one belt minimum.</span></div></li>
+      <li><div class="cl-num">5</div><div class="cl-text"><span class="cl-label">Spare thermostat — 82°C rated, complete with new gasket.</span><span class="cl-note">Weighs 80 g, costs R50. The field thermostat removal procedure (Section 4) works without a spare — but a replacement allows return to normal operation.</span></div></li>
+      <li><div class="cl-num">6</div><div class="cl-text"><span class="cl-label">Spare lift pump — correct part for 1HZ.</span><span class="cl-note">Carry one sealed, with a new paper gasket. See Section 4 for replacement procedure. The 1HZ lift pump is the single most field-serviceable component in the fuel system.</span></div></li>
+      <li><div class="cl-num">7</div><div class="cl-text"><span class="cl-label">Coolant hose — at least upper and lower radiator hose.</span><span class="cl-note">The upper hose is the most frequent failure point. Carry it folded in the tool bag. A hose splice kit (two pieces of appropriately sized silicon hose and four clamps) covers unexpected sizes.</span></div></li>
+      <li><div class="cl-num">8</div><div class="cl-text"><span class="cl-label">Spare rear leaf spring U-bolts — correct size for OME CS058R pack.</span><span class="cl-note">Fitted January 2026. Carry four bolts, matching nuts, and flat washers. Torque specification: 90 Nm.</span></div></li>
+      <li><div class="cl-num">9</div><div class="cl-text"><span class="cl-label">Gun Gum exhaust putty — fresh tube.</span><span class="cl-note">Expires — check date. Carry a 400 g tin. Confirm applicator nozzle is clean and open.</span></div></li>
+      <li><div class="cl-num">10</div><div class="cl-text"><span class="cl-label">Electrical repair kit — wire, terminals, fuses, multimeter.</span><span class="cl-note">Multimeter is the single most useful diagnostic tool on the 76. Carry spare AA batteries for it. Confirm multimeter continuity and DC voltage functions are working.</span></div></li>
+      <li><div class="cl-num">11</div><div class="cl-text"><span class="cl-label">Torque wrench — 0–150 Nm range, accessible.</span><span class="cl-note">Not at the bottom of the tool bag. Suspension bolts and U-bolts require correct torque. Guessing by feel on a 76 at this mileage is not good enough.</span></div></li>
+      <li><div class="cl-num">12</div><div class="cl-text"><span class="cl-label">Floor jack and axle stands — rated for 2,160 kg minimum, inspected.</span><span class="cl-note">Test the jack on a level surface before departure. Inspect the axle stand locking mechanism. A jack that fails under the vehicle during a field repair creates an emergency from a breakdown.</span></div></li>
+      <li><div class="cl-num">13</div><div class="cl-text"><span class="cl-label">Brake cleaner — at least one full 400 ml aerosol.</span><span class="cl-note">Your primary surface prep tool for any adhesive repair. Without it, no JB Weld, Pratley, or Gun Gum repair will bond correctly to a vehicle surface.</span></div></li>
+      <li><div class="cl-num">14</div><div class="cl-text"><span class="cl-label">Fencing wire — 3 m coil, galvanised.</span><span class="cl-note">Carry a fresh coil. Wire fatigues with repeated bending — used wire from the previous trip may snap when you need it most.</span></div></li>
+      <li><div class="cl-num">15</div><div class="cl-text"><span class="cl-label">Spare fastener bag — M6/M8/M10/M12 bolts, nuts, and washers.</span><span class="cl-note">Check after each trip that the bag has been restocked. Lost hardware is the most common bush stranding cause after tyre issues.</span></div></li>
+      <li><div class="cl-num">16</div><div class="cl-text"><span class="cl-label">Can you bleed the 1HZ fuel system from memory?</span><span class="cl-note">If not, review Section 4 Fuel — Bad Fuel card and the R24 Fuel System Guide before departure. This is a 10-minute skill that prevents a 3-day wait.</span></div></li>
+      <li><div class="cl-num">17</div><div class="cl-text"><span class="cl-label">Can you replace the alternator belt in under 30 minutes?</span><span class="cl-note">Practice it once at home with the engine cold. The routing is simple on the 1HZ but unfamiliar hands in the dark in the rain will take 90 minutes.</span></div></li>
+      <li><div class="cl-num">18</div><div class="cl-text"><span class="cl-label">Do you have GPS coordinates for the nearest workshop in each country on your route?</span><span class="cl-note">Compile this list from T4A, iOverlander, and your overlanding network before departure. Coordinates, not just town names. Store in both phone and dedicated GPS device.</span></div></li>
+      <li><div class="cl-num">19</div><div class="cl-text"><span class="cl-label">PLB / Garmin inReach registered and tested.</span><span class="cl-note">Self-test the PLB per manufacturer instructions. Confirm COSPASS-SARSAT registration is current. Test inReach message send/receive with a non-SOS message.</span></div></li>
+      <li><div class="cl-num">20</div><div class="cl-text"><span class="cl-label">Has the Fault Log been cleared (previous entries transferred to R8)?</span><span class="cl-note">Start each trip with a fresh log. Carry-over entries create confusion about whether a recorded item has been addressed. Transfer all previous entries to R8 before departure.</span></div></li>
+    </ul>
+
+    <div class="xref-bar">
+      <span class="xref-label">Cross-reference</span>
+      <span class="xref-pill">R2 Pre-Departure Checklist</span>
+      <span class="xref-pill">R3 Bush Spares &amp; Tools</span>
+      <span class="xref-pill">R8 Service History</span>
+    </div>
+  </div><!-- /s-checklist -->
+
+
+  <!-- ══ SECTION 10: FAULT LOG ══ -->
+  <div id="s-log" class="sa">
+    <div class="section-head">10 — Field Fault Log</div>
+    <p class="section-intro">Record every fault event — whether a full repair, a temporary fix, or a Stop &amp; Call — at the time it occurs. Transfer all entries to R8 (Service History) on return. Write clearly; this log travels with the vehicle.</p>
+
+    <div class="note-box"><strong>Mark every temporary repair with "TEMP" and the required permanent fix.</strong> This column is the most important column in the table — it is your transfer instruction to the workshop.</div>
+
+    <table class="log-table">
+      <colgroup>
+        <col style="width:8%">
+        <col style="width:8%">
+        <col style="width:6%">
+        <col style="width:14%">
+        <col style="width:20%">
+        <col style="width:16%">
+        <col style="width:14%">
+        <col style="width:14%">
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Location / GPS</th>
+          <th>Odo km</th>
+          <th>System / Fault</th>
+          <th>Action Taken</th>
+          <th>Materials Used</th>
+          <th>TEMP / PERM</th>
+          <th>Transfer to R8 ✓</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td></tr>
+        <tr><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td></tr>
+        <tr><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td></tr>
+        <tr><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td></tr>
+        <tr><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td></tr>
+        <tr><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td></tr>
+        <tr><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td></tr>
+        <tr><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td></tr>
+        <tr><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td></tr>
+        <tr><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td><td class="fill">&nbsp;</td></tr>
+      </tbody>
+    </table>
+
+    <div class="xref-bar">
+      <span class="xref-label">Cross-reference</span>
+      <span class="xref-pill">R8 Service History</span>
+      <span class="xref-pill">R2 Pre-Departure Checklist</span>
+      <span class="xref-pill">R24 Fuel System Guide — Fuel Log</span>
+    </div>
+  </div><!-- /s-log -->
+
+</div><!-- /main -->
+
+<script>
+  // Toggle diag cards
+  function toggleDiag(header) {
+    const body  = header.nextElementSibling;
+    const arrow = header.querySelector('.diag-arrow');
+    const isOpen = body.classList.contains('open');
+    body.classList.toggle('open', !isOpen);
+    if (arrow) arrow.classList.toggle('open', !isOpen);
+  }
+
+  // TOC scroll
+  document.querySelectorAll('.toc-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.getAttribute('data-target');
+      const el = document.getElementById(id);
+      if (!el) return;
+      const stickyH = document.querySelector('.sticky-wrap').offsetHeight;
+      const top = el.getBoundingClientRect().top + window.scrollY - stickyH - 8;
+      window.scrollTo({ top, behavior: 'smooth' });
+    });
+  });
+
+  // IntersectionObserver for active TOC state
+  const sections = ['s-mindset','s-triage','s-materials','s-techniques','s-limp','s-stop','s-notdo','s-doc','s-checklist','s-log'];
+  const targets  = ['s-mindset','s-triage','s-materials','s-techniques','s-limp','s-stop','s-notdo','s-doc','s-checklist','s-log'];
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        document.querySelectorAll('.toc-btn').forEach(b => b.classList.remove('active'));
+        const id = entry.target.id;
+        const btn = document.querySelector(`.toc-btn[data-target="${id}"]`);
+        if (btn) btn.classList.add('active');
+      }
+    });
+  }, {
+    rootMargin: '-20% 0px -60% 0px',
+    threshold: 0
+  });
+
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) observer.observe(el);
+  });
+</script>
+
+</body>
+</html>
