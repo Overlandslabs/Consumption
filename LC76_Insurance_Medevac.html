@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>R29 — Insurance &amp; Medevac | HZJ76R-RKMRS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=Oswald:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:      #1C1410;
+    --paper:    #F5EDDA;
+    --paper2:   #EDE5D0;
+    --cream:    #F5EDDA;
+    --amber:    #b86800;
+    --amber2:   #e07800;
+    --rule:     #d4cfc4;
+    --steeldk:  #2a2f3a;
+    --steelmd:  #6a7080;
+    --red-warn: #B91C1C;
+    --green-ok: #059669;
+    --orange:   #c05a00;
+    --border:   #c8bfad;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
+
+  body {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  /* STICKY WRAP */
+  .sticky-wrap { position: sticky; top: 0; z-index: 100; background: var(--ink); padding-top: env(safe-area-inset-top); }
+
+  /* MASTHEAD */
+  .masthead { position: relative; background: var(--ink); color: #fff; padding: 18px 24px 14px; }
+  .lib-home-btn { position:absolute; top:50%; right:16px; transform:translateY(-50%); display:inline-flex; align-items:center; gap:5px; font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; text-decoration:none; color:var(--amber2); background:rgba(232,120,0,.15); border:1px solid var(--amber2); border-radius:20px; padding:6px 12px; min-height:32px; white-space:nowrap; z-index:10; transition:background .2s; }
+  .lib-home-btn:hover, .lib-home-btn:active { background:rgba(232,120,0,.30); }
+  @media print { .lib-home-btn { display:none !important; } }
+
+  .mh-eyebrow  { font-family:'IBM Plex Mono',monospace; font-size:.5rem; letter-spacing:.28em; text-transform:uppercase; color:var(--steelmd); margin-bottom:6px; }
+  .mh-title    { font-family:'Bebas Neue',sans-serif; font-size:clamp(1.8rem,5vw,2.6rem); letter-spacing:.06em; color:var(--amber2); line-height:1; }
+  .mh-sub      { font-family:'IBM Plex Mono',monospace; font-size:.54rem; letter-spacing:.12em; color:rgba(255,200,100,.65); margin-top:5px; }
+  .mh-vehicle  { font-family:'IBM Plex Mono',monospace; font-size:.48rem; letter-spacing:.08em; color:var(--steelmd); margin-top:8px; }
+
+  /* TOC BAR */
+  .toc-bar {
+    background: var(--steeldk);
+    border-top: 3px solid var(--amber2);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    padding: 0 20px;
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .toc-bar::-webkit-scrollbar { display: none; }
+  .toc-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .52rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--steelmd);
+    background: none;
+    border: none;
+    padding: 10px 12px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color 0.15s;
+  }
+  .toc-btn:hover  { color: #c8bfad; }
+  .toc-btn.active { color: var(--amber2); }
+
+  /* MAIN */
+  .main { padding: 28px 5% 80px; max-width: 100%; }
+
+  /* SECTION HEADINGS */
+  .section-head {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: var(--ink);
+    letter-spacing: 0.04em;
+    border-bottom: 2px solid var(--amber2);
+    padding-bottom: 4px;
+    margin-bottom: 14px;
+    margin-top: 28px;
+  }
+  .section-head:first-child { margin-top: 0; }
+  .section-intro { font-size: 13px; color: var(--steelmd); margin-bottom: 14px; font-style: italic; }
+
+  /* SECTION ANCHOR OFFSET */
+  .sa { scroll-margin-top: 130px; }
+
+  /* SUBSECTION TITLE */
+  .sub-head {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 15px;
+    color: var(--amber2);
+    letter-spacing: 0.04em;
+    background: var(--steeldk);
+    padding: 8px 14px;
+    margin-bottom: 0;
+    margin-top: 16px;
+  }
+
+  /* PROVIDER GRID */
+  .prov-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:10px; margin:14px 0; }
+  .prov-card { border:1px solid var(--border); background:#fff; border-radius:2px; overflow:hidden; }
+  .prov-card-head { font-family:'Oswald',sans-serif; font-weight:500; font-size:13px; background:var(--paper2); padding:8px 12px; border-bottom:1px solid var(--rule); color:var(--ink); display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  .prov-card-body { padding:10px 12px; font-size:12.5px; line-height:1.55; color:var(--ink); }
+  .prov-card-body p { margin-bottom:6px; }
+  .prov-card-body p:last-child { margin-bottom:0; }
+  .prov-tag { font-family:'IBM Plex Mono',monospace; font-size:8px; font-weight:600; letter-spacing:.08em; padding:2px 6px; border-radius:2px; white-space:nowrap; }
+  .tag-ok     { background:rgba(5,150,105,.12); color:var(--green-ok); border:1px solid rgba(5,150,105,.3); }
+  .tag-warn   { background:rgba(185,28,28,.10); color:var(--red-warn); border:1px solid rgba(185,28,28,.25); }
+  .tag-amber  { background:rgba(232,120,0,.12); color:var(--amber2); border:1px solid rgba(232,120,0,.3); }
+
+  /* STACK DIAGRAM */
+  .stack-wrap { margin: 16px 0; }
+  .stack-layer { display:flex; align-items:stretch; border:1px solid var(--border); margin-bottom:6px; border-radius:2px; overflow:hidden; }
+  .stack-num { font-family:'IBM Plex Mono',monospace; font-size:18px; font-weight:600; background:var(--steeldk); color:var(--amber2); width:44px; min-width:44px; display:flex; align-items:center; justify-content:center; }
+  .stack-body { padding:10px 14px; flex:1; }
+  .stack-title { font-family:'Oswald',sans-serif; font-weight:500; font-size:14px; color:var(--ink); }
+  .stack-desc { font-size:12.5px; color:var(--steelmd); margin-top:3px; }
+  .stack-gap { font-family:'IBM Plex Mono',monospace; font-size:9px; background:rgba(185,28,28,.08); color:var(--red-warn); border:1px solid rgba(185,28,28,.2); padding:3px 8px; margin-left:auto; align-self:center; margin-right:14px; white-space:nowrap; }
+
+  /* BORDER TABLE */
+  .border-table { width:100%; border-collapse:collapse; font-size:12.5px; margin:14px 0; }
+  .border-table th { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; background:var(--steeldk); color:rgba(255,255,255,.7); padding:7px 10px; text-align:left; white-space:nowrap; }
+  .border-table td { padding:7px 10px; border-bottom:1px solid var(--rule); vertical-align:top; }
+  .border-table tr:nth-child(even) td { background:var(--paper2); }
+  .border-table .yes { color:var(--green-ok); font-weight:600; font-family:'IBM Plex Mono',monospace; font-size:9px; }
+  .border-table .no  { color:var(--red-warn); font-weight:600; font-family:'IBM Plex Mono',monospace; font-size:9px; }
+  .border-table .note { color:var(--steelmd); font-size:11px; }
+
+  /* PROTOCOL STEPS */
+  .proto-steps { margin: 14px 0; }
+  .proto-step { display:flex; gap:12px; margin-bottom:8px; align-items:flex-start; }
+  .proto-num { font-family:'IBM Plex Mono',monospace; font-size:14px; font-weight:600; color:#fff; background:var(--amber); min-width:30px; height:30px; display:flex; align-items:center; justify-content:center; border-radius:2px; flex-shrink:0; margin-top:2px; }
+  .proto-body { flex:1; font-size:13px; line-height:1.55; }
+  .proto-title { font-family:'Oswald',sans-serif; font-weight:500; font-size:13px; color:var(--ink); }
+  .proto-detail { color:var(--steelmd); font-size:12.5px; margin-top:2px; }
+
+  /* CHECKLIST */
+  .checklist { list-style:none; margin:14px 0; }
+  .checklist li { display:flex; align-items:flex-start; gap:10px; padding:7px 0; border-bottom:1px solid var(--rule); font-size:13px; line-height:1.5; }
+  .checklist li:last-child { border-bottom:none; }
+  .check-box { width:16px; height:16px; border:2px solid var(--steelmd); border-radius:2px; flex-shrink:0; margin-top:2px; }
+  .check-label { flex:1; }
+  .check-note { font-size:11px; color:var(--steelmd); display:block; margin-top:2px; font-family:'IBM Plex Mono',monospace; }
+
+  /* CASE STUDY */
+  .case-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:12px; margin:14px 0; }
+  .case-card { border-left:4px solid var(--amber2); background:var(--paper2); padding:12px 14px; }
+  .case-title { font-family:'Oswald',sans-serif; font-weight:500; font-size:13px; color:var(--ink); margin-bottom:6px; }
+  .case-body { font-size:12.5px; line-height:1.55; color:var(--ink); margin-bottom:8px; }
+  .case-lesson { font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--amber); border-top:1px solid var(--rule); padding-top:6px; margin-top:4px; }
+
+  /* WARN / NOTE / INFO BOXES */
+  .warn-box { background:rgba(185,28,28,.08); border-left:4px solid var(--red-warn); padding:10px 14px; margin:12px 0; font-size:13px; color:var(--ink); }
+  .note-box { background:rgba(232,120,0,.08); border-left:4px solid var(--amber2); padding:10px 14px; margin:12px 0; font-size:13px; color:var(--ink); }
+  .info-box  { background:var(--paper2); border-left:4px solid var(--steelmd); padding:10px 14px; margin:12px 0; font-size:13px; color:var(--ink); }
+  .warn-box strong, .note-box strong, .info-box strong { font-weight:600; color:var(--ink); }
+
+  /* POLICY LOG TABLE */
+  .log-table { width:100%; border-collapse:collapse; font-size:12.5px; margin:14px 0; }
+  .log-table th { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; background:var(--steeldk); color:rgba(255,255,255,.7); padding:7px 10px; text-align:left; }
+  .log-table td { padding:8px 10px; border-bottom:1px solid var(--rule); vertical-align:top; }
+  .log-table tr:nth-child(even) td { background:var(--paper2); }
+  .log-table .fill { background: #EDE5D0; min-width:100px; }
+
+  /* XREF BAR */
+  .xref-bar { display:flex; flex-wrap:wrap; align-items:center; gap:6px; padding:10px 14px; background:var(--steeldk); margin:18px 0 0; border-radius:2px; }
+  .xref-label { font-family:'IBM Plex Mono',monospace; font-size:9px; color:rgba(255,255,255,.45); text-transform:uppercase; letter-spacing:.1em; }
+  .xref-pill  { font-family:'IBM Plex Mono',monospace; font-size:9px; color:var(--amber2); background:rgba(232,120,0,.1); border:1px solid rgba(232,120,0,.3); padding:3px 8px; border-radius:20px; white-space:nowrap; }
+
+  /* MOBILE */
+  @media(max-width:600px){
+    .masthead { padding:14px 16px 12px; }
+    .lib-home-btn { top:14px; transform:none; }
+    .mh-title { font-size:clamp(1.5rem,6vw,2.2rem); }
+    .toc-bar { padding:0 12px; }
+    .toc-btn { font-size:.46rem; padding:8px 9px; }
+    .main { padding:14px 4% 60px; }
+    .prov-grid, .case-grid { grid-template-columns:1fr; }
+    .border-table { display:block; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    .stack-gap { display:none; }
+  }
+
+  /* PRINT */
+  @media print {
+    *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+    @page{margin:7mm;size:A4}
+    .lib-home-btn,.toc-bar{display:none!important}
+    .sticky-wrap{position:static!important}
+    .masthead{background:#0d0e12!important;padding:8px 14px 6px!important;border-bottom:2px solid #e07800!important}
+    .mh-title{color:#e07800!important;font-size:1.5rem!important}
+    .section-head{border-bottom:2px solid #e07800!important;font-size:16px!important;page-break-after:avoid}
+    .sub-head{background:#2a2f3a!important;color:#e07800!important;page-break-after:avoid}
+    .prov-card,.case-card,.proto-step,.checklist li{break-inside:avoid}
+    .border-table th{background:#2a2f3a!important;color:#fff!important}
+    .border-table tr:nth-child(even) td{background:#edeae0!important}
+    .border-table{break-inside:auto}
+    .border-table thead{display:table-header-group}
+    .log-table th{background:#2a2f3a!important;color:#fff!important}
+    .log-table{break-inside:auto}
+    .log-table thead{display:table-header-group}
+    .xref-bar{background:#2a2f3a!important;border:1px solid rgba(255,255,255,.08)!important}
+    .xref-pill{background:rgba(224,120,0,.12)!important;color:#e07800!important;border:1px solid rgba(224,120,0,.3)!important}
+    body{font-size:7.5pt}
+    a{color:var(--ink);text-decoration:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="sticky-wrap">
+  <div class="masthead">
+    <a href="index.html" class="lib-home-btn">⌂ Index</a>
+    <div class="mh-eyebrow">HZJ76R-RKMRS · Overland Reference Library · R29</div>
+    <div class="mh-title">Insurance &amp; Medevac</div>
+    <div class="mh-sub">Coverage Stack · Vehicle Insurance · Third-Party &amp; Yellow Card · Medical Aid · Travel Insurance · Medevac Membership · Garmin inReach SOS · Field Claim Procedures · Document Checklist · Pre-Departure</div>
+    <div class="mh-vehicle">2009 LC76 SW · 2-Year Southern &amp; East Africa Expedition · 2028–2030 · HZJ76R-RKMRS · Research date: April 2026 — verify all prices and terms before departure</div>
+  </div>
+  <nav class="toc-bar">
+    <button class="toc-btn" data-target="s-stack">Stack</button>
+    <button class="toc-btn" data-target="s-vehicle">Vehicle</button>
+    <button class="toc-btn" data-target="s-tpi">Yellow Card</button>
+    <button class="toc-btn" data-target="s-medical">Medical Aid</button>
+    <button class="toc-btn" data-target="s-travel">Travel Ins</button>
+    <button class="toc-btn" data-target="s-medevac">Medevac</button>
+    <button class="toc-btn" data-target="s-inreach">inReach SOS</button>
+    <button class="toc-btn" data-target="s-claims">Field Claims</button>
+    <button class="toc-btn" data-target="s-docs">Doc Checklist</button>
+    <button class="toc-btn" data-target="s-scenarios">Case Studies</button>
+    <button class="toc-btn" data-target="s-predep">Pre-Departure</button>
+    <button class="toc-btn" data-target="s-log">Policy Log</button>
+  </nav>
+</div>
+
+<div class="main">
+
+  <!-- ══ DISCLAIMER ══ -->
+  <div class="warn-box" style="margin-top:0;margin-bottom:20px;">
+    <strong>Not legal or financial advice.</strong> This document is a research and planning reference. All named providers, prices, and cover terms are based on research conducted in April 2026. Insurance products change frequently — verify every detail directly with the provider before departure. Final decisions are your responsibility with direct provider consultation.
+  </div>
+
+  <!-- ══ SECTION 1: COVERAGE STACK ══ -->
+  <div id="s-stack" class="sa">
+    <div class="section-head">1 — Coverage Architecture</div>
+    <p class="section-intro">A two-year African overland cannot be covered by a single policy. Four distinct layers are required. Each layer fills gaps the others leave. Remove any one layer and you have an exposure that could financially end the trip or threaten your life.</p>
+
+    <div class="stack-wrap">
+      <div class="stack-layer">
+        <div class="stack-num">1</div>
+        <div class="stack-body">
+          <div class="stack-title">Vehicle Insurance — Comprehensive + Cross-Border</div>
+          <div class="stack-desc">Covers loss of or damage to the vehicle itself. SA comprehensive policies have significant limitations for long-duration Africa travel — most cap at 90 days outside SA. For a 2-year trip you may be forced to self-insure against write-off and carry third-party liability only.</div>
+        </div>
+        <div class="stack-gap">90-DAY LIMIT RISK</div>
+      </div>
+      <div class="stack-layer">
+        <div class="stack-num">2</div>
+        <div class="stack-body">
+          <div class="stack-title">Third-Party Liability by Country — Yellow Card (COMESA)</div>
+          <div class="stack-desc">Legally required at most African borders. The COMESA Yellow Card is the regional third-party scheme covering 13 countries across East and Southern Africa. Botswana and Namibia require their own border policies. Not covered by your SA comprehensive policy — this is a separate purchase.</div>
+        </div>
+        <div class="stack-gap">REQUIRED AT BORDERS</div>
+      </div>
+      <div class="stack-layer">
+        <div class="stack-num">3</div>
+        <div class="stack-body">
+          <div class="stack-title">Health / Medical Insurance — SA Medical Aid (Bonitas + Genesis)</div>
+          <div class="stack-desc">Your underlying SA medical aid covers emergency treatment outside SA for 90 days per trip only. Bonitas (Mary-Ann) includes R2.5m–R10m international emergency cover with ER24 partnership. Genesis (Neil) does not include international travel cover — this is a confirmed gap requiring alternative cover from departure date.</div>
+        </div>
+        <div class="stack-gap">90-DAY TRIP LIMIT</div>
+      </div>
+      <div class="stack-layer">
+        <div class="stack-num">4</div>
+        <div class="stack-body">
+          <div class="stack-title">Travel Insurance + Medical Evacuation</div>
+          <div class="stack-desc">Fills what medical aid will not cover: evacuation logistics, repatriation of remains, political evacuation, trip duration beyond 90 days, adventure activity cover, and the cost of getting you to a facility. Must be long-duration capable (12–24 months).</div>
+        </div>
+        <div class="stack-gap">GAP FILLER</div>
+      </div>
+      <div class="stack-layer">
+        <div class="stack-num">5</div>
+        <div class="stack-body">
+          <div class="stack-title">Dedicated Medevac Membership (AMREF Maisha + inReach SOS)</div>
+          <div class="stack-desc">Travel insurance pays the bills. A medevac membership organises the helicopter. AMREF Flying Doctors (East Africa) and your Garmin inReach subscription (global SOS dispatch) are the operational activation mechanisms. These are complementary — never redundant. Medevac membership gets the aircraft; travel insurance reimburses the cost.</div>
+        </div>
+        <div class="stack-gap">ORGANISES THE AIRCRAFT</div>
+      </div>
+    </div>
+
+    <div class="note-box">
+      <strong>The critical insight:</strong> When a layer is missing, the one below it cannot compensate. A medevac membership without travel insurance means the aircraft arrives but you owe the costs. Travel insurance without a medevac membership means the money exists but no aircraft has been dispatched. SA medical aid alone caps at 90 days and excludes evacuation logistics. Get all five layers in place before departure.
+    </div>
+
+    <div class="xref-bar">
+      <span class="xref-label">Cross-reference</span>
+      <span class="xref-pill">R2 Departure Checklist</span>
+      <span class="xref-pill">R10 Emergency Procedures</span>
+      <span class="xref-pill">R15 Border Crossings</span>
+      <span class="xref-pill">R16 Comms &amp; Navigation</span>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 2: VEHICLE INSURANCE ══ -->
+  <div id="s-vehicle" class="sa">
+    <div class="section-head">2 — South African Vehicle Insurance</div>
+    <p class="section-intro">SA vehicle insurance for extended Africa travel is a significant gap in the market. Most policies are designed for holiday trips, not two-year expeditions. Read every policy carefully for duration limits, territory exclusions, and what "cross-border" actually means.</p>
+
+    <div class="sub-head">Santam — 4x4 / Off-Road Extension</div>
+    <div class="prov-grid">
+      <div class="prov-card">
+        <div class="prov-card-head">Santam 4x4 Insurance <span class="prov-tag tag-amber">VERIFY TERMS</span></div>
+        <div class="prov-card-body">
+          <p><strong>Cross-border scope:</strong> Santam explicitly offers a cross-border extension for 4x4s covering "neighbouring African borders" — body damage, vehicle repatriation to SA border (capped at R25,000), accommodation (R5,000/person), and passenger medical (R5,000/person).</p>
+          <p><strong>Repatriation limit:</strong> R25,000 to return the vehicle to the SA border. Towing from remote Tanzania or Zambia will likely cost more — this limit is low for a 2-year trip. Confirm current cap directly.</p>
+          <p><strong>Duration limit:</strong> Standard Santam comprehensive policies are not designed for 2-year expeditions. Confirm whether cross-border cover can extend to the full trip duration or whether it lapses. Most SA policies have 90-day continuous absence clauses.</p>
+          <p><strong>Agreed vs market value:</strong> Confirm whether the LC76 is insured at agreed value (fixed at inception) or market value (depreciated). For a 2009 vehicle, agreed value is strongly preferable for a high-value prepared overland build.</p>
+          <p><strong>Theft &amp; civil unrest:</strong> Verify specific exclusions for theft in certain countries and riot/civil unrest clauses — these are common exclusion triggers for East Africa travel.</p>
+          <p><strong>Emergency line:</strong> 0860 505 911 (24/7)</p>
+        </div>
+      </div>
+      <div class="prov-card">
+        <div class="prov-card-head">Other SA Insurers <span class="prov-tag tag-warn">LIMITED AFRICA COVER</span></div>
+        <div class="prov-card-body">
+          <p><strong>Hollard:</strong> Has specialist vehicle products through its broker network. Some brokers arrange extended Africa cover. Requires direct broker negotiation — not a standard online product. Hollard underwrites several specialist products that standard competitors do not.</p>
+          <p><strong>Bryte (formerly Zurich SA):</strong> Commercial and specialist risk focus. Has capacity for non-standard risks including extended territorial cover. Better suited to vehicles with significant equipment fitment. Quote via broker only.</p>
+          <p><strong>OUTsurance / MiWay:</strong> Direct-to-consumer SA insurers. Generally limited to short-term Africa extensions. Not recommended for 2-year overland cover without specific written confirmation of duration and territory.</p>
+          <p><strong>Discovery Insure:</strong> SA market, Vitality-linked. Standard policies cap cross-border cover. Better suited for shorter trips into SADC.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="warn-box">
+      <strong>The honest reality for a 2-year trip:</strong> Most SA personal vehicle policies are fundamentally not designed for a two-year overland expedition. If you cannot find comprehensive cover for the full duration and territory, the pragmatic approach is: (1) carry third-party / liability cover for all countries you enter (legal requirement), and (2) self-insure the vehicle against write-off and major damage. At LC76 build value, a dedicated savings reserve equivalent to the vehicle's current replacement cost functions as self-insurance. Many experienced overlanders take this route for multi-year expeditions where insurer appetite does not exist. Consult a specialist broker — not a call centre — with specific written confirmation of every territory and duration.
+    </div>
+
+    <div class="note-box">
+      <strong>Tip — agreed value:</strong> If you secure comprehensive cover, insist on agreed value at the vehicle's full prepared build cost (including fitments, tent, electrical system, recovery gear). A 2009 LC76 with a full overland build is worth significantly more than its base market value. Photograph and document all fitments for the insurer before departure. Cross-ref R8 Service History for vehicle valuation evidence.
+    </div>
+  </div>
+
+  <!-- ══ SECTION 3: THIRD PARTY / YELLOW CARD ══ -->
+  <div id="s-tpi" class="sa">
+    <div class="section-head">3 — Third-Party Liability &amp; the COMESA Yellow Card</div>
+    <p class="section-intro">Driving without valid third-party insurance in another country is illegal and leaves you personally liable for damages in a road accident. Third-party insurance is the minimum floor — it protects you from ruin if you injure or kill someone, or damage their property, in a collision.</p>
+
+    <div class="sub-head">COMESA Yellow Card — What It Is</div>
+    <p style="margin-bottom:10px;font-size:13px;">The COMESA Yellow Card is a regional third-party motor vehicle insurance scheme recognised across 13 African countries. It provides the minimum legally required third-party liability cover in participating states — covering bodily injury and property damage you cause to third parties. It also covers emergency medical expenses for occupants of the insured vehicle arising from an accident. It does not cover damage to your own vehicle.</p>
+
+    <div class="prov-grid" style="margin-bottom:14px;">
+      <div class="prov-card">
+        <div class="prov-card-head">Yellow Card Coverage <span class="prov-tag tag-ok">KEY MECHANISM</span></div>
+        <div class="prov-card-body">
+          <p><strong>Countries covered:</strong> Burundi, DR Congo, Eritrea, Ethiopia, Kenya, Malawi, Rwanda, Sudan, Tanzania, Uganda, Zambia, Zimbabwe, and Djibouti. South Africa is not a COMESA member.</p>
+          <p><strong>What it covers:</strong> Third-party bodily injury, third-party property damage, and emergency medical expenses for vehicle occupants — to the minimum legal limit of each participating country.</p>
+          <p><strong>What it does not cover:</strong> Damage to your own vehicle, your own medical expenses beyond emergency first aid, theft, or any event not arising from a road traffic accident.</p>
+          <p><strong>Duration:</strong> 30 to 365 days available. For a 2-year trip, purchase 365-day cards and budget for one renewal mid-trip.</p>
+          <p><strong>Issue from SA:</strong> South Africa is not a COMESA member. However, South African residents can obtain a Yellow Card from Mukfin Insurance (Randburg), which operates via a reciprocal arrangement with a COMESA-issuer. Contact: +27 10 210 7093 or +27 11 886 0667. Also available in Lusaka, Zambia — the easiest and cheapest acquisition point on the route.</p>
+        </div>
+      </div>
+      <div class="prov-card">
+        <div class="prov-card-head">Cost &amp; Practicalities <span class="prov-tag tag-amber">VERIFY 2027/2028</span></div>
+        <div class="prov-card-body">
+          <p><strong>Cost factors:</strong> Duration of cover, vehicle size/type, and countries included all affect the price. An indicative forum-reported price for a 4x4 covering all COMESA countries for 6 months was approximately USD 57 (around R1,000–R1,200 at April 2026 rates). Longer durations and larger vehicles cost more. Get a written quote from Mukfin before departure.</p>
+          <p><strong>Before purchasing:</strong> You must have an underlying prime policy (your SA vehicle insurance) — the Yellow Card is issued as an endorsement to that policy.</p>
+          <p><strong>Carry the card:</strong> The physical Yellow Card should be in the vehicle at all times. Some border officials and police officers will ask for it. It is standard and uniformly recognised across the scheme.</p>
+          <p><strong>Tip — buy in Zambia:</strong> Zambia (Livingstone or Lusaka) is the most cost-effective and straightforward point to acquire the Yellow Card for East Africa. If crossing at Kazungula, go to Livingstone before proceeding north.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-head">Third-Party Requirements by Country</div>
+    <table class="border-table">
+      <thead>
+        <tr>
+          <th>Country</th>
+          <th>Yellow Card?</th>
+          <th>Border TPI?</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>South Africa</strong></td>
+          <td class="yes">—</td>
+          <td class="note">SA comp or TPI</td>
+          <td class="note">Home base. SA Road Accident Fund (RAF) is a statutory scheme — all licensed vehicles covered for personal injury claims. Your SA vehicle insurance covers within SA.</td>
+        </tr>
+        <tr>
+          <td><strong>Namibia</strong></td>
+          <td class="no">Not valid</td>
+          <td class="yes">Required</td>
+          <td class="note">Not a COMESA member. Buy at border or pre-purchase via broker. Motor Vehicle Accident Fund (MVAF) is the mandatory cover. Most SA comprehensive policies extend to Namibia — confirm with your insurer.</td>
+        </tr>
+        <tr>
+          <td><strong>Botswana</strong></td>
+          <td class="no">Not valid</td>
+          <td class="yes">Required</td>
+          <td class="note">Not COMESA. Third-party cover required. Confirm SA comprehensive extension. Available at border if not pre-purchased.</td>
+        </tr>
+        <tr>
+          <td><strong>Zimbabwe</strong></td>
+          <td class="yes">Valid</td>
+          <td class="yes">+ border fee</td>
+          <td class="note">COMESA member. Yellow Card valid. Traditionally also required to purchase "carbon tax" and ZINARA road access fee at border. Confirm current requirements — can change.</td>
+        </tr>
+        <tr>
+          <td><strong>Zambia</strong></td>
+          <td class="yes">Valid</td>
+          <td class="yes">+ local TPI</td>
+          <td class="note">COMESA member. Yellow Card valid. Zambia also requires a local third-party insurance certificate from a Zambian insurer before the Yellow Card is issued. Best acquired in Livingstone.</td>
+        </tr>
+        <tr>
+          <td><strong>Mozambique</strong></td>
+          <td class="no">Joining</td>
+          <td class="yes">Required</td>
+          <td class="note">SA and Mozambique are reportedly being added to COMESA Yellow Card scheme — verify status at departure date. Currently purchase at border or from broker pre-trip. INSS is the local insurer.</td>
+        </tr>
+        <tr>
+          <td><strong>Malawi</strong></td>
+          <td class="yes">Valid</td>
+          <td class="note">Usually accepted</td>
+          <td class="note">COMESA member. Yellow Card is well-established here — Malawi border officials have been noted to check it more rigorously than some other countries.</td>
+        </tr>
+        <tr>
+          <td><strong>Tanzania</strong></td>
+          <td class="yes">Valid</td>
+          <td class="yes">+ road permits</td>
+          <td class="note">COMESA member. Yellow Card valid. Road permit and carbon levy also payable at entry. Budget for these fees.</td>
+        </tr>
+        <tr>
+          <td><strong>Kenya</strong></td>
+          <td class="yes">Valid</td>
+          <td class="note">Usually accepted</td>
+          <td class="note">COMESA member and Yellow Card founding country. Generally well-administered.</td>
+        </tr>
+        <tr>
+          <td><strong>Uganda</strong></td>
+          <td class="yes">Valid</td>
+          <td class="note">Usually accepted</td>
+          <td class="note">COMESA member. Yellow Card valid. Third-party insurance administered under Uganda Insurance Act.</td>
+        </tr>
+        <tr>
+          <td><strong>Rwanda</strong></td>
+          <td class="yes">Valid</td>
+          <td class="note">Usually accepted</td>
+          <td class="note">COMESA member. Highly organised border process. Yellow Card recognised.</td>
+        </tr>
+        <tr>
+          <td><strong>Burundi</strong></td>
+          <td class="yes">Valid</td>
+          <td class="yes">Confirm requirements</td>
+          <td class="note">COMESA member. Border process less predictable. Confirm current situation via overlander forums before entering. Cross-ref R15.</td>
+        </tr>
+        <tr>
+          <td><strong>DRC</strong></td>
+          <td class="yes">Valid (partial)</td>
+          <td class="yes">Additional required</td>
+          <td class="note">COMESA member. Yellow Card recognised but DRC entry involves complex paperwork. Local liaison or fixer strongly recommended. Third-party insurance requirements vary by entry point. Cross-ref R15.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="xref-bar">
+      <span class="xref-label">See also</span>
+      <span class="xref-pill">R15 Border Crossings — country-by-country entry requirements</span>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 4: HEALTH INSURANCE ══ -->
+  <div id="s-medical" class="sa">
+    <div class="section-head">4 — Health Insurance: SA Medical Aid</div>
+    <p class="section-intro">SA medical aid is not designed for two-year Africa expeditions. It fills the hospital bill at a foreign facility — up to a limit, for 90 days. Beyond that, it does not pay, does not organise transport, and does not cover evacuation logistics. Know exactly what your scheme covers before you leave SA.</p>
+
+    <div class="sub-head">Mary-Ann — Bonitas</div>
+    <div class="prov-grid" style="grid-template-columns:1fr;">
+      <div class="prov-card">
+        <div class="prov-card-head">Bonitas International Travel Benefit <span class="prov-tag tag-amber">90-DAY TRIP LIMIT</span></div>
+        <div class="prov-card-body">
+          <p><strong>Cover limit:</strong> R2.5m per family (BonStart) to R10m per family (upper plans) for medical emergencies. Confirm which plan Mary-Ann holds — limits vary significantly by plan tier. The R1.2m limit applies on Standard and Hospital Standard plans.</p>
+          <p><strong>Emergency partner:</strong> Bonitas uses ER24 as its international travel partner for claims management and evacuation logistics.</p>
+          <p><strong>Duration:</strong> 90 days per trip from departure from SA. A 2-year continuous expedition exceeds this — cover lapses after Day 90. The gap must be filled by travel insurance.</p>
+          <p><strong>Activation:</strong> Must register for the international travel benefit prior to departure. Do this at least 2 weeks before departure date. Confirm registration confirmation received in writing.</p>
+          <p><strong>Excluded:</strong> Treatment for pre-existing conditions, elective treatment, medical evacuation logistics (ER24 handles this as a service, but the costs beyond the medical treatment may need to be claimed through travel insurance), repatriation of remains, emergency dental beyond a low sub-limit, chronic medication supply outside SA.</p>
+          <p><strong>Claims process:</strong> Notify Bonitas/ER24 as soon as possible. For hospitalisation requiring advance payment guarantee, call before admission where possible. Keep all original invoices and medical reports. Claim within 4 months of treatment.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-head">Neil — Genesis</div>
+    <div class="prov-grid" style="grid-template-columns:1fr;">
+      <div class="prov-card">
+        <div class="prov-card-head">Genesis Medical Aid — International Cover <span class="prov-tag tag-warn">NO INTERNATIONAL COVER</span></div>
+        <div class="prov-card-body">
+          <p><strong>Critical gap:</strong> Genesis Medical Scheme does not include an international travel benefit. This is confirmed by Genesis's own documentation. Neil has no medical aid cover outside South Africa from the moment he crosses the border.</p>
+          <p><strong>Action required:</strong> Neil must secure supplementary international medical cover before departure — either via a comprehensive long-term travel insurance policy with medical cover, or by switching to a medical aid scheme that includes international benefits (e.g. Discovery, Bonitas, Momentum) before the trip starts. A switch takes 3 months waiting period for new conditions — plan well ahead.</p>
+          <p><strong>Options:</strong> (1) Switch to a medical aid with international cover before 2028 departure — Discovery, Bonitas, or Momentum all offer this. (2) Rely entirely on travel insurance for medical cover outside SA (World Nomads, SafetyWing, IMG Global). (3) Combination: keep Genesis for SA-based care, buy long-term travel medical insurance for the trip duration.</p>
+          <p><strong>Recommendation:</strong> Address this gap in 2027 planning. Do not depart with Genesis as your only medical cover.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-head">What SA Medical Aid Will NOT Cover (Either Scheme)</div>
+    <div class="info-box">
+      <strong>Regardless of which plan you hold, the following require alternative cover:</strong>
+      <ul style="margin-top:8px;margin-left:20px;font-size:13px;line-height:1.7;">
+        <li>Medical evacuation <em>logistics and organisation</em> — ER24 may manage this under Bonitas, but the medevac membership organises the aircraft</li>
+        <li>Repatriation of remains to South Africa</li>
+        <li>Emergency dental treatment beyond a basic sub-limit (typically R500–R2,000)</li>
+        <li>Chronic medication supply for more than 5 months outside SA (check your plan)</li>
+        <li>Mental health treatment overseas</li>
+        <li>Any treatment after Day 90 of a continuous trip</li>
+        <li>Political evacuation (non-medical)</li>
+        <li>Pre-existing condition treatment</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 5: TRAVEL INSURANCE ══ -->
+  <div id="s-travel" class="sa">
+    <div class="section-head">5 — Travel Insurance with Medical Evacuation</div>
+    <p class="section-intro">Travel insurance fills the gap above your medical aid: duration beyond 90 days, evacuation costs, adventure activities, political evacuation, and repatriation. For a 2-year Africa overland, long-duration cover is non-negotiable. Not all travel insurance policies are capable of this — most cap at 30–90 days.</p>
+
+    <div class="note-box">
+      <strong>Minimum requirements for this trip:</strong> Medical expenses minimum USD 500,000. Medical evacuation and repatriation explicitly included. Adventure activities covered (self-drive off-road, remote camping, water crossings). Policy duration 12–24 months, or renewable mid-trip without a return to SA. No "developed country only" restriction. No exclusion for Africa or sub-Saharan Africa. Clear definition of "remote area" cover. Political evacuation option.
+    </div>
+
+    <div class="prov-grid">
+      <div class="prov-card">
+        <div class="prov-card-head">World Nomads <span class="prov-tag tag-ok">ACCEPTS SA RESIDENTS</span></div>
+        <div class="prov-card-body">
+          <p><strong>Overview:</strong> Leading long-term travel insurer for adventurous travelers. Accepts South African residents. Covers 250+ activities including off-road self-drive, remote camping, and adventure sports.</p>
+          <p><strong>Duration:</strong> Policies available up to 12 months (365 days). Can be extended or purchased mid-trip from anywhere in the world. For a 2-year trip, two sequential annual policies are required — plan renewals to avoid a gap.</p>
+          <p><strong>Medical cover:</strong> Emergency medical and evacuation included as standard. Medical limits vary by plan tier — verify USD equivalent at time of purchase.</p>
+          <p><strong>Africa cover:</strong> Covers African countries including the full East and Southern Africa route. Check exclusion list for any high-risk areas that may apply.</p>
+          <p><strong>Key limitation:</strong> This is travel insurance, not private health insurance. Pre-existing conditions excluded. Not suitable as a standalone replacement for medical aid.</p>
+          <p><strong>Cost indicator:</strong> Approximately USD 120–200 per person per month depending on age and plan. Verify current rates at worldnomads.com for SA residents.</p>
+        </div>
+      </div>
+      <div class="prov-card">
+        <div class="prov-card-head">SafetyWing Nomad Insurance <span class="prov-tag tag-ok">SUBSCRIPTION MODEL</span></div>
+        <div class="prov-card-body">
+          <p><strong>Overview:</strong> Monthly subscription model — ideal for indefinite-duration travel. No return to SA required to renew. Accepted by SA residents.</p>
+          <p><strong>Duration:</strong> Ongoing monthly subscription with no maximum trip length. This model is well-suited to a 2-year expedition where the end date may shift.</p>
+          <p><strong>Medical cover:</strong> Emergency medical and evacuation included. USD 250,000 medical limit (lower than World Nomads — verify if this meets your minimum requirement). Adventure sports available as add-on.</p>
+          <p><strong>Cost indicator:</strong> Approximately USD 56 per person per month (age-dependent). Cheaper than World Nomads but lower limits — assess whether the medical cap is sufficient.</p>
+          <p><strong>Africa cover:</strong> 180+ countries covered. Confirm specific East Africa countries are included at time of purchase.</p>
+        </div>
+      </div>
+      <div class="prov-card">
+        <div class="prov-card-head">IMG Global / Cigna Global <span class="prov-tag tag-amber">EXPAT / LONG-TERM</span></div>
+        <div class="prov-card-body">
+          <p><strong>Overview:</strong> IMG Global and Cigna Global are international health insurance providers designed for expatriates and long-term travelers. Higher limits and broader scope than travel insurance — some plans function as full medical insurance replacements.</p>
+          <p><strong>Duration:</strong> Annual policies, renewable indefinitely without return to home country. Appropriate for a 2-year expedition.</p>
+          <p><strong>Medical cover:</strong> IMG GlobeHopper and Cigna Global plans can reach USD 1m–8m medical limits. Evacuation and repatriation included on most plans.</p>
+          <p><strong>Africa cover:</strong> Global coverage including sub-Saharan Africa. Verify no sub-Saharan exclusion at time of purchase.</p>
+          <p><strong>Cost indicator:</strong> Higher than travel insurance. Cigna Global from approximately USD 150–300/person/month depending on age and plan. Best suited if one of the travellers has specific medical needs requiring higher cover.</p>
+        </div>
+      </div>
+      <div class="prov-card">
+        <div class="prov-card-head">Santam / TIC Travel Insurance <span class="prov-tag tag-warn">TRIP LENGTH LIMIT</span></div>
+        <div class="prov-card-body">
+          <p><strong>Overview:</strong> Santam Travel Insurance is underwritten by Travel Insurance Consultants (TIC) — the largest SA travel insurer. Excellent for trips up to 12 months and specifically tailored to SA residents.</p>
+          <p><strong>Duration:</strong> Annual policies available covering multiple trips. Individual trip policies exist but single-trip duration is capped. Verify whether a 24-month continuous trip can be structured — this may require annual renewal without a return to SA.</p>
+          <p><strong>Medical cover:</strong> Emergency medical up to R120m on comprehensive plans. Evacuation and repatriation included. Medical emergency cover is strong.</p>
+          <p><strong>Key check:</strong> Confirm "adventure off-road self-drive" is covered under the activity list. Standard TIC policies cover leisure travel — a 2-year overland in remote Africa may require explicit endorsement. Ask in writing before purchasing.</p>
+          <p><strong>Contact:</strong> santam.co.za/insurance/for-me/travel-insurance or broker.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 6: MEDEVAC MEMBERSHIP ══ -->
+  <div id="s-medevac" class="sa">
+    <div class="section-head">6 — Dedicated Medevac Membership</div>
+    <p class="section-intro">A medevac membership is a subscription to an air rescue and medical evacuation service. It does not pay medical bills — it organises the aircraft, medical crew, and coordination to move you to a facility capable of treating you. This is operationally separate from travel insurance. Both are needed.</p>
+
+    <div class="note-box">
+      <strong>Travel insurance pays the bills. Medevac membership organises the helicopter.</strong> Without the membership, you rely on your travel insurer to arrange evacuation — which adds delay, approval steps, and uncertainty. A medevac membership bypasses this: one call activates the aircraft directly. In a serious trauma or time-critical event, that delay can be the difference between survival and death.
+    </div>
+
+    <div class="prov-grid">
+      <div class="prov-card">
+        <div class="prov-card-head">AMREF Flying Doctors — Maisha Plan <span class="prov-tag tag-ok">CRITICAL — EAST AFRICA</span></div>
+        <div class="prov-card-body">
+          <p><strong>Overview:</strong> AMREF Flying Doctors is Africa's leading fixed-wing air ambulance service, operating since 1957 from Wilson Airport, Nairobi. The Maisha Plan is their subscription-based membership providing unlimited emergency medical evacuation within the coverage zone.</p>
+          <p><strong>Coverage zones:</strong></p>
+          <p>— <em>Maisha Gold:</em> Uganda, Kenya, Tanzania, Zanzibar, Rwanda, Burundi<br>— <em>Maisha Platinum &amp; Diamond:</em> All Gold countries plus Ethiopia, South Sudan, DRC, Sudan, Eritrea, Somalia, and other extended African regions</p>
+          <p><strong>What's included:</strong> Unlimited emergency evacuation flights per year. Ground ambulance in Kenya. 24/7 Control Room access for emergency medical advice. ICU-equipped aircraft with medical crew. Coordination of hospital admission in Nairobi.</p>
+          <p><strong>What's NOT included:</strong> Hospital bills or medical treatment costs. Visa costs for evacuation to Kenya. AMREF organises the transport — you or your travel insurance pay the medical bills at the destination facility.</p>
+          <p><strong>Control room:</strong> +254 730 811 811 / +254 709 962 811 (24/7)</p>
+          <p><strong>Subscription:</strong> Annual. Cost varies by plan tier and whether individual or family. Verify current rates directly at flydoc.org before departure.</p>
+          <p><strong>Coverage gap:</strong> AMREF's primary operational zone is East Africa. For Southern Africa (Namibia, Botswana, Zimbabwe, southern Zambia, Mozambique) you are not in AMREF's primary response zone. Consider Netcare 911 or ER24 for the Southern Africa leg.</p>
+        </div>
+      </div>
+      <div class="prov-card">
+        <div class="prov-card-head">Netcare 911 &amp; ER24 — SA and Regional <span class="prov-tag tag-amber">SOUTHERN AFRICA</span></div>
+        <div class="prov-card-body">
+          <p><strong>Netcare 911:</strong> SA-based medical emergency service with regional capability. Primarily SA-focused but has helicopter and fixed-wing capacity for regional evacuations. Works as primary for Southern Africa where AMREF coverage is weaker. Emergency: 082 911</p>
+          <p><strong>ER24:</strong> SA emergency services network, also operates as Bonitas international travel partner. SA and regional response. Has capacity to coordinate evacuations from some SADC countries. Emergency: 084 124</p>
+          <p><strong>Note:</strong> Both Netcare 911 and ER24 are primarily SA and SADC-focused. For East Africa (Tanzania and north), AMREF is the appropriate primary provider. Overlap in the Zambia–Malawi corridor — have both on speed dial.</p>
+        </div>
+      </div>
+      <div class="prov-card">
+        <div class="prov-card-head">Global Rescue <span class="prov-tag tag-amber">GLOBAL OPTION</span></div>
+        <div class="prov-card-body">
+          <p><strong>Overview:</strong> US-based global rescue and medical evacuation service. Accepts international members including South Africans. Field rescue, medical evacuation, and security evacuation included on higher-tier plans.</p>
+          <p><strong>Coverage:</strong> Worldwide, including sub-Saharan Africa. Activates local and regional resources as needed. For East Africa, likely to subcontract to AMREF or similar.</p>
+          <p><strong>Cost indicator:</strong> Approximately USD 329–645/person/year depending on plan (individual vs family, medical vs medical+security). Verify current pricing at globalrescue.com.</p>
+          <p><strong>Key feature:</strong> Security/political evacuation is available on higher-tier plans — this is not covered by AMREF. Useful if route includes DRC, Ethiopia, or Burundi where political risk is elevated.</p>
+          <p><strong>Emergency line:</strong> +1 617 459 4200 (worldwide, 24/7)</p>
+        </div>
+      </div>
+      <div class="prov-card">
+        <div class="prov-card-head">Flying Doctors Society of Africa (FDSA) <span class="prov-tag tag-ok">BUDGET EAST AFRICA</span></div>
+        <div class="prov-card-body">
+          <p><strong>Overview:</strong> Separate from AMREF Flying Doctors (but associated). Membership-based organisation offering affordable evacuation cover for East Africa travel. Wilson Airport, Nairobi.</p>
+          <p><strong>Coverage:</strong> East Africa — Kenya, Uganda, Tanzania, Rwanda, Burundi. Day-rate options available — approximately USD 40/person/30 days at some tier levels.</p>
+          <p><strong>Practical use:</strong> Good value for shorter East Africa legs where AMREF Maisha annual cost is disproportionate to the duration. Consider for first-time assessment of East Africa leg before committing to full Maisha annual.</p>
+          <p><strong>Contact:</strong> flyingdoctorsafrica.org — Wilson Airport, Nairobi</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="note-box">
+      <strong>Recommended structure for a 2-year Southern &amp; East Africa expedition:</strong> AMREF Maisha Platinum/Diamond membership for the East Africa leg (Tanzania through Uganda/Kenya/Rwanda). Netcare 911 / ER24 reliance (via Bonitas partnership) for Southern Africa (SA, Namibia, Botswana, Zimbabwe). Global Rescue if political evacuation cover is desired for high-risk country legs. Carry all control room numbers on the waterproof field card (Section 8).
+    </div>
+  </div>
+
+  <!-- ══ SECTION 7: GARMIN INREACH SOS ══ -->
+  <div id="s-inreach" class="sa">
+    <div class="section-head">7 — Garmin inReach SOS Facility</div>
+    <p class="section-intro">The Garmin inReach is your primary field activation tool for emergency services in areas without mobile coverage. Understanding how the SOS system works — and what insurance cover applies to it — is critical pre-departure knowledge.</p>
+
+    <div class="sub-head">How Garmin inReach SOS Works</div>
+    <p style="margin-bottom:10px;font-size:13px;">Pressing the SOS button on your inReach initiates a 20-second countdown with audible alarm. Once confirmed, a distress signal travels via the Iridium satellite network (100% global coverage) to Garmin Response — a 24/7 coordination centre. Garmin Response receives your GPS coordinates, device profile, and battery status. A coordinator immediately messages your device to assess the nature of the emergency, then contacts the most appropriate local emergency services or medevac provider in your location country. Garmin Response maintains a database of providers in 200+ countries.</p>
+
+    <div class="prov-grid">
+      <div class="prov-card">
+        <div class="prov-card-head">Active Subscription — Required <span class="prov-tag tag-warn">SOS REQUIRES SUBSCRIPTION</span></div>
+        <div class="prov-card-body">
+          <p>SOS dispatch by Garmin Response requires an active Garmin inReach satellite subscription. Without an active subscription, the SOS button does not function. Confirm subscription is active and not suspended before departure and at each renewal point mid-trip.</p>
+          <p><strong>Subscription types:</strong> Freedom Plan (pay-per-use) and fixed monthly plans. For a 2-year expedition, a monthly or annual plan is more appropriate than pay-per-use.</p>
+          <p><strong>Suspension:</strong> As of mid-2025 Garmin allows plan suspension for up to 12 months — useful for the pre-departure period. When suspended, SOS is completely disabled. Re-activate at least 48 hours before departure.</p>
+        </div>
+      </div>
+      <div class="prov-card">
+        <div class="prov-card-head">Garmin SAR Insurance — Know the Limits <span class="prov-tag tag-warn">NOT AVAILABLE OUTSIDE USA/CANADA</span></div>
+        <div class="prov-card-body">
+          <p><strong>Garmin SAR (Search &amp; Rescue) Insurance:</strong> Garmin offers optional SAR insurance (approximately USD 40/year standard, USD 300 high-risk) that reimburses up to USD 100,000 in search and rescue costs when activated through inReach SOS.</p>
+          <p><strong>Critical limitation:</strong> Garmin SAR Insurance is currently only available to residents of the USA and Canada. As South African residents, Neil and Mary-Ann cannot purchase this plan.</p>
+          <p><strong>Also note:</strong> SAR insurance covers accident-related SAR costs only — disease and sickness are excluded from the standard plan. It reimburses SAR costs, not medical treatment costs. Even where available, it does not replace travel insurance or medevac membership.</p>
+          <p><strong>Alternative:</strong> Your travel insurance (World Nomads, SafetyWing, etc.) and medevac membership (AMREF) cover the costs that Garmin SAR would otherwise cover, and provide broader coverage. The SOS button still activates Garmin Response to coordinate dispatch — the reimbursement mechanism is different.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-head">inReach SOS Field Protocol</div>
+    <div class="proto-steps">
+      <div class="proto-step">
+        <div class="proto-num">1</div>
+        <div class="proto-body">
+          <div class="proto-title">Assess and confirm it is a genuine emergency requiring external assistance</div>
+          <div class="proto-detail">Garmin SOS initiates a real search and rescue response. Accidental activations waste emergency resources. Hold SOS button for 3 seconds, then confirm on screen before transmission.</div>
+        </div>
+      </div>
+      <div class="proto-step">
+        <div class="proto-num">2</div>
+        <div class="proto-body">
+          <div class="proto-title">Activate SOS — confirm on device screen</div>
+          <div class="proto-detail">20-second countdown with alarm. Confirm activation. Automatic tracking begins — 60-second intervals for first 10 minutes, then 10-minute intervals to conserve battery. Keep device powered and in open sky view.</div>
+        </div>
+      </div>
+      <div class="proto-step">
+        <div class="proto-num">3</div>
+        <div class="proto-body">
+          <div class="proto-title">Two-way messaging with Garmin Response</div>
+          <div class="proto-detail">Garmin Response will text your device. Reply to confirm the nature of the emergency, number of persons, medical condition, and whether you can self-rescue. Be concise — satellite messages are slow. They will contact local emergency services on your behalf.</div>
+        </div>
+      </div>
+      <div class="proto-step">
+        <div class="proto-num">4</div>
+        <div class="proto-body">
+          <div class="proto-title">Simultaneously: call AMREF (if in East Africa) or ER24/Netcare 911</div>
+          <div class="proto-detail">If you have satellite voice capability (inReach with voice plan or satellite phone — R16), call your medevac provider directly. AMREF +254 730 811 811. Garmin Response and your medevac provider can coordinate. Two channels operating is better than one.</div>
+        </div>
+      </div>
+      <div class="proto-step">
+        <div class="proto-num">5</div>
+        <div class="proto-body">
+          <div class="proto-title">Stay put, stay visible, preserve battery</div>
+          <div class="proto-detail">Rescuers are navigating to your GPS coordinates. Do not move unless you are in immediate life-threatening danger at your current position. Mark your location with any visible signal — mirror, bright cloth, fire smoke. Keep the inReach in open sky. Battery is your lifeline.</div>
+        </div>
+      </div>
+      <div class="proto-step">
+        <div class="proto-num">6</div>
+        <div class="proto-body">
+          <div class="proto-title">Cancel SOS only when emergency is fully resolved</div>
+          <div class="proto-detail">Cancelling SOS ends Garmin Response tracking and messaging. Only cancel when rescue is complete or you have confirmed self-rescue. False-cancel restarts the SOS process and causes confusion.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="xref-bar">
+      <span class="xref-label">See also</span>
+      <span class="xref-pill">R16 Comms &amp; Navigation — inReach setup, subscription, SAT phone</span>
+      <span class="xref-pill">R10 Emergency Procedures — medical response protocols</span>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 8: FIELD CLAIM PROCEDURES ══ -->
+  <div id="s-claims" class="sa">
+    <div class="section-head">8 — Claim Procedures in the Field</div>
+    <p class="section-intro">A claim filed incorrectly or without the right documentation is a denied claim. These protocols apply when the event is happening — not after you are home. Know them before you need them.</p>
+
+    <div class="sub-head">Scenario A — Vehicle Accident, Damage, or Theft</div>
+    <div class="proto-steps">
+      <div class="proto-step">
+        <div class="proto-num">1</div>
+        <div class="proto-body">
+          <div class="proto-title">Stop, secure safety, check for injuries first</div>
+          <div class="proto-detail">Human life before vehicle. R10 Emergency Procedures if injury involved. Only then move to vehicle claim steps.</div>
+        </div>
+      </div>
+      <div class="proto-step">
+        <div class="proto-num">2</div>
+        <div class="proto-body">
+          <div class="proto-title">Document everything before moving the vehicles</div>
+          <div class="proto-detail">Photographs of all vehicles, all damage, road surface, weather conditions, skid marks, position before impact. GPS coordinates. Timestamp on photos. More is better — you cannot go back.</div>
+        </div>
+      </div>
+      <div class="proto-step">
+        <div class="proto-num">3</div>
+        <div class="proto-body">
+          <div class="proto-title">Get a police report — this is mandatory for all insurance claims</div>
+          <div class="proto-detail">In every country on this route, a police report is required for insurance claims. Go to the nearest police station. Get a reference number and ideally a stamped copy. If police come to the scene, get the officer's name and badge number. Do not leave the scene without a record of reporting.</div>
+        </div>
+      </div>
+      <div class="proto-step">
+        <div class="proto-num">4</div>
+        <div class="proto-body">
+          <div class="proto-title">Collect third-party details — do not admit fault</div>
+          <div class="proto-detail">Name, vehicle registration, insurer (if they have one), contact number, witnesses. Do not say "I'm sorry" or "it was my fault." Under local law, an admission of fault is legally binding. Be polite and cooperative but say nothing about fault attribution.</div>
+        </div>
+      </div>
+      <div class="proto-step">
+        <div class="proto-num">5</div>
+        <div class="proto-body">
+          <div class="proto-title">Notify your SA insurer within 24–48 hours</div>
+          <div class="proto-detail">Call the insurer emergency line. They will guide next steps. Keep notes of the call: time, person spoken to, claim reference number. Most SA policies require notification within a short window — exceeding it can invalidate the claim.</div>
+        </div>
+      </div>
+      <div class="proto-step">
+        <div class="proto-num">6</div>
+        <div class="proto-body">
+          <div class="proto-title">Do not authorise repairs until the insurer has assessed or provided written approval</div>
+          <div class="proto-detail">Emergency safety repairs (e.g. securing a broken window) are usually fine. Major repairs without insurer approval can negate the claim. Get written authorisation by WhatsApp/email before proceeding. Keep all repair invoices.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-head">Scenario B — Medical Event Requiring Treatment</div>
+    <div class="proto-steps">
+      <div class="proto-step">
+        <div class="proto-num">1</div>
+        <div class="proto-body">
+          <div class="proto-title">Treat first — document later</div>
+          <div class="proto-detail">Life-threatening emergencies take priority over paperwork. Get to the nearest capable facility. Notify your insurer/medical aid as soon as the patient is stable — most schemes require notification within 24 hours of hospital admission.</div>
+        </div>
+      </div>
+      <div class="proto-step">
+        <div class="proto-num">2</div>
+        <div class="proto-body">
+          <div class="proto-title">Pre-authorise if not an emergency</div>
+          <div class="proto-detail">For non-emergency hospital admission, call Bonitas/ER24 or your travel insurer for pre-authorisation before admission. A payment guarantee from the insurer means the facility is paid directly — you don't go out of pocket. Expenses over R5,000 (Bonitas) or USD 150/€100 (Discovery) require pre-authorisation for direct payment.</div>
+        </div>
+      </div>
+      <div class="proto-step">
+        <div class="proto-num">3</div>
+        <div class="proto-body">
+          <div class="proto-title">Preserve all documentation</div>
+          <div class="proto-detail">Every receipt, every doctor's note, every invoice. In the original language if possible — request an English translation. Photograph everything with date-stamped photos. A missing receipt is a denied line item.</div>
+        </div>
+      </div>
+      <div class="proto-step">
+        <div class="proto-num">4</div>
+        <div class="proto-body">
+          <div class="proto-title">Self-pay if pre-authorisation is not possible — claim on return</div>
+          <div class="proto-detail">For out-of-hospital expenses below the authorisation threshold, pay and keep receipts. Claim within 4 months of treatment (Bonitas rule). Provide: patient name, diagnosis, provider details, date of service, treatment description, cost.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-head">Scenario C — Medical Evacuation</div>
+    <div class="proto-steps">
+      <div class="proto-step">
+        <div class="proto-num">1</div>
+        <div class="proto-body">
+          <div class="proto-title">Decide: is this a medevac event?</div>
+          <div class="proto-detail">Medevac criteria: life-threatening condition or serious injury where local facilities cannot provide adequate care. Deteriorating condition with no improvement. Patient cannot be safely moved by road. When in doubt, call AMREF Control Room for advice — they assess and advise without obligation to dispatch.</div>
+        </div>
+      </div>
+      <div class="proto-step">
+        <div class="proto-num">2</div>
+        <div class="proto-body">
+          <div class="proto-title">Call AMREF Control Room immediately</div>
+          <div class="proto-detail"><strong>+254 730 811 811 / +254 709 962 811 (24/7)</strong> — Have ready: patient name, AMREF membership number, current GPS coordinates, patient condition, treatment received so far, nearest airstrip or landing area, contact number you can be reached on.</div>
+        </div>
+      </div>
+      <div class="proto-step">
+        <div class="proto-num">3</div>
+        <div class="proto-body">
+          <div class="proto-title">Simultaneously notify your travel insurer</div>
+          <div class="proto-detail">Your travel insurer needs to know a medevac is occurring — they cover the costs. Get a claim reference number. AMREF covers the transport; your travel insurance reimburses AMREF's fees or pays the destination hospital directly.</div>
+        </div>
+      </div>
+      <div class="proto-step">
+        <div class="proto-num">4</div>
+        <div class="proto-body">
+          <div class="proto-title">Prepare the landing area — AMREF will advise</div>
+          <div class="proto-detail">AMREF flies fixed-wing aircraft and requires a serviceable airstrip (not an open field). They will identify the nearest viable strip in their database. You may need to drive or be transported to that strip — coordinate with AMREF Control on timing and transport.</div>
+        </div>
+      </div>
+      <div class="proto-step">
+        <div class="proto-num">5</div>
+        <div class="proto-body">
+          <div class="proto-title">The non-patient partner: manage the vehicle and notify next of kin</div>
+          <div class="proto-detail">In a solo-couple scenario, one of you may be evacuated and the other remains with the vehicle. The non-evacuated partner should: secure the vehicle and camp, retain all documents, notify next of kin, and coordinate with the travel insurer for vehicle repatriation or onward arrangements. Power of attorney between Neil and Mary-Ann is relevant here — pre-signed and witnessed before departure (see Section 9).</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 9: DOCUMENT CHECKLIST ══ -->
+  <div id="s-docs" class="sa">
+    <div class="section-head">9 — Document Checklist</div>
+    <p class="section-intro">Documents are the difference between a paid claim and a denied one. Three formats for every critical document: waterproof physical card in the vehicle, PDF on both phones and laptops, cloud storage accessible from anywhere with internet.</p>
+
+    <div class="sub-head">The Waterproof Field Card (Glovebox)</div>
+    <div class="note-box">
+      Print, laminate, and keep in the glovebox: one copy, and one copy in a separate location (e.g. drybag in kit). The field card should contain: all policy numbers, all emergency phone numbers, blood types for both, AMREF membership number, SA insurer claim line, Bonitas ER24 number, travel insurance emergency line, Garmin inReach emergency protocol note, and next-of-kin contact.
+    </div>
+
+    <div class="sub-head">Full Document Set — Pre-Departure Checklist</div>
+    <ul class="checklist">
+      <li><span class="check-box"></span><span class="check-label">Vehicle insurance policy document — physical + PDF<span class="check-note">Policy number, insurer emergency line, cross-border extension confirmation in writing</span></span></li>
+      <li><span class="check-box"></span><span class="check-label">COMESA Yellow Card — physical + PDF scan<span class="check-note">Carry original at all times. PDF backup in event of loss or damage.</span></span></li>
+      <li><span class="check-box"></span><span class="check-label">AMREF Maisha membership card — physical + PDF<span class="check-note">Membership number, control room number: +254 730 811 811</span></span></li>
+      <li><span class="check-box"></span><span class="check-label">Travel insurance policy — physical card + PDF<span class="check-note">Policy number, 24/7 emergency assistance line, medical cover limit, evacuation cover confirmation</span></span></li>
+      <li><span class="check-box"></span><span class="check-label">Bonitas medical aid card (Mary-Ann) — physical + PDF<span class="check-note">Plan name, scheme number, ER24 line: 084 124. Confirm international travel benefit registered.</span></span></li>
+      <li><span class="check-box"></span><span class="check-label">Medical cover documentation (Neil) — whichever alternative is in place<span class="check-note">Genesis does not cover internationally — alternative must be confirmed before this item can be checked.</span></span></li>
+      <li><span class="check-box"></span><span class="check-label">Both passports — originals, certified copies × 3, PDF scans<span class="check-note">Store certified copies separately from originals. Leave one set with next of kin in SA.</span></span></li>
+      <li><span class="check-box"></span><span class="check-label">Driver's licences — originals + International Driving Permit (IDP) for both<span class="check-note">IDP issued by AA South Africa. Required in some countries on the route. Valid 3 years from issue.</span></span></li>
+      <li><span class="check-box"></span><span class="check-label">Vehicle registration papers — original + certified copies<span class="check-note">HZJ76R-RKMRS, VIN, engine number 1HZ-xxxxx. Required for Yellow Card and some border crossings.</span></span></li>
+      <li><span class="check-box"></span><span class="check-label">Full vehicle photo set — VIN, engine number, all four sides, interior, key fitments<span class="check-note">Needed for vehicle theft and damage claims. Date-stamped photos from the day before departure.</span></span></li>
+      <li><span class="check-box"></span><span class="check-label">Medical summary card for both — blood type, medications, allergies, conditions<span class="check-note">Blood type prominently on field card. Medical alert card in wallet. Summary PDF on phone.</span></span></li>
+      <li><span class="check-box"></span><span class="check-label">Power of attorney — Neil for Mary-Ann, Mary-Ann for Neil<span class="check-note">Enables each to make medical decisions and sign documents for the other. Signed, witnessed, and certified before departure. Store with lawyer and carry certified copies.</span></span></li>
+      <li><span class="check-box"></span><span class="check-label">Pre-trip equipment inventory with photos and estimated values<span class="check-note">For contents claims following theft. Include Victron electrical components, recovery gear, comms equipment, camping equipment. Cross-ref R3 Spares &amp; Tools.</span></span></li>
+      <li><span class="check-box"></span><span class="check-label">Next-of-kin briefed — policy details, emergency lines, power of attorney location<span class="check-note">At least one designated person in SA who knows where all documents are and what to do if contact is lost.</span></span></li>
+      <li><span class="check-box"></span><span class="check-label">Cloud backup — all documents in accessible cloud folder (Google Drive, iCloud, Dropbox)<span class="check-note">Folder accessible from any device with internet. Share access with next of kin. Test access before departure.</span></span></li>
+      <li><span class="check-box"></span><span class="check-label">Garmin inReach subscription active — SOS tested<span class="check-note">Confirm subscription active and not suspended. Emergency contact info updated in Garmin portal. Test SOS messaging function (not SOS transmission) before departure.</span></span></li>
+    </ul>
+  </div>
+
+  <!-- ══ SECTION 10: SCENARIOS ══ -->
+  <div id="s-scenarios" class="sa">
+    <div class="section-head">10 — Case Studies</div>
+    <p class="section-intro">Real-world events — drawn from overlanding accounts, published forum discussions, and documented incidents — that illustrate what can go wrong and what correct procedure looks like. Names are anonymised or circumstantial.</p>
+
+    <div class="case-grid">
+      <div class="case-card">
+        <div class="case-title">Vehicle Written Off in Remote Zambia</div>
+        <div class="case-body">An SA couple hit a large animal at night on the Kafue road. Vehicle was totalled. SA comprehensive policy technically covered the write-off — but the agreed value had not been updated to include the R120,000 fitment package added pre-trip. The insurer paid market value for the base vehicle (R85,000), leaving the couple out of pocket by roughly R90,000 on their build. They were repatriated by road.</div>
+        <div class="case-lesson">LESSON: Insure the full prepared vehicle value. Get agreed value written into the policy. Submit a full fitment schedule to the insurer before departure and get written confirmation of the agreed value.</div>
+      </div>
+      <div class="case-card">
+        <div class="case-title">Medical Evacuation from Tanzania — Correct Process</div>
+        <div class="case-body">A solo traveller sustained serious abdominal injuries from a vehicle rollover in the Serengeti corridor. He had AMREF Maisha membership and a World Nomads policy. One call to AMREF Control Room (+254 730 811 811) resulted in a fixed-wing aircraft reaching him within four hours via a bush airstrip. AMREF's aircraft had an ICU-capable setup and a flight doctor. He was admitted to Aga Khan Hospital in Nairobi. World Nomads reimbursed the full cost including hospital bills. Recovery was complete.</div>
+        <div class="case-lesson">LESSON: AMREF + comprehensive travel insurance is the correct dual-layer approach. One call activates the aircraft; the insurer pays the bill. The combination worked exactly as designed.</div>
+      </div>
+      <div class="case-card">
+        <div class="case-title">Theft at Border — Claim Denied</div>
+        <div class="case-body">Equipment was stolen from a vehicle at a border camp. The owner's SA comprehensive policy covered personal belongings, but only if force entry was used or the vehicle was locked. The camp incident involved items left in an unlocked tent and vehicle. The claim for camera equipment and GPS devices worth R35,000 was denied on the grounds of inadequate precautions. The policy had a specific exclusion for unattended valuables in unlocked vehicles or accommodation.</div>
+        <div class="case-lesson">LESSON: Read the theft exclusion clauses in your policy. "Unattended" and "unlocked" are standard denial triggers. Carry valuable electronics on your person or in a locked, concealed location. Know what your policy actually covers for theft outside SA.</div>
+      </div>
+      <div class="case-card">
+        <div class="case-title">Medical Aid Cap Exceeded in Nairobi</div>
+        <div class="case-body">A South African traveller required emergency surgery in Nairobi following a road accident. Her medical aid international travel benefit covered up to R5m per trip — more than adequate. However, she had been in East Africa for 97 days continuously. Her 90-day trip benefit had lapsed seven days earlier. The medical aid rejected the claim. The couple had no travel insurance. They self-paid approximately R280,000 for the surgery and ICU stay.</div>
+        <div class="case-lesson">LESSON: The 90-day trip limit is a hard stop. Travel insurance covering the full trip duration is not optional for a multi-month overland. Set a calendar reminder for the Day 85 mark — this is when you should check your position.</div>
+      </div>
+      <div class="case-card">
+        <div class="case-title">Vehicle Stuck — inReach SOS Misuse</div>
+        <div class="case-body">A vehicle became seriously stuck in a riverbed in northern Botswana. The driver activated inReach SOS. Garmin Response coordinated with local emergency services. A helicopter was eventually dispatched. The vehicle was simply stuck — no injuries, no mechanical failure. The rescue cost exceeded USD 8,000. The traveller's travel insurance denied the claim because the policy covered medical emergencies only, not vehicle recovery. He had no SAR membership or equivalent.</div>
+        <div class="case-lesson">LESSON: inReach SOS dispatches emergency rescue — it is not a vehicle recovery tool. If you are stuck but healthy, work the recovery tools in R9 Vehicle Recovery Guide first. Reserve SOS for genuine life-threatening emergencies. Know what your insurance will and will not reimburse before pressing the button.</div>
+      </div>
+      <div class="case-card">
+        <div class="case-title">Successful Theft Claim — Right Documentation</div>
+        <div class="case-body">Catalytic converter and starter motor stolen overnight from a locked and alarmed vehicle at a campsite in Zimbabwe. The owner had a police report (obtained within hours from the nearest town), photographs of the tampered panels, and a pre-trip equipment inventory. The SA insurer approved the claim within two weeks. Total reimbursement: R18,000. Claim paid without dispute.</div>
+        <div class="case-lesson">LESSON: Police report + photographs + pre-trip inventory = payable claim. None of these documents take more than a day to prepare before departure. Do it.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 11: PRE-DEPARTURE CHECKLIST ══ -->
+  <div id="s-predep" class="sa">
+    <div class="section-head">11 — Pre-Departure Insurance Checklist</div>
+    <p class="section-intro">Work through this list in the 6–8 weeks before departure date. Some items (power of attorney, medical aid switch, agreed value confirmation) require lead time — do not leave until the week before.</p>
+
+    <ul class="checklist">
+      <li><span class="check-box"></span><span class="check-label"><strong>Neil — resolve Genesis gap.</strong> Either switch medical aid to one with international cover (Discovery, Bonitas, Momentum — 3-month waiting period) or confirm travel insurance provides full medical cover for trip duration.<span class="check-note">Must be resolved before 2028 departure. Address in 2027 planning.</span></span></li>
+      <li><span class="check-box"></span><span class="check-label"><strong>Confirm Bonitas international travel benefit registered</strong> (Mary-Ann) — get written confirmation from Bonitas before departure date.<span class="check-note">Registration required prior to departure per Bonitas rules. Do not assume it is active.</span></span></li>
+      <li><span class="check-box"></span><span class="check-label"><strong>Vehicle insurance — confirm cross-border cover terms in writing.</strong> Territory list, duration, agreed value, excess structure, cross-border claim process.<span class="check-note">Get written confirmation from your broker, not a verbal assurance on a recorded call.</span></span></li>
+      <li><span class="check-box"></span><span class="check-label"><strong>Purchase COMESA Yellow Card</strong> — from Mukfin Insurance (SA) before departure, or from Livingstone, Zambia at route entry.<span class="check-note">Mukfin: +27 10 210 7093. Confirm countries listed match your route.</span></span></li>
+      <li><span class="check-box"></span><span class="check-label"><strong>Purchase travel insurance</strong> — long-duration policy covering full trip. Confirm: medical limit, evacuation, adventure activities, Africa territory, trip duration.<span class="check-note">World Nomads, SafetyWing, or IMG Global depending on final choice. Buy at least 2 weeks before departure.</span></span></li>
+      <li><span class="check-box"></span><span class="check-label"><strong>Subscribe to AMREF Maisha</strong> — Platinum or Diamond tier for East Africa leg.<span class="check-note">flydoc.org. Confirm coverage countries match route. Store membership number on field card.</span></span></li>
+      <li><span class="check-box"></span><span class="check-label"><strong>Confirm Garmin inReach subscription active.</strong> Test SOS messaging (not transmission). Update emergency profile (next of kin, medical details) in Garmin portal.<span class="check-note">R16 Comms &amp; Navigation for inReach setup. Subscription must not be in suspended state at departure.</span></span></li>
+      <li><span class="check-box"></span><span class="check-label"><strong>Power of attorney — Neil and Mary-Ann for each other.</strong> Signed, witnessed, certified, and stored with lawyer. Carry certified copies in the vehicle.<span class="check-note">Required for medical decisions and financial transactions if one partner is incapacitated. Not optional for a 2-year expedition.</span></span></li>
+      <li><span class="check-box"></span><span class="check-label"><strong>Print and laminate waterproof field cards</strong> — all policy numbers, emergency lines, blood types, AMREF number, next of kin. Two copies.<span class="check-note">Glovebox + drybag. The card survives when your phone does not.</span></span></li>
+      <li><span class="check-box"></span><span class="check-label"><strong>Photograph and inventory all valuable equipment</strong> — kit, Victron components, comms gear, recovery equipment, cameras. Date-stamped. PDF stored in cloud.<span class="check-note">Cross-ref R3 Spares &amp; Tools for equipment list. Required for theft claims.</span></span></li>
+      <li><span class="check-box"></span><span class="check-label"><strong>Upload all policy documents to cloud storage.</strong> Share access with next of kin.<span class="check-note">Google Drive or equivalent. Test access from a different device before departure.</span></span></li>
+      <li><span class="check-box"></span><span class="check-label"><strong>Brief next of kin on all policy details, emergency lines, and claim process.</strong> They must be able to act on your behalf if contact is lost.<span class="check-note">Walk them through the policy log below. Give them the cloud folder access and field card copy.</span></span></li>
+      <li><span class="check-box"></span><span class="check-label"><strong>Note all mid-trip policy renewal dates in calendar.</strong> Set reminders at 30 days before renewal.<span class="check-note">Especially critical for AMREF (annual), Yellow Card (up to 365 days), and travel insurance (annually renewable).</span></span></li>
+      <li><span class="check-box"></span><span class="check-label"><strong>Confirm IDP (International Driving Permit)</strong> valid for trip duration — issued by AA South Africa, valid 3 years. Required in some countries.<span class="check-note">AA offices, Cape Town: 0861 000 234.</span></span></li>
+      <li><span class="check-box"></span><span class="check-label"><strong>Arrange extended chronic medication supply.</strong> Most medical aids allow 3–5 months advance supply for international travel. Apply at least 3 weeks before departure.<span class="check-note">Confirm with your GP and medical aid scheme. Carry more than you think you need — resupply in East Africa for SA-brand medication is unreliable.</span></span></li>
+      <li><span class="check-box"></span><span class="check-label"><strong>Medical alert cards / bracelets.</strong> Blood type, critical conditions, key medications, next of kin — carried in wallet by each person.<span class="check-note">Separate from the vehicle field card. On your person at all times.</span></span></li>
+    </ul>
+
+    <div class="warn-box" style="margin-top:18px;">
+      <strong>Final check before the border:</strong> The cheapest medevac is the one you never need. Sound planning, conservative driving decisions, local knowledge, and avoiding known high-risk periods (elections, seasonal flooding, conflict zones) reduce your exposure more than any policy. Insurance is the last line — good judgment is the first.
+    </div>
+
+    <div class="xref-bar">
+      <span class="xref-label">Cross-reference</span>
+      <span class="xref-pill">R2 Departure Checklist — full 68-item pre-departure inspection</span>
+      <span class="xref-pill">R8 Service History — vehicle condition and value for insurance claims</span>
+      <span class="xref-pill">R10 Emergency Procedures — medical response in field</span>
+      <span class="xref-pill">R15 Border Crossings — country-by-country insurance requirements</span>
+      <span class="xref-pill">R16 Comms &amp; Navigation — inReach and satellite comms setup</span>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 12: POLICY LOG ══ -->
+  <div id="s-log" class="sa">
+    <div class="section-head">12 — Policy Log</div>
+    <p class="section-intro">A living record for the life of the trip. Update at each renewal, each new purchase, and each claim event. This is the master reference for all active cover.</p>
+
+    <table class="log-table">
+      <thead>
+        <tr>
+          <th>Policy / Cover</th>
+          <th>Provider</th>
+          <th>Policy Number</th>
+          <th>Emergency Line</th>
+          <th>Start Date</th>
+          <th>Renewal Date</th>
+          <th>Notes / Changes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Vehicle Comprehensive</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+        </tr>
+        <tr>
+          <td>COMESA Yellow Card</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+        </tr>
+        <tr>
+          <td>Mary-Ann — Bonitas</td>
+          <td>Bonitas / ER24</td>
+          <td class="fill">&nbsp;</td>
+          <td>084 124</td>
+          <td class="fill">&nbsp;</td>
+          <td>Annual</td>
+          <td>Confirm ITB registered</td>
+        </tr>
+        <tr>
+          <td>Neil — Medical Cover</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+          <td>Genesis no intl cover — resolve pre-departure</td>
+        </tr>
+        <tr>
+          <td>Travel Insurance (Neil)</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+        </tr>
+        <tr>
+          <td>Travel Insurance (Mary-Ann)</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+        </tr>
+        <tr>
+          <td>AMREF Maisha — Neil</td>
+          <td>AMREF Flying Doctors</td>
+          <td class="fill">&nbsp;</td>
+          <td>+254 730 811 811</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+          <td>East Africa leg activation</td>
+        </tr>
+        <tr>
+          <td>AMREF Maisha — Mary-Ann</td>
+          <td>AMREF Flying Doctors</td>
+          <td class="fill">&nbsp;</td>
+          <td>+254 730 811 811</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+        </tr>
+        <tr>
+          <td>Garmin inReach Subscription</td>
+          <td>Garmin</td>
+          <td class="fill">&nbsp;</td>
+          <td>Garmin Response via SOS</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+          <td>Confirm not suspended at departure</td>
+        </tr>
+        <tr>
+          <td>Third-Party — Namibia</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+          <td>Purchase at border or pre-departure</td>
+        </tr>
+        <tr>
+          <td>Third-Party — Botswana</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+        </tr>
+        <tr>
+          <td>Claim Event 1</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+        </tr>
+        <tr>
+          <td>Claim Event 2</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+          <td class="fill">&nbsp;</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="info-box" style="margin-top:14px;">
+      <strong>Research date notice:</strong> All provider information, cost estimates, and coverage terms in this document were researched in April 2026. Insurance products, premiums, coverage territories, and emergency contact numbers change regularly. Re-verify every provider directly before 2028 departure. This document is a planning reference, not a policy schedule.
+    </div>
+
+    <div class="xref-bar">
+      <span class="xref-label">Cross-reference</span>
+      <span class="xref-pill">R2 Departure Checklist</span>
+      <span class="xref-pill">R8 Service History — vehicle valuation for claims</span>
+      <span class="xref-pill">R10 Emergency Procedures</span>
+      <span class="xref-pill">R15 Border Crossings</span>
+      <span class="xref-pill">R16 Comms &amp; Navigation</span>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<script>
+  const tocBtns = document.querySelectorAll('.toc-btn');
+  tocBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const el = document.getElementById(btn.dataset.target);
+      if (el) {
+        const stickyH = document.querySelector('.sticky-wrap').offsetHeight;
+        const top = el.getBoundingClientRect().top + window.pageYOffset - stickyH - 8;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    });
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        tocBtns.forEach(b => b.classList.toggle('active', b.dataset.target === id));
+      }
+    });
+  }, { rootMargin: '-130px 0px -70% 0px', threshold: 0 });
+
+  document.querySelectorAll('.sa').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
