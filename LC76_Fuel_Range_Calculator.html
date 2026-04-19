@@ -5,27 +5,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="LC76 Range">
+<meta name="apple-mobile-web-app-title" content="Fuel Range">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#1C1410">
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icon-192.svg">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<title>LC76 Fuel Range Calculator - HZJ76R 1HZ</title>
+<title>Overland Fuel Range Calculator</title>
 
 <style>
   :root {
     --clay:#C4572A; --ochre:#D4963A; --sand:#E8D5A3; --cream:#F5EDDA;
     --ink:#1C1410; --bark:#3D2B1A; --smoke:#6B5B4E; --white:#FDFAF4;
-    --border:rgba(61,43,26,0.15); --green-ok:#1A4731; --red-warn:#B91C1C; --amber:#92400E;
-  --dominant:var(--cream);--secondary:var(--ink);--accent:var(--clay);--accent-2:var(--ochre);
-  
-  --ink:#0d0e12; --paper:#dad2c0; --paper2:#edeae0; --rule:#d4cfc4;
-  --amber:#b86800; --amber2:#e07800;
-  --steeldk:#2a2f3a; --steelmd:#6a7080;
-  --green-ok:#059669; --red-warn:#B91C1C;
+    --border:rgba(61,43,26,0.15); --green-ok:#059669; --red-warn:#B91C1C;
+    --amber:#92400E; --amber2:#e07800; --steeldk:#2a2f3a; --steelmd:#6a7080;
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
+  html{overflow-x:hidden}
   body{background:var(--white);color:var(--ink);font-family:'Oswald','Arial Narrow',sans-serif;font-size:16px;line-height:1.7}
   .sticky-wrap{position:sticky;top:0;z-index:100;background:var(--ink);padding-top:env(safe-area-inset-top)}
   .calc-masthead{position:relative;background:var(--ink);color:#fff;padding:18px 24px 14px;overflow:hidden}
@@ -39,19 +35,43 @@
   .page{max-width:100%;margin:0 auto;padding:16px 4% 40px}
   .sec{font-family:'Oswald','Arial Narrow',sans-serif;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--smoke);border-bottom:1px solid var(--border);padding-bottom:4px;margin:16px 0 10px}
   .sec:first-of-type{margin-top:0}
+
+  /* Setup grid */
+  .setup-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:12px}
+  .setup-field{display:flex;flex-direction:column;gap:4px}
+  .setup-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--smoke)}
+  .setup-input{font-family:'Oswald','Arial Narrow',sans-serif;font-size:16px;font-weight:600;color:var(--bark);background:var(--sand);border:2px solid var(--ochre);padding:6px 10px;outline:none;width:100%;transition:border-color .15s}
+  .setup-input:focus{border-color:var(--clay)}
+  .setup-select{font-family:'Oswald','Arial Narrow',sans-serif;font-size:13px;font-weight:500;color:var(--bark);background:var(--sand);border:2px solid var(--ochre);padding:6px 10px;outline:none;width:100%;cursor:pointer;-webkit-appearance:none;appearance:none;transition:border-color .15s}
+  .setup-select:focus{border-color:var(--clay)}
+  .setup-note{font-size:9px;color:var(--smoke);font-style:italic;opacity:0.75;line-height:1.2}
+
+  /* Capacity cards */
   .cap-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:0}
   .cc{background:var(--cream);border:1px solid var(--border);border-left:3px solid var(--ochre);padding:8px 12px}
   .cc.p{border-left-color:var(--clay)}
   .cc .cl{font-family:'Oswald','Arial Narrow',sans-serif;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--smoke);margin-bottom:2px}
-  
   .cc .cv{font-family:'Oswald','Arial Narrow',sans-serif;font-size:22px;font-weight:700;color:var(--bark);line-height:1}
-  
   .cc .cs{font-size:11px;color:var(--smoke);margin-top:2px}
+
+  /* Info cards (baseline + methodology) */
+  .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px}
+  .icard{background:var(--cream);border:1px solid var(--border);border-left:3px solid var(--ochre);padding:14px 16px}
+  .icard.meth{border-left-color:var(--steeldk)}
+  .icard-title{font-family:'Oswald','Arial Narrow',sans-serif;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--smoke);margin-bottom:8px}
+  .icard-val{font-family:'Oswald','Arial Narrow',sans-serif;font-size:26px;font-weight:700;color:var(--clay);line-height:1;margin-bottom:6px}
+  .icard-sub{font-size:11px;color:var(--smoke);line-height:1.6}
+  .icard-sub strong{color:var(--bark)}
+  .meth-row{font-size:11px;color:var(--smoke);line-height:1.5;padding:3px 0;border-bottom:1px solid var(--border)}
+  .meth-row:last-child{border-bottom:none;padding-bottom:0}
+  .meth-row strong{color:var(--bark);font-size:10px;letter-spacing:.04em}
+
+  /* Terrain/wind/hilliness buttons */
   .tgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-bottom:20px}
   .tbtn{border:1px solid var(--border);background:var(--cream);padding:8px 12px;cursor:pointer;text-align:left;font-family:inherit;transition:all .15s;min-height:44px}
   .tbtn:hover{background:var(--sand)}
-  .tdesc{font-size:10px;color:var(--smoke);margin-top:3px;line-height:1.3;font-style:italic;}
-  .tbtn.active .tdesc{color:rgba(255,255,255,0.7);}
+  .tdesc{font-size:10px;color:var(--smoke);margin-top:3px;line-height:1.3;font-style:italic}
+  .tbtn.active .tdesc{color:rgba(255,255,255,0.7)}
   .tbtn.active{border:2px solid var(--clay);background:var(--clay)}
   .tbtn .tn{font-family:'Oswald','Arial Narrow',sans-serif;font-size:13px;font-weight:700;color:var(--bark);margin-bottom:1px}
   .tbtn.active .tn{color:#fff;font-weight:700}
@@ -59,34 +79,33 @@
   .tbtn.active .tm{color:rgba(255,255,255,0.85)}
   .tbtn .tc{font-family:'Oswald','Arial Narrow',sans-serif;font-size:9px;color:var(--smoke)}
   .tbtn.active .tc{color:rgba(255,255,255,0.75)}
+
+  /* Sliders */
   .sblock{margin-bottom:6px}
-  .srow{display:flex;align-items:center;gap:12px;margin-bottom:2px}
-  .slabelwrap{display:flex;align-items:baseline;gap:10px;margin-bottom:2px}
+  .slabelwrap{display:flex;align-items:baseline;gap:10px;margin-bottom:2px;flex-wrap:wrap}
   .slabel{font-family:'Oswald','Arial Narrow',sans-serif;font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--smoke)}
-  .srow input[type=range]{flex:1;min-width:0}
   input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:4px;background:linear-gradient(to right,var(--clay) 0%,var(--clay) 50%,var(--border) 50%,var(--border) 100%);outline:none;cursor:pointer;border-radius:2px}
   input[type=range]::-webkit-slider-runnable-track{-webkit-appearance:none;height:4px;border-radius:2px}
   input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:22px;height:22px;border-radius:50%;background:var(--clay);border:3px solid var(--white);cursor:pointer;margin-top:-9px;box-shadow:0 1px 4px rgba(0,0,0,0.3)}
-  input[type=range]::-moz-range-track{height:4px;background:transparent;border-radius:2px}
-  input[type=range]::-moz-range-progress{height:4px;background:var(--clay);border-radius:2px}
-  input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--clay);border:3px solid var(--white);cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,0.3);border:none}
-  input[type=range]::-ms-thumb{width:22px;height:22px;border-radius:50%;background:var(--clay);border:3px solid var(--white);cursor:pointer}
+  input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--clay);border:none;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,0.3)}
   .sval{font-family:'Oswald','Arial Narrow',sans-serif;font-size:14px;font-weight:600;color:var(--clay)}
   .snote{font-size:9px;color:var(--smoke);font-style:italic;padding:0 0 2px;line-height:1.2;opacity:0.75}
+
+  /* Result cards */
   .rgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:10px}
   .rc{background:var(--cream);color:var(--bark);padding:10px 14px;border-left:3px solid var(--clay)}
   .rc.h{border-left-color:var(--ochre)}
   .rc.g{border-left-color:var(--green-ok)}
   .rcl{font-family:'Oswald','Arial Narrow',sans-serif;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--smoke);margin-bottom:3px}
   .rcv{font-family:'Oswald','Arial Narrow',sans-serif;font-size:28px;font-weight:700;color:var(--clay);line-height:1;margin-bottom:2px}
-  
   .rcs{font-size:12px;color:var(--smoke)}
+
+  /* Range bar */
   .rbar{background:var(--cream);border:1px solid var(--border);border-left:3px solid var(--clay);padding:10px 14px;margin-bottom:8px;overflow:visible}
   .rbh{display:flex;justify-content:space-between;font-family:'Oswald','Arial Narrow',sans-serif;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--smoke);margin-bottom:6px}
-  .rbt{height:12px;background:rgba(61,43,26,.1);position:relative}
-  .rbf{height:12px;background:var(--clay);position:absolute;top:0;left:0;transition:width .3s ease}
-  .rbm{position:absolute;top:-5px;width:2px;height:22px;background:var(--bark);opacity:.5}
   .rbtk{display:flex;justify-content:space-between;margin-top:16px;font-family:'Oswald','Arial Narrow',sans-serif;font-size:9px;color:var(--smoke)}
+
+  /* Callouts */
   .call{display:flex;gap:12px;padding:12px 16px;margin:10px 0;border-left:4px solid var(--red-warn);background:#FEF2F2;font-size:13.5px}
   .call.am{border-left-color:var(--ochre);background:#FFFBEB}
   .call.gn{border-left-color:var(--green-ok);background:#F0FDF4}
@@ -94,117 +113,165 @@
   .ci{font-size:18px;flex-shrink:0;margin-top:1px}
   .cb{line-height:1.6;color:var(--smoke)}
   .cb strong{color:var(--bark)}
-  .tscroll{overflow-x:auto;-webkit-overflow-scrolling:touch;-webkit-overflow-scrolling:touch}
+
+  /* Table */
+  .tscroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
   .dtable{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:8px;min-width:520px}
   .dtable th{background:var(--ink);color:var(--ochre);font-family:'Oswald','Arial Narrow',sans-serif;font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:8px 12px;text-align:left;font-weight:500}
   .dtable td{padding:7px 12px;border-bottom:1px solid var(--border);vertical-align:top;color:var(--smoke)}
   .dtable td:first-child{font-weight:600;color:var(--bark)}
   .dtable tr:nth-child(even) td{background:rgba(212,150,58,.04)}
+
+  /* Angola block */
   .ab{background:var(--bark);color:var(--cream);padding:18px 20px;margin:10px 0;border-left:4px solid var(--ochre)}
-  .abh{font-family:'Oswald','Arial Narrow',sans-serif;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ochre);margin-bottom:10px}
+  .ab-toggle{display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none}
+  .abh{font-family:'Oswald','Arial Narrow',sans-serif;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ochre)}
+  .ab-caret{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ochre);transition:transform .2s}
+  .ab-body{margin-top:10px}
   .abr{display:flex;justify-content:space-between;font-size:13px;color:var(--sand);padding:5px 0;border-bottom:1px solid rgba(255,255,255,.08);gap:12px;flex-wrap:wrap}
   .abr:last-child{border-bottom:none}
   .abv{font-family:'Oswald','Arial Narrow',sans-serif;color:var(--ochre);white-space:nowrap}
+  .ab-note{font-size:10px;color:rgba(232,213,163,0.5);margin-top:8px;font-style:italic}
+
   footer{background:var(--ink);color:var(--sand);padding:10px 4%;font-family:'Oswald','Arial Narrow',sans-serif;font-size:10px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;border-top:1px solid rgba(212,150,58,.2)}
   footer span{color:var(--ochre)}
-      .tgrid{grid-template-columns:1fr 1fr}
-    .slabel{width:95px;font-size:8px}
-    .cm-title{font-size:1.6rem}
-    .cc .cv{font-size:20px}
-    .rcv{font-size:22px}
-  }
-  .tbtn.active
-  .tbtn.active
-  .tbtn.active
+
   @media(max-width:780px){
+    .setup-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
     .cap-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .info-grid{grid-template-columns:1fr}
     .tgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
     .rgrid{grid-template-columns:1fr}
-    .slabel{width:30%;min-width:100px;font-size:10px}
-    .snote{font-size:9px}
-    .sval{font-size:11px;min-width:52px}
     .cm-title{font-size:1.6rem}
-    .mspecs{font-size:9px;gap:10px}
     .rcv{font-size:22px}
     .cc .cv{font-size:18px}
   }
   @media(max-width:480px){
+    .setup-grid{grid-template-columns:1fr 1fr}
     .tgrid{grid-template-columns:1fr 1fr}
-    .slabel{width:28%;font-size:9px}
-  }
-  @media(max-width:600px){
-    .slabel{width:100px;font-size:10px;letter-spacing:.03em}
-    .sval{width:58px;font-size:11px}
-    .srow{gap:6px}
-  }
-  @media(max-width:420px){
-    .slabel{width:80px;font-size:9px}
-    .sval{width:52px;font-size:10px}
   }
   @media print{
     .page{padding:0 24px}
     footer{display:none}
     .tscroll{overflow:visible}
     .dtable{min-width:auto;font-size:10px}
+    .ab-body{display:block!important}
   }
-
-/* Library home pill */
-.lib-home-btn{
-  position:absolute;
-  top:50%;
-  right:16px;
-  transform:translateY(-50%);
-  display:inline-flex;
-  align-items:center;
-  gap:5px;
-  font-family:'IBM Plex Mono',monospace;
-  font-size:9px;
-  font-weight:600;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-  text-decoration:none;
-  color:var(--amber2,#e07800);
-  background:rgba(232,120,0,.15);
-  border:1px solid var(--amber2,#e07800);
-  border-radius:20px;
-  padding:6px 12px;
-  min-height:32px;
-  white-space:nowrap;
-  z-index:10;
-  -webkit-tap-highlight-color:transparent;
-  transition:background .2s, border-color .2s;
-}
-.lib-home-btn:hover,
-.lib-home-btn:active{background:rgba(232,120,0,.30);border-color:var(--amber2,#e07800);}
-@media print{.lib-home-btn{display:none!important}}
 </style>
 </head>
 <body>
 
 <div class="sticky-wrap"><header class="calc-masthead">
-  <a href="index.html" class="lib-home-btn" title="Library Index">⌂ Index</a>
-  <div class="cm-eyebrow">LC76 SW · Field Calculator</div>
+  <div class="cm-eyebrow">Overlanding &middot; Field Calculator</div>
   <div class="cm-title">Fuel Range <em>Calculator</em></div>
-  <div class="cm-sub">Terrain-adjusted consumption estimates</div>
+  <div class="cm-sub">Terrain, wind &amp; gradient-adjusted consumption estimates</div>
   <div class="cm-specs">
-    <div>Tank: <span>145 L</span></div>
-    <div>Jerry cans: <span>2&times; 20 L</span></div>
-    <div>Total: <span>185 L</span></div>
-    <div>Baseline: <span>7.26 km/L</span></div>
-    <div>GVM: <span>2,850 kg</span></div>
+    <div>Tank: <span id="ms-tank">145 L</span></div>
+    <div>Aux: <span id="ms-aux">40 L</span></div>
+    <div>Total: <span id="ms-total">185 L</span></div>
+    <div>Baseline: <span id="ms-base">7.26 km/L</span></div>
   </div>
 </header></div>
 
 <main class="page">
 
-  <div class="sec">Fuel capacity &mdash; <span style="font-weight:300;letter-spacing:0.05em;text-transform:none;font-size:11px;">Calculated for a Land Cruiser 76 SW 1HZ with low boost turbo and intercooler</span></div>
-  <div class="cap-grid">
-    <div class="cc"><div class="cl">Main tank</div><div class="cv">145 L</div><div class="cs">Replacement tank</div></div>
-    <div class="cc"><div class="cl">Jerry cans</div><div class="cv">40 L</div><div class="cs">2&times; Desert Fox 20L</div></div>
-    <div class="cc p"><div class="cl">Total capacity</div><div class="cv">185 L</div><div class="cs">Tank + both cans</div></div>
-    <div class="cc"><div class="cl">Usable</div><div class="cv">~170 L</div><div class="cs">~10L reserve always kept</div></div>
+  <!-- ══ VEHICLE SETUP ══ -->
+  <div class="sec">Vehicle setup &mdash; <span style="font-weight:300;letter-spacing:0.05em;text-transform:none;font-size:11px;">enter your vehicle values before using the calculator</span></div>
+  <div class="setup-grid">
+    <div class="setup-field">
+      <div class="setup-label">Main tank (L)</div>
+      <input type="number" class="setup-input" id="cfg-tank" value="145" min="10" max="500" step="1" oninput="onCfgChange()">
+      <div class="setup-note">Usable capacity of primary fuel tank</div>
+    </div>
+    <div class="setup-field">
+      <div class="setup-label">Aux / jerry cans (L)</div>
+      <input type="number" class="setup-input" id="cfg-jerry" value="40" min="0" max="300" step="1" oninput="onCfgChange()">
+      <div class="setup-note">Combined auxiliary capacity &mdash; 0 if none</div>
+    </div>
+    <div class="setup-field">
+      <div class="setup-label">Reserve to keep (L)</div>
+      <input type="number" class="setup-input" id="cfg-res" value="10" min="0" max="50" step="1" oninput="onCfgChange()">
+      <div class="setup-note">Minimum fuel never used in range calc</div>
+    </div>
+    <div class="setup-field">
+      <div class="setup-label">GVM payload (kg)</div>
+      <input type="number" class="setup-input" id="cfg-pay" value="690" min="100" max="3000" step="10" oninput="onCfgChange()">
+      <div class="setup-note">Max payload per manufacturer GVM</div>
+    </div>
+    <div class="setup-field">
+      <div class="setup-label">Recording load (kg)</div>
+      <input type="number" class="setup-input" id="cfg-recload" value="350" min="0" max="2000" step="10" oninput="onCfgChange()">
+      <div class="setup-note">Load when your baseline was recorded</div>
+    </div>
+    <div class="setup-field">
+      <div class="setup-label">Recording pressure (bar)</div>
+      <input type="number" class="setup-input" id="cfg-recbar" value="2.6" min="1.0" max="4.0" step="0.1" oninput="onCfgChange()">
+      <div class="setup-note">Tyre pressure when baseline was recorded</div>
+    </div>
+    <div class="setup-field" style="grid-column:1/-1">
+      <div class="setup-label">Engine / aspiration</div>
+      <select class="setup-select" id="cfg-asp" onchange="onCfgChange()">
+        <option value="0.035" selected>Turbocharged + intercooler (~3.5% per 1,000m)</option>
+        <option value="0.045">Turbocharged, no intercooler (~4.5% per 1,000m)</option>
+        <option value="0.060">Naturally aspirated diesel (~6.0% per 1,000m)</option>
+        <option value="0.070">Petrol / gasoline (~7.0% per 1,000m)</option>
+      </select>
+      <div class="setup-note">Sets the altitude consumption penalty coefficient</div>
+    </div>
   </div>
 
+  <!-- ══ CAPACITY SUMMARY ══ -->
+  <div class="sec">Fuel capacity &mdash; <span style="font-weight:300;letter-spacing:0.05em;text-transform:none;font-size:11px;">calculated from your setup above</span></div>
+  <div class="cap-grid">
+    <div class="cc"><div class="cl">Main tank</div><div class="cv" id="cap-tank">145 L</div><div class="cs">Primary fuel tank</div></div>
+    <div class="cc"><div class="cl">Aux / jerry cans</div><div class="cv" id="cap-aux">40 L</div><div class="cs">Auxiliary capacity</div></div>
+    <div class="cc p"><div class="cl">Total capacity</div><div class="cv" id="cap-total">185 L</div><div class="cs">Tank + aux combined</div></div>
+    <div class="cc"><div class="cl">Usable</div><div class="cv" id="cap-usable">~175 L</div><div class="cs" id="cap-res-note">10L reserve kept</div></div>
+  </div>
+
+  <!-- ══ BASELINE ══ -->
+  <div class="sec">Your baseline &mdash; <span style="font-weight:300;letter-spacing:0.05em;text-transform:none;font-size:11px;">recorded real-world average; all calculations scale from this</span></div>
+  <div class="sblock">
+    <div class="slabelwrap">
+      <div class="slabel">Avg consumption (km/L)</div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <input type="number" id="inp-base" value="7.26" min="2.0" max="20.0" step="0.01"
+          oninput="syncBaseFromInput()" onblur="syncBaseFromInput()"
+          style="width:80px;font-family:'Oswald',sans-serif;font-size:17px;font-weight:600;color:var(--bark);background:var(--sand);border:2px solid var(--clay);padding:5px 8px;text-align:right;outline:none;">
+        <div style="font-size:11px;color:var(--clay);font-weight:500;" id="v-base-l100">13.7 L/100km</div>
+      </div>
+    </div>
+    <input type="range" min="2.0" max="20.0" step="0.1" value="7.26" id="sl-base" oninput="syncBaseFromSlider()" style="width:100%">
+    <div class="snote">Type your GPS/app average or drag the slider &mdash; both stay in sync. This is the anchor for all calculations.</div>
+  </div>
+
+  <!-- ══ BASELINE CARD + METHODOLOGY CARD ══ -->
+  <div class="info-grid">
+    <div class="icard">
+      <div class="icard-title">&#9670; Baseline summary</div>
+      <div class="icard-val" id="bc-kmL">7.26 km/L</div>
+      <div class="icard-sub">
+        <strong id="bc-l100">13.8 L/100km</strong><br>
+        Recorded at <strong id="bc-load">350 kg</strong> load &middot; <strong id="bc-bar">2.6 bar</strong><br>
+        At these exact conditions the model returns your baseline with zero adjustment. Any deviation from them is calculated as a penalty or benefit relative to this anchor.<br>
+        <span id="bc-asp" style="color:var(--clay);font-size:10px;display:block;margin-top:4px;">Turbo + intercooler &middot; 3.5%/1,000m altitude penalty</span>
+      </div>
+    </div>
+    <div class="icard meth">
+      <div class="icard-title">&#9632; How this calculator works</div>
+      <div class="meth-row"><strong>Baseline</strong> Your recorded real-world km/L is the anchor. All adjustments scale from it multiplicatively.</div>
+      <div class="meth-row"><strong>Terrain multiplier</strong> Divides baseline by a surface resistance factor (&#215;1.0 highway &rarr; &#215;1.8 technical).</div>
+      <div class="meth-row"><strong>Wind multiplier</strong> Headwind increases aerodynamic drag; tailwind gives a small benefit (&#215;0.95&ndash;&#215;1.22).</div>
+      <div class="meth-row"><strong>Hilliness multiplier</strong> Net gravity load on climbs &mdash; descents don&rsquo;t recover fuel efficiently (&#215;1.0&ndash;&#215;1.20).</div>
+      <div class="meth-row"><strong>Load penalty</strong> Applied only above your recording load. Extra kg above that point reduces km/L.</div>
+      <div class="meth-row"><strong>Tyre pressure</strong> Low pressure increases rolling resistance; high pressure gives a small benefit.</div>
+      <div class="meth-row"><strong>Altitude</strong> Thinner air reduces combustion density. Turbos partially compensate; intercoolers more so.</div>
+      <div class="meth-row"><strong>Temperature</strong> Hot air above 25&deg;C reduces combustion density (0.2%/&deg;C above baseline).</div>
+      <div class="meth-row"><strong>All factors stack multiplicatively.</strong> Mountain pass + deep sand + strong headwind is worst-case.</div>
+    </div>
+  </div>
+
+  <!-- ══ TERRAIN ══ -->
   <div class="sec">Terrain type &mdash; click to select</div>
   <div class="tgrid">
     <button class="tbtn active" data-mult="1.00" data-bar="2.8" onclick="selT(this)">
@@ -227,6 +294,44 @@
     </button>
   </div>
 
+  <!-- ══ WIND ══ -->
+  <div class="sec">Wind &mdash; click to select</div>
+  <div class="tgrid" style="grid-template-columns:repeat(5,minmax(0,1fr))">
+    <button class="tbtn active" data-wm="1.00" onclick="selW(this)">
+      <div class="tn">Calm</div><div class="tdesc">No wind effect</div><div class="tm">No penalty</div>
+    </button>
+    <button class="tbtn" data-wm="1.08" onclick="selW(this)">
+      <div class="tn">Light headwind</div><div class="tdesc">~20&ndash;30 km/h into face</div><div class="tm">+8% consumption</div>
+    </button>
+    <button class="tbtn" data-wm="1.15" onclick="selW(this)">
+      <div class="tn">Moderate headwind</div><div class="tdesc">~40&ndash;50 km/h into face</div><div class="tm">+15% consumption</div>
+    </button>
+    <button class="tbtn" data-wm="1.22" onclick="selW(this)">
+      <div class="tn">Strong headwind</div><div class="tdesc">&gt;60 km/h sustained</div><div class="tm">+22% consumption</div>
+    </button>
+    <button class="tbtn" data-wm="0.95" onclick="selW(this)">
+      <div class="tn">Tailwind</div><div class="tdesc">Wind from behind</div><div class="tm">&minus;5% consumption</div>
+    </button>
+  </div>
+
+  <!-- ══ HILLINESS ══ -->
+  <div class="sec">Hilliness &mdash; click to select</div>
+  <div class="tgrid" style="grid-template-columns:repeat(4,minmax(0,1fr))">
+    <button class="tbtn active" data-hm="1.00" onclick="selH(this)">
+      <div class="tn">Flat</div><div class="tdesc">Plains, coastal, desert flats</div><div class="tm">No penalty</div>
+    </button>
+    <button class="tbtn" data-hm="1.05" onclick="selH(this)">
+      <div class="tn">Rolling</div><div class="tdesc">Gentle undulation, savanna</div><div class="tm">+5% consumption</div>
+    </button>
+    <button class="tbtn" data-hm="1.12" onclick="selH(this)">
+      <div class="tn">Hilly</div><div class="tdesc">Sustained climbs, highland approaches</div><div class="tm">+12% consumption</div>
+    </button>
+    <button class="tbtn" data-hm="1.20" onclick="selH(this)">
+      <div class="tn">Mountain passes</div><div class="tdesc">Escarpment, serious altitude gain</div><div class="tm">+20% consumption</div>
+    </button>
+  </div>
+
+  <!-- ══ CONDITIONS ══ -->
   <div class="sec">Conditions &mdash; <span style="font-weight:300;letter-spacing:0.05em;text-transform:none;font-size:11px;">move each slider to your current situation</span></div>
   <div>
 
@@ -235,18 +340,16 @@
       <div class="slabel">Load &mdash; current payload</div>
       <div class="sval" id="v-load">350 kg</div>
     </div>
-    <input type="range" min="0" max="690" step="10" value="350" id="sl-load" oninput="updateSliderFill(this);upd()" style="width:100%">
-    <div class="snote">GVM payload limit: 690 kg. Economy penalty applies above 150 kg.</div>
+    <input type="range" min="0" max="3000" step="10" value="350" id="sl-load" oninput="updateSliderFill(this);upd()" style="width:100%">
+    <div class="snote" id="sn-load">Economy penalty applies above your recording load. Slider max tracks your GVM payload setting.</div>
   </div>
-
-
 
   <div class="sblock">
     <div class="slabelwrap">
       <div class="slabel">Tyre pressure</div>
       <div class="sval" id="v-bar">2.5 bar</div>
     </div>
-    <input type="range" min="1.1" max="2.9" step="0.1" value="2.5" id="sl-bar" oninput="updateSliderFill(this);upd()" style="width:100%">
+    <input type="range" min="1.1" max="4.0" step="0.1" value="2.5" id="sl-bar" oninput="updateSliderFill(this);upd()" style="width:100%">
     <div class="snote">Hard terrain: 2.8 bar &middot; Mixed: 2.0 bar &middot; Gravel: 1.6&ndash;1.8 bar &middot; Sand: 1.2 bar</div>
   </div>
 
@@ -256,23 +359,7 @@
       <div class="sval" id="v-fuel">145 L</div>
     </div>
     <input type="range" min="10" max="185" step="5" value="145" id="sl-fuel" oninput="updateSliderFill(this);upd()" style="width:100%">
-    <div class="snote">Set to actual fuel load &mdash; tank + any jerry cans in use.</div>
-  </div>
-
-  <div class="sblock">
-    <div class="slabelwrap">
-      <div class="slabel">Avg consumption (km/L)</div>
-      <div style="display:flex;align-items:center;gap:8px;">
-        <input type="number" id="inp-base" value="7.26" min="4.0" max="12.0" step="0.01"
-          oninput="syncBaseFromInput()"
-          onblur="syncBaseFromInput()"
-          style="width:72px;font-family:'Oswald',sans-serif;font-size:15px;font-weight:600;color:var(--bark);background:var(--sand);border:2px solid var(--clay);padding:4px 6px;text-align:right;outline:none;"
-          title="Type your Fuelio average here">
-        <div style="font-size:10px;color:var(--clay);font-weight:500;" id="v-base-l100">13.7 L/100km</div>
-      </div>
-    </div>
-    <input type="range" min="4.0" max="12.0" step="0.1" value="7.26" id="sl-base" oninput="syncBaseFromSlider()" style="width:100%">
-    <div class="snote">Type your Fuelio average or drag the slider &mdash; both stay in sync. Affects all calculations.</div>
+    <div class="snote">Set to actual fuel on board &mdash; tank + any aux in use.</div>
   </div>
 
   <div class="sblock">
@@ -281,8 +368,8 @@
       <div class="sval" id="v-alt">0 m</div>
       <div style="font-family:'Oswald','Arial Narrow',sans-serif;font-size:10px;color:var(--clay);font-weight:500;" id="v-alt-penalty">no penalty</div>
     </div>
-    <input type="range" min="0" max="3500" step="100" value="0" id="sl-alt" oninput="updateSliderFill(this);upd()" style="width:100%">
-    <div class="snote">1HZ turbo+intercooler: ~3.5% penalty per 1,000m</div>
+    <input type="range" min="0" max="5000" step="100" value="0" id="sl-alt" oninput="updateSliderFill(this);upd()" style="width:100%">
+    <div class="snote" id="sn-alt">Penalty per 1,000m set by your engine type above.</div>
   </div>
 
   <div class="sblock">
@@ -291,8 +378,8 @@
       <div class="sval" id="v-temp">25 &deg;C</div>
       <div style="font-family:'Oswald','Arial Narrow',sans-serif;font-size:10px;color:var(--clay);font-weight:500;" id="v-temp-penalty">baseline</div>
     </div>
-    <input type="range" min="0" max="50" step="1" value="25" id="sl-temp" oninput="updateSliderFill(this);upd()" style="width:100%">
-    <div class="snote">Baseline 25&deg;C &mdash; hot air reduces intercooler efficiency and combustion density. 0.2% penalty per &deg;C above 25&deg;C.</div>
+    <input type="range" min="-10" max="55" step="1" value="25" id="sl-temp" oninput="updateSliderFill(this);upd()" style="width:100%">
+    <div class="snote">Baseline 25&deg;C &mdash; hot air reduces combustion density. 0.2% penalty per &deg;C above 25&deg;C.</div>
   </div>
 
   <div class="sblock" style="display:flex;align-items:center;gap:10px;min-height:44px;">
@@ -306,8 +393,9 @@
     <div style="font-size:13px;font-weight:600;color:var(--clay);white-space:nowrap;" id="v-ac-penalty"></div>
   </div>
 
-</div>
+  </div>
 
+  <!-- ══ RESULTS ══ -->
   <div class="sec">Estimated range</div>
   <div class="rgrid">
     <div class="rc">
@@ -318,7 +406,7 @@
     <div class="rc h">
       <div class="rcl">Estimated range</div>
       <div class="rcv" id="r-range">1,343</div>
-      <div class="rcs">km &middot; 10L reserve kept</div>
+      <div class="rcs" id="r-range-note">km &middot; 10L reserve kept</div>
     </div>
     <div class="rc g">
       <div class="rcl">Start looking for fuel at</div>
@@ -334,7 +422,7 @@
     </div>
     <div id="rbt" style="position:relative;height:22px;background:rgba(61,43,26,0.12);width:100%;box-sizing:border-box;">
       <div id="rbf" style="position:absolute;top:0;left:0;height:22px;width:0%;background:#C4572A;transition:width 0.3s ease;"></div>
-      <div id="rbrl" style="position:absolute;top:0;right:0;height:22px;display:flex;align-items:center;padding-right:6px;font-family:'Oswald',sans-serif;font-size:11px;font-weight:600;color:rgba(61,43,26,0.4);letter-spacing:0.06em;pointer-events:none;" id="rbrl"></div>
+      <div id="rbrl" style="position:absolute;top:0;right:0;height:22px;display:flex;align-items:center;padding-right:6px;font-family:'Oswald',sans-serif;font-size:11px;font-weight:600;color:rgba(61,43,26,0.4);letter-spacing:0.06em;pointer-events:none;"></div>
       <div id="rbnl" style="position:absolute;top:0;left:0;height:22px;display:flex;align-items:center;padding-left:6px;font-family:'Oswald',sans-serif;font-size:11px;font-weight:600;color:#fff;letter-spacing:0.06em;pointer-events:none;transition:left 0.3s ease;"></div>
     </div>
     <div class="rbtk" id="rbtk"></div>
@@ -348,64 +436,128 @@
     <div class="cb" id="tip-txt">Loading...</div>
   </div>
 
+  <!-- ══ ANGOLA EXAMPLE (collapsed) ══ -->
   <div class="sec">Example: Angola &mdash; key fuel legs (loaded ~350 kg)</div>
   <div class="ab">
-    <div class="abh">Critical segments &middot; fuel used at terrain-adjusted consumption</div>
-    <div class="abr"><span>Oshikango &rarr; Lubango (tarmac, ~510 km)</span><span class="abv" id="a1">-</span></div>
-    <div class="abr"><span>Lubango &rarr; Namibe (mixed, ~210 km)</span><span class="abv" id="a2">-</span></div>
-    <div class="abr"><span>Namibe &rarr; Tombua coastal track (~180 km)</span><span class="abv" id="a3">-</span></div>
-    <div class="abr"><span>Tombua &rarr; Iona circuit (deep sand, ~350 km)</span><span class="abv" id="a4">-</span></div>
-    <div class="abr"><span>Iona &rarr; Foz do Cunene (rocky/technical, ~130 km)</span><span class="abv" id="a5">-</span></div>
-    <div class="abr"><span>Tombua &rarr; Calueque exit (mixed, ~480 km)</span><span class="abv" id="a6">-</span></div>
+    <div class="ab-toggle" onclick="toggleAngola()">
+      <div class="abh">Critical segments &middot; fuel used at terrain-adjusted consumption</div>
+      <div class="ab-caret" id="ang-caret">&#9660;</div>
+    </div>
+    <div class="ab-body" id="ang-body" style="display:none">
+      <div class="abr"><span>Oshikango &rarr; Lubango (tarmac, ~510 km)</span><span class="abv" id="a1">-</span></div>
+      <div class="abr"><span>Lubango &rarr; Namibe (mixed, ~210 km)</span><span class="abv" id="a2">-</span></div>
+      <div class="abr"><span>Namibe &rarr; Tombua coastal track (~180 km)</span><span class="abv" id="a3">-</span></div>
+      <div class="abr"><span>Tombua &rarr; Iona circuit (deep sand, ~350 km)</span><span class="abv" id="a4">-</span></div>
+      <div class="abr"><span>Iona &rarr; Foz do Cunene (rocky/technical, ~130 km)</span><span class="abv" id="a5">-</span></div>
+      <div class="abr"><span>Tombua &rarr; Calueque exit (mixed, ~480 km)</span><span class="abv" id="a6">-</span></div>
+      <div class="ab-note">Uses current load, pressure, altitude and temperature settings. Angola-specific segment distances.</div>
+    </div>
   </div>
 
-  <div class="sec">Quick reference &mdash; all terrain at current load &amp; pressure</div>
+  <!-- ══ REFERENCE TABLE ══ -->
+  <div class="sec">Quick reference &mdash; all terrain at current load, pressure &amp; conditions</div>
   <div class="tscroll">
     <table class="dtable">
-      <thead><tr><th>Terrain</th><th>km/L</th><th>L/100km</th><th>Range 185L (full)</th><th>Range 145L (tank)</th><th>Range 40L (cans)</th></tr></thead>
+      <thead><tr>
+        <th>Terrain</th><th>km/L</th><th>L/100km</th>
+        <th id="th-full">Range (full)</th>
+        <th id="th-tank">Range (tank only)</th>
+        <th id="th-aux">Range (aux only)</th>
+      </tr></thead>
       <tbody id="rtbody"></tbody>
     </table>
   </div>
 
-  <div class="sec">1HZ engine notes &mdash; fuel economy factors</div>
-  <div class="call am"><div class="ci">&#9881;</div><div class="cb"><strong>Pump timing:</strong> Half a degree on injection pump timing makes a significant measurable difference to fuel economy. Requires a specialist &mdash; not a DIY adjustment on the 1HZ.</div></div>
-  <div class="call am"><div class="ci">&#9881;</div><div class="cb"><strong>Terrain Tamer 5th gear (0.838:1):</strong> A 0.711:1 reduction ratio upgrade kit is available. Lowers cruise RPM by ~200 at 100 km/h and improves highway economy by an estimated 0.2&ndash;0.4 km/L on sustained runs.</div></div>
-  <div class="call am"><div class="ci">&#9881;</div><div class="cb"><strong>RPM discipline:</strong> The 1HZ makes torque below 2,000 RPM with the turbo. Avoid lugging in 5th at low speed &mdash; change down to 4th until properly at cruising RPM.</div></div>
-  <div class="call gn"><div class="ci">&#10003;</div><div class="cb"><strong>Your baseline of 7.26 km/L</strong> is consistent with a well-tuned turbocharged 1HZ at highway speeds under moderate load. Expect 5.5&ndash;6.5 km/L on Angola mixed terrain, 5.0&ndash;5.5 km/L in deep sand with disciplined 4L-3rd technique, and 4.0&ndash;4.5 km/L on rocky or technical off-road.</div></div>
+  <!-- ══ GENERAL NOTES ══ -->
+  <div class="sec">General notes &mdash; fuel economy factors</div>
+  <div class="call am"><div class="ci">&#9881;</div><div class="cb"><strong>Injection pump timing:</strong> Small adjustments make a measurable difference to economy on mechanical diesel engines. Requires a specialist.</div></div>
+  <div class="call am"><div class="ci">&#9881;</div><div class="cb"><strong>RPM discipline:</strong> Most diesel engines make their torque in a narrow band. Avoid lugging at low speed &mdash; change down to keep the engine in its efficient range rather than fighting it in top gear.</div></div>
+  <div class="call am"><div class="ci">&#9881;</div><div class="cb"><strong>Speed and aerodynamics:</strong> Fuel cost rises steeply with speed on high-frontal-area vehicles. The difference between 100 km/h and 120 km/h is rarely worth it on fuel or tyres.</div></div>
+  <div class="call inf"><div class="ci">&#9432;</div><div class="cb"><strong>Accuracy:</strong> These are estimates based on your recorded average with modelled adjustments. Actual consumption varies with driver technique, wind variation, terrain quality, and mechanical condition. Always carry more than the calculation suggests, and verify against your own logs over time.</div></div>
 
 </main>
 
 <footer>
-  <div>LC76 SW 1HZ &middot; Fuel Range Calculator</div>
-  <div>Baseline: <span>7.26 km/L</span> &middot; Engine: <span>1HZ 4.2L + Turbo + Intercooler</span></div>
-  <div>Estimates only &mdash; verify against actual consumption logs and always carry reserves.</div>
+  <div>Overland Fuel Range Calculator</div>
+  <div>Baseline: <span id="ft-base">7.26 km/L</span> &middot; Total capacity: <span id="ft-tank">185 L</span></div>
+  <div>Estimates only &mdash; always verify against your own logs and carry reserves.</div>
 </footer>
 
 <script>
-var TANK=145,JERRY=40,TOTAL=185,RES=10,MAXPAY=690;
-var AM=1.00;
+// ── Config reader ──
+function getCfg(){
+  var tank =parseFloat(document.getElementById('cfg-tank').value)||145;
+  var jerry=parseFloat(document.getElementById('cfg-jerry').value)||0;
+  var res  =parseFloat(document.getElementById('cfg-res').value)||10;
+  var pay  =parseFloat(document.getElementById('cfg-pay').value)||690;
+  var recLoad=parseFloat(document.getElementById('cfg-recload').value)||350;
+  var recBar =parseFloat(document.getElementById('cfg-recbar').value)||2.6;
+  var asp  =parseFloat(document.getElementById('cfg-asp').value)||0.035;
+  return{tank:tank,jerry:jerry,res:res,pay:pay,recLoad:recLoad,recBar:recBar,asp:asp,total:tank+jerry};
+}
+
+// ── Called whenever setup fields change ──
+function onCfgChange(){
+  var c=getCfg();
+  document.getElementById('cap-tank').textContent=c.tank+' L';
+  document.getElementById('cap-aux').textContent=c.jerry+' L';
+  document.getElementById('cap-total').textContent=c.total+' L';
+  document.getElementById('cap-usable').textContent='~'+(c.total-c.res)+' L';
+  document.getElementById('cap-res-note').textContent=c.res+'L reserve kept';
+  // Fuel slider max
+  var fs=document.getElementById('sl-fuel');
+  fs.max=c.total;
+  if(parseFloat(fs.value)>c.total)fs.value=c.total;
+  updateSliderFill(fs);
+  // Load slider max
+  var ls=document.getElementById('sl-load');
+  ls.max=c.pay;
+  if(parseFloat(ls.value)>c.pay)ls.value=c.pay;
+  updateSliderFill(ls);
+  // Altitude note
+  document.getElementById('sn-alt').textContent='~'+(c.asp*100).toFixed(1)+'% penalty per 1,000m for your selected engine type.';
+  // Table headers
+  document.getElementById('th-full').textContent='Range '+c.total+'L (full)';
+  document.getElementById('th-tank').textContent='Range '+c.tank+'L (tank)';
+  document.getElementById('th-aux').textContent='Range '+c.jerry+'L (aux)';
+  // Masthead
+  document.getElementById('ms-tank').textContent=c.tank+' L';
+  document.getElementById('ms-aux').textContent=c.jerry+' L';
+  document.getElementById('ms-total').textContent=c.total+' L';
+  // Baseline card conditions
+  document.getElementById('bc-load').textContent=c.recLoad+' kg';
+  document.getElementById('bc-bar').textContent=c.recBar.toFixed(1)+' bar';
+  var aspLabels={'0.035':'Turbo + intercooler \u00b7 3.5%/1,000m altitude penalty',
+    '0.045':'Turbocharged \u00b7 4.5%/1,000m altitude penalty',
+    '0.060':'Naturally aspirated diesel \u00b7 6.0%/1,000m altitude penalty',
+    '0.070':'Petrol / gasoline \u00b7 7.0%/1,000m altitude penalty'};
+  document.getElementById('bc-asp').textContent=aspLabels[(c.asp).toFixed(3)]||((c.asp*100).toFixed(1)+'%/1,000m altitude penalty');
+  // Footer
+  document.getElementById('ft-tank').textContent=c.total+' L';
+  upd();
+}
+
+// ── State ──
+var AM=1.00, WM=1.00, HM=1.00;
 var TR=[
-  {n:'Highway tarmac',  m:1.00, spd:'90–120 km/h', why:'Cruise speed, 5th gear'},
-  {n:'Mixed / gravel',  m:1.12, spd:'60–80 km/h',  why:'Surface limits speed'},
-  {n:'Corrugated dirt', m:1.25, spd:'40–60 km/h',  why:'Resonance management'},
-  {n:'Deep sand',       m:1.55, spd:'20–40 km/h',  why:'4L 3rd — momentum, not speed'},
-  {n:'Rocky 4x4 track', m:1.45, spd:'5–20 km/h',   why:'Obstacle by obstacle'},
-  {n:'Technical off-road',m:1.80,spd:'2–10 km/h',  why:'Walking pace'}
+  {n:'Highway tarmac',   m:1.00},{n:'Mixed / gravel',    m:1.12},
+  {n:'Corrugated dirt',  m:1.25},{n:'Deep sand',         m:1.55},
+  {n:'Rocky 4x4 track',  m:1.45},{n:'Technical off-road',m:1.80}
 ];
 var ANG=[
   {m:1.05,d:510},{m:1.15,d:210},{m:1.30,d:180},
   {m:1.52,d:350},{m:1.65,d:130},{m:1.20,d:480}
 ];
-// Conditions are relative to recording conditions (350kg, 2.6bar highway)
-// so highway at defaults always shows the recorded 7.26 km/L baseline
-var REC_LOAD=350, REC_BAR=2.6;
-function lp(kg){return kg<=REC_LOAD?0:(kg-REC_LOAD)/MAXPAY*0.12}
-function bf(bar){var d=bar-REC_BAR;return d>=0?-d*0.044:Math.abs(d)*0.116}
-function af(alt){return (alt/1000)*0.035}  // 3.5% per 1000m for turbocharged diesel
-function tf(temp){return Math.max(0,(temp-25)*0.002)}  // 0.2% per °C above 25°C baseline
-function getBase(){var v=parseFloat(document.getElementById("inp-base").value);return (!isNaN(v)&&v>=4&&v<=12)?v:parseFloat(document.getElementById("sl-base").value)||7.26;}
+
+// ── Penalty functions ──
+function lp(kg){var c=getCfg();return kg<=c.recLoad?0:(kg-c.recLoad)/c.pay*0.12;}
+function bf(bar){var c=getCfg();var d=bar-c.recBar;return d>=0?-d*0.044:Math.abs(d)*0.116;}
+function af(alt){return (alt/1000)*(parseFloat(document.getElementById('cfg-asp').value)||0.035);}
+function tf(temp){return Math.max(0,(temp-25)*0.002);}
+
+// ── Baseline ──
+function getBase(){var v=parseFloat(document.getElementById('inp-base').value);return(!isNaN(v)&&v>=2&&v<=20)?v:parseFloat(document.getElementById('sl-base').value)||7.26;}
 function syncBaseFromSlider(){
-  // Slider moved — update input to slider value (coarse, 0.1 steps)
   var sl=document.getElementById('sl-base');
   var val=parseFloat(sl.value);
   document.getElementById('inp-base').value=val.toFixed(2);
@@ -413,16 +565,10 @@ function syncBaseFromSlider(){
   upd();
 }
 function syncBaseFromInput(){
-  // Input typed — input is source of truth, slider moves visually only
   var inp=document.getElementById('inp-base');
-  var raw=inp.value.replace(',','.');
-  var val=parseFloat(raw);
-  if(isNaN(val)||val<4.0||val>12.0){
-    inp.style.borderColor='var(--red-warn)';
-    return;
-  }
+  var val=parseFloat(inp.value.replace(',','.'));
+  if(isNaN(val)||val<2||val>20){inp.style.borderColor='var(--red-warn)';return;}
   inp.style.borderColor='var(--border)';
-  // Move slider thumb visually to nearest 0.1 — but DO NOT write back to input
   var sl=document.getElementById('sl-base');
   sl.value=Math.round(val*10)/10;
   updateSliderFill(sl);
@@ -432,110 +578,126 @@ function gTemp(){return parseFloat(document.getElementById('sl-temp').value)||25
 function gAC(){return document.getElementById('cb-ac').checked;}
 function cc(m,kg,bar){
   var alt=parseFloat(document.getElementById('sl-alt').value)||0;
-  var temp=gTemp();
-  var acMult=gAC()?1.15:1.0;  // AC adds ~15% fuel load
-  return getBase()*(1-lp(kg)-bf(bar)-af(alt)-tf(temp))/m/acMult;
+  var acMult=gAC()?1.15:1.0;
+  return getBase()*(1-lp(kg)-bf(bar)-af(alt)-tf(gTemp()))/m/WM/HM/acMult;
 }
-function fmt(n){return Math.round(n).toLocaleString()}
-function fc(c){return c.toFixed(2)}
-function fl(c){return (100/c).toFixed(1)}
+function fc(c){return c.toFixed(2);}
+function fl(c){return (100/c).toFixed(1);}
+
+// ── Button selectors ──
 function selT(el){
-  document.querySelectorAll('.tbtn').forEach(function(t){t.classList.remove('active')});
-  el.classList.add('active');
-  AM=parseFloat(el.dataset.mult);
+  document.querySelectorAll('.tbtn[data-mult]').forEach(function(t){t.classList.remove('active')});
+  el.classList.add('active');AM=parseFloat(el.dataset.mult);
   var bar=parseFloat(el.dataset.bar);
-  var barEl=document.getElementById('sl-bar');
-  barEl.value=bar;
-  updateSliderFill(barEl);
-  document.getElementById('v-bar').textContent=bar.toFixed(1)+' bar';
-  upd();
+  var barEl=document.getElementById('sl-bar');barEl.value=bar;updateSliderFill(barEl);
+  document.getElementById('v-bar').textContent=bar.toFixed(1)+' bar';upd();
 }
+function selW(el){
+  document.querySelectorAll('.tbtn[data-wm]').forEach(function(t){t.classList.remove('active')});
+  el.classList.add('active');WM=parseFloat(el.dataset.wm);upd();
+}
+function selH(el){
+  document.querySelectorAll('.tbtn[data-hm]').forEach(function(t){t.classList.remove('active')});
+  el.classList.add('active');HM=parseFloat(el.dataset.hm);upd();
+}
+
+// ── Angola toggle ──
+function toggleAngola(){
+  var body=document.getElementById('ang-body');
+  var open=body.style.display!=='none';
+  body.style.display=open?'none':'block';
+  document.getElementById('ang-caret').innerHTML=open?'&#9660;':'&#9650;';
+}
+
+// ── Main update ──
 function upd(){
+  var c=getCfg();
   var base=getBase();
-  // inp-base is source of truth — don't overwrite it from upd()
   document.getElementById('v-base-l100').textContent=(100/base).toFixed(1)+' L/100km';
-  var kg=parseInt(document.getElementById('sl-load').value);
+  document.getElementById('bc-kmL').textContent=base.toFixed(2)+' km/L';
+  document.getElementById('bc-l100').textContent=(100/base).toFixed(1)+' L/100km';
+  document.getElementById('ms-base').textContent=base.toFixed(2)+' km/L';
+  document.getElementById('ft-base').textContent=base.toFixed(2)+' km/L';
+
+  var kg=parseInt(document.getElementById('sl-load').value)||0;
   var bar=parseFloat(document.getElementById('sl-bar').value)||2.5;
-  document.getElementById('v-bar').textContent=bar.toFixed(1)+' bar';
   var fuel=parseInt(document.getElementById('sl-fuel').value);
   var alt=parseFloat(document.getElementById('sl-alt').value)||0;
+  var temp=gTemp();
+
+  document.getElementById('v-bar').textContent=bar.toFixed(1)+' bar';
   document.getElementById('v-load').textContent=kg+' kg';
   document.getElementById('v-fuel').textContent=fuel+' L';
   document.getElementById('v-alt').textContent=alt.toLocaleString()+' m';
   var altPen=af(alt);
-  document.getElementById('v-alt-penalty').textContent=alt===0?'no penalty':'-'+(altPen*100).toFixed(1)+'% ('+((base*altPen)).toFixed(2)+' km/L)';
-  var temp=gTemp();
+  document.getElementById('v-alt-penalty').textContent=alt===0?'no penalty':'-'+(altPen*100).toFixed(1)+'% ('+(base*altPen).toFixed(2)+' km/L)';
   document.getElementById('v-temp').innerHTML=temp+'&deg;C';
   var tempPen=tf(temp);
   document.getElementById('v-temp-penalty').textContent=temp===25?'baseline':temp<25?'below baseline (no benefit)':'-'+(tempPen*100).toFixed(1)+'%';
-  var acOn=gAC();
-  document.getElementById('v-ac-penalty').textContent=acOn?'-15% (AC on)':'';
+  document.getElementById('v-ac-penalty').textContent=gAC()?'-15% (AC on)':'';
+
   var cons=cc(AM,kg,bar);
-  var usable=fuel-RES;
+  var usable=fuel-c.res;
   var range=Math.round(usable*cons);
   var safe=Math.round(range*0.75);
   document.getElementById('r-cons').textContent=fc(cons);
-  document.getElementById('r-l100').textContent='km/L · '+fl(cons)+' L/100km';
+  document.getElementById('r-l100').textContent='km/L \u00b7 '+fl(cons)+' L/100km';
   document.getElementById('r-range').textContent=range.toLocaleString();
   document.getElementById('r-safe').textContent=safe.toLocaleString();
+  document.getElementById('r-range-note').textContent='km \u00b7 '+c.res+'L reserve kept';
+
   var bmax=Math.max(1600,range*1.2);
   var fp=Math.min(range/bmax*100,100);
-  var wp=Math.min(safe/bmax*100,100);
   document.getElementById('rbf').style.width=fp.toFixed(1)+'%';
   document.getElementById('rb-lbl').textContent=fuel+'L on board';
-  // Show range km inside the fill bar, or to the right if bar is too narrow
-  var rbnl=document.getElementById('rbnl');
-  var rbrl=document.getElementById('rbrl');
-  if(fp>25){
-    rbnl.style.left='0';
-    rbnl.textContent=range.toLocaleString()+' km';
-    rbrl.textContent='';
-  } else {
-    rbnl.textContent='';
-    rbrl.textContent=range.toLocaleString()+' km';
-  }
+  var rbnl=document.getElementById('rbnl'),rbrl=document.getElementById('rbrl');
+  if(fp>25){rbnl.style.left='0';rbnl.textContent=range.toLocaleString()+' km';rbrl.textContent='';}
+  else{rbnl.textContent='';rbrl.textContent=range.toLocaleString()+' km';}
   var tk=document.getElementById('rbtk');tk.innerHTML='';
-  var steps=Math.ceil(bmax/200);for(var i=0;i<=steps;i++){var v=i*200;if(v<=bmax+50){tk.innerHTML+='<span>'+v.toLocaleString()+'</span>';}}
-  var wb=document.getElementById('warn-box');
-  var wt=document.getElementById('warn-txt');
-  if(kg>580){wb.style.display='flex';wt.innerHTML='<strong>Payload '+kg+' kg</strong> — approaching GVM limit (690 kg). Reduce load before technical terrain if possible.';}
-  else if(bar<1.65&&AM<1.10){wb.style.display='flex';wt.innerHTML='<strong>Tyre pressure '+bar.toFixed(1)+' bar</strong> on hard terrain adds rolling resistance without traction benefit. Recommend 2.2–2.6 bar for gravel and tarmac.';}
-  else if(usable<30){wb.style.display='flex';wt.innerHTML='<strong>Only '+fuel+'L on board.</strong> Usable after 10L reserve: '+usable+'L. Plan your next fill stop.';}
-  else{wb.style.display='none';}
+  var steps=Math.ceil(bmax/200);
+  for(var i=0;i<=steps;i++){var v=i*200;if(v<=bmax+50)tk.innerHTML+='<span>'+v.toLocaleString()+'</span>';}
+
+  // Warnings
+  var wb=document.getElementById('warn-box'),wt=document.getElementById('warn-txt');
+  if(kg>c.pay*0.84){wb.style.display='flex';wt.innerHTML='<strong>Payload '+kg+' kg</strong> \u2014 approaching GVM payload limit ('+c.pay+' kg). Reduce load before technical terrain if possible.';}
+  else if(bar<1.65&&AM<1.10){wb.style.display='flex';wt.innerHTML='<strong>Tyre pressure '+bar.toFixed(1)+' bar</strong> on hard terrain adds rolling resistance without traction benefit. Recommend 2.2\u20132.8 bar for gravel and tarmac.';}
+  else if(usable<30){wb.style.display='flex';wt.innerHTML='<strong>Only '+fuel+'L on board.</strong> Usable after '+c.res+'L reserve: '+usable+'L. Plan your next fill stop.';}
+  else wb.style.display='none';
+
+  // Tip
   var tip=document.getElementById('tip-txt');
-  if(AM>=1.75){tip.innerHTML='<strong>Technical off-road:</strong> 2&ndash;10 km/h &middot; 4L 1st or 2nd &middot; 1.6 bar. Winching, recovery stops and extreme angles drain fuel fast. Plan fuel stops at 55% of estimated range.';}
-  else if(AM>=1.50){tip.innerHTML='<strong>Deep sand:</strong> 20&ndash;40 km/h &middot; 4L 3rd gear &middot; 1.2 bar. Momentum is fuel &mdash; avoid stopping. Hold 3rd to keep the turbo spooled. Deflate before you enter, not after you are stuck.';}
-  else if(AM>=1.40){tip.innerHTML='<strong>Rocky 4&times;4:</strong> 5&ndash;20 km/h &middot; 4L &middot; 1.6 bar. Slow and deliberate. Firm surface means less rolling resistance than sand &mdash; idle forward over obstacles and minimise gear changes.';}
-  else if(AM>=1.20){tip.innerHTML='<strong>Corrugated dirt:</strong> 40&ndash;60 km/h &middot; 4H &middot; 1.6 bar. Find the speed that floats over the corrugations &mdash; too slow and you bounce hard, too fast and throttle hunting spikes consumption. Steady pace wins on fuel.';}
-  else if(AM>=1.08){tip.innerHTML='<strong>Mixed / gravel:</strong> 60&ndash;80 km/h &middot; 4H &middot; 2.0 bar. Rolling resistance rises sharply on loose surfaces. Maintain smooth throttle &mdash; avoid constant acceleration and braking.';}
-  else{tip.innerHTML='<strong>Highway:</strong> 90&ndash;120 km/h &middot; 5th gear &middot; 2.8 bar loaded, 2.6 bar unloaded. Steady throttle at cruise RPM. Fuel cost rises steeply above 110 km/h &mdash; the LC76 frontal area works against you at speed. Altitude penalty: '+(alt>0?((af(alt)*100).toFixed(1)+'% at '+alt.toLocaleString()+'m'):'none')+'.';}
+  if(AM>=1.75)tip.innerHTML='<strong>Technical off-road:</strong> 2\u201310 km/h \u00b7 Low range 1st or 2nd. Winching, recovery stops and extreme angles drain fuel fast. Plan fuel stops at 55% of estimated range.';
+  else if(AM>=1.50)tip.innerHTML='<strong>Deep sand:</strong> 20\u201340 km/h \u00b7 Low range 3rd. Momentum is fuel \u2014 avoid stopping. Deflate before you enter, not after you are stuck.';
+  else if(AM>=1.40)tip.innerHTML='<strong>Rocky 4\u00d74:</strong> 5\u201320 km/h \u00b7 Low range. Slow and deliberate. Firm surface means less rolling resistance than sand \u2014 idle forward over obstacles and minimise gear changes.';
+  else if(AM>=1.20)tip.innerHTML='<strong>Corrugated dirt:</strong> 40\u201360 km/h \u00b7 High range. Find the speed that floats over the corrugations. Steady pace wins on fuel.';
+  else if(AM>=1.08)tip.innerHTML='<strong>Mixed / gravel:</strong> 60\u201380 km/h \u00b7 High range. Rolling resistance rises sharply on loose surfaces. Maintain smooth throttle \u2014 avoid constant acceleration and braking.';
+  else tip.innerHTML='<strong>Highway:</strong> Cruise speed \u00b7 Top gear. Steady throttle. Fuel cost rises steeply above 110 km/h on high-frontal-area vehicles. Altitude penalty: '+(alt>0?((altPen*100).toFixed(1)+'% at '+alt.toLocaleString()+'m'):'none')+'.';
+
+  // Terrain button readouts
   TR.forEach(function(t,i){
-    var c=cc(t.m,kg,bar);
-    var r=Math.round((TANK-RES)*c);
-    document.getElementById('tc'+i).textContent=fc(c)+' km/L · '+r.toLocaleString()+' km (145L tank)';
+    var el=document.getElementById('tc'+i);
+    if(el){var cv=cc(t.m,kg,bar);el.textContent=fc(cv)+' km/L \u00b7 '+Math.round((c.tank-c.res)*cv).toLocaleString()+' km (tank only)';}
   });
-  var aids=['a1','a2','a3','a4','a5','a6'];
-  ANG.forEach(function(leg,i){
-    var c=cc(leg.m,kg,bar);
-    document.getElementById(aids[i]).textContent='~'+(leg.d/c).toFixed(1)+'L used';
+  // Angola legs
+  ['a1','a2','a3','a4','a5','a6'].forEach(function(id,i){
+    var el=document.getElementById(id);
+    if(el){var cv=cc(ANG[i].m,kg,bar);el.textContent='~'+(ANG[i].d/cv).toFixed(1)+'L used';}
   });
+  // Reference table
   var tb=document.getElementById('rtbody');tb.innerHTML='';
   TR.forEach(function(t){
-    var c=cc(t.m,kg,bar);
-    var r1=Math.round((TOTAL-RES)*c);
-    var r2=Math.round((TANK-RES)*c);
-    var r3=Math.round(JERRY*c);
+    var cv=cc(t.m,kg,bar);
     var tr=document.createElement('tr');
-    tr.innerHTML='<td>'+t.n+'</td><td>'+fc(c)+'</td><td>'+fl(c)+'</td><td>'+r1.toLocaleString()+' km</td><td>'+r2.toLocaleString()+' km</td><td>'+r3.toLocaleString()+' km</td>';
+    tr.innerHTML='<td>'+t.n+'</td><td>'+fc(cv)+'</td><td>'+fl(cv)+'</td>'
+      +'<td>'+Math.round((c.total-c.res)*cv).toLocaleString()+' km</td>'
+      +'<td>'+Math.round((c.tank-c.res)*cv).toLocaleString()+' km</td>'
+      +'<td>'+Math.round(c.jerry*cv).toLocaleString()+' km</td>';
     tb.appendChild(tr);
   });
 }
-upd();
 
 function updateSliderFill(el){
-  var min=parseFloat(el.min)||0;
-  var max=parseFloat(el.max)||100;
-  var val=parseFloat(el.value)||0;
+  var min=parseFloat(el.min)||0,max=parseFloat(el.max)||100,val=parseFloat(el.value)||0;
   var pct=((val-min)/(max-min)*100).toFixed(1);
   el.style.background='linear-gradient(to right,var(--clay) 0%,var(--clay) '+pct+'%,rgba(61,43,26,0.15) '+pct+'%,rgba(61,43,26,0.15) 100%)';
 }
@@ -545,15 +707,18 @@ function initSliders(){
     el.addEventListener('input',function(){updateSliderFill(this);});
   });
 }
-document.addEventListener('DOMContentLoaded', initSliders);
+document.addEventListener('DOMContentLoaded',function(){
+  initSliders();
+  onCfgChange();
+});
 </script>
 
 <script>
-if ('serviceWorker' in navigator && location.hostname !== 'www.claudeusercontent.com') {
-  window.addEventListener('load', function() {
+if('serviceWorker' in navigator && location.hostname!=='www.claudeusercontent.com'){
+  window.addEventListener('load',function(){
     navigator.serviceWorker.register('./sw.js')
-      .then(function(reg) { console.log('LC76 SW registered'); })
-      .catch(function(err) { console.log('SW error:', err); });
+      .then(function(r){console.log('Fuel Range SW registered');})
+      .catch(function(e){console.log('SW error:',e);});
   });
 }
 </script>
