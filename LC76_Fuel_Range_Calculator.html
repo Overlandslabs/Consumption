@@ -42,12 +42,15 @@
   .setup-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--smoke)}
   .setup-input{font-family:'Oswald','Arial Narrow',sans-serif;font-size:16px;font-weight:600;color:var(--bark);background:var(--sand);border:2px solid var(--ochre);padding:6px 10px;outline:none;width:100%;transition:border-color .15s}
   .setup-input:focus{border-color:var(--clay)}
-  .setup-select{font-family:'Oswald','Arial Narrow',sans-serif;font-size:13px;font-weight:500;color:var(--bark);background:var(--sand);border:2px solid var(--ochre);padding:6px 10px;outline:none;width:100%;cursor:pointer;-webkit-appearance:none;appearance:none;transition:border-color .15s}
+  .setup-select{font-family:'Oswald','Arial Narrow',sans-serif;font-size:13px;font-weight:500;color:var(--bark);background:var(--sand);border:2px solid var(--ochre);padding:9px 36px 9px 10px;outline:none;width:100%;cursor:pointer;-webkit-appearance:none;appearance:none;transition:border-color .15s}
   .setup-select:focus{border-color:var(--clay)}
+  .select-wrap{position:relative;width:100%}
+  .select-wrap::after{content:'';position:absolute;right:12px;top:50%;transform:translateY(-50%);width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:6px solid var(--smoke);pointer-events:none;transition:border-color .15s}
+  .select-wrap:hover::after{border-top-color:var(--clay)}
   .setup-note{font-size:9px;color:var(--smoke);font-style:italic;opacity:0.75;line-height:1.2}
 
   /* Capacity cards */
-  .cap-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:0}
+  .cap-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:16px}
   .cc{background:var(--cream);border:1px solid var(--border);border-left:3px solid var(--ochre);padding:8px 12px}
   .cc.p{border-left-color:var(--clay)}
   .cc .cl{font-family:'Oswald','Arial Narrow',sans-serif;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--smoke);margin-bottom:2px}
@@ -92,7 +95,7 @@
   .snote{font-size:9px;color:var(--smoke);font-style:italic;padding:0 0 2px;line-height:1.2;opacity:0.75}
 
   /* Result cards */
-  .rgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:10px}
+  .rgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:10px}
   .rc{background:var(--cream);color:var(--bark);padding:10px 14px;border-left:3px solid var(--clay)}
   .rc.h{border-left-color:var(--ochre)}
   .rc.g{border-left-color:var(--green-ok)}
@@ -122,29 +125,26 @@
   .dtable td:first-child{font-weight:600;color:var(--bark)}
   .dtable tr:nth-child(even) td{background:rgba(212,150,58,.04)}
 
-  /* Angola block */
-  .ab{background:var(--bark);color:var(--cream);padding:18px 20px;margin:10px 0;border-left:4px solid var(--ochre)}
-  .ab-toggle{display:flex;justify-content:space-between;align-items:center;cursor:pointer;user-select:none}
-  .abh{font-family:'Oswald','Arial Narrow',sans-serif;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--ochre)}
-  .ab-caret{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ochre);transition:transform .2s}
-  .ab-body{margin-top:10px}
-  .abr{display:flex;justify-content:space-between;font-size:13px;color:var(--sand);padding:5px 0;border-bottom:1px solid rgba(255,255,255,.08);gap:12px;flex-wrap:wrap}
-  .abr:last-child{border-bottom:none}
-  .abv{font-family:'Oswald','Arial Narrow',sans-serif;color:var(--ochre);white-space:nowrap}
-  .ab-note{font-size:10px;color:rgba(232,213,163,0.5);margin-top:8px;font-style:italic}
-
   footer{background:var(--ink);color:var(--sand);padding:10px 4%;font-family:'Oswald','Arial Narrow',sans-serif;font-size:10px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;border-top:1px solid rgba(212,150,58,.2)}
   footer span{color:var(--ochre)}
+
+  /* Wind + hilliness: horizontal scroll strip */
+  .tgrid-scroll{display:flex;flex-wrap:nowrap;overflow-x:auto;gap:6px;margin-bottom:20px;-webkit-overflow-scrolling:touch;padding-bottom:4px}
+  .tgrid-scroll .tbtn{flex:0 0 auto;width:140px;min-height:auto;padding:7px 10px}
+  .tgrid-scroll .tbtn .tdesc{display:none}
+  .tgrid-scroll .tbtn .tn{font-size:12px}
+  .tgrid-scroll .tbtn .tm{font-size:9px}
 
   @media(max-width:780px){
     .setup-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
     .cap-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
     .info-grid{grid-template-columns:1fr}
     .tgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
-    .rgrid{grid-template-columns:1fr}
+    .rgrid{grid-template-columns:1fr 1fr}
     .cm-title{font-size:1.6rem}
     .rcv{font-size:22px}
     .cc .cv{font-size:18px}
+    .meth-inner{grid-template-columns:1fr!important}
   }
   @media(max-width:480px){
     .setup-grid{grid-template-columns:1fr 1fr}
@@ -189,11 +189,6 @@
       <div class="setup-note">Combined auxiliary capacity &mdash; 0 if none</div>
     </div>
     <div class="setup-field">
-      <div class="setup-label">Reserve to keep (L)</div>
-      <input type="number" class="setup-input" id="cfg-res" value="10" min="0" max="50" step="1" oninput="onCfgChange()">
-      <div class="setup-note">Minimum fuel never used in range calc</div>
-    </div>
-    <div class="setup-field">
       <div class="setup-label">GVM payload (kg)</div>
       <input type="number" class="setup-input" id="cfg-pay" value="690" min="100" max="3000" step="10" oninput="onCfgChange()">
       <div class="setup-note">Max payload per manufacturer GVM</div>
@@ -208,66 +203,42 @@
       <input type="number" class="setup-input" id="cfg-recbar" value="2.6" min="1.0" max="4.0" step="0.1" oninput="onCfgChange()">
       <div class="setup-note">Tyre pressure when baseline was recorded</div>
     </div>
-    <div class="setup-field" style="grid-column:1/-1">
+    <div class="setup-field">
       <div class="setup-label">Engine / aspiration</div>
-      <select class="setup-select" id="cfg-asp" onchange="onCfgChange()">
-        <option value="0.035" selected>Turbocharged + intercooler (~3.5% per 1,000m)</option>
-        <option value="0.045">Turbocharged, no intercooler (~4.5% per 1,000m)</option>
-        <option value="0.060">Naturally aspirated diesel (~6.0% per 1,000m)</option>
-        <option value="0.070">Petrol / gasoline (~7.0% per 1,000m)</option>
-      </select>
+      <div class="select-wrap">
+        <select class="setup-select" id="cfg-asp" onchange="onCfgChange()">
+          <option value="0.035" selected>Turbocharged + intercooler (~3.5% per 1,000m)</option>
+          <option value="0.045">Turbocharged, no intercooler (~4.5% per 1,000m)</option>
+          <option value="0.060">Naturally aspirated diesel (~6.0% per 1,000m)</option>
+          <option value="0.070">Petrol / gasoline (~7.0% per 1,000m)</option>
+        </select>
+      </div>
       <div class="setup-note">Sets the altitude consumption penalty coefficient</div>
     </div>
-  </div>
-
-  <!-- ══ CAPACITY SUMMARY ══ -->
-  <div class="sec">Fuel capacity &mdash; <span style="font-weight:300;letter-spacing:0.05em;text-transform:none;font-size:11px;">calculated from your setup above</span></div>
-  <div class="cap-grid">
-    <div class="cc"><div class="cl">Main tank</div><div class="cv" id="cap-tank">145 L</div><div class="cs">Primary fuel tank</div></div>
-    <div class="cc"><div class="cl">Aux / jerry cans</div><div class="cv" id="cap-aux">40 L</div><div class="cs">Auxiliary capacity</div></div>
-    <div class="cc p"><div class="cl">Total capacity</div><div class="cv" id="cap-total">185 L</div><div class="cs">Tank + aux combined</div></div>
-    <div class="cc"><div class="cl">Usable</div><div class="cv" id="cap-usable">~175 L</div><div class="cs" id="cap-res-note">10L reserve kept</div></div>
-  </div>
-
-  <!-- ══ BASELINE ══ -->
-  <div class="sec">Your baseline &mdash; <span style="font-weight:300;letter-spacing:0.05em;text-transform:none;font-size:11px;">recorded real-world average; all calculations scale from this</span></div>
-  <div class="sblock">
-    <div class="slabelwrap">
-      <div class="slabel">Avg consumption (km/L)</div>
-      <div style="display:flex;align-items:center;gap:8px;">
+    <div class="setup-field" style="grid-column:1/-1">
+      <div class="setup-label">Avg consumption (km/L) &mdash; <span style="font-weight:400;letter-spacing:0.03em;text-transform:none;font-size:10px;color:var(--bark)">your recorded real-world average; all calculations scale from this</span></div>
+      <div style="display:flex;align-items:center;gap:10px;">
         <input type="number" id="inp-base" value="7.26" min="2.0" max="20.0" step="0.01"
           oninput="syncBaseFromInput()" onblur="syncBaseFromInput()"
-          style="width:80px;font-family:'Oswald',sans-serif;font-size:17px;font-weight:600;color:var(--bark);background:var(--sand);border:2px solid var(--clay);padding:5px 8px;text-align:right;outline:none;">
-        <div style="font-size:11px;color:var(--clay);font-weight:500;" id="v-base-l100">13.7 L/100km</div>
+          style="width:90px;font-family:'Oswald',sans-serif;font-size:18px;font-weight:600;color:var(--bark);background:var(--sand);border:2px solid var(--clay);padding:6px 10px;text-align:right;outline:none;flex-shrink:0;">
+        <div style="flex:1">
+          <input type="range" min="2.0" max="20.0" step="0.1" value="7.26" id="sl-base" oninput="syncBaseFromSlider()" style="width:100%">
+        </div>
+        <div style="font-size:11px;color:var(--clay);font-weight:500;white-space:nowrap;" id="v-base-l100">13.7 L/100km</div>
       </div>
+      <div class="setup-note">Type your GPS/app average or drag the slider &mdash; both stay in sync.</div>
     </div>
-    <input type="range" min="2.0" max="20.0" step="0.1" value="7.26" id="sl-base" oninput="syncBaseFromSlider()" style="width:100%">
-    <div class="snote">Type your GPS/app average or drag the slider &mdash; both stay in sync. This is the anchor for all calculations.</div>
   </div>
 
-  <!-- ══ BASELINE CARD + METHODOLOGY CARD ══ -->
-  <div class="info-grid">
-    <div class="icard">
-      <div class="icard-title">&#9670; Baseline summary</div>
-      <div class="icard-val" id="bc-kmL">7.26 km/L</div>
-      <div class="icard-sub">
-        <strong id="bc-l100">13.8 L/100km</strong><br>
-        Recorded at <strong id="bc-load">350 kg</strong> load &middot; <strong id="bc-bar">2.6 bar</strong><br>
-        At these exact conditions the model returns your baseline with zero adjustment. Any deviation from them is calculated as a penalty or benefit relative to this anchor.<br>
-        <span id="bc-asp" style="color:var(--clay);font-size:10px;display:block;margin-top:4px;">Turbo + intercooler &middot; 3.5%/1,000m altitude penalty</span>
-      </div>
-    </div>
-    <div class="icard meth">
-      <div class="icard-title">&#9632; How this calculator works</div>
-      <div class="meth-row"><strong>Baseline</strong> Your recorded real-world km/L is the anchor. All adjustments scale from it multiplicatively.</div>
-      <div class="meth-row"><strong>Terrain multiplier</strong> Divides baseline by a surface resistance factor (&#215;1.0 highway &rarr; &#215;1.8 technical).</div>
-      <div class="meth-row"><strong>Wind multiplier</strong> Headwind increases aerodynamic drag; tailwind gives a small benefit (&#215;0.95&ndash;&#215;1.22).</div>
-      <div class="meth-row"><strong>Hilliness multiplier</strong> Net gravity load on climbs &mdash; descents don&rsquo;t recover fuel efficiently (&#215;1.0&ndash;&#215;1.20).</div>
-      <div class="meth-row"><strong>Load penalty</strong> Applied only above your recording load. Extra kg above that point reduces km/L.</div>
-      <div class="meth-row"><strong>Tyre pressure</strong> Low pressure increases rolling resistance; high pressure gives a small benefit.</div>
-      <div class="meth-row"><strong>Altitude</strong> Thinner air reduces combustion density. Turbos partially compensate; intercoolers more so.</div>
-      <div class="meth-row"><strong>Temperature</strong> Hot air above 25&deg;C reduces combustion density (0.2%/&deg;C above baseline).</div>
-      <div class="meth-row"><strong>All factors stack multiplicatively.</strong> Mountain pass + deep sand + strong headwind is worst-case.</div>
+  <!-- ══ BASELINE CARD ══ -->
+  <div class="sec">Baseline summary</div>
+  <div class="icard" style="margin-bottom:4px">
+    <div class="icard-sub" id="bc-kmL" style="font-weight:700;color:var(--bark);margin-bottom:4px">7.26 km/L</div>
+    <div class="icard-sub">
+      <strong id="bc-l100">13.8 L/100km</strong> &middot; Tank <strong id="cap-tank">145 L</strong> &middot; Aux <strong id="cap-aux">40 L</strong> &middot; Total <strong id="cap-total">185 L</strong><br>
+      Recorded at <strong id="bc-load">350 kg</strong> load &middot; <strong id="bc-bar">2.6 bar</strong><br>
+      <span id="bc-asp" style="color:var(--smoke);font-size:10px;display:block;margin:2px 0;">Turbo + intercooler &middot; 3.5%/1,000m altitude penalty</span>
+      At these exact conditions the model returns your baseline with zero adjustment. Any deviation is calculated as a penalty or benefit relative to this anchor.
     </div>
   </div>
 
@@ -296,7 +267,7 @@
 
   <!-- ══ WIND ══ -->
   <div class="sec">Wind &mdash; click to select</div>
-  <div class="tgrid" style="grid-template-columns:repeat(5,minmax(0,1fr))">
+  <div class="tgrid-scroll">
     <button class="tbtn active" data-wm="1.00" onclick="selW(this)">
       <div class="tn">Calm</div><div class="tdesc">No wind effect</div><div class="tm">No penalty</div>
     </button>
@@ -316,7 +287,7 @@
 
   <!-- ══ HILLINESS ══ -->
   <div class="sec">Hilliness &mdash; click to select</div>
-  <div class="tgrid" style="grid-template-columns:repeat(4,minmax(0,1fr))">
+  <div class="tgrid-scroll">
     <button class="tbtn active" data-hm="1.00" onclick="selH(this)">
       <div class="tn">Flat</div><div class="tdesc">Plains, coastal, desert flats</div><div class="tm">No penalty</div>
     </button>
@@ -406,12 +377,17 @@
     <div class="rc h">
       <div class="rcl">Estimated range</div>
       <div class="rcv" id="r-range">1,343</div>
-      <div class="rcs" id="r-range-note">km &middot; 10L reserve kept</div>
+      <div class="rcs" id="r-range-note">km total range</div>
     </div>
     <div class="rc g">
       <div class="rcl">Start looking for fuel at</div>
       <div class="rcv" id="r-safe">1,007</div>
       <div class="rcs">km &mdash; 75% of range</div>
+    </div>
+    <div class="rc" style="border-left-color:var(--steeldk)">
+      <div class="rcl">Est. travel time</div>
+      <div class="rcv" id="r-time">~9h</div>
+      <div class="rcs" id="r-time-note">at ~150 km/h avg</div>
     </div>
   </div>
 
@@ -469,11 +445,34 @@
   </div>
 
   <!-- ══ GENERAL NOTES ══ -->
-  <div class="sec">General notes &mdash; fuel economy factors</div>
-  <div class="call am"><div class="ci">&#9881;</div><div class="cb"><strong>Injection pump timing:</strong> Small adjustments make a measurable difference to economy on mechanical diesel engines. Requires a specialist.</div></div>
-  <div class="call am"><div class="ci">&#9881;</div><div class="cb"><strong>RPM discipline:</strong> Most diesel engines make their torque in a narrow band. Avoid lugging at low speed &mdash; change down to keep the engine in its efficient range rather than fighting it in top gear.</div></div>
-  <div class="call am"><div class="ci">&#9881;</div><div class="cb"><strong>Speed and aerodynamics:</strong> Fuel cost rises steeply with speed on high-frontal-area vehicles. The difference between 100 km/h and 120 km/h is rarely worth it on fuel or tyres.</div></div>
-  <div class="call inf"><div class="ci">&#9432;</div><div class="cb"><strong>Accuracy:</strong> These are estimates based on your recorded average with modelled adjustments. Actual consumption varies with driver technique, wind variation, terrain quality, and mechanical condition. Always carry more than the calculation suggests, and verify against your own logs over time.</div></div>
+  <!-- ══ COMBINED METHODOLOGY + NOTES ══ -->
+  <div class="sec">Methodology &amp; notes</div>
+  <div class="icard meth" style="margin-bottom:0">
+    <div class="meth-inner" style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+      <div>
+        <div class="icard-title" style="margin-bottom:8px">&#9632; How the model calculates</div>
+        <div class="meth-row"><strong>Baseline</strong> Your recorded real-world km/L is the anchor. All adjustments scale from it multiplicatively.</div>
+        <div class="meth-row"><strong>Terrain multiplier</strong> Divides baseline by a surface resistance factor (&#215;1.0 highway &rarr; &#215;1.8 technical).</div>
+        <div class="meth-row"><strong>Wind multiplier</strong> Headwind increases aerodynamic drag; tailwind gives a small benefit (&#215;0.95&ndash;&#215;1.22).</div>
+        <div class="meth-row"><strong>Hilliness multiplier</strong> Net gravity load on climbs &mdash; descents don&rsquo;t recover fuel efficiently (&#215;1.0&ndash;&#215;1.20).</div>
+        <div class="meth-row"><strong>Load penalty</strong> Applied only above your recording load. Extra kg above that point reduces km/L.</div>
+        <div class="meth-row"><strong>Tyre pressure</strong> Penalty relative to your recording pressure. Terrain buttons suggest a sensible value; you can override. Low pressure increases rolling resistance, high pressure gives a small benefit. The recording pressure in setup should match the conditions under which your baseline km/L was measured &mdash; change it only if your logged average was recorded at a non-standard pressure.</div>
+        <div class="meth-row"><strong>Altitude</strong> Thinner air reduces combustion density. Turbos partially compensate; intercoolers more so. Coefficient set by engine type.</div>
+        <div class="meth-row"><strong>Temperature</strong> Hot air above 25&deg;C reduces combustion density (0.2%/&deg;C above baseline).</div>
+        <div class="meth-row"><strong>Stacking</strong> All factors are multiplicative &mdash; mountain pass + deep sand + strong headwind is worst-case and they compound, not add.</div>
+      </div>
+      <div>
+        <div class="icard-title" style="margin-bottom:8px">&#9632; General notes</div>
+        <div class="meth-row"><strong>Injection pump timing</strong> Small adjustments make a measurable difference to economy on mechanical diesel engines. Requires a specialist &mdash; not a DIY task.</div>
+        <div class="meth-row"><strong>RPM discipline</strong> Most diesels make torque in a narrow band. Avoid lugging at low speed &mdash; change down to keep the engine in its efficient range rather than fighting it in top gear.</div>
+        <div class="meth-row"><strong>Speed and aerodynamics</strong> Fuel cost rises steeply with speed on high-frontal-area vehicles. The difference between 100 km/h and 120 km/h is rarely worth it on fuel or tyres.</div>
+        <div class="meth-row"><strong>Tyre condition</strong> Worn or under-inflated tyres both increase rolling resistance beyond what the pressure slider models. Check and adjust before long legs.</div>
+        <div class="meth-row"><strong>Cold starts and short runs</strong> The baseline assumes a warm engine at operating temperature. Cold starts and urban stop-start driving will underperform the estimate.</div>
+        <div class="meth-row"><strong>Accuracy</strong> These are estimates based on your recorded average with modelled adjustments. Actual consumption varies with driver technique, wind variation, terrain quality, and mechanical condition.</div>
+        <div class="meth-row"><strong>Always carry more</strong> than the calculation suggests. Verify your multipliers against your own field logs over time and adjust your baseline accordingly.</div>
+      </div>
+    </div>
+  </div>
 
 </main>
 
@@ -488,12 +487,11 @@
 function getCfg(){
   var tank =parseFloat(document.getElementById('cfg-tank').value)||145;
   var jerry=parseFloat(document.getElementById('cfg-jerry').value)||0;
-  var res  =parseFloat(document.getElementById('cfg-res').value)||10;
   var pay  =parseFloat(document.getElementById('cfg-pay').value)||690;
   var recLoad=parseFloat(document.getElementById('cfg-recload').value)||350;
   var recBar =parseFloat(document.getElementById('cfg-recbar').value)||2.6;
   var asp  =parseFloat(document.getElementById('cfg-asp').value)||0.035;
-  return{tank:tank,jerry:jerry,res:res,pay:pay,recLoad:recLoad,recBar:recBar,asp:asp,total:tank+jerry};
+  return{tank:tank,jerry:jerry,pay:pay,recLoad:recLoad,recBar:recBar,asp:asp,total:tank+jerry};
 }
 
 // ── Called whenever setup fields change ──
@@ -502,8 +500,6 @@ function onCfgChange(){
   document.getElementById('cap-tank').textContent=c.tank+' L';
   document.getElementById('cap-aux').textContent=c.jerry+' L';
   document.getElementById('cap-total').textContent=c.total+' L';
-  document.getElementById('cap-usable').textContent='~'+(c.total-c.res)+' L';
-  document.getElementById('cap-res-note').textContent=c.res+'L reserve kept';
   // Fuel slider max
   var fs=document.getElementById('sl-fuel');
   fs.max=c.total;
@@ -538,6 +534,8 @@ function onCfgChange(){
 }
 
 // ── State ──
+// Terrain implied avg speeds (km/h) — midpoint of each band
+var T_SPEED={1.00:105, 1.12:70, 1.25:50, 1.45:12, 1.55:30, 1.80:6};
 var AM=1.00, WM=1.00, HM=1.00;
 var TR=[
   {n:'Highway tarmac',   m:1.00},{n:'Mixed / gravel',    m:1.12},
@@ -637,14 +635,22 @@ function upd(){
   document.getElementById('v-ac-penalty').textContent=gAC()?'-15% (AC on)':'';
 
   var cons=cc(AM,kg,bar);
-  var usable=fuel-c.res;
-  var range=Math.round(usable*cons);
+  var range=Math.round(fuel*cons);
   var safe=Math.round(range*0.75);
   document.getElementById('r-cons').textContent=fc(cons);
   document.getElementById('r-l100').textContent='km/L \u00b7 '+fl(cons)+' L/100km';
   document.getElementById('r-range').textContent=range.toLocaleString();
   document.getElementById('r-safe').textContent=safe.toLocaleString();
-  document.getElementById('r-range-note').textContent='km \u00b7 '+c.res+'L reserve kept';
+  document.getElementById('r-range-note').textContent='km total range';
+
+  // Travel time
+  var spd=T_SPEED[AM]||70;
+  var hrs=range/spd;
+  var hrsWhole=Math.floor(hrs);
+  var mins=Math.round((hrs-hrsWhole)*60);
+  var timeStr=hrsWhole>0?(hrsWhole+'h'+(mins>0?' '+mins+'m':'')):(mins+'m');
+  document.getElementById('r-time').textContent='~'+timeStr;
+  document.getElementById('r-time-note').textContent='at ~'+spd+' km/h avg';
 
   var bmax=Math.max(1600,range*1.2);
   var fp=Math.min(range/bmax*100,100);
@@ -661,7 +667,7 @@ function upd(){
   var wb=document.getElementById('warn-box'),wt=document.getElementById('warn-txt');
   if(kg>c.pay*0.84){wb.style.display='flex';wt.innerHTML='<strong>Payload '+kg+' kg</strong> \u2014 approaching GVM payload limit ('+c.pay+' kg). Reduce load before technical terrain if possible.';}
   else if(bar<1.65&&AM<1.10){wb.style.display='flex';wt.innerHTML='<strong>Tyre pressure '+bar.toFixed(1)+' bar</strong> on hard terrain adds rolling resistance without traction benefit. Recommend 2.2\u20132.8 bar for gravel and tarmac.';}
-  else if(usable<30){wb.style.display='flex';wt.innerHTML='<strong>Only '+fuel+'L on board.</strong> Usable after '+c.res+'L reserve: '+usable+'L. Plan your next fill stop.';}
+  else if(fuel<30){wb.style.display='flex';wt.innerHTML='<strong>Only '+fuel+'L on board.</strong> Plan your next fill stop.';}
   else wb.style.display='none';
 
   // Tip
@@ -676,7 +682,7 @@ function upd(){
   // Terrain button readouts
   TR.forEach(function(t,i){
     var el=document.getElementById('tc'+i);
-    if(el){var cv=cc(t.m,kg,bar);el.textContent=fc(cv)+' km/L \u00b7 '+Math.round((c.tank-c.res)*cv).toLocaleString()+' km (tank only)';}
+    if(el){var cv=cc(t.m,kg,bar);el.textContent=fc(cv)+' km/L \u00b7 '+Math.round(c.tank*cv).toLocaleString()+' km (tank only)';}
   });
   // Angola legs
   ['a1','a2','a3','a4','a5','a6'].forEach(function(id,i){
@@ -689,8 +695,8 @@ function upd(){
     var cv=cc(t.m,kg,bar);
     var tr=document.createElement('tr');
     tr.innerHTML='<td>'+t.n+'</td><td>'+fc(cv)+'</td><td>'+fl(cv)+'</td>'
-      +'<td>'+Math.round((c.total-c.res)*cv).toLocaleString()+' km</td>'
-      +'<td>'+Math.round((c.tank-c.res)*cv).toLocaleString()+' km</td>'
+      +'<td>'+Math.round(c.total*cv).toLocaleString()+' km</td>'
+      +'<td>'+Math.round(c.tank*cv).toLocaleString()+' km</td>'
       +'<td>'+Math.round(c.jerry*cv).toLocaleString()+' km</td>';
     tb.appendChild(tr);
   });
