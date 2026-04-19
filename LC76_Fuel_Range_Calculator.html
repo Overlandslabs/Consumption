@@ -412,24 +412,6 @@
     <div class="cb" id="tip-txt">Loading...</div>
   </div>
 
-  <!-- ══ ANGOLA EXAMPLE (collapsed) ══ -->
-  <div class="sec">Example: Angola &mdash; key fuel legs (loaded ~350 kg)</div>
-  <div class="ab">
-    <div class="ab-toggle" onclick="toggleAngola()">
-      <div class="abh">Critical segments &middot; fuel used at terrain-adjusted consumption</div>
-      <div class="ab-caret" id="ang-caret">&#9660;</div>
-    </div>
-    <div class="ab-body" id="ang-body" style="display:none">
-      <div class="abr"><span>Oshikango &rarr; Lubango (tarmac, ~510 km)</span><span class="abv" id="a1">-</span></div>
-      <div class="abr"><span>Lubango &rarr; Namibe (mixed, ~210 km)</span><span class="abv" id="a2">-</span></div>
-      <div class="abr"><span>Namibe &rarr; Tombua coastal track (~180 km)</span><span class="abv" id="a3">-</span></div>
-      <div class="abr"><span>Tombua &rarr; Iona circuit (deep sand, ~350 km)</span><span class="abv" id="a4">-</span></div>
-      <div class="abr"><span>Iona &rarr; Foz do Cunene (rocky/technical, ~130 km)</span><span class="abv" id="a5">-</span></div>
-      <div class="abr"><span>Tombua &rarr; Calueque exit (mixed, ~480 km)</span><span class="abv" id="a6">-</span></div>
-      <div class="ab-note">Uses current load, pressure, altitude and temperature settings. Angola-specific segment distances.</div>
-    </div>
-  </div>
-
   <!-- ══ REFERENCE TABLE ══ -->
   <div class="sec">Quick reference &mdash; all terrain at current load, pressure &amp; conditions</div>
   <div class="tscroll">
@@ -542,10 +524,6 @@ var TR=[
   {n:'Corrugated dirt',  m:1.25},{n:'Deep sand',         m:1.55},
   {n:'Rocky 4x4 track',  m:1.45},{n:'Technical off-road',m:1.80}
 ];
-var ANG=[
-  {m:1.05,d:510},{m:1.15,d:210},{m:1.30,d:180},
-  {m:1.52,d:350},{m:1.65,d:130},{m:1.20,d:480}
-];
 
 // ── Penalty functions ──
 function lp(kg){var c=getCfg();return kg<=c.recLoad?0:(kg-c.recLoad)/c.pay*0.12;}
@@ -597,14 +575,6 @@ function selW(el){
 function selH(el){
   document.querySelectorAll('.tbtn[data-hm]').forEach(function(t){t.classList.remove('active')});
   el.classList.add('active');HM=parseFloat(el.dataset.hm);upd();
-}
-
-// ── Angola toggle ──
-function toggleAngola(){
-  var body=document.getElementById('ang-body');
-  var open=body.style.display!=='none';
-  body.style.display=open?'none':'block';
-  document.getElementById('ang-caret').innerHTML=open?'&#9660;':'&#9650;';
 }
 
 // ── Main update ──
@@ -683,11 +653,6 @@ function upd(){
   TR.forEach(function(t,i){
     var el=document.getElementById('tc'+i);
     if(el){var cv=cc(t.m,kg,bar);el.textContent=fc(cv)+' km/L \u00b7 '+Math.round(c.tank*cv).toLocaleString()+' km (tank only)';}
-  });
-  // Angola legs
-  ['a1','a2','a3','a4','a5','a6'].forEach(function(id,i){
-    var el=document.getElementById(id);
-    if(el){var cv=cc(ANG[i].m,kg,bar);el.textContent='~'+(ANG[i].d/cv).toFixed(1)+'L used';}
   });
   // Reference table
   var tb=document.getElementById('rtbody');tb.innerHTML='';
