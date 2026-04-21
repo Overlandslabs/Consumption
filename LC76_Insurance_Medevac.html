@@ -132,13 +132,30 @@
   .stack-gap { font-family:'IBM Plex Mono',monospace; font-size:9px; background:rgba(185,28,28,.08); color:var(--red-warn); border:1px solid rgba(185,28,28,.2); padding:3px 8px; margin-left:auto; align-self:center; margin-right:14px; white-space:nowrap; }
 
   /* BORDER TABLE */
-  .border-table { width:100%; border-collapse:collapse; font-size:12.5px; margin:14px 0; }
-  .border-table th { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; background:var(--steeldk); color:rgba(255,255,255,.7); padding:7px 10px; text-align:left; white-space:nowrap; }
-  .border-table td { padding:7px 10px; border-bottom:1px solid var(--rule); vertical-align:top; }
+  .border-table { width:100%; border-collapse:collapse; font-size:12px; margin:14px 0; table-layout:fixed; }
+  .border-table th { font-family:'IBM Plex Mono',monospace; font-size:8.5px; font-weight:600; letter-spacing:.07em; text-transform:uppercase; background:var(--steeldk); color:rgba(255,255,255,.7); padding:6px 8px; text-align:left; white-space:nowrap; }
+  .border-table td { padding:6px 8px; border-bottom:1px solid var(--rule); vertical-align:top; }
   .border-table tr:nth-child(even) td { background:var(--paper2); }
   .border-table .yes { color:var(--green-ok); font-weight:600; font-family:'IBM Plex Mono',monospace; font-size:9px; }
   .border-table .no  { color:var(--red-warn); font-weight:600; font-family:'IBM Plex Mono',monospace; font-size:9px; }
   .border-table .note { color:var(--steelmd); font-size:11px; }
+  .border-table col.c-country { width:13%; }
+  .border-table col.c-yc      { width:12%; }
+  .border-table col.c-border  { width:12%; }
+  .border-table col.c-cost    { width:12%; }
+  .border-table col.c-notes   { width:51%; }
+
+  /* BORDER TABLE — mobile card stack */
+  @media(max-width:640px){
+    .border-table, .border-table thead, .border-table tbody,
+    .border-table th, .border-table td, .border-table tr { display:block; width:100%; }
+    .border-table thead { display:none; }
+    .border-table tr { border:1px solid var(--border); margin-bottom:8px; border-radius:2px; overflow:hidden; }
+    .border-table tr:nth-child(even) td { background:transparent; }
+    .border-table td { padding:5px 10px; border-bottom:1px solid var(--rule); font-size:12px; }
+    .border-table td:first-child { background:var(--steeldk); color:#fff; font-weight:600; font-size:12px; padding:6px 10px; }
+    .border-table td[data-label]::before { content:attr(data-label)": "; font-family:'IBM Plex Mono',monospace; font-size:8px; font-weight:600; letter-spacing:.07em; text-transform:uppercase; color:var(--steelmd); display:block; margin-bottom:2px; }
+  }
 
   /* PROTOCOL STEPS */
   .proto-steps { margin: 14px 0; }
@@ -190,7 +207,7 @@
     .toc-btn { font-size:.46rem; padding:8px 9px; }
     .main { padding:14px 4% 60px; }
     .prov-grid, .case-grid { grid-template-columns:1fr; }
-    .border-table { display:block; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    /* border-table handled by card-stack rules above */
     .stack-gap { display:none; }
   }
 
@@ -226,7 +243,7 @@
     <a href="index.html" class="lib-home-btn">⌂ Index</a>
     <div class="mh-eyebrow">HZJ76R-RKMRS · Overland Reference Library · R29</div>
     <div class="mh-title">Insurance &amp; Medevac</div>
-    <div class="mh-sub">Coverage Stack · Vehicle Insurance · Third-Party &amp; Yellow Card · Medical Aid · Travel Insurance · Medevac Membership · Garmin inReach SOS · Field Claim Procedures · Document Checklist · Pre-Departure</div>
+    <div class="mh-sub">Coverage Stack · Vehicle Insurance · Third-Party &amp; Yellow Card · Medical Aid · Travel Insurance · Medevac Membership · inReach Mini 2 &amp; IsatPhone 2 SOS · Field Claim Procedures · Document Checklist · Pre-Departure</div>
     <div class="mh-vehicle">2009 LC76 SW · 2-Year Southern &amp; East Africa Expedition · 2028–2030 · HZJ76R-RKMRS · Research date: April 2026 — verify all prices and terms before departure</div>
   </div>
   <nav class="toc-bar">
@@ -236,7 +253,7 @@
     <button class="toc-btn" data-target="s-medical">Medical Aid</button>
     <button class="toc-btn" data-target="s-travel">Travel Ins</button>
     <button class="toc-btn" data-target="s-medevac">Medevac</button>
-    <button class="toc-btn" data-target="s-inreach">inReach SOS</button>
+    <button class="toc-btn" data-target="s-inreach">SOS Devices</button>
     <button class="toc-btn" data-target="s-claims">Field Claims</button>
     <button class="toc-btn" data-target="s-docs">Doc Checklist</button>
     <button class="toc-btn" data-target="s-scenarios">Case Studies</button>
@@ -293,8 +310,8 @@
       <div class="stack-layer">
         <div class="stack-num">5</div>
         <div class="stack-body">
-          <div class="stack-title">Dedicated Medevac Membership (AMREF Maisha + inReach SOS)</div>
-          <div class="stack-desc">Travel insurance pays the bills. A medevac membership organises the helicopter. AMREF Flying Doctors (East Africa) and your Garmin inReach subscription (global SOS dispatch) are the operational activation mechanisms. These are complementary — never redundant. Medevac membership gets the aircraft; travel insurance reimburses the cost.</div>
+          <div class="stack-title">Dedicated Medevac Membership (AMREF Maisha + inReach SOS + IsatPhone 2)</div>
+          <div class="stack-desc">Travel insurance pays the bills. A medevac membership organises the helicopter. AMREF Flying Doctors (East Africa) and your Garmin inReach Mini 2 (global SOS/tracking via Iridium) and Inmarsat IsatPhone 2 (voice SOS via GEOS + direct voice calls to medevac providers) are the operational activation mechanisms. Use both devices simultaneously in a serious emergency — they operate on independent satellite networks and independent coordination centres.</div>
         </div>
         <div class="stack-gap">ORGANISES THE AIRCRAFT</div>
       </div>
@@ -332,6 +349,19 @@
         </div>
       </div>
       <div class="prov-card">
+        <div class="prov-card-head">TUFFSTUFF 4x4 Insurance (REAM Brokers) <span class="prov-tag tag-ok">SPECIALIST AFRICA PRODUCT</span></div>
+        <div class="prov-card-body">
+          <p><strong>Overview:</strong> South Africa's original specialist 4x4 insurance product, established 1991 by REAM Insurance Brokers. Underwritten by Western National Insurance Company Limited (FSP 9465). Regarded as the market leader in specialist off-road vehicle insurance for Africa travel.</p>
+          <p><strong>Territorial scope:</strong> All of Africa south of the equator, plus the whole of Kenya (north of equator). This is a materially wider scope than standard SA comprehensive policies. LC76 as a Toyota Land Cruiser is explicitly listed as a covered vehicle class.</p>
+          <p><strong>What's included:</strong> Comprehensive cover (social, domestic, private, professional use). Third-party and passenger liability up to R10,000,000. Vehicles insured on agreed value for 3 years. International legal assistance up to R75,000. Mechanical/electrical coverage for winching equipment (R20,000). Loss of keys (R20,000). Car hire following claim (up to 75 days, max R20,000).</p>
+          <p><strong>Cross-border benefits (REAM-administered policies):</strong> Medical evacuation via Netcare 911 (24/7 dedicated desk). International repatriation of mortal remains. Full vehicle repatriation to SA after accident or theft. Accommodation following incident. Airborne technical assistance outside RSA (R40,000 limit).</p>
+          <p><strong>Key advantage over Santam:</strong> TUFFSTUFF has a dedicated Netcare 911 medical evacuation helpdesk as part of the policy — an integrated medevac component that Santam's standard 4x4 extension does not offer. For Southern Africa (where AMREF coverage is weaker), this is a material operational difference.</p>
+          <p><strong>Key limitation:</strong> Like all SA policies, confirm explicitly whether a 24-month continuous absence is covered or whether a 90-day absence clause applies. Get written confirmation before departure.</p>
+          <p><strong>Requirement:</strong> Vehicle must be fitted with VESA Level 3 or Level 4 immobiliser, or factory-fitted equivalent.</p>
+          <p><strong>Contact:</strong> REAM Insurance Brokers — reambrokers.co.za · +27 12 460 9378</p>
+        </div>
+      </div>
+      <div class="prov-card">
         <div class="prov-card-head">Other SA Insurers <span class="prov-tag tag-warn">LIMITED AFRICA COVER</span></div>
         <div class="prov-card-body">
           <p><strong>Hollard:</strong> Has specialist vehicle products through its broker network. Some brokers arrange extended Africa cover. Requires direct broker negotiation — not a standard online product. Hollard underwrites several specialist products that standard competitors do not.</p>
@@ -341,6 +371,59 @@
         </div>
       </div>
     </div>
+
+    <div class="sub-head">Santam 4x4 vs TUFFSTUFF — Key Differences</div>
+    <table class="border-table" style="margin-bottom:14px;">
+      <colgroup>
+        <col style="width:28%;">
+        <col style="width:36%;">
+        <col style="width:36%;">
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Santam 4x4 Extension</th>
+          <th>TUFFSTUFF (REAM)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td data-label="Feature"><strong>Africa territory</strong></td>
+          <td data-label="Santam" class="note">"Neighbouring African borders" — interpret carefully. Not explicitly all-Africa south of equator.</td>
+          <td data-label="TUFFSTUFF" class="note">All Africa south of equator + full Kenya. Clearly defined and documented.</td>
+        </tr>
+        <tr>
+          <td data-label="Feature"><strong>Agreed value</strong></td>
+          <td data-label="Santam" class="note">Market value default. Agreed value requires explicit negotiation.</td>
+          <td data-label="TUFFSTUFF" class="note">Agreed value included as standard for 3 years.</td>
+        </tr>
+        <tr>
+          <td data-label="Feature"><strong>Vehicle repatriation</strong></td>
+          <td data-label="Santam" class="note">R25,000 cap to SA border. Low for remote East Africa.</td>
+          <td data-label="TUFFSTUFF" class="note">Full repatriation to SA. No cap stated on vehicle repatriation.</td>
+        </tr>
+        <tr>
+          <td data-label="Feature"><strong>Medical evacuation</strong></td>
+          <td data-label="Santam" class="note">R5,000 per person passenger medical only. Not a full medevac product.</td>
+          <td data-label="TUFFSTUFF" class="note">Dedicated Netcare 911 medevac helpdesk included. Air evacuation capability.</td>
+        </tr>
+        <tr>
+          <td data-label="Feature"><strong>Third-party liability</strong></td>
+          <td data-label="Santam" class="note">Included. Limit — confirm with broker.</td>
+          <td data-label="TUFFSTUFF" class="note">Up to R10,000,000. Explicitly stated.</td>
+        </tr>
+        <tr>
+          <td data-label="Feature"><strong>24-month trip duration</strong></td>
+          <td data-label="Santam" class="note">Likely 90-day limit applies — confirm in writing.</td>
+          <td data-label="TUFFSTUFF" class="note">Must confirm. SA policies generally have 90-day clauses — get written confirmation.</td>
+        </tr>
+        <tr>
+          <td data-label="Feature"><strong>Specialist off-road focus</strong></td>
+          <td data-label="Santam" class="note">General insurer with 4x4 extension — not the primary focus.</td>
+          <td data-label="TUFFSTUFF" class="note">Purpose-built for Africa off-road overlanding since 1991. Long claims history in territory.</td>
+        </tr>
+      </tbody>
+    </table>
 
     <div class="warn-box">
       <strong>The honest reality for a 2-year trip:</strong> Most SA personal vehicle policies are fundamentally not designed for a two-year overland expedition. If you cannot find comprehensive cover for the full duration and territory, the pragmatic approach is: (1) carry third-party / liability cover for all countries you enter (legal requirement), and (2) self-insure the vehicle against write-off and major damage. At LC76 build value, a dedicated savings reserve equivalent to the vehicle's current replacement cost functions as self-insurance. Many experienced overlanders take this route for multi-year expeditions where insurer appetite does not exist. Consult a specialist broker — not a call centre — with specific written confirmation of every territory and duration.
@@ -383,92 +466,113 @@
 
     <div class="sub-head">Third-Party Requirements by Country</div>
     <table class="border-table">
+      <colgroup>
+        <col class="c-country">
+        <col class="c-yc">
+        <col class="c-border">
+        <col class="c-cost">
+        <col class="c-notes">
+      </colgroup>
       <thead>
         <tr>
           <th>Country</th>
-          <th>Yellow Card?</th>
-          <th>Border TPI?</th>
+          <th>Yellow Card</th>
+          <th>Border TPI</th>
+          <th>Est. Cost</th>
           <th>Notes</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td><strong>South Africa</strong></td>
-          <td class="yes">—</td>
-          <td class="note">SA comp or TPI</td>
-          <td class="note">Home base. SA Road Accident Fund (RAF) is a statutory scheme — all licensed vehicles covered for personal injury claims. Your SA vehicle insurance covers within SA.</td>
+          <td data-label="Yellow Card" class="yes">—</td>
+          <td data-label="Border TPI" class="note">SA comp/TPI</td>
+          <td data-label="Est. Cost" class="note">—</td>
+          <td data-label="Notes" class="note">Home base. SA Road Accident Fund (RAF) is a statutory scheme — all licensed vehicles covered for personal injury claims.</td>
         </tr>
         <tr>
           <td><strong>Namibia</strong></td>
-          <td class="no">Not valid</td>
-          <td class="yes">Required</td>
-          <td class="note">Not a COMESA member. Buy at border or pre-purchase via broker. Motor Vehicle Accident Fund (MVAF) is the mandatory cover. Most SA comprehensive policies extend to Namibia — confirm with your insurer.</td>
+          <td data-label="Yellow Card" class="no">Not valid</td>
+          <td data-label="Border TPI" class="yes">Required</td>
+          <td data-label="Est. Cost" class="note">~N$200–400 at border</td>
+          <td data-label="Notes" class="note">Not COMESA. Motor Vehicle Accident Fund (MVAF) is mandatory. Most SA comprehensive policies extend to Namibia — confirm with insurer. Can pre-purchase via broker.</td>
         </tr>
         <tr>
           <td><strong>Botswana</strong></td>
-          <td class="no">Not valid</td>
-          <td class="yes">Required</td>
-          <td class="note">Not COMESA. Third-party cover required. Confirm SA comprehensive extension. Available at border if not pre-purchased.</td>
+          <td data-label="Yellow Card" class="no">Not valid</td>
+          <td data-label="Border TPI" class="yes">Required</td>
+          <td data-label="Est. Cost" class="note">~P50–100 at border</td>
+          <td data-label="Notes" class="note">Not COMESA. Third-party cover purchased at border. Confirm whether SA comprehensive extends — many do not. Available at all major crossings.</td>
         </tr>
         <tr>
           <td><strong>Zimbabwe</strong></td>
-          <td class="yes">Valid</td>
-          <td class="yes">+ border fee</td>
-          <td class="note">COMESA member. Yellow Card valid. Traditionally also required to purchase "carbon tax" and ZINARA road access fee at border. Confirm current requirements — can change.</td>
+          <td data-label="Yellow Card" class="yes">Valid</td>
+          <td data-label="Border TPI" class="yes">+ border fee</td>
+          <td data-label="Est. Cost" class="note">~USD 10–20 carbon tax + ZINARA fees</td>
+          <td data-label="Notes" class="note">COMESA member. Yellow Card valid. Also pay "carbon tax" and ZINARA road access fee at border. Requirements can change — confirm current situation via overlander forums before crossing.</td>
         </tr>
         <tr>
           <td><strong>Zambia</strong></td>
-          <td class="yes">Valid</td>
-          <td class="yes">+ local TPI</td>
-          <td class="note">COMESA member. Yellow Card valid. Zambia also requires a local third-party insurance certificate from a Zambian insurer before the Yellow Card is issued. Best acquired in Livingstone.</td>
+          <td data-label="Yellow Card" class="yes">Valid</td>
+          <td data-label="Border TPI" class="yes">+ local TPI</td>
+          <td data-label="Est. Cost" class="note">~USD 20–30 local TPI</td>
+          <td data-label="Notes" class="note">COMESA member. Yellow Card valid, but Zambia also requires a local third-party certificate from a Zambian insurer. Most straightforward to obtain in Livingstone. Yellow Card is issued as an add-on to the local TPI.</td>
         </tr>
         <tr>
           <td><strong>Mozambique</strong></td>
-          <td class="no">Joining</td>
-          <td class="yes">Required</td>
-          <td class="note">SA and Mozambique are reportedly being added to COMESA Yellow Card scheme — verify status at departure date. Currently purchase at border or from broker pre-trip. INSS is the local insurer.</td>
+          <td data-label="Yellow Card" class="no">Joining</td>
+          <td data-label="Border TPI" class="yes">Required</td>
+          <td data-label="Est. Cost" class="note">~USD 15–25 at border</td>
+          <td data-label="Notes" class="note">SA and Mozambique are reportedly being added to COMESA Yellow Card scheme — verify status at departure. INSS is current mandatory local insurer. Purchase at border or from SA broker pre-trip.</td>
         </tr>
         <tr>
           <td><strong>Malawi</strong></td>
-          <td class="yes">Valid</td>
-          <td class="note">Usually accepted</td>
-          <td class="note">COMESA member. Yellow Card is well-established here — Malawi border officials have been noted to check it more rigorously than some other countries.</td>
+          <td data-label="Yellow Card" class="yes">Valid</td>
+          <td data-label="Border TPI" class="note">Usually accepted</td>
+          <td data-label="Est. Cost" class="note">Included in Yellow Card</td>
+          <td data-label="Notes" class="note">COMESA member. Yellow Card well-established. Malawi border officials noted to check it more rigorously than some neighbouring countries — have card accessible.</td>
         </tr>
         <tr>
           <td><strong>Tanzania</strong></td>
-          <td class="yes">Valid</td>
-          <td class="yes">+ road permits</td>
-          <td class="note">COMESA member. Yellow Card valid. Road permit and carbon levy also payable at entry. Budget for these fees.</td>
+          <td data-label="Yellow Card" class="yes">Valid</td>
+          <td data-label="Border TPI" class="yes">+ road permits</td>
+          <td data-label="Est. Cost" class="note">~USD 20–50 road permit + carbon levy</td>
+          <td data-label="Notes" class="note">COMESA member. Yellow Card valid. Road permit and carbon levy also payable at entry. Budget for these fees — they are separate from TPI and cannot be avoided.</td>
         </tr>
         <tr>
           <td><strong>Kenya</strong></td>
-          <td class="yes">Valid</td>
-          <td class="note">Usually accepted</td>
-          <td class="note">COMESA member and Yellow Card founding country. Generally well-administered.</td>
+          <td data-label="Yellow Card" class="yes">Valid</td>
+          <td data-label="Border TPI" class="note">Usually accepted</td>
+          <td data-label="Est. Cost" class="note">Included in Yellow Card</td>
+          <td data-label="Notes" class="note">COMESA founding country. Well-administered at all major crossings. Confirm Yellow Card is endorsed for Kenya on your certificate — country-specific endorsements apply.</td>
         </tr>
         <tr>
           <td><strong>Uganda</strong></td>
-          <td class="yes">Valid</td>
-          <td class="note">Usually accepted</td>
-          <td class="note">COMESA member. Yellow Card valid. Third-party insurance administered under Uganda Insurance Act.</td>
+          <td data-label="Yellow Card" class="yes">Valid</td>
+          <td data-label="Border TPI" class="note">Usually accepted</td>
+          <td data-label="Est. Cost" class="note">Included in Yellow Card</td>
+          <td data-label="Notes" class="note">COMESA member. Yellow Card valid. Third-party insurance administered under Uganda Insurance Act. Busia and Malaba are the standard crossing points from Kenya.</td>
         </tr>
         <tr>
           <td><strong>Rwanda</strong></td>
-          <td class="yes">Valid</td>
-          <td class="note">Usually accepted</td>
-          <td class="note">COMESA member. Highly organised border process. Yellow Card recognised.</td>
+          <td data-label="Yellow Card" class="yes">Valid</td>
+          <td data-label="Border TPI" class="note">Usually accepted</td>
+          <td data-label="Est. Cost" class="note">Included in Yellow Card</td>
+          <td data-label="Notes" class="note">COMESA member. Highly organised, efficient border process. Yellow Card recognised. Rwanda border formalities are among the most streamlined on the route.</td>
         </tr>
         <tr>
           <td><strong>Burundi</strong></td>
-          <td class="yes">Valid</td>
-          <td class="yes">Confirm requirements</td>
-          <td class="note">COMESA member. Border process less predictable. Confirm current situation via overlander forums before entering. Cross-ref R15.</td>
+          <td data-label="Yellow Card" class="yes">Valid</td>
+          <td data-label="Border TPI" class="yes">Confirm requirements</td>
+          <td data-label="Est. Cost" class="note">Verify pre-entry</td>
+          <td data-label="Notes" class="note">COMESA member. Border process less predictable. Confirm current situation via overlander forums before entering — requirements and fees have varied. Cross-ref R15 for current status.</td>
         </tr>
         <tr>
           <td><strong>DRC</strong></td>
-          <td class="yes">Valid (partial)</td>
-          <td class="yes">Additional required</td>
-          <td class="note">COMESA member. Yellow Card recognised but DRC entry involves complex paperwork. Local liaison or fixer strongly recommended. Third-party insurance requirements vary by entry point. Cross-ref R15.</td>
+          <td data-label="Yellow Card" class="yes">Valid (partial)</td>
+          <td data-label="Border TPI" class="yes">Additional required</td>
+          <td data-label="Est. Cost" class="note">Varies by entry point</td>
+          <td data-label="Notes" class="note">COMESA member. Yellow Card recognised but DRC entry involves complex, changeable paperwork. Local liaison or fixer strongly recommended. TPI requirements vary by crossing point. Cross-ref R15.</td>
         </tr>
       </tbody>
     </table>
@@ -635,36 +739,125 @@
     </div>
 
     <div class="note-box">
-      <strong>Recommended structure for a 2-year Southern &amp; East Africa expedition:</strong> AMREF Maisha Platinum/Diamond membership for the East Africa leg (Tanzania through Uganda/Kenya/Rwanda). Netcare 911 / ER24 reliance (via Bonitas partnership) for Southern Africa (SA, Namibia, Botswana, Zimbabwe). Global Rescue if political evacuation cover is desired for high-risk country legs. Carry all control room numbers on the waterproof field card (Section 8).
+      <strong>Recommended structure for a 2-year Southern &amp; East Africa expedition:</strong> AMREF Maisha Platinum/Diamond membership for the East Africa leg (Tanzania through Uganda/Kenya/Rwanda). Netcare 911 / ER24 reliance (via Bonitas partnership and TUFFSTUFF policy if active) for Southern Africa (SA, Namibia, Botswana, Zimbabwe). Global Rescue if political evacuation cover is desired for high-risk country legs. In a major emergency: activate inReach SOS immediately (begins tracking via Iridium), then use the IsatPhone 2 to call AMREF or Netcare 911 directly — voice coordination is faster than text in a crisis. Carry all control room numbers on the waterproof field card (Section 8).
     </div>
   </div>
 
-  <!-- ══ SECTION 7: GARMIN INREACH SOS ══ -->
+  <!-- ══ SECTION 7: SOS DEVICES ══ -->
   <div id="s-inreach" class="sa">
-    <div class="section-head">7 — Garmin inReach SOS Facility</div>
-    <p class="section-intro">The Garmin inReach is your primary field activation tool for emergency services in areas without mobile coverage. Understanding how the SOS system works — and what insurance cover applies to it — is critical pre-departure knowledge.</p>
+    <div class="section-head">7 — SOS Devices: Garmin inReach Mini 2 &amp; Inmarsat IsatPhone 2</div>
+    <p class="section-intro">You are carrying two satellite SOS-capable devices: the Garmin inReach Mini 2 (data/tracking/SOS) and the Inmarsat IsatPhone 2 (voice/SOS). They operate on different networks, via different coordination centres, and serve different primary functions. Both are critical — neither replaces the other.</p>
 
-    <div class="sub-head">How Garmin inReach SOS Works</div>
-    <p style="margin-bottom:10px;font-size:13px;">Pressing the SOS button on your inReach initiates a 20-second countdown with audible alarm. Once confirmed, a distress signal travels via the Iridium satellite network (100% global coverage) to Garmin Response — a 24/7 coordination centre. Garmin Response receives your GPS coordinates, device profile, and battery status. A coordinator immediately messages your device to assess the nature of the emergency, then contacts the most appropriate local emergency services or medevac provider in your location country. Garmin Response maintains a database of providers in 200+ countries.</p>
+    <div class="sub-head">Garmin inReach Mini 2 — How SOS Works</div>
+    <p style="margin-bottom:10px;font-size:13px;">Pressing the SOS button on your inReach initiates a 20-second countdown with audible alarm. Once confirmed, a distress signal travels via the <strong>Iridium satellite network</strong> (66 LEO satellites — 100% global coverage including poles) to <strong>Garmin Response</strong>, a 24/7 IERCC coordination centre. Garmin Response receives your GPS coordinates, device profile, and battery status, then initiates two-way text messaging with your device to assess the emergency. They contact the most appropriate local emergency services or medevac provider in your region. Garmin Response maintains a database of providers in 200+ countries.</p>
 
     <div class="prov-grid">
       <div class="prov-card">
-        <div class="prov-card-head">Active Subscription — Required <span class="prov-tag tag-warn">SOS REQUIRES SUBSCRIPTION</span></div>
+        <div class="prov-card-head">inReach Subscription — Required <span class="prov-tag tag-warn">SOS REQUIRES ACTIVE PLAN</span></div>
         <div class="prov-card-body">
-          <p>SOS dispatch by Garmin Response requires an active Garmin inReach satellite subscription. Without an active subscription, the SOS button does not function. Confirm subscription is active and not suspended before departure and at each renewal point mid-trip.</p>
-          <p><strong>Subscription types:</strong> Freedom Plan (pay-per-use) and fixed monthly plans. For a 2-year expedition, a monthly or annual plan is more appropriate than pay-per-use.</p>
-          <p><strong>Suspension:</strong> As of mid-2025 Garmin allows plan suspension for up to 12 months — useful for the pre-departure period. When suspended, SOS is completely disabled. Re-activate at least 48 hours before departure.</p>
+          <p>SOS dispatch by Garmin Response requires an active satellite subscription. Freedom Plan (pay-per-use) and fixed monthly/annual plans available. For a 2-year expedition, monthly or annual plan is recommended.</p>
+          <p><strong>Suspension risk:</strong> Garmin allows plan suspension up to 12 months — when suspended, SOS is completely disabled. Re-activate at least 48 hours before departure. Check subscription status before every major remote leg.</p>
+          <p><strong>Profile:</strong> Keep emergency contact, blood type, and medical details updated in the Garmin Explore portal. Garmin Response reads this at activation.</p>
         </div>
       </div>
       <div class="prov-card">
-        <div class="prov-card-head">Garmin SAR Insurance — Know the Limits <span class="prov-tag tag-warn">NOT AVAILABLE OUTSIDE USA/CANADA</span></div>
+        <div class="prov-card-head">Garmin SAR Insurance — Not Available for SA Residents <span class="prov-tag tag-warn">USA/CANADA ONLY</span></div>
         <div class="prov-card-body">
-          <p><strong>Garmin SAR (Search &amp; Rescue) Insurance:</strong> Garmin offers optional SAR insurance (approximately USD 40/year standard, USD 300 high-risk) that reimburses up to USD 100,000 in search and rescue costs when activated through inReach SOS.</p>
-          <p><strong>Critical limitation:</strong> Garmin SAR Insurance is currently only available to residents of the USA and Canada. As South African residents, Neil and Mary-Ann cannot purchase this plan.</p>
-          <p><strong>Also note:</strong> SAR insurance covers accident-related SAR costs only — disease and sickness are excluded from the standard plan. It reimburses SAR costs, not medical treatment costs. Even where available, it does not replace travel insurance or medevac membership.</p>
-          <p><strong>Alternative:</strong> Your travel insurance (World Nomads, SafetyWing, etc.) and medevac membership (AMREF) cover the costs that Garmin SAR would otherwise cover, and provide broader coverage. The SOS button still activates Garmin Response to coordinate dispatch — the reimbursement mechanism is different.</p>
+          <p>Garmin offers optional SAR insurance (~USD 40/year standard) reimbursing up to USD 100,000 in SAR costs when SOS is activated. This plan is only available to US and Canadian residents — Neil and Mary-Ann cannot purchase it.</p>
+          <p><strong>Alternative:</strong> Your travel insurance (World Nomads, SafetyWing, etc.) and AMREF medevac membership cover the costs that Garmin SAR would otherwise cover. The SOS button still activates Garmin Response to coordinate dispatch — the reimbursement mechanism is simply different.</p>
         </div>
       </div>
+    </div>
+
+    <div class="sub-head">Inmarsat IsatPhone 2 — How SOS Works</div>
+    <p style="margin-bottom:10px;font-size:13px;">The IsatPhone 2 carries a dedicated orange SOS/Assistance button on the side of the handset. When pressed, a pre-configured distress message is automatically transmitted via the <strong>Inmarsat I-4 GEO satellite network</strong>, sending your GPS coordinates to <strong>GEOS (International Emergency Response Coordination Center)</strong>, headquartered in Houston, TX, staffed 24/7/365. GEOS then calls you back directly on the satellite phone to confirm the nature of the emergency, then contacts the appropriate local rescue authority for your region.</p>
+
+    <div class="warn-box">
+      <strong>GEOS registration is NOT automatic.</strong> The SOS button does not function until you register the device with GEOS. Registration is free for monthly postpaid plan holders. Prepaid SIM holders pay an annual fee. You must register before departure at geosalliance.com — provide your IMEI, device phone number, and IMSI (found at Menu › Settings › About). Update your emergency profile (next of kin, medical details, emergency contact number) in the GEOS portal. Test the SOS function after registration using GEOS's test procedure.
+    </div>
+
+    <div class="prov-grid">
+      <div class="prov-card">
+        <div class="prov-card-head">IsatPhone 2 Network Coverage <span class="prov-tag tag-ok">NEAR-GLOBAL GEO COVERAGE</span></div>
+        <div class="prov-card-body">
+          <p><strong>Network:</strong> Inmarsat I-4 geostationary satellites. Near-global coverage — sufficient for all of Southern and East Africa.</p>
+          <p><strong>Limitation:</strong> GEO network. Must have clear line of sight toward the equator with antenna extended. Does not work in dense canopy, deep gorges, or indoors. Unlike Iridium (LEO), it does not cover extreme polar regions — not a concern for the Africa route.</p>
+          <p><strong>Connection time:</strong> Network registration in under 45 seconds once antenna is extended. Requires at least 2 signal bars for voice calls.</p>
+          <p><strong>Battery:</strong> Up to 8 hours talk time, 160 hours standby — longest battery life of any satellite phone. A significant operational advantage in the field.</p>
+        </div>
+      </div>
+      <div class="prov-card">
+        <div class="prov-card-head">IsatPhone 2 SOS Protocol <span class="prov-tag tag-warn">REGISTER WITH GEOS BEFORE DEPARTURE</span></div>
+        <div class="prov-card-body">
+          <p><strong>Activate SOS:</strong> Hold the dedicated orange SOS/Assistance button. A confirmation prompt appears — confirm to transmit. GPS coordinates are sent immediately to GEOS.</p>
+          <p><strong>GEOS response:</strong> GEOS will call you back on the satellite phone number to confirm emergency type, your condition, and number of persons. Speak clearly — GEO voice quality on Inmarsat is excellent. GEOS then contacts local SAR authorities.</p>
+          <p><strong>Voice advantage:</strong> Unlike the inReach (text-only), the IsatPhone 2 SOS results in a voice call back from GEOS. In a high-stress emergency, voice communication with a trained coordinator is faster and more reliable than composing texts.</p>
+          <p><strong>Airtime note:</strong> GEOS callback is free under a monthly plan. The SOS activation message is also free. Confirm with your airtime provider before departure.</p>
+          <p><strong>GEOS registration:</strong> geosalliance.com — select "Register a Device", choose Inmarsat ISAT 2. Enter IMEI, device phone number, and IMSI from Menu › Settings › About.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub-head">inReach vs IsatPhone 2 — Which SOS to Use?</div>
+    <table class="border-table" style="margin-bottom:14px;">
+      <colgroup>
+        <col style="width:25%;">
+        <col style="width:37.5%;">
+        <col style="width:37.5%;">
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Factor</th>
+          <th>Garmin inReach Mini 2</th>
+          <th>Inmarsat IsatPhone 2</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td data-label="Factor"><strong>Network</strong></td>
+          <td data-label="inReach" class="note">Iridium LEO — 66 satellites, true global including poles</td>
+          <td data-label="IsatPhone 2" class="note">Inmarsat I-4 GEO — near-global, no poles. Sufficient for Africa.</td>
+        </tr>
+        <tr>
+          <td data-label="Factor"><strong>SOS coordination centre</strong></td>
+          <td data-label="inReach" class="note">Garmin Response (IERCC) — 24/7, 200+ countries</td>
+          <td data-label="IsatPhone 2" class="note">GEOS (IERCC) Houston — 24/7/365. Must pre-register.</td>
+        </tr>
+        <tr>
+          <td data-label="Factor"><strong>Two-way comms after SOS</strong></td>
+          <td data-label="inReach" class="note">Text messaging only. Slow but reliable. Works in low-signal areas.</td>
+          <td data-label="IsatPhone 2" class="note"><strong>Voice call-back from GEOS.</strong> Faster, clearer in a crisis. Requires clear sky view.</td>
+        </tr>
+        <tr>
+          <td data-label="Factor"><strong>Best use case</strong></td>
+          <td data-label="inReach" class="note">Primary SOS device. Always-on tracking. Use when phone cannot connect or in dense/obstructed environments.</td>
+          <td data-label="IsatPhone 2" class="note">Voice SOS when clarity matters most. Use in open terrain — voice communication with GEOS is faster in high-stress situations.</td>
+        </tr>
+        <tr>
+          <td data-label="Factor"><strong>Antenna / positioning</strong></td>
+          <td data-label="inReach" class="note">Compact. Works with less precise sky view. Easier to use one-handed.</td>
+          <td data-label="IsatPhone 2" class="note">Antenna must be extended. Must face toward equator. Less convenient in confined or damaged vehicle.</td>
+        </tr>
+        <tr>
+          <td data-label="Factor"><strong>Battery life</strong></td>
+          <td data-label="inReach" class="note">~14 days tracking at 10-min intervals. Recharge via USB.</td>
+          <td data-label="IsatPhone 2" class="note">160 hours standby, 8 hours talk. Best battery life of any sat phone.</td>
+        </tr>
+        <tr>
+          <td data-label="Factor"><strong>Registration required</strong></td>
+          <td data-label="inReach" class="note">Active Garmin subscription required. No separate SOS registration.</td>
+          <td data-label="IsatPhone 2" class="note"><strong>GEOS registration mandatory before SOS works.</strong> Not automatic.</td>
+        </tr>
+        <tr>
+          <td data-label="Factor"><strong>Verdict</strong></td>
+          <td data-label="inReach" class="yes">PRIMARY SOS DEVICE</td>
+          <td data-label="IsatPhone 2" class="note">BACKUP SOS + PRIMARY VOICE. Use for voice call to AMREF, GEOS, or family.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="note-box">
+      <strong>Use both simultaneously in a serious emergency.</strong> Activate inReach SOS first — it begins tracking and contacts Garmin Response immediately. Then use the IsatPhone 2 to make a voice call directly to AMREF (+254 730 811 811), Netcare 911 (082 911), or GEOS. Having two independent satellite channels active simultaneously is not redundant — Garmin Response and your medevac provider can coordinate, and voice communication resolves ambiguity that text messaging cannot. Neither device replaces the other.
     </div>
 
     <div class="sub-head">inReach SOS Field Protocol</div>
@@ -673,49 +866,56 @@
         <div class="proto-num">1</div>
         <div class="proto-body">
           <div class="proto-title">Assess and confirm it is a genuine emergency requiring external assistance</div>
-          <div class="proto-detail">Garmin SOS initiates a real search and rescue response. Accidental activations waste emergency resources. Hold SOS button for 3 seconds, then confirm on screen before transmission.</div>
+          <div class="proto-detail">Both inReach SOS and IsatPhone SOS initiate real search and rescue responses. Accidental activations waste emergency resources and may incur costs. On inReach: hold SOS button 3 seconds, then confirm on screen before transmission. On IsatPhone: hold orange SOS button, then confirm the prompt.</div>
         </div>
       </div>
       <div class="proto-step">
         <div class="proto-num">2</div>
         <div class="proto-body">
-          <div class="proto-title">Activate SOS — confirm on device screen</div>
+          <div class="proto-title">Activate inReach SOS — confirm on device screen</div>
           <div class="proto-detail">20-second countdown with alarm. Confirm activation. Automatic tracking begins — 60-second intervals for first 10 minutes, then 10-minute intervals to conserve battery. Keep device powered and in open sky view.</div>
         </div>
       </div>
       <div class="proto-step">
         <div class="proto-num">3</div>
         <div class="proto-body">
-          <div class="proto-title">Two-way messaging with Garmin Response</div>
-          <div class="proto-detail">Garmin Response will text your device. Reply to confirm the nature of the emergency, number of persons, medical condition, and whether you can self-rescue. Be concise — satellite messages are slow. They will contact local emergency services on your behalf.</div>
+          <div class="proto-title">Simultaneously: use IsatPhone 2 to call AMREF (East Africa) or Netcare 911 (Southern Africa)</div>
+          <div class="proto-detail">Voice call is faster than text. <strong>AMREF: +254 730 811 811</strong> (East Africa). <strong>Netcare 911: 082 911</strong> (Southern Africa). Have ready: your GPS coordinates (read from inReach screen or IsatPhone GPS), number of persons, nature of emergency, nearest identifiable landmark or track name.</div>
         </div>
       </div>
       <div class="proto-step">
         <div class="proto-num">4</div>
         <div class="proto-body">
-          <div class="proto-title">Simultaneously: call AMREF (if in East Africa) or ER24/Netcare 911</div>
-          <div class="proto-detail">If you have satellite voice capability (inReach with voice plan or satellite phone — R16), call your medevac provider directly. AMREF +254 730 811 811. Garmin Response and your medevac provider can coordinate. Two channels operating is better than one.</div>
+          <div class="proto-title">Two-way messaging with Garmin Response (inReach)</div>
+          <div class="proto-detail">Garmin Response will text your inReach. Reply to confirm emergency type, number of persons, medical condition, and whether self-rescue is possible. Be concise — satellite messages are slow. They will contact local emergency services on your behalf and can coordinate with AMREF or Netcare 911.</div>
         </div>
       </div>
       <div class="proto-step">
         <div class="proto-num">5</div>
         <div class="proto-body">
-          <div class="proto-title">Stay put, stay visible, preserve battery</div>
-          <div class="proto-detail">Rescuers are navigating to your GPS coordinates. Do not move unless you are in immediate life-threatening danger at your current position. Mark your location with any visible signal — mirror, bright cloth, fire smoke. Keep the inReach in open sky. Battery is your lifeline.</div>
+          <div class="proto-title">If GEOS calls back on IsatPhone 2 — confirm and brief</div>
+          <div class="proto-detail">GEOS will call back on the IsatPhone 2 number to confirm the emergency. Provide: your full name, GPS coordinates, number of persons, nature of emergency (medical/vehicle/security), condition of injured, and your IsatPhone number for callback. GEOS then contacts regional SAR authorities independently of Garmin Response.</div>
         </div>
       </div>
       <div class="proto-step">
         <div class="proto-num">6</div>
         <div class="proto-body">
+          <div class="proto-title">Stay put, stay visible, preserve battery on both devices</div>
+          <div class="proto-detail">Rescuers navigate to your GPS coordinates. Do not move unless in immediate life-threatening danger. Mark position with any visible signal — mirror, bright cloth, fire smoke. Keep inReach tracking active. Keep IsatPhone charged and on standby for callback calls. Battery is your lifeline.</div>
+        </div>
+      </div>
+      <div class="proto-step">
+        <div class="proto-num">7</div>
+        <div class="proto-body">
           <div class="proto-title">Cancel SOS only when emergency is fully resolved</div>
-          <div class="proto-detail">Cancelling SOS ends Garmin Response tracking and messaging. Only cancel when rescue is complete or you have confirmed self-rescue. False-cancel restarts the SOS process and causes confusion.</div>
+          <div class="proto-detail">Cancelling inReach SOS ends Garmin Response tracking. Cancelling IsatPhone SOS ends GEOS coordination. Only cancel when rescue is complete or you have confirmed self-rescue and communicated this to both centres. False-cancel causes confusion and may trigger a second response.</div>
         </div>
       </div>
     </div>
 
     <div class="xref-bar">
       <span class="xref-label">See also</span>
-      <span class="xref-pill">R16 Comms &amp; Navigation — inReach setup, subscription, SAT phone</span>
+      <span class="xref-pill">R16 Comms &amp; Navigation — inReach setup, subscription, IsatPhone 2 configuration</span>
       <span class="xref-pill">R10 Emergency Procedures — medical response protocols</span>
     </div>
   </div>
@@ -816,7 +1016,7 @@
         <div class="proto-num">2</div>
         <div class="proto-body">
           <div class="proto-title">Call AMREF Control Room immediately</div>
-          <div class="proto-detail"><strong>+254 730 811 811 / +254 709 962 811 (24/7)</strong> — Have ready: patient name, AMREF membership number, current GPS coordinates, patient condition, treatment received so far, nearest airstrip or landing area, contact number you can be reached on.</div>
+          <div class="proto-detail"><strong>+254 730 811 811 / +254 709 962 811 (24/7)</strong> — Use the <strong>Inmarsat IsatPhone 2</strong> for this call — voice communication is faster and clearer than text in a crisis. Have ready: patient name, AMREF membership number, current GPS coordinates (read from inReach screen), patient condition, treatment received so far, nearest airstrip or landing area, contact number you can be reached on.</div>
         </div>
       </div>
       <div class="proto-step">
@@ -926,8 +1126,9 @@
       <li><span class="check-box"></span><span class="check-label"><strong>Purchase travel insurance</strong> — long-duration policy covering full trip. Confirm: medical limit, evacuation, adventure activities, Africa territory, trip duration.<span class="check-note">World Nomads, SafetyWing, or IMG Global depending on final choice. Buy at least 2 weeks before departure.</span></span></li>
       <li><span class="check-box"></span><span class="check-label"><strong>Subscribe to AMREF Maisha</strong> — Platinum or Diamond tier for East Africa leg.<span class="check-note">flydoc.org. Confirm coverage countries match route. Store membership number on field card.</span></span></li>
       <li><span class="check-box"></span><span class="check-label"><strong>Confirm Garmin inReach subscription active.</strong> Test SOS messaging (not transmission). Update emergency profile (next of kin, medical details) in Garmin portal.<span class="check-note">R16 Comms &amp; Navigation for inReach setup. Subscription must not be in suspended state at departure.</span></span></li>
+      <li><span class="check-box"></span><span class="check-label"><strong>Register Inmarsat IsatPhone 2 with GEOS.</strong> SOS button does not function without registration. Free on monthly postpaid plan — register at geosalliance.com. Update emergency contact, blood type, and next-of-kin details in GEOS profile. Test using GEOS test procedure after registration.<span class="check-note">GEOS registration is NOT automatic. Must be completed before departure. Re-verify if SIM or plan changes mid-trip.</span></span></li>
       <li><span class="check-box"></span><span class="check-label"><strong>Power of attorney — Neil and Mary-Ann for each other.</strong> Signed, witnessed, certified, and stored with lawyer. Carry certified copies in the vehicle.<span class="check-note">Required for medical decisions and financial transactions if one partner is incapacitated. Not optional for a 2-year expedition.</span></span></li>
-      <li><span class="check-box"></span><span class="check-label"><strong>Print and laminate waterproof field cards</strong> — all policy numbers, emergency lines, blood types, AMREF number, next of kin. Two copies.<span class="check-note">Glovebox + drybag. The card survives when your phone does not.</span></span></li>
+      <li><span class="check-box"></span><span class="check-label"><strong>Print and laminate waterproof field cards</strong> — all policy numbers, emergency lines, blood types, AMREF number, GEOS callback number, inReach subscription status, next of kin. Two copies.<span class="check-note">Glovebox + drybag. The card survives when your phone does not.</span></span></li>
       <li><span class="check-box"></span><span class="check-label"><strong>Photograph and inventory all valuable equipment</strong> — kit, Victron components, comms gear, recovery equipment, cameras. Date-stamped. PDF stored in cloud.<span class="check-note">Cross-ref R3 Spares &amp; Tools for equipment list. Required for theft claims.</span></span></li>
       <li><span class="check-box"></span><span class="check-label"><strong>Upload all policy documents to cloud storage.</strong> Share access with next of kin.<span class="check-note">Google Drive or equivalent. Test access from a different device before departure.</span></span></li>
       <li><span class="check-box"></span><span class="check-label"><strong>Brief next of kin on all policy details, emergency lines, and claim process.</strong> They must be able to act on your behalf if contact is lost.<span class="check-note">Walk them through the policy log below. Give them the cloud folder access and field card copy.</span></span></li>
@@ -1049,6 +1250,15 @@
           <td class="fill">&nbsp;</td>
           <td class="fill">&nbsp;</td>
           <td>Confirm not suspended at departure</td>
+        </tr>
+        <tr>
+          <td>IsatPhone 2 — GEOS Registration</td>
+          <td>Inmarsat / GEOS (IERCC)</td>
+          <td class="fill">&nbsp;</td>
+          <td>GEOS via SOS callback</td>
+          <td class="fill">&nbsp;</td>
+          <td>Verify annually</td>
+          <td>Register at geosalliance.com. Free on monthly plan. Update emergency profile before departure.</td>
         </tr>
         <tr>
           <td>Third-Party — Namibia</td>
