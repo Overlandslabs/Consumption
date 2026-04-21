@@ -25,7 +25,7 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; overflow-x: hidden; }
+  html { overflow-x: hidden; }
 
   body {
     font-family: 'Oswald', sans-serif;
@@ -47,8 +47,8 @@
 
   .mh-eyebrow  { font-family:'IBM Plex Mono',monospace; font-size:.5rem; letter-spacing:.28em; text-transform:uppercase; color:var(--steelmd); margin-bottom:6px; }
   .mh-title    { font-family:'Bebas Neue',sans-serif; font-size:clamp(1.8rem,5vw,2.6rem); letter-spacing:.06em; color:var(--amber2); line-height:1; }
-  .mh-sub      { font-family:'IBM Plex Mono',monospace; font-size:.54rem; letter-spacing:.12em; color:rgba(255,200,100,.65); margin-top:5px; }
-  .mh-vehicle  { font-family:'IBM Plex Mono',monospace; font-size:.48rem; letter-spacing:.08em; color:var(--steelmd); margin-top:8px; }
+  .mh-sub      { font-family:'IBM Plex Mono',monospace; font-size:.54rem; letter-spacing:.12em; color:rgba(255,200,100,.85); margin-top:5px; }
+  .mh-vehicle  { font-family:'IBM Plex Mono',monospace; font-size:.48rem; letter-spacing:.08em; color:rgba(255,255,255,.5); margin-top:8px; }
 
   /* TOC BAR */
   .toc-bar {
@@ -195,7 +195,7 @@
 
   /* XREF BAR */
   .xref-bar { display:flex; flex-wrap:wrap; align-items:center; gap:6px; padding:10px 14px; background:var(--steeldk); margin:18px 0 0; border-radius:2px; }
-  .xref-label { font-family:'IBM Plex Mono',monospace; font-size:9px; color:rgba(255,255,255,.45); text-transform:uppercase; letter-spacing:.1em; }
+  .xref-label { font-family:'IBM Plex Mono',monospace; font-size:9px; color:rgba(255,255,255,.7); text-transform:uppercase; letter-spacing:.1em; }
   .xref-pill  { font-family:'IBM Plex Mono',monospace; font-size:9px; color:var(--amber2); background:rgba(232,120,0,.1); border:1px solid rgba(232,120,0,.3); padding:3px 8px; border-radius:20px; white-space:nowrap; }
 
   /* MOBILE */
@@ -209,6 +209,21 @@
     .prov-grid, .case-grid { grid-template-columns:1fr; }
     /* border-table handled by card-stack rules above */
     .stack-gap { display:none; }
+
+    /* Section intro — darken from steelmd to ink on mobile */
+    .section-intro { color:var(--ink); }
+
+    /* Log table — card-stack (7 columns don't fit on mobile) */
+    .log-table, .log-table thead, .log-table tbody,
+    .log-table th, .log-table td, .log-table tr { display:block; width:100%; }
+    .log-table thead { display:none; }
+    .log-table tr { border:1px solid var(--border); margin-bottom:8px; border-radius:2px; overflow:hidden; }
+    .log-table tr:nth-child(even) td { background:transparent; }
+    .log-table td { padding:5px 10px; border-bottom:1px solid var(--rule); font-size:12px; }
+    .log-table td:first-child { background:var(--steeldk); color:#fff; font-weight:600; font-size:12px; padding:6px 10px; }
+    .log-table td[data-label]::before { content:attr(data-label)": "; font-family:'IBM Plex Mono',monospace; font-size:8px; font-weight:600; letter-spacing:.07em; text-transform:uppercase; color:var(--ink); opacity:.55; display:block; margin-bottom:2px; }
+    .log-table .fill { min-width:unset; background:rgba(180,160,120,.12); }
+    .log-table .fill::after { content:"—"; color:var(--steelmd); font-size:11px; }
   }
 
   /* PRINT */
@@ -738,6 +753,21 @@
       </div>
     </div>
 
+    <div class="sub-head">Understanding Global Rescue vs Garmin Response — Not the Same Thing</div>
+    <div class="info-box">
+      <strong>Garmin Response coordinates. Global Rescue rescues.</strong> This distinction matters in a serious emergency and is widely misunderstood.
+      <br><br>
+      <strong>Garmin Response</strong> (via inReach SOS) is a coordination relay bundled with your satellite subscription. When you press SOS, your GPS transmits via Iridium to Garmin's IERCC centre. A coordinator texts your device and contacts the most appropriate local emergency service or medevac provider. Garmin Response does not deploy anyone or fund anything — its job is to hand your case to the right local provider. Without a medevac membership, the local provider may not respond.
+      <br><br>
+      <strong>Global Rescue</strong> is a funded medevac membership — they take end-to-end ownership of your extraction. Founded 2004, staffed by military special operations veterans and physicians (Johns Hopkins Emergency Medicine partnership). Call them on the IsatPhone 2 (+1 617 459 4200, 24/7): they deploy resources, manage the evacuation, and take you to the hospital of your choice — including your home hospital in SA. No invoice, no deductibles. Accepts SA residents. For East Africa they typically subcontract AMREF's aircraft but manage the whole relationship themselves.
+      <br><br>
+      <strong>What Global Rescue offers that AMREF does not:</strong> (1) Security/political evacuation on higher-tier plans — extraction from civil unrest or conflict. Relevant for DRC, Ethiopia, Burundi legs. (2) Hospital of choice — AMREF flies to Nairobi; Global Rescue takes you where you need to go.
+      <br><br>
+      <strong>Cost (verify at globalrescue.com — prices increased April 2026):</strong> A 2-year continuous expedition requires 365-day trip coverage — significantly more than the standard 45-day annual plan. For two people with security evacuation, budget approximately USD 1,400–2,000 over two years. Multi-year plans available.
+      <br><br>
+      <strong>Field use:</strong> Activate inReach SOS immediately to begin tracking and alert Garmin Response. Simultaneously use the IsatPhone 2 to call Global Rescue or AMREF directly. Both channels operate in parallel — independent satellite networks, independent coordination centres.
+    </div>
+
     <div class="note-box">
       <strong>Recommended structure for a 2-year Southern &amp; East Africa expedition:</strong> AMREF Maisha Platinum/Diamond membership for the East Africa leg (Tanzania through Uganda/Kenya/Rwanda). Netcare 911 / ER24 reliance (via Bonitas partnership and TUFFSTUFF policy if active) for Southern Africa (SA, Namibia, Botswana, Zimbabwe). Global Rescue if political evacuation cover is desired for high-risk country legs. In a major emergency: activate inReach SOS immediately (begins tracking via Iridium), then use the IsatPhone 2 to call AMREF or Netcare 911 directly — voice coordination is faster than text in a crisis. Carry all control room numbers on the waterproof field card (Section 8).
     </div>
@@ -1172,129 +1202,129 @@
       <tbody>
         <tr>
           <td>Vehicle Comprehensive</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
+          <td data-label="Provider" class="fill">&nbsp;</td>
+          <td data-label="Policy No." class="fill">&nbsp;</td>
+          <td data-label="Emergency Line" class="fill">&nbsp;</td>
+          <td data-label="Start Date" class="fill">&nbsp;</td>
+          <td data-label="Renewal" class="fill">&nbsp;</td>
+          <td data-label="Notes" class="fill">&nbsp;</td>
         </tr>
         <tr>
           <td>COMESA Yellow Card</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
+          <td data-label="Provider" class="fill">&nbsp;</td>
+          <td data-label="Policy No." class="fill">&nbsp;</td>
+          <td data-label="Emergency Line" class="fill">&nbsp;</td>
+          <td data-label="Start Date" class="fill">&nbsp;</td>
+          <td data-label="Renewal" class="fill">&nbsp;</td>
+          <td data-label="Notes" class="fill">&nbsp;</td>
         </tr>
         <tr>
           <td>Mary-Ann — Bonitas</td>
-          <td>Bonitas / ER24</td>
-          <td class="fill">&nbsp;</td>
-          <td>084 124</td>
-          <td class="fill">&nbsp;</td>
-          <td>Annual</td>
-          <td>Confirm ITB registered</td>
+          <td data-label="Provider">Bonitas / ER24</td>
+          <td data-label="Policy No." class="fill">&nbsp;</td>
+          <td data-label="Emergency Line">084 124</td>
+          <td data-label="Start Date" class="fill">&nbsp;</td>
+          <td data-label="Renewal">Annual</td>
+          <td data-label="Notes">Confirm ITB registered</td>
         </tr>
         <tr>
           <td>Neil — Medical Cover</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
-          <td>Genesis no intl cover — resolve pre-departure</td>
+          <td data-label="Provider" class="fill">&nbsp;</td>
+          <td data-label="Policy No." class="fill">&nbsp;</td>
+          <td data-label="Emergency Line" class="fill">&nbsp;</td>
+          <td data-label="Start Date" class="fill">&nbsp;</td>
+          <td data-label="Renewal" class="fill">&nbsp;</td>
+          <td data-label="Notes">Genesis no intl cover — resolve pre-departure</td>
         </tr>
         <tr>
           <td>Travel Insurance (Neil)</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
+          <td data-label="Provider" class="fill">&nbsp;</td>
+          <td data-label="Policy No." class="fill">&nbsp;</td>
+          <td data-label="Emergency Line" class="fill">&nbsp;</td>
+          <td data-label="Start Date" class="fill">&nbsp;</td>
+          <td data-label="Renewal" class="fill">&nbsp;</td>
+          <td data-label="Notes" class="fill">&nbsp;</td>
         </tr>
         <tr>
           <td>Travel Insurance (Mary-Ann)</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
+          <td data-label="Provider" class="fill">&nbsp;</td>
+          <td data-label="Policy No." class="fill">&nbsp;</td>
+          <td data-label="Emergency Line" class="fill">&nbsp;</td>
+          <td data-label="Start Date" class="fill">&nbsp;</td>
+          <td data-label="Renewal" class="fill">&nbsp;</td>
+          <td data-label="Notes" class="fill">&nbsp;</td>
         </tr>
         <tr>
           <td>AMREF Maisha — Neil</td>
-          <td>AMREF Flying Doctors</td>
-          <td class="fill">&nbsp;</td>
-          <td>+254 730 811 811</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
-          <td>East Africa leg activation</td>
+          <td data-label="Provider">AMREF Flying Doctors</td>
+          <td data-label="Policy No." class="fill">&nbsp;</td>
+          <td data-label="Emergency Line">+254 730 811 811</td>
+          <td data-label="Start Date" class="fill">&nbsp;</td>
+          <td data-label="Renewal" class="fill">&nbsp;</td>
+          <td data-label="Notes">East Africa leg activation</td>
         </tr>
         <tr>
           <td>AMREF Maisha — Mary-Ann</td>
-          <td>AMREF Flying Doctors</td>
-          <td class="fill">&nbsp;</td>
-          <td>+254 730 811 811</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
+          <td data-label="Provider">AMREF Flying Doctors</td>
+          <td data-label="Policy No." class="fill">&nbsp;</td>
+          <td data-label="Emergency Line">+254 730 811 811</td>
+          <td data-label="Start Date" class="fill">&nbsp;</td>
+          <td data-label="Renewal" class="fill">&nbsp;</td>
+          <td data-label="Notes" class="fill">&nbsp;</td>
         </tr>
         <tr>
           <td>Garmin inReach Subscription</td>
-          <td>Garmin</td>
-          <td class="fill">&nbsp;</td>
-          <td>Garmin Response via SOS</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
-          <td>Confirm not suspended at departure</td>
+          <td data-label="Provider">Garmin</td>
+          <td data-label="Policy No." class="fill">&nbsp;</td>
+          <td data-label="Emergency Line">Garmin Response via SOS</td>
+          <td data-label="Start Date" class="fill">&nbsp;</td>
+          <td data-label="Renewal" class="fill">&nbsp;</td>
+          <td data-label="Notes">Confirm not suspended at departure</td>
         </tr>
         <tr>
           <td>IsatPhone 2 — GEOS Registration</td>
-          <td>Inmarsat / GEOS (IERCC)</td>
-          <td class="fill">&nbsp;</td>
-          <td>GEOS via SOS callback</td>
-          <td class="fill">&nbsp;</td>
-          <td>Verify annually</td>
-          <td>Register at geosalliance.com. Free on monthly plan. Update emergency profile before departure.</td>
+          <td data-label="Provider">Inmarsat / GEOS (IERCC)</td>
+          <td data-label="Policy No." class="fill">&nbsp;</td>
+          <td data-label="Emergency Line">GEOS via SOS callback</td>
+          <td data-label="Start Date" class="fill">&nbsp;</td>
+          <td data-label="Renewal">Verify annually</td>
+          <td data-label="Notes">Register at geosalliance.com. Free on monthly plan. Update emergency profile before departure.</td>
         </tr>
         <tr>
           <td>Third-Party — Namibia</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
-          <td>Purchase at border or pre-departure</td>
+          <td data-label="Provider" class="fill">&nbsp;</td>
+          <td data-label="Policy No." class="fill">&nbsp;</td>
+          <td data-label="Emergency Line" class="fill">&nbsp;</td>
+          <td data-label="Start Date" class="fill">&nbsp;</td>
+          <td data-label="Renewal" class="fill">&nbsp;</td>
+          <td data-label="Notes">Purchase at border or pre-departure</td>
         </tr>
         <tr>
           <td>Third-Party — Botswana</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
+          <td data-label="Provider" class="fill">&nbsp;</td>
+          <td data-label="Policy No." class="fill">&nbsp;</td>
+          <td data-label="Emergency Line" class="fill">&nbsp;</td>
+          <td data-label="Start Date" class="fill">&nbsp;</td>
+          <td data-label="Renewal" class="fill">&nbsp;</td>
+          <td data-label="Notes" class="fill">&nbsp;</td>
         </tr>
         <tr>
           <td>Claim Event 1</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
+          <td data-label="Provider" class="fill">&nbsp;</td>
+          <td data-label="Policy No." class="fill">&nbsp;</td>
+          <td data-label="Emergency Line" class="fill">&nbsp;</td>
+          <td data-label="Start Date" class="fill">&nbsp;</td>
+          <td data-label="Renewal" class="fill">&nbsp;</td>
+          <td data-label="Notes" class="fill">&nbsp;</td>
         </tr>
         <tr>
           <td>Claim Event 2</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
-          <td class="fill">&nbsp;</td>
+          <td data-label="Provider" class="fill">&nbsp;</td>
+          <td data-label="Policy No." class="fill">&nbsp;</td>
+          <td data-label="Emergency Line" class="fill">&nbsp;</td>
+          <td data-label="Start Date" class="fill">&nbsp;</td>
+          <td data-label="Renewal" class="fill">&nbsp;</td>
+          <td data-label="Notes" class="fill">&nbsp;</td>
         </tr>
       </tbody>
     </table>
