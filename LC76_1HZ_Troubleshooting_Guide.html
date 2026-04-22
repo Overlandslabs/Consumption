@@ -25,7 +25,7 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
+  html { overflow-x: hidden; }
 
   body {
     font-family: 'Oswald', sans-serif;
@@ -218,58 +218,90 @@
   .log-table td.fill { background:var(--paper2); color:var(--steelmd); font-style:italic; font-size:11px; }
 
   /* SECTION ANCHOR OFFSET */
-  .sa { scroll-margin-top: 90px; }
+  .sa { scroll-margin-top: 130px; }
 
   /* PRINT */
   @media print {
     @page { margin: 7mm; size: A4; }
-    body { font-size: 7pt; background: #fff; line-height: 1.4; }
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+
+    body { font-size: 7pt; background: #fff; line-height: 1.3; color: #111; }
     .sticky-wrap { position: static; }
     .toc-bar { display: none; }
-    .masthead { padding: 4mm 8mm; break-after: avoid; }
+    .lib-home-btn { display: none !important; }
+
+    /* Masthead */
+    .masthead { padding: 4pt 8pt; break-after: avoid; background: #1C1410 !important; color: #fff !important; border-bottom: 2pt solid #e07800 !important; }
     .mh-eyebrow { font-size: 5pt; }
-    .mh-title { font-size: 16pt; }
+    .mh-title { font-size: 14pt; color: #e07800 !important; }
     .mh-sub { font-size: 5pt; }
-    .mh-vehicle { font-size: 4.5pt; }
-    .main { padding: 8px 0 0; }
-    .section-head { font-size: 11pt; margin-top: 10px; margin-bottom: 6px; padding-bottom: 3px; page-break-after: avoid; }
-    .section-intro { margin-bottom: 6px; font-size: 6.5pt; }
-    .diag-group { margin-bottom: 6px; }
-    .diag-group-title { font-size: 8pt; padding: 4px 8px; page-break-after: avoid; }
-    .diag-body { display: block !important; padding: 6px 8px; }
-    .diag-header { padding: 5px 8px; cursor: default; }
-    .diag-arrow { display: none; }
-    .diag-badge { font-size: 6pt; padding: 1px 4px; }
-    .diag-symptom { font-size: 7.5pt; }
-    .diag-card { break-inside: avoid; }
-    .cause-list { margin: 4px 0 6px; }
-    .cause-list li { padding: 3px 0; font-size: 7pt; }
-    .cause-num { min-width: 16px; height: 16px; font-size: 8pt; }
-    .cause-label { font-size: 7pt; }
-    .cause-note { font-size: 6.5pt; }
-    .check-step { margin-bottom: 4px; font-size: 7pt; }
-    .step-num { min-width: 18px; height: 18px; font-size: 8pt; }
-    .warn-box, .note-box, .ok-box { padding: 4px 8px; font-size: 6.5pt; margin: 4px 0; }
-    .xref-bar { padding: 4px 8px; margin-top: 4px; }
-    .xref-label, .xref-pill { font-size: 6pt; }
-    .smoke-grid { grid-template-columns: repeat(4, 1fr); gap: 4px; margin: 6px 0; }
-    .smoke-card { break-inside: avoid; }
-    .smoke-header { padding: 4px 8px; font-size: 8pt; }
-    .smoke-body { padding: 4px 8px; font-size: 6.5pt; }
-    .sensor-grid { grid-template-columns: repeat(3, 1fr); gap: 6px; margin: 6px 0; }
-    .sensor-card { break-inside: avoid; }
-    .sensor-title { padding: 4px 8px; font-size: 7pt; }
-    .sensor-body { padding: 4px 8px; }
-    .sensor-row { padding: 2px 0; }
-    .sensor-key, .sensor-val { font-size: 6.5pt; }
-    .specs-table { font-size: 6.5pt; margin: 6px 0; }
-    .specs-table th, .specs-table td { padding: 3px 6px; }
-    .matrix-table { font-size: 6.5pt; margin-bottom: 8px; break-inside: auto; }
+    .mh-vehicle { font-size: 4pt; }
+
+    .main { padding: 4pt 0 0; }
+
+    /* Sections */
+    .sa { margin-bottom: 4pt; }
+    .section-head { font-size: 10pt; margin-top: 8pt; margin-bottom: 3pt; padding-bottom: 2pt; page-break-after: avoid; break-after: avoid; border-bottom: 1.5pt solid #e07800 !important; color: #111 !important; }
+    .section-intro { margin-bottom: 3pt; font-size: 6pt; }
+
+    /* Diag groups */
+    .diag-group { margin-bottom: 4pt; }
+    .diag-group-title { font-size: 7.5pt; padding: 2pt 6pt; page-break-after: avoid; break-after: avoid; background: #2a2f3a !important; color: #e07800 !important; }
+
+    /* Diag cards — force all bodies open */
+    .diag-card { break-inside: avoid; border: 0.5pt solid #ccc; margin-bottom: 2pt; background: #fff; }
+    .diag-header { display: flex !important; flex-direction: row !important; align-items: baseline !important; gap: 6pt !important; padding: 2pt 6pt !important; background: #EDE5D0 !important; border-bottom: 0.5pt solid #ccc; }
+    .diag-header > div { display: contents !important; }
+    .diag-arrow { display: none !important; }
+    .diag-badge { font-size: 5.5pt !important; padding: 0.5pt 3pt !important; white-space: nowrap; }
+    .diag-symptom { font-size: 7pt !important; font-weight: 600; }
+    .diag-body { display: block !important; padding: 3pt 6pt 3pt !important; }
+
+    /* Cause list */
+    .cause-list { list-style: none; margin: 2pt 0 3pt; }
+    .cause-list li { display: flex; gap: 5pt; align-items: flex-start; padding: 2pt 0; border-bottom: 0.4pt solid #e8e4dc; font-size: 6.5pt; }
+    .cause-list li:last-child { border-bottom: none; }
+    .cause-num { font-size: 6pt; font-weight: 700; color: #fff; background: #6a7080; min-width: 12pt; height: 12pt; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .cause-label { font-weight: 600; color: #111; }
+    .cause-note { color: #6a7080; font-size: 6pt; display: block; margin-top: 1pt; }
+
+    /* Check steps */
+    .check-steps { margin: 2pt 0; }
+    .check-step { display: flex; gap: 5pt; align-items: flex-start; margin-bottom: 2pt; font-size: 6.5pt; }
+    .step-num { font-size: 6pt; font-weight: 700; color: #fff; background: #b86800; min-width: 12pt; height: 12pt; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+
+    /* Boxes */
+    .warn-box, .note-box, .ok-box { padding: 2pt 5pt; font-size: 6pt; margin: 2pt 0; border-left-width: 1.5pt !important; }
+
+    /* Xref */
+    .xref-bar { padding: 2pt 5pt; margin-top: 2pt; background: #2a2f3a !important; }
+    .xref-label, .xref-pill { font-size: 5.5pt; padding: 0.5pt 3pt; }
+
+    /* Smoke cards */
+    .smoke-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 3pt; margin: 4pt 0; }
+    .smoke-card { break-inside: avoid; border: 0.5pt solid #ccc; }
+    .smoke-header { padding: 2pt 5pt; font-size: 7pt; color: #fff !important; }
+    .smoke-body { padding: 3pt 5pt; font-size: 6pt; }
+
+    /* Sensor cards */
+    .sensor-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 4pt; margin: 4pt 0; }
+    .sensor-card { break-inside: avoid; border: 0.5pt solid #ccc; }
+    .sensor-title { padding: 2pt 5pt; font-size: 6.5pt; }
+    .sensor-body { padding: 2pt 5pt; }
+    .sensor-row { padding: 1pt 0; }
+    .sensor-key, .sensor-val { font-size: 6pt; }
+
+    /* Tables */
+    .specs-table { font-size: 6pt; margin: 3pt 0; }
+    .specs-table th, .specs-table td { padding: 2pt 4pt; }
+    .matrix-scroll { overflow: visible !important; }
+    .matrix-table { min-width: unset !important; width: 100% !important; font-size: 5.5pt; margin-bottom: 4pt; break-inside: auto; }
     .matrix-table thead { display: table-header-group; }
-    .matrix-table th, .matrix-table td { padding: 3px 6px; }
-    .log-table { break-inside: auto; font-size: 6.5pt; }
+    .matrix-table th, .matrix-table td { padding: 2pt 4pt; }
+    .log-table { break-inside: auto; font-size: 6pt; }
     .log-table thead { display: table-header-group; }
-    .log-table th, .log-table td { padding: 3px 6px; }
+    .log-table th, .log-table td { padding: 2pt 4pt; }
+
     .section-anchor { scroll-margin-top: 0; }
     a { color: inherit; text-decoration: none; }
   }
@@ -415,7 +447,7 @@
             <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Glow plug circuit partially degraded</span><span class="cause-note">1–2 failed plugs cause marginal cold starting. Engine starts eventually when remaining plugs deliver enough heat. Test all 6 plugs. Replace any with open circuit or resistance above 2.5 Ω.</span></div></li>
             <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Partial air lock / weak lift pump</span><span class="cause-note">Engine fires once cranking finally delivers enough fuel. White-grey smoke that clears on firing confirms fuel starvation. Bleed fuel system, check lift pump delivery rate.</span></div></li>
             <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Injection timing retarded</span><span class="cause-note">If timing has drifted late, cold starts become progressively harder. Note for Dup Diesel assessment if hard starting worsens over time — this is a workshop job.</span></div></li>
-            <li><div class="cause-num">4</div><div class="cause-text"><span class="cause-label">Low compression — ring/bore wear</span><span class="cause-note">At 308,500+ km, compression can drop below the cold self-ignition threshold. Minimum 2,800 kPa / 28 bar per cylinder, max variation 200 kPa between cylinders. Workshop assessment.</span></div></li>
+            <li><div class="cause-num">4</div><div class="cause-text"><span class="cause-label">Low compression — ring/bore wear</span><span class="cause-note">At 305,000+ km, compression can drop below the cold self-ignition threshold. Minimum 2,800 kPa / 28 bar per cylinder, max variation 200 kPa between cylinders. Workshop assessment.</span></div></li>
           </ul>
         </div>
       </div>
@@ -492,7 +524,7 @@
         <div class="diag-body">
           <div class="warn-box">⚠ Stop the engine immediately. Do not restart until oil level is confirmed. Driving even 500 m with no oil pressure will destroy main and big-end bearings.</div>
           <ul class="cause-list">
-            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Low oil level</span><span class="cause-note">Check the dipstick immediately. Top up with 15W-40 API CH-4 (or 10W-30 CF-4). Do not use 5W-30 with the turbo. Normal 1HZ oil consumption: up to 0.5 L per 1,000 km is acceptable at ~308,500 km.</span></div></li>
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Low oil level</span><span class="cause-note">Check the dipstick immediately. Top up with 15W-40 API CH-4 (or 10W-30 CF-4). Do not use 5W-30 with the turbo. Normal 1HZ oil consumption: up to 0.5 L per 1,000 km is acceptable at 305,000 km.</span></div></li>
             <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Oil pressure sender fault — false warning</span><span class="cause-note">After confirming correct oil level, restart briefly and listen. If engine is quiet and light stays on, the sender is likely faulty. Still — do not drive far until confirmed with a mechanical gauge.</span></div></li>
             <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Oil pump wear or blocked pickup</span><span class="cause-note">At high km, oil pump wear or sludge-blocked pickup reduces pressure. Confirmed only at workshop. If confirmed, vehicle cannot be safely driven.</span></div></li>
           </ul>
@@ -528,7 +560,7 @@
             <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Injector rattle</span><span class="cause-note">Worn injectors rattle rather than cleanly click. Listen for one cylinder that sounds distinctly louder or different than the others — that cylinder's injector is suspect.</span></div></li>
             <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Rocker arm / pushrod wear</span><span class="cause-note">The 1HZ has pushrods and rocker arms. Inspection requires removing the rocker cover — a straightforward field job requiring no special tools.</span></div></li>
           </ul>
-          <div class="warn-box">⚠ Valve clearances on this vehicle have NO RECORD at ~308,500 km — this is a critical overdue service item. See R8 Service History.</div>
+          <div class="warn-box">⚠ Valve clearances on this vehicle have NO RECORD at 305,000 km — this is a critical overdue service item. See R8 Service History.</div>
         </div>
       </div>
     </div>
@@ -576,7 +608,7 @@
           <ul class="cause-list">
             <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Boost leak</span><span class="cause-note">Engine delivers fuel based on throttle position. If boost air is leaking, you get excess fuel for available air = black smoke. Check all boost hoses with soapy water at fast idle. See R4 Field Fix: Turbo Boost Leak.</span></div></li>
             <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Clogged air filter</span><span class="cause-note">Restriction starves the engine of air. Check restriction indicator, inspect element. See R4 Field Fix: Air Filter Emergency.</span></div></li>
-            <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Injector wear — excess fuel delivery</span><span class="cause-note">At ~308,500 km, injector wear causing over-delivery and poor spray pattern is a real possibility. Isolate by testing cylinders one at a time. Injector opening pressure should be 135–155 kg/cm².</span></div></li>
+            <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Injector wear — excess fuel delivery</span><span class="cause-note">At 305,000 km, injector wear causing over-delivery and poor spray pattern is a real possibility. Isolate by testing cylinders one at a time. Injector opening pressure should be 135–155 kg/cm².</span></div></li>
             <li><div class="cause-num">4</div><div class="cause-text"><span class="cause-label">Injection timing advanced</span><span class="cause-note">Timing too far advanced increases combustion temperature and produces black smoke. Confirm timing plunger stroke is within spec: 1.03–1.09 mm. Workshop diagnosis — do not attempt to adjust timing without the correct dial gauge SST.</span></div></li>
           </ul>
         </div>
@@ -669,13 +701,13 @@
           <div style="display:flex;align-items:center;gap:8px;"><span class="diag-badge badge-caution">WORKSHOP</span><span class="diag-arrow">▼</span></div>
         </div>
         <div class="diag-body">
-          <p style="font-size:13px;margin-bottom:10px;">The Bosch VE-type injection pump on the 1HZ is robust and repairable. At ~308,500 km, internal components can wear — affecting delivery volume, timing, and peak pressure. Dup Diesel (Dirk Du Plessis) handles all injection pump work on this vehicle.</p>
+          <p style="font-size:13px;margin-bottom:10px;">The Bosch VE-type injection pump on the 1HZ is robust and repairable. At 305,000 km, internal components can wear — affecting delivery volume, timing, and peak pressure. Dup Diesel (Dirk Du Plessis) handles all injection pump work on this vehicle.</p>
           <ul class="cause-list">
             <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Reduced delivery — low power at all RPM</span><span class="cause-note">If boost, air filter, and injectors are all confirmed OK but power is generally down, the pump itself may be under-delivering. Confirmed by a pop test and pump bench test — workshop diagnosis.</span></div></li>
             <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Timing drift — retarded</span><span class="cause-note">Causes hard cold starting and reduced power with clean combustion (no smoke). Timing check requires a dial gauge on the pump spill port — straightforward for a diesel mechanic, not a roadside job.</span></div></li>
             <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Governor malfunction</span><span class="cause-note">Erratic throttle response — revving without input or failing to idle down. Governor spring/mechanism fault. Internal repair required.</span></div></li>
           </ul>
-          <div class="note-box">💡 Have the injection pump flow-tested by Dup Diesel before the 2028 departure. At ~308,500 km a pump rebuild is a sensible pre-trip investment.</div>
+          <div class="note-box">💡 Have the injection pump flow-tested by Dup Diesel before the 2028 departure. At 305,000+ km a pump rebuild is a sensible pre-trip investment.</div>
         </div>
       </div>
     </div>
@@ -691,7 +723,7 @@
           <p style="font-size:13px;margin-bottom:10px;">Baseline: 7.2–8.0 L/100 km highway unladen, 9.0–11.0 L/100 km loaded on gravel. The LC76's weight, tyre size, and loading affect consumption more than most minor faults.</p>
           <ul class="cause-list">
             <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Boost leak</span><span class="cause-note">Consistent with black smoke. Fuel delivery remains constant but boost is lost — engine compensates, consuming more fuel for less power. Check all boost hoses first.</span></div></li>
-            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Injector wear / over-delivery</span><span class="cause-note">At ~308,500 km, injector service (pop test + calibration or replacement) is worthwhile. Prioritise before departure.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Injector wear / over-delivery</span><span class="cause-note">At 305,000 km, injector service (pop test + calibration or replacement) is worthwhile. Prioritise before departure.</span></div></li>
             <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Tyre pressure — most overlooked cause</span><span class="cause-note">Running 10–15% below recommended pressure on tar increases consumption by 5–8%. Check pressures cold each morning. See R14 Tyre Management.</span></div></li>
             <li><div class="cause-num">4</div><div class="cause-text"><span class="cause-label">Poor fuel quality — high sulphur content</span><span class="cause-note">High-sulphur diesel has lower calorific value. A 3–7% consumption increase when using such fuel is not a fault.</span></div></li>
             <li><div class="cause-num">5</div><div class="cause-text"><span class="cause-label">Improper injection timing</span><span class="cause-note">Both advanced and retarded timing increase fuel consumption — the engine runs less efficiently and compensates with more fuel for the same output. If consumption increases coincide with any starting difficulty, timing drift is worth investigating at the next service.</span></div></li>

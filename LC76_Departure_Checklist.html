@@ -29,6 +29,7 @@
   --mono:'IBM Plex Mono',monospace;--sans:'IBM Plex Sans',sans-serif;--display:'Bebas Neue',sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{overflow-x:hidden}
 body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.5}
 
 /* COVER */
@@ -50,7 +51,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 .reset-btn:hover{color:#fff;border-color:rgba(255,255,255,.4)}
 
 /* ZONE HEADERS */
-.zone-header{display:flex;align-items:center;gap:10px;padding:7px 36px;border-left:5px solid var(--amber);background:var(--paper2);border-bottom:1px solid var(--rule);margin-top:8px;scroll-margin-top:50px}
+.zone-header{display:flex;align-items:center;gap:10px;padding:7px 36px;border-left:5px solid var(--amber);background:var(--paper2);border-bottom:1px solid var(--rule);margin-top:8px;scroll-margin-top:130px}
 .zone-badge{font-family:var(--mono);font-size:.60rem;font-weight:600;color:#fff;padding:3px 9px;letter-spacing:.14em}
 .zone-name{font-family:var(--display);font-size:1.6rem;letter-spacing:.10em;color:var(--ink)}
 .zone-count{font-family:var(--mono);font-size:.52rem;color:var(--steelmd);margin-left:auto;letter-spacing:.08em}
@@ -80,28 +81,60 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 
 /* ── PRINT STYLES ─────────────────────────────────────────── */
 @media print{
-  @page{margin:10mm 8mm;size:A4}
-  .toc-bar,.progress-bar-wrap,.cl-detail,
-  .cover{padding:6px 20px;page-break-after:avoid}
-  .cover-title{font-size:1.8rem}
-  .zone-header{margin-top:4px;padding:4px 20px;scroll-margin-top:0;page-break-after:avoid}
-  .zone-name{font-size:1.1rem}
-  .zone-body{padding:0 20px}
-  .cl-row{padding:3px 0;page-break-inside:avoid}
-  .cl-check{width:13px;height:13px;min-width:13px;border:1.5px solid #888;border-radius:1px}
+  @page{margin:7mm;size:A4}
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+
+  /* Hide all interactive and nav elements */
+  .toc-bar,.progress-bar-wrap,.reset-btn,.lib-home-btn{display:none!important}
+
+  /* Sticky nav becomes static */
+  .sticky-nav-unit{position:static!important}
+
+  /* Cover / masthead — dark background preserved */
+  .cover{background:#1C1410!important;color:#fff!important;padding:5pt 10pt!important;border-bottom:2pt solid #e07800!important;page-break-after:avoid;break-after:avoid}
+  .cover-eyebrow{font-size:5pt!important;color:#e07800!important}
+  .cover-title{font-size:14pt!important;color:#fff!important;line-height:1!important}
+  .cover-sub{font-size:6pt!important;color:rgba(255,255,255,.7)!important}
+  .cover-vin{font-size:5pt!important;color:rgba(255,200,100,.7)!important}
+
+  /* Std-header (second masthead pattern used in this file) */
+  .std-header{background:#1C1410!important;color:#fff!important;padding:5pt 10pt!important;border-bottom:2pt solid #e07800!important;break-after:avoid}
+  .std-eyebrow{font-size:5pt!important;color:#e07800!important}
+  .std-title{font-size:14pt!important;color:#fff!important}
+  .std-sub{font-size:5.5pt!important;color:rgba(255,255,255,.7)!important}
+  .std-vehicle{font-size:4.5pt!important;color:rgba(255,255,255,.5)!important}
+
+  /* Inspection zone header */
+  .zone-header{margin-top:3pt!important;padding:3pt 8pt!important;scroll-margin-top:0;page-break-after:avoid;break-after:avoid;background:#ede8de!important}
+  .zone-name{font-size:10pt!important}
+  .zone-badge{font-size:6pt!important;padding:1pt 5pt!important}
+  .zone-count{font-size:5pt!important}
+
+  /* Zone body — allow page breaks between zones */
+  .zone-body{padding:0 8pt!important;page-break-inside:auto}
+
+  /* Checklist rows */
+  .cl-row{padding:3pt 0!important;border-bottom:0.4pt solid #c8c0b0!important;page-break-inside:avoid;break-inside:avoid}
+  .cl-row:last-child{border-bottom:none!important}
+  .cl-critical{background:rgba(139,32,0,.05)!important}
+  .cl-check{width:10pt!important;height:10pt!important;min-width:10pt!important;border:1pt solid #888!important;border-radius:1px!important;flex-shrink:0!important;margin-top:1pt!important}
   .cl-check.checked{background:none!important}
-  .cl-check.checked::after{display:none}
-  .cl-item-name{font-size:.78rem}
-  .cl-cat{display:none}
-  .crit-badge{font-size:.42rem}
-  body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  .cl-critical{background:rgba(139,32,0,.06)!important}
+  .cl-check.checked::after{display:none!important}
+  .cl-item-head{margin-bottom:1pt!important;gap:4pt!important}
+  .cl-item-name{font-size:7pt!important}
+  .cl-cat{display:none!important}
+  .crit-badge{font-size:5pt!important;padding:0.5pt 3pt!important}
+  .cl-detail{font-size:6pt!important;line-height:1.3!important;color:#3a4050!important}
+
+  /* Section divider banner */
+  div[style*="font-size:1.3rem"]{font-size:8pt!important;padding:4pt 8pt!important;margin:4pt 0 2pt!important;background:#2a2f3a!important;color:#e07800!important;border-left:2pt solid #e07800!important}
+
+  body{font-size:7pt;line-height:1.3}
 }
 
 
 
 @media(max-width:600px){
-  body{overflow-x:hidden}
   .cover{padding:12px 14px!important}
   .cover-eyebrow{font-size:.48rem}
   .cover-title{font-size:clamp(20px,5vw,30px)}

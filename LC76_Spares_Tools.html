@@ -31,6 +31,7 @@
   --mono:'IBM Plex Mono',monospace;--sans:'IBM Plex Sans',sans-serif;--display:'Bebas Neue',sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{overflow-x:hidden}
 body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.6}
 
 /* COVER */
@@ -57,14 +58,14 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 
 
 /* SECTION HEADERS */
-.section-header{background:var(--paper2);border-top:3px solid var(--amber);border-bottom:1px solid var(--rule);padding:6px 36px 8px;display:block;margin-top:4px;scroll-margin-top:120px}
+.section-header{background:var(--paper2);border-top:3px solid var(--amber);border-bottom:1px solid var(--rule);padding:6px 36px 8px;display:block;margin-top:4px;scroll-margin-top:130px}
 .section-num{font-family:var(--mono);font-size:.58rem;font-weight:600;letter-spacing:.20em;color:white;background:var(--amber);padding:2px 8px;display:inline-block;margin-bottom:3px;text-transform:uppercase}
 .section-name{font-family:var(--display);font-size:2.0rem;letter-spacing:.10em;color:var(--ink);text-transform:uppercase;display:block}
 .section-desc{font-family:var(--mono);font-size:.58rem;color:var(--steelmd);letter-spacing:.09em;display:block;margin-top:3px}
 
 /* COMPONENT CARDS */
 .components-grid{padding:0 36px}
-.component{border-bottom:1px solid var(--rule);padding:6px 0;display:block;scroll-margin-top:160px}
+.component{border-bottom:1px solid var(--rule);padding:6px 0;display:block;scroll-margin-top:130px}
 .component:last-child{border-bottom:none}
 
 .comp-index{display:block;margin-bottom:1px}
@@ -106,7 +107,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 
 /* PRINT */
 @media print{
-  @page{margin:12mm 10mm;size:A4}
+  @page{margin: 7mm;size:A4}
   .toc-bar,
   .section-header{margin-top:0}
   .section-header:first-of-type{page-break-before:avoid}
@@ -116,12 +117,18 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
   body{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   .comp-desc-block p,.comp-tip-block p{font-size:.82rem}
   .components-grid,.section-header,.ref-section{padding-left:28px;padding-right:28px}
-}
+
+    .std-header { background: #2a2f3a !important; color: #fff !important; border-bottom: 2pt solid #e07800 !important; break-after: avoid; }
+    .std-title { color: #e07800 !important; font-size: 16pt !important; }
+    .toc-bar { display: none !important; }
+    .lib-home-btn { display: none !important; }
+  
+  }
 
 
 
 @media(max-width:600px){
-  body{font-size:12px;overflow-x:hidden}
+  body{font-size:12px;}
   .cover{padding:12px 14px 10px!important}
   .cover-title{font-size:clamp(18px,5vw,26px)}
   .cover-sub{font-size:.58rem}
@@ -694,7 +701,6 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
       <div class="comp-tip-block">
         <div class="block-label">Field Notes &amp; Tips</div>
         <p>Monitor the battery warning light and voltmeter. A reading below 13.2V at cruise RPM suggests the alternator belt is slipping or the alternator is failing. A squealing belt under load = imminent failure.</p>
-        <p><strong>Victron charging load:</strong> The LC76's stock alternator is 80A. The Orion-Tr Smart 12/12-30A DC-DC charger draws up to 40A from the alternator circuit at full output, and the Victron SmartSolar MPPT can contribute simultaneously — total charging demand can approach 30–40A on top of vehicle loads (fans, lights, fridge). At idle or low RPM the alternator output drops significantly — the Orion-Tr Smart is load-adaptive and will reduce output if input voltage sags. Do not run the auxiliary charging system hard during extended slow-speed recovery or idle — let the engine reach normal driving RPM first. A failing alternator diode will show as a lower-than-normal charge voltage (12.8–13.0V) even at cruise — this is below the Victron system's charge threshold and will cause the Orion-Tr to hunt. Cross-reference R5 (Battery Training) and R7 (LiFePO4 System Report).</p>
       </div>
     </div>
   </div>
