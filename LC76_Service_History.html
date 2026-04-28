@@ -114,9 +114,9 @@ th,td{font-size:.75rem;padding:.5rem .4rem}
 *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
 body{background:#fff;padding:0;margin:0;font-size:7pt;line-height:1.3}
 .sticky-wrap{position:static;padding-top:0}
-header{position:static;padding:4mm 8mm;page-break-after:avoid}
+header{position:static;padding:4mm 8mm;page-break-after:avoid;background:#2a2f3a!important;color:#fff!important;border-bottom:2pt solid #e07800!important}
 .mh-eyebrow{font-size:5pt}
-.mh-title{font-size:16pt}
+.mh-title{font-size:16pt;color:#e07800!important}
 .mh-sub{font-size:5pt}
 .mh-vehicle{font-size:4.5pt}
 .lib-home-btn{display:none!important}
@@ -124,13 +124,25 @@ header{position:static;padding:4mm 8mm;page-break-after:avoid}
 .status-bar{page-break-after:avoid;padding:0.1cm;gap:0.15cm}
 .status-value{font-size:9pt}
 .status-label{font-size:5pt}
-h2{page-break-after:avoid;margin:0.15cm 0 0.08cm;font-size:9pt}
+h2{page-break-after:avoid;margin:0.12cm 0 0.06cm;font-size:9pt}
 main{padding:0.1cm}
-.card-grid{display:grid!important;grid-template-columns:1fr 1fr!important;gap:0.12cm;margin-bottom:0.15cm;page-break-before:avoid}
+/* Card grid: 2-col, align-items:start eliminates height inflation in paired rows */
+.card-grid{display:grid!important;grid-template-columns:1fr 1fr!important;gap:0.12cm;margin-bottom:0.12cm;page-break-before:avoid;align-items:start}
 .card{page-break-inside:avoid;break-inside:avoid;margin-bottom:0}
+/* Alert cards span full width and can break across pages */
 .card.alert{grid-column:1 / -1;page-break-inside:auto;break-inside:auto}
 .card-header{padding:0.08cm 0.15cm;page-break-after:avoid;break-after:avoid}
-.card.alert .card-header{page-break-after:avoid!important;break-after:avoid!important}
+/* Alert card header: allow break after so body can flow to next page without dragging header */
+.card.alert .card-header{page-break-after:auto!important;break-after:auto!important}
+.card.alert .card-body{page-break-inside:auto!important;break-inside:auto!important}
+/* .ig grids STAY as grids (do NOT force display:block — that wastes the right half of the page).
+   Allow breaking within, add align-items:start so columns don't inflate each other's height. */
+.ig{align-items:start!important}
+.card.alert .card-body .ig{page-break-inside:auto!important;break-inside:auto!important}
+.card.alert .card-body .ig>div{page-break-inside:auto!important;break-inside:auto!important;min-width:0}
+/* Reduce wide grids in print: 4-col → 2-col, 3-col → 2-col */
+.ig[style*="repeat(4"]{grid-template-columns:repeat(2,1fr)!important}
+.ig[style*="1fr 1fr 1fr"]{grid-template-columns:1fr 1fr!important}
 .card-title{font-size:7.5pt}
 .card-why{font-size:6pt;line-height:1.2}
 .card-body{padding:0.08cm 0.15cm}
@@ -149,6 +161,13 @@ tr{page-break-inside:avoid;page-break-after:auto}
 tbody tr:first-child{page-break-before:avoid}
 .badge{font-size:5pt;padding:0.03cm 0.1cm}
 .modal,.search-box{display:none}
+/* Section C milestone table card: allow it to break rather than jump to next page whole */
+.milestone-card{page-break-inside:auto!important;break-inside:auto!important;page-break-before:avoid!important;break-before:avoid!important}
+/* Section B: no forced break after it — keeps C attached */
+.plan-critical{page-break-after:avoid!important;break-after:avoid!important}
+/* Lifecycle tracking: single column avoids height-mismatch gaps between paired cards */
+.lifecycle-grid{grid-template-columns:1fr!important;align-items:start}
+.lifecycle-grid .card{page-break-inside:avoid;break-inside:avoid}
 footer{margin-top:0.1cm;padding:0.08cm;font-size:5pt;text-align:center;border-top:1pt solid #ccc}
 }
 
@@ -164,7 +183,11 @@ footer{margin-top:0.1cm;padding:0.08cm;font-size:5pt;text-align:center;border-to
   -webkit-tap-highlight-color:transparent;transition:background .2s;
 }
 .lib-home-btn:hover,.lib-home-btn:active{background:rgba(232,120,0,.30);}
-@media print{.lib-home-btn{display:none!important}}
+#maintGrid th[data-sort]{cursor:pointer;user-select:none;}
+#maintGrid th[data-sort]::after{content:' ↕';opacity:.7;font-size:.8em;}
+#maintGrid th[data-sort][data-dir="asc"]::after{content:' ↑';opacity:1;}
+#maintGrid th[data-sort][data-dir="desc"]::after{content:' ↓';opacity:1;}
+@media print{#maintGrid th[data-sort]::after,#maintGrid th[data-sort][data-dir]::after{content:'';}}
 </style>
 </head>
 <body>
@@ -250,6 +273,153 @@ footer{margin-top:0.1cm;padding:0.08cm;font-size:5pt;text-align:center;border-to
 
 <div style="margin-top:.5rem;padding:.4rem .7rem;background:var(--paper2);border-left:3px solid var(--amber);">
 <p style="margin:0;color:var(--steeldk);"><strong>Filter kit = oil filter + fuel filter + air filter + cabin filter</strong> · replaced Apr 2026 @ 308,248km · Next cambelt: ~373,000km · Fan belt: replaced Apr 2026</p>
+</div>
+
+</div>
+</div>
+
+<h2>Next Service Plan — Forward View</h2>
+<p style="font-style:italic;color:var(--steelmd);margin-bottom:.75rem;font-size:.9rem;">
+What's due, what's overdue, and what to brief the workshop on at the next service. Updated after every service. Cross-ref: <strong>R23 Pre-Trip Prep</strong> for full expedition preparation; <strong>R31 Upgrade Assessment</strong> for non-service items.
+</p>
+
+<!-- ═══ A. NEXT SERVICE WINDOW ═══ -->
+<div class="card" style="margin-bottom:1rem;border-color:var(--green-ok);border-width:2px;">
+<div class="card-header" style="background:var(--green-ok);">
+<div class="card-title" style="color:#fff;">&#128197; A · Next Service Window — 313,000–318,000km (≈ 5,000km from now)</div>
+<div class="card-why" style="color:rgba(255,255,255,.9);">Routine 5,000km service items. Schedule with PW Auto Centre. Bring R8 + R23 sections to the workshop briefing.</div>
+</div>
+<div class="card-body">
+
+<div class="ig" style="display:grid;grid-template-columns:1fr 1fr;gap:0 1rem;">
+<div>
+<p style="font-weight:600;margin-bottom:.35rem;color:var(--amber);">SCHEDULED ITEMS</p>
+<p style="line-height:1.6;">
+&#9633; <strong>Engine oil + oil filter</strong> — due ~313,248km (5,000km strict turbo interval)<br>
+&#9633; <strong>Propshaft greasing</strong> — every service<br>
+&#9633; <strong>Steering linkage lubrication</strong> — 5,000km interval<br>
+&#9633; <strong>Suspension grease points</strong> — every service<br>
+&#9633; <strong>Tyre pressure check + condition</strong> — visual + pressure<br>
+&#9633; <strong>Tyre rotation</strong> — Maxxis AT811 next rotation due ~318,000km (10,000km from current)
+</p>
+</div>
+<div>
+<p style="font-weight:600;margin-bottom:.35rem;color:var(--amber);">CONDITION CHECKS</p>
+<p style="line-height:1.6;">
+&#9633; <strong>3 active monitors</strong> (see Service Highlights below):<br>
+<span style="margin-left:1rem;">— Cylinder head oil seepage progression</span><br>
+<span style="margin-left:1rem;">— Rear hub seal weep + brake shoe contamination</span><br>
+<span style="margin-left:1rem;">— Fat knuckle grease leak side identification</span><br>
+&#9633; <strong>Brake pad/shoe inspection</strong> — wear measurement front + rear<br>
+&#9633; <strong>Coolant level</strong> at expansion tank (cold)<br>
+&#9633; <strong>Boost pipes &amp; intercooler boots</strong> — listen for hissing, check for oil weep
+</p>
+</div>
+</div>
+
+<div style="margin-top:.6rem;padding:.4rem .7rem;background:var(--paper2);border-left:3px solid var(--amber);">
+<p style="margin:0;line-height:1.5;color:var(--steeldk);"><strong>Workshop briefing notes:</strong> This is a routine 5,000km service. The three active monitors (head seepage, rear hub seal, knuckle grease) need observation and side identification — request a visual report. If head seepage has worsened to a drip, escalate to Section B item 6 (PCV routing) immediately.</p>
+</div>
+
+</div>
+</div>
+
+<!-- ═══ B. CRITICAL OUTSTANDING ═══ -->
+<div class="card alert plan-critical" style="margin-bottom:1rem;">
+<div class="card-header">
+<div class="card-title">&#9888;&#65039; B · Critical Outstanding — Schedule Independently of Mileage</div>
+<div class="card-why">Items overdue by interval, with no record, or flagged for verification. Each must be addressed before the 2028 expedition. Several can be combined into a single workshop visit.</div>
+</div>
+<div class="card-body">
+
+<div class="ig" style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;">
+
+<div>
+<p style="font-weight:600;color:var(--amber);margin-bottom:.35rem;">1 · VALVE CLEARANCES (TAPPETS)</p>
+<p style="line-height:1.5;font-size:.88rem;"><span class="status-critical">&#10060;</span> <strong>NO RECORD</strong> — Toyota interval is every 40,000–50,000km. At 308,684km, missed approximately 6–7 service intervals.</p>
+<p style="margin-top:.3rem;line-height:1.5;font-size:.88rem;color:var(--steelmd);">The 1HZ uses outer shim-type adjustment above the valve lifters. Tight valves cause hard starting, power loss, poor economy, and ultimately burnt valve seats — a head-off repair. Inspection is straightforward (rocker cover off, dial gauge measurements at 12 valves, shim swap if out of spec).</p>
+<p style="margin-top:.3rem;line-height:1.5;font-size:.88rem;"><strong>Action:</strong> Schedule with diesel specialist. Request the workshop record all 12 measurements before and after adjustment. Combine with rocker cover gasket replacement (addresses the head seepage concern in one operation).</p>
+
+<p style="font-weight:600;color:var(--amber);margin-top:1rem;margin-bottom:.35rem;">2 · WATER PUMP — PROACTIVE REPLACEMENT</p>
+<p style="line-height:1.5;font-size:.88rem;"><span class="status-critical">&#10060;</span> <strong>NO RECORD OF REPLACEMENT</strong> — Toyota interval is 100,000km or with timing belt. No leak detected at 308,500km (Apr 2026 inspection).</p>
+<p style="margin-top:.3rem;line-height:1.5;font-size:.88rem;color:var(--steelmd);">Water pump bearings degrade gradually before failing. A failure in remote Africa is an expedition-ender. The pump should be replaced as a bundle with the next cambelt service (~373,000km / Apr 2030) — but if any precursor symptom appears (weep at the weep hole, bearing whine, coolant temp drift), replace immediately.</p>
+<p style="margin-top:.3rem;line-height:1.5;font-size:.88rem;"><strong>Action:</strong> Inspect weep hole at every service. If pre-expedition departure approaches without a cambelt service, replace water pump as a standalone item with new gasket and thermostat.</p>
+
+<p style="font-weight:600;color:var(--amber);margin-top:1rem;margin-bottom:.35rem;">3 · THERMOSTAT</p>
+<p style="line-height:1.5;font-size:.88rem;"><span class="status-critical">&#10060;</span> <strong>NO RECORD</strong> — Cheap part, easy fit. Top-3 cause of 1HZ overheating when stuck closed.</p>
+<p style="margin-top:.3rem;line-height:1.5;font-size:.88rem;color:var(--steelmd);">A stuck-closed thermostat causes rapid overheating; a stuck-open thermostat slows warm-up and reduces heater performance. Either failure mode is unacceptable on a turbocharged 1HZ. The 82°C OEM thermostat is the correct part — do not fit lower-temperature variants on this engine.</p>
+<p style="margin-top:.3rem;line-height:1.5;font-size:.88rem;"><strong>Action:</strong> Replace at next workshop visit. Combine with coolant flush + pressure test. Carry the removed unit as a field spare.</p>
+
+<p style="font-weight:600;color:var(--amber);margin-top:1rem;margin-bottom:.35rem;">4 · COOLING SYSTEM FLUSH</p>
+<p style="line-height:1.5;font-size:.88rem;"><span class="status-warn">&#9888;&#65039;</span> Last flush: Aug 2023 @ 224,406km. <strong>Approximately 84,278km overdue.</strong></p>
+<p style="margin-top:.3rem;line-height:1.5;font-size:.88rem;color:var(--steelmd);">Coolant top-ups and changes have continued, but the corrosion inhibitor package depletes over time and is restored only by a full flush. Long-term protection of the new radiator (Nov 2024) and cylinder head requires a flush before the 2028 expedition.</p>
+<p style="margin-top:.3rem;line-height:1.5;font-size:.88rem;"><strong>Action:</strong> Schedule full system flush + thermostat replacement + new radiator hoses (squeeze test first) + pressure cap test as a single cooling-system service block before 2028 departure.</p>
+</div>
+
+<div>
+<p style="font-weight:600;color:var(--amber);margin-bottom:.35rem;">5 · WHEEL BEARING REPACK</p>
+<p style="line-height:1.5;font-size:.88rem;"><span class="status-warn">&#9888;&#65039;</span> Bearings replaced Feb 2025 @ 271,200km. Repack interval is 20,000km — last repack ~245,000km. <strong>Approximately 63,684km overdue on repack interval.</strong></p>
+<p style="margin-top:.3rem;line-height:1.5;font-size:.88rem;color:var(--steelmd);">The bearings are new, but Toyota requires repacking (not replacement) every 20,000km in severe-use conditions to refresh the grease. Old grease loses lubricating properties and traps moisture/grit, which accelerates bearing wear.</p>
+<p style="margin-top:.3rem;line-height:1.5;font-size:.88rem;"><strong>Action:</strong> Schedule front + rear wheel bearing repack. Use Toyota-spec wheel bearing grease. Inspect seals at the same time. Combine with brake inspection.</p>
+
+<p style="font-weight:600;color:var(--amber);margin-top:1rem;margin-bottom:.35rem;">6 · PCV ROUTING VERIFICATION</p>
+<p style="line-height:1.5;font-size:.88rem;"><span class="status-warn">&#9888;&#65039;</span> Active investigation — directly relevant to the cylinder head oil seepage monitor.</p>
+<p style="margin-top:.3rem;line-height:1.5;font-size:.88rem;color:var(--steelmd);">On a turbocharged 1HZ, the crankcase breather should vent <em>pre-turbo</em> (between airbox and turbo inlet). If routed post-turbo, boost pressure can pressurise the crankcase and push oil out at every top-end seal — directly explaining the rocker cover seepage. This is a routing inspection, not a parts replacement.</p>
+<p style="margin-top:.3rem;line-height:1.5;font-size:.88rem;"><strong>Action:</strong> At next visit to a 1HZ-experienced workshop, request a visual trace of the PCV breather routing from valve cover to intake. If routed post-intercooler, request reroute to pre-turbo. Cross-ref R31 §4 catch can decision.</p>
+
+<p style="font-weight:600;color:var(--amber);margin-top:1rem;margin-bottom:.35rem;">7 · BOOST GAUGE VERIFICATION</p>
+<p style="line-height:1.5;font-size:.88rem;"><span class="status-warn">&#9888;&#65039;</span> Status unknown — flagged in R8 cooling card and R21 Turbo Operations.</p>
+<p style="margin-top:.3rem;line-height:1.5;font-size:.88rem;color:var(--steelmd);">EGT gauge is fitted (Madman, alarm at 600°C). Boost gauge presence has never been confirmed in service records. Without a boost gauge, wastegate function, boost leaks, and compensator failure cannot be diagnosed in the field.</p>
+<p style="margin-top:.3rem;line-height:1.5;font-size:.88rem;"><strong>Action:</strong> Visual confirmation at next service. If absent, fit a quality 0–15 psi mechanical boost gauge with pillar pod (R800–R2,500). Cross-ref R31 §3 item 1.</p>
+
+<p style="font-weight:600;color:var(--amber);margin-top:1rem;margin-bottom:.35rem;">8 · DIFF BREATHER EXTENSIONS — VERIFY</p>
+<p style="line-height:1.5;font-size:.88rem;"><span class="status-warn">&#9888;&#65039;</span> Status unknown — critical for water crossings.</p>
+<p style="margin-top:.3rem;line-height:1.5;font-size:.88rem;color:var(--steelmd);">Standard Toyota diff breathers are inadequate for water crossings deeper than ankle height. Extended breathers route front diff, rear diff, and transfer case vents to a high point in the engine bay. Cheap and simple — but only if not already fitted.</p>
+<p style="margin-top:.3rem;line-height:1.5;font-size:.88rem;"><strong>Action:</strong> Visual check at next service. If absent, fit before any expedition water crossings. Cross-ref R31 §3 item 7.</p>
+</div>
+</div>
+
+<div style="margin-top:.6rem;padding:.5rem .8rem;background:rgba(184,104,0,.1);border-left:3px solid var(--amber);">
+<p style="margin:0 0 .25rem;font-weight:600;color:var(--amber);">RECOMMENDED COMBINED WORKSHOP VISIT (1 booking, 5+ items)</p>
+<p style="margin:0;line-height:1.5;font-size:.88rem;color:var(--steeldk);">
+Items 1, 3, 4, 5, 6 can all be done in a single booking with a 1HZ-experienced workshop:<br>
+&nbsp;&nbsp;<strong>Valve clearances</strong> (rocker cover off) → <strong>Rocker cover gasket replacement</strong> (addresses head seepage) → <strong>PCV routing verification</strong> (rocker cover already off) → <strong>Cooling flush</strong> + <strong>Thermostat</strong> + <strong>Wheel bearing repack</strong>. Estimated R8,000–R14,000 total parts + labour. Items 2 (water pump) and 7/8 (gauges/breathers) are separate quick visits.
+</p>
+</div>
+
+</div>
+</div>
+
+<!-- ═══ C. SERVICE MILESTONE TIMELINE ═══ -->
+<div class="card milestone-card" style="margin-bottom:1.5rem;">
+<div class="card-header">
+<div class="card-title">&#128202; C · Service Milestone Timeline — 2026–2030</div>
+<div class="card-why">Looking ahead. Major intervals based on current status. Use to plan workshop bookings and budget across the pre-expedition period.</div>
+</div>
+<div class="card-body">
+
+<div class="table-wrapper">
+<table style="font-size:.85rem;">
+<thead>
+<tr><th>Milestone (km / date)</th><th>Service Items Due</th><th>Type</th><th>Notes</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>~313,250km</strong><br>~5,000km from now</td><td>Engine oil + filter · Propshaft grease · Steering grease · Suspension grease · Monitor checks</td><td><span class="status-ok">Routine</span></td><td>Standard 5,000km interval. Visual on 3 monitors.</td></tr>
+<tr style="background:var(--paper2);"><td><strong>~318,000km</strong><br>~10,000km from now</td><td>Engine oil + filter · <strong>Tyre rotation</strong> · Brake inspection · Boost pipe check · Steering check</td><td><span class="status-ok">Routine</span></td><td>Tyre rotation at 10,000km from previous (~308,684).</td></tr>
+<tr style="background:rgba(232,120,0,.08);"><td><strong>~328,250km</strong><br>~20,000km from now</td><td>Engine oil + <strong>Full filter kit</strong> (oil/fuel/air/cabin) · Diff oil F · Routine items</td><td><span class="status-warn">Major</span></td><td>20,000km filter kit interval. Front diff oil due.</td></tr>
+<tr><td><strong>~333,000km</strong> or <strong>Jan 2028</strong></td><td><strong>Coolant full change</strong> (2-yr / 40,000km interval)</td><td><span class="status-warn">Major</span></td><td>Combine with cooling flush from Section B item 4.</td></tr>
+<tr style="background:rgba(232,120,0,.08);"><td><strong>~Feb 2028</strong></td><td><strong>Brake fluid change</strong> (2-yr interval)</td><td><span class="status-warn">Major</span></td><td>Last change Jan 2026.</td></tr>
+<tr><td><strong>~333,000km</strong></td><td><strong>Rear diff oil</strong> (40,000km interval)</td><td><span class="status-warn">Major</span></td><td>Last change Apr 2025 @ 273,023km.</td></tr>
+<tr style="background:rgba(184,28,28,.06);"><td><strong>2028 Pre-Departure</strong><br>(target: ~340,000km)</td><td><strong>Full pre-expedition prep per R23</strong> · HD radiator replacement · Free-flow exhaust · Racor pre-filter · Boost gauge · Diff breathers · All R31 Tier 2 items</td><td><span class="status-critical">Expedition</span></td><td>The big push. Reference R23 + R31 in full.</td></tr>
+<tr><td><strong>~373,000km</strong> or <strong>Apr 2030</strong></td><td><strong>Cambelt + tensioner + idlers</strong> · <strong>Water pump</strong> (proactive) · Cam &amp; crank seals (while cover off) · Front main seal</td><td><span class="status-critical">CRITICAL</span></td><td>100,000km / 5-yr interval. Interference engine. Bundle water pump replacement with cambelt service.</td></tr>
+<tr style="background:var(--paper2);"><td><strong>~370,000km</strong> (estimate)</td><td><strong>Tyres replacement</strong> (Set 5)</td><td><span class="status-warn">Major</span></td><td>Maxxis AT811 expected life ~50,000km from current 45,684. Plan ~311,000+ original estimate may extend.</td></tr>
+<tr><td><strong>~348,000km</strong></td><td><strong>Wheel bearing repack</strong> (next 20,000km interval after Section B repack)</td><td><span class="status-warn">Major</span></td><td>Toyota severe-use interval.</td></tr>
+</tbody>
+</table>
+</div>
+
+<div style="margin-top:.6rem;padding:.4rem .7rem;background:var(--paper2);border-left:3px solid var(--amber);">
+<p style="margin:0;line-height:1.5;font-size:.88rem;color:var(--steeldk);"><strong>Distance assumptions:</strong> Annual mileage ~25,000–30,000km based on recent pattern. Adjust forward dates accordingly. Update this timeline after every service. The 2028 pre-departure milestone and the 373,000km cambelt are the two non-negotiable major service blocks before the expedition.</p>
 </div>
 
 </div>
@@ -633,7 +803,7 @@ May 2010 @ 10,384km: 96kW, 285Nm (stock) &#8594; Mar 2023 @ 220,615km: 112kW, 36
 </div>
 
 <h2>Lifecycle Tracking</h2>
-<div class="card-grid">
+<div class="card-grid lifecycle-grid">
 <div class="card alert">
 <div class="card-header">
 <div class="card-title">&#9881;&#65039; Valve Clearances (Tappets)</div>
@@ -868,43 +1038,90 @@ Oil filter: 5,000km (strict with turbo)
 <div class="table-card">
 <div class="table-card-header">
 <div class="table-card-title">System Maintenance Status Grid</div>
-<div class="card-why" style="margin-top:.25rem;font-style:italic;color:var(--steelmd);">Verified intervals from Toyota service manual + severe use adjustments (Africa overlanding).</div>
+<div class="card-why" style="margin-top:.25rem;font-style:italic;color:var(--steelmd);">Toyota service manual intervals + turbo-specific adjustments for 1HZ + SAC low-boost aftermarket turbo. Africa severe-use conditions apply throughout.</div>
+<div style="display:flex;gap:.75rem;margin-top:.6rem;flex-wrap:wrap;align-items:center;">
+<label style="font-family:IBM Plex Mono,monospace;font-size:.8rem;color:var(--steelmd);display:flex;align-items:center;gap:.4rem;">System:
+<select id="filterSystem" onchange="filterGrid()" style="font-family:IBM Plex Mono,monospace;font-size:.8rem;padding:.35rem .55rem;border:2px solid var(--rule);border-radius:4px;background:#fff;cursor:pointer;">
+<option value="">All</option>
+<option value="Brakes">Brakes</option>
+<option value="Cooling">Cooling</option>
+<option value="Drivetrain">Drivetrain</option>
+<option value="Engine">Engine</option>
+<option value="Fuel System">Fuel System</option>
+<option value="Suspension">Suspension</option>
+<option value="Turbo">Turbo</option>
+</select></label>
+<label style="font-family:IBM Plex Mono,monospace;font-size:.8rem;color:var(--steelmd);display:flex;align-items:center;gap:.4rem;">Interval:
+<select id="filterInterval" onchange="filterGrid()" style="font-family:IBM Plex Mono,monospace;font-size:.8rem;padding:.35rem .55rem;border:2px solid var(--rule);border-radius:4px;background:#fff;cursor:pointer;">
+<option value="">All</option>
+<option value="5000">5,000 km</option>
+<option value="10000">10,000 km</option>
+<option value="15000">15,000 km</option>
+<option value="20000">20,000 km</option>
+<option value="40000">40,000 km</option>
+<option value="100000">100,000 km</option>
+<option value="120000">120,000 km</option>
+<option value="150000">150,000 km</option>
+<option value="monitor">Monitor</option>
+</select></label>
+<span id="gridCount" style="font-family:IBM Plex Mono,monospace;font-size:.75rem;color:var(--amber);"></span>
+</div>
 </div>
 <div class="table-wrapper">
-<table>
+<table id="maintGrid">
+<colgroup>
+<col style="width:7%;"><!-- System -->
+<col style="width:11%;"><!-- Item -->
+<col style="width:9%;"><!-- Interval -->
+<col style="width:24%;"><!-- Conditions -->
+<col style="width:25%;"><!-- Last Service -->
+<col style="width:24%;"><!-- Status -->
+</colgroup>
 <thead>
-<tr><th>System</th><th>Interval</th><th>Last Service</th><th>Status</th></tr>
+<tr><th data-sort="system" data-dir="asc" onclick="sortGrid('system')">System</th><th>Item</th><th data-sort="interval" data-dir="" onclick="sortGrid('interval')">Interval</th><th>Conditions</th><th>Last Service</th><th>Status</th></tr>
 </thead>
 <tbody>
-<tr><td style="font-weight:600;">Air Filter</td><td>15,000-30,000km</td><td>Apr 2026 @ 308,248km (part of filter kit)</td><td><span class="status-ok">&#10003;</span> Just done</td></tr>
-<tr style="background:#fffbeb;"><td style="font-weight:600;">Ball Joints</td><td>Inspect regularly</td><td>Verify records</td><td><span class="status-warn">&#9888;&#65039;</span> Inspection needed</td></tr>
-<tr style="background:#fffbeb;"><td style="font-weight:600;">Belts (Fan Belt Kit)</td><td>40,000-80,000km preventative</td><td>Apr 2026 @ 308,248km (PW Auto) · 7 fitments since 2019</td><td><span class="status-ok">&#10003;</span> Just replaced (Apr 2026) — carry trusted spare</td></tr>
-<tr><td style="font-weight:600;">Brake Fluid</td><td>24 months</td><td>Jan 2026 @ 293,949km (topped up Apr 2026)</td><td><span class="status-ok">&#10003;</span> Due Jan 2028</td></tr>
-<tr><td style="font-weight:600;">Brake Pads/Shoes</td><td>Inspect frequently (severe use)</td><td>Jan 2026 @ 293,949km (rear shoes)</td><td><span class="status-ok">&#10003;</span> Recent (14,551km ago)</td></tr>
-<tr style="background:#fffbeb;"><td style="font-weight:600;">Bushings (Suspension)</td><td>Inspect regularly</td><td>Verify records</td><td><span class="status-warn">&#9888;&#65039;</span> Inspection needed</td></tr>
-<tr style="background:#fffbeb;"><td style="font-weight:600;">Coolant</td><td>100,000km / 2 years · Flush + pressure test required</td><td>Coolant top-up: Apr 2026 @ 308,248km · Full change: Jan 2026 @ 293,949km · Flush: Aug 2023 @ 224,406km · Pressure check: Apr 2026 @ 308,500km (Radiator King — passed)</td><td><span class="status-warn">&#9888;&#65039;</span> Coolant current; pressure check &#10003; current; flush ~84,000km overdue — schedule before expedition</td></tr>
-<tr><td style="font-weight:600;">Diesel Oil (Engine Oil)</td><td>&#8804;10,000km MAX (5,000km turbo)</td><td>Apr 2026 @ 308,248km</td><td><span class="status-ok">&#10003;</span> Just done</td></tr>
-<tr><td style="font-weight:600;">Differential Oils (Front &amp; Rear)</td><td>40,000km or after water crossings</td><td>Jan 2026 @ 293,949km (front) / Apr 2025 @ 273,023km (rear) — next check due</td><td><span class="status-ok">&#10003;</span> Recent</td></tr>
-<tr><td style="font-weight:600;">Engine Oil Filter</td><td>Every oil change (5,000km)</td><td>Apr 2026 @ 308,248km (part of filter kit)</td><td><span class="status-ok">&#10003;</span> Just done</td></tr>
-<tr style="background:#fef2f2;"><td style="font-weight:600;">Engine Seals</td><td>Monitor for leaks</td><td>Cylinder head oil seepage Apr 2026 (likely rocker cover gasket / half-moon seal / oil gallery restrictor); rear hub seal leak Apr 2026; fat knuckle grease leak Apr 2026</td><td><span class="status-warn">&#9888;&#65039;</span> Three active monitors — head seepage: replace rocker gasket + grommets first; see Service Highlights for all three</td></tr>
-<tr><td style="font-weight:600;">Fuel Filter</td><td>20,000-30,000km</td><td>Apr 2026 @ 308,248km (part of filter kit)</td><td><span class="status-ok">&#10003;</span> Just done</td></tr>
-<tr><td style="font-weight:600;">Gearbox Oil (GL-4)</td><td>40,000-60,000km</td><td>Feb 2025 @ 271,200km (rebuilt)</td><td><span class="status-ok">&#10003;</span> Good (37,300km ago)</td></tr>
-<tr><td style="font-weight:600;">Glow Plugs</td><td>As needed (~150,000km)</td><td>Tested Mar 2025</td><td><span class="status-ok">&#10003;</span> Tested OK</td></tr>
-<tr style="background:#fef2f2;"><td style="font-weight:600;">Head Studs (Turbo)</td><td>Recommended with turbo</td><td><strong>NO RECORD</strong></td><td><span class="status-critical">&#10060; CRITICAL</span></td></tr>
-<tr style="background:#fffbeb;"><td style="font-weight:600;">Hoses (Radiator/Cooling)</td><td>Inspect or replace as needed</td><td>No standalone record · possibly with radiator Nov 2024</td><td><span class="status-warn">&#9888;&#65039;</span> Verify by squeeze test</td></tr>
-<tr><td style="font-weight:600;">Injection Pump</td><td>300,000km or high km service</td><td>Mar 2025 @ 272,185km (serviced &amp; calibrated)</td><td><span class="status-ok">&#10003;</span> Recent (36,315km ago)</td></tr>
-<tr><td style="font-weight:600;">Injectors</td><td>120,000km or when checked</td><td>Mar 2025 @ 272,185km (reman Toyota)</td><td><span class="status-ok">&#10003;</span> Recent (36,315km ago)</td></tr>
-<tr><td style="font-weight:600;">Propshaft Greasing</td><td>5,000-10,000km (critical off-road)</td><td>Apr 2026 @ 308,248km</td><td><span class="status-ok">&#10003;</span> Just done</td></tr>
-<tr style="background:#fffbeb;"><td style="font-weight:600;">Shock Absorbers</td><td>Inspect every 20,000km</td><td>Jan 2026 @ 294,500km (rear OME replaced)</td><td><span class="status-ok">&#10003;</span> New rear (14,000km ago)</td></tr>
-<tr><td style="font-weight:600;">Steering Linkage Lubrication</td><td>5,000km</td><td>Apr 2026 @ 308,248km</td><td><span class="status-ok">&#10003;</span> Just done</td></tr>
-<tr style="background:#fef2f2;"><td style="font-weight:600;">Thermostat</td><td>As needed / 100,000km</td><td><strong>NO RECORD</strong></td><td><span class="status-critical">&#10060; CRITICAL</span></td></tr>
-<tr><td style="font-weight:600;">Timing Belt (Cambelt)</td><td>100,000km or 5 years</td><td>Apr 2025 @ 273,023km</td><td><span class="status-ok">&#10003;</span> Good (35,477km ago)</td></tr>
-<tr><td style="font-weight:600;">Transfer Case Oil</td><td>40,000-60,000km</td><td>Feb 2025 @ 271,200km (rebuilt)</td><td><span class="status-ok">&#10003;</span> Good (37,300km ago)</td></tr>
-<tr><td style="font-weight:600;">Universal Joints (U-Joints)</td><td>Grease every 5,000-10,000km</td><td>Front UJ replaced Apr 2026 @ 308,248km · All replaced Feb 2025 · Greased Apr 2026</td><td><span class="status-ok">&#10003;</span> Front UJ replaced &amp; greased Apr 2026</td></tr>
-<tr style="background:#fef2f2;"><td style="font-weight:600;">Valve Clearances (Tappets)</td><td>40,000-50,000km</td><td><strong>NO RECORD</strong></td><td><span class="status-critical">&#10060; CRITICAL</span></td></tr>
-<tr><td style="font-weight:600;">Viscous Fan Clutch</td><td>Daily inspection</td><td>Apr 2026 @ 308,500km (Radiator King) — cold spin, hot spin, visual inspection</td><td><span class="status-ok">&#10003;</span> All tests passed — healthy</td></tr>
-<tr style="background:#fef2f2;"><td style="font-weight:600;">Water Pump</td><td>With timing belt (100,000km)</td><td><strong>NO RECORD</strong> · no leak detected Apr 2026 @ 308,248km</td><td><span class="status-critical">&#10060; CRITICAL — replace proactively</span></td></tr>
-<tr style="background:#fffbeb;"><td style="font-weight:600;">Wheel Bearings</td><td>20,000km (repack)</td><td>Feb 2025 @ 271,200km (replaced) but Oct-Nov 2023 last repack (~245,000km)</td><td><span class="status-warn">&#9888;&#65039;</span> 63,500km since last repack</td></tr>
+<!-- BRAKES -->
+<tr data-system="Brakes" data-interval="40000"><td style="font-weight:600;color:var(--amber);">Brakes</td><td style="font-weight:600;">Brake Fluid</td><td>40,000 km</td><td style="font-size:.8rem;color:var(--steelmd);">Also 24 months, whichever first</td><td>Jan 2026 @ 293,949km (topped up Apr 2026)</td><td><span class="status-ok">&#10003;</span> Due Jan 2028</td></tr>
+<tr data-system="Brakes" data-interval="20000"><td style="font-weight:600;color:var(--amber);">Brakes</td><td style="font-weight:600;">Brake Pads/Shoes</td><td>20,000 km</td><td style="font-size:.8rem;color:var(--steelmd);">Inspect; more frequent if used heavily off-road. Check drums for hub seal oil contamination.</td><td>Jan 2026 @ 293,949km (rear shoes + drums)</td><td><span class="status-ok">&#10003;</span> Recent (14,735km ago)</td></tr>
+<!-- COOLING -->
+<tr data-system="Cooling" data-interval="40000" style="background:#fffbeb;"><td style="font-weight:600;color:var(--amber);">Cooling</td><td style="font-weight:600;">Coolant — Flush</td><td>40,000 km</td><td style="font-size:.8rem;color:var(--steelmd);">Full flush (not just top-up) required to restore corrosion inhibitor package. Full change at 100,000km / 2yr.</td><td>Flush: Aug 2023 @ 224,406km · Full change: Jan 2026 @ 293,949km · Top-up: Apr 2026 @ 308,248km · Pressure check: Apr 2026 (Radiator King — passed)</td><td><span class="status-warn">&#9888;&#65039;</span> Coolant current; flush ~84,000km overdue — schedule before expedition</td></tr>
+<tr data-system="Cooling" data-interval="40000" style="background:#fffbeb;"><td style="font-weight:600;color:var(--amber);">Cooling</td><td style="font-weight:600;">Hoses (Radiator/Cooling)</td><td>40,000 km</td><td style="font-size:.8rem;color:var(--steelmd);">Squeeze test; replace if soft, cracking, or spongy. Replace with radiator or any cooling job.</td><td>No standalone record · possibly with radiator Nov 2024</td><td><span class="status-warn">&#9888;&#65039;</span> Verify by squeeze test before expedition</td></tr>
+<tr data-system="Cooling" data-interval="100000" style="background:#fef2f2;"><td style="font-weight:600;color:var(--amber);">Cooling</td><td style="font-weight:600;">Thermostat</td><td>100,000 km</td><td style="font-size:.8rem;color:var(--steelmd);">82°C OEM spec only — no lower-temp variants on turbocharged 1HZ. Bundle with coolant flush.</td><td><strong>NO RECORD</strong></td><td><span class="status-critical">&#10060; CRITICAL — no record</span></td></tr>
+<tr data-system="Cooling" data-interval="20000"><td style="font-weight:600;color:var(--amber);">Cooling</td><td style="font-weight:600;">Viscous Fan Clutch</td><td>20,000 km</td><td style="font-size:.8rem;color:var(--steelmd);">Proper cold + hot spin test at each major service. Daily visual for oil weep or wobble.</td><td>Apr 2026 @ 308,500km (Radiator King) — cold spin, hot spin, visual all passed</td><td><span class="status-ok">&#10003;</span> All tests passed Apr 2026 — healthy</td></tr>
+<tr data-system="Cooling" data-interval="100000" style="background:#fef2f2;"><td style="font-weight:600;color:var(--amber);">Cooling</td><td style="font-weight:600;">Water Pump</td><td>100,000 km</td><td style="font-size:.8rem;color:var(--steelmd);">Bundle with cambelt. Inspect weep hole at every service. A pump failure in the field is an expedition-ender.</td><td><strong>NO RECORD</strong> · no leak detected Apr 2026 @ 308,248km</td><td><span class="status-critical">&#10060; CRITICAL — replace proactively</span></td></tr>
+<!-- DRIVETRAIN -->
+<tr data-system="Drivetrain" data-interval="40000"><td style="font-weight:600;color:var(--amber);">Drivetrain</td><td style="font-weight:600;">Differential Oils (F &amp; R)</td><td>40,000 km</td><td style="font-size:.8rem;color:var(--steelmd);">Also immediately after any water crossing. Check for milky colour indicating water ingestion.</td><td>Jan 2026 @ 293,949km (front) · Apr 2025 @ 273,023km (rear)</td><td><span class="status-ok">&#10003;</span> Recent</td></tr>
+<tr data-system="Drivetrain" data-interval="40000"><td style="font-weight:600;color:var(--amber);">Drivetrain</td><td style="font-weight:600;">Gearbox Oil (GL-4)</td><td>40,000 km</td><td style="font-size:.8rem;color:var(--steelmd);">More frequent after water crossings. Check for milky colour.</td><td>Feb 2025 @ 271,200km (rebuilt)</td><td><span class="status-ok">&#10003;</span> Good (37,484km ago)</td></tr>
+<tr data-system="Drivetrain" data-interval="5000"><td style="font-weight:600;color:var(--amber);">Drivetrain</td><td style="font-weight:600;">Propshaft Greasing</td><td>5,000 km</td><td style="font-size:.8rem;color:var(--steelmd);">Also after every water crossing. Front UJ failed at 37,048km — grease discipline is critical.</td><td>Apr 2026 @ 308,248km</td><td><span class="status-ok">&#10003;</span> Just done</td></tr>
+<tr data-system="Drivetrain" data-interval="40000"><td style="font-weight:600;color:var(--amber);">Drivetrain</td><td style="font-weight:600;">Transfer Case Oil</td><td>40,000 km</td><td style="font-size:.8rem;color:var(--steelmd);">More frequent after water crossings.</td><td>Feb 2025 @ 271,200km (rebuilt)</td><td><span class="status-ok">&#10003;</span> Good (37,484km ago)</td></tr>
+<tr data-system="Drivetrain" data-interval="5000"><td style="font-weight:600;color:var(--amber);">Drivetrain</td><td style="font-weight:600;">Universal Joints (U-Joints)</td><td>5,000 km</td><td style="font-size:.8rem;color:var(--steelmd);">Grease every 5,000km or after water crossing. Front UJ failed twice in 3 yrs — carry spare set (UJ-230 GUT21 + UJ-234 GUT20).</td><td>Front UJ replaced Apr 2026 @ 308,248km · All replaced Feb 2025 · Greased Apr 2026</td><td><span class="status-ok">&#10003;</span> Front UJ replaced &amp; greased Apr 2026</td></tr>
+<!-- ENGINE -->
+<tr data-system="Engine" data-interval="15000"><td style="font-weight:600;color:var(--amber);">Engine</td><td style="font-weight:600;">Air Filter</td><td>15,000 km</td><td style="font-size:.8rem;color:var(--steelmd);">Shorten to 10,000km in Africa dusty conditions. Turbo amplifies damage from dirty air — do not skip.</td><td>Apr 2026 @ 308,248km (filter kit)</td><td><span class="status-ok">&#10003;</span> Just done</td></tr>
+<tr data-system="Engine" data-interval="40000"><td style="font-weight:600;color:var(--amber);">Engine</td><td style="font-weight:600;">Belts (Fan Belt Kit)</td><td>40,000 km</td><td style="font-size:.8rem;color:var(--steelmd);">Replace immediately if cracking, glazing, or squealing. Multiple quality issues at G-Tec — use PW Auto Centre sourced belt only. Always carry a spare.</td><td>Apr 2026 @ 308,248km (PW Auto) · 7 fitments since 2019</td><td><span class="status-ok">&#10003;</span> Just replaced (Apr 2026)</td></tr>
+<tr data-system="Engine" data-interval="5000"><td style="font-weight:600;color:var(--amber);">Engine</td><td style="font-weight:600;">Engine Oil</td><td>5,000 km</td><td style="font-size:.8rem;color:var(--steelmd);">Strict turbo interval — never exceed. 15W-40 diesel-rated oil (API CI-4 or higher). Turbo heat and soot degrade oil faster than NA engine.</td><td>Apr 2026 @ 308,248km</td><td><span class="status-ok">&#10003;</span> Just done (436km ago)</td></tr>
+<tr data-system="Engine" data-interval="5000"><td style="font-weight:600;color:var(--amber);">Engine</td><td style="font-weight:600;">Engine Oil Filter</td><td>5,000 km</td><td style="font-size:.8rem;color:var(--steelmd);">Change with every oil change — turbo requirement. Use genuine Toyota or GUD filter only.</td><td>Apr 2026 @ 308,248km (filter kit)</td><td><span class="status-ok">&#10003;</span> Just done</td></tr>
+<tr data-system="Engine" data-interval="monitor" style="background:#fef2f2;"><td style="font-weight:600;color:var(--amber);">Engine</td><td style="font-weight:600;">Engine Seals</td><td>Monitor</td><td style="font-size:.8rem;color:var(--steelmd);">Inspect at every service. Three active monitors: cylinder head seepage, rear hub seal, fat knuckle grease leak.</td><td>Cylinder head oil seepage noted Apr 2026 (likely rocker cover gasket); rear hub seal leak Apr 2026; fat knuckle grease leak Apr 2026</td><td><span class="status-warn">&#9888;&#65039;</span> Three active monitors — see Service Highlights for all three</td></tr>
+<tr data-system="Engine" data-interval="monitor" style="background:#fef2f2;"><td style="font-weight:600;color:var(--amber);">Engine</td><td style="font-weight:600;">Head Studs (Turbo)</td><td>Monitor</td><td style="font-size:.8rem;color:var(--steelmd);">Modification, not a recurring service. Recommended before any expedition on a turbocharged 1HZ. Monitor for head gasket symptoms.</td><td><strong>NO RECORD</strong></td><td><span class="status-critical">&#10060; CRITICAL — not installed</span></td></tr>
+<tr data-system="Engine" data-interval="100000"><td style="font-weight:600;color:var(--amber);">Engine</td><td style="font-weight:600;">Timing Belt (Cambelt)</td><td>100,000 km</td><td style="font-size:.8rem;color:var(--steelmd);">Also 5 years, whichever first. Bundle water pump + cam/crank seals + thermostat at same visit.</td><td>Apr 2025 @ 273,023km (PW Auto — belt, tensioner, idler, cover)</td><td><span class="status-ok">&#10003;</span> Good (35,661km ago) · Next ~373,000km / Apr 2030</td></tr>
+<tr data-system="Engine" data-interval="40000" style="background:#fef2f2;"><td style="font-weight:600;color:var(--amber);">Engine</td><td style="font-weight:600;">Valve Clearances (Tappets)</td><td>40,000 km</td><td style="font-size:.8rem;color:var(--steelmd);">Shim-type adjustment; record all 12 measurements. Combine with rocker cover gasket replacement to address head seepage in same job.</td><td><strong>NO RECORD</strong></td><td><span class="status-critical">&#10060; CRITICAL — ~6–7 intervals missed</span></td></tr>
+<!-- FUEL SYSTEM -->
+<tr data-system="Fuel System" data-interval="20000"><td style="font-weight:600;color:var(--amber);">Fuel System</td><td style="font-weight:600;">Fuel Filter</td><td>20,000 km</td><td style="font-size:.8rem;color:var(--steelmd);">Shorten to 15,000km with low-grade or dirty diesel. Turbo amplifies injection system damage from contaminated fuel.</td><td>Apr 2026 @ 308,248km (filter kit)</td><td><span class="status-ok">&#10003;</span> Just done</td></tr>
+<tr data-system="Fuel System" data-interval="150000"><td style="font-weight:600;color:var(--amber);">Fuel System</td><td style="font-weight:600;">Glow Plugs</td><td>150,000 km</td><td style="font-size:.8rem;color:var(--steelmd);">Test resistance if cold-start problems arise. With turbo, glow plugs are less critical for running but essential for cold starting.</td><td>Tested Mar 2025 @ 272,185km (DupDiesel)</td><td><span class="status-ok">&#10003;</span> Tested OK Mar 2025</td></tr>
+<tr data-system="Fuel System" data-interval="100000"><td style="font-weight:600;color:var(--amber);">Fuel System</td><td style="font-weight:600;">Injection Pump</td><td>100,000 km</td><td style="font-size:.8rem;color:var(--steelmd);">Service and calibrate at major km milestones or if smoke, power loss, or hard-starting develops.</td><td>Mar 2025 @ 272,185km (DupDiesel — calibrated + timed · dyno: 118kW / 373Nm)</td><td><span class="status-ok">&#10003;</span> Recent (36,499km ago)</td></tr>
+<tr data-system="Fuel System" data-interval="120000"><td style="font-weight:600;color:var(--amber);">Fuel System</td><td style="font-weight:600;">Injectors</td><td>120,000 km</td><td style="font-size:.8rem;color:var(--steelmd);">Pop test or flow test; replace if excessive smoke or uneven running. With turbo, worn injectors cause high EGT and uneven cylinder loading.</td><td>Mar 2025 @ 272,185km (reman Toyota, DupDiesel)</td><td><span class="status-ok">&#10003;</span> Recent (36,499km ago)</td></tr>
+<!-- SUSPENSION -->
+<tr data-system="Suspension" data-interval="20000" style="background:#fffbeb;"><td style="font-weight:600;color:var(--amber);">Suspension</td><td style="font-weight:600;">Ball Joints</td><td>20,000 km</td><td style="font-size:.8rem;color:var(--steelmd);">Inspect at every major service. Check for play and torn boots.</td><td>No dedicated record — verify at Snyman 4×4 assessment May 2026</td><td><span class="status-warn">&#9888;&#65039;</span> Inspection needed</td></tr>
+<tr data-system="Suspension" data-interval="20000" style="background:#fffbeb;"><td style="font-weight:600;color:var(--amber);">Suspension</td><td style="font-weight:600;">Bushings (Suspension)</td><td>20,000 km</td><td style="font-size:.8rem;color:var(--steelmd);">Inspect at each major service. Greasable shackles fitted Jan 2026 — check nipples are clear and accepting grease.</td><td>Polyurethane rear bushes + greasable shackles: Apr 2025 @ 273,023km · Regrease: Mar 2026 @ 296,000km</td><td><span class="status-warn">&#9888;&#65039;</span> Inspect at next service</td></tr>
+<tr data-system="Suspension" data-interval="20000" style="background:#fffbeb;"><td style="font-weight:600;color:var(--amber);">Suspension</td><td style="font-weight:600;">Shock Absorbers</td><td>20,000 km</td><td style="font-size:.8rem;color:var(--steelmd);">Inspect for leaking seals and worn lower bushings. Rear OME Nitrocharger Plus replaced Jan 2026.</td><td>Rear OME Nitrocharger Plus 63111: Jan 2026 @ 294,500km</td><td><span class="status-ok">&#10003;</span> New rear (14,184km ago)</td></tr>
+<tr data-system="Suspension" data-interval="5000"><td style="font-weight:600;color:var(--amber);">Suspension</td><td style="font-weight:600;">Steering Linkage Lubrication</td><td>5,000 km</td><td style="font-size:.8rem;color:var(--steelmd);">Every service, strict. Grease all nipples. Check for play and torn boots at same time.</td><td>Apr 2026 @ 308,248km</td><td><span class="status-ok">&#10003;</span> Just done</td></tr>
+<tr data-system="Suspension" data-interval="20000" style="background:#fffbeb;"><td style="font-weight:600;color:var(--amber);">Suspension</td><td style="font-weight:600;">Wheel Bearings (Repack)</td><td>20,000 km</td><td style="font-size:.8rem;color:var(--steelmd);">Severe-use (sand, mud, water crossings) — repack mandatory every 20,000km. Use Toyota-spec wheel bearing grease.</td><td>Replaced Feb 2025 @ 271,200km · Last repack: Oct–Nov 2023 @ ~245,000km</td><td><span class="status-warn">&#9888;&#65039;</span> 63,500km since last repack — overdue</td></tr>
+<!-- TURBO -->
+<tr data-system="Turbo" data-interval="10000" style="background:#fffbeb;"><td style="font-weight:600;color:var(--amber);">Turbo</td><td style="font-weight:600;">Boost Pipes &amp; Clamps</td><td>10,000 km</td><td style="font-size:.8rem;color:var(--steelmd);">Listen for hissing under load. Check all intercooler pipe clamps are tight. A boost leak drops power and raises EGT — can cause overheat.</td><td>Visual check Apr 2026 @ 308,248km (PW Auto)</td><td><span class="status-warn">&#9888;&#65039;</span> Inspect at next service — clamp condition unconfirmed</td></tr>
+<tr data-system="Turbo" data-interval="20000" style="background:#fffbeb;"><td style="font-weight:600;color:var(--amber);">Turbo</td><td style="font-weight:600;">Intercooler</td><td>20,000 km</td><td style="font-size:.8rem;color:var(--steelmd);">External fin clean every 20,000km. Inspect rubber boots for oil contamination (indicates turbo seal wear). Check mounting brackets for cracks.</td><td>Intercooler installed Jul 2012 @ 50,637km · 258,047km on unit · No inspection record</td><td><span class="status-warn">&#9888;&#65039;</span> 258,047km on unit — inspect fins and boots at next service</td></tr>
+<tr data-system="Turbo" data-interval="40000"><td style="font-weight:600;color:var(--amber);">Turbo</td><td style="font-weight:600;">Turbo Drain Hose</td><td>40,000 km</td><td style="font-size:.8rem;color:var(--steelmd);">Replace if oil-soaked, cracking, soft, or collapsed. A blocked drain hose forces oil past turbo seals — direct cause of blue smoke.</td><td>Mar 2025 @ 272,185km (DupDiesel)</td><td><span class="status-ok">&#10003;</span> Recent (36,499km ago)</td></tr>
+<tr data-system="Turbo" data-interval="40000" style="background:#fffbeb;"><td style="font-weight:600;color:var(--amber);">Turbo</td><td style="font-weight:600;">Turbo Oil Feed Line</td><td>40,000 km</td><td style="font-size:.8rem;color:var(--steelmd);">Inspect banjo fittings and hose condition. Replace if cracking or oil-soaked. Feeds pressurised oil to turbo bearings — failure = turbo seizure.</td><td>Oil hose replaced Aug 2023 @ 224,406km (SAC)</td><td><span class="status-warn">&#9888;&#65039;</span> 84,278km since replacement — inspect at next service</td></tr>
+<tr data-system="Turbo" data-interval="20000" style="background:#fffbeb;"><td style="font-weight:600;color:var(--amber);">Turbo</td><td style="font-weight:600;">Turbo Shaft Play</td><td>20,000 km</td><td style="font-size:.8rem;color:var(--steelmd);">Grasp shaft and check radial + axial play. Minimal radial play acceptable; significant axial (in/out) play indicates bearing wear. Check after any smoke event.</td><td>Turbo recon Aug 2023 @ 224,406km (SAC) · 84,278km on reconditioned unit · Shaft play not recorded</td><td><span class="status-warn">&#9888;&#65039;</span> No shaft play record — check at next service</td></tr>
 </tbody>
 </table>
 </div>
@@ -968,6 +1185,8 @@ let newServices=[];
 function loadData(){const stored=localStorage.getItem('lc76_new_services');if(stored){newServices=JSON.parse(stored);updateFieldBar();}renderServiceTable();}
 function renderServiceTable(){const tbody=document.getElementById('serviceTableBody');tbody.innerHTML='';const allServices=[...serviceRecords,...newServices];allServices.sort((a,b)=>b.mileage-a.mileage);allServices.forEach(service=>{const row=document.createElement('tr');const isNew=newServices.includes(service);row.innerHTML=`<td>${service.date}</td><td>${service.mileage.toLocaleString()}</td><td>${isNew?'<span class="badge badge-new">NEW</span> ':''}${service.service}</td><td>${service.work}</td><td>${service.dealer||''}</td><td>${service.cost>0?'R '+Math.round(service.cost).toLocaleString('en-ZA'):''}</td><td>${service.notes}</td>`;tbody.appendChild(row);});updateServiceCount();}
 function filterServices(){const searchTerm=document.getElementById('serviceSearch').value.toLowerCase();const rows=document.querySelectorAll('#serviceTableBody tr');rows.forEach(row=>{row.style.display=row.textContent.toLowerCase().includes(searchTerm)?'':'none';});}
+function filterGrid(){const sys=document.getElementById('filterSystem').value;const interval=document.getElementById('filterInterval').value;const rows=document.querySelectorAll('#maintGrid tbody tr');let visible=0;rows.forEach(row=>{const sysMatch=!sys||row.dataset.system===sys;const intMatch=!interval||row.dataset.interval===interval;const show=sysMatch&&intMatch;row.style.display=show?'':'none';if(show)visible++;});const count=document.getElementById('gridCount');if(sys||interval){count.textContent=visible+' item'+(visible!==1?'s':'');}else{count.textContent='';}}
+function sortGrid(col){const tbody=document.querySelector('#maintGrid tbody');const rows=Array.from(tbody.querySelectorAll('tr'));const th=document.querySelector('#maintGrid th[data-sort="'+col+'"]');const currentDir=th.dataset.dir;const newDir=(currentDir==='asc')?'desc':'asc';rows.sort((a,b)=>{if(col==='system'){const av=a.dataset.system||'';const bv=b.dataset.system||'';return newDir==='asc'?av.localeCompare(bv):bv.localeCompare(av);}else if(col==='interval'){const av=a.dataset.interval==='monitor'?999999:parseInt(a.dataset.interval)||0;const bv=b.dataset.interval==='monitor'?999999:parseInt(b.dataset.interval)||0;return newDir==='asc'?av-bv:bv-av;}return 0;});rows.forEach(row=>tbody.appendChild(row));document.querySelectorAll('#maintGrid th[data-sort]').forEach(t=>t.dataset.dir='');th.dataset.dir=newDir;filterGrid();}
 function openAddServiceModal(){document.getElementById('addServiceModal').classList.add('active');}
 function closeAddServiceModal(){document.getElementById('addServiceModal').classList.remove('active');document.getElementById('addServiceForm').reset();}
 function saveService(event){event.preventDefault();const newService={date:document.getElementById('serviceDate').value,mileage:parseInt(document.getElementById('serviceMileage').value),service:document.getElementById('serviceType').value,work:document.getElementById('serviceWork').value,dealer:document.getElementById('serviceWorkshop').value,cost:parseFloat(document.getElementById('serviceCost').value)||0,notes:document.getElementById('serviceNotes').value};const dateParts=newService.date.split('-');newService.date=`${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;newServices.push(newService);localStorage.setItem('lc76_new_services',JSON.stringify(newServices));renderServiceTable();updateFieldBar();closeAddServiceModal();}
