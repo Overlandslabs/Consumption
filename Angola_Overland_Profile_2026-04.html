@@ -1,0 +1,1747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LC76 Library">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0d0e12">
+<title>LC76 · Angola Country Profile · 001</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500;600&family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+:root{
+  --ink:#0d0e12;--paper:#dad2c0;--paper2:#edeae0;--rule:#d4cfc4;
+  --amber:#b86800;--amber2:#e07800;
+  --steeldk:#2a2f3a;--steelmd:#6a7080;--steellt:#a8b0bc;
+  --red-warn:#B91C1C;--green-ok:#059669;
+  --mono:'IBM Plex Mono',monospace;
+  --sans:'Oswald',sans-serif;
+  --display:'Bebas Neue',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{overflow-x:hidden}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55}
+
+.sticky-nav-unit{position:sticky;top:0;z-index:100;background:var(--ink);padding-top:env(safe-area-inset-top)}
+.std-header{background:var(--ink);padding:18px 24px 14px;position:relative;border-bottom:3px solid var(--amber);}
+.std-eyebrow{font-family:var(--mono);font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--steelmd);margin-bottom:8px;display:flex;align-items:center;gap:10px;}
+.masthead-flag{display:inline-flex;width:28px;height:18px;border:1px solid rgba(255,255,255,.2);overflow:hidden;flex-shrink:0}
+.flag-half{width:50%;height:100%}
+.std-title{font-family:var(--display);font-size:clamp(2.1rem,6vw,3.4rem);letter-spacing:.06em;color:var(--amber2);line-height:1;}
+.std-local{font-family:var(--mono);font-size:.62rem;letter-spacing:.10em;color:rgba(255,200,100,.65);margin-top:7px;font-style:italic;}
+.std-sub{font-family:var(--sans);font-size:.92rem;font-style:italic;color:rgba(232,213,163,.85);margin-top:8px;line-height:1.4;}
+.std-vehicle{font-family:var(--mono);font-size:.50rem;letter-spacing:.08em;color:var(--steelmd);margin-top:10px;line-height:1.55;}
+.lib-home-btn{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--amber2);background:rgba(232,120,0,.15);border:1px solid var(--amber2);border-radius:20px;padding:6px 12px;min-height:32px;white-space:nowrap;position:absolute;top:50%;right:16px;transform:translateY(-50%);transition:background .2s;}
+.lib-home-btn:hover,.lib-home-btn:active{background:rgba(232,120,0,.30);}
+
+.alert-strip{background:#7a1010;color:#fff;padding:9px 5%;font-family:var(--mono);font-size:.54rem;letter-spacing:.10em;text-transform:uppercase;display:flex;flex-wrap:wrap;align-items:center;gap:10px;}
+.alert-strip .pill{background:rgba(255,255,255,.14);padding:3px 9px;white-space:nowrap;}
+.alert-strip .pill.warn{background:rgba(0,0,0,.30);color:#ffb070}
+
+.toc-bar{background:var(--steeldk);padding:7px 24px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;border-bottom:2px solid var(--amber);}
+.toc-label{font-family:var(--mono);font-size:.48rem;letter-spacing:.18em;color:var(--steellt);text-transform:uppercase;margin-right:4px;flex-shrink:0}
+.toc-link{font-family:var(--mono);font-size:.48rem;color:rgba(255,255,255,.55);text-decoration:none;padding:2px 6px;border:1px solid transparent;transition:all .12s;white-space:nowrap;cursor:pointer;}
+.toc-link:hover{color:var(--amber2);border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.06)}
+.toc-link.active{color:var(--amber2);border-color:var(--amber2);background:rgba(232,120,0,.1)}
+
+.updated-banner{background:var(--ink);color:var(--steellt);font-family:var(--mono);font-size:.54rem;letter-spacing:.08em;padding:8px 5%;display:flex;flex-wrap:wrap;align-items:center;gap:14px;border-bottom:1px solid var(--steeldk);}
+.updated-banner strong{color:var(--amber2);font-weight:600}
+.updated-banner a{color:#6EE7B7;text-decoration:none;border-bottom:1px solid rgba(110,231,183,.4);}
+.updated-banner a:hover{color:#fff;border-bottom-color:#fff}
+
+.content{padding:20px 5% 80px;max-width:100%}
+
+.sec-header{display:flex;align-items:center;gap:12px;padding:10px 5%;background:var(--steeldk);border-left:5px solid var(--amber2);margin:28px 0 0;}
+.sec-num{font-family:var(--mono);font-size:.58rem;font-weight:600;color:#fff;background:var(--amber);padding:3px 8px;letter-spacing:.12em;flex-shrink:0;}
+.sec-title{font-family:var(--display);font-size:1.7rem;letter-spacing:.10em;color:#fff;line-height:1;}
+.sec-sub{font-family:var(--mono);font-size:.46rem;letter-spacing:.10em;color:var(--steellt);margin-left:auto;flex-shrink:0;}
+
+.subsec{background:var(--paper2);border-left:3px solid var(--amber);padding:6px 16px 6px 14px;margin:20px 0 10px;display:flex;align-items:center;gap:10px;}
+.subsec-title{font-family:var(--display);font-size:1.1rem;letter-spacing:.12em;color:var(--ink);}
+.subsec-tag{font-family:var(--mono);font-size:.44rem;letter-spacing:.12em;color:var(--steelmd);text-transform:uppercase;margin-left:auto;}
+
+.prose{font-family:var(--sans);font-size:.92rem;line-height:1.65;color:var(--ink);margin:8px 0 12px;}
+.prose strong{font-weight:600;color:var(--ink)}
+.prose em{color:var(--amber);font-style:italic}
+
+.data-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:12px 0;}
+.data-card{background:var(--paper2);border:1px solid var(--rule);border-left:3px solid var(--amber);padding:11px 14px;}
+.data-card.warn{border-left-color:var(--red-warn);background:#fff4f0}
+.data-card.note{border-left-color:var(--amber2);background:#fffbe8}
+.data-card.ok{border-left-color:var(--green-ok);background:#f0fff8}
+.data-card.dark{border-left-color:var(--amber2);background:var(--ink);color:var(--steellt)}
+.data-card-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.14em;text-transform:uppercase;color:var(--steelmd);margin-bottom:5px;}
+.data-card.warn .data-card-label{color:var(--red-warn)}
+.data-card.note .data-card-label{color:var(--amber)}
+.data-card.ok .data-card-label{color:var(--green-ok)}
+.data-card.dark .data-card-label{color:var(--amber2)}
+.data-card-value{font-family:var(--display);font-size:1.5rem;letter-spacing:.04em;color:var(--ink);line-height:1;margin-bottom:3px;}
+.data-card.warn .data-card-value{color:#7a1010}
+.data-card.ok .data-card-value{color:#0a3a20}
+.data-card.dark .data-card-value{color:#fff}
+.data-card-sub{font-family:var(--sans);font-size:.78rem;color:var(--steelmd);line-height:1.5;}
+.data-card.dark .data-card-sub{color:var(--steellt)}
+
+.alert{border-left:4px solid;padding:10px 14px;margin:12px 0;font-family:var(--sans);font-size:.84rem;line-height:1.55;}
+.alert strong{font-weight:600;display:block;margin-bottom:3px;font-family:var(--mono);font-size:.54rem;letter-spacing:.10em;text-transform:uppercase}
+.alert-warn{background:#fff4f0;border-color:#B91C1C;color:#5a1010}
+.alert-warn strong{color:#B91C1C}
+.alert-note{background:#fffbe8;border-color:var(--amber2);color:#4a3000}
+.alert-note strong{color:var(--amber)}
+.alert-ok{background:#f0fff8;border-color:var(--green-ok);color:#0a3a20}
+.alert-ok strong{color:var(--green-ok)}
+.alert-info{background:var(--paper2);border-color:var(--steelmd);color:var(--steeldk)}
+.alert-info strong{color:var(--steelmd)}
+
+.spec-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.82rem}
+.spec-table th{background:var(--steeldk);color:#fff;font-family:var(--mono);font-size:.46rem;letter-spacing:.12em;text-transform:uppercase;padding:7px 10px;text-align:left;}
+.spec-table td{padding:6px 10px;border-bottom:1px solid var(--rule);vertical-align:top;font-family:var(--sans)}
+.spec-table tr:nth-child(even) td{background:var(--paper2)}
+.spec-table .mono{font-family:var(--mono);font-size:.72rem;color:var(--amber)}
+.spec-table .warn{color:var(--red-warn);font-weight:600}
+.spec-table .ok{color:var(--green-ok);font-weight:600}
+.spec-table .num{font-family:var(--mono);font-size:.78rem;text-align:right;white-space:nowrap}
+.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+
+.route-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin:12px 0;}
+.route-card{background:var(--paper2);border:1px solid var(--rule);border-left:4px solid var(--amber2);padding:12px 16px;}
+.route-card.secondary{border-left-color:var(--steelmd)}
+.route-card.tertiary{border-left-color:var(--red-warn)}
+.route-badge{font-family:var(--mono);font-size:.44rem;letter-spacing:.16em;text-transform:uppercase;color:#fff;background:var(--amber);padding:2px 8px;display:inline-block;margin-bottom:6px;}
+.route-card.secondary .route-badge{background:var(--steelmd)}
+.route-card.tertiary .route-badge{background:var(--red-warn)}
+.route-card h3{font-family:var(--display);font-size:1.25rem;letter-spacing:.06em;color:var(--ink);line-height:1.05;margin-bottom:8px;}
+.route-card ul{list-style:none;padding:0}
+.route-card li{font-family:var(--sans);font-size:.82rem;line-height:1.55;padding:4px 0;border-bottom:1px solid var(--rule);}
+.route-card li:last-child{border-bottom:none}
+.route-card li::before{content:"▸ ";color:var(--amber2);font-weight:600}
+.route-card li strong{font-weight:600;color:var(--ink)}
+
+.scenario{background:var(--paper2);border:1px solid var(--rule);border-top:3px solid var(--amber2);padding:12px 16px;margin:12px 0;}
+.scenario h4{font-family:var(--display);font-size:1.2rem;letter-spacing:.06em;color:var(--ink);margin-bottom:4px;line-height:1.05;}
+.scenario .scenario-meta{font-family:var(--mono);font-size:.50rem;letter-spacing:.10em;color:var(--steelmd);text-transform:uppercase;margin-bottom:8px;}
+.scenario p{font-family:var(--sans);font-size:.84rem;line-height:1.6;margin-bottom:6px;}
+.scenario ul{list-style:none;padding:0;margin-top:6px}
+.scenario li{font-family:var(--sans);font-size:.82rem;line-height:1.55;padding:3px 0;}
+.scenario li::before{content:"→ ";color:var(--amber2);font-weight:600}
+
+.verdict{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--rule);margin:14px 0;}
+.verdict-col{padding:11px 14px;background:var(--paper2)}
+.verdict-col:first-child{border-right:1px solid var(--rule)}
+.verdict-col h4{font-family:var(--mono);font-size:.50rem;letter-spacing:.16em;text-transform:uppercase;margin-bottom:8px;}
+.verdict-col.pros h4{color:var(--green-ok)}
+.verdict-col.cons h4{color:var(--red-warn)}
+.verdict-col ul{list-style:none;padding:0}
+.verdict-col li{font-family:var(--sans);font-size:.82rem;line-height:1.55;padding:3px 0}
+.verdict-col.pros li::before{content:"+ ";color:var(--green-ok);font-weight:700}
+.verdict-col.cons li::before{content:"− ";color:var(--red-warn);font-weight:700}
+
+.fuel-band{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:0;margin:12px 0;border:1px solid var(--rule);}
+.fuel-cell{padding:11px 14px;background:var(--paper2);border-right:1px solid var(--rule);}
+.fuel-cell:last-child{border-right:none}
+.fuel-cell-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.14em;text-transform:uppercase;color:var(--steelmd);margin-bottom:4px;}
+.fuel-cell-value{font-family:var(--display);font-size:1.4rem;letter-spacing:.04em;color:var(--amber);line-height:1;}
+.fuel-cell-sub{font-family:var(--mono);font-size:.62rem;color:var(--steelmd);margin-top:3px;}
+
+.xref-bar{background:var(--steeldk);padding:8px 14px;display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:18px 0 4px;}
+.xref-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.18em;color:var(--steellt);text-transform:uppercase;flex-shrink:0;margin-right:4px}
+.xref-pill{font-family:var(--mono);font-size:.46rem;letter-spacing:.10em;color:var(--amber2);background:rgba(232,120,0,.12);border:1px solid rgba(232,120,0,.4);padding:2px 8px;text-decoration:none;white-space:nowrap;}
+.xref-pill:hover{background:rgba(232,120,0,.25)}
+
+.map-tabs{display:flex;border-bottom:0;margin:12px 0 0}
+.map-tab{font-family:var(--mono);font-size:.50rem;letter-spacing:.12em;text-transform:uppercase;background:var(--steeldk);color:var(--steellt);border:1px solid var(--ink);border-bottom:none;padding:9px 12px;cursor:pointer;flex:1;transition:all .12s;}
+.map-tab.active,.map-tab:hover{background:var(--amber);color:#fff;border-color:var(--amber)}
+#country-map{height:480px;border:1px solid var(--rule);background:var(--paper2);}
+.map-attrib{font-family:var(--mono);font-size:.48rem;letter-spacing:.06em;color:var(--steelmd);margin-top:6px;line-height:1.5;}
+
+.changelog-entry{display:grid;grid-template-columns:90px 70px 1fr;gap:12px;padding:10px 0;border-bottom:1px solid var(--rule);align-items:start;}
+.cl-date{font-family:var(--mono);font-size:.62rem;color:var(--steelmd);letter-spacing:.04em;line-height:1.4;}
+.cl-tag{font-family:var(--mono);font-size:.46rem;letter-spacing:.14em;text-transform:uppercase;padding:2px 7px;display:inline-block;font-weight:600;}
+.cl-tag.new{background:#dcfce7;color:#166534;border:1px solid #bbf7d0}
+.cl-tag.update{background:#dbeafe;color:#1e40af;border:1px solid #bfdbfe}
+.cl-tag.fix{background:#fef3c7;color:#92400e;border:1px solid #fde68a}
+.cl-tag.warn{background:#fee2e2;color:#991b1b;border:1px solid #fecaca}
+.cl-note{font-family:var(--sans);font-size:.84rem;line-height:1.55;color:var(--ink)}
+.cl-note strong{font-weight:600}
+
+#export-bar{background:var(--steeldk);padding:11px 5%;display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:0;font-family:var(--mono);font-size:.54rem;letter-spacing:.10em;color:var(--steellt);text-transform:uppercase;border-top:2px solid var(--amber);}
+.export-btn-inline{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:.54rem;letter-spacing:.10em;text-transform:uppercase;color:var(--amber2);background:rgba(232,120,0,.10);border:1px solid var(--amber2);padding:6px 12px;cursor:pointer;}
+.export-btn-inline:hover{background:rgba(232,120,0,.25)}
+
+.doc-footer{background:var(--ink);color:var(--steellt);font-family:var(--mono);font-size:.48rem;letter-spacing:.08em;padding:14px 5%;line-height:1.7;display:flex;flex-direction:column;gap:3px;}
+.doc-footer strong{color:var(--amber2);font-weight:600}
+
+@media(max-width:600px){
+  .std-header{padding:14px 16px 12px}
+  .std-title{font-size:clamp(1.7rem,7vw,2.6rem)}
+  .toc-bar{padding:5px 12px!important;flex-wrap:nowrap!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch!important;scrollbar-width:none!important}
+  .toc-bar::-webkit-scrollbar{display:none}
+  .toc-link{font-size:.44rem!important;padding:2px 5px!important;white-space:nowrap!important}
+  .alert-strip{padding:8px 16px;font-size:.50rem}
+  .updated-banner{padding:7px 16px;font-size:.50rem}
+  .sec-header{padding:8px 16px;margin:18px 0 0}
+  .sec-title{font-size:1.4rem}
+  .content{padding:14px 4% 60px}
+  .data-grid,.route-grid{grid-template-columns:1fr}
+  .verdict{grid-template-columns:1fr}
+  .verdict-col:first-child{border-right:none;border-bottom:1px solid var(--rule)}
+  .fuel-band{grid-template-columns:repeat(2,1fr)}
+  .fuel-cell{border-right:none;border-bottom:1px solid var(--rule)}
+  .spec-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  #country-map{height:340px}
+  .map-tab{font-size:.44rem;padding:7px 6px;letter-spacing:.08em}
+  .changelog-entry{grid-template-columns:1fr;gap:4px}
+  #export-bar{padding:10px 16px}
+  .export-btn-inline{flex:1;justify-content:center}
+}
+@media print{
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  @page{margin:7mm;size:A4}
+  .lib-home-btn,.toc-bar,#export-bar{display:none!important}
+  .sticky-nav-unit{position:static!important}
+  .std-header{background:#0d0e12!important;padding:8px 14px 6px!important;border-bottom:2px solid #e07800!important;page-break-after:avoid;}
+  .std-title{color:#e07800!important;font-size:1.5rem!important}
+  .std-local{color:rgba(255,200,100,.80)!important}
+  .std-sub{color:rgba(232,213,163,.85)!important;font-size:.80rem!important}
+  .std-eyebrow,.std-vehicle{color:#6a7080!important}
+  .alert-strip{background:#7a1010!important;color:#fff!important;padding:5px 14px!important}
+  .updated-banner{background:#0d0e12!important;color:#a8b0bc!important;padding:5px 14px!important}
+  .updated-banner strong{color:#e07800!important}
+  .sec-header{background:#2a2f3a!important;border-left:4px solid #e07800!important;padding:6px 14px!important;margin-top:10px!important;page-break-after:avoid;}
+  .sec-num{background:#b86800!important;color:#fff!important}
+  .sec-title{color:#fff!important;font-size:1.2rem!important}
+  .subsec{background:#edeae0!important;border-left:2px solid #b86800!important;page-break-after:avoid;}
+  .data-card{break-inside:avoid;background:#edeae0!important}
+  .data-card.warn{background:#fff4f0!important}
+  .data-card.note{background:#fffbe8!important}
+  .data-card.ok{background:#f0fff8!important}
+  .data-card.dark{background:#0d0e12!important;color:#a8b0bc!important}
+  .data-card.dark .data-card-value{color:#fff!important}
+  .alert{break-inside:avoid}
+  .alert-warn{background:#fff4f0!important;border-left-color:#B91C1C!important;color:#5a1010!important}
+  .alert-warn strong{color:#B91C1C!important}
+  .alert-note{background:#fffbe8!important;border-left-color:#e07800!important;color:#4a3000!important}
+  .alert-note strong{color:#b86800!important}
+  .alert-ok{background:#f0fff8!important;border-left-color:#059669!important;color:#0a3a20!important}
+  .alert-info{background:#edeae0!important;border-left-color:#6a7080!important}
+  .spec-table{break-inside:auto}
+  .spec-table thead{display:table-header-group}
+  .spec-table tr{break-inside:avoid}
+  .spec-table th{background:#2a2f3a!important;color:#fff!important}
+  .spec-table tr:nth-child(even) td{background:#edeae0!important}
+  .route-card{break-inside:avoid;background:#edeae0!important}
+  .route-badge{background:#b86800!important;color:#fff!important}
+  .route-card.secondary .route-badge{background:#6a7080!important}
+  .route-card.tertiary .route-badge{background:#B91C1C!important}
+  .scenario{break-inside:avoid;background:#edeae0!important}
+  .verdict{break-inside:avoid}
+  .verdict-col{background:#edeae0!important}
+  .verdict-col.pros h4{color:#059669!important}
+  .verdict-col.cons h4{color:#B91C1C!important}
+  .fuel-band{break-inside:avoid}
+  .fuel-cell{background:#edeae0!important}
+  .fuel-cell-value{color:#b86800!important}
+  .xref-bar{background:#2a2f3a!important;break-inside:avoid}
+  .xref-label{color:#a8b0bc!important}
+  .xref-pill{color:#e07800!important;background:rgba(232,120,0,.15)!important;border-color:rgba(232,120,0,.5)!important}
+  .changelog-entry{break-inside:avoid}
+  .doc-footer{background:#0d0e12!important;color:#a8b0bc!important;padding:5px 14px!important}
+  .doc-footer strong{color:#e07800!important}
+  #country-map,.map-tabs{display:none!important}
+  body{font-size:7.5pt}
+  .content{padding:0 14px 10px!important}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ STICKY NAV UNIT ════════════════════════════════════ -->
+<div class="sticky-nav-unit">
+
+<header class="std-header">
+  <a href="index.html" class="lib-home-btn" title="Library Index">⌂ Index</a>
+  <div class="std-eyebrow">
+    <span class="masthead-flag">
+      <span class="flag-half" style="background:#CC0000"></span>
+      <span class="flag-half" style="background:#000"></span>
+    </span>
+    Overland Series · Country Profile 001
+  </div>
+  <h1 class="std-title">Angola</h1>
+  <div class="std-local">República de Angola</div>
+  <div class="std-sub">A Southern Africa frontier overland destination — Iona, Serra da Leba, Baia dos Tigres</div>
+  <div class="std-vehicle">
+    LC76 SW 1HZ · SA-plated / RHD · Entry: Oshikango / Santa Clara · 30-day visa-free · Compiled 8 March 2026
+  </div>
+</header>
+
+<div class="alert-strip">
+  <span>⚠ Landmine risk on secondary roads — stay on sealed surfaces and established tracks</span>
+  <span class="pill">Language: Portuguese only outside Luanda</span>
+  <span class="pill warn">Cholera outbreak active 2025–2026 — bottled water only</span>
+  <span class="pill">Yellow Fever certificate mandatory — entry refused without it</span>
+  <span class="pill">Currency: Kwanza (AOA) — cannot be sourced outside Angola</span>
+</div>
+
+<nav class="toc-bar">
+  <span class="toc-label">Sections</span>
+  <a href="javascript:void(0)" onclick="document.getElementById('s01').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">01. Entry</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s02').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">02. Borders</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s03').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">03. Vehicle</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s04').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">04. Season</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s05').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">05. Fuel</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s06').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">06. Roads</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s07').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">07. Security</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s08').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">08. Health</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s09').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">09. Camp Safety</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s10').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">10. Comms</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s11').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">11. Money</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s12').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">12. Parks</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s13').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">13. South</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s14').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">14. North</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s15').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">15. Maps</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s16').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">16. Routes S</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s17').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">17. Routes N</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s18').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">18. Phrases</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('changelog').scrollIntoView({behavior:'smooth'});return false;" class="toc-link" style="color:#6EE7B7">Log</a>
+</nav>
+
+</div>
+
+<div class="updated-banner">
+  <span>🗓 <strong>Last updated:</strong> 28 April 2026</span>
+  <span>· USD 1 ≈ AOA 918 · USD/ZAR ≈ 18.2 · AOA/ZAR ≈ 0.020</span>
+  <span>· <a href="javascript:void(0)" onclick="document.getElementById('changelog').scrollIntoView({behavior:'smooth'});return false;">View changelog ↓</a></span>
+</div>
+
+<main class="content">
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 01 · ENTRY & VISAS                                       -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s01">
+  <span class="sec-num">01</span>
+  <span class="sec-title">Entry &amp; Visas</span>
+  <span class="sec-sub">SA Passport · 30-Day Visa-Free</span>
+</div>
+
+<div class="data-grid">
+  <div class="data-card ok">
+    <div class="data-card-label">SA Passport Status</div>
+    <div class="data-card-value">Visa-Free</div>
+    <div class="data-card-sub">SA passport holders enter without a prior visa for tourism. Stamp issued at the border. No e-visa required.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Maximum Stay</div>
+    <div class="data-card-value">30 Days</div>
+    <div class="data-card-sub">Extendable once in Luanda or any provincial capital for another 30 days. Annual cap: 90 days total.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Passport Validity</div>
+    <div class="data-card-value">6 Months</div>
+    <div class="data-card-sub">Minimum 6 months beyond intended stay. Minimum 2 blank pages for stamps.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">Yellow Fever — Mandatory</div>
+    <div class="data-card-value">Entry Refused</div>
+    <div class="data-card-sub">ICV certificate required for all travellers regardless of origin. Must be administered at least 10 days before entry. Carry at all times — not just at the border.</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-card-label">Overstay Penalty</div>
+    <div class="data-card-value">Kz 15,000/day</div>
+    <div class="data-card-sub">Plus blacklisting — future Angola entry refused until debt settled. Even inability to pay results in a signed acknowledgement of debt at exit.</div>
+  </div>
+</div>
+
+<table class="spec-table">
+  <thead><tr><th>Document</th><th>Requirement</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td>Passport</td><td class="ok">Original — carry at all times</td><td>Notarised copies not accepted at provincial police checkpoints</td></tr>
+    <tr><td>Yellow Fever Certificate (ICV)</td><td class="warn">Mandatory — entry refused</td><td>International Certificate of Vaccination. Vaccinate min 10 days before entry.</td></tr>
+    <tr><td>Proof of onward travel</td><td>Recommended</td><td>Rarely checked at land borders; useful to have</td></tr>
+    <tr><td>Travel insurance</td><td>Strongly recommended</td><td>Medical evacuation likely required for serious injury — facilities very limited outside Luanda</td></tr>
+    <tr><td>Internal travel permission</td><td>Sometimes required</td><td>Not required for standard southern Angola overland route. Ask locally if venturing east of Lubango into remote provinces.</td></tr>
+  </tbody>
+</table>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 02 · BORDER CROSSINGS                                    -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s02">
+  <span class="sec-num">02</span>
+  <span class="sec-title">Border Crossings</span>
+  <span class="sec-sub">From Namibia · Eastern · Northern Approaches</span>
+</div>
+
+<p class="prose">Angola shares land borders with Namibia to the south, DRC to the north and east, Zambia to the east, and Congo-Brazzaville to the north via Cabinda exclave. For overlanders approaching from southern Africa, the Namibia crossings are the overwhelmingly preferred entry points. Zambian and DRC crossings carry significantly higher risk and complexity.</p>
+
+<div class="subsec"><span class="subsec-title">— From Namibia (Southern Approach)</span><span class="subsec-tag">Primary Route</span></div>
+
+<div class="route-grid">
+  <div class="route-card">
+    <span class="route-badge">Primary — 4×4 Vehicle</span>
+    <h3>Oshikango (NAM) ↔ Santa Clara (ANG)</h3>
+    <ul>
+      <li>Main commercial and tourist crossing between Namibia and Angola</li>
+      <li>Fully sealed road both sides; 24-hour operation</li>
+      <li>Most overlanders and all SA-plated vehicles use this crossing</li>
+      <li>Currency exchange possible at the border — essential (Kwanza only inside Angola)</li>
+      <li>Immigration and customs process typically 1–2 hours on a quiet day</li>
+      <li><strong>Hours:</strong> 24hr (Angola side is 1 hour ahead of Namibia)</li>
+    </ul>
+  </div>
+  <div class="route-card secondary">
+    <span class="route-badge">Exit Route — South Circuit</span>
+    <h3>Calueque / Ruacana (ANG–NAM)</h3>
+    <ul>
+      <li>The standard exit for the southern circuit (Iona/Cunene loop)</li>
+      <li>Unsealed approach on the Angola side — 4×4 essential</li>
+      <li>Quieter than Santa Clara; process typically faster</li>
+      <li><strong>Hours:</strong> 07:00–18:00 Angola time</li>
+      <li>Fuel at Xangongo ~50 km inside Angola before crossing</li>
+    </ul>
+  </div>
+</div>
+
+<div class="scenario">
+  <h4>Santa Clara Border — Step-by-Step Process</h4>
+  <div class="scenario-meta">Oshikango (NAM) → Santa Clara (ANG) · Allow 1–2 hours</div>
+  <ul>
+    <li>Exit Namibia normally at Oshikango immigration window</li>
+    <li>On Angola side: enter parking — visit <strong>small office on left</strong> of warehouses first (immigration / visa stamp)</li>
+    <li>Then: small office at <strong>exit between the two warehouses</strong> for TIP + road tax</li>
+    <li>Road tax payment: given an account number, pay at bank in large building beside the office</li>
+    <li>Carnet holders: present Carnet for stamp — no TIP form, no payment</li>
+    <li>Non-carnet: TIP costs ~USD 9 per month (official rate in AOA)</li>
+    <li>Documents needed: passport, vehicle registration, driver's licence — have copies accessible</li>
+    <li>Exiting Angola at any land border: single hut handles everything — hand in TIP, get exit stamp</li>
+  </ul>
+</div>
+
+<div class="alert alert-note">
+  <strong>Currency tip at Santa Clara</strong>
+  The official e-visa fee (for non-SA passports) is USD 120 but billed in AOA at ~36,600 Kz. If you pay in Namibian Dollars, the border officer converts at the AOA rate — effectively paying closer to USD 70 equivalent. Offer NAD first. Relevant if travelling with non-SA companions.
+</div>
+
+<div class="subsec"><span class="subsec-title">— Eastern &amp; Northern Crossings</span><span class="subsec-tag">Complex — Research First</span></div>
+
+<div class="route-grid">
+  <div class="route-card secondary">
+    <span class="route-badge">Eastern — High Risk</span>
+    <h3>Chavuma (ZAM) ↔ Cazombo (ANG)</h3>
+    <ul>
+      <li>Remote Zambezi River crossing in far eastern Angola</li>
+      <li>Road from Cazombo westward passes through Moxico province — <strong>active landmine risk</strong></li>
+      <li>Very limited services; full self-sufficiency essential</li>
+      <li>Not recommended for independent overlanders without prior specialist intelligence</li>
+    </ul>
+  </div>
+  <div class="route-card tertiary">
+    <span class="route-badge">Northern — Avoid</span>
+    <h3>DRC–Angola Crossings</h3>
+    <ul>
+      <li>Lunda Norte crossings: banditry risk, primarily mining industry traffic</li>
+      <li>Kongo Central / Matadi corridor: requires prior arrangement, procedures not standardised</li>
+      <li>Multiple permit requirements; significant delays common</li>
+      <li>Not recommended without local fixer and specialist preparation</li>
+    </ul>
+  </div>
+</div>
+
+<div class="alert alert-warn">
+  <strong>Cabinda Province — Do Not Enter</strong>
+  The Cabinda exclave (separated from mainland Angola by DRC) is subject to ongoing FLEC separatist activity. Kidnappings of foreign nationals have occurred. All major travel advisories classify Cabinda as high risk. No overland route justifies transiting Cabinda independently.
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 03 · VEHICLE DOCUMENTS                                   -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s03">
+  <span class="sec-num">03</span>
+  <span class="sec-title">Vehicle Documents</span>
+  <span class="sec-sub">TIP · Carnet · Mandatory Kit</span>
+</div>
+
+<p class="prose">Angola accepts both a Carnet de Passage and a local TIP. Police checkpoints are constant — have all documents immediately accessible in a consistent location, not buried. Officers expect orderly and rapid document presentation.</p>
+
+<div class="data-grid">
+  <div class="data-card ok">
+    <div class="data-card-label">TIP with Carnet de Passage</div>
+    <div class="data-card-value">Free</div>
+    <div class="data-card-sub">Present Carnet at customs, get it stamped. No TIP form, no payment.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">TIP without Carnet</div>
+    <div class="data-card-value">~USD 9/month</div>
+    <div class="data-card-sub">Standard 1 month. Ask for 2 months at the border — often granted. Paid at border bank window in AOA.</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-card-label">Vehicle Insurance</div>
+    <div class="data-card-value">Technically Required</div>
+    <div class="data-card-sub">Police rarely ask, but useful to have something to show at checkpoints. Consider 3rd party cover before entry.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Driving Licence</div>
+    <div class="data-card-value">SA Licence Valid</div>
+    <div class="data-card-sub">SA driver's licence accepted. International Driving Permit (IDP) is recommended to smooth police interactions.</div>
+  </div>
+</div>
+
+<div class="subsec"><span class="subsec-title">Mandatory Vehicle Kit — Angolan Law</span><span class="subsec-tag">Will Be Checked</span></div>
+
+<table class="spec-table">
+  <thead><tr><th>Item</th><th>Status</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td>2× Safety triangles</td><td class="warn">Compulsory</td><td>Will be checked at roadblocks</td></tr>
+    <tr><td>First aid kit</td><td class="warn">Compulsory</td><td>Must be present and visible if requested</td></tr>
+    <tr><td>Fire extinguisher</td><td class="warn">Compulsory</td><td>Mounted accessibly — not buried in cargo</td></tr>
+    <tr><td>Vehicle registration document</td><td class="warn">Original only</td><td>Not a copy — original required</td></tr>
+    <tr><td>TIP or Carnet</td><td class="warn">Compulsory</td><td>Must match vehicle at all times</td></tr>
+    <tr><td>Copies of all documents</td><td>Recommended</td><td>Keep certified copies separate from originals</td></tr>
+    <tr><td>Vehicle photographs</td><td>Recommended</td><td>Side, front, rear — useful for TIP application and insurance</td></tr>
+  </tbody>
+</table>
+
+<div class="alert alert-warn">
+  <strong>Photography near government infrastructure is illegal</strong>
+  This applies to government buildings, military installations, airports, bridges, airfields — even abandoned ones. Defined broadly under Angolan law. Do not photograph police checkpoints or roadblocks. Drones require specific permits and are effectively prohibited in most areas.
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 04 · BEST SEASON & TIMING                                -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s04">
+  <span class="sec-num">04</span>
+  <span class="sec-title">Best Season &amp; Timing</span>
+  <span class="sec-sub">Dry Season Focus · Off-Peak</span>
+</div>
+
+<div class="data-grid">
+  <div class="data-card dark">
+    <div class="data-card-label">Overland Season</div>
+    <div class="data-card-value">May – Oct</div>
+    <div class="data-card-sub">Dry season. All tracks open. Iona and Cunene accessible. Landmine displacement risk minimised. Temperatures moderate in the south.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">Wet Season</div>
+    <div class="data-card-value">Nov – Apr</div>
+    <div class="data-card-sub">Secondary roads impassable, mines shift in floods, bridges wash out. Deep south 4×4 tracks effectively closed. EN1 corridor remains passable.</div>
+  </div>
+  <div class="data-card ok">
+    <div class="data-card-label">Best Off-Season Window</div>
+    <div class="data-card-value">Late Apr – Jun</div>
+    <div class="data-card-sub">Rains just ended, tracks drying, temperatures pleasant. Minimal tourist presence. Aligns well with a post-Namibia northward sequence.</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-card-label">Kalandula Falls Peak</div>
+    <div class="data-card-value">Nov – Apr</div>
+    <div class="data-card-sub">Falls at maximum volume in wet season — spectacular but access tracks to Pedras Negras and Uíge become very challenging. Trade-off decision.</div>
+  </div>
+</div>
+
+<p class="prose">Angola does not have the same European peak-season dynamic as Namibia — tourist volumes are low year-round. The relevant constraint is purely practical: the 4×4 tracks that define the southern circuit (Iona interior, Foz do Cunene, coastal desert) are impassable in the wet season and carry elevated landmine displacement risk following rain events. <strong>May–October is the only viable window for the southern circuit.</strong> The northern EN1 corridor (Luanda–Lubango–Huambo) is accessible year-round.</p>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 05 · FUEL                                                -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s05">
+  <span class="sec-num">05</span>
+  <span class="sec-title">Fuel</span>
+  <span class="sec-sub">Price · Availability · Critical Waypoints</span>
+</div>
+
+<div class="fuel-band">
+  <div class="fuel-cell">
+    <div class="fuel-cell-label">Diesel · AOA</div>
+    <div class="fuel-cell-value">Kz 400</div>
+    <div class="fuel-cell-sub">per litre (March 2026 — rising)</div>
+  </div>
+  <div class="fuel-cell">
+    <div class="fuel-cell-label">Diesel · ZAR</div>
+    <div class="fuel-cell-value">~R8.00</div>
+    <div class="fuel-cell-sub">per litre — still ~3× cheaper than SA</div>
+  </div>
+  <div class="fuel-cell">
+    <div class="fuel-cell-label">Diesel · USD</div>
+    <div class="fuel-cell-value">~$0.44</div>
+    <div class="fuel-cell-sub">per litre</div>
+  </div>
+  <div class="fuel-cell">
+    <div class="fuel-cell-label">vs SA pump price</div>
+    <div class="fuel-cell-value">3× cheaper</div>
+    <div class="fuel-cell-sub">Even after 2024–2025 subsidy reforms. Angola is still the cheapest diesel on the route.</div>
+  </div>
+  <div class="fuel-cell">
+    <div class="fuel-cell-label">LC76 Range (145L)</div>
+    <div class="fuel-cell-value">~1,200 km</div>
+    <div class="fuel-cell-sub">On tarmac. Sandy tracks increase consumption — plan 10–15% more.</div>
+  </div>
+</div>
+
+<div class="alert alert-note">
+  <strong>Fuel price trajectory</strong>
+  Angola has raised diesel prices multiple times under IMF subsidy reform requirements. The price has more than doubled since 2023. Verify current price before departure — budget for further increases. Still very cheap relative to Southern African neighbours.
+</div>
+
+<table class="spec-table">
+  <thead><tr><th>Location / Segment</th><th>Fuel Availability</th><th>Jerry Can Need</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td>Santa Clara / Ondjiva</td><td class="ok">Good</td><td>None for direct tarmac route</td><td>First fill on arrival. Multiple stations.</td></tr>
+    <tr><td>Cahama → Lubango</td><td class="ok">Cahama has fuel</td><td>20L reserve</td><td>~350 km from border — manageable on full tank</td></tr>
+    <tr><td>Lubango</td><td class="ok">Excellent</td><td>Fill completely here</td><td>Best place to top up before any southern routes</td></tr>
+    <tr><td>Lubango → Namibe (Serra da Leba)</td><td class="ok">Namibe has fuel</td><td>20L — ~170 km</td><td>Tarmac route, no fuel between</td></tr>
+    <tr><td>Namibe → Tombua (coastal track)</td><td class="ok">Tombua has fuel</td><td>40L minimum — ~270 km desert track</td><td>Re-fuel at Tombua before Baia dos Tigres or Iona</td></tr>
+    <tr><td>Oncocua → Iona (deep south)</td><td class="warn">None inside Iona NP</td><td>80–120L depending on route</td><td>Carry absolute maximum. Last fuel: Namibe or Tombua. Sandy tracks, high consumption.</td></tr>
+    <tr><td>EN1 corridor (Lubango–Luanda)</td><td class="ok">Sonangol / Pumangol every 80–120 km</td><td>40L reserve</td><td>Reliable fuel corridor throughout</td></tr>
+    <tr><td>Malanje / Kalandula area</td><td class="ok">Malanje city has fuel</td><td>40L beyond Malanje</td><td>No fuel Malanje → Kalandula → Pedras Negras — carry reserve</td></tr>
+  </tbody>
+</table>
+
+<div class="alert alert-warn">
+  <strong>Iona National Park — fuel is a life-safety matter</strong>
+  No fuel inside the park. No fuel Tombua to Foz do Cunene. This is among the most fuel-critical segments in southern Africa. The LC76 at 12L/100km on sand can carry full 145L tank + 2×20L Desert Fox cells = 185L = ~1,540 km range. For deep Iona routes, carry the full 185L. Calculate your circuit before committing.
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">Cross-ref</span>
+  <a href="LC76_Fuel_Range_Calculator.html" class="xref-pill">Fuel Range Calculator</a>
+  <a href="LC76_Trip_Fuel_Planner.html" class="xref-pill">Trip Fuel Planner</a>
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 06 · ROADS                                               -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s06">
+  <span class="sec-num">06</span>
+  <span class="sec-title">Roads</span>
+  <span class="sec-sub">Right-Hand Traffic · Landmine Rule · Checkpoints</span>
+</div>
+
+<p class="prose">Angola drives on the <strong>right</strong> — the LC76 is RHD, so overtaking requires extra care. The main corridor from Santa Clara to Lubango and from Lubango to Luanda is largely sealed (Chinese-built post-2002) and in reasonable condition. Away from the main arteries, roads deteriorate rapidly. The deep south — Iona, Namibe desert tracks, Foz do Cunene — is 4×4-only territory.</p>
+
+<table class="spec-table">
+  <thead><tr><th>Route</th><th>Surface</th><th>Condition</th><th>4×4?</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td>Santa Clara → Ondjiva → Cahama</td><td>Tarmac</td><td>Generally good</td><td>No</td><td>Some potholes; first stretch after border can be rough</td></tr>
+    <tr><td>Cahama → Lubango</td><td>Tarmac</td><td>Good — Chinese-rebuilt</td><td>No</td><td>Spectacular scenery as road climbs escarpment</td></tr>
+    <tr><td>Lubango → Namibe (via Serra da Leba)</td><td>Tarmac</td><td>Good — toll road sections</td><td>No</td><td>Iconic hairpin bends on Leba Pass. Toll: ~Kz 150 (~R3)</td></tr>
+    <tr><td>Namibe → Tombua (coastal)</td><td>Mixed / track</td><td>Rough to very rough</td><td class="warn">Yes</td><td>Sandy, slow. 4×4 essential.</td></tr>
+    <tr><td>Tombua → Foz do Cunene / Baia dos Tigres</td><td>Sand / beach</td><td>Extreme</td><td class="warn">Expert 4×4</td><td>Beach driving at low tide only. Tidal timing critical. Deflate to 1.0–1.2 bar.</td></tr>
+    <tr><td>Oncocua → Espinheira → Iona</td><td>Sand / track</td><td>Demanding 4×4</td><td class="warn">Yes</td><td>Dry riverbeds, deep sand. Allow 2 days from Oncocua to park centre.</td></tr>
+    <tr><td>Luanda → Lubango (EN1 via Huambo)</td><td>Tarmac</td><td>Good throughout</td><td>No</td><td>640 km — Luanda to Huambo one day, Huambo to Lubango next day</td></tr>
+    <tr><td>Secondary / rural roads — interior</td><td>Gravel / earth</td><td>Poor–impassable wet season</td><td class="warn">Yes — never leave track</td><td><strong>Landmine risk</strong> — never deviate from established tracks on secondary roads</td></tr>
+  </tbody>
+</table>
+
+<div class="data-grid">
+  <div class="data-card">
+    <div class="data-card-label">Speed Limits</div>
+    <div class="data-card-value">120 / 80 / 60</div>
+    <div class="data-card-sub">km/h — sealed / gravel / town. Strictly enforced at police checkpoints; speed cameras reported on main routes.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">Night Driving</div>
+    <div class="data-card-value">Avoid entirely</div>
+    <div class="data-card-sub">Unlit pedestrians, livestock, vehicles without lights on all roads including main tarmac. Landmine risk off-road in darkness. Camp before dark.</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-card-label">Rainy Season Roads</div>
+    <div class="data-card-value">Nov – Apr</div>
+    <div class="data-card-sub">Secondary roads impassable. Mines shift in flood events. Bridges wash out. The only viable overland season for the south is May–October.</div>
+  </div>
+</div>
+
+<div class="alert alert-warn">
+  <strong>Police checkpoints — constant on all major routes</strong>
+  Stop immediately, remain in vehicle with windows slightly down, present all documents calmly. Officers may request payment for fabricated infractions — politely ask for a written ticket or the officer's name and badge number. Do not argue. Do not challenge authority. Have a consistent document folder so retrieval is immediate and unhurried.
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 07 · SECURITY                                            -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s07">
+  <span class="sec-num">07</span>
+  <span class="sec-title">Security</span>
+  <span class="sec-sub">Landmines · Regional Risk · Checkpoints</span>
+</div>
+
+<div class="alert alert-warn">
+  <strong>Landmines — the primary overland hazard in Angola</strong>
+  Extensive minefields remain from the 27-year civil war (ended 2002), concentrated in southern provinces: Cuando Cubango, Bié, Benguela, and Moxico. During the rainy season, mines shift and can resurface outside known fields. Watch for <em>PERIGO MINAS</em> warning signs — red triangle, skull. <strong>Never leave established tracks or tarmac in rural areas under any circumstances.</strong>
+</div>
+
+<table class="spec-table">
+  <thead><tr><th>Area</th><th>Risk Level</th><th>Specifics</th></tr></thead>
+  <tbody>
+    <tr><td>Southern Angola — overland route</td><td class="ok">Manageable</td><td>Lubango, Namibe, Huila Province: peaceful, low tourist crime. Landmine risk on rural tracks — stay on established routes.</td></tr>
+    <tr><td>Luanda — city</td><td class="warn">High crime</td><td>Armed robbery, carjacking, bag snatching common. Lock doors while moving. Park inside guarded facilities. Use Uber/UGO — never flag street taxis. Avoid Sambizanga, Cazenga, Viana at night.</td></tr>
+    <tr><td>Cuando Cubango / Moxico</td><td class="warn">High — mine risk</td><td>Highest density of unexploded ordnance. Do not travel secondary roads without confirmed mine clearance information.</td></tr>
+    <tr><td>Cabinda Province</td><td class="warn">Avoid</td><td>Active FLEC separatist militants. Kidnappings and attacks on foreigners reported. Government advisories against non-essential travel.</td></tr>
+    <tr><td>Iona NP / Namibe region</td><td class="ok">Low crime</td><td>Remote — security concern is isolation, not crime. Himba communities peaceful. Carry satellite communicator.</td></tr>
+  </tbody>
+</table>
+
+<div class="data-grid">
+  <div class="data-card note">
+    <div class="data-card-label">Fuel Protest Risk</div>
+    <div class="data-card-value">Real — 2025 Precedent</div>
+    <div class="data-card-sub">Violent riots erupted in July 2025 following fuel price increases. Monitor local media when price changes are announced — avoid city centres in the days following any announcement.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Emergency — Police</div>
+    <div class="data-card-value">113</div>
+    <div class="data-card-sub">Fire: 115 · Ambulance: 116. Response times outside cities slow and unreliable. Satellite communicator + medevac insurance are your real emergency system.</div>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 08 · HEALTH                                              -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s08">
+  <span class="sec-num">08</span>
+  <span class="sec-title">Health</span>
+  <span class="sec-sub">Yellow Fever · Malaria · Cholera Outbreak</span>
+</div>
+
+<table class="spec-table">
+  <thead><tr><th>Condition</th><th>Status</th><th>Action</th></tr></thead>
+  <tbody>
+    <tr><td>Yellow Fever</td><td class="warn">Mandatory — entry refused</td><td>Vaccinate minimum 10 days before entry. Carry ICV certificate at all times.</td></tr>
+    <tr><td>Malaria</td><td class="warn">High risk throughout country</td><td>Prophylaxis essential — doxycycline or Malarone. Mosquito net. DEET repellent.</td></tr>
+    <tr><td>Cholera</td><td class="warn">Active outbreak 2025/2026</td><td>18 of 21 provinces affected. Bottled water only. No ice, no raw food from street vendors. Inspect bottle seals — re-bottled tap water reported.</td></tr>
+    <tr><td>Typhoid</td><td>Recommended</td><td>Especially for rural travel</td></tr>
+    <tr><td>Hepatitis A</td><td>Recommended</td><td>Standard for sub-Saharan Africa</td></tr>
+    <tr><td>Rabies</td><td>Consider pre-exposure</td><td>Remote travel increases risk from dog/bat bites</td></tr>
+    <tr><td>Dengue Fever</td><td>Present — no vaccine</td><td>Mosquito avoidance only preventive measure</td></tr>
+    <tr><td>Water safety</td><td class="warn">No tap water anywhere</td><td>Bottled or filtered only. Carry Sawyer/LifeStraw for remote camps. Active cholera outbreak makes this critical.</td></tr>
+  </tbody>
+</table>
+
+<div class="data-grid">
+  <div class="data-card warn">
+    <div class="data-card-label">Hospital Capability</div>
+    <div class="data-card-value">Very Limited</div>
+    <div class="data-card-sub">Even provincial capitals lack adequate trauma and surgical facilities. Carry comprehensive first aid kit including prescription medications with written prescriptions. Most medications unavailable in-country.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">Medical Evacuation</div>
+    <div class="data-card-value">Plan for it</div>
+    <div class="data-card-sub">Serious injury or illness in southern Angola requires medevac to Windhoek or Johannesburg. Medical evacuation insurance is not optional for this destination.</div>
+  </div>
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">Cross-ref</span>
+  <a href="LC76_Health_Hygiene_Guide.html" class="xref-pill">R17 Health &amp; Hygiene</a>
+  <a href="LC76_Emergency_Procedures_Guide.html" class="xref-pill">R10 Emergency Procedures</a>
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 09 · CAMP SAFETY & WILDLIFE                              -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s09">
+  <span class="sec-num">09</span>
+  <span class="sec-title">Camp Safety &amp; Wildlife</span>
+  <span class="sec-sub">Ground Tent · Iona · Cunene River</span>
+</div>
+
+<p class="prose">Angola's camping environment divides into two quite different settings: established bush camps in the Lubango/Namibe/Baia dos Pipas zone (generally low wildlife risk, focus on security against theft), and the deep south — Iona NP and the Cunene River corridor — where the environment itself is the hazard rather than human crime.</p>
+
+<div class="subsec"><span class="subsec-title">Iona National Park &amp; Cunene Region</span><span class="subsec-tag">Remote — Wildlife + Isolation</span></div>
+
+<table class="spec-table">
+  <thead><tr><th>Area</th><th>Key Hazards</th><th>Specific Notes</th></tr></thead>
+  <tbody>
+    <tr><td>Cunene River (Foz do Cunene area)</td><td class="warn">Crocodiles — very large</td><td>Do not swim, wade, or collect water by kneeling at the river edge. Foz do Cunene has substantial croc populations where the river meets the Atlantic. Admire from elevated bank.</td></tr>
+    <tr><td>Iona NP interior</td><td>Desert-adapted wildlife</td><td>Desert-adapted elephant, brown hyena, black-backed jackal. Wildlife is present but encounters uncommon at designated camps. Keep food sealed in vehicle — jackals are persistent.</td></tr>
+    <tr><td>Namibe coast camps (Baia dos Pipas, coastal)</td><td>Low wildlife risk</td><td>Primary concern is opportunist theft from unlocked vehicles at beach camps. Lock everything. Ground tent fine — no predator risk on the coast.</td></tr>
+    <tr><td>Iona — isolation hazard</td><td class="warn">Self-rescue only</td><td>Zero cell coverage, no rescue services. Satellite communicator + medevac insurance mandatory. Two-vehicle minimum strongly recommended.</td></tr>
+  </tbody>
+</table>
+
+<div class="subsec"><span class="subsec-title">Camp Rules — Angola-Specific</span><span class="subsec-tag">Iona &amp; General</span></div>
+
+<p class="prose"><strong>Iona NP:</strong> Wild camping banned since May 2024 — use designated campsites (12 sites managed by African Parks). No open fires inside the park except at designated fire rings. Waste must be carried out entirely. <strong>Night driving rule:</strong> As noted in Section 06, do not drive at night anywhere in Angola. Time your movements to be in camp before dark. <strong>Landmine boundary:</strong> Never leave the established camp perimeter or vehicle tracks at any remote site in this region. The track is the only verified cleared ground.</p>
+
+<div class="subsec"><span class="subsec-title">Snakes &amp; Smaller Hazards</span><span class="subsec-tag">Desert South</span></div>
+
+<p class="prose">Southern Angola (Namib extension zone) has puff adders, cape cobras, and horned adders in the rocky desert terrain. Standard protocol: shake boots every morning, check sleeping gear. Scorpions are common in the rocky Namibe desert — more prevalent than in the grassy north. Antivenom: not reliably available outside Luanda — your first aid kit should include anti-venom protocols and the satellite communicator is your evacuation trigger.</p>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 10 · COMMUNICATIONS                                      -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s10">
+  <span class="sec-num">10</span>
+  <span class="sec-title">Communications</span>
+  <span class="sec-sub">SIM · Coverage · Satellite</span>
+</div>
+
+<p class="prose">Angola's mobile network is concentrated along main urban corridors. Southern Angola — the Iona region, Namibe desert, Cunene River area — has significant coverage gaps. Unitel has the widest national coverage; Africell is expanding rapidly with 4G/5G in urban centres. For remote southern travel, a satellite communicator is non-negotiable.</p>
+
+<table class="spec-table">
+  <thead><tr><th>Provider</th><th>Coverage</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Unitel</strong></td><td>Broadest national</td><td>Best option for SIM on arrival. Most provincial towns have signal. Thins south of Namibe. Buy at Luanda airport or major towns.</td></tr>
+    <tr><td><strong>Africell</strong></td><td>Luanda, Lubango, Namibe, Benguela (expanding)</td><td>Best 4G/5G in urban centres. Expanding rapidly — full country coverage projected 2027.</td></tr>
+    <tr><td><strong>SA SIM roaming</strong></td><td>Available but expensive</td><td>Check roaming package before entry. Consider local SIM for stays over 5 days.</td></tr>
+  </tbody>
+</table>
+
+<div class="data-grid">
+  <div class="data-card warn">
+    <div class="data-card-label">Iona National Park</div>
+    <div class="data-card-value">Zero Coverage</div>
+    <div class="data-card-sub">Inside the park and deep Namibe desert — no mobile signal. Satellite communicator is the only reliable option.</div>
+  </div>
+  <div class="data-card ok">
+    <div class="data-card-label">Lubango / Namibe</div>
+    <div class="data-card-value">Good 4G</div>
+    <div class="data-card-sub">Both cities have reliable 4G. Download offline maps (OsmAnd with Angola pack) before leaving urban areas.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Satellite Communicator</div>
+    <div class="data-card-value">Mandatory</div>
+    <div class="data-card-sub">Garmin inReach or ZOLEO. Two-way messaging, track sharing, SOS. Non-negotiable for solo or small-group remote travel in southern Angola.</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-card-label">Offline Navigation</div>
+    <div class="data-card-value">Essential</div>
+    <div class="data-card-sub">OsmAnd Angola offline. Roads4Africa has southern Angola tracks. GPX waypoints for Iona campsites essential — park is not well signposted.</div>
+  </div>
+</div>
+
+<div class="subsec"><span class="subsec-title">Drones &amp; Photography Restrictions</span><span class="subsec-tag">Legal Risk</span></div>
+
+<p class="prose">Drone permits in Angola are difficult to obtain and rarely approved for foreign nationals. Effectively prohibited in most areas without specific authorisation from the Angolan aviation authority (INAVIC). Do not fly drones near military installations, government buildings, airports, or along the border zones. Photography of any government infrastructure (bridges, buildings, checkpoints) is illegal regardless of whether you are on foot or in a vehicle.</p>
+
+<div class="xref-bar">
+  <span class="xref-label">Cross-ref</span>
+  <a href="LC76_Comms_Navigation_Guide.html" class="xref-pill">R16 Comms &amp; Navigation</a>
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 11 · MONEY & CURRENCY                                    -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s11">
+  <span class="sec-num">11</span>
+  <span class="sec-title">Money &amp; Currency</span>
+  <span class="sec-sub">Kwanza · Cash Strategy · AOA Only in Parks</span>
+</div>
+
+<p class="prose">Angola uses the Kwanza (AOA). It <strong>cannot be purchased outside Angola</strong> — obtain on arrival only at the border, bank, or ATM. There is no SADC tier pricing; Angola's parks charge flat fees in Kwanza only (government regulation since May 2024).</p>
+
+<div class="data-grid">
+  <div class="data-card dark">
+    <div class="data-card-label">Currency</div>
+    <div class="data-card-value">Kwanza (AOA)</div>
+    <div class="data-card-sub">Cannot be purchased outside Angola. Obtain at border (currency exchange), bank, or ATM on arrival.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Rate (March 2026)</div>
+    <div class="data-card-value">~918 AOA/USD</div>
+    <div class="data-card-sub">≈ 50 AOA/R1. Verify on arrival — rate has been in 910–930 AOA/USD band recently.</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-card-label">Parallel Market</div>
+    <div class="data-card-value">~50% Better Rate</div>
+    <div class="data-card-sub">Widely known but illegal. Risk: counterfeit notes, scams. Inform yourself and make your own decision.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Cards</div>
+    <div class="data-card-value">Visa in Cities Only</div>
+    <div class="data-card-sub">Supermarkets, hotels, some petrol stations in Luanda, Lubango, Namibe. Outside urban areas: cash only. ATMs can be empty — carry adequate AOA reserves.</div>
+  </div>
+</div>
+
+<div class="scenario">
+  <h4>Cash Strategy — Southern Angola Circuit</h4>
+  <div class="scenario-meta">Recommended approach for 10–14 day southern circuit</div>
+  <ul>
+    <li>Arrive with USD or EUR cash as exchange base — both widely accepted for exchange</li>
+    <li>At Santa Clara border, exchange NAD or USD to AOA for initial expenses (TIP, road tax, first fuel)</li>
+    <li>Withdraw AOA from ATMs in Lubango (reliable) and Namibe (reliable)</li>
+    <li>Carry substantial AOA cash south of Namibe — no card payment exists beyond Namibe</li>
+    <li><strong>Iona NP: Kwanza only — no foreign currency accepted per government regulation (May 2024)</strong></li>
+    <li>Carry USD as emergency reserve — widely understood as fallback even where not official</li>
+    <li><strong>Kwanza cannot be re-exchanged outside Angola</strong> — spend down before crossing back into Namibia</li>
+  </ul>
+</div>
+
+<table class="spec-table">
+  <thead><tr><th>Item</th><th>AOA</th><th>USD</th><th>ZAR (approx)</th></tr></thead>
+  <tbody>
+    <tr><td>Diesel per litre</td><td>Kz 400</td><td>~$0.44</td><td>~R8</td></tr>
+    <tr><td>Vehicle TIP (1 month, no carnet)</td><td>~Kz 8,250</td><td>~$9</td><td>~R164</td></tr>
+    <tr><td>Serra da Leba road toll</td><td>Kz 150</td><td>~$0.16</td><td>~R3</td></tr>
+    <tr><td>Kwanza River bridge toll</td><td>Kz 500</td><td>~$0.55</td><td>~R10</td></tr>
+    <tr><td>Campsite Lubango / Namibe area</td><td>Kz 5,000–15,000</td><td>~$5–16</td><td>~R91–273</td></tr>
+    <tr><td>Iona NP — vehicle + camping</td><td>Govt set — verify African Parks</td><td>Kwanza only</td><td>Plan AOA equiv of ~R200–400/night</td></tr>
+    <tr><td>Overstay fine</td><td>Kz 15,000/day</td><td>~$16/day</td><td>~R273/day plus blacklisting</td></tr>
+  </tbody>
+</table>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 12 · NATIONAL PARKS & CAMPING                            -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s12">
+  <span class="sec-num">12</span>
+  <span class="sec-title">National Parks &amp; Camping</span>
+  <span class="sec-sub">Iona · Kissama · African Parks</span>
+</div>
+
+<p class="prose">Angola is rebuilding its national park system after four decades of civil war devastation. Two parks are currently accessible to overlanders: Iona in the deep south (the primary 4×4 destination) and Kissama near Luanda. Both are managed by African Parks.</p>
+
+<div class="route-grid">
+  <div class="route-card">
+    <span class="route-badge">Primary Destination</span>
+    <h3>Iona National Park</h3>
+    <ul>
+      <li><strong>15,150 km²</strong> — largest park in Angola; part of the Namib Desert transfrontier</li>
+      <li>Managed by <strong>African Parks</strong> since 2019 — improving rapidly</li>
+      <li><strong>12 designated camping areas</strong> — wild camping no longer permitted (May 2024)</li>
+      <li>Fees: <strong>Kwanza only</strong> — no foreign currency accepted (May 2024 government regulation)</li>
+      <li>Must carry all water, food, and fuel for entire park visit</li>
+      <li>Angolan giraffe reintroduced 2023–2024; desert elephant, springbok, gemsbok, brown hyena</li>
+      <li>Access via Oncocua (from Namibia via Ruacana / Calueque border)</li>
+      <li><strong>Contact African Parks before arrival:</strong> africanparks.org — confirm fees, site availability, access conditions</li>
+    </ul>
+  </div>
+  <div class="route-card secondary">
+    <span class="route-badge">Near Luanda</span>
+    <h3>Kissama (Quiçama) National Park</h3>
+    <ul>
+      <li><strong>9,960 km²</strong> — 70 km south of Luanda; day trip or overnight</li>
+      <li>Wildlife: elephant, giraffe, zebra, buffalo, various antelope</li>
+      <li>Lodge available for overnight stays; guided game drives available</li>
+      <li>Infrastructure improving but still basic — not comparable to SA parks</li>
+      <li>Self-drive permitted; guided drive recommended (poor signage)</li>
+      <li>Worth a day visit if routing through Luanda</li>
+    </ul>
+  </div>
+</div>
+
+<div class="alert alert-note">
+  <strong>Iona logistics — plan carefully in advance</strong>
+  Contact Iona NP management via African Parks (africanparks.org) before arrival to confirm current camping fees, site availability, and access conditions. The park communication infrastructure is still developing — having pre-arranged information prevents unpleasant surprises at the gate.
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 13 · SOUTHERN ANGOLA — HIGHLIGHTS                        -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s13">
+  <span class="sec-num">13</span>
+  <span class="sec-title">Southern Angola — Highlights</span>
+  <span class="sec-sub">Lubango · Serra da Leba · Namibe · Iona</span>
+</div>
+
+<p class="prose">The southern Angola circuit is the heartland of the overland experience — a dramatic progression from highland plateau to desert coast, ending in one of Africa's most remote wilderness areas. The region is anchored by Lubango in the highlands and Namibe on the coast, with the Namib desert, Iona NP, and the Kunene River mouth as the defining destinations beyond.</p>
+
+<div class="subsec"><span class="subsec-title">— Lubango &amp; the Huíla Highlands</span></div>
+
+<div class="route-grid">
+  <div class="route-card">
+    <span class="route-badge">★★★★★ Base Camp</span>
+    <h3>Lubango</h3>
+    <ul>
+      <li>1,700 m elevation — cool, pleasant climate year-round; frost possible in winter</li>
+      <li>Angola's most liveable southern city: fuel, supermarkets, mechanics, accommodation</li>
+      <li>Strong Boer settler history — Afrikaner descendants from 1880s migration still present</li>
+      <li>Cristo Rei statue overlooks city from a hilltop — viewpoint over the valley</li>
+      <li>Best base for 2–3 night stay; day trips in all directions</li>
+      <li>Portuguese cuisine in local restaurants; fresh produce at the market</li>
+    </ul>
+  </div>
+  <div class="route-card">
+    <span class="route-badge">★★★★★ Must-See</span>
+    <h3>Tunda-Vala Gorge</h3>
+    <ul>
+      <li>17 km from Lubango — largely sealed road to the escarpment rim</li>
+      <li>2,600 m volcanic fissure: sheer 1,000 m cliffs dropping to a green canyon below</li>
+      <li>Multiple viewpoints along the rim; short walking trail recommended</li>
+      <li>No entrance fee, rarely crowded — often the entire escarpment to yourself</li>
+      <li>Late afternoon light is exceptional — plan at least 2 hours on site</li>
+    </ul>
+  </div>
+  <div class="route-card secondary">
+    <span class="route-badge">★★★★★ Must-See</span>
+    <h3>Serra da Leba Pass</h3>
+    <ul>
+      <li>One of Africa's most spectacular paved mountain roads — hairpins descend 1,000 m to the coastal plain</li>
+      <li>Best at sunrise: mist fills the valleys while the road catches golden light</li>
+      <li>Viewpoint platform at the top; roadside vendors on the descent</li>
+      <li>Tarmac throughout — accessible to any vehicle. Toll Kz 150 (~R3)</li>
+      <li>45 min from Lubango; on the direct route to Namibe</li>
+    </ul>
+  </div>
+</div>
+
+<div class="subsec"><span class="subsec-title">— Namibe Coast &amp; Desert</span></div>
+
+<div class="route-grid">
+  <div class="route-card">
+    <span class="route-badge">★★★★ Coastal Hub</span>
+    <h3>Namibe (Moçâmedes)</h3>
+    <ul>
+      <li>Coastal desert city with strong Portuguese character — tiled facades, shaded colonnades</li>
+      <li>Excellent seafood: crayfish, kingklip, mackerel — landed daily at the harbour</li>
+      <li>Cold Benguela current keeps temperatures moderate; sea fog common in mornings</li>
+      <li>Museu Regional: dinosaur fossils discovered in Namibe province on display</li>
+      <li>Fish Market (Mercado do Peixe) — spectacular early mornings</li>
+      <li>Day trips: Baia dos Pipas (30 min), desert coast north and south</li>
+    </ul>
+  </div>
+  <div class="route-card secondary">
+    <span class="route-badge">★★★★ Beach Camp</span>
+    <h3>Baia dos Pipas</h3>
+    <ul>
+      <li>Sheltered bay 30 min from Namibe — camping directly on the beach</li>
+      <li>Good surf break, sea fishing, flamingos wading at low tide</li>
+      <li>Flamingo Lodge nearby for those who prefer beds</li>
+      <li>Track access from Namibe — 4×4 preferred, standard vehicle possible in dry season</li>
+      <li>Bring all food and water; no services on the beach itself</li>
+    </ul>
+  </div>
+  <div class="route-card secondary">
+    <span class="route-badge">★★★★★ Legendary</span>
+    <h3>Baia dos Tigres</h3>
+    <ul>
+      <li>A sand spit cut off by water — accessible only at low tide or by boat</li>
+      <li>Namib dunes meeting the Atlantic; sea fog rolls in most mornings</li>
+      <li>Ghost town of rusted colonial fishing industry buildings — surreal atmosphere</li>
+      <li>One of the most remote isolated beaches in all of Africa</li>
+      <li><strong>Tidal timing is critical</strong> — plan entry and exit carefully from Tombua</li>
+      <li>Tombua is the last fuel stop; Baia dos Tigres has nothing</li>
+    </ul>
+  </div>
+</div>
+
+<div class="subsec"><span class="subsec-title">— Iona, Cunene &amp; The Deep South</span></div>
+
+<div class="route-grid">
+  <div class="route-card">
+    <span class="route-badge">★★★★★ Wilderness</span>
+    <h3>Iona National Park</h3>
+    <ul>
+      <li>15,150 km² — geologically one of the oldest deserts in the world</li>
+      <li>Gravel plains, petrified dunes, ancient camelthorn-lined dry riverbeds</li>
+      <li>Welwitschia plants over 1,000 years old survive in the park interior</li>
+      <li>Wildlife recovering: desert elephant, springbok, gemsbok, ostrich, brown hyena</li>
+      <li>Angolan giraffe reintroduced 2023–2024 — now resident in northern sections</li>
+      <li>12 designated campsites; Kwanza only; contact African Parks before arrival</li>
+    </ul>
+  </div>
+  <div class="route-card secondary">
+    <span class="route-badge">★★★★★ Remote</span>
+    <h3>Foz do Cunene (Kunene River Mouth)</h3>
+    <ul>
+      <li>Where the Kunene River meets the Atlantic — lush riverine vegetation against stark Namib</li>
+      <li>Flamingos, hippos, crocodiles; spectacular Atlantic wave action at the river mouth</li>
+      <li>The sense of remoteness is total — 2-day drive from the nearest significant town</li>
+      <li>Camp on the river bank — bring everything including wood and water</li>
+      <li>Access from Oncocua via Iona/Espinheira track — demanding 4×4 territory</li>
+      <li>Large crocs in the Cunene — do not go near the water's edge</li>
+    </ul>
+  </div>
+  <div class="route-card secondary">
+    <span class="route-badge">★★★★ Culture</span>
+    <h3>Himba Communities — Oncocua Region</h3>
+    <ul>
+      <li>Semi-nomadic Himba people in traditional ochre-painted settlements</li>
+      <li>More isolated from tourism than Namibian Himba — encounters feel more authentic</li>
+      <li>Engage through a local guide; do not photograph without explicit permission</li>
+      <li>The Himba territory sits at the junction of the Iona and Cunene routes near Oncocua</li>
+    </ul>
+  </div>
+</div>
+
+<div class="verdict">
+  <div class="verdict-col pros">
+    <h4>Southern Angola Delivers</h4>
+    <ul>
+      <li>Virtually no other tourists — complete solitude</li>
+      <li>Genuinely dramatic landscapes at every turn</li>
+      <li>Very cheap diesel — even after subsidy reforms, ~3× cheaper than SA</li>
+      <li>Warm, hospitable people outside Luanda</li>
+      <li>Visa-free for SA passports — no pre-trip admin</li>
+      <li>Roads improving rapidly — better than reputation suggests</li>
+      <li>Iona: one of the last truly wild national parks in Africa</li>
+      <li>Baia dos Tigres: Africa's most remote beach experience</li>
+    </ul>
+  </div>
+  <div class="verdict-col cons">
+    <h4>Genuine Challenges</h4>
+    <ul>
+      <li>Landmines — real and ongoing risk off tarmac</li>
+      <li>Portuguese only — zero English outside Luanda</li>
+      <li>Kwanza cannot be sourced before arrival</li>
+      <li>Medical evacuation insurance is not optional</li>
+      <li>Police checkpoint frequency and occasional bribery attempts</li>
+      <li>Cholera outbreak active — strict water hygiene required</li>
+      <li>No mechanical support outside provincial capitals</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 14 · NORTHERN ANGOLA — HIGHLIGHTS                        -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s14">
+  <span class="sec-num">14</span>
+  <span class="sec-title">Northern Angola — Highlights</span>
+  <span class="sec-sub">Luanda · Kalandula Falls · Central Highlands</span>
+</div>
+
+<p class="prose">Northern Angola is a completely different experience from the desert south — lush tropical highlands, powerful waterfalls, colonial architecture, and a sprawling oil-rich capital. Infrastructure is improving rapidly but the north demands more urban navigation, greater security awareness in Luanda, and a higher budget.</p>
+
+<div class="subsec"><span class="subsec-title">— Luanda</span><span class="subsec-tag">Security: High Risk</span></div>
+
+<div class="data-grid">
+  <div class="data-card">
+    <div class="data-card-label">City Overview</div>
+    <div class="data-card-sub" style="font-size:.84rem;line-height:1.6;margin-top:4px">Population ~9 million. One of Africa's most expensive cities. Oil wealth and extreme inequality side by side. Skyline of Chinese-built towers; colonial Portuguese architecture survives in the Baixa. Baía de Luanda is spectacular at sunset.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">Security — High Risk</div>
+    <div class="data-card-sub" style="font-size:.84rem;line-height:1.6;margin-top:4px">Carjacking, armed robbery, and bag snatching common. Lock all doors while moving. Do not use phone in public. Park only in guarded compounds. Use Uber or UGO for all city movement — never flag street taxis. Avoid Sambizanga, Cazenga, Palanca.</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-card-label">Vehicle Logistics</div>
+    <div class="data-card-sub" style="font-size:.84rem;line-height:1.6;margin-top:4px">Do not drive your overland vehicle through Luanda city traffic. Park at a guarded guesthouse in Talatona or Miramar districts and use Uber for everything. Fuel available throughout.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">What to See</div>
+    <div class="data-card-sub" style="font-size:.84rem;line-height:1.6;margin-top:4px">Fortaleza de São Miguel (colonial fort, museum), Baixa de Luanda (harbour district), Ilha de Luanda (peninsula beaches, restaurants), Miradouro da Lua 40 km south — lunar clay cliffs on the Atlantic coast. Allow 2–3 days.</div>
+  </div>
+</div>
+
+<div class="subsec"><span class="subsec-title">— Kalandula Falls &amp; Malanje Province</span></div>
+
+<div class="route-grid">
+  <div class="route-card">
+    <span class="route-badge">Major Natural Highlight</span>
+    <h3>Quedas de Kalandula</h3>
+    <ul>
+      <li><strong>105 m high, 400+ m wide</strong> — volume rivals Victoria Falls in wet season</li>
+      <li>Horseshoe-shaped cascade on the Lucala River; one of Africa's most impressive and least-known waterfalls</li>
+      <li>Short trail to base — swimming possible in dry season</li>
+      <li>Basic guesthouse at Kalandula town; no camp at falls itself</li>
+      <li>360 km from Luanda via N230 — 4–5 hour drive; tarmac most of route</li>
+      <li>Combine with Pedras Negras for a 2-day loop from Malanje</li>
+    </ul>
+  </div>
+  <div class="route-card secondary">
+    <span class="route-badge">Geological Landmark</span>
+    <h3>Pedras Negras de Pungo Andongo</h3>
+    <ul>
+      <li>Ancient volcanic basalt formations rising 200–300 m from flat savanna — hauntingly surreal</li>
+      <li>Queen Njinga of Matamba ruled from this area in the 17th century</li>
+      <li>70 km from Malanje; short unsealed track to site</li>
+      <li>4×4 recommended; standard vehicle possible in dry season</li>
+      <li>No formal tourist infrastructure — bring everything</li>
+    </ul>
+  </div>
+  <div class="route-card secondary">
+    <span class="route-badge">Central Highlands</span>
+    <h3>Huambo</h3>
+    <ul>
+      <li>1,700 m elevation — cool highland climate, architecturally interesting</li>
+      <li>Good fuel, accommodation, and services — useful mid-corridor stop</li>
+      <li>Colonial railway station architecture survives</li>
+      <li>Lubango → Huambo: ~300 km via EN1, approx 4 hours</li>
+      <li>Huambo → Luanda: ~600 km via EN1/EN2, approx 7–8 hours</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 15 · INTERACTIVE MAPS                                    -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s15">
+  <span class="sec-num">15</span>
+  <span class="sec-title">Angola — Interactive Maps</span>
+  <span class="sec-sub">Overview · Southern Circuit · Northern Circuit</span>
+</div>
+
+<p class="prose" style="margin-top:14px;">Three map views — click a tab to switch. <strong>Overview</strong> shows all key locations and border crossings. <strong>Southern Circuit</strong> traces the Lubango–Namibe–Iona–Cunene route. <strong>Northern Circuit</strong> shows the Luanda–Huambo–Malanje corridor. Click any marker for details. Routes are indicative only — verify all tracks before travel.</p>
+
+<div class="map-tabs">
+  <button class="map-tab active" onclick="switchTab('overview')" id="tab-overview">Overview · All Locations</button>
+  <button class="map-tab" onclick="switchTab('south')" id="tab-south">Southern Circuit</button>
+  <button class="map-tab" onclick="switchTab('north')" id="tab-north">Northern Circuit</button>
+</div>
+<div id="country-map"></div>
+<p class="map-attrib">© OpenStreetMap contributors — routes are indicative only, verify all tracks before travel · landmine risk off established roads at all times</p>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 16 · SOUTHERN ANGOLA ROUTE GUIDE                         -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s16">
+  <span class="sec-num">16</span>
+  <span class="sec-title">Southern Angola Route Guide</span>
+  <span class="sec-sub">Santa Clara → Lubango → Namibe → Iona → Foz do Cunene</span>
+</div>
+
+<p class="prose">Two main entry routes and several circuit options for the southern Angola overland. All distances are indicative — allow generous time buffers. Roads have improved dramatically since 2002 but pace is still slower than Namibia, particularly south of Namibe.</p>
+
+<div class="scenario">
+  <h4>Route A — Main Southern Circuit (10–14 days)</h4>
+  <div class="scenario-meta">Oshikango → Lubango → Namibe → Iona → Foz do Cunene → Calueque exit</div>
+  <ul>
+    <li><strong>Day 1:</strong> Santa Clara border → Ondjiva → Cahama → overnight near Cahama (~350 km, tarmac)</li>
+    <li><strong>Day 2:</strong> Cahama → Lubango. City tour: Tunda-Vala, Cristo Rei. Overnight Lubango. Fill fuel and provisions.</li>
+    <li><strong>Day 3:</strong> Day trip — Serra da Leba Pass → Humpata → return to Lubango overnight</li>
+    <li><strong>Day 4:</strong> Lubango → Serra da Leba → Namibe (~170 km, tarmac). Afternoon in Namibe.</li>
+    <li><strong>Day 5–6:</strong> Namibe → Baia dos Pipas → Tombua → Baia dos Tigres (timing tides). Re-fuel at Tombua.</li>
+    <li><strong>Day 7–9:</strong> Tombua → Oncocua → Espinheira → Iona NP (deep south camping circuit). Fully self-sufficient.</li>
+    <li><strong>Day 10–11:</strong> Iona → Foz do Cunene → Oncocua exit</li>
+    <li><strong>Day 12–13:</strong> Oncocua → Cahama → Calueque border → Ruacana (Namibia)</li>
+    <li><strong>Fuel loads:</strong> Full tank Lubango, full + 40L jerry Namibe, full + 80–120L jerry Tombua for Iona/Cunene segment</li>
+  </ul>
+</div>
+
+<div class="scenario">
+  <h4>Route B — Express South (6–8 days)</h4>
+  <div class="scenario-meta">For tighter visa budgets or pre-arranged return</div>
+  <ul>
+    <li>Skips deep Iona circuit — focuses on Lubango highlights and coastal desert</li>
+    <li>Lubango (2 nights) → Namibe (2 nights) → Tombua/Baia dos Tigres → Oncocua → Calueque</li>
+    <li>More relaxed pace — time at each location rather than transit driving</li>
+    <li>Suitable for overlanders doing Angola as part of a longer route with time constraints</li>
+  </ul>
+</div>
+
+<div class="scenario">
+  <h4>Route C — Extended Northern Circuit (20–28 days)</h4>
+  <div class="scenario-meta">Full Angola run combining south + north</div>
+  <ul>
+    <li>Adds Luanda (2–3 days), Kissama NP day trip, Kalandula Falls, Pedras Negras</li>
+    <li>Luanda to Lubango via Huambo — excellent Chinese-built EN1 tarmac</li>
+    <li>Luanda: use guarded accommodation in Talatona, move by Uber — avoid driving in city</li>
+    <li>Budget the full 30 days — extension possible once in Luanda</li>
+  </ul>
+</div>
+
+<div class="subsec"><span class="subsec-title">4×4 Tracks — Southern Angola</span><span class="subsec-tag">Difficulty Reference</span></div>
+
+<table class="spec-table">
+  <thead><tr><th>Track</th><th>Distance</th><th>Difficulty</th><th>Terrain</th><th>Key Notes</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Namibe → Tombua Coastal Track</strong></td><td>~180 km</td><td>🟡 Moderate</td><td>Mixed gravel, sand, rocky sections</td><td>Fishing villages en route. Beach sections require deflated tyres. Allow a full day.</td></tr>
+    <tr><td><strong>Tombua → Baia dos Tigres</strong></td><td>~60 km one way</td><td>🟠 Demanding</td><td>Deep sand, beach driving, tidal crossing</td><td>Tidal timing critical — check at Tombua before departure. Deflate to 1.0–1.2 bar on beach. High-lift jack and sand ladders essential.</td></tr>
+    <tr><td><strong>Oncocua → Iona Interior Circuit</strong></td><td>~300 km loop</td><td>🔴 Expert</td><td>Deep sand, dry riverbeds, corrugated gravel, rock ledges</td><td>Signature southern Angola experience. Fuel from Oncocua only — 120L minimum. No water inside. Navigate by GPS; tracks unmarked. 3–4 days minimum.</td></tr>
+    <tr><td><strong>Iona → Foz do Cunene via Espinheira</strong></td><td>~200 km</td><td>🔴 Expert</td><td>Soft sand, river crossings, heavy corrugations</td><td>Some of the most remote driving in southern Africa. 4–5 days self-sufficient. Dry season only (May–October). Satellite communicator non-negotiable.</td></tr>
+    <tr><td><strong>Ruacana → Calueque → Xangongo</strong></td><td>~100 km</td><td>🟡 Moderate</td><td>Unsealed gravel</td><td>Exit route for southern circuit. 4×4 recommended; high-clearance 4×2 possible in dry season. Fuel at Xangongo ~50 km from border.</td></tr>
+    <tr><td><strong>Lubango → Humpata Plateau Loop</strong></td><td>~60 km loop</td><td>🟢 Easy–Moderate</td><td>Gravel farm tracks, rocky plateau rim</td><td>2,000 m plateau; Boer Trekker Monument. Views over Lubango valley. Good afternoon 4×4 loop from Lubango base.</td></tr>
+    <tr><td><strong>Namibe Desert North — Coastal Dunes</strong></td><td>Variable 40–120 km</td><td>🟠 Demanding</td><td>Coastal dunes, soft sand, ancient gravel plains</td><td>Ancient Namib desert between road and sea. Welwitschia plants, gemsbok. GPS navigation required. Afternoon fog can disorient — turn back before late afternoon.</td></tr>
+  </tbody>
+</table>
+
+<div class="data-grid">
+  <div class="data-card">
+    <div class="data-card-label">🗺 Navigation — Southern Angola</div>
+    <div class="data-card-sub" style="font-size:.84rem;margin-top:4px;line-height:1.6">OsmAnd Angola offline maps are the best free option. Download before leaving Namibia — no data inside Iona or Cunene. Waypoints on iOverlander and Tracks4Africa Angola dataset (limited coverage). Always cross-reference multiple sources before committing to an unmarked track.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">📅 Best Season — Southern Angola</div>
+    <div class="data-card-sub" style="font-size:.84rem;margin-top:4px;line-height:1.6">May to October (dry season) is the only viable window for all 🟠 and 🔴 rated tracks. Iona interior and Foz do Cunene effectively impassable in the wet season. The Namibe–Tombua coastal track and Humpata loop are year-round accessible.</div>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 17 · NORTHERN ANGOLA ROUTE GUIDE                         -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s17">
+  <span class="sec-num">17</span>
+  <span class="sec-title">Northern Angola Route Guide</span>
+  <span class="sec-sub">EN1 Corridor · Luanda · Malanje · Kalandula</span>
+</div>
+
+<p class="prose">The northern circuit uses the EN1/EN2 corridor — Chinese-built tarmac connecting Lubango through Huambo to Luanda, then northeast to Malanje. It is a fundamentally different experience: more urban, more expensive, but home to some of Angola's most underrated natural landmarks. Most northern routes are tarmac-dominant.</p>
+
+<div class="scenario">
+  <h4>Route D — Full Northern Circuit (20–28 days from Namibia)</h4>
+  <div class="scenario-meta">Santa Clara → Lubango → Huambo → Luanda → Malanje → Kalandula → return south</div>
+  <ul>
+    <li><strong>Days 1–5:</strong> Southern circuit to Lubango (see Route A or B above)</li>
+    <li><strong>Days 6–8:</strong> Lubango → EN1 north → Huambo (~300 km, 4 hours). One night Huambo. Continue → Luanda (~600 km from Huambo — 2 days).</li>
+    <li><strong>Days 9–11:</strong> Luanda (2–3 nights). Baixa, Fortaleza de São Miguel, Miradouro da Lua. Use Uber for all movement. Kissama NP day trip.</li>
+    <li><strong>Days 12–13:</strong> Luanda → Malanje via EN230 (~360 km, 4–5 hours). Overnight Malanje.</li>
+    <li><strong>Day 14:</strong> Malanje → Kalandula Falls (~70 km, 1 hour). Full afternoon at the falls. Overnight Kalandula guesthouse.</li>
+    <li><strong>Day 15:</strong> Kalandula → Pedras Negras de Pungo Andongo loop (~150 km). Return to Malanje overnight.</li>
+    <li><strong>Days 16–18:</strong> Malanje → Luanda → south on EN1 → Benguela → Lubango. Two long driving days.</li>
+    <li><strong>Days 19–21:</strong> Return south circuit — Serra da Leba, Namibe day, Calueque border exit or repeat Iona if time remains.</li>
+  </ul>
+</div>
+
+<div class="subsec"><span class="subsec-title">4×4 Tracks — Northern Angola</span><span class="subsec-tag">Difficulty Reference</span></div>
+
+<table class="spec-table">
+  <thead><tr><th>Track</th><th>Distance</th><th>Difficulty</th><th>Terrain</th><th>Key Notes</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Pedras Negras Loop from Malanje</strong></td><td>~150 km round trip</td><td>🟡 Moderate</td><td>Unsealed laterite, rocky outcrops</td><td>4×4 recommended; high-clearance 4×2 possible in dry season. No fuel or services Malanje–site.</td></tr>
+    <tr><td><strong>Kalandula Falls Access</strong></td><td>~15 km from Kalandula town</td><td>🟢 Easy</td><td>Partly unsealed, well-maintained</td><td>Any 4×4 handles this easily. Trail to base is on foot (~30 min). Muddy in wet season but passable.</td></tr>
+    <tr><td><strong>Kissama NP Interior</strong></td><td>50–150 km various</td><td>🟡 Moderate</td><td>Sandy bush tracks, grassy plains</td><td>4×4 essential inside park. Self-drive permitted; guided drive recommended for first visit (poor signage).</td></tr>
+    <tr><td><strong>Miradouro da Lua Coastal Track</strong></td><td>~80 km south of Luanda</td><td>🟢 Easy</td><td>Tarmac with short unsealed sections</td><td>Easy half-day from Luanda. Clay formations — do not approach cliff edges in wet conditions.</td></tr>
+    <tr><td><strong>Benguela Coastal Backroads</strong></td><td>Variable</td><td>🟡 Moderate</td><td>Gravel / sand coastal tracks</td><td>Coast between Lobito and Benguela — fishing communities, deserted beaches. Light 4×4 territory.</td></tr>
+  </tbody>
+</table>
+
+<div class="verdict">
+  <div class="verdict-col pros">
+    <h4>Northern Circuit Adds</h4>
+    <ul>
+      <li>Kalandula Falls — one of Africa's great waterfalls, virtually unknown</li>
+      <li>Pedras Negras — surreal geology and Njinga kingdom history</li>
+      <li>Luanda — oil-boom capital with extraordinary colonial architecture</li>
+      <li>EN1 highland scenery Lubango to Luanda</li>
+      <li>Kissama NP wildlife without Iona's logistics</li>
+      <li>All 4×4 tracks moderate — more accessible than deep south</li>
+    </ul>
+  </div>
+  <div class="verdict-col cons">
+    <h4>Northern Challenges</h4>
+    <ul>
+      <li>Luanda demands a completely different security mindset</li>
+      <li>Very expensive: accommodation and restaurants in Luanda</li>
+      <li>2,200+ km extra distance from Lubango return to Malanje</li>
+      <li>Minimum 7 additional days to do justice to the north</li>
+      <li>30-day visa may be tight — apply for extension in Luanda if needed</li>
+      <li>Uíge tracks undocumented — limited current overland intelligence</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 18 · PORTUGUESE PHRASES                                  -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s18">
+  <span class="sec-num">18</span>
+  <span class="sec-title">Essential Portuguese — Field Phrases</span>
+  <span class="sec-sub">Border · Fuel · Navigation · Emergency · Everyday</span>
+</div>
+
+<p class="prose">English is almost non-existent outside Luanda. Spanish gets you further than you'd expect — speak slowly with a Portuguese inflection. Download the Google Translate Portuguese offline pack before crossing. Always open with <em>Bom dia</em> and a smile before anything else.</p>
+
+<div class="subsec"><span class="subsec-title">— At the Border / Police Checkpoint</span></div>
+
+<table class="spec-table">
+  <thead><tr><th>Situation</th><th>Portuguese</th><th>Pronunciation Guide</th></tr></thead>
+  <tbody>
+    <tr><td>Good morning / Good afternoon</td><td><strong>Bom dia / Boa tarde</strong></td><td>bong JEE-ah / BOH-ah TAR-deh</td></tr>
+    <tr><td>Here are my documents</td><td><strong>Aqui estão os meus documentos</strong></td><td>ah-KEE esh-TOWN oosh MEH-oosh doh-koo-MEN-toosh</td></tr>
+    <tr><td>Here is my passport</td><td><strong>Aqui está o meu passaporte</strong></td><td>ah-KEE esh-TAH oh MEH-oo pah-sah-POR-teh</td></tr>
+    <tr><td>I am a tourist / I am passing through</td><td><strong>Sou turista / Estou de passagem</strong></td><td>SOH too-REES-tah / esh-TOH deh pah-SAH-zheng</td></tr>
+    <tr><td>I have a TIP / Carnet</td><td><strong>Tenho um TIP / Carnet</strong></td><td>TEH-nyoh oom TIP / KAR-neh</td></tr>
+    <tr><td>I have (item) — at a checkpoint</td><td><strong>Tenho (triângulos / extintor / kit médico)</strong></td><td>TEH-nyoh tree-ANG-goo-loosh / esh-teen-TOR / keet MED-ee-koh</td></tr>
+    <tr><td>Can I have a written ticket please?</td><td><strong>Pode dar-me uma multa escrita, por favor?</strong></td><td>POH-deh DAR-meh OO-mah MOOL-tah esh-KREE-tah</td></tr>
+  </tbody>
+</table>
+
+<div class="subsec"><span class="subsec-title">— Fuel &amp; Vehicle</span></div>
+
+<table class="spec-table">
+  <thead><tr><th>Situation</th><th>Portuguese</th><th>Pronunciation Guide</th></tr></thead>
+  <tbody>
+    <tr><td>Fill it up with diesel please</td><td><strong>Encha com gasóleo, por favor</strong></td><td>EN-shah kong gah-ZOH-lee-oh por fah-VOR</td></tr>
+    <tr><td>How much per litre?</td><td><strong>Quanto é o litro?</strong></td><td>KWAN-toh eh oh LEE-troh</td></tr>
+    <tr><td>My vehicle has broken down</td><td><strong>O meu veículo avariou</strong></td><td>oh MEH-oo veh-EE-koo-loh ah-vah-ree-OH</td></tr>
+    <tr><td>I need a mechanic</td><td><strong>Preciso de um mecânico</strong></td><td>preh-SEE-zoo deh oom meh-KAH-nee-koh</td></tr>
+    <tr><td>Can I camp here?</td><td><strong>Posso acampar aqui?</strong></td><td>POH-soh ah-kam-PAR ah-KEE</td></tr>
+  </tbody>
+</table>
+
+<div class="subsec"><span class="subsec-title">— Navigation &amp; Directions</span></div>
+
+<table class="spec-table">
+  <thead><tr><th>Situation</th><th>Portuguese</th><th>Pronunciation Guide</th></tr></thead>
+  <tbody>
+    <tr><td>Where is the road to Lubango?</td><td><strong>Onde é a estrada para Lubango?</strong></td><td>ON-deh eh ah esh-TRAH-dah PAH-rah loo-BAN-goh</td></tr>
+    <tr><td>How many kilometres to Namibe?</td><td><strong>Quantos quilómetros até Namibe?</strong></td><td>KWAN-toosh kee-LOH-meh-troosh ah-TEH nah-MEE-beh</td></tr>
+    <tr><td>Is this road safe / clear of mines?</td><td><strong>Esta estrada é segura / sem minas?</strong></td><td>ESH-tah esh-TRAH-dah eh seh-GOO-rah / seng MEE-nash</td></tr>
+    <tr><td>Turn left / right / go straight</td><td><strong>Vire à esquerda / direita / siga em frente</strong></td><td>VEE-reh ah esh-KEHR-dah / dee-RAY-tah / SEE-gah eng FREN-teh</td></tr>
+    <tr><td>Is the road passable in wet season?</td><td><strong>A estrada é transitável no tempo das chuvas?</strong></td><td>ah esh-TRAH-dah eh tran-zee-TAH-vel noh TEM-poh dash SHOO-vash</td></tr>
+  </tbody>
+</table>
+
+<div class="subsec"><span class="subsec-title">— Emergency &amp; Safety</span></div>
+
+<table class="spec-table">
+  <thead><tr><th>Situation</th><th>Portuguese</th><th>Pronunciation Guide</th></tr></thead>
+  <tbody>
+    <tr><td>Help! / I need help</td><td><strong>Socorro! / Preciso de ajuda</strong></td><td>soh-KOH-roh / preh-SEE-zoo deh ah-ZHOO-dah</td></tr>
+    <tr><td>Call an ambulance / doctor</td><td><strong>Chame uma ambulância / médico</strong></td><td>SHAH-meh OO-mah am-boo-LAN-see-ah / MEH-dee-koh</td></tr>
+    <tr><td>There is a mine / danger ahead</td><td><strong>Há uma mina / perigo à frente</strong></td><td>ah OO-mah MEE-nah / peh-REE-goh ah FREN-teh</td></tr>
+    <tr><td>Where is the nearest hospital?</td><td><strong>Onde fica o hospital mais próximo?</strong></td><td>ON-deh FEE-kah oh osh-pee-TAL mice PROH-see-moh</td></tr>
+    <tr><td>I have been robbed</td><td><strong>Fui assaltado / assaltada</strong></td><td>FWEE ah-sal-TAH-doh / dah</td></tr>
+    <tr><td>Contact the South African embassy</td><td><strong>Por favor contacte a embaixada sul-africana</strong></td><td>por fah-VOR kon-TAK-teh ah em-by-SHAH-dah sool ah-free-KAH-nah</td></tr>
+  </tbody>
+</table>
+
+<div class="subsec"><span class="subsec-title">— Everyday Courtesy &amp; Market</span></div>
+
+<table class="spec-table">
+  <thead><tr><th>Situation</th><th>Portuguese</th><th>Pronunciation Guide</th></tr></thead>
+  <tbody>
+    <tr><td>Thank you very much</td><td><strong>Muito obrigado</strong> (m) / <strong>Muito obrigada</strong> (f)</td><td>MWEE-toh oh-bree-GAH-doh / dah</td></tr>
+    <tr><td>Please / You're welcome</td><td><strong>Por favor / De nada</strong></td><td>por fah-VOR / deh NAH-dah</td></tr>
+    <tr><td>How much is this?</td><td><strong>Quanto é isto?</strong></td><td>KWAN-toh eh EESH-toh</td></tr>
+    <tr><td>Do you accept US dollars / rand?</td><td><strong>Aceita dólares americanos / rand?</strong></td><td>ah-SAY-tah DOH-lah-resh ah-meh-ree-KAH-noosh / rand</td></tr>
+    <tr><td>I would like water / food</td><td><strong>Quero água / comida</strong></td><td>KEH-roh AH-gwah / koh-MEE-dah</td></tr>
+    <tr><td>Is there a place to sleep nearby?</td><td><strong>Há um lugar para dormir aqui perto?</strong></td><td>ah oom loo-GAR PAH-rah dor-MEER ah-KEE PEHR-toh</td></tr>
+    <tr><td>No problem / Everything is fine</td><td><strong>Sem problema / Está tudo bem</strong></td><td>seng proh-BLEH-mah / esh-TAH TOO-doh beng</td></tr>
+  </tbody>
+</table>
+
+<div class="alert alert-info">
+  <strong>Language tip</strong>
+  If you speak any Spanish, use it slowly — Portuguese speakers across southern Angola will often understand. The shared Latin root means most nouns and verbs are recognisable with minor adjustments. Always open with <em>Bom dia</em> and a smile before anything else — Angolans respond warmly to the effort regardless of how broken your Portuguese is.
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- CHANGELOG                                                -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="changelog">
+  <span class="sec-num">LOG</span>
+  <span class="sec-title">Changelog</span>
+  <span class="sec-sub">Update History</span>
+</div>
+
+<p class="prose">All material changes to this profile are recorded here. When updating the document, add a new entry at the top with the date, tag, and a brief note of what changed and why.</p>
+
+<div style="margin-top:14px;">
+  <div class="changelog-entry">
+    <div class="cl-date">2026-04-28</div>
+    <div><span class="cl-tag update">Update</span></div>
+    <div class="cl-note"><strong>Full rebuild to v3.0 design system.</strong> Ported all 16 sections of content from original Playfair Display layout to LC76 standard design system (Bebas Neue / Oswald / IBM Plex Mono). Restructured to 18-section template with new sections 04 Best Season &amp; Timing, 09 Camp Safety &amp; Wildlife, and Section 15 Maps. Section numbering realigned throughout. All content preserved; sections 13/14 (highlights) and 16/17 (route guides) maintained. Now hosted on GitHub alongside Namibia profile. Updated rates: USD/ZAR ≈ 18.2, AOA/ZAR ≈ 0.020.</div>
+  </div>
+  <div class="changelog-entry">
+    <div class="cl-date">2026-03-08</div>
+    <div><span class="cl-tag warn">Warn</span></div>
+    <div class="cl-note"><strong>Cholera outbreak active</strong> across 18/21 provinces. Bottled water only — no tap water, ice, or unpeeled produce. Monitor WHO Angola advisories before travel.</div>
+  </div>
+  <div class="changelog-entry">
+    <div class="cl-date">2026-03-08</div>
+    <div><span class="cl-tag update">Update</span></div>
+    <div class="cl-note"><strong>Iona NP wild camping banned.</strong> African Parks introduced 12 designated campsites in 2024. Wild camping no longer permitted. Pre-register at africanparks.org before visiting.</div>
+  </div>
+  <div class="changelog-entry">
+    <div class="cl-date">2026-03-08</div>
+    <div><span class="cl-tag new">New</span></div>
+    <div class="cl-note"><strong>Document created — 8 March 2026.</strong> Full Angola country profile compiled for LC76 SW 1HZ overland build. 16 sections covering entry, borders, vehicle docs, fuel, roads, security, health, comms, money, national parks, highlights (south + north), maps, route guides, and Portuguese field phrases.</div>
+  </div>
+</div>
+
+<div class="alert alert-info" style="margin-top:18px;">
+  <strong>How to add a new entry</strong>
+  Bring this file back to Claude and say: <em>"Update [Section] — [what changed] — and add a changelog entry."</em> Tags: <code>new</code> · <code>update</code> · <code>fix</code> · <code>warn</code>
+</div>
+
+</main>
+
+<!-- ══ EXPORT BAR ═════════════════════════════════════════ -->
+<div id="export-bar">
+  <span>Export:</span>
+  <button class="export-btn-inline" onclick="exportHTML()">⤓ Save HTML</button>
+  <button class="export-btn-inline" onclick="exportPrint()">⎙ Print / PDF</button>
+  <button class="export-btn-inline" onclick="exportCopy()" id="copy-btn">⧉ Copy text</button>
+</div>
+
+<!-- ══ FOOTER ═════════════════════════════════════════════ -->
+<div class="doc-footer">
+  <div><strong>LC76 Angola Country Profile</strong> · Compiled 8 March 2026 · Updated 28 April 2026 · Profile 001</div>
+  <div>Rates used: USD 1 ≈ AOA 918 · USD/ZAR ≈ 18.2 · AOA/ZAR ≈ 0.020</div>
+  <div>Sources: iOverlander · WikiOverland · African Parks (africanparks.org) · UK/US/SA Travel Advisories · Overlandbirds · 4x4community.co.za</div>
+  <div>⚠ Verify all fees, visa rules, fuel prices, and road conditions before travel — Angola is changing rapidly</div>
+  <div>overlandslabs.github.io/Consumption</div>
+</div>
+
+<!-- ══ SCRIPTS ════════════════════════════════════════════ -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.spec-table').forEach(function(t) {
+    if (!t.closest('.table-scroll')) {
+      var wrap = document.createElement('div');
+      wrap.className = 'table-scroll';
+      t.parentNode.insertBefore(wrap, t);
+      wrap.appendChild(t);
+    }
+  });
+});
+</script>
+
+<!-- ══ LEAFLET MAP ════════════════════════════════════════ -->
+<script>
+(function() {
+  var map = L.map('country-map', { zoomControl: true, scrollWheelZoom: false }).setView([-12.5, 17.0], 5);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors', maxZoom: 18
+  }).addTo(map);
+
+  // Angola border (simplified)
+  var angolaBorder = {
+    "type":"Feature","properties":{},
+    "geometry":{"type":"Polygon","coordinates":[[
+      [11.73,-17.25],[12.45,-17.25],[13.5,-17.2],[14.0,-17.4],[14.5,-17.3],[18.4,-17.4],
+      [21.45,-18.32],[23.7,-17.87],[24.68,-17.49],[24.0,-14.0],[23.5,-12.5],
+      [23.0,-11.0],[22.5,-9.5],[21.8,-7.5],[21.0,-5.5],[20.0,-4.0],[18.5,-3.3],
+      [17.0,-3.5],[16.5,-4.5],[15.0,-5.0],[13.5,-5.0],[12.5,-5.5],[11.5,-6.0],
+      [10.5,-7.0],[10.0,-9.0],[9.5,-11.5],[9.5,-14.0],[10.0,-15.5],[11.0,-16.5],
+      [11.73,-17.25]
+    ]]}
+  };
+  L.geoJSON(angolaBorder, {
+    style: { color:'#b86800', weight:2.5, opacity:0.9, fillColor:'#e07800', fillOpacity:0.08 }
+  }).addTo(map);
+
+  var C = {
+    amber:'#e07800', amber2:'#b86800',
+    green:'#1A5C2E', blue:'#1A4A6B',
+    red:'#7a1010', teal:'#0D6B6B', purple:'#6B2D8B'
+  };
+
+  function mkIcon(color, size) {
+    size = size || 12;
+    return L.divIcon({
+      html: '<div style="width:'+size+'px;height:'+size+'px;border-radius:50%;background:'+color+';border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.5)"></div>',
+      className:'', iconSize:[size,size], iconAnchor:[size/2,size/2], popupAnchor:[0,-size/2]
+    });
+  }
+  function labelIcon(color, label) {
+    if (window.innerWidth < 700) return mkIcon(color);
+    return L.divIcon({
+      html: '<div style="display:flex;align-items:center;gap:5px;white-space:nowrap"><div style="width:10px;height:10px;border-radius:50%;background:'+color+';border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.4);flex-shrink:0"></div><span style="font-family:\'IBM Plex Mono\',monospace;font-size:10px;color:#0d0e12;font-weight:600;background:rgba(218,210,192,0.92);padding:1px 4px;max-width:140px;overflow:hidden;text-overflow:ellipsis">'+label+'</span></div>',
+      className:'', iconSize:null, iconAnchor:[5,5], popupAnchor:[60,-5]
+    });
+  }
+  function pop(name, detail) {
+    return L.popup({maxWidth:260}).setContent(
+      '<div style="font-family:\'IBM Plex Mono\',monospace;font-size:11px"><strong style="font-size:12px;color:#0d0e12">'+name+'</strong><br><span style="color:#6a7080">'+detail+'</span></div>'
+    );
+  }
+  function dmnd(){return '<span style="display:inline-block;width:9px;height:9px;background:#7a1010;transform:rotate(45deg);margin-right:7px;margin-left:1px;vertical-align:middle"></span>'}
+  function dot(c){return '<span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:'+c+';margin-right:7px;vertical-align:middle"></span>'}
+
+  // BORDER CROSSINGS
+  var crossingsGroup = L.layerGroup();
+  var crossings = [
+    [-17.361, 15.896, 'Oshikango (NAM) / Santa Clara (ANG)', '24hr · Primary Namibia–Angola crossing · Tarmac both sides'],
+    [-17.463, 14.200, 'Calueque / Ruacana', '07:00–18:00 · Southern circuit exit route · Unsealed Angola side'],
+    [-17.956, 18.817, 'Rundu / Calai (Okavango)', '08:00–17:00 · Footbridge crossing · SA vehicles cannot cross by vehicle'],
+  ];
+  crossings.forEach(function(c){
+    var icon = L.divIcon({
+      html: '<div style="width:14px;height:14px;background:'+C.red+';border:2.5px solid #fff;box-shadow:0 1px 5px rgba(0,0,0,0.6);transform:rotate(45deg)"></div>',
+      className:'', iconSize:[14,14], iconAnchor:[7,7], popupAnchor:[0,-7]
+    });
+    L.marker([c[0],c[1]], {icon:icon}).addTo(crossingsGroup).bindPopup(pop(c[2],c[3]), {maxWidth:220});
+  });
+  crossingsGroup.addTo(map);
+
+  // OVERVIEW GROUP
+  var overviewGroup = L.layerGroup();
+  var overviewPoints = [
+    [-8.840, 13.234, C.amber, 'Luanda', 'Capital · Security: high risk in city · Use Uber · Park in guarded compound'],
+    [-14.919, 13.493, C.amber, 'Lubango', '1,700m highlands · Main base camp · Best services in south'],
+    [-15.194, 12.152, C.blue, 'Namibe (Moçâmedes)', 'Coastal hub · Seafood · Desert departure point'],
+    [-15.726, 11.860, C.blue, 'Baia dos Pipas', 'Beach camp · 30 min from Namibe'],
+    [-15.620, 11.740, C.blue, 'Baia dos Tigres', 'Remote tidal spit · Low tide access only from Tombua'],
+    [-15.844, 11.867, C.amber, 'Tombua', 'Last fuel before Baia dos Tigres and Iona · Fill here'],
+    [-16.815, 13.022, C.amber, 'Oncocua', 'Last fuel and provisions before Iona interior circuit'],
+    [-16.680, 12.490, C.green, 'Iona National Park', '15,150 km² · African Parks · 12 campsites · AOA only · No water/fuel'],
+    [-17.220, 11.800, C.green, 'Foz do Cunene', 'Kunene River mouth · Crocs + flamingos · Total remoteness'],
+    [-15.080, 12.250, C.amber, 'Serra da Leba Pass', 'Iconic hairpin pass · 1,000m descent · Sunrise spectacular'],
+    [-14.895, 13.526, C.teal, 'Tunda-Vala Gorge', '1,000m cliff face · 17km from Lubango'],
+    [-9.648, 16.362, C.amber, 'Malanje', 'Gateway to Kalandula Falls and Pedras Negras'],
+    [-9.068, 16.032, C.green, 'Kalandula Falls', '105m × 400m wide · One of Africa\'s largest waterfalls'],
+    [-9.280, 15.962, C.green, 'Pedras Negras', 'Volcanic basalt formations · Queen Njinga territory'],
+    [-9.420, 13.920, C.green, 'Kissama NP', '9,960 km² · 70km south of Luanda · Elephant, giraffe, zebra'],
+  ];
+  overviewPoints.forEach(function(l){
+    L.marker([l[0],l[1]], {icon:mkIcon(l[2])}).addTo(overviewGroup).bindPopup(pop(l[3],l[4]), {maxWidth:260});
+  });
+
+  var ovLeg = L.control({position:'bottomright'});
+  ovLeg.onAdd = function() {
+    var d = L.DomUtil.create('div');
+    d.style.cssText = 'background:#0d0e12;color:#a8b0bc;padding:9px 13px;font-family:monospace;font-size:11px;line-height:1.9;border:1px solid rgba(232,120,0,0.3)';
+    d.innerHTML = '<div style="color:#e07800;letter-spacing:0.10em;font-size:10px;margin-bottom:2px">LEGEND</div>' +
+      dmnd() + 'Border crossing<br>' + dot(C.amber) + 'City / service / fuel<br>' +
+      dot(C.green) + 'National park / wilderness<br>' + dot(C.blue) + 'Coastal destination<br>' +
+      dot(C.teal) + 'Scenic / cultural site';
+    return d;
+  };
+
+  // SOUTHERN GROUP
+  var southGroup = L.layerGroup();
+  var southPoints = [
+    [-17.361, 15.896, C.red, 'Santa Clara / Oshikango', 'Entry border · 24hr'],
+    [-16.840, 13.780, C.amber, 'Cahama', 'Fuel stop · 350km from border'],
+    [-14.919, 13.493, C.amber, 'Lubango', 'Base camp · Fill fuel · Provisions'],
+    [-15.080, 12.250, C.teal, 'Serra da Leba Pass', 'Iconic hairpin descent'],
+    [-15.194, 12.152, C.amber, 'Namibe', 'Coastal hub · Last ATM heading south'],
+    [-15.726, 11.860, C.blue, 'Baia dos Pipas', 'Beach camp · 30 min from Namibe'],
+    [-15.844, 11.867, C.amber, 'Tombua', 'FILL FUEL HERE — last before Iona/Tigres'],
+    [-15.620, 11.740, C.blue, 'Baia dos Tigres', 'Remote beach · Tidal access only'],
+    [-16.815, 13.022, C.amber, 'Oncocua', 'Last provisions before Iona interior'],
+    [-16.680, 12.490, C.green, 'Iona NP', '4×4 expert — 120L fuel minimum'],
+    [-17.220, 11.800, C.green, 'Foz do Cunene', 'River mouth — total remoteness'],
+    [-17.463, 14.200, C.red, 'Calueque / Ruacana', 'Exit crossing back to Namibia'],
+  ];
+  southPoints.forEach(function(l){
+    L.marker([l[0],l[1]], {icon:labelIcon(l[2],l[3])}).addTo(southGroup).bindPopup(pop(l[3],l[4]), {maxWidth:250});
+  });
+  L.polyline([[-17.361,15.896],[-16.840,13.780],[-14.919,13.493],[-15.080,12.250],[-15.194,12.152],[-15.726,11.860],[-15.844,11.867],[-15.620,11.740]], {color:C.amber,weight:2.5,opacity:0.75,dashArray:'6,4'}).addTo(southGroup);
+  L.polyline([[-15.844,11.867],[-16.815,13.022],[-16.680,12.490],[-17.220,11.800]], {color:C.red,weight:2,opacity:0.7,dashArray:'4,6'}).addTo(southGroup);
+  L.polyline([[-16.815,13.022],[-17.463,14.200]], {color:C.amber,weight:2,opacity:0.6,dashArray:'6,4'}).addTo(southGroup);
+
+  var soLeg = L.control({position:'bottomright'});
+  soLeg.onAdd = function() {
+    var d = L.DomUtil.create('div');
+    d.style.cssText = 'background:#0d0e12;color:#a8b0bc;padding:9px 13px;font-family:monospace;font-size:11px;line-height:2;border:1px solid rgba(232,120,0,0.3)';
+    d.innerHTML = '<div style="color:#e07800;letter-spacing:0.10em;font-size:10px;margin-bottom:2px">SOUTHERN CIRCUIT</div>' +
+      dot(C.amber) + 'Service / fuel<br>' + dot(C.green) + 'Wilderness park<br>' + dot(C.blue) + 'Coastal camp<br>' + dot(C.red) + 'Border / expert 4×4';
+    return d;
+  };
+
+  // NORTHERN GROUP
+  var northGroup = L.layerGroup();
+  var northPoints = [
+    [-14.919, 13.493, C.amber, 'Lubango', 'Start north — EN1 corridor'],
+    [-12.775, 15.738, C.amber, 'Huambo', '1,700m · Services + fuel · Mid-corridor stop'],
+    [-8.840, 13.234, C.amber, 'Luanda', 'Capital — guarded parking + Uber only'],
+    [-9.420, 13.920, C.green, 'Kissama NP', 'Day trip from Luanda · Elephant, giraffe'],
+    [-9.648, 16.362, C.amber, 'Malanje', 'Fuel + gateway to Kalandula'],
+    [-9.068, 16.032, C.green, 'Kalandula Falls', '105m × 400m — one of Africa\'s great waterfalls'],
+    [-9.280, 15.962, C.teal, 'Pedras Negras', 'Volcanic basalt · 70km from Malanje'],
+    [-8.500, 13.100, C.blue, 'Miradouro da Lua', '40km south of Luanda · Lunar clay cliffs'],
+  ];
+  northPoints.forEach(function(l){
+    L.marker([l[0],l[1]], {icon:labelIcon(l[2],l[3])}).addTo(northGroup).bindPopup(pop(l[3],l[4]), {maxWidth:250});
+  });
+  L.polyline([[-14.919,13.493],[-12.775,15.738],[-8.840,13.234],[-9.648,16.362],[-9.068,16.032],[-9.280,15.962]], {color:C.teal,weight:2.5,opacity:0.75,dashArray:'6,4'}).addTo(northGroup);
+
+  var noLeg = L.control({position:'bottomright'});
+  noLeg.onAdd = function() {
+    var d = L.DomUtil.create('div');
+    d.style.cssText = 'background:#0d0e12;color:#a8b0bc;padding:9px 13px;font-family:monospace;font-size:11px;line-height:2;border:1px solid rgba(232,120,0,0.3)';
+    d.innerHTML = '<div style="color:#e07800;letter-spacing:0.10em;font-size:10px;margin-bottom:2px">NORTHERN CIRCUIT</div>' +
+      dot(C.amber) + 'City / fuel<br>' + dot(C.green) + 'Park / waterfall<br>' + dot(C.teal) + 'Scenic site<br>' + dot(C.blue) + 'Coastal';
+    return d;
+  };
+
+  // TAB SWITCHING
+  var activeLeg = null;
+  window.switchTab = function(tab) {
+    [overviewGroup,southGroup,northGroup].forEach(function(g){try{map.removeLayer(g);}catch(e){}});
+    if (activeLeg) { try { map.removeControl(activeLeg); } catch(e){} }
+    ['tab-overview','tab-south','tab-north'].forEach(function(id){document.getElementById(id).classList.remove('active');});
+    crossingsGroup.addTo(map);
+    if (tab === 'overview') {
+      overviewGroup.addTo(map); ovLeg.addTo(map); activeLeg = ovLeg;
+      document.getElementById('tab-overview').classList.add('active');
+      setTimeout(function(){ map.invalidateSize(); map.setView([-12.5,17.0],5); },100);
+    } else if (tab === 'south') {
+      southGroup.addTo(map); soLeg.addTo(map); activeLeg = soLeg;
+      document.getElementById('tab-south').classList.add('active');
+      setTimeout(function(){ map.invalidateSize(); map.setView([-15.8,13.0],6); },100);
+    } else {
+      northGroup.addTo(map); noLeg.addTo(map); activeLeg = noLeg;
+      document.getElementById('tab-north').classList.add('active');
+      setTimeout(function(){ map.invalidateSize(); map.setView([-10.5,15.0],6); },100);
+    }
+  };
+
+  setTimeout(function(){ switchTab('overview'); }, 250);
+  window.addEventListener('resize', function(){ setTimeout(function(){ map.invalidateSize(); }, 300); });
+})();
+</script>
+
+<!-- ══ EXPORT FUNCTIONS ═══════════════════════════════════ -->
+<script>
+function exportHTML() {
+  var html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+  var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'Angola_Overland_Profile_' + new Date().toISOString().slice(0,10) + '.html';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+function exportPrint() {
+  var html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+  html = html.replace('</body>', '<scr'+'ipt>window.addEventListener("load",function(){setTimeout(function(){window.print();},400);});<\/scr'+'ipt></body>');
+  var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  var url = URL.createObjectURL(blob);
+  var w = window.open(url, '_blank');
+  if (w) { setTimeout(function(){ URL.revokeObjectURL(url); }, 10000); }
+  else {
+    URL.revokeObjectURL(url);
+    document.getElementById('export-bar').style.display = 'none';
+    window.print();
+    document.getElementById('export-bar').style.display = '';
+  }
+}
+function exportCopy() {
+  var text = document.body.innerText;
+  navigator.clipboard.writeText(text).then(function() {
+    var btn = document.getElementById('copy-btn');
+    var orig = btn.innerHTML;
+    btn.innerHTML = '✓ Copied';
+    setTimeout(function(){ btn.innerHTML = orig; }, 2000);
+  }).catch(function(){
+    alert('Copy not supported — use Save as HTML instead.');
+  });
+}
+</script>
+
+<!-- ══ STICKY SCROLL MARGIN + ACTIVE TOC ══════════════════ -->
+<script>
+function updateScrollMargins(){
+  var nav = document.querySelector('.sticky-nav-unit');
+  if (!nav) return;
+  var navH = nav.offsetHeight;
+  document.querySelectorAll('.sec-header').forEach(function(el){
+    el.style.scrollMarginTop = (navH + 4) + 'px';
+  });
+}
+updateScrollMargins();
+window.addEventListener('resize', updateScrollMargins);
+
+var sectionIds = ['s01','s02','s03','s04','s05','s06','s07','s08','s09','s10','s11','s12','s13','s14','s15','s16','s17','s18','changelog'];
+var tocLinks = document.querySelectorAll('.toc-link');
+
+var observer = new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
+    if (entry.isIntersecting) {
+      var idx = sectionIds.indexOf(entry.target.id);
+      tocLinks.forEach(function(l, i){ l.classList.toggle('active', i === idx); });
+    }
+  });
+}, { rootMargin: '-25% 0px -65% 0px' });
+
+sectionIds.forEach(function(id){
+  var el = document.getElementById(id);
+  if (el) observer.observe(el);
+});
+</script>
+
+<!-- ══ SERVICE WORKER ═════════════════════════════════════ -->
+<script>
+if('serviceWorker' in navigator && location.hostname !== 'www.claudeusercontent.com'){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('./sw.js')
+      .then(function(){ console.log('LC76 Profile SW registered'); })
+      .catch(function(e){ console.log('SW error:', e); });
+  });
+}
+</script>
+
+</body>
+</html>
