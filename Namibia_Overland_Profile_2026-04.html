@@ -1,0 +1,1848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LC76 Library">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0d0e12">
+<title>LC76 · Namibia Country Profile · 002</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500;600&family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+:root{
+  --ink:#0d0e12;--paper:#dad2c0;--paper2:#edeae0;--rule:#d4cfc4;
+  --amber:#b86800;--amber2:#e07800;
+  --steeldk:#2a2f3a;--steelmd:#6a7080;--steellt:#a8b0bc;
+  --red-warn:#B91C1C;--green-ok:#059669;
+  --mono:'IBM Plex Mono',monospace;
+  --sans:'Oswald',sans-serif;
+  --display:'Bebas Neue',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{overflow-x:hidden}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55}
+
+.sticky-nav-unit{position:sticky;top:0;z-index:100;background:var(--ink);padding-top:env(safe-area-inset-top)}
+
+.std-header{background:var(--ink);padding:18px 24px 14px;position:relative;border-bottom:3px solid var(--amber);}
+.std-eyebrow{font-family:var(--mono);font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--steelmd);margin-bottom:8px;display:flex;align-items:center;gap:10px;}
+.masthead-flag{display:inline-flex;width:28px;height:18px;border:1px solid rgba(255,255,255,.2);overflow:hidden;flex-shrink:0}
+.flag-half{width:50%;height:100%}
+.flag-third{width:33.33%;height:100%}
+.flag-half-h{width:100%;height:50%}
+.flag-third-h{width:100%;height:33.33%}
+.std-title{font-family:var(--display);font-size:clamp(2.1rem,6vw,3.4rem);letter-spacing:.06em;color:var(--amber2);line-height:1;}
+.std-local{font-family:var(--mono);font-size:.62rem;letter-spacing:.10em;color:rgba(255,200,100,.65);margin-top:7px;font-style:italic;}
+.std-sub{font-family:var(--sans);font-size:.92rem;font-style:italic;color:rgba(232,213,163,.85);margin-top:8px;line-height:1.4;}
+.std-vehicle{font-family:var(--mono);font-size:.50rem;letter-spacing:.08em;color:var(--steelmd);margin-top:10px;line-height:1.55;}
+
+.lib-home-btn{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--amber2);background:rgba(232,120,0,.15);border:1px solid var(--amber2);border-radius:20px;padding:6px 12px;min-height:32px;white-space:nowrap;position:absolute;top:50%;right:16px;transform:translateY(-50%);transition:background .2s;}
+.lib-home-btn:hover,.lib-home-btn:active{background:rgba(232,120,0,.30);}
+
+.alert-strip{background:#7a1010;color:#fff;padding:9px 5%;font-family:var(--mono);font-size:.54rem;letter-spacing:.10em;text-transform:uppercase;display:flex;flex-wrap:wrap;align-items:center;gap:10px;}
+.alert-strip .pill{background:rgba(255,255,255,.14);padding:3px 9px;white-space:nowrap;}
+.alert-strip .pill.warn{background:rgba(0,0,0,.30);color:#ffb070}
+
+.toc-bar{background:var(--steeldk);padding:7px 24px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;border-bottom:2px solid var(--amber);}
+.toc-label{font-family:var(--mono);font-size:.48rem;letter-spacing:.18em;color:var(--steellt);text-transform:uppercase;margin-right:4px;flex-shrink:0}
+.toc-link{font-family:var(--mono);font-size:.48rem;color:rgba(255,255,255,.55);text-decoration:none;padding:2px 6px;border:1px solid transparent;transition:all .12s;white-space:nowrap;cursor:pointer;}
+.toc-link:hover{color:var(--amber2);border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.06)}
+.toc-link.active{color:var(--amber2);border-color:var(--amber2);background:rgba(232,120,0,.1)}
+
+.updated-banner{background:var(--ink);color:var(--steellt);font-family:var(--mono);font-size:.54rem;letter-spacing:.08em;padding:8px 5%;display:flex;flex-wrap:wrap;align-items:center;gap:14px;border-bottom:1px solid var(--steeldk);}
+.updated-banner strong{color:var(--amber2);font-weight:600}
+.updated-banner a{color:#6EE7B7;text-decoration:none;border-bottom:1px solid rgba(110,231,183,.4);}
+.updated-banner a:hover{color:#fff;border-bottom-color:#fff}
+
+.content{padding:20px 5% 80px;max-width:100%}
+
+.sec-header{display:flex;align-items:center;gap:12px;padding:10px 5%;background:var(--steeldk);border-left:5px solid var(--amber2);margin:28px 0 0;}
+.sec-num{font-family:var(--mono);font-size:.58rem;font-weight:600;color:#fff;background:var(--amber);padding:3px 8px;letter-spacing:.12em;flex-shrink:0;}
+.sec-title{font-family:var(--display);font-size:1.7rem;letter-spacing:.10em;color:#fff;line-height:1;}
+.sec-sub{font-family:var(--mono);font-size:.46rem;letter-spacing:.10em;color:var(--steellt);margin-left:auto;flex-shrink:0;}
+
+.subsec{background:var(--paper2);border-left:3px solid var(--amber);padding:6px 16px 6px 14px;margin:20px 0 10px;display:flex;align-items:center;gap:10px;}
+.subsec-title{font-family:var(--display);font-size:1.1rem;letter-spacing:.12em;color:var(--ink);}
+.subsec-tag{font-family:var(--mono);font-size:.44rem;letter-spacing:.12em;color:var(--steelmd);text-transform:uppercase;margin-left:auto;}
+
+.prose{font-family:var(--sans);font-size:.92rem;line-height:1.65;color:var(--ink);margin:8px 0 12px;}
+.prose strong{font-weight:600;color:var(--ink)}
+.prose em{color:var(--amber);font-style:italic}
+
+.data-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:12px 0;}
+.data-card{background:var(--paper2);border:1px solid var(--rule);border-left:3px solid var(--amber);padding:11px 14px;}
+.data-card.warn{border-left-color:var(--red-warn);background:#fff4f0}
+.data-card.note{border-left-color:var(--amber2);background:#fffbe8}
+.data-card.ok{border-left-color:var(--green-ok);background:#f0fff8}
+.data-card.dark{border-left-color:var(--amber2);background:var(--ink);color:var(--steellt)}
+.data-card-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.14em;text-transform:uppercase;color:var(--steelmd);margin-bottom:5px;}
+.data-card.warn .data-card-label{color:var(--red-warn)}
+.data-card.note .data-card-label{color:var(--amber)}
+.data-card.ok .data-card-label{color:var(--green-ok)}
+.data-card.dark .data-card-label{color:var(--amber2)}
+.data-card-value{font-family:var(--display);font-size:1.5rem;letter-spacing:.04em;color:var(--ink);line-height:1;margin-bottom:3px;}
+.data-card.warn .data-card-value{color:#7a1010}
+.data-card.ok .data-card-value{color:#0a3a20}
+.data-card.dark .data-card-value{color:#fff}
+.data-card-sub{font-family:var(--sans);font-size:.78rem;color:var(--steelmd);line-height:1.5;}
+.data-card.dark .data-card-sub{color:var(--steellt)}
+
+.alert{border-left:4px solid;padding:10px 14px;margin:12px 0;font-family:var(--sans);font-size:.84rem;line-height:1.55;}
+.alert strong{font-weight:600;display:block;margin-bottom:3px;font-family:var(--mono);font-size:.54rem;letter-spacing:.10em;text-transform:uppercase}
+.alert-warn{background:#fff4f0;border-color:#B91C1C;color:#5a1010}
+.alert-warn strong{color:#B91C1C}
+.alert-note{background:#fffbe8;border-color:var(--amber2);color:#4a3000}
+.alert-note strong{color:var(--amber)}
+.alert-ok{background:#f0fff8;border-color:var(--green-ok);color:#0a3a20}
+.alert-ok strong{color:var(--green-ok)}
+.alert-info{background:var(--paper2);border-color:var(--steelmd);color:var(--steeldk)}
+.alert-info strong{color:var(--steelmd)}
+
+.spec-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.82rem}
+.spec-table th{background:var(--steeldk);color:#fff;font-family:var(--mono);font-size:.46rem;letter-spacing:.12em;text-transform:uppercase;padding:7px 10px;text-align:left;}
+.spec-table td{padding:6px 10px;border-bottom:1px solid var(--rule);vertical-align:top;font-family:var(--sans)}
+.spec-table tr:nth-child(even) td{background:var(--paper2)}
+.spec-table .mono{font-family:var(--mono);font-size:.72rem;color:var(--amber)}
+.spec-table .warn{color:var(--red-warn);font-weight:600}
+.spec-table .ok{color:var(--green-ok);font-weight:600}
+.spec-table .num{font-family:var(--mono);font-size:.78rem;text-align:right;white-space:nowrap}
+.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+
+.route-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin:12px 0;}
+.route-card{background:var(--paper2);border:1px solid var(--rule);border-left:4px solid var(--amber2);padding:12px 16px;}
+.route-card.secondary{border-left-color:var(--steelmd)}
+.route-badge{font-family:var(--mono);font-size:.44rem;letter-spacing:.16em;text-transform:uppercase;color:#fff;background:var(--amber);padding:2px 8px;display:inline-block;margin-bottom:6px;}
+.route-card.secondary .route-badge{background:var(--steelmd)}
+.route-card h3{font-family:var(--display);font-size:1.25rem;letter-spacing:.06em;color:var(--ink);line-height:1.05;margin-bottom:8px;}
+.route-card ul{list-style:none;padding:0}
+.route-card li{font-family:var(--sans);font-size:.82rem;line-height:1.55;padding:4px 0;border-bottom:1px solid var(--rule);}
+.route-card li:last-child{border-bottom:none}
+.route-card li::before{content:"▸ ";color:var(--amber2);font-weight:600}
+.route-card li strong{font-weight:600;color:var(--ink)}
+
+.scenario{background:var(--paper2);border:1px solid var(--rule);border-top:3px solid var(--amber2);padding:12px 16px;margin:12px 0;}
+.scenario h4{font-family:var(--display);font-size:1.2rem;letter-spacing:.06em;color:var(--ink);margin-bottom:4px;line-height:1.05;}
+.scenario .scenario-meta{font-family:var(--mono);font-size:.50rem;letter-spacing:.10em;color:var(--steelmd);text-transform:uppercase;margin-bottom:8px;}
+.scenario p{font-family:var(--sans);font-size:.84rem;line-height:1.6;margin-bottom:6px;}
+.scenario ul{list-style:none;padding:0;margin-top:6px}
+.scenario li{font-family:var(--sans);font-size:.82rem;line-height:1.55;padding:3px 0;}
+.scenario li::before{content:"→ ";color:var(--amber2);font-weight:600}
+
+.verdict{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--rule);margin:14px 0;}
+.verdict-col{padding:11px 14px;background:var(--paper2)}
+.verdict-col:first-child{border-right:1px solid var(--rule)}
+.verdict-col h4{font-family:var(--mono);font-size:.50rem;letter-spacing:.16em;text-transform:uppercase;margin-bottom:8px;}
+.verdict-col.pros h4{color:var(--green-ok)}
+.verdict-col.cons h4{color:var(--red-warn)}
+.verdict-col ul{list-style:none;padding:0}
+.verdict-col li{font-family:var(--sans);font-size:.82rem;line-height:1.55;padding:3px 0}
+.verdict-col.pros li::before{content:"+ ";color:var(--green-ok);font-weight:700}
+.verdict-col.cons li::before{content:"− ";color:var(--red-warn);font-weight:700}
+
+.fuel-band{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:0;margin:12px 0;border:1px solid var(--rule);}
+.fuel-cell{padding:11px 14px;background:var(--paper2);border-right:1px solid var(--rule);}
+.fuel-cell:last-child{border-right:none}
+.fuel-cell-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.14em;text-transform:uppercase;color:var(--steelmd);margin-bottom:4px;}
+.fuel-cell-value{font-family:var(--display);font-size:1.4rem;letter-spacing:.04em;color:var(--amber);line-height:1;}
+.fuel-cell-sub{font-family:var(--mono);font-size:.62rem;color:var(--steelmd);margin-top:3px;}
+
+.checklist{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px;margin:12px 0;}
+.checklist-item{background:var(--paper2);border-left:3px solid var(--amber);padding:8px 12px;font-family:var(--sans);font-size:.82rem;line-height:1.5;}
+.checklist-item::before{content:"☐ ";color:var(--amber2);font-weight:700;margin-right:4px}
+
+.brief-block{background:var(--paper2);border:1px solid var(--rule);padding:12px 16px;margin:10px 0;}
+.brief-block-title{font-family:var(--mono);font-size:.52rem;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);margin-bottom:8px;border-bottom:1px solid var(--rule);padding-bottom:5px;}
+.brief-block ul{list-style:none;padding:0}
+.brief-block li{font-family:var(--sans);font-size:.84rem;color:var(--ink);padding:5px 0;border-bottom:1px solid var(--rule);line-height:1.55;}
+.brief-block li:last-child{border-bottom:none}
+.brief-block li::before{content:"▸ ";color:var(--amber2)}
+
+.xref-bar{background:var(--steeldk);padding:8px 14px;display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:18px 0 4px;}
+.xref-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.18em;color:var(--steellt);text-transform:uppercase;flex-shrink:0;margin-right:4px}
+.xref-pill{font-family:var(--mono);font-size:.46rem;letter-spacing:.10em;color:var(--amber2);background:rgba(232,120,0,.12);border:1px solid rgba(232,120,0,.4);padding:2px 8px;text-decoration:none;white-space:nowrap;}
+.xref-pill:hover{background:rgba(232,120,0,.25)}
+
+.map-tabs{display:flex;border-bottom:0;margin:12px 0 0}
+.map-tab{font-family:var(--mono);font-size:.50rem;letter-spacing:.12em;text-transform:uppercase;background:var(--steeldk);color:var(--steellt);border:1px solid var(--ink);border-bottom:none;padding:9px 12px;cursor:pointer;flex:1;transition:all .12s;}
+.map-tab.active,.map-tab:hover{background:var(--amber);color:#fff;border-color:var(--amber)}
+#country-map{height:480px;border:1px solid var(--rule);background:var(--paper2);}
+.map-attrib{font-family:var(--mono);font-size:.48rem;letter-spacing:.06em;color:var(--steelmd);margin-top:6px;line-height:1.5;}
+
+.changelog-entry{display:grid;grid-template-columns:90px 70px 1fr;gap:12px;padding:10px 0;border-bottom:1px solid var(--rule);align-items:start;}
+.cl-date{font-family:var(--mono);font-size:.62rem;color:var(--steelmd);letter-spacing:.04em;line-height:1.4;}
+.cl-tag{font-family:var(--mono);font-size:.46rem;letter-spacing:.14em;text-transform:uppercase;padding:2px 7px;display:inline-block;font-weight:600;}
+.cl-tag.new{background:#dcfce7;color:#166534;border:1px solid #bbf7d0}
+.cl-tag.update{background:#dbeafe;color:#1e40af;border:1px solid #bfdbfe}
+.cl-tag.fix{background:#fef3c7;color:#92400e;border:1px solid #fde68a}
+.cl-tag.warn{background:#fee2e2;color:#991b1b;border:1px solid #fecaca}
+.cl-note{font-family:var(--sans);font-size:.84rem;line-height:1.55;color:var(--ink)}
+.cl-note strong{font-weight:600}
+
+#export-bar{background:var(--steeldk);padding:11px 5%;display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:0;font-family:var(--mono);font-size:.54rem;letter-spacing:.10em;color:var(--steellt);text-transform:uppercase;border-top:2px solid var(--amber);}
+.export-btn-inline{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:.54rem;letter-spacing:.10em;text-transform:uppercase;color:var(--amber2);background:rgba(232,120,0,.10);border:1px solid var(--amber2);padding:6px 12px;cursor:pointer;}
+.export-btn-inline:hover{background:rgba(232,120,0,.25)}
+
+.doc-footer{background:var(--ink);color:var(--steellt);font-family:var(--mono);font-size:.48rem;letter-spacing:.08em;padding:14px 5%;line-height:1.7;display:flex;flex-direction:column;gap:3px;}
+.doc-footer strong{color:var(--amber2);font-weight:600}
+
+@media(max-width:600px){
+  .std-header{padding:14px 16px 12px}
+  .std-title{font-size:clamp(1.7rem,7vw,2.6rem)}
+  .toc-bar{padding:5px 12px!important;flex-wrap:nowrap!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch!important;scrollbar-width:none!important}
+  .toc-bar::-webkit-scrollbar{display:none}
+  .toc-link{font-size:.44rem!important;padding:2px 5px!important;white-space:nowrap!important}
+  .alert-strip{padding:8px 16px;font-size:.50rem}
+  .updated-banner{padding:7px 16px;font-size:.50rem}
+  .sec-header{padding:8px 16px;margin:18px 0 0}
+  .sec-title{font-size:1.4rem}
+  .content{padding:14px 4% 60px}
+  .data-grid,.route-grid{grid-template-columns:1fr}
+  .verdict{grid-template-columns:1fr}
+  .verdict-col:first-child{border-right:none;border-bottom:1px solid var(--rule)}
+  .fuel-band{grid-template-columns:repeat(2,1fr)}
+  .fuel-cell{border-right:none;border-bottom:1px solid var(--rule)}
+  .spec-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  #country-map{height:340px}
+  .map-tab{font-size:.44rem;padding:7px 6px;letter-spacing:.08em}
+  .changelog-entry{grid-template-columns:1fr;gap:4px}
+  #export-bar{padding:10px 16px}
+  .export-btn-inline{flex:1;justify-content:center}
+}
+
+@media print{
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  @page{margin:7mm;size:A4}
+  .lib-home-btn,.toc-bar,#export-bar{display:none!important}
+  .sticky-nav-unit{position:static!important}
+  .std-header{background:#0d0e12!important;padding:8px 14px 6px!important;border-bottom:2px solid #e07800!important;page-break-after:avoid;}
+  .std-title{color:#e07800!important;font-size:1.5rem!important}
+  .std-local{color:rgba(255,200,100,.80)!important}
+  .std-sub{color:rgba(232,213,163,.85)!important;font-size:.80rem!important}
+  .std-eyebrow,.std-vehicle{color:#6a7080!important}
+  .alert-strip{background:#7a1010!important;color:#fff!important;padding:5px 14px!important}
+  .updated-banner{background:#0d0e12!important;color:#a8b0bc!important;padding:5px 14px!important}
+  .updated-banner strong{color:#e07800!important}
+  .sec-header{background:#2a2f3a!important;border-left:4px solid #e07800!important;padding:6px 14px!important;margin-top:10px!important;page-break-after:avoid;}
+  .sec-num{background:#b86800!important;color:#fff!important}
+  .sec-title{color:#fff!important;font-size:1.2rem!important}
+  .sec-sub{color:#a8b0bc!important}
+  .subsec{background:#edeae0!important;border-left:2px solid #b86800!important;padding:4px 10px!important;margin:8px 0 5px!important;page-break-after:avoid;}
+  .subsec-title{color:#0d0e12!important;font-size:.95rem!important}
+  .data-card{break-inside:avoid;background:#edeae0!important}
+  .data-card.warn{background:#fff4f0!important}
+  .data-card.note{background:#fffbe8!important}
+  .data-card.ok{background:#f0fff8!important}
+  .data-card.dark{background:#0d0e12!important;color:#a8b0bc!important}
+  .data-card.dark .data-card-value{color:#fff!important}
+  .alert{break-inside:avoid}
+  .alert-warn{background:#fff4f0!important;border-left-color:#B91C1C!important;color:#5a1010!important}
+  .alert-warn strong{color:#B91C1C!important}
+  .alert-note{background:#fffbe8!important;border-left-color:#e07800!important;color:#4a3000!important}
+  .alert-note strong{color:#b86800!important}
+  .alert-ok{background:#f0fff8!important;border-left-color:#059669!important;color:#0a3a20!important}
+  .alert-ok strong{color:#059669!important}
+  .alert-info{background:#edeae0!important;border-left-color:#6a7080!important;color:#2a2f3a!important}
+  .alert-info strong{color:#6a7080!important}
+  .spec-table{break-inside:auto}
+  .spec-table thead{display:table-header-group}
+  .spec-table tr{break-inside:avoid}
+  .spec-table th{background:#2a2f3a!important;color:#fff!important}
+  .spec-table tr:nth-child(even) td{background:#edeae0!important}
+  .route-card{break-inside:avoid;background:#edeae0!important}
+  .route-badge{background:#b86800!important;color:#fff!important}
+  .scenario{break-inside:avoid;background:#edeae0!important}
+  .verdict{break-inside:avoid}
+  .verdict-col{background:#edeae0!important}
+  .verdict-col.pros h4{color:#059669!important}
+  .verdict-col.cons h4{color:#B91C1C!important}
+  .fuel-band{break-inside:avoid}
+  .fuel-cell{background:#edeae0!important}
+  .fuel-cell-value{color:#b86800!important}
+  .xref-bar{background:#2a2f3a!important;padding:5px 10px!important;break-inside:avoid}
+  .xref-label{color:#a8b0bc!important}
+  .xref-pill{color:#e07800!important;background:rgba(232,120,0,.15)!important;border-color:rgba(232,120,0,.5)!important}
+  .brief-block{background:#edeae0!important;break-inside:avoid}
+  .brief-block-title{color:#b86800!important}
+  .changelog-entry{break-inside:avoid}
+  .doc-footer{background:#0d0e12!important;color:#a8b0bc!important;padding:5px 14px!important}
+  .doc-footer strong{color:#e07800!important}
+  #country-map,.map-tabs{display:none!important}
+  body{font-size:7.5pt}
+  .content{padding:0 14px 10px!important}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ STICKY NAV UNIT ════════════════════════════════════ -->
+<div class="sticky-nav-unit">
+
+<header class="std-header">
+  <a href="index.html" class="lib-home-btn" title="Library Index">⌂ Index</a>
+  <div class="std-eyebrow">
+    <!-- Namibia flag: blue / red / green horizontal thirds with white chevron and sun — simplified as 3-stripe -->
+    <span class="masthead-flag">
+      <span class="flag-third-h" style="background:#003580"></span>
+      <span class="flag-third-h" style="background:#d62828"></span>
+      <span class="flag-third-h" style="background:#009a44"></span>
+    </span>
+    Overland Series · Country Profile 002
+  </div>
+  <h1 class="std-title">Namibia</h1>
+  <div class="std-local">Republiek van Namibië · Republic of Namibia</div>
+  <div class="std-sub">Kaokoland, Skeleton Coast &amp; the Caprivi Strip — Namibia's wildest corridors</div>
+  <div class="std-vehicle">
+    LC76 SW 1HZ · SA-plated / RHD · Entry: Vioolsdrif / Noordoewer · 90-day visa-free · Compiled 28 April 2026
+  </div>
+</header>
+
+<div class="alert-strip">
+  <span>⚠ NWR online booking system currently unavailable — email reservations@nwr.com.na</span>
+  <span class="pill">Van Zyl's Pass: expert 4×4 only, solo not recommended</span>
+  <span class="pill warn">Kaokoland fuel gaps — carry 120L minimum for northern circuit</span>
+  <span class="pill">Vet cordon (Red Line) between Etosha and Caprivi — no raw red meat northward</span>
+  <span class="pill">Diesel April 2026: NAD 23.63/L (Walvis Bay)</span>
+</div>
+
+<nav class="toc-bar">
+  <span class="toc-label">Sections</span>
+  <a href="javascript:void(0)" onclick="document.getElementById('s01').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">01. Entry</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s02').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">02. Borders</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s03').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">03. Vehicle</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s04').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">04. Season</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s05').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">05. Fuel</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s06').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">06. Roads</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s07').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">07. Security</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s08').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">08. Health</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s09').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">09. Camp Safety</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s10').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">10. Comms</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s11').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">11. Money</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s12').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">12. Parks &amp; Camping</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s13').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">13. Kaokoland</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s14').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">14. Caprivi</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s15').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">15. Maps</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s16').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">16. Routes W</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s17').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">17. Routes E</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s18').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">18. Phrases</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('changelog').scrollIntoView({behavior:'smooth'});return false;" class="toc-link" style="color:#6EE7B7">Log</a>
+</nav>
+
+</div>
+
+<div class="updated-banner">
+  <span>🗓 <strong>Last updated:</strong> 28 April 2026</span>
+  <span>· NAD 1 = ZAR ~1.00 · USD 1 ≈ NAD 18.2</span>
+  <span>· <a href="javascript:void(0)" onclick="document.getElementById('changelog').scrollIntoView({behavior:'smooth'});return false;">View changelog ↓</a></span>
+</div>
+
+<main class="content">
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 01 · ENTRY & VISAS                                       -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s01">
+  <span class="sec-num">01</span>
+  <span class="sec-title">Entry &amp; Visas</span>
+  <span class="sec-sub">SA Passport · 90-Day Visa-Free</span>
+</div>
+
+<div class="data-grid">
+  <div class="data-card ok">
+    <div class="data-card-label">SA Passport Status</div>
+    <div class="data-card-value">Visa-Free</div>
+    <div class="data-card-sub">Visitor's Entry Permit issued at port of entry. No pre-application required.</div>
+  </div>
+  <div class="data-card ok">
+    <div class="data-card-label">Max Stay</div>
+    <div class="data-card-value">90 Days</div>
+    <div class="data-card-sub">Cumulative per calendar year — exits to Botswana/Zambia and re-entry do not reset the clock.</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-card-label">Passport Validity</div>
+    <div class="data-card-value">6 Months</div>
+    <div class="data-card-sub">Must be valid at least 6 months beyond entry date. Minimum 3 blank pages required.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Yellow Fever</div>
+    <div class="data-card-value">Conditional</div>
+    <div class="data-card-sub">Required only if arriving from or transiting through a yellow fever endemic country (Angola, DRC, Uganda, etc.). Not required for entry directly from SA.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Overstay Penalty</div>
+    <div class="data-card-value">Fine + Deportation</div>
+    <div class="data-card-sub">Check your stamped entry days carefully at the border — errors by officials become your problem. Request additional days if your planned duration exceeds 30 days.</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-card-label">Extension</div>
+    <div class="data-card-value">Available</div>
+    <div class="data-card-sub">Single 90-day extension possible at Ministry of Home Affairs in Windhoek. Requires proof of funds and accommodation details.</div>
+  </div>
+</div>
+
+<p class="prose">South African passport holders enter Namibia on a visa-free basis — the Visitor's Entry Permit is stamped at the border. The important catch is that the 90-day allowance is <strong>cumulative for the calendar year</strong>, not per visit. If you exit to Botswana for a week and return, you're not reset. For a 30-day trip this is no issue. Plan the dates you'll be in Namibia and confirm the officer stamps the correct number of days at entry. Note: bring a proof of onward travel (even a loose printed itinerary works).</p>
+
+<div class="alert alert-note">
+  <strong>Note on 2025 Namibia visa policy changes</strong>
+  Since April 2025, Namibia introduced visa requirements for 33 nationalities that were previously exempt (including UK, US, Germany, France, Australia). This does not affect SA passport holders who remain fully visa-free. It is relevant if you're travelling with non-SADC companions.
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 02 · BORDER CROSSINGS                                    -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s02">
+  <span class="sec-num">02</span>
+  <span class="sec-title">Border Crossings</span>
+  <span class="sec-sub">From SA · Into Zambia/Botswana</span>
+</div>
+
+<p class="prose">The planned route enters at Vioolsdrif / Noordoewer from the Northern Cape, traverses west to east across Namibia, and exits into Zambia at Ngoma Bridge or Sesheke / Katima Mulilo area. Key borders for this trip are covered below.</p>
+
+<div class="subsec"><span class="subsec-title">— From South Africa</span><span class="subsec-tag">Entry</span></div>
+
+<div class="scenario">
+  <h4>Noordoewer / Vioolsdrif (SA–Namibia)</h4>
+  <div class="scenario-meta">24-hour border · GPS 28°45'S 17°33'E · Sealed road both sides (N7/B1)</div>
+  <p>The main SA–Namibia crossing for vehicles coming from Cape Town or Springbok. 24-hour operation makes it convenient. The Orange River forms the border here — bridge crossing. Namibian side requires paying the CBC road tax and obtaining third-party insurance (Motor Insurance Certificate) at the RFA/Africon office.</p>
+  <ul>
+    <li>SA exit: stamp out at Home Affairs, declare foreign currency above ZAR 25,000</li>
+    <li>Namibia entry: stamp in, request 30+ days, pay CBC road tax (see Section 03)</li>
+    <li>Third-party insurance: obtain Motor Insurance Certificate at border — valid 30 days, free</li>
+    <li>RFA office: pay Cross Border Charge here — flat fee per entry</li>
+    <li>ZA sticker: must be affixed to rear of vehicle before arrival</li>
+    <li>Finance letter: if vehicle is still under finance, carry bank letter of authority with travel dates</li>
+    <li>Typical crossing time: 45–90 min if not busy; weekend mornings can queue longer</li>
+  </ul>
+</div>
+
+<div class="subsec"><span class="subsec-title">— Into Botswana / Zambia (Exit)</span><span class="subsec-tag">Exit Routes</span></div>
+
+<div class="scenario">
+  <h4>Ngoma Bridge (Namibia–Botswana)</h4>
+  <div class="scenario-meta">07:00–18:00 · GPS 17°55'S 24°44'E · Sealed road Namibia side, good gravel Botswana side</div>
+  <p>The key crossing for the Caprivi–Chobe corridor. Sits inside the KAZA transfrontier area. Botswana issues a TIP at this crossing and you'll drive through Chobe National Park immediately after — have your park fees ready. The crossing is efficient and straightforward.</p>
+  <ul>
+    <li>Namibia exit: cancel TIP / CBC, stamp out</li>
+    <li>Botswana entry: 30-day visa-free for SA; vehicle TIP issued at border</li>
+    <li>CBC for Botswana: separate road tax payable at Botswana border</li>
+    <li>Chobe NP: immediate park fees if transiting through the park road to Kasane</li>
+  </ul>
+</div>
+
+<div class="scenario">
+  <h4>Wenela / Sesheke (Namibia–Zambia)</h4>
+  <div class="scenario-meta">06:00–18:00 · GPS 17°28'S 24°17'E · Ferry or bridge crossing</div>
+  <p>Crosses the Zambezi River at Katima Mulilo / Sesheke. This is the standard overland crossing into southern Zambia for Caprivi-routed overlanders heading north. The KAZA UniVisa ($50 USD) covers both Zambia and Zimbabwe and is available at this crossing — highly recommended if Zimbabwe is also on the itinerary.</p>
+  <ul>
+    <li>SA passport: Zambia single-entry $50 USD or KAZA UniVisa $50 USD (covers Zim too)</li>
+    <li>Vehicle: TIP issued at border, usually 30 days</li>
+    <li>Carbon tax: road tax payable at Zambia border in USD</li>
+    <li>Third-party insurance: purchase at border (compulsory)</li>
+    <li>KAZA UniVisa tip: only available at certain ports — Wenela / Sesheke is one of them; confirm current availability before routing</li>
+  </ul>
+</div>
+
+<div class="alert alert-note">
+  <strong>Important — border hours vs your driving day</strong>
+  Ngoma Bridge and Wenela both close at 18:00. With a 400 km/day driving comfort zone, factor in that you may need a short day before a border to avoid arriving after hours. Noordoewer is 24-hour, so no constraint on the entry day.
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 03 · VEHICLE DOCUMENTS                                   -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s03">
+  <span class="sec-num">03</span>
+  <span class="sec-title">Vehicle Documents</span>
+  <span class="sec-sub">TIP · CBC · Insurance · Vet Cordon</span>
+</div>
+
+<p class="prose">South Africa–registered vehicles entering Namibia do not need a Carnet de Passages. The key vehicle admin items are the Cross Border Charge (CBC), third-party insurance, and the ZA sticker. The vehicle is registered to Mary-Ann — no additional letter of authority needed unless it's still under finance.</p>
+
+<table class="spec-table">
+  <thead><tr><th>Document</th><th>Required</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td>Vehicle registration / NaTIS</td><td class="ok">Yes</td><td>Original. If still financed, carry bank letter of authority with specific travel dates.</td></tr>
+    <tr><td>SA driver's licence</td><td class="ok">Yes</td><td>SA licence accepted. Carry IDP as backup for extended travel.</td></tr>
+    <tr><td>ZA sticker</td><td class="ok">Yes</td><td>Must be affixed to rear of vehicle. Available at AA Accredited Sales Agent stores.</td></tr>
+    <tr><td>Cross Border Charge (CBC)</td><td class="ok">Yes</td><td>Flat fee per entry, paid at RFA / Africon office at Namibian border post. Paid in NAD or ZAR cash. Carry permit in vehicle at all times — checked at police roadblocks.</td></tr>
+    <tr><td>Motor Insurance Certificate (3rd party)</td><td class="ok">Yes</td><td>Obtained free at the border. Valid 30 days. Renewable at NamPost offices. Upgrade to comprehensive cover via Hollard Namibia or similar if desired.</td></tr>
+    <tr><td>Carnet de Passages</td><td class="ok">Not required</td><td>SA, Botswana, Zambia, Zimbabwe, Mozambique, Malawi, Tanzania registered vehicles are exempt from Carnet for Namibia.</td></tr>
+    <tr><td>TIP (Temporary Import Permit)</td><td class="ok">Issued at border</td><td>Issued at entry, cancelled at exit. Keep with vehicle papers. The CBC effectively serves this function for private SA vehicles.</td></tr>
+  </tbody>
+</table>
+
+<div class="subsec">
+  <span class="subsec-title">Veterinary Cordon (Red Line) &amp; Meat Movement</span>
+  <span class="subsec-tag">Critical for Route Planning</span>
+</div>
+
+<p class="prose">The Veterinary Cordon Fence (colloquially the Red Line or Vet Line) runs roughly east–west across Namibia, separating the foot-and-mouth disease-free southern zone from the northern communal farming areas. It runs approximately from the Skeleton Coast at Ugab River east through Otjiwarongo and onwards. Critically: <strong>Etosha National Park sits just above the vet line</strong>, and the cordon gates at Etosha's Anderson, Von Lindquist, and Galton Gates are active checkpoints.</p>
+
+<div class="alert alert-warn">
+  <strong>Raw meat rules at Etosha vet cordon gates</strong>
+  Raw red meat (beef, lamb, pork, goat) is NOT permitted to be carried southward past the cordon gates. Meaning: if you buy raw meat in the north (e.g. Opuwo, Rundu) and try to bring it back south through Anderson Gate, it will be confiscated. Consume or leave all raw red meat north of the line before returning south. Moving northward (SA → Namibia → Etosha → Caprivi) is generally fine.
+</div>
+
+<p class="prose">Biltong, droëwors, and commercially vacuum-packed cured meats are treated differently to raw meat and are generally permitted across the cordon, but this is subject to inspector discretion. The safest approach: carry biltong and cured provisions for the southern leg, and plan to buy and consume fresh meat locally in the north. Opuwo and Katima Mulilo both have butcheries.</p>
+
+<table class="spec-table">
+  <thead><tr><th>Crossing the Red Line</th><th>Direction</th><th>What applies</th></tr></thead>
+  <tbody>
+    <tr><td>Vioolsdrif → Windhoek → Etosha (south–north)</td><td class="ok">No restriction</td><td>Carry SA meat northward without issue. Buy fresh in south, consume or use before returning south.</td></tr>
+    <tr><td>Etosha / Kunene → southward through Anderson Gate</td><td class="warn">Confiscation risk</td><td>Raw red meat (beef, lamb, pork) will be confiscated at the vet cordon gate. Consume all before heading south.</td></tr>
+    <tr><td>Biltong / droëwors (cured, dried)</td><td>Usually ok</td><td>Dried / cured products are generally permitted. Declare if asked — don't try to hide.</td></tr>
+    <tr><td>Caprivi (Katima Mulilo) → Zambia or Botswana</td><td>Separate rules</td><td>Both countries have their own import rules — do not carry raw meat across international borders without checking.</td></tr>
+  </tbody>
+</table>
+
+<div class="xref-bar">
+  <span class="xref-label">Cross-ref</span>
+  <a href="LC76_Border_Crossings_Guide.html" class="xref-pill">R15 Border Crossings</a>
+  <a href="LC76_Reference_Card.html" class="xref-pill">R1 Reference Card</a>
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 04 · BEST SEASON & TIMING                                -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s04">
+  <span class="sec-num">04</span>
+  <span class="sec-title">Best Season &amp; Timing</span>
+  <span class="sec-sub">Off-Season Focus · Avoid European Peak</span>
+</div>
+
+<div class="data-grid">
+  <div class="data-card dark">
+    <div class="data-card-label">Dry Season</div>
+    <div class="data-card-value">May – Oct</div>
+    <div class="data-card-sub">All tracks open. Best game viewing (animals concentrated at waterholes). Kaokoland and Caprivi fully accessible. Etosha at its best Oct–Nov.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">Peak European Season</div>
+    <div class="data-card-value">Mid-Jun – Mid-Sep</div>
+    <div class="data-card-sub">Avoid. Etosha heavily booked, Sossusvlei queues, prices up. European school holidays drive the surge. This is the window to avoid by design.</div>
+  </div>
+  <div class="data-card ok">
+    <div class="data-card-label">Sweet Spot (Off-Season)</div>
+    <div class="data-card-value">Late Apr – Early Jun</div>
+    <div class="data-card-sub">Post-rains, before European surge. Tracks dry, vegetation still green in Kaokoland and Caprivi, game active, zero crowds. Optimal for this trip.</div>
+  </div>
+  <div class="data-card ok">
+    <div class="data-card-label">Second Window</div>
+    <div class="data-card-value">Late Sep – Early Nov</div>
+    <div class="data-card-sub">Post-European season, pre-rains. Hot but quiet. Etosha waterholes exceptional (animals desperate for water). Kaokoland passable. Caprivi can be hot.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Wet Season</div>
+    <div class="data-card-value">Nov – Apr</div>
+    <div class="data-card-sub">Kaokoland tracks deteriorate or close. Caprivi floods extensively (spectacular but limiting). Etosha accessible. Heat is significant.</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-card-label">SA School Holidays to Avoid</div>
+    <div class="data-card-value">Dec/Jan · Jun/Jul</div>
+    <div class="data-card-sub">December/January and June/July school holidays bring significant SA camp traffic. Lesser impact than European peak but still worth avoiding Etosha in these windows.</div>
+  </div>
+</div>
+
+<p class="prose">For a one-month Namibia trip with Kaokoland and Caprivi as the main targets, the <strong>late April to late May window is close to ideal</strong>. The rains in the Kunene Region typically end in March–April, leaving the riverbeds accessible but the vegetation still carrying colour. Van Zyl's Pass and the Marienfluss are passable. The Caprivi is dry enough for all tracks. Etosha can be done during this window with good availability and no European crowds. Temperatures are manageable — warm days, cool nights.</p>
+
+<div class="subsec">
+  <span class="subsec-title">Month-by-Month Activity Matrix</span>
+  <span class="subsec-tag">12-Month View</span>
+</div>
+
+<table class="spec-table">
+  <thead><tr><th>Month</th><th>Weather</th><th>Kaokoland Tracks</th><th>Caprivi Access</th><th>Etosha Game</th><th>Crowd Level</th><th>Verdict</th></tr></thead>
+  <tbody>
+    <tr><td><strong>January</strong></td><td>Hot, wet</td><td>Closed (rains)</td><td>Partly flooded</td><td>Fair</td><td>Low</td><td>Avoid</td></tr>
+    <tr><td><strong>February</strong></td><td>Hot, wet</td><td>Closed</td><td>Flooded</td><td>Fair</td><td>Very low</td><td>Avoid</td></tr>
+    <tr><td><strong>March</strong></td><td>Hot, rains ending</td><td>Risky</td><td>Drying</td><td>Good</td><td>Low</td><td>Marginal</td></tr>
+    <tr><td><strong>April</strong></td><td>Warm, drying</td><td>Opening up</td><td>Good</td><td>Good</td><td>Low–Med</td><td class="ok">Good</td></tr>
+    <tr><td><strong>May</strong></td><td>Warm days, cool nights</td><td>Open</td><td>Excellent</td><td>Very good</td><td>Low</td><td class="ok">Optimal off-season</td></tr>
+    <tr><td><strong>June</strong></td><td>Cool, dry</td><td>Excellent</td><td>Excellent</td><td>Excellent</td><td>High (SA hols + Europe)</td><td class="warn">Avoid peak</td></tr>
+    <tr><td><strong>July</strong></td><td>Cold nights, dry</td><td>Excellent</td><td>Excellent</td><td>Excellent</td><td>Peak</td><td class="warn">Peak season — avoid</td></tr>
+    <tr><td><strong>August</strong></td><td>Warming, dry</td><td>Excellent</td><td>Excellent</td><td>Excellent</td><td>High</td><td class="warn">Still peak</td></tr>
+    <tr><td><strong>September</strong></td><td>Hot, dry</td><td>Excellent</td><td>Good</td><td>Outstanding</td><td>Med–High (early Sep)</td><td>Transitional</td></tr>
+    <tr><td><strong>October</strong></td><td>Very hot</td><td>Good</td><td>Good</td><td>Outstanding</td><td>Med</td><td class="ok">Good second window</td></tr>
+    <tr><td><strong>November</strong></td><td>Hot, storms starting</td><td>Deteriorating</td><td>Drying/wet mix</td><td>Good</td><td>Low</td><td>Marginal</td></tr>
+    <tr><td><strong>December</strong></td><td>Hot, wet</td><td>Risky</td><td>Flooding</td><td>Fair</td><td>SA school rush</td><td>Avoid</td></tr>
+  </tbody>
+</table>
+
+<div class="subsec">
+  <span class="subsec-title">Recommended Off-Season Windows</span>
+  <span class="subsec-tag">Quiet &amp; Good Conditions</span>
+</div>
+
+<div class="scenario">
+  <h4>Window 1 — Late April to Late May (Primary Recommendation)</h4>
+  <div class="scenario-meta">30–40 days · Post-rains · Pre-European peak · Optimal for Kaokoland + Caprivi</div>
+  <p>The rains have stopped, Kaokoland vegetation is still green, riverbeds are accessible, and the whole country is yours. Etosha hasn't yet filled with Europeans. Temperatures are pleasant (25–32°C days, 10–16°C nights in the Kunene). The Epupa Falls are flowing from recent rains. Van Zyl's Pass and the Marienfluss are passable. Community camp availability is open. NWR sites easier to book than July.</p>
+  <ul>
+    <li>Trade-off: Kunene region can still have occasional soft ground in April — confirm track conditions via T4A community reports before departure</li>
+    <li>Book NWR (Etosha) 2–3 months ahead for this window: reservations@nwr.com.na</li>
+    <li>This window aligns with the 2028 departure planning horizon</li>
+  </ul>
+</div>
+
+<div class="scenario">
+  <h4>Window 2 — Late September to Early November (Secondary)</h4>
+  <div class="scenario-meta">30–35 days · Post-European peak · Pre-rains · Hot but quiet</div>
+  <p>The Europeans have gone home, SA schools are back, and Namibia is empty. Etosha waterholes in late October are arguably the country's best game viewing — animals are completely desperate for water and the floodlit waterholes at night camps are extraordinary. Kaokoland is passable but very hot (35–40°C). The Caprivi is dry and accessible. Main trade-off is heat — this is not pleasant for camping in direct sun.</p>
+  <ul>
+    <li>October is arguably Namibia's single best game month — Etosha waterhole activity peaks</li>
+    <li>Kaokoland heat requires early starts (on road by 06:00) and camp by 14:00</li>
+    <li>November rains can start — be ready to abandon Kaokoland tracks if storms develop</li>
+  </ul>
+</div>
+
+<div class="subsec">
+  <span class="subsec-title">Booking Lead Times</span>
+  <span class="subsec-tag">Plan Ahead</span>
+</div>
+
+<table class="spec-table">
+  <thead><tr><th>System / Park</th><th>How to Book</th><th>Peak Lead Time</th><th>Off-Season Lead Time</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td><strong>NWR (Etosha, Sesriem, Fish River, Skeleton Coast)</strong></td><td>Email reservations@nwr.com.na (online system currently down)</td><td>6–9 months</td><td>2–3 months</td><td>Confirm NWR system status before attempting to book. Payment by EFT or credit card via email.</td></tr>
+    <tr><td><strong>Epupa Falls Rest Camp</strong></td><td>Direct</td><td>2–3 months (peak)</td><td>2–4 weeks</td><td>River-side pitches fill fast in any season. Book early.</td></tr>
+    <tr><td><strong>Kunene River Lodge</strong></td><td>Direct</td><td>2–3 months</td><td>2–4 weeks</td><td>Good staging camp before Kaokoland circuit.</td></tr>
+    <tr><td><strong>Palmwag Lodge / campsites</strong></td><td>Direct or via booking agents</td><td>2–3 months</td><td>2–4 weeks</td><td>Good base for Damaraland rhino tracking.</td></tr>
+    <tr><td><strong>Communal conservancy camps (Kaokoland)</strong></td><td>Arrive and pay</td><td>Walk-in</td><td>Walk-in</td><td>Fees paid locally to community. No advance booking required or possible. Carry NAD cash.</td></tr>
+    <tr><td><strong>Caprivi strip camps (Nambwa, Nakatwa, Mukolo)</strong></td><td>Direct</td><td>2–3 months</td><td>2–4 weeks</td><td>Particularly Nambwa (Bwabwata Buffalo Core) and Nakatwa (Mudumu) fill early in peak.</td></tr>
+  </tbody>
+</table>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 05 · FUEL                                                -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s05">
+  <span class="sec-num">05</span>
+  <span class="sec-title">Fuel</span>
+  <span class="sec-sub">Price · Availability · Critical Waypoints</span>
+</div>
+
+<div class="fuel-band">
+  <div class="fuel-cell">
+    <div class="fuel-cell-label">Diesel · NAD</div>
+    <div class="fuel-cell-value">N$23.63</div>
+    <div class="fuel-cell-sub">per litre (Walvis Bay, April 2026)</div>
+  </div>
+  <div class="fuel-cell">
+    <div class="fuel-cell-label">Diesel · ZAR</div>
+    <div class="fuel-cell-value">~R23.60</div>
+    <div class="fuel-cell-sub">NAD ≈ ZAR parity. Slight variance possible.</div>
+  </div>
+  <div class="fuel-cell">
+    <div class="fuel-cell-label">Diesel · USD</div>
+    <div class="fuel-cell-value">~$1.30</div>
+    <div class="fuel-cell-sub">per litre (USD 1 ≈ NAD 18.2)</div>
+  </div>
+  <div class="fuel-cell">
+    <div class="fuel-cell-label">LC76 Range (145L)</div>
+    <div class="fuel-cell-value">~1,200 km</div>
+    <div class="fuel-cell-sub">At 12L/100km. With 2×20L cells: ~1,450 km max</div>
+  </div>
+  <div class="fuel-cell">
+    <div class="fuel-cell-label">vs SA Price</div>
+    <div class="fuel-cell-value">≈ Parity</div>
+    <div class="fuel-cell-sub">NAD and ZAR track closely. Namibia diesel is typically within 5% of SA pump price.</div>
+  </div>
+</div>
+
+<p class="prose">Namibia is not Angola — diesel is roughly on par with SA pricing. The main constraint is <strong>availability in Kaokoland</strong>, not price. The Namibian government regulates fuel pricing monthly (Walvis Bay serves as the benchmark; inland towns carry a small premium for transport). Fill up whenever you pass a pump in the north — don't assume the next town will have stock.</p>
+
+<div class="alert alert-warn">
+  <strong>Kaokoland fuel gap — critical planning</strong>
+  For the northern Kaokoland circuit (Epupa → Van Zyl's Pass → Marienfluss → Hoarusib), the effective fuel-loading point is <strong>Opuwo</strong> (last reliable diesel before the circuit), with secondary supply at <strong>Ruacana</strong> and sometimes <strong>Oncocua</strong>. The Seven Rivers route from Kunene River Lodge to Palmwag is approximately 1,000 km — you need a full tank plus at least 80–100L carry capacity (2×20L Desert Fox cells plus a jerry can if possible). Fuel at Opuwo before committing to the circuit.
+</div>
+
+<table class="spec-table">
+  <thead><tr><th>Location</th><th>Fuel Reliability</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td>Windhoek</td><td class="ok">Excellent</td><td>Multiple stations. Fill and check jerry cans here before heading north.</td></tr>
+    <tr><td>Outjo / Otjiwarongo</td><td class="ok">Good</td><td>Last large towns before Etosha and northwest. Fill before Etosha.</td></tr>
+    <tr><td>Etosha camps (Okaukuejo, Halali, Namutoni)</td><td class="ok">Good</td><td>NWR operates fuel at all three main camps. Slightly more expensive but reliable.</td></tr>
+    <tr><td>Kamanjab</td><td class="ok">Good</td><td>Gateway to Damaraland/Kaokoland. Top up here.</td></tr>
+    <tr><td>Opuwo</td><td class="ok">Good — but fill here</td><td>Last reliable fuel before the full Kaokoland circuit. Stock varies. Fill tank + all cells.</td></tr>
+    <tr><td>Ruacana</td><td>Variable</td><td>Sometimes available, sometimes not. Don't rely on it. Fill at Opuwo instead.</td></tr>
+    <tr><td>Epupa Falls</td><td class="warn">Unreliable</td><td>Occasionally available from drums. Don't plan on it.</td></tr>
+    <tr><td>Sesfontein</td><td>Variable</td><td>Sometimes diesel from the lodge. Confirm in advance.</td></tr>
+    <tr><td>Palmwag</td><td class="ok">Good</td><td>Palmwag Lodge has fuel. Coming south out of Kaokoland — fill here.</td></tr>
+    <tr><td>Kamanjab → Swakopmund</td><td class="ok">Good</td><td>Regular supply on B1 and coastal roads.</td></tr>
+    <tr><td>Rundu</td><td class="ok">Good</td><td>Gateway to Caprivi. Fill before heading east.</td></tr>
+    <tr><td>Divundu</td><td class="ok">Good</td><td>Fuel available at town. Top up before Bwabwata parks.</td></tr>
+    <tr><td>Katima Mulilo</td><td class="ok">Good</td><td>Last large town in Caprivi. Fill before Zambia crossing.</td></tr>
+  </tbody>
+</table>
+
+<div class="alert alert-note">
+  <strong>Diesel quality</strong>
+  Namibia fuel quality is generally good (low-sulphur options available). Remoter community petrol stations may use older tanks — carry a filter funnel as a basic precaution when filling from drums or remote facilities.
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">Cross-ref</span>
+  <a href="LC76_Fuel_Range_Calculator.html" class="xref-pill">Fuel Range Calculator</a>
+  <a href="LC76_Trip_Fuel_Planner.html" class="xref-pill">Trip Fuel Planner</a>
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 06 · ROADS                                               -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s06">
+  <span class="sec-num">06</span>
+  <span class="sec-title">Roads</span>
+  <span class="sec-sub">Quality · 4×4 Need · Track Conditions</span>
+</div>
+
+<p class="prose">Namibia's main sealed routes (B1 north–south spine, B2 to Swakopmund/Walvis Bay, B8 Caprivi main road) are excellent. Gravel secondary roads are generally well-maintained but corrugated at speed. Kaokoland and the Caprivi deep parks are where this becomes a genuine 4×4 requirement rather than a recommendation.</p>
+
+<table class="spec-table">
+  <thead><tr><th>Route / Area</th><th>Surface</th><th>4×4 Required?</th><th>Condition</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td>Vioolsdrif → Windhoek (B1/N7)</td><td>Sealed</td><td>No</td><td>Excellent</td><td>Main artery. No issues.</td></tr>
+    <tr><td>Windhoek → Etosha (B1 via Otjiwarongo)</td><td>Sealed</td><td>No</td><td>Good–Excellent</td><td>B1 to Okaukuejo turnoff. Well-signed.</td></tr>
+    <tr><td>Etosha park roads</td><td>Gravel</td><td>Recommended</td><td>Good</td><td>Standard crossover can manage park roads, but clearance helps on edges. No damage risk.</td></tr>
+    <tr><td>Outjo → Palmwag (C40)</td><td>Gravel</td><td>Recommended</td><td>Good, corrugated</td><td>Damaraland access. 2WD possible but slow.</td></tr>
+    <tr><td>Palmwag → Opuwo (C43)</td><td>Gravel</td><td>Recommended</td><td>Good–variable</td><td>Scenic Kaokoland approach. Some rocky stretches.</td></tr>
+    <tr><td>Opuwo → Kunene River / Epupa (D3700)</td><td>Gravel/track</td><td>Yes — 4×4</td><td>Rocky, corrugated</td><td>Serious 4×4 territory. Some sand sections. Allow a full day for Opuwo–Epupa (approx 200 km).</td></tr>
+    <tr><td>Van Zyl's Pass (D3706)</td><td>Rock/track</td><td>Yes — expert 4×4</td><td>Extreme</td><td>Expert only. Rocky, narrow, severe drop-offs. Engage diff lock. Low range throughout. Solo vehicle strongly discouraged. Check with T4A community before departure.</td></tr>
+    <tr><td>Marienfluss Valley</td><td>Sand/track</td><td>Yes — 4×4</td><td>Sand</td><td>Deflate to 1.3–1.6 bar. Fairy circles and open plains. No facilities.</td></tr>
+    <tr><td>Hoarusib riverbed (Purros route)</td><td>Sand/rock</td><td>Yes — 4×4</td><td>Variable</td><td>Seasonal riverbed driving. Depth of sand varies. Elephant territory — active area.</td></tr>
+    <tr><td>B8 Trans-Caprivi Highway</td><td>Sealed</td><td>No</td><td>Good</td><td>Main Caprivi artery. Excellent road from Rundu to Katima Mulilo. Can cover this fast.</td></tr>
+    <tr><td>Mudumu NP tracks</td><td>Sand/track</td><td>Yes — 4×4</td><td>Sandy</td><td>Thick sand in places. Deflate tyres. Self-drive game drives only, no marked tracks.</td></tr>
+    <tr><td>Nkasa Rupara NP</td><td>Sand/track</td><td>Yes — 4×4</td><td>Sandy/flooded</td><td>Rupara Island generally accessible dry season. Nkasa Island flood-dependent.</td></tr>
+  </tbody>
+</table>
+
+<div class="alert alert-note">
+  <strong>Tyre pressure guidance — Namibia</strong>
+  On sealed and good gravel roads, run standard highway pressures. Reduce for corrugated gravel if desired (comfort vs tyre wear trade-off). For sand (Marienfluss, Mudumu): deflate to 1.3–1.6 bar depending on sand depth. For rocky tracks (Van Zyl's approach): keep pressures up to protect sidewalls. The Tyre Pressure Calculator covers these scenarios.
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">Cross-ref</span>
+  <a href="LC76_Tyre_Management_Guide.html" class="xref-pill">R14 Tyre Management</a>
+  <a href="LC76_Tyre_Pressure_Calculator.html" class="xref-pill">Tyre Pressure Calculator</a>
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 07 · SECURITY                                            -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s07">
+  <span class="sec-num">07</span>
+  <span class="sec-title">Security</span>
+  <span class="sec-sub">Low Risk Overall · Regional Notes</span>
+</div>
+
+<p class="prose">Namibia is one of the safest overlanding destinations in Africa. It has a functioning police service, a professional border force, and no tradition of facilitating bribes. Remote areas are genuinely remote — the risk is isolation rather than hostility. Urban areas require standard city caution (Windhoek, Katima Mulilo).</p>
+
+<div class="verdict">
+  <div class="verdict-col pros">
+    <h4>Namibia's Security Positives</h4>
+    <ul>
+      <li>Very low violent crime outside major urban centres</li>
+      <li>Police and officials professional — not bribery-oriented</li>
+      <li>Remote Kaokoland: essentially zero human-safety risk</li>
+      <li>Welcoming people, high English fluency in towns</li>
+      <li>Well-maintained vehicle registration and inspection system (roadblocks are routine checks, not shakedowns)</li>
+      <li>Caprivi locals are peaceful, good community relationships with overlanders</li>
+    </ul>
+  </div>
+  <div class="verdict-col cons">
+    <h4>Genuine Risks</h4>
+    <ul>
+      <li>Vehicle break-ins possible at tourist viewpoints (Sossusvlei, Fish River Canyon) — don't leave valuables visible</li>
+      <li>Windhoek: standard urban opportunist crime near backpacker areas; park in secure lots</li>
+      <li>Katima Mulilo: border town — slightly higher petty crime; secure camp recommended</li>
+      <li>Remote breakdown risk in Kaokoland is serious — no cell coverage, no rescue services; satellite communicator is mandatory</li>
+      <li>Landmine: residual risk exists along the Angolan border (Kunene River area). Stay on established tracks. Risk is low on known routes but zero off-track compliance is required.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="alert alert-warn">
+  <strong>Landmine awareness — Kunene / Angola border zone</strong>
+  The Kunene River forms the Namibia–Angola border. Mine clearance in this area has been extensive but is not 100% complete. Do NOT leave established tracks, campsites, or riverbank paths in this area. Epupa Falls and Kunene River Lodge are on cleared, established ground — stay on the paths. The risk is low on known routes; it is the reason you never go off-track in this zone.
+</div>
+
+<table class="spec-table">
+  <thead><tr><th>Area</th><th>Risk Level</th><th>Specific Notes</th></tr></thead>
+  <tbody>
+    <tr><td>Windhoek city centre</td><td class="warn">Moderate</td><td>Urban opportunist crime. Secure parking. Don't walk after dark near backpacker areas.</td></tr>
+    <tr><td>B1 highway corridor</td><td class="ok">Low</td><td>Routine police roadblocks — have CBC permit and insurance in vehicle. Not shakedowns.</td></tr>
+    <tr><td>Etosha National Park</td><td class="ok">Very low</td><td>Fenced park, NWR security. Standard camp protocols.</td></tr>
+    <tr><td>Kaokoland interior</td><td class="ok">Very low (human)</td><td>Virtually no crime risk. Himba people are welcoming. Isolation is the risk, not hostility.</td></tr>
+    <tr><td>Kunene River / Angola border</td><td class="ok">Low (with compliance)</td><td>Stay on established tracks and paths. Landmine risk exists off-track.</td></tr>
+    <tr><td>Skeleton Coast NP</td><td class="ok">Very low</td><td>Permit-controlled. Remote but no security concerns.</td></tr>
+    <tr><td>B8 Caprivi highway</td><td class="ok">Low</td><td>Standard driving. Routine police checkpoints.</td></tr>
+    <tr><td>Katima Mulilo town</td><td>Moderate</td><td>Border town. Secure your camp at night, park in established compounds. Don't leave valuables in vehicle.</td></tr>
+    <tr><td>Caprivi NPs (Bwabwata, Mudumu)</td><td class="ok">Very low</td><td>Very few other visitors. No security concerns.</td></tr>
+  </tbody>
+</table>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 08 · HEALTH                                              -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s08">
+  <span class="sec-num">08</span>
+  <span class="sec-title">Health</span>
+  <span class="sec-sub">Malaria · Vaccines · Medical Facilities</span>
+</div>
+
+<p class="prose">Namibia's southern half (Windhoek, Namib, Fish River Canyon, Lüderitz) is malaria-free. The Kaokoland and Caprivi are malaria areas with seasonal variation. If the April–May window is used, malaria transmission is lower but not zero — prophylaxis is still recommended for anyone entering these zones.</p>
+
+<table class="spec-table">
+  <thead><tr><th>Health Topic</th><th>Status</th><th>Action Required</th></tr></thead>
+  <tbody>
+    <tr><td>Yellow Fever</td><td>Not required (from SA)</td><td>No certificate needed entering from SA. Required if coming via Angola, DRC, Uganda.</td></tr>
+    <tr><td>Malaria — Southern Namibia (south of Red Line)</td><td class="ok">No risk</td><td>No prophylaxis needed for Windhoek, Namib, Fish River Canyon, Lüderitz corridor.</td></tr>
+    <tr><td>Malaria — Etosha</td><td class="warn">Low-moderate risk</td><td>Prophylaxis recommended. Risk is seasonal — lower May–Aug, higher Nov–Apr.</td></tr>
+    <tr><td>Malaria — Kaokoland / Kunene Region</td><td class="warn">Moderate risk</td><td>Prophylaxis recommended. Use long sleeves at dusk. DEET repellent. Risk exists year-round; lower in dry season.</td></tr>
+    <tr><td>Malaria — Caprivi / Zambezi Region</td><td class="warn">Moderate–High risk</td><td>Prophylaxis essential. This is one of Namibia's higher-transmission zones. River and floodplain environment. Malarone or doxycycline — discuss with travel doctor.</td></tr>
+    <tr><td>Typhoid / Hepatitis A</td><td>Recommended</td><td>Eat at established camps/lodges. Avoid uncooked roadside food. Vaccinate before departure.</td></tr>
+    <tr><td>Tetanus / Rabies</td><td>Recommended</td><td>Standard overlanding precaution — rabies risk from wildlife contacts in remote areas.</td></tr>
+    <tr><td>Tsetse fly</td><td>None on this route</td><td>Not present in Namibia on planned route.</td></tr>
+    <tr><td>Water safety</td><td>Variable</td><td>Windhoek tap water is safe. Remote areas and northern communal taps: treat all water. Camp water at established camps is generally safe. Carry purification tablets as backup.</td></tr>
+  </tbody>
+</table>
+
+<table class="spec-table">
+  <thead><tr><th>Location</th><th>Medical Facility</th><th>Quality</th></tr></thead>
+  <tbody>
+    <tr><td>Windhoek</td><td>Mediclinic Windhoek, Rhino Park Private Hospital</td><td class="ok">Good private facilities</td></tr>
+    <tr><td>Swakopmund</td><td>Cottage Medi-Clinic</td><td class="ok">Good</td></tr>
+    <tr><td>Opuwo</td><td>State hospital</td><td>Basic — can stabilise. Serious trauma: medevac to Windhoek.</td></tr>
+    <tr><td>Rundu</td><td>Rundu State Hospital</td><td>Basic</td></tr>
+    <tr><td>Katima Mulilo</td><td>Katima Mulilo State Hospital</td><td>Basic — reasonable for the region</td></tr>
+    <tr><td>Kaokoland remote</td><td>None</td><td class="warn">Zero medical facilities. Satellite communicator + medevac insurance mandatory.</td></tr>
+  </tbody>
+</table>
+
+<div class="alert alert-warn">
+  <strong>Medical evacuation insurance is non-negotiable</strong>
+  For Kaokoland specifically: you are potentially 300+ km from any medical facility, with no cell coverage and tracks that are impassable to a standard ambulance. A Garmin inReach or ZOLEO satellite communicator with SOS function, and comprehensive medevac insurance (ER24 international, Europ Assistance, or similar) are not optional items on this route.
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">Cross-ref</span>
+  <a href="LC76_Health_Hygiene_Guide.html" class="xref-pill">R17 Health &amp; Hygiene</a>
+  <a href="LC76_Emergency_Procedures_Guide.html" class="xref-pill">R10 Emergency Procedures</a>
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 09 · CAMP SAFETY & WILDLIFE                              -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s09">
+  <span class="sec-num">09</span>
+  <span class="sec-title">Camp Safety &amp; Wildlife</span>
+  <span class="sec-sub">Ground Tent · Regional Specifics</span>
+</div>
+
+<p class="prose">Namibia presents three distinct camp environments: Etosha (fenced NWR camps — most controlled), Kaokoland communal conservancy camps (unfenced, big-5 country, desert conditions), and Caprivi river camps (unfenced, elephant and hippo corridors). Each has a different risk profile for a ground tent setup.</p>
+
+<div class="subsec">
+  <span class="subsec-title">Predators &amp; Large Mammals by Region</span>
+  <span class="subsec-tag">Where &amp; What</span>
+</div>
+
+<table class="spec-table">
+  <thead><tr><th>Region / Camp</th><th>Likely Species in Camp</th><th>Normal Behaviour</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td>Etosha — Okaukuejo, Halali, Namutoni</td><td>Elephants, lions, hyena at waterhole</td><td>Fenced camps — waterhole viewing is safe from perimeter fence. Lions visible but not inside perimeter.</td><td>Ground tent fully fine. Wildlife is close but camps are secured. The floodlit waterhole at Okaukuejo is exceptional at night — worth staying awake for.</td></tr>
+    <tr><td>Kaokoland — Kunene River / Epupa area</td><td>Crocodiles (Kunene River), elephants, lions</td><td>Desert-adapted lions in this area are known to investigate campsites. Kunene River has large crocs. Desert elephants use riverbeds.</td><td>Camp away from river edge at night — crocodile risk is real. Keep food sealed and locked in vehicle. Don't leave food in tent. Desert elephants have a 500m comfort zone — move well away from elephants on tracks.</td></tr>
+    <tr><td>Kaokoland — Van Zyl's Pass / Marienfluss</td><td>Elephants, lions (desert-adapted), black rhino</td><td>All extremely wary of humans but can be encountered on tracks at dusk and dawn.</td><td>Make noise when moving around camp at night. Don't stand between elephants and water. The Marienfluss is important desert elephant habitat — they have right of way in the riverbeds.</td></tr>
+    <tr><td>Purros / Hoarusib River area</td><td>Desert elephants (high density), lions, giraffe</td><td>Purros camp is a known elephant passage. Elephants walk through camp at night.</td><td>This is documented — Purros elephants pass through camp regularly. Secure all food in vehicle. Don't leave anything scented outside. The experience is exceptional; it's not dangerous if you're sensible.</td></tr>
+    <tr><td>Caprivi — Mudumu NP / Nakatwa</td><td>Elephants, hippos, buffalo, lions</td><td>Unfenced. Elephants move through camps at night. Hippos graze at river banks.</td><td>Camp within the designated area. Don't wander to the river at night — hippo paths run through Kwando and Chobe riverbanks. Buffalo herds can move fast and unpredictably.</td></tr>
+    <tr><td>Caprivi — Nambwa (Bwabwata Buffalo Core)</td><td>Buffalo (large herds), lions, elephants</td><td>Buffalo Core Area has Namibia's largest buffalo herds — unusual sighting here. Lions follow.</td><td>Very worthwhile stopover. Unfenced camp but well-managed. Standard big-5 protocols. Stay in vehicle or camp — don't walk to water at dawn or dusk.</td></tr>
+  </tbody>
+</table>
+
+<div class="subsec">
+  <span class="subsec-title">Hippos, Crocs &amp; Water Hazards</span>
+  <span class="subsec-tag">River Camps</span>
+</div>
+
+<p class="prose"><strong>Kunene River (Epupa Falls area):</strong> Large crocodiles. Don't swim, wade, or collect water by kneeling at the river edge. The Kunene is one of Namibia's most croc-dense rivers. Admire from above the bank — the view down the falls and upstream from Epupa camp is excellent without getting near the water. <strong>Caprivi rivers (Kwando, Chobe, Zambezi):</strong> Hippos graze 3–5 km from water at night and return before dawn — their path runs through river camp areas. Don't position a ground tent between the river and the camp interior. If you hear hippo grunting, stay in your tent. They are not aggressive unless you block their path.</p>
+
+<div class="subsec">
+  <span class="subsec-title">Park &amp; Camp Rules</span>
+  <span class="subsec-tag">Namibia-Specific</span>
+</div>
+
+<p class="prose">Etosha gates open at sunrise and close at sunset — typically 06:00–18:30 depending on the season. You must be back at camp before gate closing time. No off-road driving in Etosha (unlike SA parks, tracks are not graded for off-road departures). Kaokoland communal conservancy camps: stay on established tracks — this is not just a wildlife rule but a landmine compliance rule near the Kunene. Firewood: collection banned in Namibian national parks; buy at camp reception. Drones: Namibia requires a permit from the Civil Aviation Authority of Namibia (CAAN) for commercial use; recreational drones in national parks are restricted — see Section 10 for details.</p>
+
+<div class="subsec">
+  <span class="subsec-title">Snakes, Scorpions &amp; Smaller Hazards</span>
+  <span class="subsec-tag">Bush Hazards</span>
+</div>
+
+<p class="prose">Namibia has a full complement of dangerous snakes, though encounters are uncommon in established camps. Puff adders are the biggest risk — they're slow, cryptic, and don't move out of the way. Shake boots every morning. Cape cobras and spitting cobras (Mozambique spitting cobra is common in the Caprivi) are present. Scorpions are abundant in the Namib and Kaokoland rocky terrain — shake sleeping gear, check shoes. Black mamba is present but rarely encountered in camp conditions. Antivenom: Windhoek Mediclinic. Remote area protocol: satellite communicator SOS + keep the victim still, as you likely have hours before help arrives. In any remote camp, the anti-venom logistics mean your job is to keep the person calm and stable until medevac, not to rush overland.</p>
+
+<div class="xref-bar">
+  <span class="xref-label">Cross-ref</span>
+  <a href="LC76_Emergency_Procedures_Guide.html" class="xref-pill">R10 Emergency Procedures</a>
+  <a href="LC76_Health_Hygiene_Guide.html" class="xref-pill">R17 Health &amp; Hygiene</a>
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 10 · COMMUNICATIONS                                      -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s10">
+  <span class="sec-num">10</span>
+  <span class="sec-title">Communications</span>
+  <span class="sec-sub">SIM · Coverage · Drones · Satellite</span>
+</div>
+
+<p class="prose">Namibia's cell coverage is good along major corridors (B1, B2, B8, and main town areas) but drops to zero quickly in Kaokoland interior, the Skeleton Coast, and sections of the Caprivi. MTC and TN Mobile are the two main providers — MTC has the wider rural network.</p>
+
+<table class="spec-table">
+  <thead><tr><th>Provider</th><th>Network</th><th>Coverage</th><th>Data Cost vs SA</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td><strong>MTC</strong> (Mobile Telecommunications)</td><td>4G/LTE + 3G</td><td>Best rural coverage in Namibia</td><td>Comparable to SA</td><td>Buy MTC SIM at Windhoek airport or any MTC shop. Prepaid data bundles available. The recommended choice for overlanders. Strong signal Windhoek → Opuwo corridor and B8 highway.</td></tr>
+    <tr><td><strong>TN Mobile</strong> (Telecom Namibia)</td><td>4G/LTE + 3G</td><td>Good in towns, weaker rural</td><td>Comparable</td><td>Second choice. Good in urban centres. Less useful in deep bush.</td></tr>
+    <tr><td><strong>SA roaming</strong> (Vodacom/MTN)</td><td>Roaming on MTC/TN</td><td>Variable cost</td><td>Very expensive</td><td>Use SA roaming only for emergencies. Buy a local MTC SIM — it's straightforward and inexpensive.</td></tr>
+  </tbody>
+</table>
+
+<table class="spec-table">
+  <thead><tr><th>Area</th><th>Cell Coverage</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td>Windhoek and suburbs</td><td class="ok">Excellent</td><td>Full 4G</td></tr>
+    <tr><td>B1 highway (Windhoek–Etosha)</td><td class="ok">Good</td><td>Consistent except a few dead zones between Outjo and Ondangwa</td></tr>
+    <tr><td>Etosha NP (Okaukuejo, Halali, Namutoni)</td><td class="ok">Good</td><td>MTC signal at all three main camps</td></tr>
+    <tr><td>Opuwo town</td><td class="ok">Good</td><td>MTC 3G/4G in town centre</td></tr>
+    <tr><td>Opuwo → Epupa Falls</td><td class="warn">Patchy to none</td><td>Drops in and out on the road. No coverage at Epupa camp itself.</td></tr>
+    <tr><td>Kaokoland interior / Marienfluss</td><td class="warn">Zero</td><td>No coverage. Satellite communicator mandatory.</td></tr>
+    <tr><td>Skeleton Coast NP</td><td class="warn">Zero or minimal</td><td>No coverage inside the park.</td></tr>
+    <tr><td>B8 Trans-Caprivi (Rundu–Katima)</td><td class="ok">Good–excellent</td><td>Consistent MTC along main road</td></tr>
+    <tr><td>Caprivi NPs (Mudumu, Bwabwata interior)</td><td class="warn">None to poor</td><td>Off main road coverage drops immediately. Satellite communicator required for deep park travel.</td></tr>
+    <tr><td>Katima Mulilo town</td><td class="ok">Good</td><td>Full coverage</td></tr>
+  </tbody>
+</table>
+
+<div class="subsec">
+  <span class="subsec-title">Drones, Satellite &amp; GPS</span>
+  <span class="subsec-tag">Legal Status</span>
+</div>
+
+<p class="prose"><strong>Drones:</strong> Namibia does not have a blanket drone ban like Botswana, but the Civil Aviation Authority of Namibia (CAAN) requires registration and permits. Recreational drones are generally tolerated in communal areas but are <strong>prohibited in national parks and within 5 km of airports and military installations</strong>. Flying over wildlife is illegal. If you intend to fly in Namibia (Kaokoland landscapes, the Marienfluss, the Caprivi), research current CAAN permit requirements well in advance — rules are evolving. As a ground rule: don't fly over or near wildlife or military facilities; check with camp managers in communal conservancies.</p>
+
+<p class="prose"><strong>Satellite communicators:</strong> Garmin inReach or ZOLEO are fully legal and widely used by overlanders. No registration required. Essential for Kaokoland. <strong>GPS units / T4A:</strong> Tracks4Africa (T4A) is the standard for southern Africa overlanding. The Namibia dataset is comprehensive including Kaokoland tracks, community camps, water points, and fuel stops. Download maps offline before departure — Kaokoland has no data for live routing. <strong>Starlink:</strong> Starlink portable (Flat High Performance dish) is legal in Namibia and increasingly used in remote camps. Check Starlink's coverage map for active service zones — good coverage of main Namibia but check Kaokoland specifically.</p>
+
+<div class="xref-bar">
+  <span class="xref-label">Cross-ref</span>
+  <a href="LC76_Comms_Navigation_Guide.html" class="xref-pill">R16 Comms &amp; Navigation</a>
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 11 · MONEY & CURRENCY                                    -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s11">
+  <span class="sec-num">11</span>
+  <span class="sec-title">Money &amp; Currency</span>
+  <span class="sec-sub">NAD · ZAR Parity · SADC Rates</span>
+</div>
+
+<p class="prose">The Namibian Dollar (NAD) is pegged at 1:1 to the South African Rand (ZAR) — they are interchangeable for all practical purposes in Namibia. ZAR is accepted everywhere. You don't need to exchange currency before departure — use ZAR or draw NAD at ATMs. USD is rarely needed (unlike Zambia or Zimbabwe).</p>
+
+<div class="data-grid">
+  <div class="data-card dark">
+    <div class="data-card-label">Currency</div>
+    <div class="data-card-value">NAD = ZAR</div>
+    <div class="data-card-sub">Namibian Dollar pegged 1:1 to ZAR. Both accepted everywhere. No exchange required.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">USD Rate (Apr 2026)</div>
+    <div class="data-card-value">~18.2 NAD</div>
+    <div class="data-card-sub">Verify closer to travel. USD is accepted at some lodges and for major purchases but not required at parks.</div>
+  </div>
+  <div class="data-card ok">
+    <div class="data-card-label">ATMs</div>
+    <div class="data-card-value">Good Coverage</div>
+    <div class="data-card-sub">Windhoek, Swakopmund, Walvis Bay, Outjo, Opuwo (town), Rundu, Katima Mulilo. None in Kaokoland interior, Skeleton Coast, or deep Caprivi parks.</div>
+  </div>
+  <div class="data-card ok">
+    <div class="data-card-label">Card Acceptance</div>
+    <div class="data-card-value">Good in Towns</div>
+    <div class="data-card-sub">Most lodges, filling stations, and supermarkets accept Visa/Mastercard. Rural community camps: cash only.</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-card-label">Cost vs SA</div>
+    <div class="data-card-value">Similar</div>
+    <div class="data-card-sub">Supermarkets and fuel broadly comparable to SA prices. NWR camp fees are moderate. Lodges can be expensive in peak season.</div>
+  </div>
+</div>
+
+<div class="subsec">
+  <span class="subsec-title">SADC Resident Tier</span>
+  <span class="subsec-tag">SA Passport Discount</span>
+</div>
+
+<p class="prose">Namibia Wildlife Resorts (NWR) applies a three-tier pricing structure: Namibian citizen, SADC resident, and international. As SA passport holders, you qualify for SADC resident rates — typically 30–50% less than international rates. Always present your SA ID or passport when paying park fees and camping at NWR properties. NWR is the most relevant system here; private lodges generally do not apply SADC tiering.</p>
+
+<table class="spec-table">
+  <thead><tr><th>Fee Type</th><th>Tier</th><th>Proof Required</th><th>Savings</th></tr></thead>
+  <tbody>
+    <tr><td>NWR park entry fees</td><td class="ok">SADC</td><td>SA passport or ID</td><td>~30–40% vs international</td></tr>
+    <tr><td>NWR camping fees</td><td class="ok">SADC</td><td>SA passport or ID</td><td>~30–50% vs international</td></tr>
+    <tr><td>Communal conservancy camps</td><td>Flat rate</td><td>N/A</td><td>No tiering — fixed NAD fee</td></tr>
+    <tr><td>Private lodges</td><td>No SADC tier</td><td>N/A</td><td>No discount</td></tr>
+  </tbody>
+</table>
+
+<div class="subsec">
+  <span class="subsec-title">Cash Strategy</span>
+  <span class="subsec-tag">What to Carry</span>
+</div>
+
+<p class="prose"><strong>ZAR / NAD cash:</strong> Carry meaningful NAD cash for communal conservancy camps (cash only), CBC road tax, fuel at remote stations, and community market purchases. NWR accepts cards where connectivity allows, but have cash backup. <strong>USD:</strong> Not required for Namibia. Only useful as a backup if cards fail, and then only at lodges — carry a small stash for emergency use only. <strong>ATM strategy:</strong> Draw cash in Windhoek and in Opuwo before heading into Kaokoland. The next ATM after Opuwo is Ruacana (variable) or back at Outjo. For the Caprivi, draw at Rundu or Katima Mulilo before heading into the parks.</p>
+
+<div class="brief-block">
+  <div class="brief-block-title">Estimated cash to carry (Kaokoland circuit)</div>
+  <ul>
+    <li>CBC road tax at Vioolsdrif: ~NAD 150–250 (confirm current rates at border)</li>
+    <li>Communal conservancy camps (3–4 nights): ~NAD 100–200 per night per couple — allow NAD 800</li>
+    <li>Van Zyl's Pass community camp: ~NAD 100–150 per night</li>
+    <li>Emergency fuel (Sesfontein or Purros from drums if available): ~NAD 50/L x 40L = NAD 2,000 worst case</li>
+    <li>Food top-up Opuwo market: NAD 500–800</li>
+    <li>Total cash buffer for Kaokoland circuit: NAD 3,000–4,000 minimum in addition to card backup</li>
+  </ul>
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 12 · NATIONAL PARKS & CAMPING                            -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s12">
+  <span class="sec-num">12</span>
+  <span class="sec-title">National Parks &amp; Camping</span>
+  <span class="sec-sub">NWR · Community Conservancies · Booking</span>
+</div>
+
+<p class="prose">The Namibia camping landscape divides into three systems: NWR (national parks — Etosha, Sossusvlei, Skeleton Coast), communal conservancy camps (Kaokoland, Damaraland — pay locally, walk-in), and private/community camps (Caprivi — some pre-bookable). Understand which system applies to each night's intended camp and book or plan accordingly.</p>
+
+<div class="subsec">
+  <span class="subsec-title">Booking System Overview</span>
+  <span class="subsec-tag">How to Reserve</span>
+</div>
+
+<div class="alert alert-warn">
+  <strong>NWR online booking system currently unavailable (as of April 2026)</strong>
+  Namibia Wildlife Resorts' online booking portal has been offline for an extended period. All bookings must be made by email: <strong>reservations@nwr.com.na</strong>. Response times can be slow during busy periods. Request availability, confirm with deposit, and obtain a confirmation number. Check NWR's website (nwr.com.na) for current status closer to travel — the system may be restored before your 2028 departure.
+</div>
+
+<table class="spec-table">
+  <thead><tr><th>System</th><th>Contact</th><th>Payment</th><th>Lead Time Needed</th></tr></thead>
+  <tbody>
+    <tr><td><strong>NWR (all NPs)</strong></td><td>reservations@nwr.com.na</td><td>EFT / credit card via email confirmation</td><td>2–3 months off-season; 6–9 months peak</td></tr>
+    <tr><td><strong>Communal conservancy camps (Kaokoland)</strong></td><td>Walk-in or community radio — no advance booking</td><td>NAD cash on arrival</td><td>None — arrive and pay</td></tr>
+    <tr><td><strong>Epupa Falls Rest Camp</strong></td><td>Direct — search current contact</td><td>Card or cash</td><td>2–4 weeks minimum for riverside pitches</td></tr>
+    <tr><td><strong>Kunene River Lodge</strong></td><td>kuneneriverlodge.com</td><td>Card or EFT</td><td>2–4 weeks</td></tr>
+    <tr><td><strong>Palmwag Lodge</strong></td><td>wilderness-safaris.com or direct</td><td>Card</td><td>2–4 weeks off-season</td></tr>
+    <tr><td><strong>Nambwa Tented Lodge (Bwabwata)</strong></td><td>nambwa.com</td><td>Card or EFT</td><td>2–3 months peak; 4–6 weeks off-season</td></tr>
+    <tr><td><strong>Nakatwa campsites (Mudumu NP)</strong></td><td>Enquire via NAMTourism or direct</td><td>NAD cash at park</td><td>Flexible — less popular</td></tr>
+    <tr><td><strong>Mukolo Camp (Caprivi)</strong></td><td>mukolocamp.com</td><td>Card or EFT</td><td>2–4 weeks</td></tr>
+  </tbody>
+</table>
+
+<div class="subsec">
+  <span class="subsec-title">Park Fees Reference Table</span>
+  <span class="subsec-tag">SADC vs International · Apr 2026 indicative</span>
+</div>
+
+<div class="alert alert-note">
+  <strong>Verify fees before travel</strong>
+  NWR fees are updated periodically. The figures below are indicative for 2026 based on available information. Always confirm current rates with NWR when booking. Fees listed in NAD.
+</div>
+
+<table class="spec-table">
+  <thead><tr><th>Park</th><th>Daily Entry — SADC</th><th>Daily Entry — Int'l</th><th>Vehicle</th><th>Camping — SADC</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Etosha NP</strong></td><td>~NAD 80–120</td><td>~NAD 200–280</td><td>~NAD 10</td><td>~NAD 140–200 per site</td><td>Entry + camping are separate fees. Floodlit waterhole camps (Okaukuejo, Halali, Namutoni). Camp bookable via NWR email.</td></tr>
+    <tr><td><strong>Sesriem / Sossusvlei</strong></td><td>~NAD 80</td><td>~NAD 200</td><td>~NAD 10</td><td>~NAD 120–160 per site</td><td>Must be inside park gate at dusk for sunrise access to Deadvlei (01:30 gate opening for Sossusvlei).</td></tr>
+    <tr><td><strong>Skeleton Coast NP (northern)</strong></td><td>Permit required</td><td>Permit required</td><td>Included</td><td>Limited designated sites</td><td>Access to northern Skeleton Coast requires permit from NWR. Fly-in access only for far north. Self-drive southern portion more accessible.</td></tr>
+    <tr><td><strong>Bwabwata NP (Caprivi)</strong></td><td>~NAD 80</td><td>~NAD 200</td><td>~NAD 10</td><td>Via camp operator</td><td>Covers both Buffalo and Mahango core areas. No NWR camping inside; use private/community camps at entrances.</td></tr>
+    <tr><td><strong>Mudumu NP</strong></td><td>~NAD 80</td><td>~NAD 200</td><td>~NAD 10</td><td>~NAD 80 at Nakatwa</td><td>Nakatwa campsites inside the park. Very quiet. Self-drive in thick sand.</td></tr>
+    <tr><td><strong>Nkasa Rupara NP</strong></td><td>~NAD 80</td><td>~NAD 200</td><td>~NAD 10</td><td>No designated sites inside</td><td>Camp at Rupara Rest Camp (3 km from park). Managed by Nkasa Lupala lodge.</td></tr>
+    <tr><td><strong>Communal conservancies (Kaokoland)</strong></td><td>No entry fee</td><td>No entry fee</td><td>N/A</td><td>NAD 80–200 per site</td><td>Community-managed. Pay locally in NAD cash. Fees vary by conservancy — typically NAD 100–150 per couple per night.</td></tr>
+  </tbody>
+</table>
+
+<div class="subsec">
+  <span class="subsec-title">Park-by-Park Detail</span>
+  <span class="subsec-tag">For This Route</span>
+</div>
+
+<div class="route-grid">
+  <div class="route-card">
+    <span class="route-badge">Primary Park</span>
+    <h3>Etosha National Park</h3>
+    <ul>
+      <li><strong>Size:</strong> 22,270 km² — large central salt pan with surrounding bush and game-rich edges</li>
+      <li><strong>Why go:</strong> Outstanding waterhole wildlife viewing, particularly late dry season. Floodlit night waterholes at Okaukuejo and Halali are genuinely spectacular.</li>
+      <li><strong>Self-drive:</strong> Yes — extensive gravel road network throughout the park</li>
+      <li><strong>Best camps:</strong> Okaukuejo (lit waterhole — black rhino common at night), Halali (mid-park, quieter), Namutoni (eastern, fort-shaped, proximity to different habitat), Olifantsrus (western, elephant concentration)</li>
+      <li><strong>Ground tent:</strong> Excellent — all camps fenced, ablutions good, shade trees at pitches</li>
+      <li><strong>Vet cordon:</strong> Anderson Gate, Von Lindquist Gate, Galton Gate — raw meat not south</li>
+      <li><strong>Book:</strong> reservations@nwr.com.na — 2–3 months ahead (off-season)</li>
+      <li><strong>Best timing for this trip:</strong> Arrive late April–May — pre-peak, post-rains, good availability</li>
+    </ul>
+  </div>
+  <div class="route-card">
+    <span class="route-badge">Primary — Kaokoland</span>
+    <h3>Kunene Region / Kaokoland (Communal Conservancies)</h3>
+    <ul>
+      <li><strong>Size:</strong> ~49,000 km² — not a formal national park but a network of 38+ communal conservancies</li>
+      <li><strong>Why go:</strong> The signature Namibia 4×4 experience. Van Zyl's Pass, Marienfluss valley, Epupa Falls, Himba culture, desert-adapted lion and elephant. One of Africa's last true wilderness corridors.</li>
+      <li><strong>Self-drive:</strong> Yes — highly recommended. Guides available at Epupa and Opuwo if wanted but not required.</li>
+      <li><strong>Key camps:</strong> Epupa Falls Rest Camp (riverside, spectacular), Van Zyl's Pass Community Camp (basic, memorable), Marienfluss Syncro Camp, Purros Community Camp (elephant corridor), Hoarusib Valley</li>
+      <li><strong>Ground tent:</strong> Good at established sites. Unfenced — full wildlife awareness required. Hard ground at some sites; carry extra pegs.</li>
+      <li><strong>Booking:</strong> Most camps walk-in and pay cash locally. Epupa Falls Rest Camp and Kunene River Lodge should be booked in advance.</li>
+      <li><strong>Fuel:</strong> Fill at Opuwo before any circuit. Carry minimum 120L.</li>
+    </ul>
+  </div>
+  <div class="route-card">
+    <span class="route-badge">Caprivi Highlight</span>
+    <h3>Bwabwata National Park (Mahango + Buffalo Core)</h3>
+    <ul>
+      <li><strong>Size:</strong> ~6,100 km² — two separate core areas connected by communal land</li>
+      <li><strong>Mahango Core:</strong> Okavango floodplain access. Excellent birding. Large elephant herds. Vehicle accessible — excellent self-drive game drive loop along the river.</li>
+      <li><strong>Buffalo Core:</strong> Namibia's best sable and roan sightings. Large buffalo herds (unusual for Namibia). Lions follow the buffalo. Very quiet — almost no other visitors.</li>
+      <li><strong>Self-drive:</strong> Yes for Mahango loop. Buffalo Core has open track driving.</li>
+      <li><strong>Camps:</strong> No NWR camping inside. Stay at Nunda Lodge (Divundu — Okavango River views, good facilities) for Mahango. Nambwa Tented Lodge for Buffalo Core (premium but worth it; nambwa.com).</li>
+      <li><strong>Ground tent:</strong> Nambwa has campsites — unfenced, buffalo territory</li>
+    </ul>
+  </div>
+  <div class="route-card">
+    <span class="route-badge">Caprivi — Wild</span>
+    <h3>Mudumu National Park</h3>
+    <ul>
+      <li><strong>Size:</strong> ~1,010 km² — Kwando River floodplain, mopane woodland, elephant migration route</li>
+      <li><strong>Why go:</strong> The least-visited park in Namibia. 2–3 vehicles per day maximum. Thick sand tracks, elephants everywhere, deafening night chorus. Raw Africa.</li>
+      <li><strong>Self-drive:</strong> Yes — 4×4 only. Thick sand. No marked tracks — use T4A.</li>
+      <li><strong>Camps:</strong> Nakatwa campsites (inside park — basic, river edge). Also Mukolo Camp outside park (6 campsites with river views, ablutions, electricity — mukolocamp.com).</li>
+      <li><strong>Ground tent:</strong> Nakatwa is flat ground, no shade trees. Bring a shade structure. River edge is exceptional. Unfenced — elephants, hippos, buffalo through camp.</li>
+      <li><strong>Book:</strong> Mukolo pre-book. Nakatwa: pay at park gate.</li>
+    </ul>
+  </div>
+  <div class="route-card secondary">
+    <span class="route-badge">Optional</span>
+    <h3>Nkasa Rupara (Mamili) NP</h3>
+    <ul>
+      <li><strong>Size:</strong> ~320 km² — Linyanti/Chobe floodplain, two islands (Nkasa + Rupara)</li>
+      <li><strong>Why go:</strong> Hippo pods, wetland birdlife, mokoro trips possible, extreme remoteness</li>
+      <li><strong>Access:</strong> Rupara Island accessible in dry season. Nkasa: flood-dependent.</li>
+      <li><strong>No camping inside:</strong> Use Rupara Rest Camp (3 km from park, managed by Nkasa Lupala lodge) — has camping and self-catering units</li>
+      <li><strong>Consider:</strong> Worth 1–2 nights if time allows. Adds to the Caprivi circuit nicely.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="subsec">
+  <span class="subsec-title">Private Reserves &amp; Community Camps</span>
+  <span class="subsec-tag">Beyond the NP Circuit</span>
+</div>
+
+<p class="prose"><strong>Palmwag Lodge (Damaraland):</strong> Gateway to rhino tracking country. Desert-adapted black rhino, elephant, and lion. Wilderness Safaris property. Camping available. Good base before or after Kaokoland. <strong>Hoarusib Valley river camps:</strong> Community campsites along the Hoarusib riverbed south of Purros. Elephant corridor — likely night visitors. <strong>!Khoadi-//Hoas Conservancy (Torra/Palmwag area):</strong> Community conservancy with good desert adapted wildlife including desert lion and elephant. <strong>Divundu / Nunda Lodge:</strong> Excellent private camp on the Okavango for Mahango access — friendly management, river-edge setting, good birding from the camp.</p>
+
+<div class="xref-bar">
+  <span class="xref-label">Cross-ref</span>
+  <a href="LC76_Water_Budget_Calculator.html" class="xref-pill">Water Budget</a>
+  <a href="LC76_Water_Management_Guide.html" class="xref-pill">R12 Water Management</a>
+  <a href="LC76_Packing_Optimisation_Guide.html" class="xref-pill">R11 Packing</a>
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 13 · KAOKOLAND — HIGHLIGHTS                              -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s13">
+  <span class="sec-num">13</span>
+  <span class="sec-title">Kaokoland — Highlights</span>
+  <span class="sec-sub">Northwest Namibia's Wild Frontier</span>
+</div>
+
+<p class="prose">Kaokoland (officially the Kunene Region) is the reason serious overlanders come to Namibia. It occupies the northwest corner — from the Skeleton Coast inland across ancient rocky plateaus to the Kunene River on the Angolan border. It is not a national park but a network of communal conservancies managing their own wildlife. There are essentially no formal tourist facilities outside a handful of lodges. This is where the trip earns its character.</p>
+
+<div class="subsec"><span class="subsec-title">— Epupa Falls &amp; Kunene River</span><span class="subsec-tag">The Destination</span></div>
+
+<div class="route-grid">
+  <div class="route-card">
+    <span class="route-badge">Must Visit</span>
+    <h3>Epupa Falls</h3>
+    <ul>
+      <li><strong>What:</strong> The Kunene River plunges through a 1.5 km series of cascades dropping 60 m total into a gorge — the tallest individual drop is 37 m. Angola is on the far bank.</li>
+      <li><strong>Setting:</strong> Dense palm grove (Makalani palms), fig trees, and baobabs clinging to the gorge cliffs. One of southern Africa's most dramatic campsites.</li>
+      <li><strong>Camp:</strong> Epupa Falls Rest Camp — river-edge pitches between the palms. Book ahead. Ablutions good. Bar on-site.</li>
+      <li><strong>Do:</strong> Sunrise over the falls (short walk from camp), Himba village visit with a local guide, swim in the pool above the falls (croc-clear section — confirm with camp manager)</li>
+      <li><strong>Entry fee:</strong> No entry fee to the falls area. Camp fee only.</li>
+      <li><strong>Timing:</strong> April–May post-rains the river is running hard — spectacular. October–November the water level drops but still impressive.</li>
+    </ul>
+  </div>
+  <div class="route-card">
+    <span class="route-badge">Cultural</span>
+    <h3>Himba Villages</h3>
+    <ul>
+      <li><strong>What:</strong> The Himba are a semi-nomadic pastoralist people who maintain traditional dress, ochre body paste, and cattle-herding lifestyle largely intact.</li>
+      <li><strong>Approach:</strong> Always engage via a local guide or ask permission at the village before entering. Don't photograph without asking and offering something in return (small goods or money).</li>
+      <li><strong>Where:</strong> Villages throughout Kaokoland. Most accessible near Opuwo, Epupa, and along the Kunene corridor. Organised visits via Opuwo lodges or community guides.</li>
+      <li><strong>Cattle stampede:</strong> Near Himba villages, be aware that cattle return from long-range grazing at dusk or night — move your camp if you're in their path.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="subsec"><span class="subsec-title">— Van Zyl's Pass &amp; Marienfluss</span><span class="subsec-tag">The 4×4 Objective</span></div>
+
+<div class="route-grid">
+  <div class="route-card">
+    <span class="route-badge">Expert 4×4</span>
+    <h3>Van Zyl's Pass</h3>
+    <ul>
+      <li><strong>What:</strong> A 12 km rocky descent off the escarpment into the Marienfluss Valley. The pass itself is technically demanding — narrow ledges, rock steps, sheer drops on the outside. Getting to the top from Otjitanda is arguably harder than the descent.</li>
+      <li><strong>Difficulty:</strong> Expert 4×4. Low range, diff lock engaged, rock steps that will ground a poorly-equipped vehicle. Do NOT attempt in a high-clearance 2WD, soft roader, or alone.</li>
+      <li><strong>Solo policy:</strong> Single-vehicle descent is possible but strongly discouraged. Recovery in this location is a multi-day exercise. Two vehicles minimum recommended.</li>
+      <li><strong>LC76 suitability:</strong> The 1HZ + R151F + OME suspension combination handles Van Zyl's. Low range, centre and rear diff locks engaged for the rocky sections. Approach from Etengwa / Otjitanda side.</li>
+      <li><strong>Community camp:</strong> Van Zyl's Pass Community Camp at the top — basic facilities, NAD cash payment</li>
+    </ul>
+  </div>
+  <div class="route-card">
+    <span class="route-badge">Iconic</span>
+    <h3>Marienfluss Valley</h3>
+    <ul>
+      <li><strong>What:</strong> A wide grass valley between towering mountain ranges — the Otjihipa and Hartmann mountains flanking a sand plain covered in fairy circles (unexplained circular clearings). Sweeping, silent, otherworldly.</li>
+      <li><strong>Wildlife:</strong> Herds of springbok, oryx, ostrich. Desert elephant move through. Possible desert lion.</li>
+      <li><strong>Drive:</strong> Open sand plain — deflate to 1.3–1.5 bar. Easy driving compared to the pass but long distances without fuel or facilities.</li>
+      <li><strong>Camp:</strong> Syncro Camp at the river end. Community campsites in the valley — walk-in, NAD cash.</li>
+      <li><strong>Distance consideration:</strong> From Van Zyl's Pass top to exit at Rooidrom is 150–200 km of slow track driving. Allow 2 full days.</li>
+    </ul>
+  </div>
+  <div class="route-card secondary">
+    <span class="route-badge">Desert Wildlife</span>
+    <h3>Purros &amp; Hoarusib River</h3>
+    <ul>
+      <li><strong>What:</strong> The Hoarusib River drains west from the Kaokoland plateau through Purros community and into the Skeleton Coast. It is a critical corridor for desert-adapted elephants.</li>
+      <li><strong>Purros Camp:</strong> Community campsite on the river. Night-time elephant visits are essentially guaranteed in dry season — the camp sits directly on the main elephant route to water.</li>
+      <li><strong>Skeleton Coast access:</strong> The Hoarusib riverbed can be driven west towards the coast — eventually reaching the Skeleton Coast NP. Permit required to enter the NP proper.</li>
+      <li><strong>Driving:</strong> Sandy riverbed — 4×4 required, deflate tyres.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="subsec"><span class="subsec-title">— Ruacana Falls &amp; Opuwo</span><span class="subsec-tag">Gateway Town</span></div>
+
+<p class="prose"><strong>Ruacana Falls:</strong> The Kunene River's larger waterfall (120 m drop, 700 m wide at flood). Powerful in the rainy season, sometimes barely flowing in the dry season when most water is diverted for hydroelectric generation. Worth a stop but don't plan a full day around it in the dry season. <strong>Opuwo:</strong> The capital of the Kunene Region — a genuine frontier town with a petrol station, supermarkets, ATM, a couple of lodges, and a lively market. Stock up on everything here. Kaoko Mopane Lodge has decent camping with good facilities. This is your last proper resupply before the Kaokoland circuit.</p>
+
+<div class="subsec"><span class="subsec-title">— The Lone Men of Kaokoland</span><span class="subsec-tag">Stone Men · Treasure Hunt</span></div>
+
+<div class="route-card" style="margin:0 0 14px">
+  <span class="route-badge">Kaokoland Cult Attraction</span>
+  <h3>The Lone Men (Stone Men) of Kaokoland</h3>
+  <ul>
+    <li><strong>What they are:</strong> A series of life-size human sculptures made from local rock, appearing throughout the remote Kaokoland landscape. Each depicts a man in a different posture — sitting, standing, kneeling, crawling, hanging from a rock ledge. Each has a numbered aluminium disc attached with a brief message indicating where the figure is "going."</li>
+    <li><strong>Numbers:</strong> A sculpture numbered at least 37 has been recorded; in practice fewer than 20 have been reliably documented by the overlanding community. Artist is anonymous and the total count unknown — new figures continue to appear.</li>
+    <li><strong>Where to look:</strong> Scattered across the triangle bounded by <em>Purros in the south, Van Zyl's Pass in the east, Otjinungua (Kunene River) in the north, and the Skeleton Coast Park in the west</em>. You're in the right zone throughout the Kaokoland circuit. One notable one — "The Hanging Man" — is reportedly on the D3707 between Sesfontein and Orupembe, hanging from a rock overhang.</li>
+    <li><strong>GPS coords:</strong> Not published by design — finding them is the point. The overlanding community actively withholds precise coordinates to preserve the treasure-hunt nature. Load the Overlanding GPS Logs &amp; Tracks group on Facebook before departure — some pins are shared there. T4A community notes occasionally flag sightings.</li>
+    <li><strong>How to find them:</strong> Scan rock outcrops and open plains as you drive the Kaokoland tracks, especially on the approaches to Van Zyl's Pass, along the Hoarusib riverbed, and between Sesfontein and Purros. They blend into the landscape — made from the same rock as their surroundings. Stop if you see a stone circle (each figure is surrounded by a ring of smaller stones).</li>
+    <li><strong>Etiquette:</strong> Don't move them. Don't remove the aluminium disc. Don't publish precise GPS coordinates publicly. Photograph and log your sighting — the overlanding community is collectively mapping them.</li>
+    <li><strong>Himba take:</strong> The local Himba people are reportedly unperturbed by the figures' presence — they have simply become part of the landscape.</li>
+  </ul>
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 14 · CAPRIVI STRIP — HIGHLIGHTS                          -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s14">
+  <span class="sec-num">14</span>
+  <span class="sec-title">Caprivi Strip — Highlights</span>
+  <span class="sec-sub">Namibia's Green Eastern Corridor</span>
+</div>
+
+<p class="prose">The Caprivi Strip (now officially the Zambezi Region) is Namibia's geographic anomaly — a narrow 450 km strip extending east, bordered by Angola, Botswana, Zambia and touching Zimbabwe at the Chobe-Zambezi confluence. It is green, river-threaded, and completely different from the desert heartland to the west. It's where Namibia's five perennial rivers converge and where you transition from desert overlanding to the water-world of the Okavango, Kwando, Linyanti, and Zambezi. It's also where you cross into Zambia heading north.</p>
+
+<div class="subsec"><span class="subsec-title">— The Caprivi Parks Circuit</span><span class="subsec-tag">Water, Elephants &amp; Quiet</span></div>
+
+<div class="route-grid">
+  <div class="route-card">
+    <span class="route-badge">Best Caprivi Park</span>
+    <h3>Bwabwata NP — Buffalo Core Area</h3>
+    <ul>
+      <li><strong>Why it's special:</strong> The only place in Namibia where you'll reliably see large buffalo herds alongside rare sable and roan antelope — species that are common in Zambia and Botswana but unusual this far west. Lions follow the buffalo.</li>
+      <li><strong>Access:</strong> Turn south off B8 approximately 10 km east of Divundu. Self-drive open tracks through mopane woodland.</li>
+      <li><strong>Virtually no other visitors:</strong> Genuinely one of Namibia's quietest game areas despite excellent game.</li>
+      <li><strong>Stay:</strong> Nambwa Tented Lodge (premium, superb river location, strong conservation ethic) — book ahead.</li>
+    </ul>
+  </div>
+  <div class="route-card">
+    <span class="route-badge">Okavango Gateway</span>
+    <h3>Bwabwata NP — Mahango Core Area</h3>
+    <ul>
+      <li><strong>What:</strong> The Okavango River floodplain at its most accessible. A game drive loop along the river gives exceptional hippo, elephant, buffalo, and birding sightings.</li>
+      <li><strong>Access:</strong> West of Divundu on the road toward Botswana (Shakawe border). Day visit or camp at Nunda Lodge nearby.</li>
+      <li><strong>Crossing option:</strong> Mohembo / Shakawe border (06:00–18:00) is accessible from here into Botswana's Okavango Panhandle — an option if detouring through Botswana before Zambia.</li>
+    </ul>
+  </div>
+  <div class="route-card">
+    <span class="route-badge">Hidden Gem</span>
+    <h3>Mudumu National Park</h3>
+    <ul>
+      <li><strong>What:</strong> The least-visited park in the country. Kwando River floodplains, thick mopane, and elephant migration route from Botswana into Angola.</li>
+      <li><strong>Game:</strong> Elephants everywhere — frequently blocking tracks. Hippos and crocs on the Kwando. Sitatunga and red lechwe (wetland antelope, unusual).</li>
+      <li><strong>Birds:</strong> 400+ species recorded. African fish eagle, saddle-billed stork, pel's fishing owl.</li>
+      <li><strong>Advice:</strong> Go here for the experience, not the facilities. Nakatwa campsites are basic. Mukolo Camp outside the park is more comfortable.</li>
+    </ul>
+  </div>
+  <div class="route-card secondary">
+    <span class="route-badge">Four Corners Gateway</span>
+    <h3>Katima Mulilo &amp; Kazungula</h3>
+    <ul>
+      <li><strong>What:</strong> Katima Mulilo is the largest town in the Caprivi. Gateway for Zambia crossing and the quadripoint where Namibia, Botswana, Zambia, and Zimbabwe meet.</li>
+      <li><strong>Kazungula Ferry:</strong> The four-country confluence point. Botswana and Zambia are accessible from here — the Kazungula road bridge (completed 2021) now replaces the old ferry.</li>
+      <li><strong>Services:</strong> ATMs (draw before Zambia), fuel, supermarkets (Choppies), basic vehicle parts. Last big provisioning stop before Zambia.</li>
+      <li><strong>Stay:</strong> Caprivi Houseboat Safari Lodge or Zambezi Mubala for a river camp experience before crossing.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 15 · INTERACTIVE MAPS                                    -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s15">
+  <span class="sec-num">15</span>
+  <span class="sec-title">Namibia — Interactive Maps</span>
+  <span class="sec-sub">Overview · Western Circuit · Eastern Caprivi</span>
+</div>
+
+<p class="prose" style="margin-top:14px;">Three map views — click a tab to switch. <strong>Overview</strong> shows all key locations across Namibia. <strong>Western Circuit</strong> traces the Kaokoland and Damaraland routes. <strong>Eastern Caprivi</strong> maps the strip parks and Zambia crossing. Click any marker for details.</p>
+
+<div class="map-tabs">
+  <button class="map-tab active" onclick="switchTab('overview')" id="tab-overview">Overview · All Locations</button>
+  <button class="map-tab" onclick="switchTab('south')" id="tab-south">Western Circuit — Kaokoland</button>
+  <button class="map-tab" onclick="switchTab('north')" id="tab-north">Eastern Caprivi</button>
+</div>
+<div id="country-map"></div>
+<p class="map-attrib">© OpenStreetMap contributors — routes are indicative only, verify all tracks before travel via Tracks4Africa</p>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 16 · WESTERN CIRCUIT ROUTE GUIDE                         -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s16">
+  <span class="sec-num">16</span>
+  <span class="sec-title">Western Namibia Route Guide</span>
+  <span class="sec-sub">Vioolsdrif → Windhoek → Etosha → Kaokoland</span>
+</div>
+
+<p class="prose">The western circuit covers the entry from SA, the transit to Windhoek, north to Etosha, and then the main event: the Kaokoland circuit from Kamanjab or Etosha through Damaraland, Palmwag, Opuwo, Epupa Falls, Van Zyl's Pass, Marienfluss, and exit south through Purros and Palmwag. Allow 15–18 days for a thorough Kaokoland circuit after the Etosha visit.</p>
+
+<div class="scenario">
+  <h4>Route A — Full Western Circuit (18–22 days from SA border)</h4>
+  <div class="scenario-meta">Vioolsdrif → Windhoek → Etosha → Palmwag → Opuwo → Epupa → Van Zyl's → Marienfluss → Purros → Skeleton Coast → Swakopmund → Windhoek</div>
+  <ul>
+    <li><strong>Day 1–2:</strong> Vioolsdrif crossing → drive north on B1 toward Springbok/Aus. Namibia's southern desert. Camp at Fish River Canyon (Hobas NWR camp, 10 km from viewpoint) — worth one night. Optional: Ai-Ais hot springs.</li>
+    <li><strong>Day 3–4:</strong> Continue north B1 → Windhoek. Provision, service check, ATM, fuel, shopping. Spend 1 night in Windhoek for admin and rest.</li>
+    <li><strong>Day 5–7:</strong> Windhoek → B1 north → Otjiwarongo → Outjo → Etosha (Anderson or Okaukuejo Gate). 3 nights Etosha — Okaukuejo (night waterhole), Halali (day drive), Olifantsrus (western elephant circuit). Fill tank at Okaukuejo or Halali fuel station.</li>
+    <li><strong>Day 8:</strong> Exit Etosha at Galton Gate west → Kamanjab → begin Damaraland entry via C40. Camp at Palmwag or Khorixas restcamp.</li>
+    <li><strong>Day 9:</strong> Damaraland — Twyfelfontein (UNESCO rock art, half-day), Burned Mountain, Organ Pipes. Drive north toward Sesfontein.</li>
+    <li><strong>Day 10:</strong> Sesfontein → Opuwo (C43). Opuwo: full fuel, groceries, ATM, water. Stock up for 5+ days self-sufficient. Camp Kaoko Mopane Lodge.</li>
+    <li><strong>Day 11–12:</strong> Opuwo → D3700 → Kunene River Lodge (200 km — allow full day). First look at the Kunene. Camp on the river.</li>
+    <li><strong>Day 13–14:</strong> Kunene River Lodge → Epupa Falls (90 km). 2 nights at Epupa Falls Rest Camp — sunrise, Himba village, explore.</li>
+    <li><strong>Day 15:</strong> Epupa → Etengwa → Van Zyl's Pass approach. Camp at Van Zyl's Community Camp (top of pass).</li>
+    <li><strong>Day 16:</strong> Van Zyl's descent into Marienfluss. Slow descent — allow 4–6 hours. Camp in Marienfluss valley (Syncro Camp or community site).</li>
+    <li><strong>Day 17:</strong> Marienfluss valley drive → south via Rooidrom landmark → Purros Community Camp (Hoarusib River). Elephant territory.</li>
+    <li><strong>Day 18–19:</strong> Purros → Skeleton Coast NP (permit required) → coastal drive south → Torra Bay / Terrace Bay (NWR fishing camps) → exit south through the Skeleton Coast to Henties Bay → Swakopmund.</li>
+    <li><strong>Day 20:</strong> Swakopmund (rest day, provisions, vehicle check).</li>
+    <li><strong>Day 21–22:</strong> Swakopmund → Windhoek (B2, 370 km). Or extend west for Sossusvlei.</li>
+  </ul>
+</div>
+
+<div class="scenario">
+  <h4>Route B — Compressed Western Loop (12–14 days)</h4>
+  <div class="scenario-meta">For a tighter schedule or pre-Caprivi positioning</div>
+  <ul>
+    <li>Skip Fish River Canyon (do on return if time)</li>
+    <li>Windhoek 1 night → Etosha 2 nights → Palmwag → Opuwo → Epupa (2 nights) → Van Zyl's → Marienfluss (1 night) → Purros → Kamanjab → Windhoek</li>
+    <li>Omit Skeleton Coast coastal drive — save for a dedicated future trip</li>
+    <li>Allows 14–16 days for Caprivi and Zambia transition</li>
+  </ul>
+</div>
+
+<div class="subsec">
+  <span class="subsec-title">4×4 Tracks — Western Circuit</span>
+  <span class="subsec-tag">Difficulty Reference</span>
+</div>
+
+<table class="spec-table">
+  <thead><tr><th>Track / Route</th><th>Distance</th><th>Difficulty</th><th>Terrain</th><th>Key Notes</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Epupa Falls to Kunene River Lodge (D3700)</strong></td><td>~90 km</td><td>🟡 Moderate</td><td>Rocky gravel, some sand</td><td>Allow 3–4 hours. Corrugated. Scenic river views throughout. Himba homesteads en route. Fuel: bring full from Opuwo.</td></tr>
+    <tr><td><strong>Etengwa to Van Zyl's Pass summit</strong></td><td>~30 km</td><td>🟠 Demanding</td><td>Rocky ascent, narrow ledges</td><td>The approach is harder than the pass. Rocky shelves. Low range. Diff lock. Allow 2–3 hours for 30 km.</td></tr>
+    <tr><td><strong>Van Zyl's Pass descent</strong></td><td>12 km</td><td>🔴 Expert</td><td>Rock steps, narrow ledges, sheer drops</td><td>Take photos, engage diff lock before starting. Don't rush. Single file if two vehicles. No recovery vehicle can access easily if stuck partway.</td></tr>
+    <tr><td><strong>Marienfluss Valley traverse</strong></td><td>~150 km</td><td>🟡 Moderate (in dry season)</td><td>Sand plain, fairy circles</td><td>Deflate to 1.3–1.5 bar. Open and straightforward once on the plain. Stunning landscape. Can be soft in early season.</td></tr>
+    <tr><td><strong>Purros to Hoarusib mouth (Skeleton Coast)</strong></td><td>~100 km</td><td>🟠 Demanding</td><td>Rocky riverbed, sand, crossing points</td><td>The riverbed route to the coast. Spectacular but rough. Requires Skeleton Coast NP permit for the final section. Sandy sections — deflate tyres.</td></tr>
+    <tr><td><strong>Skeleton Coast NP coastal drive (south)</strong></td><td>~300 km</td><td>🟡 Moderate</td><td>Gravel, occasional sand</td><td>Requires NWR permit (book with NWR — Skeleton Coast has very limited access). Otherworldly landscape — seal colonies, shipwrecks, fog. No fuel inside park.</td></tr>
+    <tr><td><strong>Twyfelfontein area tracks (Damaraland)</strong></td><td>Short loops</td><td>🟢 Easy</td><td>Gravel</td><td>Well-managed day tracks. UNESCO heritage site for rock art. Vehicle not needed for viewpoints — walk from carpark.</td></tr>
+  </tbody>
+</table>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 17 · EASTERN CAPRIVI ROUTE GUIDE                         -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s17">
+  <span class="sec-num">17</span>
+  <span class="sec-title">Eastern Caprivi Route Guide</span>
+  <span class="sec-sub">Windhoek / Etosha → Rundu → Caprivi Strip → Zambia</span>
+</div>
+
+<p class="prose">The Caprivi leg is the eastern run: from Windhoek or Etosha east on the B8 highway to Rundu (fast road, do in a day), then the parks circuit through Bwabwata, Mudumu, and optionally Nkasa Rupara, before exiting into Zambia at Wenela / Sesheke. Allow 7–10 days for a thorough Caprivi exploration.</p>
+
+<div class="scenario">
+  <h4>Route C — Full Caprivi Circuit (8–10 days)</h4>
+  <div class="scenario-meta">Windhoek → Rundu → Bwabwata → Mudumu → Katima Mulilo → Zambia crossing</div>
+  <ul>
+    <li><strong>Day 1:</strong> Windhoek → Rundu via B1/B8 (~700 km, sealed, fast). Fill fuel in Rundu. Camp at Kaisosi River Lodge or N'Kwazi Lodge (on the Okavango river — beautiful sunset).</li>
+    <li><strong>Day 2:</strong> Rundu → Divundu (~210 km on B8). Divundu is the junction for Bwabwata Mahango. Afternoon: Mahango game drive loop along the Okavango (2–3 hours).</li>
+    <li><strong>Day 3:</strong> Divundu area → Buffalo Core Area via B8 east → turn south. Full day in Buffalo Core for sable, roan, buffalo. Camp Nambwa Tented Lodge (book ahead).</li>
+    <li><strong>Day 4:</strong> Nambwa → B8 east → C49 south → Mudumu NP entrance (~100 km). Self-drive Mudumu tracks. Camp Nakatwa or Mukolo.</li>
+    <li><strong>Day 5:</strong> Full day Mudumu — morning and late afternoon drives. The middle of the day is for camp rest. River-edge bird list is outstanding.</li>
+    <li><strong>Day 6:</strong> Optional — Nkasa Rupara loop (+80 km return from C49). Otherwise continue east on B8 toward Katima Mulilo.</li>
+    <li><strong>Day 7:</strong> Katima Mulilo — provision, ATM, fuel, vehicle check. Camp Caprivi Houseboat Lodge or riverside camp for a final Namibia night on the Zambezi.</li>
+    <li><strong>Day 8:</strong> Katima Mulilo → Wenela border (17 km) → Zambia crossing. Into Zambia and heading for Livingstone / Kafue.</li>
+  </ul>
+</div>
+
+<div class="scenario">
+  <h4>Route D — Combined Entry Option via Botswana</h4>
+  <div class="scenario-meta">Optional detour — Mahango → Botswana (Panhandle) → re-enter Caprivi</div>
+  <p>If time allows, crossing into Botswana at Mohembo/Shakawe after the Mahango visit, spending 2–3 days in the Okavango Panhandle (excellent mokoro and birding), and re-entering Namibia at Ngoma Bridge allows you to combine the Caprivi strip with a taste of Botswana. This is a natural routing if Botswana is the next country on the itinerary after Zambia — exit Zambia at Livingstone and loop back through Chobe and Kasane rather than retracing.</p>
+</div>
+
+<div class="subsec">
+  <span class="subsec-title">4×4 Tracks — Eastern Caprivi</span>
+  <span class="subsec-tag">Difficulty Reference</span>
+</div>
+
+<table class="spec-table">
+  <thead><tr><th>Track / Route</th><th>Distance</th><th>Difficulty</th><th>Terrain</th><th>Key Notes</th></tr></thead>
+  <tbody>
+    <tr><td><strong>B8 Trans-Caprivi Highway</strong></td><td>~550 km Rundu–Katima</td><td>🟢 Easy</td><td>Sealed</td><td>Good road, fast transit. Police checkpoints. Speed limits enforced. Fuel at Rundu, Divundu, Kongola, Katima.</td></tr>
+    <tr><td><strong>Mahango core area game drive loop</strong></td><td>~25 km loop</td><td>🟢 Easy</td><td>Gravel, some soft edges</td><td>Self-drive permitted. Okavango river frontage. Elephant, hippo, buffalo from track.</td></tr>
+    <tr><td><strong>Buffalo Core area tracks</strong></td><td>Open exploration</td><td>🟡 Moderate</td><td>Sandy mopane</td><td>Open driving, no marked routes. T4A essential. Don't push deep without recovery gear.</td></tr>
+    <tr><td><strong>C49 to Mudumu NP entrance</strong></td><td>~35 km</td><td>🟡 Moderate</td><td>Gravel then sand</td><td>Turns sandy near the park. 4×4 recommended.</td></tr>
+    <tr><td><strong>Mudumu NP internal tracks</strong></td><td>~60 km network</td><td>🟠 Demanding</td><td>Thick sand</td><td>Seriously deep sand in places. Traction sand ladders and deflated tyres essential. No marked tracks — T4A navigation needed. Solo possible but risky if no cell signal.</td></tr>
+    <tr><td><strong>Nkasa (Mamili) Island access</strong></td><td>~20 km from C49</td><td>🟠 Demanding (dry season)</td><td>Sandy floodplain</td><td>Nkasa Island flood-dependent. Rupara Island generally accessible. Check conditions with Rupara Rest Camp before attempting.</td></tr>
+  </tbody>
+</table>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 18 · ESSENTIAL AFRIKAANS / OSHIVAMBO PHRASES             -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s18">
+  <span class="sec-num">18</span>
+  <span class="sec-title">Essential Phrases</span>
+  <span class="sec-sub">English · Afrikaans · Oshivambo</span>
+</div>
+
+<p class="prose">English is widely spoken in Namibia — it is the sole official language (since independence in 1990). Afrikaans is a first language for many Namibians and is useful particularly in towns and with border officials of older generations. In Kaokoland, Oshivambo (Ovambo language group) and Otjiherero (Himba/Herero) are the local languages. A few words of Oshivambo or Otjiherero go a long way in the north. This document lists practical field phrases in Afrikaans (useful throughout) and Oshivambo (for the Kaokoland/Caprivi zone).</p>
+
+<div class="subsec"><span class="subsec-title">— Afrikaans (Widely Understood Throughout Namibia)</span></div>
+
+<table class="spec-table">
+  <thead><tr><th>Situation</th><th>Afrikaans</th><th>Pronunciation Guide</th></tr></thead>
+  <tbody>
+    <tr><td>Good morning</td><td>Goeiemôre</td><td>HOO-ee-MOR-uh</td></tr>
+    <tr><td>Good afternoon</td><td>Goeiedag</td><td>HOO-ee-DAKH</td></tr>
+    <tr><td>Thank you</td><td>Dankie</td><td>DAHN-kee</td></tr>
+    <tr><td>Please</td><td>Asseblief</td><td>AH-suh-bleef</td></tr>
+    <tr><td>How are you?</td><td>Hoe gaan dit?</td><td>HOO hahn dit</td></tr>
+    <tr><td>Fine, thank you</td><td>Goed, dankie</td><td>HOOT, DAHN-kee</td></tr>
+    <tr><td>How much?</td><td>Hoeveel?</td><td>HOO-feel</td></tr>
+    <tr><td>Diesel please</td><td>Diesel asseblief</td><td>DEE-sel AH-suh-bleef</td></tr>
+    <tr><td>Fill it up</td><td>Vol tank</td><td>FOLL TANK</td></tr>
+    <tr><td>I need help</td><td>Ek het hulp nodig</td><td>EK het HOOLP NOH-dikh</td></tr>
+    <tr><td>My vehicle is stuck</td><td>My voertuig is vas</td><td>MAY FOOR-tayg is FASS</td></tr>
+    <tr><td>Where is the road to…?</td><td>Waar is die pad na…?</td><td>VAR is dee PAD nah</td></tr>
+    <tr><td>Is the road passable?</td><td>Is die pad ry-baar?</td><td>is dee pad RAY-bar</td></tr>
+    <tr><td>Water</td><td>Water</td><td>VAH-ter</td></tr>
+    <tr><td>Is there a camp nearby?</td><td>Is daar 'n kamp naby?</td><td>is dar un KAMP NAH-bay</td></tr>
+  </tbody>
+</table>
+
+<div class="subsec"><span class="subsec-title">— Oshivambo (Northern Namibia / Caprivi)</span></div>
+
+<table class="spec-table">
+  <thead><tr><th>Situation</th><th>Oshivambo (Oshindonga)</th><th>Pronunciation Guide</th></tr></thead>
+  <tbody>
+    <tr><td>Hello (general greeting)</td><td>Wa lalapo (to one person)</td><td>wah lah-LAH-poh</td></tr>
+    <tr><td>Hello (to group)</td><td>Mu lalapo</td><td>moo lah-LAH-poh</td></tr>
+    <tr><td>I'm fine / responding to greeting</td><td>Eewa, naa ove?</td><td>EH-wah, nah OH-veh</td></tr>
+    <tr><td>Thank you</td><td>Tangi</td><td>TAHN-ghee</td></tr>
+    <tr><td>Yes</td><td>Eewa</td><td>EH-wah</td></tr>
+    <tr><td>No</td><td>Aaye</td><td>AH-yeh</td></tr>
+    <tr><td>Where is …?</td><td>Opo li li …?</td><td>OH-poh lee lee</td></tr>
+    <tr><td>Help me please</td><td>Ndifadhele ove</td><td>n-dee-fah-THEH-leh OH-veh</td></tr>
+    <tr><td>Water</td><td>Omeya</td><td>oh-MEH-yah</td></tr>
+    <tr><td>Food</td><td>Oikulya</td><td>oy-KOO-lyah</td></tr>
+  </tbody>
+</table>
+
+<div class="subsec"><span class="subsec-title">— At the Border</span></div>
+
+<table class="spec-table">
+  <thead><tr><th>Situation</th><th>English Phrase to Use</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td>Declaring items</td><td>"I have personal goods for own use only."</td><td>All Namibia border officials speak English. No Afrikaans required at border.</td></tr>
+    <tr><td>Duration of stay</td><td>"I'd like 30 days please" (or however many you need)</td><td>Say this clearly before the officer stamps. Don't leave without counting the days stamped.</td></tr>
+    <tr><td>Vehicle CBC</td><td>"Where is the RFA office?" or "Road Fund Administration please"</td><td>Ask for the CBC office at the border if it's not immediately obvious.</td></tr>
+    <tr><td>Vet cordon (Red Line)</td><td>"Do you have raw meat?" — officer will ask this</td><td>"No raw meat" / "Only biltong (dried meat)"</td></tr>
+    <tr><td>Fuel at Etosha gates</td><td>"I'd like to pay the entry fee and book camping please"</td><td>Entry and camping fees paid at the gate.</td></tr>
+  </tbody>
+</table>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- CHANGELOG                                                -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="changelog">
+  <span class="sec-num">LOG</span>
+  <span class="sec-title">Changelog</span>
+  <span class="sec-sub">Update History</span>
+</div>
+
+<p class="prose">All material changes to this profile are recorded here. When updating the document, add a new entry at the top with the date, tag, and a brief note of what changed and why.</p>
+
+<div style="margin-top:14px;">
+  <div class="changelog-entry">
+    <div class="cl-date">2026-04-28</div>
+    <div><span class="cl-tag new">New</span></div>
+    <div class="cl-note"><strong>Document created.</strong> Full Namibia country profile compiled for LC76 SW 1HZ overland expedition. 18-section structure per LC76_Profile_TEMPLATE.html v3.0. Covers entry via Vioolsdrif, Kaokoland circuit (Epupa Falls, Van Zyl's Pass, Marienfluss), and full Caprivi strip eastward to Zambia. Fuel prices from official Namibian MME source (April 2026). NWR booking system confirmed offline — email-only booking noted prominently. Vet cordon rules researched from NWR terms and confirmed sources. SADC visa status confirmed visa-free 90 days for SA passport. Diesel price: NAD 23.63/L (Walvis Bay, April 2026). Rates: NAD/ZAR parity, USD 1 ≈ NAD 18.2.</div>
+  </div>
+</div>
+
+<div class="alert alert-info" style="margin-top:18px;">
+  <strong>How to add a new entry</strong>
+  Bring this file back to Claude and say: <em>"Update [Section] — [what changed] — and add a changelog entry."</em> Tags: <code>new</code> · <code>update</code> · <code>fix</code> · <code>warn</code>
+</div>
+
+</main>
+
+<!-- ══ EXPORT BAR ═════════════════════════════════════════ -->
+<div id="export-bar">
+  <span>Export:</span>
+  <button class="export-btn-inline" onclick="exportHTML()">⤓ Save HTML</button>
+  <button class="export-btn-inline" onclick="exportPrint()">⎙ Print / PDF</button>
+  <button class="export-btn-inline" onclick="exportCopy()" id="copy-btn">⧉ Copy text</button>
+</div>
+
+<!-- ══ FOOTER ═════════════════════════════════════════════ -->
+<div class="doc-footer">
+  <div><strong>LC76 Namibia Country Profile</strong> · Compiled 28 April 2026 · Profile 002</div>
+  <div>Rates used: NAD/ZAR ≈ 1:1 · USD 1 ≈ NAD 18.2</div>
+  <div>Sources: iOverlander · Tracks4Africa · NWR (nwr.com.na) · Namibia MME fuel pricing · visitnamibia.com.na · SmartTraveller · 4x4community.co.za · Government travel advisories</div>
+  <div>⚠ Verify all fees, visa rules, fuel prices, and road conditions before travel — particularly NWR booking system status</div>
+  <div>overlandslabs.github.io/Consumption</div>
+</div>
+
+<!-- ══ SCRIPTS ════════════════════════════════════════════ -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.spec-table').forEach(function(t) {
+    if (!t.closest('.table-scroll')) {
+      var wrap = document.createElement('div');
+      wrap.className = 'table-scroll';
+      t.parentNode.insertBefore(wrap, t);
+      wrap.appendChild(t);
+    }
+  });
+});
+</script>
+
+<!-- ══ LEAFLET MAP ════════════════════════════════════════ -->
+<script>
+(function() {
+  var map = L.map('country-map', { zoomControl: true, scrollWheelZoom: false }).setView([-20.0, 18.5], 5);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors', maxZoom: 18
+  }).addTo(map);
+
+  // Namibia border outline (simplified)
+  var namibiaBorder = {
+    "type":"Feature","properties":{},
+    "geometry":{"type":"Polygon","coordinates":[[
+      [11.73,-17.25],[12.45,-17.25],[13.0,-17.4],[13.5,-17.2],[14.0,-17.4],
+      [14.5,-17.3],[18.4,-17.4],[18.4,-17.85],[20.97,-18.32],[21.45,-18.32],
+      [23.7,-17.87],[24.28,-17.94],[24.68,-17.49],[25.26,-17.79],[25.0,-18.5],
+      [24.3,-18.53],[23.58,-19.44],[23.28,-19.45],[20.55,-21.9],[20.4,-22.0],
+      [19.9,-22.0],[19.5,-22.5],[19.5,-24.76],[19.5,-28.5],[18.0,-28.85],
+      [17.4,-29.07],[17.0,-29.0],[16.48,-29.0],[15.3,-27.95],[14.95,-27.55],
+      [14.9,-26.5],[14.5,-25.2],[14.05,-24.08],[13.5,-22.9],[13.2,-22.0],
+      [12.73,-20.5],[12.1,-19.5],[11.73,-17.25]
+    ]]}
+  };
+  L.geoJSON(namibiaBorder, {
+    style: { color:'#b86800', weight:2.5, opacity:0.9, fillColor:'#e07800', fillOpacity:0.08 }
+  }).addTo(map);
+
+  var C = {
+    amber:'#e07800', amber2:'#b86800',
+    green:'#1A5C2E', blue:'#1A4A6B',
+    red:'#7a1010', teal:'#0D6B6B', purple:'#6B2D8B'
+  };
+
+  function mkIcon(color, size) {
+    size = size || 12;
+    return L.divIcon({
+      html: '<div style="width:'+size+'px;height:'+size+'px;border-radius:50%;background:'+color+';border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.5)"></div>',
+      className:'', iconSize:[size,size], iconAnchor:[size/2,size/2], popupAnchor:[0,-size/2]
+    });
+  }
+  function labelIcon(color, label) {
+    if (window.innerWidth < 700) return mkIcon(color);
+    return L.divIcon({
+      html: '<div style="display:flex;align-items:center;gap:5px;white-space:nowrap"><div style="width:10px;height:10px;border-radius:50%;background:'+color+';border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.4);flex-shrink:0"></div><span style="font-family:\'IBM Plex Mono\',monospace;font-size:10px;color:#0d0e12;font-weight:600;background:rgba(218,210,192,0.92);padding:1px 4px;max-width:140px;overflow:hidden;text-overflow:ellipsis">'+label+'</span></div>',
+      className:'', iconSize:null, iconAnchor:[5,5], popupAnchor:[60,-5]
+    });
+  }
+  function pop(name, detail) {
+    return L.popup({maxWidth:260}).setContent(
+      '<div style="font-family:\'IBM Plex Mono\',monospace;font-size:11px"><strong style="font-size:12px;color:#0d0e12">'+name+'</strong><br><span style="color:#6a7080">'+detail+'</span></div>'
+    );
+  }
+  function dmnd(){return '<span style="display:inline-block;width:9px;height:9px;background:#7a1010;transform:rotate(45deg);margin-right:7px;margin-left:1px;vertical-align:middle"></span>'}
+  function dot(c){return '<span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:'+c+';margin-right:7px;vertical-align:middle"></span>'}
+
+  // BORDER CROSSINGS — visible all tabs
+  var crossingsGroup = L.layerGroup();
+  var crossings = [
+    [-28.753, 17.534, 'Noordoewer / Vioolsdrif', '24-hour border · SA–Namibia main crossing · B1/N7 sealed both sides'],
+    [-17.433, 24.429, 'Ngoma Bridge', '07:00–18:00 · Namibia–Botswana · drives into Chobe NP immediately'],
+    [-17.467, 24.283, 'Wenela / Sesheke', '06:00–18:00 · Namibia–Zambia · KAZA UniVisa available · Zambezi River crossing'],
+    [-19.995, 12.965, 'Ruacana / Santa Clara', '07:00–18:00 · Namibia–Angola · for Angola detour only'],
+    [-17.935, 19.105, 'Mohembo / Shakawe', '06:00–18:00 · Namibia–Botswana · Okavango Panhandle option'],
+  ];
+  crossings.forEach(function(c){
+    var icon = L.divIcon({
+      html: '<div style="width:14px;height:14px;background:'+C.red+';border:2.5px solid #fff;box-shadow:0 1px 5px rgba(0,0,0,0.6);transform:rotate(45deg)"></div>',
+      className:'', iconSize:[14,14], iconAnchor:[7,7], popupAnchor:[0,-7]
+    });
+    L.marker([c[0],c[1]], {icon:icon}).addTo(crossingsGroup).bindPopup(pop(c[2],c[3]), {maxWidth:220});
+  });
+  crossingsGroup.addTo(map);
+
+  // OVERVIEW GROUP
+  var overviewGroup = L.layerGroup();
+  var overviewPoints = [
+    [-22.559, 17.084, C.amber, 'Windhoek', 'Capital · Main provisioning stop · Mediclinic · ATMs · Fuel'],
+    [-22.676, 14.526, C.blue, 'Swakopmund', 'Coastal town · Rest stop · Good provisions · Vehicle check'],
+    [-23.455, 15.064, C.blue, 'Walvis Bay', 'Harbour town · Flamingos · Fuel'],
+    [-19.117, 13.636, C.amber, 'Opuwo', 'Kunene Region capital · Last reliable fuel before Kaokoland circuit · ATM'],
+    [-17.503, 13.293, C.green, 'Epupa Falls', 'Kunene River cascades · Palm grove · Riverside camping · Himba villages'],
+    [-17.519, 13.066, C.teal, 'Kunene River Lodge', 'First camp on the Kunene · Fuel staging point'],
+    [-19.027, 16.833, C.green, 'Etosha NP — Okaukuejo', 'NWR fenced camp · Floodlit waterhole · Black rhino · Book via NWR'],
+    [-18.984, 16.195, C.green, 'Etosha NP — Olifantsrus', 'NWR camp · Western Etosha · Elephant concentration'],
+    [-19.033, 17.934, C.green, 'Etosha NP — Halali', 'NWR camp · Mid-park · Rock pool waterhole'],
+    [-18.806, 16.930, C.green, 'Etosha NP — Namutoni', 'NWR camp · Eastern · Fort-style · Fisher pan area'],
+    [-19.705, 13.956, C.amber, 'Kamanjab', 'Junction town · Fuel · Basic provisions'],
+    [-19.948, 14.570, C.green, 'Palmwag Lodge', 'Damaraland gateway · Rhino country · Camping available'],
+    [-20.384, 14.403, C.purple, 'Twyfelfontein', 'UNESCO rock art · Damaraland · Half-day stop'],
+    [-19.063, 14.259, C.amber, 'Sesfontein', 'Remote town · Last southern supply before Purros'],
+    [-18.898, 13.113, C.green, 'Purros Community Camp', 'Hoarusib River · Desert elephant corridor · Night visits near certain'],
+    [-17.610, 15.386, C.green, 'Van Zyls Pass', 'Expert 4×4 · Rocky descent into Marienfluss · Low range + diff lock'],
+    [-17.405, 15.133, C.green, 'Marienfluss Valley', 'Wide sand plain · Fairy circles · Desert wildlife · Syncro Camp'],
+    [-17.807, 19.766, C.amber, 'Rundu', 'Okavango town · Major provisioning · Fuel · Gateway to Caprivi'],
+    [-18.072, 21.426, C.green, 'Bwabwata NP (Buffalo)', 'Namibia best sable/roan · Buffalo herds · Very quiet'],
+    [-18.002, 21.139, C.green, 'Bwabwata NP (Mahango)', 'Okavango floodplain · Excellent birding · Self-drive loop'],
+    [-18.247, 23.282, C.green, 'Mudumu NP', 'Least visited park · Thick sand · Elephant corridor · Nakatwa camps'],
+    [-17.924, 24.329, C.amber, 'Katima Mulilo', 'Caprivi gateway · ATM · Fuel · Last stop before Zambia'],
+    [-17.475, 24.277, C.teal, 'Sesheke / Wenela', 'Namibia–Zambia border crossing · KAZA UniVisa here'],
+    [-18.562, 23.600, C.green, 'Nkasa Rupara NP', 'Wetland park · Hippos · Birds · Rupara Rest Camp nearby'],
+  ];
+  overviewPoints.forEach(function(l){
+    L.marker([l[0],l[1]], {icon:mkIcon(l[2])}).addTo(overviewGroup).bindPopup(pop(l[3],l[4]), {maxWidth:260});
+  });
+
+  var ovLeg = L.control({position:'bottomright'});
+  ovLeg.onAdd = function() {
+    var d = L.DomUtil.create('div');
+    d.style.cssText = 'background:#0d0e12;color:#a8b0bc;padding:9px 13px;font-family:monospace;font-size:11px;line-height:1.9;border:1px solid rgba(232,120,0,0.3)';
+    d.innerHTML = '<div style="color:#e07800;letter-spacing:0.10em;font-size:10px;margin-bottom:2px">LEGEND</div>' +
+      dmnd() + 'Border crossing<br>' + dot(C.amber) + 'City / service<br>' +
+      dot(C.green) + 'National park / reserve<br>' + dot(C.blue) + 'Coastal town<br>' +
+      dot(C.teal) + 'River camp / staging<br>' + dot(C.purple) + 'Heritage / scenic';
+    return d;
+  };
+
+  // WESTERN (Kaokoland) GROUP
+  var southGroup = L.layerGroup();
+  var southPoints = [
+    [-22.559, 17.084, C.amber, 'Windhoek', 'Start — provision, fuel, rest'],
+    [-19.027, 16.833, C.green, 'Etosha Okaukuejo', 'NWR fenced camp — floodlit waterhole'],
+    [-18.984, 16.195, C.green, 'Etosha Olifantsrus', 'NWR camp — elephant area'],
+    [-19.705, 13.956, C.amber, 'Kamanjab', 'Fuel — junction for Damaraland'],
+    [-19.948, 14.570, C.green, 'Palmwag', 'Damaraland — rhino, camping'],
+    [-20.384, 14.403, C.purple, 'Twyfelfontein', 'UNESCO rock art'],
+    [-19.117, 13.636, C.amber, 'Opuwo', 'FILL FUEL + PROVISIONS HERE'],
+    [-19.063, 14.259, C.amber, 'Sesfontein', 'Remote supply stop'],
+    [-17.519, 13.066, C.teal, 'Kunene River Lodge', 'Staging camp — Kunene River'],
+    [-17.503, 13.293, C.green, 'Epupa Falls', 'Riverside camp — Himba country'],
+    [-17.610, 15.386, C.red, 'Van Zyls Pass', 'Expert 4×4 — rocky descent'],
+    [-17.405, 15.133, C.green, 'Marienfluss', 'Sand plain — fairy circles'],
+    [-18.898, 13.113, C.green, 'Purros', 'Elephant corridor — community camp'],
+    [-22.676, 14.526, C.blue, 'Swakopmund', 'Rest stop — coastal return'],
+  ];
+  southPoints.forEach(function(l){
+    L.marker([l[0],l[1]], {icon:labelIcon(l[2],l[3])}).addTo(southGroup).bindPopup(pop(l[3],l[4]), {maxWidth:250});
+  });
+  // Route line — Kaokoland circuit
+  L.polyline([[-22.559,17.084],[-19.027,16.833],[-18.984,16.195],[-19.705,13.956],[-19.948,14.570],[-20.384,14.403],[-19.117,13.636],[-19.063,14.259],[-17.519,13.066],[-17.503,13.293],[-17.610,15.386],[-17.405,15.133],[-18.898,13.113],[-22.676,14.526]], {color:C.amber,weight:2.5,opacity:0.75,dashArray:'6,4'}).addTo(southGroup);
+
+  var soLeg = L.control({position:'bottomright'});
+  soLeg.onAdd = function() {
+    var d = L.DomUtil.create('div');
+    d.style.cssText = 'background:#0d0e12;color:#a8b0bc;padding:9px 13px;font-family:monospace;font-size:11px;line-height:2;border:1px solid rgba(232,120,0,0.3)';
+    d.innerHTML = '<div style="color:#e07800;letter-spacing:0.10em;font-size:10px;margin-bottom:2px">KAOKOLAND CIRCUIT</div>' +
+      dot(C.amber) + 'Service / fuel<br>' + dot(C.green) + 'Park / camp<br>' + dot(C.red) + 'Expert 4×4<br>' + dot(C.teal) + 'River camp';
+    return d;
+  };
+
+  // EASTERN (Caprivi) GROUP
+  var northGroup = L.layerGroup();
+  var northPoints = [
+    [-22.559, 17.084, C.amber, 'Windhoek', 'Start east run — B1/B8'],
+    [-17.807, 19.766, C.amber, 'Rundu', 'Major provisioning — Okavango town'],
+    [-18.002, 21.139, C.green, 'Mahango (Bwabwata)', 'Okavango floodplain — game drive loop'],
+    [-18.072, 21.426, C.green, 'Buffalo Core (Bwabwata)', 'Sable, roan, buffalo — very quiet'],
+    [-18.247, 23.282, C.green, 'Mudumu NP', 'Thick sand — elephant — Nakatwa camps'],
+    [-18.562, 23.600, C.green, 'Nkasa Rupara NP', 'Wetland — hippos — Rupara camp'],
+    [-17.924, 24.329, C.amber, 'Katima Mulilo', 'Last Namibia services — ATM, fuel'],
+    [-17.467, 24.283, C.red, 'Wenela / Sesheke', 'Zambia border crossing — KAZA UniVisa'],
+    [-18.072, 21.210, C.teal, 'Divundu', 'Junction for Mahango — Nunda Lodge'],
+    [-17.935, 19.105, C.teal, 'Mohembo / Shakawe', 'Botswana option border'],
+  ];
+  northPoints.forEach(function(l){
+    L.marker([l[0],l[1]], {icon:labelIcon(l[2],l[3])}).addTo(northGroup).bindPopup(pop(l[3],l[4]), {maxWidth:250});
+  });
+  // Route line — Caprivi corridor
+  L.polyline([[-22.559,17.084],[-17.807,19.766],[-18.072,21.210],[-18.002,21.139],[-18.072,21.426],[-18.247,23.282],[-18.562,23.600],[-17.924,24.329],[-17.467,24.283]], {color:C.teal,weight:2.5,opacity:0.75,dashArray:'6,4'}).addTo(northGroup);
+  L.polyline([[-17.807,19.766],[-17.935,19.105]], {color:C.amber2,weight:1.5,opacity:0.5,dashArray:'4,6'}).addTo(northGroup);
+
+  var noLeg = L.control({position:'bottomright'});
+  noLeg.onAdd = function() {
+    var d = L.DomUtil.create('div');
+    d.style.cssText = 'background:#0d0e12;color:#a8b0bc;padding:9px 13px;font-family:monospace;font-size:11px;line-height:2;border:1px solid rgba(232,120,0,0.3)';
+    d.innerHTML = '<div style="color:#e07800;letter-spacing:0.10em;font-size:10px;margin-bottom:2px">CAPRIVI CORRIDOR</div>' +
+      dot(C.amber) + 'Service / fuel<br>' + dot(C.green) + 'Park / camp<br>' + dot(C.red) + 'Border crossing<br>' + dot(C.teal) + 'River lodge / junction';
+    return d;
+  };
+
+  // TAB SWITCHING
+  var activeLeg = null;
+  window.switchTab = function(tab) {
+    [overviewGroup,southGroup,northGroup].forEach(function(g){try{map.removeLayer(g);}catch(e){}});
+    if (activeLeg) { try { map.removeControl(activeLeg); } catch(e){} }
+    ['tab-overview','tab-south','tab-north'].forEach(function(id){document.getElementById(id).classList.remove('active');});
+    crossingsGroup.addTo(map);
+    if (tab === 'overview') {
+      overviewGroup.addTo(map); ovLeg.addTo(map); activeLeg = ovLeg;
+      document.getElementById('tab-overview').classList.add('active');
+      setTimeout(function(){ map.invalidateSize(); map.setView([-20.0,18.5],5); },100);
+    } else if (tab === 'south') {
+      southGroup.addTo(map); soLeg.addTo(map); activeLeg = soLeg;
+      document.getElementById('tab-south').classList.add('active');
+      setTimeout(function(){ map.invalidateSize(); map.setView([-19.5,14.5],6); },100);
+    } else {
+      northGroup.addTo(map); noLeg.addTo(map); activeLeg = noLeg;
+      document.getElementById('tab-north').classList.add('active');
+      setTimeout(function(){ map.invalidateSize(); map.setView([-18.5,21.5],6); },100);
+    }
+  };
+
+  setTimeout(function(){ switchTab('overview'); }, 250);
+  window.addEventListener('resize', function(){ setTimeout(function(){ map.invalidateSize(); }, 300); });
+})();
+</script>
+
+<!-- ══ EXPORT FUNCTIONS ═══════════════════════════════════ -->
+<script>
+function exportHTML() {
+  var html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+  var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'Namibia_Overland_Profile_' + new Date().toISOString().slice(0,10) + '.html';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+function exportPrint() {
+  var html = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+  html = html.replace('</body>', '<scr'+'ipt>window.addEventListener("load",function(){setTimeout(function(){window.print();},400);});<\/scr'+'ipt></body>');
+  var blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+  var url = URL.createObjectURL(blob);
+  var w = window.open(url, '_blank');
+  if (w) { setTimeout(function(){ URL.revokeObjectURL(url); }, 10000); }
+  else {
+    URL.revokeObjectURL(url);
+    document.getElementById('export-bar').style.display = 'none';
+    window.print();
+    document.getElementById('export-bar').style.display = '';
+  }
+}
+function exportCopy() {
+  var text = document.body.innerText;
+  navigator.clipboard.writeText(text).then(function() {
+    var btn = document.getElementById('copy-btn');
+    var orig = btn.innerHTML;
+    btn.innerHTML = '✓ Copied';
+    setTimeout(function(){ btn.innerHTML = orig; }, 2000);
+  }).catch(function(){
+    alert('Copy not supported in this browser — use Save as HTML instead.');
+  });
+}
+</script>
+
+<!-- ══ STICKY SCROLL MARGIN + ACTIVE TOC ══════════════════ -->
+<script>
+function updateScrollMargins(){
+  var nav = document.querySelector('.sticky-nav-unit');
+  if (!nav) return;
+  var navH = nav.offsetHeight;
+  document.querySelectorAll('.sec-header').forEach(function(el){
+    el.style.scrollMarginTop = (navH + 4) + 'px';
+  });
+}
+updateScrollMargins();
+window.addEventListener('resize', updateScrollMargins);
+
+var sectionIds = ['s01','s02','s03','s04','s05','s06','s07','s08','s09','s10','s11','s12','s13','s14','s15','s16','s17','s18','changelog'];
+var tocLinks = document.querySelectorAll('.toc-link');
+
+var observer = new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
+    if (entry.isIntersecting) {
+      var idx = sectionIds.indexOf(entry.target.id);
+      tocLinks.forEach(function(l, i){ l.classList.toggle('active', i === idx); });
+    }
+  });
+}, { rootMargin: '-25% 0px -65% 0px' });
+
+sectionIds.forEach(function(id){
+  var el = document.getElementById(id);
+  if (el) observer.observe(el);
+});
+</script>
+
+<!-- ══ SERVICE WORKER ═════════════════════════════════════ -->
+<script>
+if('serviceWorker' in navigator && location.hostname !== 'www.claudeusercontent.com'){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('./sw.js')
+      .then(function(){ console.log('LC76 Profile SW registered'); })
+      .catch(function(e){ console.log('SW error:', e); });
+  });
+}
+</script>
+
+</body>
+</html>
