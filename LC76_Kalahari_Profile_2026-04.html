@@ -1,0 +1,1608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LC76 Library">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0d0e12">
+<title>LC76 · Kalahari Terrain Guide · Profile 005</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500;600&family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+:root{
+  --ink:#0d0e12;--paper:#dad2c0;--paper2:#edeae0;--rule:#d4cfc4;
+  --amber:#b86800;--amber2:#e07800;
+  --steeldk:#2a2f3a;--steelmd:#6a7080;--steellt:#a8b0bc;
+  --red-warn:#B91C1C;--green-ok:#059669;
+  --mono:'IBM Plex Mono',monospace;
+  --sans:'Oswald',sans-serif;
+  --display:'Bebas Neue',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{overflow-x:hidden}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55}
+.sticky-nav-unit{position:sticky;top:0;z-index:100;background:var(--ink);padding-top:env(safe-area-inset-top)}
+.std-header{background:var(--ink);padding:18px 24px 14px;position:relative;border-bottom:3px solid var(--amber);}
+.std-eyebrow{font-family:var(--mono);font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--steelmd);margin-bottom:8px;display:flex;align-items:center;gap:10px;}
+.std-title{font-family:var(--display);font-size:clamp(2.1rem,6vw,3.4rem);letter-spacing:.06em;color:var(--amber2);line-height:1;}
+.std-local{font-family:var(--mono);font-size:.62rem;letter-spacing:.10em;color:rgba(255,200,100,.65);margin-top:7px;font-style:italic;}
+.std-sub{font-family:var(--sans);font-size:.92rem;font-style:italic;color:rgba(232,213,163,.85);margin-top:8px;line-height:1.4;}
+.std-vehicle{font-family:var(--mono);font-size:.50rem;letter-spacing:.08em;color:var(--steelmd);margin-top:10px;line-height:1.55;}
+.lib-home-btn{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--amber2);background:rgba(232,120,0,.15);border:1px solid var(--amber2);border-radius:20px;padding:6px 12px;min-height:32px;white-space:nowrap;position:absolute;top:50%;right:16px;transform:translateY(-50%);transition:background .2s;}
+.lib-home-btn:hover,.lib-home-btn:active{background:rgba(232,120,0,.30);}
+.alert-strip{background:#fff4f0;padding:14px 5%;display:flex;flex-direction:column;gap:10px;border-left:5px solid var(--red-warn);}
+.alert-strip .alert-main{font-family:var(--display);font-size:1.5rem;letter-spacing:.04em;line-height:1.1;color:#7a1010;}
+.alert-strip .alert-main .warn-icon{font-size:1.1rem;margin-right:6px;color:var(--red-warn);}
+.alert-pills{display:flex;flex-wrap:wrap;gap:8px;}
+.alert-strip .pill{background:#fff;padding:5px 12px;font-family:var(--sans);font-size:.84rem;font-weight:400;line-height:1.4;color:#5a1010;border:1px solid #fecaca;border-left:3px solid var(--red-warn);}
+.alert-strip .pill.warn{background:#fee2e2;color:#7a1010;border-color:#fca5a5;font-weight:600;}
+.alert-strip .pill strong{font-weight:600;color:#7a1010;}
+.toc-bar{background:var(--steeldk);padding:7px 24px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;border-bottom:2px solid var(--amber);}
+.toc-label{font-family:var(--mono);font-size:.48rem;letter-spacing:.18em;color:var(--steellt);text-transform:uppercase;margin-right:4px;flex-shrink:0}
+.toc-link{font-family:var(--mono);font-size:.48rem;color:rgba(255,255,255,.55);text-decoration:none;padding:2px 6px;border:1px solid transparent;transition:all .12s;white-space:nowrap;cursor:pointer;}
+.toc-link:hover{color:var(--amber2);border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.06)}
+.toc-link.active{color:var(--amber2);border-color:var(--amber2);background:rgba(232,120,0,.1)}
+.updated-banner{background:var(--ink);color:var(--steellt);font-family:var(--mono);font-size:.54rem;letter-spacing:.08em;padding:8px 5%;display:flex;flex-wrap:wrap;align-items:center;gap:14px;border-bottom:1px solid var(--steeldk);}
+.updated-banner strong{color:var(--amber2);font-weight:600}
+.updated-banner a{color:#6EE7B7;text-decoration:none;border-bottom:1px solid rgba(110,231,183,.4);}
+.updated-banner a:hover{color:#fff;border-bottom-color:#fff}
+.content{padding:20px 5% 80px;max-width:100%}
+.sec-header{display:flex;align-items:center;gap:12px;padding:10px 5%;background:var(--steeldk);border-left:5px solid var(--amber2);margin:28px 0 0;}
+.sec-num{font-family:var(--mono);font-size:.58rem;font-weight:600;color:#fff;background:var(--amber);padding:3px 8px;letter-spacing:.12em;flex-shrink:0;}
+.sec-title{font-family:var(--display);font-size:1.7rem;letter-spacing:.10em;color:#fff;line-height:1;}
+.sec-sub{font-family:var(--mono);font-size:.46rem;letter-spacing:.10em;color:var(--steellt);margin-left:auto;flex-shrink:0;}
+.subsec{background:var(--paper2);border-left:3px solid var(--amber);padding:6px 16px 6px 14px;margin:20px 0 10px;display:flex;align-items:center;gap:10px;}
+.subsec-title{font-family:var(--display);font-size:1.1rem;letter-spacing:.12em;color:var(--ink);}
+.subsec-tag{font-family:var(--mono);font-size:.44rem;letter-spacing:.12em;color:var(--steelmd);text-transform:uppercase;margin-left:auto;}
+.prose{font-family:var(--sans);font-size:.92rem;line-height:1.65;color:var(--ink);margin:8px 0 12px;}
+.prose strong{font-weight:600;color:var(--ink)}
+.prose em{color:var(--amber);font-style:italic}
+.data-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:12px 0;}
+.data-card{background:var(--paper2);border:1px solid var(--rule);border-left:3px solid var(--amber);padding:11px 14px;}
+.data-card.warn{border-left-color:var(--red-warn);background:#fff4f0}
+.data-card.note{border-left-color:var(--amber2);background:#fffbe8}
+.data-card.ok{border-left-color:var(--green-ok);background:#f0fff8}
+.data-card.dark{border-left-color:var(--amber2);background:var(--ink);color:var(--steellt)}
+.data-card-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.14em;text-transform:uppercase;color:var(--steelmd);margin-bottom:5px;}
+.data-card.warn .data-card-label{color:var(--red-warn)}
+.data-card.note .data-card-label{color:var(--amber)}
+.data-card.ok .data-card-label{color:var(--green-ok)}
+.data-card.dark .data-card-label{color:var(--amber2)}
+.data-card-value{font-family:var(--display);font-size:1.5rem;letter-spacing:.04em;color:var(--ink);line-height:1;margin-bottom:3px;}
+.data-card.warn .data-card-value{color:#7a1010}
+.data-card.ok .data-card-value{color:#0a3a20}
+.data-card.dark .data-card-value{color:#fff}
+.data-card-sub{font-family:var(--sans);font-size:.78rem;color:var(--steelmd);line-height:1.5;}
+.data-card.dark .data-card-sub{color:var(--steellt)}
+.alert{border-left:4px solid;padding:10px 14px;margin:12px 0;font-family:var(--sans);font-size:.84rem;line-height:1.55;}
+.alert strong{font-weight:600;display:block;margin-bottom:3px;font-family:var(--mono);font-size:.54rem;letter-spacing:.10em;text-transform:uppercase}
+.alert-warn{background:#fff4f0;border-color:#B91C1C;color:#5a1010}
+.alert-warn strong{color:#B91C1C}
+.alert-note{background:#fffbe8;border-color:var(--amber2);color:#4a3000}
+.alert-note strong{color:var(--amber)}
+.alert-ok{background:#f0fff8;border-color:var(--green-ok);color:#0a3a20}
+.alert-ok strong{color:var(--green-ok)}
+.alert-info{background:var(--paper2);border-color:var(--steelmd);color:var(--steeldk)}
+.alert-info strong{color:var(--steelmd)}
+.spec-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.82rem}
+.spec-table th{background:var(--steeldk);color:#fff;font-family:var(--mono);font-size:.46rem;letter-spacing:.12em;text-transform:uppercase;padding:7px 10px;text-align:left;}
+.spec-table td{padding:6px 10px;border-bottom:1px solid var(--rule);vertical-align:top;font-family:var(--sans)}
+.spec-table tr:nth-child(even) td{background:var(--paper2)}
+.spec-table .mono{font-family:var(--mono);font-size:.72rem;color:var(--amber)}
+.spec-table .warn{color:var(--red-warn);font-weight:600}
+.spec-table .ok{color:var(--green-ok);font-weight:600}
+.spec-table .num{font-family:var(--mono);font-size:.78rem;text-align:right;white-space:nowrap}
+.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+.route-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin:12px 0;}
+.route-card{background:var(--paper2);border:1px solid var(--rule);border-left:4px solid var(--amber2);padding:12px 16px;}
+.route-card.secondary{border-left-color:var(--steelmd)}
+.route-card.tertiary{border-left-color:var(--red-warn)}
+.route-badge{font-family:var(--mono);font-size:.44rem;letter-spacing:.16em;text-transform:uppercase;color:#fff;background:var(--amber);padding:2px 8px;display:inline-block;margin-bottom:6px;}
+.route-card.secondary .route-badge{background:var(--steelmd)}
+.route-card.tertiary .route-badge{background:var(--red-warn)}
+.route-card h3{font-family:var(--display);font-size:1.25rem;letter-spacing:.06em;color:var(--ink);line-height:1.05;margin-bottom:8px;}
+.route-card ul{list-style:none;padding:0}
+.route-card li{font-family:var(--sans);font-size:.82rem;line-height:1.55;padding:4px 0;border-bottom:1px solid var(--rule);}
+.route-card li:last-child{border-bottom:none}
+.route-card li::before{content:"▸ ";color:var(--amber2);font-weight:600}
+.route-card li strong{font-weight:600;color:var(--ink)}
+.scenario{background:var(--paper2);border:1px solid var(--rule);border-top:3px solid var(--amber2);padding:12px 16px;margin:12px 0;}
+.scenario h4{font-family:var(--display);font-size:1.2rem;letter-spacing:.06em;color:var(--ink);margin-bottom:4px;line-height:1.05;}
+.scenario .scenario-meta{font-family:var(--mono);font-size:.50rem;letter-spacing:.10em;color:var(--steelmd);text-transform:uppercase;margin-bottom:8px;}
+.scenario p{font-family:var(--sans);font-size:.84rem;line-height:1.6;margin-bottom:6px;}
+.scenario ul{list-style:none;padding:0;margin-top:6px}
+.scenario li{font-family:var(--sans);font-size:.82rem;line-height:1.55;padding:3px 0;}
+.scenario li::before{content:"→ ";color:var(--amber2);font-weight:600}
+.verdict{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--rule);margin:14px 0;}
+.verdict-col{padding:11px 14px;background:var(--paper2)}
+.verdict-col:first-child{border-right:1px solid var(--rule)}
+.verdict-col h4{font-family:var(--mono);font-size:.50rem;letter-spacing:.16em;text-transform:uppercase;margin-bottom:8px;}
+.verdict-col.pros h4{color:var(--green-ok)}
+.verdict-col.cons h4{color:var(--red-warn)}
+.verdict-col ul{list-style:none;padding:0}
+.verdict-col li{font-family:var(--sans);font-size:.82rem;line-height:1.55;padding:3px 0}
+.verdict-col.pros li::before{content:"+ ";color:var(--green-ok);font-weight:700}
+.verdict-col.cons li::before{content:"− ";color:var(--red-warn);font-weight:700}
+.fuel-band{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:0;margin:12px 0;border:1px solid var(--rule);}
+.fuel-cell{padding:11px 14px;background:var(--paper2);border-right:1px solid var(--rule);}
+.fuel-cell:last-child{border-right:none}
+.fuel-cell-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.14em;text-transform:uppercase;color:var(--steelmd);margin-bottom:4px;}
+.fuel-cell-value{font-family:var(--display);font-size:1.4rem;letter-spacing:.04em;color:var(--amber);line-height:1;}
+.fuel-cell-sub{font-family:var(--mono);font-size:.62rem;color:var(--steelmd);margin-top:3px;}
+.xref-bar{background:var(--steeldk);padding:8px 14px;display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:18px 0 4px;}
+.xref-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.18em;color:var(--steellt);text-transform:uppercase;flex-shrink:0;margin-right:4px}
+.xref-pill{font-family:var(--mono);font-size:.46rem;letter-spacing:.10em;color:var(--amber2);background:rgba(232,120,0,.12);border:1px solid rgba(232,120,0,.4);padding:2px 8px;text-decoration:none;white-space:nowrap;}
+.xref-pill:hover{background:rgba(232,120,0,.25)}
+.booking-matrix{width:100%;border-collapse:collapse;margin:12px 0;font-size:.82rem}
+.booking-matrix th{background:var(--amber);color:#fff;font-family:var(--mono);font-size:.46rem;letter-spacing:.12em;text-transform:uppercase;padding:7px 10px;text-align:left;}
+.booking-matrix td{padding:7px 10px;border-bottom:1px solid var(--rule);vertical-align:top;font-family:var(--sans)}
+.booking-matrix tr:nth-child(even) td{background:var(--paper2)}
+.booking-matrix .operator{font-family:var(--mono);font-size:.70rem;font-weight:600;color:var(--amber)}
+.booking-matrix .contact{font-family:var(--mono);font-size:.62rem;color:var(--steelmd)}
+.wildlife-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin:12px 0;}
+.wildlife-card{background:var(--paper2);border:1px solid var(--rule);border-top:3px solid var(--amber2);padding:11px 14px;}
+.wildlife-card h4{font-family:var(--display);font-size:1.1rem;letter-spacing:.08em;color:var(--ink);margin-bottom:5px;line-height:1;}
+.wildlife-card .wc-status{font-family:var(--mono);font-size:.44rem;letter-spacing:.12em;text-transform:uppercase;color:var(--steelmd);margin-bottom:7px;}
+.wildlife-card p{font-family:var(--sans);font-size:.80rem;line-height:1.55;color:var(--ink);}
+.wildlife-card.rare{border-top-color:var(--red-warn)}
+.wildlife-card.rare .wc-status{color:var(--red-warn)}
+.zone-header{background:var(--steeldk);border-left:6px solid var(--amber2);padding:10px 16px;margin:24px 0 10px;display:flex;align-items:center;gap:12px;}
+.zone-num{font-family:var(--mono);font-size:.62rem;letter-spacing:.14em;color:var(--amber2);font-weight:600;flex-shrink:0;}
+.zone-title{font-family:var(--display);font-size:1.3rem;letter-spacing:.08em;color:#fff;line-height:1;}
+.zone-country{font-family:var(--mono);font-size:.44rem;letter-spacing:.12em;color:var(--steellt);margin-left:auto;flex-shrink:0;}
+.map-tabs{display:flex;border-bottom:0;margin:12px 0 0}
+.map-tab{font-family:var(--mono);font-size:.50rem;letter-spacing:.12em;text-transform:uppercase;background:var(--steeldk);color:var(--steellt);border:1px solid var(--ink);border-bottom:none;padding:9px 12px;cursor:pointer;flex:1;transition:all .12s;}
+.map-tab.active,.map-tab:hover{background:var(--amber);color:#fff;border-color:var(--amber)}
+#kalahari-map{height:480px;border:1px solid var(--rule);background:var(--paper2);}
+.map-attrib{font-family:var(--mono);font-size:.48rem;letter-spacing:.06em;color:var(--steelmd);margin-top:6px;line-height:1.5;}
+.changelog-entry{display:grid;grid-template-columns:90px 70px 1fr;gap:12px;padding:10px 0;border-bottom:1px solid var(--rule);align-items:start;}
+.cl-date{font-family:var(--mono);font-size:.62rem;color:var(--steelmd);letter-spacing:.04em;line-height:1.4;}
+.cl-tag{font-family:var(--mono);font-size:.46rem;letter-spacing:.14em;text-transform:uppercase;padding:2px 7px;display:inline-block;font-weight:600;}
+.cl-tag.new{background:#dcfce7;color:#166534;border:1px solid #bbf7d0}
+.cl-tag.update{background:#dbeafe;color:#1e40af;border:1px solid #bfdbfe}
+.cl-tag.fix{background:#fef3c7;color:#92400e;border:1px solid #fde68a}
+.cl-tag.warn{background:#fee2e2;color:#991b1b;border:1px solid #fecaca}
+.cl-note{font-family:var(--sans);font-size:.84rem;line-height:1.55;color:var(--ink)}
+.cl-note strong{font-weight:600}
+#export-bar{background:var(--steeldk);padding:11px 5%;display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-family:var(--mono);font-size:.54rem;letter-spacing:.10em;color:var(--steellt);text-transform:uppercase;border-top:2px solid var(--amber);}
+.export-btn-inline{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:.54rem;letter-spacing:.10em;text-transform:uppercase;color:var(--amber2);background:rgba(232,120,0,.10);border:1px solid var(--amber2);padding:6px 12px;cursor:pointer;}
+.export-btn-inline:hover{background:rgba(232,120,0,.25)}
+.doc-footer{background:var(--ink);color:var(--steellt);font-family:var(--mono);font-size:.48rem;letter-spacing:.08em;padding:14px 5%;line-height:1.7;display:flex;flex-direction:column;gap:3px;}
+.doc-footer strong{color:var(--amber2);font-weight:600}
+@media(max-width:600px){
+  .std-header{padding:14px 16px 12px}
+  .std-title{font-size:clamp(1.7rem,7vw,2.6rem)}
+  .toc-bar{padding:5px 12px!important;flex-wrap:nowrap!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch!important;scrollbar-width:none!important}
+  .toc-bar::-webkit-scrollbar{display:none}
+  .toc-link{font-size:.44rem!important;padding:2px 5px!important;white-space:nowrap!important}
+  .alert-strip{padding:12px 16px!important;gap:8px!important;border-left-width:4px!important;}
+  .updated-banner{padding:7px 16px;font-size:.50rem}
+  .sec-header{padding:8px 16px;margin:18px 0 0}
+  .sec-title{font-size:1.4rem}
+  .content{padding:14px 4% 60px}
+  .data-grid,.route-grid,.wildlife-grid{grid-template-columns:1fr}
+  .verdict{grid-template-columns:1fr}
+  .verdict-col:first-child{border-right:none;border-bottom:1px solid var(--rule)}
+  .fuel-band{grid-template-columns:repeat(2,1fr)}
+  .fuel-cell{border-right:none;border-bottom:1px solid var(--rule)}
+  .spec-table,.booking-matrix{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  #kalahari-map{height:340px}
+  .map-tab{font-size:.44rem;padding:7px 6px;letter-spacing:.08em}
+  .changelog-entry{grid-template-columns:1fr;gap:4px}
+  #export-bar{padding:10px 16px}
+  .export-btn-inline{flex:1;justify-content:center}
+  .zone-header{flex-wrap:wrap}
+  .zone-country{margin-left:0}
+}
+@media print{
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  @page{margin:7mm;size:A4}
+  .lib-home-btn,.toc-bar,#export-bar{display:none!important}
+  .sticky-nav-unit{position:static!important}
+  .std-header{background:#0d0e12!important;padding:8px 14px 6px!important;border-bottom:2px solid #e07800!important;page-break-after:avoid;}
+  .std-title{color:#e07800!important;font-size:1.5rem!important}
+  .std-local{color:rgba(255,200,100,.80)!important}
+  .std-sub{color:rgba(232,213,163,.85)!important;font-size:.80rem!important}
+  .std-eyebrow,.std-vehicle{color:#6a7080!important}
+  .alert-strip{background:#fff4f0!important;border-left:4px solid #B91C1C!important;padding:5px 14px!important}
+  .alert-strip .alert-main{color:#7a1010!important}
+  .alert-strip .pill{background:#fff!important;color:#5a1010!important}
+  .alert-strip .pill.warn{background:#fee2e2!important;color:#7a1010!important}
+  .updated-banner{background:#0d0e12!important;color:#a8b0bc!important;padding:5px 14px!important}
+  .updated-banner strong{color:#e07800!important}
+  .sec-header{background:#2a2f3a!important;border-left:4px solid #e07800!important;padding:6px 14px!important;margin-top:10px!important;page-break-after:avoid;}
+  .sec-num{background:#b86800!important;color:#fff!important}
+  .sec-title{color:#fff!important;font-size:1.2rem!important}
+  .subsec{background:#edeae0!important;border-left:2px solid #b86800!important;page-break-after:avoid;}
+  .zone-header{background:#2a2f3a!important;border-left:4px solid #e07800!important;page-break-after:avoid;}
+  .data-card{break-inside:avoid;background:#edeae0!important}
+  .data-card.warn{background:#fff4f0!important}
+  .data-card.note{background:#fffbe8!important}
+  .data-card.ok{background:#f0fff8!important}
+  .data-card.dark{background:#0d0e12!important;color:#a8b0bc!important}
+  .data-card.dark .data-card-value{color:#fff!important}
+  .wildlife-card{break-inside:avoid;background:#edeae0!important}
+  .alert{break-inside:avoid}
+  .alert-warn{background:#fff4f0!important;border-left-color:#B91C1C!important;color:#5a1010!important}
+  .alert-warn strong{color:#B91C1C!important}
+  .alert-note{background:#fffbe8!important;border-left-color:#e07800!important;color:#4a3000!important}
+  .alert-note strong{color:#b86800!important}
+  .alert-ok{background:#f0fff8!important;border-left-color:#059669!important;color:#0a3a20!important}
+  .alert-info{background:#edeae0!important;border-left-color:#6a7080!important}
+  .spec-table,.booking-matrix{break-inside:auto}
+  .spec-table thead,.booking-matrix thead{display:table-header-group}
+  .spec-table tr,.booking-matrix tr{break-inside:avoid}
+  .spec-table th{background:#2a2f3a!important;color:#fff!important}
+  .booking-matrix th{background:#b86800!important;color:#fff!important}
+  .spec-table tr:nth-child(even) td,.booking-matrix tr:nth-child(even) td{background:#edeae0!important}
+  .route-card{break-inside:avoid;background:#edeae0!important}
+  .route-badge{background:#b86800!important;color:#fff!important}
+  .route-card.secondary .route-badge{background:#6a7080!important}
+  .route-card.tertiary .route-badge{background:#B91C1C!important}
+  .scenario{break-inside:avoid;background:#edeae0!important}
+  .verdict{break-inside:avoid}
+  .verdict-col{background:#edeae0!important}
+  .verdict-col.pros h4{color:#059669!important}
+  .verdict-col.cons h4{color:#B91C1C!important}
+  .fuel-band{break-inside:avoid}
+  .fuel-cell{background:#edeae0!important}
+  .fuel-cell-value{color:#b86800!important}
+  .xref-bar{background:#2a2f3a!important;break-inside:avoid}
+  .xref-label{color:#a8b0bc!important}
+  .xref-pill{color:#e07800!important;background:rgba(232,120,0,.15)!important;border-color:rgba(232,120,0,.5)!important}
+  .changelog-entry{break-inside:avoid}
+  .doc-footer{background:#0d0e12!important;color:#a8b0bc!important;padding:5px 14px!important}
+  .doc-footer strong{color:#e07800!important}
+  #kalahari-map,.map-tabs{display:none!important}
+  body{font-size:7.5pt}
+  .content{padding:0 14px 10px!important}
+}
+</style>
+</head>
+<body>
+
+<div class="sticky-nav-unit">
+<header class="std-header">
+  <a href="index.html" class="lib-home-btn" title="Library Index">⌂ Index</a>
+  <div class="std-eyebrow">
+    <span style="margin-left:0;white-space:nowrap">Overland Series · Terrain Profile 005</span>
+  </div>
+  <h1 class="std-title">The Kalahari</h1>
+  <div class="std-local">Fossil Sand Sea · 900,000 km² · Botswana · Namibia · South Africa</div>
+  <div class="std-sub">Kgalagadi · Mabuasehube · Khutse · Central Kalahari · Namibian Corridor · Green Kalahari — unified terrain reference</div>
+  <div class="std-vehicle">
+    LC76 SW 1HZ · Deep-sand terrain: 1.2–1.6 bar tyre pressure · Sand consumption 14–15L/100km · Recovery kit mandatory · Compiled 29 April 2026
+  </div>
+</header>
+<nav class="toc-bar">
+  <span class="toc-label">Sections</span>
+  <a href="javascript:void(0)" onclick="scrollTo('s01')" class="toc-link">01. Geology</a>
+  <a href="javascript:void(0)" onclick="scrollTo('s02')" class="toc-link">02. San People</a>
+  <a href="javascript:void(0)" onclick="scrollTo('s03')" class="toc-link">03. Zones</a>
+  <a href="javascript:void(0)" onclick="scrollTo('s04')" class="toc-link">04. Zone 1 — Kgalagadi</a>
+  <a href="javascript:void(0)" onclick="scrollTo('s05')" class="toc-link">05. Zone 2 — Mabuasehube</a>
+  <a href="javascript:void(0)" onclick="scrollTo('s06')" class="toc-link">06. Zone 3 — Khutse</a>
+  <a href="javascript:void(0)" onclick="scrollTo('s07')" class="toc-link">07. Zone 4 — CKGR</a>
+  <a href="javascript:void(0)" onclick="scrollTo('s08')" class="toc-link">08. Zone 5 — Namibia</a>
+  <a href="javascript:void(0)" onclick="scrollTo('s09')" class="toc-link">09. Zone 6 — Green Kalahari</a>
+  <a href="javascript:void(0)" onclick="scrollTo('s10')" class="toc-link">10. Wildlife</a>
+  <a href="javascript:void(0)" onclick="scrollTo('s11')" class="toc-link">11. Trans-Kalahari Route</a>
+  <a href="javascript:void(0)" onclick="scrollTo('s12')" class="toc-link">12. Season</a>
+  <a href="javascript:void(0)" onclick="scrollTo('s13')" class="toc-link">13. Water &amp; Fuel</a>
+  <a href="javascript:void(0)" onclick="scrollTo('s14')" class="toc-link">14. Booking</a>
+  <a href="javascript:void(0)" onclick="scrollTo('s15')" class="toc-link">15. Maps</a>
+  <a href="javascript:void(0)" onclick="scrollTo('s16')" class="toc-link">16. Phrases</a>
+  <a href="javascript:void(0)" onclick="scrollTo('changelog')" class="toc-link" style="color:#6EE7B7">Log</a>
+</nav>
+</div>
+
+<div class="updated-banner">
+  <span>🗓 <strong>Last updated:</strong> 29 April 2026</span>
+  <span>· Kgalagadi SANParks fees 2025/26 confirmed · CKGR BWP 200/pax SADC · Six zones across SA / BWA / NAM</span>
+  <span>· <a href="javascript:void(0)" onclick="scrollTo('changelog');return false;">View changelog ↓</a></span>
+</div>
+
+<main class="content">
+
+<!-- CRITICAL FIELD NOTICES -->
+<div class="sec-header" id="alerts" style="background:#fff4f0;border-left-color:var(--red-warn);">
+  <span class="sec-num" style="background:var(--red-warn);color:#fff;">!</span>
+  <span class="sec-title" style="color:#7a1010;">Critical Field Notices — The Kalahari</span>
+  <span class="sec-sub" style="color:#B91C1C;">Read Before Entering</span>
+</div>
+<div class="alert-strip">
+  <div class="alert-main"><span class="warn-icon">⚠</span>This is not a forgiving landscape — the Kalahari is vast, waterless, and deeply isolated. Preparation determines outcome</div>
+  <div class="alert-pills">
+    <span class="pill warn">CKGR and KGNP: No water inside the parks — carry minimum 5 litres per person per day plus vehicle reserve</span>
+    <span class="pill warn">Deep sand significantly increases fuel consumption — plan at 14–15L/100km, not 12L highway</span>
+    <span class="pill">CKGR: All campsites booked through BigFoot Tours before entry — no walk-ins</span>
+    <span class="pill">Kgalagadi (SA side): Book via SANParks online — wilderness camps (Bitterpan, Gharagab) require 4×4 mandatory, book months ahead</span>
+    <span class="pill">No cell coverage inside any Kalahari park — Garmin inReach non-negotiable in CKGR</span>
+    <span class="pill">Two-vehicle minimum strongly recommended for CKGR interior circuits and Bitterpan/Polentswa wilderness trails</span>
+    <span class="pill">FMD vet cordon (foot-and-mouth): no raw meat or dairy across cordon fences into northern Botswana zones</span>
+    <span class="pill">Night driving: lion, brown hyena, puff adder on tracks — camp before dark</span>
+  </div>
+</div>
+
+<!-- 01 · GEOLOGY & ECOLOGY -->
+<div class="sec-header" id="s01">
+  <span class="sec-num">01</span>
+  <span class="sec-title">Geology, Ecology &amp; The Great Paradox</span>
+  <span class="sec-sub">Not Actually A Desert</span>
+</div>
+
+<p class="prose">The Kalahari is the world's largest continuous sand mass — a fossil sand sea covering approximately <strong>900,000 km²</strong> across southern Africa, stretching from the Orange River in the south to the Congo Basin in the north, touching Botswana, Namibia, South Africa, Zimbabwe, Zambia, and Angola. It is ancient beyond reckoning: the dunes were laid down by wind approximately 60,000 years ago during an ice-age arid period, and before that the underlying geology dates to <em>the Precambrian</em> — some of the oldest exposed rock on Earth.</p>
+
+<p class="prose">The central paradox of the Kalahari is that it is not technically a desert. A true desert receives less than 250mm of rainfall per year; the Kalahari receives 150–500mm annually depending on location. The sand does not form a true erg (open dune sea) — much of it is stabilised by vegetation. There is a substantial underground water table, accessed by deep-rooted trees like the camel thorn acacia and shepherd's tree. The Kalahari is correctly described as a <em>fossil desert</em> or <em>semi-arid savannah</em> — the dunes are real, the aridity is real, but life has found footholds throughout.</p>
+
+<div class="data-grid">
+  <div class="data-card dark">
+    <div class="data-card-label">Total Area</div>
+    <div class="data-card-value">900,000 km²</div>
+    <div class="data-card-sub">Larger than France and Germany combined. Spans 6 countries. The LC76 expedition will cross it multiple times from multiple directions.</div>
+  </div>
+  <div class="data-card dark">
+    <div class="data-card-label">Annual Rainfall</div>
+    <div class="data-card-value">150–500mm</div>
+    <div class="data-card-sub">South: ~150mm (Kgalagadi). North: ~500mm (CKGR northern edge). Seasonal: November–April. All falls on sand — no surface rivers, no standing water except pans after rain.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Dune Age</div>
+    <div class="data-card-value">~60,000 Years</div>
+    <div class="data-card-sub">Aeolian (wind-deposited) dunes formed during the last glacial period. Most are now fixed and vegetated. Active dunes in the southwest (Kgalagadi) and around the Makgadikgadi pans.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Underground Water</div>
+    <div class="data-card-value">Present But Deep</div>
+    <div class="data-card-sub">A vast underground aquifer underlies most of the Kalahari. Accessible via deep-rooted trees and boreholes — not accessible to people on foot. Pan water (if present) is often alkaline and undrinkable.</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-card-label">Name Origin</div>
+    <div class="data-card-value">Makgadikgadi</div>
+    <div class="data-card-sub">The name Kalahari derives from the Setswana word <em>Kgalagadi</em> — "great thirst" or "the waterless place." The Makgadikgadi (the vast salt pan system) shares the same root. The name is not merely poetic; it is a survival warning.</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-card-label">Soil &amp; Sand Colour</div>
+    <div class="data-card-value">Red to White</div>
+    <div class="data-card-sub">Southern Kalahari (Kgalagadi): distinctive deep red sand — iron oxide-stained. Northern pans (Makgadikgadi): brilliant white salt. CKGR interior: pale golden sand. The colour shift is a reliable geographic orientation cue.</div>
+  </div>
+</div>
+
+<p class="prose">The vegetation is equally paradoxical. The Kalahari supports <strong>camel thorn acacia</strong> (Vachellia erioloba) — trees up to 17 metres tall with root systems reaching 40+ metres to underground water. Shepherd's tree (<em>Boscia albitrunca</em>) provides the only year-round shade in many areas. Tsamma melon (<em>Citrullus lanatus</em>) grows wild across the sands — a critical water source for both wildlife and San people. Hoodia cactus, wild raisins, buffalo thorn, and dozens of grass species complete an ecosystem that is sparse to the eye but biologically rich underfoot.</p>
+
+<div class="alert alert-note">
+  <strong>The "desert" framing misleads travellers</strong>
+  People arrive in the Kalahari expecting barren emptiness and find grass, trees, birds, and abundant wildlife. The real dangers are not the absence of life but the absence of permanent surface water, the heat extremes (45°C+ in summer), and the sheer scale — distances that are easy on a map become lethal miscalculations when sand slows progress to 30 km/h and fuel consumption doubles.
+</div>
+
+<!-- 02 · SAN PEOPLE -->
+<div class="sec-header" id="s02">
+  <span class="sec-num">02</span>
+  <span class="sec-title">The San People</span>
+  <span class="sec-sub">100,000 Years · Oldest Culture on Earth · 2006 Land Rights</span>
+</div>
+
+<p class="prose">The San people of the Kalahari carry the oldest continuous cultural lineage on Earth. Genetic analysis published in major research journals indicates that the San lineage diverges from all other human populations approximately <strong>100,000–150,000 years ago</strong> — meaning they have been present in this landscape since anatomically modern humans first emerged in Africa. Every other culture on Earth descends from a population that later diverged from theirs. They are not a remnant or a fragment; they are the root.</p>
+
+<p class="prose">The San are hunter-gatherers of extraordinary competence. They tracked prey across the Kalahari using the persistence hunting method — following an animal at a trot for hours in the heat, reading tracks and predicting behaviour, until the prey collapsed from heat exhaustion. They located water by finding tsamma melons, following gemsbok trails to buried moisture, and digging at specific geological signs. They navigated 900,000 km² without maps or compass. Their pharmacopoeia — derived entirely from Kalahari plants — included treatments for pain, infection, and snakebite that are still being studied by researchers today.</p>
+
+<div class="data-grid">
+  <div class="data-card dark">
+    <div class="data-card-label">Genetic Divergence</div>
+    <div class="data-card-value">~100,000 Years</div>
+    <div class="data-card-sub">The San lineage separates from all other human populations approximately 100,000–150,000 years ago. The oldest continuously inhabited cultural tradition on Earth. They have occupied this landscape since before the Kalahari dunes were laid down.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Current Population</div>
+    <div class="data-card-value">~90,000</div>
+    <div class="data-card-sub">Across southern Africa. Approximately 55,000 in Botswana (including Basarwa/Bushmen), 27,000 in Namibia (including ‡Khomani San), and others in SA, Zimbabwe, Zambia. Most no longer live as traditional hunter-gatherers.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">2006 CKGR Land Ruling</div>
+    <div class="data-card-value">High Court Victory</div>
+    <div class="data-card-sub">Botswana High Court ruled in 2006 that the forced relocation of CKGR San communities was unlawful and unconstitutional. The ruling affirmed their right to return to ancestral land inside the park. Implementation has been partial and contested. The CKGR today is both a wildlife reserve and contested indigenous homeland.</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-card-label">Cultural Encounters</div>
+    <div class="data-card-value">Proceed with Care</div>
+    <div class="data-card-sub">Touristic San "experiences" vary enormously in authenticity and benefit. The best encounters are community-run and involve fair compensation. Avoid operations where San people are presented as exhibits. New Xade community (CKGR relocation village) and D'Kar village near Ghanzi both have legitimate community-run visitor programmes.</div>
+  </div>
+</div>
+
+<p class="prose">The 2006 Botswana High Court ruling on the CKGR is one of the most significant indigenous land rights decisions in African legal history. The court found that the government's removal of the San from the CKGR between 1997 and 2002 was an unconstitutional deprivation of their rights. Despite the ruling, the reality on the ground remains complex: access to the reserve for CKGR San residents is bureaucratically difficult, and most San communities remain in resettlement villages like New Xade outside the park boundary. When travelling through the CKGR, you are on land that has been inhabited and tracked by human beings for an unbroken 100,000+ years. That is not a romantic abstraction; it is a geological and genetic fact.</p>
+
+<!-- 03 · ZONES OVERVIEW -->
+<div class="sec-header" id="s03">
+  <span class="sec-num">03</span>
+  <span class="sec-title">The Six Zones</span>
+  <span class="sec-sub">Geography, Character &amp; Navigation Logic</span>
+</div>
+
+<p class="prose">This guide divides the Kalahari into six operational zones, defined by terrain character, access logistics, and booking systems — not by political boundaries. The zones are sequenced south to north, matching the likely LC76 expedition direction of travel. Read this section before the country profiles: the country profiles handle entry documents, border crossings, and national logistics; this guide handles the landscape on its own terms.</p>
+
+<table class="spec-table">
+  <thead><tr><th>Zone</th><th>Location</th><th>Character</th><th>Country / Authority</th><th>Difficulty</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Zone 1</strong><br>Kgalagadi</td>
+      <td>Nossob + Auob river valleys, Northern Cape SA + SW Botswana</td>
+      <td>Deep red dunes, black-maned lions, leopards, raptors, wilderness trails. Iconic Kalahari.</td>
+      <td>SANParks (SA) + DWNP (Botswana Mabuasehube side)</td>
+      <td class="ok">Moderate — well-managed, marked tracks</td>
+    </tr>
+    <tr>
+      <td><strong>Zone 2</strong><br>Mabuasehube</td>
+      <td>Far SW Botswana — remote extension of Kgalagadi Transfrontier</td>
+      <td>Undeveloped pans, salt flats, completely isolated campsites. More remote than the SA side.</td>
+      <td>DWNP Botswana / Intertourism</td>
+      <td class="warn">Expert — remote, soft sand, minimal infrastructure</td>
+    </tr>
+    <tr>
+      <td><strong>Zone 3</strong><br>Khutse</td>
+      <td>Central Botswana — southern gateway to CKGR</td>
+      <td>More accessible Kalahari. Brown hyena, cheetah, lion. Entry point for trans-Kalahari south-north.</td>
+      <td>DWNP Botswana / BigFoot Tours</td>
+      <td>Moderate to demanding</td>
+    </tr>
+    <tr>
+      <td><strong>Zone 4</strong><br>CKGR</td>
+      <td>Central Botswana — 52,800 km² reserve</td>
+      <td>The deepest, most isolated Kalahari. Black-maned lions, brown hyena, complete silence. No water, no help for 200+ km.</td>
+      <td>DWNP Botswana / BigFoot Tours</td>
+      <td class="warn">Expert — softest sand, most remote</td>
+    </tr>
+    <tr>
+      <td><strong>Zone 5</strong><br>Namibian Kalahari</td>
+      <td>Eastern Namibia — Hardap/Mariental region, farms east of Windhoek</td>
+      <td>Transitional corridor — private conservancies, farm stays, no national park equivalent. Gateway character.</td>
+      <td>Private farms / NamibRand / lodges</td>
+      <td class="ok">Easy to moderate — private land, maintained roads</td>
+    </tr>
+    <tr>
+      <td><strong>Zone 6</strong><br>Green Kalahari</td>
+      <td>Northern Cape SA — Augrabies to Upington</td>
+      <td>Orange River corridor, Augrabies Falls, raptors, wine route. More accessible, greener, easier entry from SA.</td>
+      <td>SANParks (Augrabies) + private</td>
+      <td class="ok">Easy — accessible from Upington</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- 04 · ZONE 1: KGALAGADI -->
+<div class="sec-header" id="s04">
+  <span class="sec-num">04</span>
+  <span class="sec-title">Zone 1 — Kgalagadi Transfrontier Park</span>
+  <span class="sec-sub">South Africa + Botswana · Black-Maned Lions · Wilderness Trails</span>
+</div>
+
+<div class="zone-header">
+  <span class="zone-num">ZONE 1</span>
+  <span class="zone-title">Kgalagadi Transfrontier Park</span>
+  <span class="zone-country">3.6M ha · SA + BWA · Upington Gateway</span>
+</div>
+
+<p class="prose">The Kgalagadi Transfrontier Park is the southern anchor of the Kalahari ecosystem — 3.6 million hectares of red dunes, dry riverbeds (Nossob and Auob), and open scrub spanning the Northern Cape of South Africa and southwestern Botswana. It is the most accessible Kalahari destination from South Africa, the most photographed, and in many ways the definitive Kalahari experience: red dunes against blue sky, enormous black-maned lions lying in camel thorn shade, leopards scanning from tree branches, and a silence that requires no description to those who have heard it.</p>
+
+<p class="prose">The park was officially proclaimed in 2000 as a transfrontier conservation area, unifying the former Gemsbok National Park (Botswana, proclaimed 1938) and the South African Kalahari Gemsbok National Park (proclaimed 1931). There are no internal fences — animals migrate freely across what was once an international border. The concept of a "transfrontier" park, allowing wildlife to move according to ecological rather than political logic, was pioneered here before it became common practice elsewhere in Africa.</p>
+
+<div class="data-grid">
+  <div class="data-card dark">
+    <div class="data-card-label">Total Park Area</div>
+    <div class="data-card-value">3.6 Million ha</div>
+    <div class="data-card-sub">SA side: ~1 million ha. Botswana side (Gemsbok NP): ~2.5 million ha. No internal fences — one unified ecosystem.</div>
+  </div>
+  <div class="data-card dark">
+    <div class="data-card-label">Gateway Town (SA)</div>
+    <div class="data-card-value">Upington</div>
+    <div class="data-card-sub">250 km from Twee Rivieren main gate. Last full services (fuel, supermarket, ATM, Toyota dealer) before entering the park. Fill completely in Upington.</div>
+  </div>
+  <div class="data-card ok">
+    <div class="data-card-label">Malaria Status (SA Side)</div>
+    <div class="data-card-value">Malaria-Free</div>
+    <div class="data-card-sub">The South African side of Kgalagadi is officially malaria-free. No prophylaxis required. The Botswana (Mabuasehube) side is at low risk — prophylaxis recommended as precaution.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">SANParks Fee (SA Resident)</div>
+    <div class="data-card-value">R134 / adult / day</div>
+    <div class="data-card-sub">2025/26 rates (1 Nov 2025–31 Oct 2026). SADC: R283/adult/day. Standard (foreign): R662/adult/day. Wild Card covers Kgalagadi — good value for stays of 5+ days.</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-card-label">Wild Card Value</div>
+    <div class="data-card-value">~5 Days Break-Even</div>
+    <div class="data-card-sub">Wild Card (SA residents) ~R1,800 individual / ~R3,000 couple. Breaks even at approximately 5 days for one person (R134 × 5 = R670 each, couple = R1,340 — Wild Card R3,000 couple breaks even at ~11 days combined). For any multi-day Kgalagadi stay, assess the Wild Card option before booking.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Fuel — SA Side</div>
+    <div class="data-card-value">Twee Rivieren Only</div>
+    <div class="data-card-sub">Fuel available at Twee Rivieren main camp only — the only camp with 24-hour electricity and cell signal. Nossob and Mata Mata: fuel available but limited hours. Wilderness camps: no fuel. Fill at Twee Rivieren before any interior circuit.</div>
+  </div>
+</div>
+
+<div class="subsec"><span class="subsec-title">— Main Camps (SA Side)</span><span class="subsec-tag">SANParks Booking</span></div>
+
+<div class="route-grid">
+  <div class="route-card">
+    <span class="route-badge">★★★★★ Headquarters</span>
+    <h3>Twee Rivieren</h3>
+    <ul>
+      <li>Main entrance camp at the confluence of the Nossob and Auob riverbeds</li>
+      <li>Full facilities: restaurant, shop, fuel (only 24-hour fuel in park), swimming pool, ATM, cell signal</li>
+      <li>Self-catering chalets, camping, and powered stands available</li>
+      <li>Start and end point for all Nossob/Auob game drives</li>
+      <li><strong>GPS:</strong> S26.47°, E20.62°</li>
+    </ul>
+  </div>
+  <div class="route-card">
+    <span class="route-badge">★★★★ Deep Interior</span>
+    <h3>Nossob</h3>
+    <ul>
+      <li>180 km north of Twee Rivieren along the Nossob riverbeds — spectacular red dune backdrop</li>
+      <li>The Nossob waterhole is one of the most productive wildlife viewing spots in the park — lions, cheetah, leopard, brown hyena all visit</li>
+      <li>Fuel available (limited hours) — confirm availability before departure from Twee Rivieren</li>
+      <li>Restaurant and shop. Self-catering chalets and camping.</li>
+      <li>Excellent raptors: bateleur, martial eagle, tawny eagle, pale chanting goshawk</li>
+    </ul>
+  </div>
+  <div class="route-card secondary">
+    <span class="route-badge">★★★★ Western Entry</span>
+    <h3>Mata Mata</h3>
+    <ul>
+      <li>Western camp on the Auob riverbed — close to the Namibia border (Twee Rivieren to Mata Mata: 120 km)</li>
+      <li>Quieter than Twee Rivieren — good lion and cheetah territory in the Auob valley</li>
+      <li>Exit to Namibia possible here (Mata Mata border post with Namibia: Rietfontein — limited hours, confirm before planning)</li>
+      <li>Fuel available. Self-catering and camping.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="subsec"><span class="subsec-title">— Wilderness Camps (4×4 Mandatory)</span><span class="subsec-tag">Book Months Ahead · Most Sought-After</span></div>
+
+<div class="route-grid">
+  <div class="route-card">
+    <span class="route-badge">★★★★★ 4×4 Only · Remote</span>
+    <h3>Bitterpan Wilderness Camp</h3>
+    <ul>
+      <li>In the dune sea between the Nossob and Auob riverbeds — accessible only on the 4×4 wilderness trail</li>
+      <li>Four sleeping units (only!), completely isolated, generator power at limited hours, no restaurant</li>
+      <li>The Bitterpan pan at sunset is one of the most photographed places in South Africa</li>
+      <li>Self-sufficient: carry all food and extra water. SANParks provides bedding.</li>
+      <li><strong>4×4 with low-range mandatory — SANParks enforces this</strong></li>
+      <li>Books out 6–12 months in advance — especially June–September. Book the moment your dates are fixed.</li>
+    </ul>
+  </div>
+  <div class="route-card">
+    <span class="route-badge">★★★★★ 4×4 Only · Northern</span>
+    <h3>Gharagab Wilderness Camp</h3>
+    <ul>
+      <li>Northernmost camp in the SA section — near the Nossob/Auob upper reaches, adjacent to the Botswana border</li>
+      <li>Five units, isolated from all other camps, generator power, deep dune sand access track</li>
+      <li>Excellent for black-maned lions — this is the heart of the largest lion territory in the park</li>
+      <li>Access from Nossob camp via 4×4 track — ~45 km on deep sand</li>
+      <li><strong>4×4 mandatory</strong>. Self-sufficient.</li>
+      <li>Books out months in advance. Considered by many regulars as the finest camp in the park.</li>
+    </ul>
+  </div>
+  <div class="route-card secondary">
+    <span class="route-badge">★★★★ Trail Experience</span>
+    <h3>Polentswa Wilderness Trail</h3>
+    <ul>
+      <li>3-night guided wilderness trail traversing the dune sea between Twee Rivieren, Polentswa waterhole, and Nossob</li>
+      <li>Self-drive 4×4 trail — not guided walking; the "trail" refers to the vehicle track through remote dunes</li>
+      <li>Polentswa camp: 6 units, waterhole views, spectacular night sky</li>
+      <li>One of the most immersive Kalahari experiences available — three consecutive nights in the dune interior</li>
+      <li>Book via SANParks as a combined package; limited availability</li>
+    </ul>
+  </div>
+</div>
+
+<div class="alert alert-note">
+  <strong>Kgalagadi booking — online only via SANParks</strong>
+  All Kgalagadi SA-side accommodation (including wilderness camps) is booked exclusively through sanparks.org. No telephone reservations for accommodation. Wilderness camps open for bookings 13 months in advance — log into the SANParks booking system at exactly 08:00 SA time on the opening date for peak season slots. This is not hyperbole; serious Kgalagadi regulars set alarms.
+</div>
+
+<!-- 05 · ZONE 2: MABUASEHUBE -->
+<div class="sec-header" id="s05">
+  <span class="sec-num">05</span>
+  <span class="sec-title">Zone 2 — Mabuasehube</span>
+  <span class="sec-sub">SW Botswana · Remotest Kalahari Camping · DWNP + Intertourism</span>
+</div>
+
+<div class="zone-header">
+  <span class="zone-num">ZONE 2</span>
+  <span class="zone-title">Mabuasehube Pan Complex</span>
+  <span class="zone-country">Botswana · DWNP / Intertourism · Tsabong Gateway</span>
+</div>
+
+<p class="prose">Mabuasehube is the Botswana side of the Kgalagadi Transfrontier Park — the same ecosystem as the SA section but without the infrastructure. Where the SA side has paved approach roads, marked tracks, and three main camps, Mabuasehube has soft sand tracks, six isolated pan campsites, and essentially no services. This is genuine wilderness camping: no fences, no neighbours, no phone signal, no help. What it offers in exchange is an experience of the Kalahari that is impossible to find on the SA side — complete solitude, lion-dominated pans, and night skies that have no competition in southern Africa.</p>
+
+<div class="data-grid">
+  <div class="data-card warn">
+    <div class="data-card-label">Access</div>
+    <div class="data-card-value">Tsabong</div>
+    <div class="data-card-sub">Gateway town in far SW Botswana. ~130 km of sand track from Tsabong to the Mabuasehube entrance. Fuel in Tsabong (confirm availability before departure — small town). The approach road is deep Kalahari sand; 4×4 from Tsabong.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">From SA (Kgalagadi)</div>
+    <div class="data-card-value">Via Twee Rivieren</div>
+    <div class="data-card-sub">Cross from Kgalagadi into Botswana at the Two Rivers/Mabuasehube gate — you exit SANParks jurisdiction and enter DWNP. The gate hours and procedures must be confirmed with DWNP before relying on this crossing.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Fee (SADC)</div>
+    <div class="data-card-value">BWP 200 / pax / day</div>
+    <div class="data-card-sub">Standard DWNP rate for non-CKGR parks. Vehicle: BWP 90/day. Campsite fees paid separately to Intertourism Group for privately managed sites.</div>
+  </div>
+  <div class="data-card dark">
+    <div class="data-card-label">Key Pans</div>
+    <div class="data-card-value">6 Major Pans</div>
+    <div class="data-card-sub">Mabuasehube, Lesholoago, Monamodi, Mpayathutlwa, Khiding, Bosobogolo. Each has a basic campsite. Mabuasehube Pan is the most visited; Bosobogolo the most remote. All are lion and brown hyena territory.</div>
+  </div>
+</div>
+
+<div class="alert alert-warn">
+  <strong>Mabuasehube — two-vehicle rule</strong>
+  The Mabuasehube area is one of the most isolated vehicle-accessible destinations in southern Africa. A mechanical failure here — even a flat tyre requiring a jack in soft sand — can become a serious situation rapidly. Two vehicles strongly recommended. Satellite communicator mandatory. Inform someone outside the park of your entry and expected exit.
+</div>
+
+<!-- 06 · ZONE 3: KHUTSE -->
+<div class="sec-header" id="s06">
+  <span class="sec-num">06</span>
+  <span class="sec-title">Zone 3 — Khutse Game Reserve</span>
+  <span class="sec-sub">Southern CKGR Gateway · 240 km from Gaborone · BigFoot Tours</span>
+</div>
+
+<div class="zone-header">
+  <span class="zone-num">ZONE 3</span>
+  <span class="zone-title">Khutse Game Reserve</span>
+  <span class="zone-country">Botswana · DWNP / BigFoot Tours · Letlhakeng Gateway</span>
+</div>
+
+<p class="prose">Khutse Game Reserve is contiguous with the southern boundary of the CKGR — the same sand, the same predators, the same silence — but only 240 km from Gaborone, making it the most accessible genuine Kalahari experience for visitors entering from South Africa. It is less dramatically remote than the CKGR interior but operationally more forgiving: closer to help, shorter drives between campsites, and slightly less demanding sand.</p>
+
+<p class="prose">The classic trans-Kalahari route enters at Khutse's southern gate (from Letlhakeng) and exits at CKGR's Matswere Gate in the northeast, traversing the full north-south length of both reserves — approximately 500 km of Kalahari sand over 4–6 days. This is one of the definitive overland routes in southern Africa and currently has no single reference document that maps it end to end. This guide is that reference.</p>
+
+<div class="data-grid">
+  <div class="data-card dark">
+    <div class="data-card-label">Area</div>
+    <div class="data-card-value">2,500 km²</div>
+    <div class="data-card-sub">Contiguous with CKGR to the north — combined protected area approaches 55,000 km². Wildlife moves freely between both reserves.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Gateway</div>
+    <div class="data-card-value">Letlhakeng</div>
+    <div class="data-card-sub">~190 km west of Gaborone. Small town — basic fuel and provisions. Last services before entering Khutse. Fill completely here.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Campsites</div>
+    <div class="data-card-value">5 Sites</div>
+    <div class="data-card-sub">All five managed by BigFoot Tours. Khutse 1–3 near the entrance pan cluster; Khutse 4 and 5 further north toward CKGR boundary. Basic facilities — bush toilets, no water.</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-card-label">Wildlife</div>
+    <div class="data-card-value">Lions, Brown Hyena</div>
+    <div class="data-card-sub">Lion, cheetah, brown hyena, black-backed jackal, bat-eared fox. Gemsbok, springbok, hartebeest in numbers on the pans. Brown hyena encounters at campsites are common after dark.</div>
+  </div>
+</div>
+
+<!-- 07 · ZONE 4: CKGR -->
+<div class="sec-header" id="s07">
+  <span class="sec-num">07</span>
+  <span class="sec-title">Zone 4 — Central Kalahari Game Reserve</span>
+  <span class="sec-sub">52,800 km² · Most Isolated Vehicle-Accessible Park · Black-Maned Lions</span>
+</div>
+
+<div class="zone-header">
+  <span class="zone-num">ZONE 4</span>
+  <span class="zone-title">Central Kalahari Game Reserve</span>
+  <span class="zone-country">Botswana · DWNP / BigFoot Tours · Larger than Switzerland</span>
+</div>
+
+<p class="prose">The Central Kalahari Game Reserve is the most remote vehicle-accessible national park in southern Africa and one of the largest in the world. At 52,800 km² it is larger than Switzerland. The interior is accessible only by 4×4 on deep sand tracks; there are no sealed roads, no permanent water, no fuel depots, and no cell towers. A breakdown in the deep interior could mean 24–48 hours before any help could realistically arrive.</p>
+
+<p class="prose">What the CKGR offers in exchange for this inaccessibility is extraordinary: the Kalahari in its most complete, least compromised form. The <strong>black-maned lions</strong> of the Deception Valley are the most studied wild lion population in Africa after Serengeti — their manes grow unusually long and dark due to the interaction of high testosterone levels and the relatively cool nights at this latitude and altitude. Seeing a coalition of five black-maned males on the open valley floor at sunrise is one of the genuinely unrepeatable wildlife experiences in the world.</p>
+
+<div class="data-grid">
+  <div class="data-card dark">
+    <div class="data-card-label">Area</div>
+    <div class="data-card-value">52,800 km²</div>
+    <div class="data-card-sub">Larger than Switzerland. One of the largest protected areas in the world. The interior is as close to unmodified Kalahari as exists anywhere on Earth.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">Water</div>
+    <div class="data-card-value">Zero Inside Park</div>
+    <div class="data-card-sub">There is no water anywhere inside the CKGR. No waterholes (except seasonal pans after rain), no boreholes accessible to visitors, no camp water supply. Carry minimum 5L/person/day plus 20L vehicle reserve.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">Fuel</div>
+    <div class="data-card-value">Zero Inside Park</div>
+    <div class="data-card-sub">No fuel inside the CKGR or within 200+ km radius. Matswere Gate (east): last fuel at Rakops, ~95 km from gate. Xade Gate (west): last fuel at Ghanzi, ~170 km from gate. Plan fuel for the full interior circuit plus 20% buffer.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Sand Consumption</div>
+    <div class="data-card-value">14–15 L/100km</div>
+    <div class="data-card-sub">Deep Kalahari sand significantly increases 1HZ fuel consumption. Plan at 14–15L/100km for all CKGR driving. A 350 km Deception Valley loop requires minimum 53L on top of gate-to-gate distance.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Gates</div>
+    <div class="data-card-value">4 Gates</div>
+    <div class="data-card-sub">Matswere (NE, main entry — from Rakops); Xade (W — from Ghanzi); Tsau (NW); Southern Gate (connects to Khutse GR). Most overlanders enter via Matswere and exit via same or Xade for a loop.</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-card-label">Fee (SADC)</div>
+    <div class="data-card-value">BWP 200 / pax / day</div>
+    <div class="data-card-sub">DWNP SADC rate (2026). Vehicle: BWP 90/day. Campsite fees separate to BigFoot Tours — approximately BWP 500–700/night for 2 people SADC. Cheaper than Chobe/Moremi but still significant over a multi-day circuit.</div>
+  </div>
+</div>
+
+<div class="subsec"><span class="subsec-title">— Key Destinations</span><span class="subsec-tag">BigFoot Tours · All Bookings</span></div>
+
+<div class="route-grid">
+  <div class="route-card">
+    <span class="route-badge">★★★★★ The Heartland</span>
+    <h3>Deception Valley</h3>
+    <ul>
+      <li>Ancient fossil valley carved by the (now dry) Deception River — 3.5 billion year old geology in parts</li>
+      <li>The famous black-maned Kalahari lions: unusual long, dark manes driven by high testosterone and cool nights</li>
+      <li>Cheetah on the open valley floor — exceptional early morning sightings on the pan edges</li>
+      <li>Brown hyena: nocturnal, shy, found nowhere more reliably than here</li>
+      <li>Deception Valley camp: sits directly in the valley — completely isolated, extraordinary night sky</li>
+      <li><strong>From Matswere Gate:</strong> ~130 km of deep Kalahari sand. Allow 4–5 hours. Low range required throughout.</li>
+    </ul>
+  </div>
+  <div class="route-card">
+    <span class="route-badge">★★★★★ Remote Interior</span>
+    <h3>Sunday Pan</h3>
+    <ul>
+      <li>Open saltpan in the CKGR interior — flat, vast, stark white against red sand</li>
+      <li>The pan waterhole at sunset: gemsbok, wildebeest, kudu, giraffe arriving in sequence — then lion</li>
+      <li>One of the signature Kalahari moments: sitting at a pan edge at dusk watching the sequence of arrivals as the light turns amber</li>
+      <li>Campsite directly adjacent to pan — Big Foot Tours. No other facilities.</li>
+      <li>Less visited than Deception Valley — more likely to have the experience to yourself</li>
+    </ul>
+  </div>
+  <div class="route-card secondary">
+    <span class="route-badge">★★★★ Most Remote</span>
+    <h3>Piper Pan &amp; Northern Loop</h3>
+    <ul>
+      <li>The most remote and mystical part of the CKGR — the northern loop beyond Sunday Pan</li>
+      <li>Vast emerald plains in wet season, golden-ochre in dry season. No tracks in most areas — navigation by GPS only.</li>
+      <li>Piper Pan: shallow seasonal pan, surrounded by sparse mopane — eerie, beautiful, deserted</li>
+      <li>Significant navigation skills required. This is not a beginner route.</li>
+      <li>Passarge Valley: similar character to Deception but less visited — extremely high chance of having the landscape entirely to yourself</li>
+    </ul>
+  </div>
+</div>
+
+<div class="alert alert-warn">
+  <strong>CKGR: The minimum-two-vehicle rule</strong>
+  The Botswana DWNP does not formally mandate two vehicles, but the reality of the terrain makes a solo vehicle the wrong decision in the CKGR interior. Deep sand vehicle recovery requires a second vehicle in most scenarios — a hi-lift jack and MaxTrax alone may not be sufficient in soft Kalahari sand. The distance from any help (200+ km to the nearest town), the absence of comms, and the heat make any immobilised vehicle a serious situation within hours. Two vehicles is not overcaution — it is basic field arithmetic.
+</div>
+
+<!-- 08 · ZONE 5: NAMIBIAN KALAHARI -->
+<div class="sec-header" id="s08">
+  <span class="sec-num">08</span>
+  <span class="sec-title">Zone 5 — Namibian Kalahari Corridor</span>
+  <span class="sec-sub">Private Farms · Hardap / Mariental · Transit Character</span>
+</div>
+
+<div class="zone-header">
+  <span class="zone-num">ZONE 5</span>
+  <span class="zone-title">Namibian Kalahari</span>
+  <span class="zone-country">Namibia · Private Conservancies · Transitional Zone</span>
+</div>
+
+<p class="prose">The Namibian Kalahari is largely farmland and private conservancies with no national park equivalent of Kgalagadi on this side of the border. The Namibia/Botswana border in this region runs through remote Kalahari sand with no major crossing points — the main east-west axis in this part of Namibia is the B1/Trans-Kalahari Highway connecting Windhoek to Gobabis and the Botswana border at Buitepos/Mamuno.</p>
+
+<p class="prose">For the LC76 expedition, this zone functions as a <strong>transit corridor</strong> — the likely entry route from South Africa heading north into Botswana, or as a side loop from the Namibia circuit. The value here is in private lodge and farm-stay experiences rather than national park wilderness.</p>
+
+<div class="route-grid">
+  <div class="route-card secondary">
+    <span class="route-badge">★★★★ Gondwana Collection</span>
+    <h3>Kalahari Anib Lodge (Mariental)</h3>
+    <ul>
+      <li>~60 km north of Mariental on the B1 — Gondwana Collection property in the heart of the Namibian Kalahari</li>
+      <li>Managed wildlife on private land: gemsbok, springbok, kudu, cheetah (fenced private reserve). Guided game drives.</li>
+      <li>Well-run, good facilities — solid overnight stop rather than destination stay</li>
+      <li>Campsite + chalets. Good base for day trips into surrounding Kalahari dunes.</li>
+      <li>Tel: +264 63 693 031 · gondwana-collection.com</li>
+    </ul>
+  </div>
+  <div class="route-card secondary">
+    <span class="route-badge">★★★ Trans-Kalahari Highway</span>
+    <h3>B1 / Trans-Kalahari Route</h3>
+    <ul>
+      <li>The B1 (Windhoek → Gobabis → Buitepos) is the main sealed route through the Namibian Kalahari — fast, good condition, effectively a transit road</li>
+      <li>Gobabis is the last fuel and service town before the Botswana border (Buitepos → Mamuno gate, 13 km)</li>
+      <li>The road from Gobabis to Mamuno passes through increasingly remote Kalahari farmland — increasingly beautiful, increasingly empty</li>
+      <li>Fill completely at Gobabis. Ghanzi (Botswana) is 265 km from Mamuno on mostly sealed road.</li>
+    </ul>
+  </div>
+  <div class="route-card secondary">
+    <span class="route-badge">★★★ East Windhoek</span>
+    <h3>Farm Stays — Eastern Namibia</h3>
+    <ul>
+      <li>Numerous private game farms between Windhoek and Gobabis offer Kalahari night sky experiences, gemsbok tracking, and San cultural interpretation</li>
+      <li>Quality varies widely — research individual farms. Naankuse Wildlife Sanctuary (~35 km east of Windhoek) is reputable and community-linked.</li>
+      <li>Not a national park experience but a different kind of Kalahari intimacy — private land, small groups, no gates</li>
+    </ul>
+  </div>
+</div>
+
+<!-- 09 · ZONE 6: GREEN KALAHARI -->
+<div class="sec-header" id="s09">
+  <span class="sec-num">09</span>
+  <span class="sec-title">Zone 6 — The Green Kalahari</span>
+  <span class="sec-sub">Northern Cape SA · Augrabies Falls · Orange River · Upington</span>
+</div>
+
+<div class="zone-header">
+  <span class="zone-num">ZONE 6</span>
+  <span class="zone-title">Green Kalahari — Northern Cape</span>
+  <span class="zone-country">South Africa · SANParks (Augrabies) · Upington Base</span>
+</div>
+
+<p class="prose">The Green Kalahari is a local marketing name for the Northern Cape corridor along the Orange River between Upington and the Namibia border — named for the paradoxical river-fed greenery running through the arid Kalahari. It is the most accessible and least demanding of the six zones, suitable as an approach leg before Kgalagadi or as a standalone Northern Cape excursion.</p>
+
+<div class="route-grid">
+  <div class="route-card">
+    <span class="route-badge">★★★★★ Augrabies Falls NP</span>
+    <h3>Augrabies Falls — Orange River Gorge</h3>
+    <ul>
+      <li>The Augrabies Falls drop 56 metres into a 18 km granite gorge on the Orange River — the sixth largest waterfall in the world by volume during flood season</li>
+      <li>The gorge creates a micro-ecosystem entirely different from the surrounding Kalahari: lush vegetation, klipspringer, rock hyrax, black eagle nesting on the gorge walls</li>
+      <li>SANParks entry fee (Arid Cluster): SA residents R73/day (2025/26). SADC R149/day. Standard R325/day.</li>
+      <li>Camping and chalets inside the park. The rest camp has a pool — essential in summer. Fuel at Kakamas (30 km) — not inside the park.</li>
+      <li>Moon Rock overnight trail: 3-day hike (guided) into the gorge — permits very limited, book well ahead</li>
+    </ul>
+  </div>
+  <div class="route-card secondary">
+    <span class="route-badge">★★★★ Gateway City</span>
+    <h3>Upington — Services &amp; Staging</h3>
+    <ul>
+      <li>The largest city in the Northern Cape — excellent staging base for Kgalagadi and Augrabies</li>
+      <li>Full services: Toyota dealer, tyre shops, supermarkets, multiple fuel stations, ATM, hospitals, camping equipment stores</li>
+      <li>The Orange River here: wide, green, slow — wine farms and muscatel grapes in the river valley. Worth a drive.</li>
+      <li>Overnight before Kgalagadi — standard practice for SA overlanders</li>
+      <li><strong>250 km to Kgalagadi Twee Rivieren gate</strong> via R360 (good tarred road)</li>
+    </ul>
+  </div>
+  <div class="route-card secondary">
+    <span class="route-badge">★★★ Wine Route</span>
+    <h3>Orange River Wine Route</h3>
+    <ul>
+      <li>Unexpected: the Northern Cape's extreme heat and reliable Orange River irrigation produce dessert wines and table grapes unlike anywhere else in SA</li>
+      <li>Orange River Wine Cellars cooperative (Upington) — tastings and sales. The sultrán and hanepoot muscadel are distinctive and inexpensive.</li>
+      <li>Augrabies Falls → Pella Mission → Vioolsdrif → Namibia border: a scenic river route that doubles as a Kalahari/Namaqualand border circuit</li>
+    </ul>
+  </div>
+</div>
+
+<div class="data-grid">
+  <div class="data-card dark">
+    <div class="data-card-label">Raptors</div>
+    <div class="data-card-value">Exceptional</div>
+    <div class="data-card-sub">The Northern Cape Kalahari has extraordinary raptor diversity: martial eagle, bateleur, black eagle (at Augrabies gorge), pale chanting goshawk, secretary bird, lappet-faced vulture. Augrabies gorge is one of the most reliable black eagle locations in SA.</div>
+  </div>
+  <div class="data-card ok">
+    <div class="data-card-label">Malaria Status</div>
+    <div class="data-card-value">Malaria-Free</div>
+    <div class="data-card-sub">Entire Northern Cape, including Augrabies and Kgalagadi (SA side), is malaria-free. No prophylaxis required.</div>
+  </div>
+</div>
+
+<!-- 10 · WILDLIFE -->
+<div class="sec-header" id="s10">
+  <span class="sec-num">10</span>
+  <span class="sec-title">Kalahari Wildlife Guide</span>
+  <span class="sec-sub">Signature Species · By Zone</span>
+</div>
+
+<p class="prose">The Kalahari wildlife list is long but defined by a set of signature species that cannot be reliably seen anywhere else. The black-maned lion and the brown hyena are the two most uniquely Kalahari — both found elsewhere, but nowhere in the concentration, accessibility, and distinctiveness that the Kalahari provides.</p>
+
+<div class="wildlife-grid">
+  <div class="wildlife-card">
+    <h4>Kalahari Black-Maned Lion</h4>
+    <div class="wc-status">★★★★★ SIGNATURE SPECIES · ZONES 1, 2, 4</div>
+    <p>The males of the CKGR and Kgalagadi lion populations grow unusually long, dark manes — the result of high testosterone levels and the cooler night temperatures at this latitude. This makes them visually distinctive from any other lion population in Africa. The mechanism is well understood: cooler temperatures allow the mane to grow longer without the heat penalty that reduces mane size in equatorial populations. Best sightings: Deception Valley (CKGR) and Nossob Valley (Kgalagadi) early morning and late afternoon.</p>
+  </div>
+  <div class="wildlife-card rare">
+    <h4>Brown Hyena</h4>
+    <div class="wc-status">★★★★★ GLOBALLY RARE · ZONES 1, 2, 4</div>
+    <p>The brown hyena is globally rare — total wild population estimated at fewer than 10,000. The Kalahari holds the world's highest density. Nocturnal and solitary, they are difficult to find elsewhere; in the CKGR and Kgalagadi they reliably visit campsites after dark and patrol pan edges at dusk. Distinguishable from spotted hyena by the shaggy brown coat and relatively small size. An encounter with a brown hyena is one of Africa's rarest wildlife sightings — the Kalahari makes it routine.</p>
+  </div>
+  <div class="wildlife-card">
+    <h4>Gemsbok (Oryx)</h4>
+    <div class="wc-status">★★★★★ ABUNDANT · ALL ZONES</div>
+    <p>The gemsbok is the Kalahari's defining ungulate. Perfectly adapted to arid conditions — the nasal blood-cooling system allows core body temperature to be managed independently of ambient heat; they can survive on the moisture in vegetation alone. Groups of 40–100 animals are common on open pans; solitary bulls patrol the dunescapes. The long straight horns, black-and-white facial mask, and grey body make them one of Africa's most visually striking animals. Herds on the red dunes of Kgalagadi at sunset are among the great photography subjects of southern Africa.</p>
+  </div>
+  <div class="wildlife-card">
+    <h4>Cheetah</h4>
+    <div class="wc-status">★★★★ GOOD SIGHTINGS · ZONES 1, 3, 4</div>
+    <p>The open pan and valley floors of both Kgalagadi and the CKGR provide ideal cheetah hunting terrain. The flat visibility allows cheetahs to hunt by sight rather than ambush — early morning and late afternoon are the active periods. Coalition males (2–3 brothers) range large territories in Kgalagadi; solitary females with cubs occasionally den near campsites. The Kalahari has a healthy cheetah population — sightings are frequent by African safari standards.</p>
+  </div>
+  <div class="wildlife-card">
+    <h4>Springbok</h4>
+    <div class="wc-status">★★★★★ ABUNDANT · ZONES 1, 2, 3, 4</div>
+    <p>The Kalahari's most numerous antelope — herds of 200–500 are common throughout all zones. Famous for pronking (the stiff-legged vertical bouncing behaviour), which functions as both predator-confusion and display. The springbok's white dorsal crest is raised during pronking. In wet seasons, large herds congregate on greening plains; in the dry season they concentrate near remaining vegetation. Excellent cheetah prey — watching a cheetah chase through a springbok herd is one of the Kalahari's most dramatic sequences.</p>
+  </div>
+  <div class="wildlife-card rare">
+    <h4>Black-Footed Cat</h4>
+    <div class="wc-status">★★★ NOCTURNAL · SOUTH KALAHARI</div>
+    <p>The smallest wild cat in Africa — and pound-for-pound one of the most effective predators on Earth, with the highest kill rate of any wild cat species (approximately 60% of hunts successful, vs lion ~20%). Found across the southern Kalahari, particularly in the Kgalagadi area. Nocturnal and secretive — spotlight drives after dark are the best opportunity. Rarely seen but reliably present if you spend nights in the right habitat. The CKGR also has records but southern Kgalagadi has the highest confirmed density.</p>
+  </div>
+  <div class="wildlife-card">
+    <h4>Meerkat (Suricate)</h4>
+    <div class="wc-status">★★★★★ ACCESSIBLE · MAKGADIKGADI EDGE</div>
+    <p>Meerkats are present throughout the Kalahari but the most famous habituated groups are near the Makgadikgadi pans (Planet Baobab / Jack's Camp area). The habituation process means meerkats treat humans as elevated vantage points — they will stand on your head to scan for raptors at dawn. This behaviour is instinctive, not trained; you are being used because you are tall. Outside the habituated groups, meerkats are common around pan edges and in scrubby dune areas throughout the CKGR.</p>
+  </div>
+  <div class="wildlife-card">
+    <h4>Sociable Weaver</h4>
+    <div class="wc-status">★★★★★ UNMISSABLE · ALL ZONES</div>
+    <p>The sociable weaver builds the largest communal bird nests in the world — massive haystacks up to 7 metres long and 2 metres high in camel thorn acacia trees, housing hundreds of nesting pairs in a thermal-regulated apartment block. A single nest can be maintained by the same colony for 100+ years. They are everywhere in the Kalahari and unmissable — but pause to look closely: pygmy falcon (Africa's smallest raptor) nests parasitically in sociable weaver colonies, and cape cobra regularly raids the outer chambers. The nest is a food web in a tree.</p>
+  </div>
+  <div class="wildlife-card">
+    <h4>Cape Cobra &amp; Puff Adder</h4>
+    <div class="wc-status">⚠ HAZARD · ALL ZONES</div>
+    <p>Both species are present throughout the Kalahari. The puff adder is the cause of more snakebite fatalities in Africa than any other species — slow-moving, cryptically coloured, and reluctant to move when stepped on. In camps: shake boots every morning, check sleeping gear, watch where you put your hands on rocks and logs. Cape cobras are more alert and active — particularly common near sociable weaver nests (they raid them regularly). Antivenom is not available inside any Kalahari park; serious envenomation requires evacuation.</p>
+  </div>
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">Cross-ref</span>
+  <a href="LC76_Health_Hygiene_Guide.html" class="xref-pill">R17 Health &amp; Hygiene (snakebite)</a>
+  <a href="LC76_Emergency_Procedures_Guide.html" class="xref-pill">R10 Emergency Procedures</a>
+  <a href="Botswana_Overland_Profile_2026-04.html" class="xref-pill">Profile 003 Botswana</a>
+</div>
+
+<!-- 11 · TRANS-KALAHARI ROUTE -->
+<div class="sec-header" id="s11">
+  <span class="sec-num">11</span>
+  <span class="sec-title">Trans-Kalahari Route Guide</span>
+  <span class="sec-sub">South-North Corridor · Upington to Maun · ~1,400 km</span>
+</div>
+
+<p class="prose">The full trans-Kalahari overland corridor — Upington through Kgalagadi, across the Mabuasehube pans, north through Khutse, through the CKGR interior, and out to Maun — is one of the great self-drive overland routes in southern Africa. It exists nowhere as a single mapped document; overlanders assemble it from fragments of country guides, park websites, and forum posts. This section maps the complete south-north route and the two main north-south variants.</p>
+
+<div class="scenario">
+  <h4>Trans-Kalahari South-North: Full Corridor</h4>
+  <div class="scenario-meta">Upington (SA) → Maun (Botswana) · 16–22 Days · Expert Level · Two Vehicles Strongly Recommended</div>
+  <ul>
+    <li><strong>Day 1–2:</strong> Upington → Twee Rivieren gate (250 km tarred). Enter Kgalagadi. Overnight Twee Rivieren — set up, provision check, buy fuel.</li>
+    <li><strong>Days 3–6:</strong> Kgalagadi circuit: Twee Rivieren → Nossob (180 km sand track, game drive pace) → Gharagab/Bitterpan (4×4 trail, if booked) → Nossob → back south or loop via Auob. Allow minimum 3–4 nights in the park.</li>
+    <li><strong>Day 7:</strong> Exit Kgalagadi at Twee Rivieren. Cross into Botswana at the park's Two Rivers/Mabuasehube gate (confirm hours with DWNP). Enter Mabuasehube.</li>
+    <li><strong>Days 8–10:</strong> Mabuasehube pan circuit — Mabuasehube Pan, Mpayathutlwa, Bosobogolo (3 pans over 3 nights, each different character). Completely self-sufficient. No water, no fuel, no help.</li>
+    <li><strong>Day 11:</strong> Exit Mabuasehube toward Tsabong (~130 km sand). Tsabong: fuel, limited provisions, overnight.</li>
+    <li><strong>Day 12:</strong> Tsabong → Kang (~380 km sealed A2). Kang: fuel.</li>
+    <li><strong>Day 13:</strong> Kang → Letlhakeng → Khutse GR southern gate (~210 km, last 60 km sand). Enter Khutse.</li>
+    <li><strong>Days 14–15:</strong> Khutse — 2 nights on the pans. Lion and cheetah territory. Brown hyena at camp after dark. Self-sufficient.</li>
+    <li><strong>Day 16:</strong> Khutse → CKGR Southern Gate → begin CKGR transit (~60 km sand, difficult). First CKGR campsite.</li>
+    <li><strong>Days 17–20:</strong> CKGR interior — Deception Valley, Sunday Pan, as deep as fuel budget allows. 3–4 nights minimum to justify the entry effort. The most memorable part of the entire corridor.</li>
+    <li><strong>Day 21:</strong> CKGR → Matswere Gate (east exit) → Rakops (95 km — first fuel since before entering Khutse, 8+ days). Fill completely. Assess fuel math carefully before exiting.</li>
+    <li><strong>Day 22:</strong> Rakops → Nata (~300 km sealed) → Gweta → Maun (~300 km). Alternatively: Nata north toward Chobe. The Kalahari corridor is complete.</li>
+  </ul>
+</div>
+
+<div class="scenario">
+  <h4>Variant A — CKGR Only (Fast Circuit from SA)</h4>
+  <div class="scenario-meta">Johannesburg → CKGR → Maun · 8–10 Days · Accessible Version</div>
+  <ul>
+    <li>JHB → Gaborone (300 km) → Letlhakeng (190 km) → Khutse GR (60 km sand)</li>
+    <li>1 night Khutse → CKGR via southern gate → 3 nights Deception Valley</li>
+    <li>Exit via Matswere Gate → Rakops fuel → Maun (540 km) or return south via Serowe (Khama Rhino)</li>
+    <li>Skip Kgalagadi and Mabuasehube; hit the CKGR — this is the minimum viable Kalahari expedition</li>
+  </ul>
+</div>
+
+<div class="scenario">
+  <h4>Variant B — Kgalagadi + Green Kalahari (SA-Only Circuit)</h4>
+  <div class="scenario-meta">Cape Town / JHB → Upington → Kgalagadi → Augrabies · 7–10 Days · Malaria-Free</div>
+  <ul>
+    <li>Cape Town or JHB → Upington (overnight). Provisions and fuel.</li>
+    <li>Upington → Twee Rivieren → 3–5 nights in Kgalagadi (main camps + one wilderness camp if booked)</li>
+    <li>Exit Kgalagadi at Twee Rivieren → north to Mata Mata → exit to Namibia (optional loop) OR east to Nossob exit → back south to Upington</li>
+    <li>Upington → Augrabies Falls (70 km) → 1–2 nights in Augrabies gorge</li>
+    <li>Return Upington or loop through Namibia via Vioolsdrif</li>
+  </ul>
+</div>
+
+<table class="spec-table">
+  <thead><tr><th>Route Segment</th><th>Distance</th><th>Difficulty</th><th>Key Notes</th></tr></thead>
+  <tbody>
+    <tr><td>Upington → Twee Rivieren (R360)</td><td>250 km</td><td class="ok">Easy — sealed</td><td>Good tar road. Last fuel in Upington or Andriesvale (60 km from gate).</td></tr>
+    <tr><td>Twee Rivieren → Nossob (Nossob riverbed)</td><td>180 km</td><td>Moderate — gravel + sand</td><td>Gravel track, some sand sections. Allow full day. Game drive pace.</td></tr>
+    <tr><td>Bitterpan wilderness trail</td><td>~100 km loop</td><td class="warn">Expert — deep sand</td><td>4×4 mandatory, enforced by SANParks. Pre-booked only. MaxTrax and full recovery kit.</td></tr>
+    <tr><td>Mabuasehube internal tracks</td><td>Variable — up to 200 km</td><td class="warn">Expert</td><td>Soft Kalahari sand throughout. Two vehicles strongly advised. No markers on all tracks.</td></tr>
+    <tr><td>Khutse → CKGR (Southern Gate)</td><td>~60 km</td><td class="warn">Demanding</td><td>Soft sand, difficult sections. Navigation by GPS — tracks not always clear.</td></tr>
+    <tr><td>CKGR Matswere → Deception Valley</td><td>~130 km</td><td class="warn">Expert</td><td>Deep Kalahari sand throughout. 4–5 hours. Low range for extended sections.</td></tr>
+    <tr><td>CKGR Deception Valley → Sunday Pan</td><td>~80 km</td><td class="warn">Expert</td><td>Soft sand. Allow 3–4 hours. No markers except GPS waypoints.</td></tr>
+    <tr><td>CKGR → Matswere Gate (exit)</td><td>~130 km</td><td class="warn">Demanding</td><td>Same sand as entry. Fuel math critical — plan before committing to interior circuit.</td></tr>
+    <tr><td>Rakops → Nata (A3)</td><td>~300 km</td><td class="ok">Easy — sealed</td><td>Good road. Occasional livestock on verge. Good condition.</td></tr>
+  </tbody>
+</table>
+
+<div class="xref-bar">
+  <span class="xref-label">Cross-ref</span>
+  <a href="LC76_Fuel_Range_Calculator.html" class="xref-pill">Fuel Range Calculator</a>
+  <a href="LC76_Tyre_Pressure_Calculator.html" class="xref-pill">Tyre Pressure Calculator</a>
+  <a href="LC76_Vehicle_Recovery_Guide.html" class="xref-pill">R9 Vehicle Recovery</a>
+  <a href="Botswana_Overland_Profile_2026-04.html" class="xref-pill">Profile 003 Botswana</a>
+</div>
+
+<!-- 12 · SEASON & TIMING -->
+<div class="sec-header" id="s12">
+  <span class="sec-num">12</span>
+  <span class="sec-title">Season &amp; Timing</span>
+  <span class="sec-sub">Dry Season Essential · Two Wildlife Windows · Avoid December–February</span>
+</div>
+
+<table class="spec-table">
+  <thead><tr><th>Month</th><th>Temperature</th><th>Kgalagadi (SA)</th><th>CKGR (Botswana)</th><th>Crowd &amp; Cost</th><th>Overall</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Dec–Feb</strong></td><td>40–46°C+</td><td>Oppressive heat, some rain. Track flooding risk.</td><td>Tracks deteriorating. Rain closes southern pans.</td><td>Very low</td><td class="warn">Avoid — heat extreme, tracks unreliable</td></tr>
+    <tr><td><strong>March</strong></td><td>38–43°C</td><td>Rains ending. Tracks drying.</td><td>Still wet in places. Sand sticky after rain.</td><td>Very low</td><td>Marginal — only if heat-adapted</td></tr>
+    <tr><td><strong>April</strong></td><td>32–38°C</td><td>Good — rains finished, green vegetation, wildlife active</td><td>CKGR pans drying. Excellent predator activity at remaining water.</td><td>Low — good value</td><td class="ok">Good — best shoulder value</td></tr>
+    <tr><td><strong>May–June</strong></td><td>24–32°C days, 5–10°C nights</td><td>Excellent — cool, dry, vegetation still lush</td><td>Excellent — dry, game concentrating. Black-maned lion prime viewing season.</td><td>Low–medium building</td><td class="ok">Optimal — the best overall window</td></tr>
+    <tr><td><strong>Jul–Sep</strong></td><td>22–30°C days, 0–5°C nights (frost possible)</td><td>Peak quality — winter nights cold, days perfect</td><td>Peak quality — maximum predator concentration at pans</td><td class="warn">Peak — fully booked 6+ months ahead</td><td>Best quality; worst logistics</td></tr>
+    <tr><td><strong>October</strong></td><td>35–42°C</td><td>Outstanding predators at shrinking waterholes</td><td>Outstanding — animal density at remaining water maximises encounters</td><td>Dropping — good value</td><td class="ok">Underrated — excellent wildlife, post-peak pricing</td></tr>
+    <tr><td><strong>November</strong></td><td>38–44°C</td><td>Heat increasing, rains approaching</td><td>Tracks beginning to deteriorate. Wet season approaching.</td><td>Low</td><td>Marginal — only for heat-tolerant travellers</td></tr>
+  </tbody>
+</table>
+
+<div class="data-grid">
+  <div class="data-card dark">
+    <div class="data-card-label">Best Window — Expedition Timing</div>
+    <div class="data-card-value">May – June</div>
+    <div class="data-card-sub">Rains finished. Tracks reliable. Vegetation still green. Lion and cheetah prime. Campsites available without the 6-month advance booking requirement of peak. Follows naturally from Namibia April circuit. The optimal window for the LC76 expedition Kalahari legs.</div>
+  </div>
+  <div class="data-card dark">
+    <div class="data-card-label">Second Window</div>
+    <div class="data-card-value">October</div>
+    <div class="data-card-sub">Post-peak, post-crowd, dramatically lower campsite availability pressure. Very hot (40°C+) but extraordinary wildlife — animals concentrated at the last water. Require heat management strategy: early start, shade rest 11:00–16:00, late afternoon drive.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">Avoid</div>
+    <div class="data-card-value">December – February</div>
+    <div class="data-card-sub">CKGR and Kgalagadi sand becomes wet and heavy after rain — recovery difficulty increases dramatically. Temperatures above 45°C possible. Some CKGR tracks close. The Kalahari in summer is survivable but not enjoyable or safe without serious preparation.</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-card-label">Frost Warning</div>
+    <div class="data-card-value">June–July Nights</div>
+    <div class="data-card-sub">The southern Kalahari (Kgalagadi) experiences overnight frost in June–July. Temperatures can drop to -5°C. Warm sleeping gear mandatory. Engine glow plug pre-heat is important on cold CKGR mornings — the 1HZ handles cold well but warm it properly before departure.</div>
+  </div>
+</div>
+
+<!-- 13 · WATER & FUEL MATRIX -->
+<div class="sec-header" id="s13">
+  <span class="sec-num">13</span>
+  <span class="sec-title">Water &amp; Fuel Self-Sufficiency Matrix</span>
+  <span class="sec-sub">Zone-by-Zone · No Assumptions</span>
+</div>
+
+<p class="prose">The Kalahari is unique among southern African overland destinations in that water and fuel planning are not optional refinements — they are the primary survival calculus. This matrix covers all six zones. Use it before committing to any interior circuit.</p>
+
+<div class="alert alert-warn">
+  <strong>Water: minimum 5L per person per day in all Kalahari zones</strong>
+  This is not comfortable-margin water. It is survival-minimum in 35–45°C conditions, accounting for drinking, basic hygiene, and cooking. In summer (Oct–Mar), 7–8L/person/day is more realistic. The 1HZ cooling system is entirely separate — carry 5L of distilled water for the engine at all times. See R22 Cooling System Guide.
+</div>
+
+<table class="spec-table">
+  <thead><tr><th>Zone</th><th>Water in Zone</th><th>Carry Requirement</th><th>Last Reliable Water Before Entry</th><th>Fuel Gap</th><th>Carry Requirement</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Zone 1 — Kgalagadi (SA)</strong></td>
+      <td>Twee Rivieren, Nossob, Mata Mata camps only</td>
+      <td>Water available at camps — carry 10L buffer between camps (50–180 km)</td>
+      <td>Upington / Andriesvale</td>
+      <td>Twee Rivieren only (24hr). Nossob limited hours. Wilderness camps: zero.</td>
+      <td>Fill at Twee Rivieren before any wilderness camp access</td>
+    </tr>
+    <tr>
+      <td><strong>Zone 2 — Mabuasehube</strong></td>
+      <td class="warn">Zero</td>
+      <td class="warn">Full expedition carry — minimum 5L/person/day × all nights in zone. No resupply possible.</td>
+      <td>Tsabong (limited) — verify before relying on</td>
+      <td class="warn">Zero</td>
+      <td class="warn">Full circuit fuel from Tsabong or via Kgalagadi. Carry 50L+ extra.</td>
+    </tr>
+    <tr>
+      <td><strong>Zone 3 — Khutse GR</strong></td>
+      <td class="warn">Zero (no camp water supply)</td>
+      <td class="warn">Carry all water from Letlhakeng. Minimum 5L/pax/day × stay + 10L buffer.</td>
+      <td>Letlhakeng</td>
+      <td>No fuel in park or en route from Letlhakeng</td>
+      <td>Fill at Letlhakeng. Account for full Khutse stay + CKGR approach.</td>
+    </tr>
+    <tr>
+      <td><strong>Zone 4 — CKGR</strong></td>
+      <td class="warn">Zero (no water anywhere in park)</td>
+      <td class="warn">Carry minimum 5L/pax/day × all days in zone. 4-day interior circuit: 2 people = 40L water minimum. Carry 60L.</td>
+      <td>Rakops (east entry) or Ghanzi (west entry)</td>
+      <td class="warn">Zero</td>
+      <td class="warn">LC76 145L tank + 2×20L jerricans = 185L. Deception Valley loop: ~350 km at 14L/100km = 49L. Full Matswere-in, Matswere-out: ~280 km = 39L. Plan carefully.</td>
+    </tr>
+    <tr>
+      <td><strong>Zone 5 — Namibian Kalahari</strong></td>
+      <td>Lodge water available</td>
+      <td>Normal carry — no special requirement</td>
+      <td>Gobabis / Mariental</td>
+      <td>B1 corridor: Gobabis, Mariental, Hardap — adequate coverage</td>
+      <td>Normal fill strategy — no extended gaps</td>
+    </tr>
+    <tr>
+      <td><strong>Zone 6 — Green Kalahari</strong></td>
+      <td>Augrabies camp (buy). Lodges in Upington area.</td>
+      <td>Normal carry — Augrabies camp water available</td>
+      <td>Upington / Kakamas</td>
+      <td>Kakamas (30 km from Augrabies). Upington (70 km). No gap.</td>
+      <td>Normal</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="data-grid">
+  <div class="data-card warn">
+    <div class="data-card-label">LC76 Water Carry Capacity</div>
+    <div class="data-card-value">Check Before CKGR</div>
+    <div class="data-card-sub">Standard 20L jerricans × 4 = 80L water carry. For a 4-day CKGR circuit (2 people × 5L × 4 days = 40L minimum, 60L advised). 80L is adequate for two people at 5L/day for 8 days — but reduce this for vehicle reserve, cooking, and hot days. Calculate before each entry.</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-card-label">Pan Water — Do Not Drink</div>
+    <div class="data-card-value">Alkaline / Salty</div>
+    <div class="data-card-sub">Water found in Kalahari pans (after rain) is typically highly alkaline and may contain elevated mineral concentrations — unsuitable for drinking even after purification tablets. In severe emergency, boiling and dilution may reduce salt load, but treat pan water only as a last resort. Never assume pan water is safe.</div>
+  </div>
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">Cross-ref</span>
+  <a href="LC76_Water_Budget_Calculator.html" class="xref-pill">Water Budget Calculator</a>
+  <a href="LC76_Fuel_Range_Calculator.html" class="xref-pill">Fuel Range Calculator</a>
+  <a href="LC76_Cooling_System_Guide.html" class="xref-pill">R22 Cooling System (engine water)</a>
+</div>
+
+<!-- 14 · BOOKING MATRIX -->
+<div class="sec-header" id="s14">
+  <span class="sec-num">14</span>
+  <span class="sec-title">Booking Matrix</span>
+  <span class="sec-sub">SANParks · DWNP · BigFoot Tours · Intertourism · By Zone</span>
+</div>
+
+<p class="prose">The Kalahari spans three countries and multiple booking systems that have no connection to each other. Book each zone independently, well in advance. The table below gives the complete booking reference for all six zones.</p>
+
+<table class="booking-matrix">
+  <thead><tr><th>Zone</th><th>Authority</th><th>What They Book</th><th>Contact</th><th>Lead Time</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Zone 1 — Kgalagadi (SA side)</strong></td>
+      <td><span class="operator">SANParks</span></td>
+      <td>All SA-side accommodation: Twee Rivieren, Nossob, Mata Mata, Bitterpan, Gharagab, Polentswa. Entry fees paid at gate.</td>
+      <td><span class="contact">sanparks.org (online only for accommodation)<br>Tel: +27 12 428 9111 (query only)<br>sanparks.org/parks/kgalagadi</span></td>
+      <td>Wilderness camps: 6–12 months. Main camps: 2–3 months. Online booking opens 13 months in advance.</td>
+    </tr>
+    <tr>
+      <td><strong>Zone 2 — Mabuasehube (BWA)</strong></td>
+      <td><span class="operator">Intertourism Group</span> + DWNP</td>
+      <td>Private campsites at the Mabuasehube pans. DWNP handles entry permits separately.</td>
+      <td><span class="contact">Intertourism: +267 391 2024<br>intertourism@gov.bw<br>DWNP: +267 318 0774<br>Mon–Fri 07:30–16:30</span></td>
+      <td>2–4 months. Less demand than Chobe/Moremi but limited sites — book early.</td>
+    </tr>
+    <tr>
+      <td><strong>Zone 3 — Khutse GR (BWA)</strong></td>
+      <td><span class="operator">BigFoot Tours</span> + DWNP</td>
+      <td>All 5 Khutse campsites. DWNP entry permits separate.</td>
+      <td><span class="contact">Tel: +267 395 3360<br>bigfoottoursbw@gmail.com<br>operations@bigfoottours.co.bw<br>bigfoottours.co.bw</span></td>
+      <td>1–3 months. If email slow, try Facebook: BigFoot Tours Botswana.</td>
+    </tr>
+    <tr>
+      <td><strong>Zone 4 — CKGR (BWA)</strong></td>
+      <td><span class="operator">BigFoot Tours</span> + DWNP</td>
+      <td>All CKGR interior campsites: Deception Valley, Sunday Pan, Passarge Valley, Letiahau, Lekhubu, Piper Pan, Motopi. DWNP entry permits separate.</td>
+      <td><span class="contact">Tel: +267 395 3360<br>bigfoottoursbw@gmail.com<br>operations@bigfoottours.co.bw</span></td>
+      <td>Deception Valley: 3–6 months for Jun–Sep. Other sites: 1–3 months. Same operator as Khutse — book both simultaneously.</td>
+    </tr>
+    <tr>
+      <td><strong>Zone 5 — Namibia Kalahari</strong></td>
+      <td><span class="operator">Individual Properties</span></td>
+      <td>Private lodges: Kalahari Anib Lodge (Gondwana Collection), farm stays, private conservancies.</td>
+      <td><span class="contact">Gondwana: gondwana-collection.com<br>Tel: +264 63 693 031</span></td>
+      <td>1–4 weeks for most. Peak Namibia season (Jul–Oct): 2–3 months.</td>
+    </tr>
+    <tr>
+      <td><strong>Zone 6 — Augrabies / Green Kalahari (SA)</strong></td>
+      <td><span class="operator">SANParks</span></td>
+      <td>Augrabies Falls NP accommodation and camping. Moon Rock trail permit (very limited).</td>
+      <td><span class="contact">sanparks.org (online only)<br>Tel: +27 12 428 9111</span></td>
+      <td>Main camp: 1–3 months. Moon Rock trail: 3–6 months.</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="scenario">
+  <h4>CKGR Step-by-Step Booking Process</h4>
+  <div class="scenario-meta">Zone 4 is the most complex — three entities involved</div>
+  <ul>
+    <li><strong>Step 1:</strong> Email BigFoot Tours with your dates, number of adults, vehicle registration, and SA passport details. Request all sites in one email (e.g., Khutse 2 nights + CKGR Deception Valley 3 nights).</li>
+    <li><strong>Step 2:</strong> BigFoot confirms availability and invoices. Pay BigFoot in full — receive campsite booking vouchers.</li>
+    <li><strong>Step 3:</strong> Email DWNP Central Reservations (dwnp@gov.bw) with all BigFoot vouchers. State you need DWNP entry permits for Khutse and CKGR on the specified dates.</li>
+    <li><strong>Step 4:</strong> DWNP invoices for park entry fees (BWP 200/pax/day SADC + BWP 90/vehicle/day). Pay DWNP. Receive entry permits.</li>
+    <li><strong>Step 5:</strong> Print ALL vouchers and entry permits. Do not rely on digital only — gates are remote and card readers sometimes absent.</li>
+    <li><strong>Step 6 (DWNP gate):</strong> Present BigFoot vouchers + DWNP entry permits at Matswere or Khutse gate. Pay any outstanding gate day fees in Pula cash.</li>
+  </ul>
+</div>
+
+<div class="alert alert-note">
+  <strong>SANParks Wild Card — reassess before each trip</strong>
+  For the Kgalagadi legs: the SA resident rate is R134/adult/day. A 5-night stay (two adults) = R1,340 in entry fees. A SANParks couple Wild Card is approximately R3,000. If the expedition includes a 5-night Kgalagadi stay plus other SA parks, the Wild Card is cost-effective. Recalculate based on actual itinerary — the Wild Card math changes significantly depending on stay duration.
+</div>
+
+<!-- 15 · INTERACTIVE MAP -->
+<div class="sec-header" id="s15">
+  <span class="sec-num">15</span>
+  <span class="sec-title">The Kalahari — Interactive Maps</span>
+  <span class="sec-sub">All Zones · Trans-Kalahari Route · CKGR Interior</span>
+</div>
+
+<p class="prose" style="margin-top:14px;">Three map views. <strong>All Zones</strong> shows the full Kalahari footprint across SA/BWA/NAM. <strong>Trans-Kalahari Route</strong> traces the south-north corridor. <strong>CKGR Interior</strong> maps the park gates and key campsites.</p>
+
+<div class="map-tabs">
+  <button class="map-tab active" onclick="switchKTab('overview')" id="ktab-overview">All Zones</button>
+  <button class="map-tab" onclick="switchKTab('route')" id="ktab-route">Trans-Kalahari Route</button>
+  <button class="map-tab" onclick="switchKTab('ckgr')" id="ktab-ckgr">CKGR Interior</button>
+</div>
+<div id="kalahari-map"></div>
+<p class="map-attrib">© OpenStreetMap contributors — zone boundaries and routes are indicative. Always carry paper maps and offline GPS inside national parks.</p>
+
+<!-- 16 · PHRASES -->
+<div class="sec-header" id="s16">
+  <span class="sec-num">16</span>
+  <span class="sec-title">Field Phrases</span>
+  <span class="sec-sub">Setswana (Botswana) · Afrikaans (SA) · ‡Khomani San Context</span>
+</div>
+
+<p class="prose">The Kalahari spans three countries and multiple languages. In the SA zones (Kgalagadi, Augrabies), Afrikaans is the dominant language at rural checkpoints and with park staff — English works everywhere but a few words of Afrikaans are warmly received. In the Botswana zones (Khutse, CKGR), Setswana is the first language; English is widely spoken by park and BigFoot staff but less so at rural villages and roadside checkpoints. The Namibian corridor is Afrikaans/German/English.</p>
+
+<div class="subsec"><span class="subsec-title">— Setswana (Botswana Zones 2, 3, 4)</span></div>
+
+<table class="spec-table">
+  <thead><tr><th>Situation</th><th>Setswana</th><th>Pronunciation</th></tr></thead>
+  <tbody>
+    <tr><td>Hello (to one person)</td><td><strong>Dumela</strong></td><td>doo-MEH-lah</td></tr>
+    <tr><td>Hello to a man</td><td><strong>Dumela rra</strong></td><td>doo-MEH-lah RAH</td></tr>
+    <tr><td>Hello to a woman</td><td><strong>Dumela mma</strong></td><td>doo-MEH-lah MAH</td></tr>
+    <tr><td>Thank you</td><td><strong>Ke a leboga</strong></td><td>keh ah leh-BOH-gah</td></tr>
+    <tr><td>Yes / No</td><td><strong>Ee / Nyaa</strong></td><td>EH / n-YAH</td></tr>
+    <tr><td>Goodbye (to person leaving)</td><td><strong>Tsamaya sentle</strong></td><td>tsah-MAH-yah SEN-tleh</td></tr>
+    <tr><td>Water</td><td><strong>Metsi</strong></td><td>MET-see</td></tr>
+    <tr><td>Is there fuel here?</td><td><strong>Go na le petrol fa?</strong></td><td>goh nah leh PEH-trol fah</td></tr>
+    <tr><td>I need help</td><td><strong>Ke tlhoka thuso</strong></td><td>keh TLOH-kah TOO-soh</td></tr>
+    <tr><td>SADC park fee rate</td><td colspan="2">"We are South African residents — can we have the SADC rate please?" (in English — officers understand)</td></tr>
+  </tbody>
+</table>
+
+<div class="subsec"><span class="subsec-title">— Afrikaans (SA Zones 1, 6 · Namibia Zone 5)</span></div>
+
+<table class="spec-table">
+  <thead><tr><th>Situation</th><th>Afrikaans</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td>Good morning / Good day</td><td><strong>Goeie môre / Goeie dag</strong></td><td>HOO-ee MOR-reh / HOO-ee dahg. Opening park gates or any SA rural interaction.</td></tr>
+    <tr><td>How are you?</td><td><strong>Hoe gaan dit?</strong></td><td>hoo HAAN dit</td></tr>
+    <tr><td>Fine, thank you</td><td><strong>Goed dankie</strong></td><td>HOOT DAHN-kee</td></tr>
+    <tr><td>Please / Thank you</td><td><strong>Asseblief / Dankie</strong></td><td>ah-suh-BLEEF / DAHN-kee</td></tr>
+    <tr><td>Where is the road to…?</td><td><strong>Waar is die pad na…?</strong></td><td>VAAR is dee paht nah…</td></tr>
+    <tr><td>Is there diesel here?</td><td><strong>Is daar diesel hier?</strong></td><td>is DAAR dee-ZUHL HEER</td></tr>
+    <tr><td>We are self-sufficient</td><td><strong>Ons is selfversorgend</strong></td><td>Useful at farm gates and private land entry</td></tr>
+    <tr><td>We are going to Kgalagadi</td><td><strong>Ons gaan na die Kalahari</strong></td><td>Accepted local name for the park</td></tr>
+  </tbody>
+</table>
+
+<div class="alert alert-ok">
+  <strong>San languages — appreciate the context, don't attempt the words</strong>
+  The San languages of the Kalahari use click consonants (represented as !, ǀ, ǁ, ‡ in IPA transcription) that require years of practice to produce correctly. Attempting them without training produces garbled sounds that may be interpreted as mockery. The appropriate courtesy when meeting San people in community settings is respectful silence, eye contact, and acceptance of whatever greeting they offer — usually in Setswana or Afrikaans in the Botswana/SA context. Do not perform San language to San people.
+</div>
+
+<!-- CHANGELOG -->
+<div class="sec-header" id="changelog">
+  <span class="sec-num">LOG</span>
+  <span class="sec-title">Changelog</span>
+  <span class="sec-sub">Update History</span>
+</div>
+
+<div style="margin-top:14px;">
+  <div class="changelog-entry">
+    <div class="cl-date">2026-04-29</div>
+    <div><span class="cl-tag new">New</span></div>
+    <div class="cl-note"><strong>Document created.</strong> Full Kalahari terrain guide — Profile 005, LC76 v3.0 design system. Terrain/ecosystem structure (not country profile format): 16 sections. Six zones: Kgalagadi (SA/BWA), Mabuasehube (BWA), Khutse (BWA), CKGR (BWA), Namibian corridor (NAM), Green Kalahari (SA). San people section: 100,000-year lineage, 2006 CKGR land rights ruling. Geology: fossil sand sea, 900,000 km², paradox of Kalahari not technically a desert. Wildlife guide: black-maned lion (testosterone/temperature mechanism), brown hyena (globally rare &lt;10,000), gemsbok, cheetah, springbok, black-footed cat, meerkat, sociable weaver, puff adder/cape cobra. Trans-Kalahari route guide: full south-north corridor (~1,400 km, 16–22 days); Variant A CKGR fast circuit; Variant B Kgalagadi/Green Kalahari SA-only circuit. Water/fuel matrix: zone-by-zone carry requirements. Booking matrix: SANParks (Kgalagadi/Augrabies), Intertourism (Mabuasehube), BigFoot Tours (Khutse/CKGR), Gondwana (Namibia), DWNP entry permits. SANParks fees confirmed 2025/26: SA resident R134/adult/day Kgalagadi; Arid Cluster Augrabies R73/adult/day. CKGR fee: BWP 200/pax/day SADC + BWP 90/vehicle/day. Leaflet maps (3 tabs). Setswana + Afrikaans phrases. Compiled 29 April 2026.</div>
+  </div>
+</div>
+
+<div class="alert alert-info" style="margin-top:18px;">
+  <strong>How to add a new entry</strong>
+  Bring this file back to Claude and say: <em>"Update [Section] — [what changed] — and add a changelog entry."</em> Tags: <code>new</code> · <code>update</code> · <code>fix</code> · <code>warn</code>
+</div>
+
+</main>
+
+<!-- EXPORT BAR -->
+<div id="export-bar">
+  <span>Export:</span>
+  <button class="export-btn-inline" onclick="exportHTML()">⤓ Save HTML</button>
+  <button class="export-btn-inline" onclick="exportPrint()">⎙ Print / PDF</button>
+  <button class="export-btn-inline" onclick="exportCopy()" id="copy-btn">⧉ Copy text</button>
+</div>
+
+<!-- FOOTER -->
+<div class="doc-footer">
+  <div><strong>LC76 Kalahari Terrain Guide</strong> · Compiled 29 April 2026 · Profile 005</div>
+  <div>Covers: Kgalagadi (SA + BWA) · Mabuasehube (BWA) · Khutse GR (BWA) · CKGR (BWA) · Namibian Kalahari (NAM) · Green Kalahari / Augrabies (SA)</div>
+  <div>SANParks fees: 2025/26 confirmed (Kgalagadi SA resident R134/adult/day, Augrabies R73/adult/day) · CKGR BWP 200/pax/day SADC (2026) · Mabuasehube BWP 200/pax/day SADC</div>
+  <div>Sources: SANParks tariffs 2025/26 · DWNP Botswana · BigFoot Tours · Intertourism Group · SA4x4 · Tracks4Africa · Selfdrive4x4.co.za · Tawana Self Drive · Gondwana Collection · iOverlander</div>
+  <div>⚠ Verify all fees, campsite availability, and booking contacts before travel — operators and fees change without notice</div>
+  <div>overlandslabs.github.io/Consumption</div>
+</div>
+
+<!-- SCRIPTS -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.spec-table, .booking-matrix').forEach(function(t) {
+    if (!t.closest('.table-scroll')) {
+      var w = document.createElement('div');
+      w.className = 'table-scroll';
+      t.parentNode.insertBefore(w, t);
+      w.appendChild(t);
+    }
+  });
+});
+
+function scrollTo(id) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.scrollIntoView({behavior:'smooth'});
+}
+</script>
+
+<!-- LEAFLET MAP -->
+<script>
+(function() {
+  var map = L.map('kalahari-map', { zoomControl: true, scrollWheelZoom: false }).setView([-23.0, 22.0], 5);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors', maxZoom: 18
+  }).addTo(map);
+
+  var C = {
+    amber:'#e07800', amber2:'#b86800',
+    green:'#1A5C2E', blue:'#1A4A6B',
+    red:'#7a1010', teal:'#0D6B6B', purple:'#6B2D8B',
+    sand:'#c8a05a'
+  };
+
+  function mkIcon(color, size) {
+    size = size || 12;
+    return L.divIcon({
+      html: '<div style="width:'+size+'px;height:'+size+'px;border-radius:50%;background:'+color+';border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.5)"></div>',
+      className:'', iconSize:[size,size], iconAnchor:[size/2,size/2], popupAnchor:[0,-size/2]
+    });
+  }
+  function labelIcon(color, label) {
+    if (window.innerWidth < 700) return mkIcon(color);
+    return L.divIcon({
+      html: '<div style="display:flex;align-items:center;gap:5px;white-space:nowrap"><div style="width:10px;height:10px;border-radius:50%;background:'+color+';border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.4);flex-shrink:0"></div><span style="font-family:\'IBM Plex Mono\',monospace;font-size:10px;color:#0d0e12;font-weight:600;background:rgba(218,210,192,0.92);padding:1px 4px;max-width:160px;overflow:hidden;text-overflow:ellipsis">'+label+'</span></div>',
+      className:'', iconSize:null, iconAnchor:[5,5], popupAnchor:[60,-5]
+    });
+  }
+  function pop(name, detail) {
+    return L.popup({maxWidth:270}).setContent(
+      '<div style="font-family:\'IBM Plex Mono\',monospace;font-size:11px"><strong style="font-size:12px;color:#0d0e12">'+name+'</strong><br><span style="color:#6a7080">'+detail+'</span></div>'
+    );
+  }
+  function dot(c){return '<span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:'+c+';margin-right:7px;vertical-align:middle"></span>'}
+  function sq(c){return '<span style="display:inline-block;width:9px;height:9px;background:'+c+';margin-right:7px;vertical-align:middle"></span>'}
+
+  // ── OVERVIEW GROUP — All Zones ──
+  var ovGroup = L.layerGroup();
+
+  // Zone outlines (simplified polygons)
+  // Zone 1: Kgalagadi (red dune area)
+  L.polygon([[-25.0,20.0],[-25.5,20.5],[-26.5,21.0],[-26.9,21.9],[-26.5,22.5],[-25.5,22.5],[-24.5,22.0],[-24.0,21.0],[-24.0,20.0],[-25.0,20.0]],
+    {color:C.amber,weight:2,opacity:0.8,fillColor:C.amber,fillOpacity:0.10,dashArray:'6,3'}).addTo(ovGroup);
+  // Zone 2: Mabuasehube
+  L.polygon([[-25.5,21.5],[-26.0,22.0],[-26.5,22.5],[-26.0,23.0],[-25.0,22.5],[-24.5,22.0],[-25.0,21.5],[-25.5,21.5]],
+    {color:C.red,weight:2,opacity:0.7,fillColor:C.red,fillOpacity:0.08,dashArray:'4,5'}).addTo(ovGroup);
+  // Zone 3: Khutse
+  L.polygon([[-23.5,24.2],[-24.0,25.0],[-24.5,24.8],[-24.2,24.0],[-23.5,24.2]],
+    {color:C.teal,weight:2,opacity:0.7,fillColor:C.teal,fillOpacity:0.10,dashArray:'4,4'}).addTo(ovGroup);
+  // Zone 4: CKGR
+  L.polygon([[-21.0,22.5],[-22.5,22.0],[-24.0,23.0],[-24.2,24.5],[-22.5,25.5],[-21.0,24.5],[-21.0,22.5]],
+    {color:C.green,weight:2.5,opacity:0.9,fillColor:C.green,fillOpacity:0.10,dashArray:'6,3'}).addTo(ovGroup);
+
+  var ovPts = [
+    [-28.45,21.25,C.amber,'Upington','SA gateway city · All services · 250km to Kgalagadi'],
+    [-26.47,20.62,C.amber,'Twee Rivieren','Kgalagadi main camp · 24hr fuel · SANParks HQ'],
+    [-25.51,20.12,C.amber,'Nossob Camp','Deep interior camp · Waterholes · Best lion zone'],
+    [-26.10,22.40,C.red,'Mabuasehube','Zone 2 · Remote pans · DWNP + Intertourism · Zero services'],
+    [-23.70,24.30,C.teal,'Khutse GR','Zone 3 · BigFoot Tours · Southern CKGR gateway'],
+    [-22.40,23.80,C.green,'CKGR — Deception Valley','Zone 4 · Black-maned lions · BigFoot Tours'],
+    [-22.10,24.20,C.green,'Sunday Pan (CKGR)','Zone 4 · Remote pan · Predators at dusk'],
+    [-22.70,23.40,C.sand,'Matswere Gate','CKGR east entry · Last fuel: Rakops 95km'],
+    [-21.90,22.00,C.sand,'Xade Gate (CKGR)','CKGR west entry · Last fuel: Ghanzi 170km'],
+    [-24.65,25.91,C.amber,'Gaborone','SA entry into Botswana'],
+    [-23.40,23.50,C.amber,'Ghanzi','Western Botswana hub · Fuel + provisions'],
+    [-22.45,21.42,C.amber,'Kang','Route junction · Fuel'],
+    [-25.74,25.82,C.amber,'Ramatlabama','SA/BWA border'],
+    [-28.63,17.95,C.teal,'Augrabies Falls NP','Zone 6 · SANParks · Orange River gorge'],
+    [-22.50,18.00,C.sand,'Mariental (NAM)','Zone 5 · Kalahari Anib Lodge'],
+    [-22.55,17.08,C.sand,'Gobabis (NAM)','Zone 5 gateway · Last fuel before BWA border'],
+  ];
+  ovPts.forEach(function(l){
+    L.marker([l[0],l[1]], {icon:mkIcon(l[2])}).addTo(ovGroup).bindPopup(pop(l[3],l[4]), {maxWidth:260});
+  });
+  var ovLeg = L.control({position:'bottomright'});
+  ovLeg.onAdd = function(){
+    var d = L.DomUtil.create('div');
+    d.style.cssText='background:#0d0e12;color:#a8b0bc;padding:9px 13px;font-family:monospace;font-size:11px;line-height:2;border:1px solid rgba(232,120,0,0.3)';
+    d.innerHTML='<div style="color:#e07800;letter-spacing:0.10em;font-size:10px;margin-bottom:2px">SIX ZONES</div>'+
+      sq(C.amber)+'Zone 1 — Kgalagadi<br>'+sq(C.red)+'Zone 2 — Mabuasehube<br>'+
+      sq(C.teal)+'Zone 3 — Khutse GR<br>'+sq(C.green)+'Zone 4 — CKGR<br>'+
+      dot(C.sand)+'Gates / towns<br>'+dot(C.amber)+'SA/BWA services';
+    return d;
+  };
+
+  // ── ROUTE GROUP ──
+  var routeGroup = L.layerGroup();
+  var routePts = [
+    [-28.45,21.25,C.amber,'Upington','Day 1: Start · Provisions + full fuel'],
+    [-26.47,20.62,C.amber,'Twee Rivieren','Day 2–3: Enter Kgalagadi · Overnight'],
+    [-25.51,20.12,C.green,'Nossob Camp','Day 4–6: Kgalagadi interior · Lions'],
+    [-26.10,22.40,C.red,'Mabuasehube','Day 7–9: Remote pans · Zero services'],
+    [-25.74,25.82,C.amber,'Tsabong','Day 10: Exit Mabuasehube · Fuel · Restock'],
+    [-23.40,23.50,C.amber,'Kang','Day 11: Fuel junction'],
+    [-23.70,24.30,C.teal,'Khutse GR','Days 12–14: Khutse pans · Lions · Brown hyena'],
+    [-22.70,23.40,C.sand,'Matswere Gate','Day 15: Enter CKGR · No services beyond'],
+    [-22.40,23.80,C.green,'Deception Valley','Days 16–18: CKGR · Black-maned lions'],
+    [-22.10,24.20,C.green,'Sunday Pan','Days 18–19: Remote interior loop'],
+    [-20.22,26.15,C.amber,'Nata','Day 20: Exit CKGR · First fuel · Relief'],
+    [-19.98,23.42,C.amber,'Maun','Day 21–22: Northern parks hub · End of Kalahari corridor'],
+  ];
+  routePts.forEach(function(l){
+    L.marker([l[0],l[1]], {icon:labelIcon(l[2],l[3])}).addTo(routeGroup).bindPopup(pop(l[3],l[4]), {maxWidth:250});
+  });
+  L.polyline(routePts.map(function(p){return[p[0],p[1]];}),
+    {color:C.amber,weight:2.5,opacity:0.8,dashArray:'6,4'}).addTo(routeGroup);
+  var rtLeg = L.control({position:'bottomright'});
+  rtLeg.onAdd = function(){
+    var d = L.DomUtil.create('div');
+    d.style.cssText='background:#0d0e12;color:#a8b0bc;padding:9px 13px;font-family:monospace;font-size:11px;line-height:2;border:1px solid rgba(232,120,0,0.3)';
+    d.innerHTML='<div style="color:#e07800;letter-spacing:0.10em;font-size:10px;margin-bottom:2px">TRANS-KALAHARI</div>'+
+      dot(C.amber)+'Service / fuel<br>'+dot(C.green)+'Park interior<br>'+
+      dot(C.teal)+'Game reserve<br>'+dot(C.red)+'Remote zone<br>'+dot(C.sand)+'Gate / junction';
+    return d;
+  };
+
+  // ── CKGR GROUP ──
+  var ckgrGroup = L.layerGroup();
+  // CKGR simplified boundary
+  L.polygon([[-21.0,22.5],[-22.5,22.0],[-24.0,23.0],[-24.2,24.5],[-22.5,25.5],[-21.0,24.5],[-21.0,22.5]],
+    {color:C.green,weight:2.5,opacity:0.9,fillColor:C.green,fillOpacity:0.07}).addTo(ckgrGroup);
+
+  var ckgrPts = [
+    [-22.70,23.40,C.red,'Matswere Gate (NE)','Primary entry · Last fuel at Rakops 95km north'],
+    [-21.90,22.00,C.red,'Xade Gate (W)','West entry · Last fuel at Ghanzi 170km'],
+    [-24.40,23.20,C.teal,'Southern Gate','Connects to Khutse GR'],
+    [-21.20,23.50,C.sand,'Tsau Gate (NW)','Least used · Remote access'],
+    [-22.40,23.80,C.green,'Deception Valley','★★★★★ BigFoot Tours · Black-maned lions · Primary camp'],
+    [-22.10,24.20,C.green,'Sunday Pan','★★★★★ BigFoot Tours · Predator pan at sunset'],
+    [-22.60,24.00,C.green,'Passarge Valley','★★★★ Remote · Less visited · Self-navigate'],
+    [-21.90,23.50,C.green,'Letiahau','BigFoot Tours camp'],
+    [-22.00,24.00,C.green,'Piper Pan (N loop)','Most remote · Emerald plain · Expert only'],
+    [-24.30,23.80,C.teal,'Khutse 1–3','Zone 3 · BigFoot Tours · Near southern gate'],
+    [-23.30,23.50,C.amber,'Rakops','Nearest fuel to Matswere Gate (~95km)'],
+    [-21.64,21.85,C.amber,'Ghanzi','Nearest fuel to Xade Gate (~170km)'],
+  ];
+  ckgrPts.forEach(function(l){
+    L.marker([l[0],l[1]], {icon:labelIcon(l[2],l[3])}).addTo(ckgrGroup).bindPopup(pop(l[3],l[4]), {maxWidth:250});
+  });
+  // Rough interior route Matswere → Deception → Sunday
+  L.polyline([[-22.70,23.40],[-22.60,23.60],[-22.40,23.80],[-22.20,24.00],[-22.10,24.20]],
+    {color:C.amber,weight:2,opacity:0.65,dashArray:'4,6'}).addTo(ckgrGroup);
+  var ckLeg = L.control({position:'bottomright'});
+  ckLeg.onAdd = function(){
+    var d = L.DomUtil.create('div');
+    d.style.cssText='background:#0d0e12;color:#a8b0bc;padding:9px 13px;font-family:monospace;font-size:11px;line-height:2;border:1px solid rgba(232,120,0,0.3)';
+    d.innerHTML='<div style="color:#e07800;letter-spacing:0.10em;font-size:10px;margin-bottom:2px">CKGR INTERIOR</div>'+
+      dot(C.green)+'Campsite<br>'+dot(C.red)+'Entry gate<br>'+
+      dot(C.teal)+'Khutse sites<br>'+dot(C.amber)+'Service town';
+    return d;
+  };
+
+  // TAB SWITCHING
+  var activeLeg = null;
+  window.switchKTab = function(tab) {
+    [ovGroup,routeGroup,ckgrGroup].forEach(function(g){try{map.removeLayer(g);}catch(e){}});
+    if(activeLeg){try{map.removeControl(activeLeg);}catch(e){}}
+    ['ktab-overview','ktab-route','ktab-ckgr'].forEach(function(id){
+      var el=document.getElementById(id); if(el) el.classList.remove('active');
+    });
+    if(tab==='overview'){
+      ovGroup.addTo(map); ovLeg.addTo(map); activeLeg=ovLeg;
+      document.getElementById('ktab-overview').classList.add('active');
+      setTimeout(function(){map.invalidateSize();map.setView([-23.0,22.0],5);},100);
+    } else if(tab==='route'){
+      routeGroup.addTo(map); rtLeg.addTo(map); activeLeg=rtLeg;
+      document.getElementById('ktab-route').classList.add('active');
+      setTimeout(function(){map.invalidateSize();map.setView([-23.5,23.0],5);},100);
+    } else {
+      ckgrGroup.addTo(map); ckLeg.addTo(map); activeLeg=ckLeg;
+      document.getElementById('ktab-ckgr').classList.add('active');
+      setTimeout(function(){map.invalidateSize();map.setView([-22.5,23.5],7);},100);
+    }
+  };
+  setTimeout(function(){switchKTab('overview');},250);
+  window.addEventListener('resize',function(){setTimeout(function(){map.invalidateSize();},300);});
+})();
+</script>
+
+<!-- EXPORT FUNCTIONS -->
+<script>
+function exportHTML(){
+  var html='<!DOCTYPE html>\n'+document.documentElement.outerHTML;
+  var blob=new Blob([html],{type:'text/html;charset=utf-8'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');a.href=url;
+  a.download='LC76_Kalahari_Profile_'+new Date().toISOString().slice(0,10)+'.html';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+}
+function exportPrint(){
+  var html='<!DOCTYPE html>\n'+document.documentElement.outerHTML;
+  html=html.replace('</body>','<scr'+'ipt>window.addEventListener("load",function(){setTimeout(function(){window.print();},400);});<\/scr'+'ipt></body>');
+  var blob=new Blob([html],{type:'text/html;charset=utf-8'});
+  var url=URL.createObjectURL(blob);
+  var w=window.open(url,'_blank');
+  if(w){setTimeout(function(){URL.revokeObjectURL(url);},10000);}
+  else{URL.revokeObjectURL(url);document.getElementById('export-bar').style.display='none';window.print();document.getElementById('export-bar').style.display='';}
+}
+function exportCopy(){
+  var text=document.body.innerText;
+  navigator.clipboard.writeText(text).then(function(){
+    var btn=document.getElementById('copy-btn');var orig=btn.innerHTML;
+    btn.innerHTML='✓ Copied';setTimeout(function(){btn.innerHTML=orig;},2000);
+  }).catch(function(){alert('Copy not supported — use Save as HTML instead.');});
+}
+</script>
+
+<!-- SCROLL MARGIN + ACTIVE TOC -->
+<script>
+function updateScrollMargins(){
+  var nav=document.querySelector('.sticky-nav-unit');if(!nav)return;
+  var h=nav.offsetHeight;
+  document.querySelectorAll('.sec-header').forEach(function(el){el.style.scrollMarginTop=(h+4)+'px';});
+}
+updateScrollMargins();
+window.addEventListener('resize',updateScrollMargins);
+var sectionIds=['alerts','s01','s02','s03','s04','s05','s06','s07','s08','s09','s10','s11','s12','s13','s14','s15','s16','changelog'];
+var tocLinks=document.querySelectorAll('.toc-link');
+var observer=new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
+    if(entry.isIntersecting){
+      var idx=sectionIds.indexOf(entry.target.id);
+      tocLinks.forEach(function(l,i){l.classList.toggle('active',i===idx);});
+    }
+  });
+},{rootMargin:'-25% 0px -65% 0px'});
+sectionIds.forEach(function(id){var el=document.getElementById(id);if(el)observer.observe(el);});
+</script>
+
+<!-- SERVICE WORKER -->
+<script>
+if('serviceWorker' in navigator && location.hostname !== 'www.claudeusercontent.com'){
+  window.addEventListener('load',function(){
+    navigator.serviceWorker.register('./sw.js')
+      .then(function(){console.log('LC76 Kalahari Profile SW registered');})
+      .catch(function(e){console.log('SW error:',e);});
+  });
+}
+</script>
+
+</body>
+</html>
