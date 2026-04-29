@@ -29,7 +29,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 .sticky-nav-unit{position:sticky;top:0;z-index:100;background:var(--ink);padding-top:env(safe-area-inset-top)}
 .std-header{background:var(--ink);padding:18px 24px 14px;position:relative;border-bottom:3px solid var(--amber);}
 .std-eyebrow{font-family:var(--mono);font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--steelmd);margin-bottom:8px;display:flex;align-items:center;gap:10px;}
-.masthead-flag{display:inline-flex;width:28px;height:18px;border:1px solid rgba(255,255,255,.2);overflow:hidden;flex-shrink:0;flex-direction:column;}
+.masthead-flag{display:inline-flex;width:44px;height:28px;border:2px solid rgba(255,255,255,.30);overflow:hidden;flex-shrink:0;box-shadow:0 1px 4px rgba(0,0,0,.4);}
 .flag-third-h{width:100%;height:33.33%}
 .std-title{font-family:var(--display);font-size:clamp(2.1rem,6vw,3.4rem);letter-spacing:.06em;color:var(--amber2);line-height:1;}
 .std-local{font-family:var(--mono);font-size:.62rem;letter-spacing:.10em;color:rgba(255,200,100,.65);margin-top:7px;font-style:italic;}
@@ -37,9 +37,13 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 .std-vehicle{font-family:var(--mono);font-size:.50rem;letter-spacing:.08em;color:var(--steelmd);margin-top:10px;line-height:1.55;}
 .lib-home-btn{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--amber2);background:rgba(232,120,0,.15);border:1px solid var(--amber2);border-radius:20px;padding:6px 12px;min-height:32px;white-space:nowrap;position:absolute;top:50%;right:16px;transform:translateY(-50%);transition:background .2s;}
 .lib-home-btn:hover,.lib-home-btn:active{background:rgba(232,120,0,.30);}
-.alert-strip{background:#7a1010;color:#fff;padding:9px 5%;font-family:var(--mono);font-size:.54rem;letter-spacing:.10em;text-transform:uppercase;display:flex;flex-wrap:wrap;align-items:center;gap:10px;}
-.alert-strip .pill{background:rgba(255,255,255,.14);padding:3px 9px;white-space:nowrap;}
-.alert-strip .pill.warn{background:rgba(0,0,0,.30);color:#ffb070}
+.alert-strip{background:#fff4f0;padding:14px 5%;display:flex;flex-direction:column;gap:10px;border-left:5px solid var(--red-warn);}
+.alert-strip .alert-main{font-family:var(--display);font-size:1.5rem;letter-spacing:.04em;line-height:1.1;color:#7a1010;}
+.alert-strip .alert-main .warn-icon{font-size:1.1rem;margin-right:6px;color:var(--red-warn);}
+.alert-pills{display:flex;flex-wrap:wrap;gap:8px;}
+.alert-strip .pill{background:#fff;padding:5px 12px;font-family:var(--sans);font-size:.84rem;font-weight:400;line-height:1.4;color:#5a1010;border-left:3px solid var(--red-warn);border:1px solid #fecaca;}
+.alert-strip .pill.warn{background:#fee2e2;color:#7a1010;border-color:#fca5a5;font-weight:600;}
+.alert-strip .pill strong{font-weight:600;color:#7a1010;}
 .toc-bar{background:var(--steeldk);padding:7px 24px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;border-bottom:2px solid var(--amber);}
 .toc-label{font-family:var(--mono);font-size:.48rem;letter-spacing:.18em;color:var(--steellt);text-transform:uppercase;margin-right:4px;flex-shrink:0}
 .toc-link{font-family:var(--mono);font-size:.48rem;color:rgba(255,255,255,.55);text-decoration:none;padding:2px 6px;border:1px solid transparent;transition:all .12s;white-space:nowrap;cursor:pointer;}
@@ -161,7 +165,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
   .toc-bar{padding:5px 12px!important;flex-wrap:nowrap!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch!important;scrollbar-width:none!important}
   .toc-bar::-webkit-scrollbar{display:none}
   .toc-link{font-size:.44rem!important;padding:2px 5px!important;white-space:nowrap!important}
-  .alert-strip{padding:8px 16px;font-size:.50rem}
+  .alert-strip{padding:12px 16px!important;gap:8px!important;}
   .updated-banner{padding:7px 16px;font-size:.50rem}
   .sec-header{padding:8px 16px;margin:18px 0 0}
   .sec-title{font-size:1.4rem}
@@ -188,7 +192,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
   .std-local{color:rgba(255,200,100,.80)!important}
   .std-sub{color:rgba(232,213,163,.85)!important;font-size:.80rem!important}
   .std-eyebrow,.std-vehicle{color:#6a7080!important}
-  .alert-strip{background:#7a1010!important;color:#fff!important;padding:5px 14px!important}
+  .alert-strip{background:#fff4f0!important;border-left:4px solid #B91C1C!important;padding:5px 14px!important}
   .updated-banner{background:#0d0e12!important;color:#a8b0bc!important;padding:5px 14px!important}
   .updated-banner strong{color:#e07800!important}
   .sec-header{background:#2a2f3a!important;border-left:4px solid #e07800!important;padding:6px 14px!important;margin-top:10px!important;page-break-after:avoid;}
@@ -246,11 +250,24 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
   <div class="std-eyebrow">
     <!-- Zambia flag: green with orange eagle; simplified as green base with red/black/orange stripes on right -->
     <span class="masthead-flag">
-      <span class="flag-third-h" style="background:#198A00"></span>
+      <svg viewBox="0 0 44 28" xmlns="http://www.w3.org/2000/svg" style="width:44px;height:28px;display:block">
+        <!-- green base -->
+        <rect width="44" height="28" fill="#198A00"/>
+        <!-- vertical stripes on right: red, black, orange (each ~4px wide) -->
+        <rect x="29" y="0" width="5" height="28" fill="#DE2010"/>
+        <rect x="34" y="0" width="5" height="28" fill="#000"/>
+        <rect x="39" y="0" width="5" height="28" fill="#EF7D00"/>
+        <!-- simplified eagle above stripes -->
+        <g transform="translate(34,5)" fill="#EF7D00">
+          <ellipse cx="0" cy="0" rx="3" ry="1.5"/>
+          <polygon points="-4,-1 0,-4 4,-1" fill="#EF7D00"/>
+        </g>
+      </svg>
+    </span>
       <span class="flag-third-h" style="background:#EF7D00"></span>
       <span class="flag-third-h" style="background:#198A00"></span>
     </span>
-    Overland Series · Country Profile 004
+    <span style="margin-left:auto;white-space:nowrap">Overland Series · Country Profile 004</span>
   </div>
   <h1 class="std-title">Zambia</h1>
   <div class="std-local">Republic of Zambia</div>
@@ -259,14 +276,6 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
     LC76 SW 1HZ · SA-plated / RHD · Entry: Wenela / Sesheke (from Namibia Caprivi) · Visa on arrival USD 50 · Compiled 28 April 2026
   </div>
 </header>
-
-<div class="alert-strip">
-  <span>⚠ Park fees USD only — crisp post-2013 notes required at all gates. Cards not accepted.</span>
-  <span class="pill">KAZA UniVisa USD 50 — covers Zambia + Zimbabwe 30 days</span>
-  <span class="pill warn">Diesel April 2026: ZMW 29.78/L (~USD 1.57) — significantly more expensive than Namibia</span>
-  <span class="pill">Tsetse fly zones in Kafue and Luangwa Valley — cover up and use repellent</span>
-  <span class="pill">Left-hand traffic (same as SA)</span>
-</div>
 
 <nav class="toc-bar">
   <span class="toc-label">Sections</span>
@@ -300,6 +309,22 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 </div>
 
 <main class="content">
+
+<!-- ── CRITICAL FIELD NOTICES ── -->
+<div class="sec-header" id="alerts" style="background:#fff4f0;border-left-color:var(--red-warn);">
+  <span class="sec-num" style="background:var(--red-warn);color:#fff;">!</span>
+  <span class="sec-title" style="color:#7a1010;">Critical Field Notices — Zambia</span>
+  <span class="sec-sub" style="color:#B91C1C;">Read Before Entering</span>
+</div>
+<div class="alert-strip">
+  <div class="alert-main"><span class="warn-icon">⚠</span>Park fees USD only — crisp post-2013 notes required at all gates. Cards not accepted.</div>
+  <div class="alert-pills">
+    <span class="pill">KAZA UniVisa USD 50 — covers Zambia + Zimbabwe 30 days</span>
+    <span class="pill warn">Diesel April 2026: ZMW 29.78/L (~USD 1.57) — significantly more expensive than Namibia</span>
+    <span class="pill">Tsetse fly zones in Kafue and Luangwa Valley — cover up and use repellent</span>
+    <span class="pill">Left-hand traffic (same as SA)</span>
+  </div>
+</div>
 
 <!-- 01 · ENTRY & VISAS -->
 <div class="sec-header" id="s01">
