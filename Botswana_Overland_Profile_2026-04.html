@@ -1,0 +1,1620 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LC76 Library">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0d0e12">
+<title>LC76 · Botswana Country Profile · 003</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500;600&family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+:root{
+  --ink:#0d0e12;--paper:#dad2c0;--paper2:#edeae0;--rule:#d4cfc4;
+  --amber:#b86800;--amber2:#e07800;
+  --steeldk:#2a2f3a;--steelmd:#6a7080;--steellt:#a8b0bc;
+  --red-warn:#B91C1C;--green-ok:#059669;
+  --mono:'IBM Plex Mono',monospace;
+  --sans:'Oswald',sans-serif;
+  --display:'Bebas Neue',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{overflow-x:hidden}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55}
+.sticky-nav-unit{position:sticky;top:0;z-index:100;background:var(--ink);padding-top:env(safe-area-inset-top)}
+.std-header{background:var(--ink);padding:18px 24px 14px;position:relative;border-bottom:3px solid var(--amber);}
+.std-eyebrow{font-family:var(--mono);font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--steelmd);margin-bottom:8px;display:flex;align-items:center;gap:10px;}
+.masthead-flag{display:inline-flex;width:44px;height:28px;border:2px solid rgba(255,255,255,.30);overflow:hidden;flex-shrink:0;box-shadow:0 1px 4px rgba(0,0,0,.4);}
+.std-title{font-family:var(--display);font-size:clamp(2.1rem,6vw,3.4rem);letter-spacing:.06em;color:var(--amber2);line-height:1;}
+.std-local{font-family:var(--mono);font-size:.62rem;letter-spacing:.10em;color:rgba(255,200,100,.65);margin-top:7px;font-style:italic;}
+.std-sub{font-family:var(--sans);font-size:.92rem;font-style:italic;color:rgba(232,213,163,.85);margin-top:8px;line-height:1.4;}
+.std-vehicle{font-family:var(--mono);font-size:.50rem;letter-spacing:.08em;color:var(--steelmd);margin-top:10px;line-height:1.55;}
+.lib-home-btn{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--amber2);background:rgba(232,120,0,.15);border:1px solid var(--amber2);border-radius:20px;padding:6px 12px;min-height:32px;white-space:nowrap;position:absolute;top:50%;right:16px;transform:translateY(-50%);transition:background .2s;}
+.lib-home-btn:hover,.lib-home-btn:active{background:rgba(232,120,0,.30);}
+.alert-strip{background:#fff4f0;padding:14px 5%;display:flex;flex-direction:column;gap:10px;border-left:5px solid var(--red-warn);}
+.alert-strip .alert-main{font-family:var(--display);font-size:1.5rem;letter-spacing:.04em;line-height:1.1;color:#7a1010;}
+.alert-strip .alert-main .warn-icon{font-size:1.1rem;margin-right:6px;color:var(--red-warn);}
+.alert-pills{display:flex;flex-wrap:wrap;gap:8px;}
+.alert-strip .pill{background:#fff;padding:5px 12px;font-family:var(--sans);font-size:.84rem;font-weight:400;line-height:1.4;color:#5a1010;border:1px solid #fecaca;border-left:3px solid var(--red-warn);}
+.alert-strip .pill.warn{background:#fee2e2;color:#7a1010;border-color:#fca5a5;font-weight:600;}
+.alert-strip .pill strong{font-weight:600;color:#7a1010;}
+.toc-bar{background:var(--steeldk);padding:7px 24px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;border-bottom:2px solid var(--amber);}
+.toc-label{font-family:var(--mono);font-size:.48rem;letter-spacing:.18em;color:var(--steellt);text-transform:uppercase;margin-right:4px;flex-shrink:0}
+.toc-link{font-family:var(--mono);font-size:.48rem;color:rgba(255,255,255,.55);text-decoration:none;padding:2px 6px;border:1px solid transparent;transition:all .12s;white-space:nowrap;cursor:pointer;}
+.toc-link:hover{color:var(--amber2);border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.06)}
+.toc-link.active{color:var(--amber2);border-color:var(--amber2);background:rgba(232,120,0,.1)}
+.updated-banner{background:var(--ink);color:var(--steellt);font-family:var(--mono);font-size:.54rem;letter-spacing:.08em;padding:8px 5%;display:flex;flex-wrap:wrap;align-items:center;gap:14px;border-bottom:1px solid var(--steeldk);}
+.updated-banner strong{color:var(--amber2);font-weight:600}
+.updated-banner a{color:#6EE7B7;text-decoration:none;border-bottom:1px solid rgba(110,231,183,.4);}
+.updated-banner a:hover{color:#fff;border-bottom-color:#fff}
+.content{padding:20px 5% 80px;max-width:100%}
+.sec-header{display:flex;align-items:center;gap:12px;padding:10px 5%;background:var(--steeldk);border-left:5px solid var(--amber2);margin:28px 0 0;}
+.sec-num{font-family:var(--mono);font-size:.58rem;font-weight:600;color:#fff;background:var(--amber);padding:3px 8px;letter-spacing:.12em;flex-shrink:0;}
+.sec-title{font-family:var(--display);font-size:1.7rem;letter-spacing:.10em;color:#fff;line-height:1;}
+.sec-sub{font-family:var(--mono);font-size:.46rem;letter-spacing:.10em;color:var(--steellt);margin-left:auto;flex-shrink:0;}
+.subsec{background:var(--paper2);border-left:3px solid var(--amber);padding:6px 16px 6px 14px;margin:20px 0 10px;display:flex;align-items:center;gap:10px;}
+.subsec-title{font-family:var(--display);font-size:1.1rem;letter-spacing:.12em;color:var(--ink);}
+.subsec-tag{font-family:var(--mono);font-size:.44rem;letter-spacing:.12em;color:var(--steelmd);text-transform:uppercase;margin-left:auto;}
+.prose{font-family:var(--sans);font-size:.92rem;line-height:1.65;color:var(--ink);margin:8px 0 12px;}
+.prose strong{font-weight:600;color:var(--ink)}
+.prose em{color:var(--amber);font-style:italic}
+.data-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:12px 0;}
+.data-card{background:var(--paper2);border:1px solid var(--rule);border-left:3px solid var(--amber);padding:11px 14px;}
+.data-card.warn{border-left-color:var(--red-warn);background:#fff4f0}
+.data-card.note{border-left-color:var(--amber2);background:#fffbe8}
+.data-card.ok{border-left-color:var(--green-ok);background:#f0fff8}
+.data-card.dark{border-left-color:var(--amber2);background:var(--ink);color:var(--steellt)}
+.data-card-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.14em;text-transform:uppercase;color:var(--steelmd);margin-bottom:5px;}
+.data-card.warn .data-card-label{color:var(--red-warn)}
+.data-card.note .data-card-label{color:var(--amber)}
+.data-card.ok .data-card-label{color:var(--green-ok)}
+.data-card.dark .data-card-label{color:var(--amber2)}
+.data-card-value{font-family:var(--display);font-size:1.5rem;letter-spacing:.04em;color:var(--ink);line-height:1;margin-bottom:3px;}
+.data-card.warn .data-card-value{color:#7a1010}
+.data-card.ok .data-card-value{color:#0a3a20}
+.data-card.dark .data-card-value{color:#fff}
+.data-card-sub{font-family:var(--sans);font-size:.78rem;color:var(--steelmd);line-height:1.5;}
+.data-card.dark .data-card-sub{color:var(--steellt)}
+.alert{border-left:4px solid;padding:10px 14px;margin:12px 0;font-family:var(--sans);font-size:.84rem;line-height:1.55;}
+.alert strong{font-weight:600;display:block;margin-bottom:3px;font-family:var(--mono);font-size:.54rem;letter-spacing:.10em;text-transform:uppercase}
+.alert-warn{background:#fff4f0;border-color:#B91C1C;color:#5a1010}
+.alert-warn strong{color:#B91C1C}
+.alert-note{background:#fffbe8;border-color:var(--amber2);color:#4a3000}
+.alert-note strong{color:var(--amber)}
+.alert-ok{background:#f0fff8;border-color:var(--green-ok);color:#0a3a20}
+.alert-ok strong{color:var(--green-ok)}
+.alert-info{background:var(--paper2);border-color:var(--steelmd);color:var(--steeldk)}
+.alert-info strong{color:var(--steelmd)}
+.spec-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.82rem}
+.spec-table th{background:var(--steeldk);color:#fff;font-family:var(--mono);font-size:.46rem;letter-spacing:.12em;text-transform:uppercase;padding:7px 10px;text-align:left;}
+.spec-table td{padding:6px 10px;border-bottom:1px solid var(--rule);vertical-align:top;font-family:var(--sans)}
+.spec-table tr:nth-child(even) td{background:var(--paper2)}
+.spec-table .mono{font-family:var(--mono);font-size:.72rem;color:var(--amber)}
+.spec-table .warn{color:var(--red-warn);font-weight:600}
+.spec-table .ok{color:var(--green-ok);font-weight:600}
+.spec-table .num{font-family:var(--mono);font-size:.78rem;text-align:right;white-space:nowrap}
+.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+.route-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin:12px 0;}
+.route-card{background:var(--paper2);border:1px solid var(--rule);border-left:4px solid var(--amber2);padding:12px 16px;}
+.route-card.secondary{border-left-color:var(--steelmd)}
+.route-card.tertiary{border-left-color:var(--red-warn)}
+.route-badge{font-family:var(--mono);font-size:.44rem;letter-spacing:.16em;text-transform:uppercase;color:#fff;background:var(--amber);padding:2px 8px;display:inline-block;margin-bottom:6px;}
+.route-card.secondary .route-badge{background:var(--steelmd)}
+.route-card.tertiary .route-badge{background:var(--red-warn)}
+.route-card h3{font-family:var(--display);font-size:1.25rem;letter-spacing:.06em;color:var(--ink);line-height:1.05;margin-bottom:8px;}
+.route-card ul{list-style:none;padding:0}
+.route-card li{font-family:var(--sans);font-size:.82rem;line-height:1.55;padding:4px 0;border-bottom:1px solid var(--rule);}
+.route-card li:last-child{border-bottom:none}
+.route-card li::before{content:"▸ ";color:var(--amber2);font-weight:600}
+.route-card li strong{font-weight:600;color:var(--ink)}
+.scenario{background:var(--paper2);border:1px solid var(--rule);border-top:3px solid var(--amber2);padding:12px 16px;margin:12px 0;}
+.scenario h4{font-family:var(--display);font-size:1.2rem;letter-spacing:.06em;color:var(--ink);margin-bottom:4px;line-height:1.05;}
+.scenario .scenario-meta{font-family:var(--mono);font-size:.50rem;letter-spacing:.10em;color:var(--steelmd);text-transform:uppercase;margin-bottom:8px;}
+.scenario p{font-family:var(--sans);font-size:.84rem;line-height:1.6;margin-bottom:6px;}
+.scenario ul{list-style:none;padding:0;margin-top:6px}
+.scenario li{font-family:var(--sans);font-size:.82rem;line-height:1.55;padding:3px 0;}
+.scenario li::before{content:"→ ";color:var(--amber2);font-weight:600}
+.verdict{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--rule);margin:14px 0;}
+.verdict-col{padding:11px 14px;background:var(--paper2)}
+.verdict-col:first-child{border-right:1px solid var(--rule)}
+.verdict-col h4{font-family:var(--mono);font-size:.50rem;letter-spacing:.16em;text-transform:uppercase;margin-bottom:8px;}
+.verdict-col.pros h4{color:var(--green-ok)}
+.verdict-col.cons h4{color:var(--red-warn)}
+.verdict-col ul{list-style:none;padding:0}
+.verdict-col li{font-family:var(--sans);font-size:.82rem;line-height:1.55;padding:3px 0}
+.verdict-col.pros li::before{content:"+ ";color:var(--green-ok);font-weight:700}
+.verdict-col.cons li::before{content:"− ";color:var(--red-warn);font-weight:700}
+.fuel-band{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:0;margin:12px 0;border:1px solid var(--rule);}
+.fuel-cell{padding:11px 14px;background:var(--paper2);border-right:1px solid var(--rule);}
+.fuel-cell:last-child{border-right:none}
+.fuel-cell-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.14em;text-transform:uppercase;color:var(--steelmd);margin-bottom:4px;}
+.fuel-cell-value{font-family:var(--display);font-size:1.4rem;letter-spacing:.04em;color:var(--amber);line-height:1;}
+.fuel-cell-sub{font-family:var(--mono);font-size:.62rem;color:var(--steelmd);margin-top:3px;}
+.xref-bar{background:var(--steeldk);padding:8px 14px;display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:18px 0 4px;}
+.xref-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.18em;color:var(--steellt);text-transform:uppercase;flex-shrink:0;margin-right:4px}
+.xref-pill{font-family:var(--mono);font-size:.46rem;letter-spacing:.10em;color:var(--amber2);background:rgba(232,120,0,.12);border:1px solid rgba(232,120,0,.4);padding:2px 8px;text-decoration:none;white-space:nowrap;}
+.xref-pill:hover{background:rgba(232,120,0,.25)}
+.booking-matrix{width:100%;border-collapse:collapse;margin:12px 0;font-size:.82rem}
+.booking-matrix th{background:var(--amber);color:#fff;font-family:var(--mono);font-size:.46rem;letter-spacing:.12em;text-transform:uppercase;padding:7px 10px;text-align:left;}
+.booking-matrix td{padding:7px 10px;border-bottom:1px solid var(--rule);vertical-align:top;font-family:var(--sans)}
+.booking-matrix tr:nth-child(even) td{background:var(--paper2)}
+.booking-matrix .operator{font-family:var(--mono);font-size:.70rem;font-weight:600;color:var(--amber)}
+.booking-matrix .contact{font-family:var(--mono);font-size:.62rem;color:var(--steelmd)}
+.map-tabs{display:flex;border-bottom:0;margin:12px 0 0}
+.map-tab{font-family:var(--mono);font-size:.50rem;letter-spacing:.12em;text-transform:uppercase;background:var(--steeldk);color:var(--steellt);border:1px solid var(--ink);border-bottom:none;padding:9px 12px;cursor:pointer;flex:1;transition:all .12s;}
+.map-tab.active,.map-tab:hover{background:var(--amber);color:#fff;border-color:var(--amber)}
+#country-map{height:480px;border:1px solid var(--rule);background:var(--paper2);}
+.map-attrib{font-family:var(--mono);font-size:.48rem;letter-spacing:.06em;color:var(--steelmd);margin-top:6px;line-height:1.5;}
+.changelog-entry{display:grid;grid-template-columns:90px 70px 1fr;gap:12px;padding:10px 0;border-bottom:1px solid var(--rule);align-items:start;}
+.cl-date{font-family:var(--mono);font-size:.62rem;color:var(--steelmd);letter-spacing:.04em;line-height:1.4;}
+.cl-tag{font-family:var(--mono);font-size:.46rem;letter-spacing:.14em;text-transform:uppercase;padding:2px 7px;display:inline-block;font-weight:600;}
+.cl-tag.new{background:#dcfce7;color:#166534;border:1px solid #bbf7d0}
+.cl-tag.update{background:#dbeafe;color:#1e40af;border:1px solid #bfdbfe}
+.cl-tag.fix{background:#fef3c7;color:#92400e;border:1px solid #fde68a}
+.cl-tag.warn{background:#fee2e2;color:#991b1b;border:1px solid #fecaca}
+.cl-note{font-family:var(--sans);font-size:.84rem;line-height:1.55;color:var(--ink)}
+.cl-note strong{font-weight:600}
+#export-bar{background:var(--steeldk);padding:11px 5%;display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-family:var(--mono);font-size:.54rem;letter-spacing:.10em;color:var(--steellt);text-transform:uppercase;border-top:2px solid var(--amber);}
+.export-btn-inline{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:.54rem;letter-spacing:.10em;text-transform:uppercase;color:var(--amber2);background:rgba(232,120,0,.10);border:1px solid var(--amber2);padding:6px 12px;cursor:pointer;}
+.export-btn-inline:hover{background:rgba(232,120,0,.25)}
+.doc-footer{background:var(--ink);color:var(--steellt);font-family:var(--mono);font-size:.48rem;letter-spacing:.08em;padding:14px 5%;line-height:1.7;display:flex;flex-direction:column;gap:3px;}
+.doc-footer strong{color:var(--amber2);font-weight:600}
+@media(max-width:600px){
+  .std-header{padding:14px 16px 12px}
+  .std-title{font-size:clamp(1.7rem,7vw,2.6rem)}
+  .toc-bar{padding:5px 12px!important;flex-wrap:nowrap!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch!important;scrollbar-width:none!important}
+  .toc-bar::-webkit-scrollbar{display:none}
+  .toc-link{font-size:.44rem!important;padding:2px 5px!important;white-space:nowrap!important}
+  .alert-strip{padding:12px 16px!important;gap:8px!important;border-left-width:4px!important;}
+  .updated-banner{padding:7px 16px;font-size:.50rem}
+  .sec-header{padding:8px 16px;margin:18px 0 0}
+  .sec-title{font-size:1.4rem}
+  .content{padding:14px 4% 60px}
+  .data-grid,.route-grid{grid-template-columns:1fr}
+  .verdict{grid-template-columns:1fr}
+  .verdict-col:first-child{border-right:none;border-bottom:1px solid var(--rule)}
+  .fuel-band{grid-template-columns:repeat(2,1fr)}
+  .fuel-cell{border-right:none;border-bottom:1px solid var(--rule)}
+  .spec-table,.booking-matrix{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  #country-map{height:340px}
+  .map-tab{font-size:.44rem;padding:7px 6px;letter-spacing:.08em}
+  .changelog-entry{grid-template-columns:1fr;gap:4px}
+  #export-bar{padding:10px 16px}
+  .export-btn-inline{flex:1;justify-content:center}
+}
+@media print{
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  @page{margin:7mm;size:A4}
+  .lib-home-btn,.toc-bar,#export-bar{display:none!important}
+  .sticky-nav-unit{position:static!important}
+  .std-header{background:#0d0e12!important;padding:8px 14px 6px!important;border-bottom:2px solid #e07800!important;page-break-after:avoid;}
+  .std-title{color:#e07800!important;font-size:1.5rem!important}
+  .std-local{color:rgba(255,200,100,.80)!important}
+  .std-sub{color:rgba(232,213,163,.85)!important;font-size:.80rem!important}
+  .std-eyebrow,.std-vehicle{color:#6a7080!important}
+  .alert-strip{background:#fff4f0!important;border-left:4px solid #B91C1C!important;padding:5px 14px!important}
+  .alert-strip .alert-main{color:#7a1010!important}
+  .alert-strip .pill{background:#fff!important;color:#5a1010!important}
+  .alert-strip .pill.warn{background:#fee2e2!important;color:#7a1010!important}
+  .updated-banner{background:#0d0e12!important;color:#a8b0bc!important;padding:5px 14px!important}
+  .updated-banner strong{color:#e07800!important}
+  .sec-header{background:#2a2f3a!important;border-left:4px solid #e07800!important;padding:6px 14px!important;margin-top:10px!important;page-break-after:avoid;}
+  .sec-num{background:#b86800!important;color:#fff!important}
+  .sec-title{color:#fff!important;font-size:1.2rem!important}
+  .subsec{background:#edeae0!important;border-left:2px solid #b86800!important;page-break-after:avoid;}
+  .data-card{break-inside:avoid;background:#edeae0!important}
+  .data-card.warn{background:#fff4f0!important}
+  .data-card.note{background:#fffbe8!important}
+  .data-card.ok{background:#f0fff8!important}
+  .data-card.dark{background:#0d0e12!important;color:#a8b0bc!important}
+  .data-card.dark .data-card-value{color:#fff!important}
+  .alert{break-inside:avoid}
+  .alert-warn{background:#fff4f0!important;border-left-color:#B91C1C!important;color:#5a1010!important}
+  .alert-warn strong{color:#B91C1C!important}
+  .alert-note{background:#fffbe8!important;border-left-color:#e07800!important;color:#4a3000!important}
+  .alert-note strong{color:#b86800!important}
+  .alert-ok{background:#f0fff8!important;border-left-color:#059669!important;color:#0a3a20!important}
+  .alert-info{background:#edeae0!important;border-left-color:#6a7080!important}
+  .spec-table,.booking-matrix{break-inside:auto}
+  .spec-table thead,.booking-matrix thead{display:table-header-group}
+  .spec-table tr,.booking-matrix tr{break-inside:avoid}
+  .spec-table th{background:#2a2f3a!important;color:#fff!important}
+  .booking-matrix th{background:#b86800!important;color:#fff!important}
+  .spec-table tr:nth-child(even) td,.booking-matrix tr:nth-child(even) td{background:#edeae0!important}
+  .route-card{break-inside:avoid;background:#edeae0!important}
+  .route-badge{background:#b86800!important;color:#fff!important}
+  .route-card.secondary .route-badge{background:#6a7080!important}
+  .route-card.tertiary .route-badge{background:#B91C1C!important}
+  .scenario{break-inside:avoid;background:#edeae0!important}
+  .verdict{break-inside:avoid}
+  .verdict-col{background:#edeae0!important}
+  .verdict-col.pros h4{color:#059669!important}
+  .verdict-col.cons h4{color:#B91C1C!important}
+  .fuel-band{break-inside:avoid}
+  .fuel-cell{background:#edeae0!important}
+  .fuel-cell-value{color:#b86800!important}
+  .xref-bar{background:#2a2f3a!important;break-inside:avoid}
+  .xref-label{color:#a8b0bc!important}
+  .xref-pill{color:#e07800!important;background:rgba(232,120,0,.15)!important;border-color:rgba(232,120,0,.5)!important}
+  .changelog-entry{break-inside:avoid}
+  .doc-footer{background:#0d0e12!important;color:#a8b0bc!important;padding:5px 14px!important}
+  .doc-footer strong{color:#e07800!important}
+  #country-map,.map-tabs{display:none!important}
+  body{font-size:7.5pt}
+  .content{padding:0 14px 10px!important}
+}
+</style>
+</head>
+<body>
+
+<div class="sticky-nav-unit">
+<header class="std-header">
+  <a href="index.html" class="lib-home-btn" title="Library Index">⌂ Index</a>
+  <div class="std-eyebrow">
+    <span class="masthead-flag">
+      <!-- Botswana flag: light blue with black/white horizontal stripe across centre -->
+      <svg viewBox="0 0 44 28" xmlns="http://www.w3.org/2000/svg" style="width:44px;height:28px;display:block">
+        <rect width="44" height="28" fill="#75AADB"/>
+        <rect x="0" y="11" width="44" height="6" fill="#000"/>
+        <rect x="0" y="12" width="44" height="4" fill="#fff"/>
+      </svg>
+    </span>
+    <span style="margin-left:auto;white-space:nowrap">Overland Series · Country Profile 003</span>
+  </div>
+  <h1 class="std-title">Botswana</h1>
+  <div class="std-local">Republic of Botswana · Lefatshe la Botswana</div>
+  <div class="std-sub">Okavango Delta, Chobe, Moremi, Makgadikgadi &amp; the Central Kalahari — Africa's last great wilderness</div>
+  <div class="std-vehicle">
+    LC76 SW 1HZ · SA-plated / RHD · Entry: Ramatlabama / Tlokweng (from SA) or Ngoma (from Namibia Caprivi) · Visa-free 90 days · Compiled 28 April 2026
+  </div>
+</header>
+<nav class="toc-bar">
+  <span class="toc-label">Sections</span>
+  <a href="javascript:void(0)" onclick="document.getElementById('s01').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">01. Entry</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s02').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">02. Borders</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s03').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">03. Vehicle</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s04').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">04. Season</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s05').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">05. Fuel</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s06').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">06. Roads</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s07').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">07. Security</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s08').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">08. Health</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s09').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">09. Camp Safety</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s10').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">10. Comms</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s11').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">11. Money</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s12').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">12. Booking</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s13').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">13. Kalahari</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s14').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">14. Okavango</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s15').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">15. Maps</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s16').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">16. Routes S</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s17').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">17. Routes N</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s18').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">18. Phrases</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('changelog').scrollIntoView({behavior:'smooth'});return false;" class="toc-link" style="color:#6EE7B7">Log</a>
+</nav>
+</div>
+
+<div class="updated-banner">
+  <span>🗓 <strong>Last updated:</strong> 28 April 2026</span>
+  <span>· USD 1 ≈ BWP 13.70 · BWP/ZAR ≈ 1.33 · USD/ZAR ≈ 18.2</span>
+  <span>· <a href="javascript:void(0)" onclick="document.getElementById('changelog').scrollIntoView({behavior:'smooth'});return false;">View changelog ↓</a></span>
+</div>
+
+<main class="content">
+
+<!-- CRITICAL FIELD NOTICES -->
+<div class="sec-header" id="alerts" style="background:#fff4f0;border-left-color:var(--red-warn);">
+  <span class="sec-num" style="background:var(--red-warn);color:#fff;">!</span>
+  <span class="sec-title" style="color:#7a1010;">Critical Field Notices — Botswana</span>
+  <span class="sec-sub" style="color:#B91C1C;">Read Before Entering</span>
+</div>
+<div class="alert-strip">
+  <div class="alert-main"><span class="warn-icon">⚠</span>Campsite booking is mandatory before entering any national park — you will be turned away without a confirmed reservation voucher</div>
+  <div class="alert-pills">
+    <span class="pill warn">Book 6–12 months ahead for peak season (Jun–Oct) — sites fill completely</span>
+    <span class="pill">Park fees separate from campsite fees — pay at gate in Pula, ZAR, USD or GBP (notes only)</span>
+    <span class="pill">4×4 required for all national parks — deep sand tracks throughout</span>
+    <span class="pill">No cell coverage inside Chobe, Moremi, CKGR or Makgadikgadi — satellite comms only</span>
+    <span class="pill">FMD vet cordon (foot-and-mouth): no raw meat, dairy, or soil across cordon fences</span>
+    <span class="pill">Drone ban: drones prohibited in all national parks without DWNP permit</span>
+  </div>
+</div>
+
+<!-- 01 · ENTRY & VISAS -->
+<div class="sec-header" id="s01">
+  <span class="sec-num">01</span>
+  <span class="sec-title">Entry &amp; Visas</span>
+  <span class="sec-sub">SA Passport · Visa-Free 90 Days</span>
+</div>
+
+<p class="prose">South African passport holders enter Botswana <strong>visa-free for up to 90 days</strong> — no advance application, no fee, stamp issued on arrival at all recognised entry points. Botswana is one of the most straightforward border crossings in southern Africa.</p>
+
+<div class="data-grid">
+  <div class="data-card ok">
+    <div class="data-card-label">SA Passport</div>
+    <div class="data-card-value">Visa-Free</div>
+    <div class="data-card-sub">90 days per visit. No fee, no application. Stamp issued on arrival at all land borders and airports.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Maximum Stay</div>
+    <div class="data-card-value">90 Days</div>
+    <div class="data-card-sub">Per visit. Annual cap may apply. Extensions possible in Gaborone at the Department of Immigration — rarely needed.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Passport Validity</div>
+    <div class="data-card-value">6 Months Min</div>
+    <div class="data-card-sub">Minimum 6 months beyond entry date. Minimum 3 blank pages required for stamps.</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-card-label">KAZA UniVisa (from Zambia)</div>
+    <div class="data-card-value">Day Pass Only</div>
+    <div class="data-card-sub">If entering from Zambia on a KAZA UniVisa, Botswana is a single-day-trip only. For a proper Botswana visit from Zambia, exit the KAZA UniVisa zone and use your SA passport for the standard 90-day visa-free entry.</div>
+  </div>
+  <div class="data-card ok">
+    <div class="data-card-label">Yellow Fever</div>
+    <div class="data-card-value">Not Required</div>
+    <div class="data-card-sub">Not required entering from South Africa or Namibia. Required only if arriving from a yellow fever endemic country. Not required for SA passport from standard southern Africa route.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Malaria Certificate</div>
+    <div class="data-card-value">Not Required</div>
+    <div class="data-card-sub">No entry health requirements beyond yellow fever (if applicable). Standard malaria precautions for personal health — see Section 08.</div>
+  </div>
+</div>
+
+<!-- 02 · BORDER CROSSINGS -->
+<div class="sec-header" id="s02">
+  <span class="sec-num">02</span>
+  <span class="sec-title">Border Crossings</span>
+  <span class="sec-sub">From SA · From Namibia · Into Zambia / Zimbabwe</span>
+</div>
+
+<p class="prose">Botswana shares borders with South Africa (south), Namibia (west and north — Caprivi Strip), Zimbabwe (east), and Zambia (north — Kazungula). For the LC76 expedition routing south to north, the most likely entries are from Namibia at Ngoma Bridge (Caprivi east), and exit north to Zambia at Kazungula. From SA, the main northern entry is Tlokweng/Pioneer Gate near Gaborone.</p>
+
+<div class="subsec"><span class="subsec-title">— Entry from Namibia (Caprivi)</span><span class="subsec-tag">Primary Entry · Northern Circuit</span></div>
+
+<div class="route-grid">
+  <div class="route-card">
+    <span class="route-badge">Primary — Caprivi Entry</span>
+    <h3>Ngoma Bridge (NAM ↔ BWA)</h3>
+    <ul>
+      <li><strong>Hours:</strong> 07:00–18:00</li>
+      <li>Eastern end of Namibia's Caprivi Strip — enters Botswana near Kasane and Chobe NP</li>
+      <li>Excellent positioning for a direct Chobe NP arrival from Namibia</li>
+      <li>Process: exit Namibia → cross Chobe River → stamp in Botswana. Generally smooth.</li>
+      <li>Kasane (Botswana) is 10 km from Ngoma — full services, fuel, ATM</li>
+      <li>TIP issued at border — free for SA-registered vehicles</li>
+    </ul>
+  </div>
+  <div class="route-card secondary">
+    <span class="route-badge">Alternative — Caprivi</span>
+    <h3>Mamuno (NAM ↔ BWA) — Western Entry</h3>
+    <ul>
+      <li><strong>Hours:</strong> 07:00–18:00</li>
+      <li>Entry point into western Botswana / Central Kalahari region</li>
+      <li>Used for routes approaching CKGR from the west (Namibia side) or exiting to Namibia after a Kalahari circuit</li>
+      <li>Smaller and less busy than Ngoma — quicker process</li>
+      <li>Ghanzi (Botswana) is the first town — ~250 km; carry adequate fuel from Namibia</li>
+    </ul>
+  </div>
+</div>
+
+<div class="subsec"><span class="subsec-title">— Entry from South Africa</span><span class="subsec-tag">Southern Entry</span></div>
+
+<div class="route-grid">
+  <div class="route-card secondary">
+    <span class="route-badge">Main South Entry</span>
+    <h3>Tlokweng / Pioneer Gate (SA ↔ BWA)</h3>
+    <ul>
+      <li><strong>Hours:</strong> 07:00–22:00</li>
+      <li>Busiest Botswana land border — near Gaborone, adjacent to Johannesburg–Gaborone highway</li>
+      <li>Extended hours make it flexible for longer driving days from SA</li>
+      <li>Gaborone 10 km from border — full services</li>
+    </ul>
+  </div>
+  <div class="route-card secondary">
+    <span class="route-badge">Northwest SA Entry</span>
+    <h3>Ramatlabama (SA ↔ BWA)</h3>
+    <ul>
+      <li><strong>Hours:</strong> 06:00–22:00</li>
+      <li>Entry near Lobatse — used for routes approaching from North West Province SA</li>
+      <li>Road north from here toward Kgalagadi / Kalahari: well-positioned for a south→north circuit</li>
+    </ul>
+  </div>
+</div>
+
+<div class="subsec"><span class="subsec-title">— Exit / Onward Crossings</span><span class="subsec-tag">North &amp; East</span></div>
+
+<div class="route-grid">
+  <div class="route-card">
+    <span class="route-badge">North — Into Zambia</span>
+    <h3>Kazungula Bridge (BWA ↔ ZAM)</h3>
+    <ul>
+      <li><strong>Hours:</strong> 06:00–18:00</li>
+      <li>Modern road-rail bridge opened 2021 — replaced the notorious pontoon ferry</li>
+      <li>Efficient crossing; no ferry scheduling delays. Process is smooth.</li>
+      <li>KAZA UniVisa can be purchased here if entering Zambia (USD 50)</li>
+      <li>Kazungula town has fuel and basic services on both sides</li>
+      <li>Victoria Falls is ~80 km from here via the Zambia / Zimbabwe side</li>
+    </ul>
+  </div>
+  <div class="route-card secondary">
+    <span class="route-badge">East — Into Zimbabwe</span>
+    <h3>Ramokgwebana / Plumtree (BWA ↔ ZIM)</h3>
+    <ul>
+      <li><strong>Hours:</strong> 06:00–22:00</li>
+      <li>Crossing into Zimbabwe near Bulawayo — for routing via Zimbabwe toward Victoria Falls</li>
+      <li>Zimbabwe KAZA UniVisa USD 30 if not holding the combined KAZA</li>
+    </ul>
+  </div>
+</div>
+
+<!-- 03 · VEHICLE DOCUMENTS -->
+<div class="sec-header" id="s03">
+  <span class="sec-num">03</span>
+  <span class="sec-title">Vehicle Documents</span>
+  <span class="sec-sub">TIP · Insurance · No Carnet Required · FMD Cordon</span>
+</div>
+
+<table class="spec-table">
+  <thead><tr><th>Document</th><th>Required</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td>Vehicle registration / NaTIS</td><td class="ok">Yes — original</td><td>Mary-Ann's name — carry signed letter of authority for Neil as driver across international borders</td></tr>
+    <tr><td>SA driver's licence</td><td class="ok">Yes</td><td>SA licence accepted. IDP recommended as backup for police interactions.</td></tr>
+    <tr><td>TIP (Temporary Import Permit)</td><td class="ok">Issued at border — free</td><td>SA-registered vehicles — TIP issued at border at no charge. Keep in vehicle at all times.</td></tr>
+    <tr><td>Carnet de Passages</td><td class="ok">Not required</td><td>SA-registered vehicles exempt in Botswana</td></tr>
+    <tr><td>Third-party insurance</td><td class="ok">Compulsory</td><td>SADC third-party ("yellow card") insurance valid. Extend existing policy before departure or purchase at border. ~BWP 150–300/month.</td></tr>
+    <tr><td>ZA nationality sticker</td><td class="ok">Required</td><td>Must be visibly affixed to rear of vehicle</td></tr>
+    <tr><td>Fire extinguisher</td><td>Required by law</td><td>Checked at park gates occasionally — have it accessible</td></tr>
+    <tr><td>Safety triangles</td><td>Required by law</td><td>2× triangles — standard overlanding kit</td></tr>
+  </tbody>
+</table>
+
+<div class="alert alert-warn">
+  <strong>FMD Vet Cordon — Foot and Mouth Disease</strong>
+  Botswana has a network of veterinary cordon fences separating livestock zones from wildlife areas. When crossing these fences — which you will cross multiple times on a northern Botswana circuit — you must not carry raw red meat, raw dairy products, or soil-contaminated items northward through the fence. Freeze-dried and vacuum-sealed processed meat is acceptable. This is a serious livestock biosecurity measure — violations carry fines. Know where the cordon fences are on your route and plan provisions accordingly. The main cordon relevant to this route is the Buffalo Fence running south of the Okavango Delta and Moremi.
+</div>
+
+<!-- 04 · BEST SEASON & TIMING -->
+<div class="sec-header" id="s04">
+  <span class="sec-num">04</span>
+  <span class="sec-title">Best Season &amp; Timing</span>
+  <span class="sec-sub">Dry Season Essential · Avoid European Peak</span>
+</div>
+
+<div class="data-grid">
+  <div class="data-card dark">
+    <div class="data-card-label">Best Window — Off-Peak</div>
+    <div class="data-card-value">May – Jun</div>
+    <div class="data-card-sub">Rains finished, tracks dry, green vegetation, wildlife at water. Camps available, pre-season pricing. Ideal follow-on from Namibia April–May.</div>
+  </div>
+  <div class="data-card dark">
+    <div class="data-card-label">Second Window</div>
+    <div class="data-card-value">Oct – Nov</div>
+    <div class="data-card-sub">Post-peak, dropping prices, extreme heat (40°C+) but outstanding game concentrations at shrinking waterholes. Very hot but uncrowded.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">European Peak — Avoid</div>
+    <div class="data-card-value">Jul – Sep</div>
+    <div class="data-card-sub">Campsites fully booked 6–12 months ahead. Prices at maximum. The quality is outstanding but availability and cost are the constraints.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">Wet Season</div>
+    <div class="data-card-value">Nov – Apr</div>
+    <div class="data-card-sub">CKGR and Kalahari tracks impassable. Makgadikgadi partially flooded — Baines' Baobabs inaccessible. Moremi and Chobe accessible but difficult. Some camps close Jan–Mar.</div>
+  </div>
+</div>
+
+<table class="spec-table">
+  <thead><tr><th>Month</th><th>Weather</th><th>Kalahari / CKGR</th><th>Makgadikgadi</th><th>Moremi / Chobe</th><th>Crowd &amp; Cost</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Jan–Mar</strong></td><td>Hot, wet (38°C+)</td><td>Mostly impassable</td><td>Flooded — Baines' inaccessible</td><td>Accessible but difficult</td><td>Very low — some closures</td></tr>
+    <tr><td><strong>April</strong></td><td>Warm, rains ending</td><td>Drying</td><td>Drying — Baines' accessible</td><td>Good</td><td>Low</td></tr>
+    <tr><td><strong>May</strong></td><td>Warm days, cool nights</td><td>Good — dry</td><td>Good — flamingos possible</td><td>Very good</td><td class="ok">Low — optimal off-peak</td></tr>
+    <tr><td><strong>June</strong></td><td>Cool and dry</td><td>Excellent</td><td>Excellent — zebra migration</td><td>Excellent</td><td>Med — early peak building</td></tr>
+    <tr><td><strong>Jul–Sep</strong></td><td>Dry, warming</td><td>Peak — lions at waterholes</td><td>Peak</td><td>Peak — best game</td><td class="warn">Peak — fully booked</td></tr>
+    <tr><td><strong>Oct</strong></td><td>Very hot (40°C+)</td><td>Outstanding predators</td><td>Outstanding</td><td>Outstanding concentrations</td><td class="ok">Dropping — good value</td></tr>
+    <tr><td><strong>Nov</strong></td><td>Heat, storms beginning</td><td>Tracks deteriorating</td><td>Zebra migrating back</td><td>Good</td><td>Low</td></tr>
+  </tbody>
+</table>
+
+<div class="alert alert-note">
+  <strong>Makgadikgadi timing note</strong>
+  The Makgadikgadi offers two completely different experiences: the dry-season mineral pans (blinding white salt, meerkats, brown hyena, Baines' Baobabs) and the wet-season Boteti River corridor (zebra migration November–April — up to 30,000 Burchell's zebra). These are two separate trips, not one. The dry-season experience suits the May–October window; the zebra migration requires November–April (with track access challenges). Decide which you're chasing before planning the season.
+</div>
+
+<!-- 05 · FUEL -->
+<div class="sec-header" id="s05">
+  <span class="sec-num">05</span>
+  <span class="sec-title">Fuel</span>
+  <span class="sec-sub">BWP 22.66/L April 2026 · Cheaper than SA · Critical Gaps</span>
+</div>
+
+<div class="fuel-band">
+  <div class="fuel-cell">
+    <div class="fuel-cell-label">Diesel · BWP</div>
+    <div class="fuel-cell-value">P22.66</div>
+    <div class="fuel-cell-sub">per litre (BERA, April 2026)</div>
+  </div>
+  <div class="fuel-cell">
+    <div class="fuel-cell-label">Diesel · ZAR</div>
+    <div class="fuel-cell-value">~R30.10</div>
+    <div class="fuel-cell-sub">per litre — meaningfully cheaper than SA pump price</div>
+  </div>
+  <div class="fuel-cell">
+    <div class="fuel-cell-label">Diesel · USD</div>
+    <div class="fuel-cell-value">~$1.65</div>
+    <div class="fuel-cell-sub">per litre (USD 1 ≈ BWP 13.70)</div>
+  </div>
+  <div class="fuel-cell">
+    <div class="fuel-cell-label">vs SA</div>
+    <div class="fuel-cell-value">~10% Less</div>
+    <div class="fuel-cell-sub">Comparable to SA pricing. Fill in SA before crossing; Botswana prices are similar or slightly better.</div>
+  </div>
+  <div class="fuel-cell">
+    <div class="fuel-cell-label">LC76 Range (145L)</div>
+    <div class="fuel-cell-value">~1,200 km</div>
+    <div class="fuel-cell-sub">At 12L/100km. Critical for CKGR interior — carry full + Jerry cans.</div>
+  </div>
+</div>
+
+<table class="spec-table">
+  <thead><tr><th>Location</th><th>Availability</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td>Kasane</td><td class="ok">Excellent</td><td>Last reliable fill before Chobe NP interior. Multiple BP and Shell stations.</td></tr>
+    <tr><td>Maun</td><td class="ok">Excellent</td><td>Hub for Okavango / Moremi circuit. Fill completely here before departing into Moremi or Makgadikgadi.</td></tr>
+    <tr><td>Nata</td><td class="ok">Good</td><td>Key junction town — T1 / Trans-Kalahari route. Fill here for Makgadikgadi or Chobe.</td></tr>
+    <tr><td>Francistown</td><td class="ok">Excellent</td><td>Eastern Botswana's main city. All services. Good staging point.</td></tr>
+    <tr><td>Gaborone</td><td class="ok">Excellent</td><td>Capital. All services.</td></tr>
+    <tr><td>Ghanzi</td><td class="ok">Good</td><td>Western Botswana hub. Last fuel before CKGR western approaches. Fill completely here.</td></tr>
+    <tr><td>Chobe NP interior (Savuti)</td><td class="warn">None</td><td>No fuel inside Chobe. Carry from Kasane. Savuti is ~180 km from Kasane gate — tight on 145L if driving much inside.</td></tr>
+    <tr><td>Moremi GR interior</td><td class="warn">None</td><td>No fuel inside Moremi. Fill in Maun — Third Bridge is ~120 km from South Gate, easy range.</td></tr>
+    <tr><td>CKGR interior</td><td class="warn">None — critical</td><td>No fuel inside the park or for 250+ km radius. Carry minimum 80L extra for CKGR interior loops. Deception Valley circuit from Matswere Gate: ~450 km round trip on deep sand.</td></tr>
+    <tr><td>Makgadikgadi Pans area</td><td class="ok">Nata / Gweta</td><td>Nata and Gweta have fuel stations on the main road. Gweta is the jumping-off point for the pans interior. Fill in Gweta before heading onto the pans.</td></tr>
+  </tbody>
+</table>
+
+<div class="alert alert-warn">
+  <strong>CKGR fuel planning — critical</strong>
+  The Central Kalahari Game Reserve is one of the world's largest protected areas (52,800 km²). Interior circuits on deep sand significantly increase fuel consumption — plan at 14–15L/100km on sand, not 12L. A full tank (145L) plus two 20L jerricans (185L) gives approximately 1,200 km sand-adjusted range. The Deception Valley loop from Matswere Gate alone is 350–450 km. Do the arithmetic before committing.
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">Cross-ref</span>
+  <a href="LC76_Fuel_Range_Calculator.html" class="xref-pill">Fuel Range Calculator</a>
+  <a href="LC76_Trip_Fuel_Planner.html" class="xref-pill">Trip Fuel Planner</a>
+</div>
+
+<!-- 06 · ROADS -->
+<div class="sec-header" id="s06">
+  <span class="sec-num">06</span>
+  <span class="sec-title">Roads</span>
+  <span class="sec-sub">Left-Hand Traffic · Deep Sand · 4×4 Essential</span>
+</div>
+
+<p class="prose">Botswana drives on the left — same as South Africa, which makes the transition from Namibia easy. The main sealed arteries (A1 Gaborone–Francistown–Nata, A3 Trans-Kalahari Highway, A33 Nata–Kasane) are generally good condition. The national parks are a completely different story: deep Kalahari sand, flooded pans, and sandy riverbeds define the experience. A 4×4 with low-range and sand recovery gear is non-negotiable for any national park entry.</p>
+
+<table class="spec-table">
+  <thead><tr><th>Route</th><th>Surface</th><th>Condition</th><th>4×4?</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td>A1 Gaborone → Francistown → Nata</td><td>Sealed</td><td>Good</td><td>No</td><td>Main north–south artery. Generally excellent. Some speed humps in towns.</td></tr>
+    <tr><td>A33 Nata → Kasane</td><td>Sealed</td><td>Good</td><td>No</td><td>~300 km. Good road through Chobe District. Elephant crossings — slow down after dark.</td></tr>
+    <tr><td>Nata → Maun (A3/secondary)</td><td>Sealed</td><td>Fair–good</td><td>No</td><td>Via Gweta and Makgadikgadi. Some rough sections but generally manageable.</td></tr>
+    <tr><td>Chobe Riverfront (Kasane → Serondela)</td><td>Gravel / sand</td><td>Variable</td><td class="warn">Yes</td><td>The famous riverfront drive. Gravel with deep sand sections. Even standard bakkies regularly get stuck. 4×4 engaged at all times.</td></tr>
+    <tr><td>Chobe → Savuti corridor</td><td>Deep sand</td><td>Demanding</td><td class="warn">Yes</td><td>~180 km of Kalahari sand. Low range needed for significant stretches. Slow — allow full day.</td></tr>
+    <tr><td>Moremi GR — general</td><td>Sand / tracks</td><td>Demanding</td><td class="warn">Yes</td><td>Deep sand throughout. Third Bridge area has seasonal water crossings. Deflate to 1.4–1.6 bar for main tracks, lower for deep sand.</td></tr>
+    <tr><td>CKGR — interior</td><td>Deep sand</td><td>Expert</td><td class="warn">Yes — expert</td><td>The Deception Valley tracks are some of the softest sand in southern Africa. Expect prolonged low-range driving. Two-vehicle minimum recommended. Full recovery kit essential.</td></tr>
+    <tr><td>Makgadikgadi Pans — Gweta routes</td><td>Sand / pan surface</td><td>Moderate–demanding</td><td class="warn">Yes</td><td>Sandy access tracks to the pans; firm on the salt surface itself but soft approaches. Tyre pressure management critical.</td></tr>
+    <tr><td>Okavango Delta access roads</td><td>Sand</td><td>Variable</td><td class="warn">Yes</td><td>Most delta access is by mokoro or light aircraft — the 4×4 tracks around the periphery are soft sand. Moremi is the vehicle-accessible portion of the delta ecosystem.</td></tr>
+  </tbody>
+</table>
+
+<div class="data-grid">
+  <div class="data-card note">
+    <div class="data-card-label">Tyre Pressure — Sand</div>
+    <div class="data-card-value">1.2–1.6 bar</div>
+    <div class="data-card-sub">Deflate for all park tracks. Chobe riverfront: 1.6 bar. Deep Kalahari sand: 1.2–1.4 bar. Salt pans approaches: 1.2 bar. Reinflate at the gate before returning to tarmac.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">Night Driving</div>
+    <div class="data-card-value">Avoid</div>
+    <div class="data-card-sub">Elephant, buffalo, and lion on roads after dark — including on tarmac in Chobe District. Donkeys on rural roads throughout Botswana. Camp before dark.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Speed Limits</div>
+    <div class="data-card-value">120 / 60 km/h</div>
+    <div class="data-card-sub">Open road / town. Strictly enforced; speed traps common on main roads. Inside national parks: 40 km/h maximum — wildlife protection, and the track condition usually enforces it anyway.</div>
+  </div>
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">Cross-ref</span>
+  <a href="LC76_Tyre_Pressure_Calculator.html" class="xref-pill">Tyre Pressure Calculator</a>
+  <a href="LC76_Vehicle_Recovery_Guide.html" class="xref-pill">R9 Vehicle Recovery</a>
+</div>
+
+<!-- 07 · SECURITY -->
+<div class="sec-header" id="s07">
+  <span class="sec-num">07</span>
+  <span class="sec-title">Security</span>
+  <span class="sec-sub">Very Safe · Standard Urban Awareness</span>
+</div>
+
+<p class="prose">Botswana is one of the safest countries in Africa for overlanders. Politically stable, prosperous by regional standards (diamonds), low violent crime rate, professional and non-corrupt police. The primary security risks in Botswana are urban opportunist crime in Gaborone and Francistown, road safety (livestock and wildlife), and the isolation hazard in remote national parks.</p>
+
+<div class="verdict">
+  <div class="verdict-col pros">
+    <h4>Security Positives</h4>
+    <ul>
+      <li>Consistently rated one of Africa's safest destinations</li>
+      <li>Police professional and generally not corrupt</li>
+      <li>Rural areas: zero documented armed crime against overlanders</li>
+      <li>National parks: human security risk is essentially nil</li>
+      <li>No conflict history, stable democracy since 1966</li>
+      <li>BDF (Botswana Defence Force) maintains strong anti-poaching presence in parks</li>
+    </ul>
+  </div>
+  <div class="verdict-col cons">
+    <h4>Genuine Risks</h4>
+    <ul>
+      <li>Gaborone: vehicle break-ins, bag snatching in busy commercial areas</li>
+      <li>Road safety: donkeys and cattle on main roads at dusk/dawn — serious collision risk</li>
+      <li>Elephant and lion on roads at night in Chobe District — even on tarmac</li>
+      <li>Remote park isolation: CKGR breakdown means days before help — satellite comms essential</li>
+      <li>Flash floods in CKGR and Makgadikgadi can strand vehicles rapidly in wet season</li>
+    </ul>
+  </div>
+</div>
+
+<!-- 08 · HEALTH -->
+<div class="sec-header" id="s08">
+  <span class="sec-num">08</span>
+  <span class="sec-title">Health</span>
+  <span class="sec-sub">Malaria Northern Botswana · Bilharzia Rivers</span>
+</div>
+
+<table class="spec-table">
+  <thead><tr><th>Condition</th><th>Status</th><th>Action</th></tr></thead>
+  <tbody>
+    <tr><td>Malaria</td><td class="warn">High risk — northern Botswana (Chobe, Okavango, Moremi, Kasane area)</td><td>Prophylaxis essential for northern circuit. Malarone or doxycycline. Southern Botswana (Gaborone, Kgalagadi) has lower risk but treat as malaria zone throughout.</td></tr>
+    <tr><td>Yellow Fever</td><td class="ok">Not required from SA / Namibia</td><td>No certificate needed entering from standard southern Africa route</td></tr>
+    <tr><td>Typhoid / Hepatitis A</td><td>Recommended</td><td>Standard sub-Saharan Africa vaccinations</td></tr>
+    <tr><td>Bilharzia</td><td class="warn">Rivers and delta channels</td><td>Do not swim in the Chobe River, Okavango channels, or Boteti River. The delta and Chobe riverfront are bilharzia-risk water bodies. Swimming in pools at lodges is fine.</td></tr>
+    <tr><td>Rabies</td><td>Pre-exposure recommended</td><td>Particularly relevant near wildlife in remote parks</td></tr>
+    <tr><td>Water safety</td><td>Variable</td><td>Lodges and camps: generally safe supply. Remote campsites: treat all water. Groundwater in Kalahari and pan areas can be brackish and chemically unsuitable.</td></tr>
+  </tbody>
+</table>
+
+<div class="data-grid">
+  <div class="data-card">
+    <div class="data-card-label">Medical Facilities</div>
+    <div class="data-card-value">Limited Outside Cities</div>
+    <div class="data-card-sub">Gaborone: Princess Marina Hospital and private Gaborone Private Hospital. Kasane: clinic only. Maun: Maun General Hospital — adequate for basic treatment. Remote parks: nothing. Medevac to Maun or Gaborone for serious trauma.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">CKGR Medical Risk</div>
+    <div class="data-card-value">Isolation Critical</div>
+    <div class="data-card-sub">Deep CKGR is 200+ km from any medical facility. Satellite communicator and medevac insurance non-negotiable. Know your GEOS/IERCC SOS activation procedure before entering.</div>
+  </div>
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">Cross-ref</span>
+  <a href="LC76_Health_Hygiene_Guide.html" class="xref-pill">R17 Health &amp; Hygiene</a>
+  <a href="LC76_Emergency_Procedures_Guide.html" class="xref-pill">R10 Emergency Procedures</a>
+</div>
+
+<!-- 09 · CAMP SAFETY & WILDLIFE -->
+<div class="sec-header" id="s09">
+  <span class="sec-num">09</span>
+  <span class="sec-title">Camp Safety &amp; Wildlife</span>
+  <span class="sec-sub">Ground Tent · Unfenced · Elephant · Lion · Hyena</span>
+</div>
+
+<p class="prose">Botswana's national park campsites are unfenced and in the middle of active wildlife habitat. This is the defining character of the Botswana experience — and the reason the camps are so extraordinary. The rules are different from anything in fenced South African parks. Every camp in Chobe, Moremi, and the CKGR must be treated as active lion and elephant territory at all times.</p>
+
+<div class="subsec"><span class="subsec-title">Wildlife in Camp — By Park</span><span class="subsec-tag">Ground Tent Protocols</span></div>
+
+<table class="spec-table">
+  <thead><tr><th>Park / Camp</th><th>Key Hazards in Camp</th><th>Ground Tent Protocol</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Chobe NP — Ihaha Riverfront</strong></td><td>Elephant (constant — they drink at the river 20m from camp), hippo at night, crocodile near water, lion occasional</td><td>Never leave food outside vehicle. Elephants will investigate any scent — seal everything. Do not walk between vehicle and tent without a torch and full awareness. Ablutions require an escort at night. Hippos graze between camp and river — check before walking toward water.</td></tr>
+    <tr><td><strong>Chobe NP — Savuti</strong></td><td>Lions (Savuti prides are famous for their size and boldness), elephant, spotted hyena (persistent camp raiders)</td><td>Savuti hyenas are notorious for stealing equipment left outside — lock all food in vehicle, secure cooler boxes with locks, bring jerry cans inside vehicle. Lions in camp at night is well documented. Do not leave tent at night without a torch and genuine awareness of surroundings.</td></tr>
+    <tr><td><strong>Moremi GR — Third Bridge</strong></td><td>Hippos (path runs through camp), leopard, lion, elephant, hyena, crocs in channel</td><td>Third Bridge's hippo path crosses the camp — you will encounter hippos at night. If a hippo is between you and your destination, wait. Never attempt to move a hippo. Crocs in the water immediately adjacent — no water contact. Lions patrol the camp perimeter.</td></tr>
+    <tr><td><strong>Moremi GR — Xakanaxa</strong></td><td>Lion, wild dog, elephant, hippo</td><td>One of Botswana's best wild dog camps — packs den nearby. Do not approach or follow wild dogs on foot. Lion and elephant move through at night. Standard unfenced camp protocols apply.</td></tr>
+    <tr><td><strong>CKGR — Deception Valley</strong></td><td>Lion (the famous black-maned Kalahari lions), brown hyena, black-backed jackal, springbok</td><td>CKGR lions are well-studied and not habituated to vehicles in the same way northern park animals are — they may approach closer than expected. Keep food inside vehicle. Jackals are persistent petty thieves — anything left outside will be investigated or taken. Brown hyena visits camp at night routinely.</td></tr>
+    <tr><td><strong>Makgadikgadi — Khumaga</strong></td><td>Hippo in Boteti River, hyena, occasional lion</td><td>Boteti River runs along the camp boundary. Hippos exit at night. Standard river camp protocols. Hyenas in camp: highly likely. Secure all food.</td></tr>
+  </tbody>
+</table>
+
+<div class="subsec"><span class="subsec-title">Snakes &amp; Smaller Hazards</span></div>
+
+<p class="prose">Botswana has puff adders, black mamba, Mozambique spitting cobra, boomslang, and various smaller species. The puff adder risk is greatest in the grassy, rocky margins of CKGR campsites and Makgadikgadi surrounds. Spitting cobras are more prevalent in the wetter northern parks. Shake boots every morning. Scorpions are present throughout — particularly in the Kalahari and pan environments. Check sleeping gear and footwear. Tsetse flies are present in northern Botswana (Chobe, Okavango region) — wear cover and use DEET. Avoid dark blue/black clothing in fly zones.</p>
+
+<!-- 10 · COMMUNICATIONS -->
+<div class="sec-header" id="s10">
+  <span class="sec-num">10</span>
+  <span class="sec-title">Communications</span>
+  <span class="sec-sub">Mascom / Orange · Park Dead Zones · Satellite Essential</span>
+</div>
+
+<p class="prose">Botswana's two main networks are <strong>Mascom</strong> (best rural coverage) and <strong>Orange Botswana</strong> (strong urban). Both operate on GSM/3G/4G depending on location. Coverage is good along sealed corridors and in all major towns. The national parks are essentially dead zones.</p>
+
+<table class="spec-table">
+  <thead><tr><th>Location</th><th>Coverage</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td>Gaborone, Francistown, Kasane, Maun</td><td class="ok">Excellent 4G</td><td>Full services, data reliable. Download offline maps before leaving any of these towns.</td></tr>
+    <tr><td>Chobe NP interior</td><td class="warn">None</td><td>Zero coverage inside the park. Kasane (outside gate) has signal. Once through the gate: gone.</td></tr>
+    <tr><td>Moremi GR / Okavango Delta</td><td class="warn">None</td><td>Dead zone throughout. Maun is last coverage point. Download T4A Botswana before Maun.</td></tr>
+    <tr><td>CKGR interior</td><td class="warn">None</td><td>Complete dead zone. The nearest cell tower is at Ghanzi or Kang — both 150+ km from the park interior. Satellite communicator is your only link.</td></tr>
+    <tr><td>Makgadikgadi Pans area</td><td>Variable</td><td>Nata and Gweta have signal on main road. Inside the pans (Baines' Baobabs, Nxai Pan): no coverage.</td></tr>
+    <tr><td>A1 / A3 corridors</td><td class="ok">Generally good</td><td>Patchy between towns but serviceable for calls and light data. Download maps while in towns.</td></tr>
+  </tbody>
+</table>
+
+<div class="data-grid">
+  <div class="data-card">
+    <div class="data-card-label">Recommended SIM</div>
+    <div class="data-card-value">Mascom</div>
+    <div class="data-card-sub">Best rural coverage. Purchase in Kasane or Maun. Easy data top-up at most shops. SA SIMs roam on Mascom but expensive — get a local SIM for stays over 5 days.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">Satellite Comms</div>
+    <div class="data-card-value">Mandatory</div>
+    <div class="data-card-sub">Garmin inReach or ZOLEO. Non-negotiable for CKGR — the most isolated vehicle-accessible park in southern Africa. Critical for Savuti and deep Moremi also.</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-card-label">Offline Maps</div>
+    <div class="data-card-value">T4A Botswana</div>
+    <div class="data-card-sub">Tracks4Africa has the most comprehensive Botswana park track data. Download before Maun. OsmAnd Botswana offline also useful. Carry paper Botswana map as backup.</div>
+  </div>
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">Cross-ref</span>
+  <a href="LC76_Comms_Navigation_Guide.html" class="xref-pill">R16 Comms &amp; Navigation</a>
+</div>
+
+<!-- 11 · MONEY -->
+<div class="sec-header" id="s11">
+  <span class="sec-num">11</span>
+  <span class="sec-title">Money &amp; Currency</span>
+  <span class="sec-sub">Pula · ZAR Accepted · Multi-Currency Gates</span>
+</div>
+
+<p class="prose">Botswana uses the Pula (BWP). Unusually, park gates accept multiple currencies — Pula, South African Rand, USD, and GBP — making Botswana logistics easier than Zambia. ZAR is widely accepted in border towns and at tourist facilities throughout northern Botswana. Pula cash is ideal; ZAR works as backup everywhere.</p>
+
+<div class="data-grid">
+  <div class="data-card dark">
+    <div class="data-card-label">Currency</div>
+    <div class="data-card-value">Pula (BWP)</div>
+    <div class="data-card-sub">USD 1 ≈ BWP 13.70. ZAR 1 ≈ BWP 0.75 (April 2026). Freely convertible.</div>
+  </div>
+  <div class="data-card ok">
+    <div class="data-card-label">Park Gate Currency</div>
+    <div class="data-card-value">BWP / ZAR / USD / GBP</div>
+    <div class="data-card-sub">Notes only — no coins. Cards occasionally accepted at gates but not reliable. Carry Pula and ZAR cash for all park expenses.</div>
+  </div>
+  <div class="data-card ok">
+    <div class="data-card-label">ZAR Acceptance</div>
+    <div class="data-card-value">Widely Accepted</div>
+    <div class="data-card-sub">ZAR accepted at most fuel stations, supermarkets, and tourist facilities in northern and eastern Botswana. Rate typically 1:1 or slight Pula premium — convert for better value.</div>
+  </div>
+  <div class="data-card ok">
+    <div class="data-card-label">ATMs</div>
+    <div class="data-card-value">Good in Towns</div>
+    <div class="data-card-sub">Kasane: Standard Chartered on the main road. Maun: multiple. Francistown: excellent. Draw Pula in Kasane or Maun before park entries. No ATMs near park gates.</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-card-label">Park Fees Budget</div>
+    <div class="data-card-value">High — Plan Carefully</div>
+    <div class="data-card-sub">Chobe and Moremi: BWP 300/person/day SADC + BWP 138/vehicle/day. Two people for 3 days = BWP (300×2×3) + (138×3) = BWP 2,214 (~R2,944 / ~USD 161). Plan the full fee budget before departure — it adds up quickly.</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-card-label">Campsite Fees</div>
+    <div class="data-card-value">Pay Operators Separately</div>
+    <div class="data-card-sub">Campsite fees are paid in advance directly to the private operators (Kwalate, SKL, Xomae, BigFoot). Park entry fees are separate — paid at the gate. Both are mandatory. See Section 12.</div>
+  </div>
+</div>
+
+<div class="scenario">
+  <h4>Full Cost Estimate — Northern Circuit (10 nights)</h4>
+  <div class="scenario-meta">Chobe 3 nights + Savuti 2 nights + Moremi 3 nights + Makgadikgadi 2 nights · 2 adults · SA-plated vehicle</div>
+  <ul>
+    <li><strong>Chobe NP entry (3 days):</strong> BWP 300 × 2 pax × 3 days = BWP 1,800 + BWP 138 × 3 vehicle = BWP 2,214</li>
+    <li><strong>Moremi GR entry (3 days):</strong> BWP 300 × 2 × 3 = BWP 1,800 + BWP 138 × 3 = BWP 2,214</li>
+    <li><strong>Makgadikgadi entry (2 days):</strong> BWP 200 × 2 × 2 = BWP 800 + BWP 90 × 2 = BWP 980</li>
+    <li><strong>Total park entry fees:</strong> ~BWP 5,408 (~R7,190 / ~USD 395)</li>
+    <li><strong>Campsite fees (10 nights at ~BWP 600/night for 2 pax SADC):</strong> ~BWP 6,000 (~R7,980 / ~USD 438)</li>
+    <li><strong>Fuel (1,200 km at 12L/100km × BWP 22.66):</strong> ~BWP 3,263 (~R4,340 / ~USD 238)</li>
+    <li><strong>Grand total (indicative):</strong> ~BWP 14,671 (~R19,500 / ~USD 1,071 for 10 nights)</li>
+    <li>Note: CKGR fees (BWP 200/person SADC + BWP 90/vehicle) are cheaper than northern parks — add if including Kalahari circuit.</li>
+  </ul>
+</div>
+
+<!-- 12 · BOOKING SYSTEM -->
+<div class="sec-header" id="s12">
+  <span class="sec-num">12</span>
+  <span class="sec-title">Campsite Booking System</span>
+  <span class="sec-sub">Five Operators · DWNP · Multi-Step Process</span>
+</div>
+
+<p class="prose">Botswana's campsite booking system is the most complex logistical challenge in planning the trip. Since 2009, most national park campsites are managed by four private operators rather than DWNP directly. Park entry fees remain separate and are paid to DWNP. You will deal with up to five different entities for a single park visit. <strong>Book 6–12 months ahead for any July–September dates. May–June: 3–4 months sufficient.</strong></p>
+
+<div class="alert alert-warn">
+  <strong>Do not arrive without a confirmed campsite booking</strong>
+  Arriving at a Botswana national park gate without a pre-confirmed campsite reservation will result in being turned away — particularly at weekends and peak season when booking offices are closed. This is not a guideline; it is standard DWNP procedure. Plan and book before arrival.
+</div>
+
+<div class="subsec"><span class="subsec-title">The Five Booking Entities</span><span class="subsec-tag">Who Manages What</span></div>
+
+<table class="booking-matrix">
+  <thead><tr><th>Operator</th><th>Parks / Campsites Managed</th><th>Contact</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><span class="operator">DWNP</span><br>Central Reservations</td>
+      <td>Remaining DWNP-managed sites (fewer every year). Chobe and Moremi permits. Also handles park entry permit administration once campsite booked.</td>
+      <td><span class="contact">Tel: +267 318 0774<br>dwnp@gov.bw<br>Mon–Fri 07:30–16:30<br>Sat 07:30–12:45</span></td>
+      <td>Once you have all campsite bookings confirmed and paid, send vouchers to DWNP to receive park entry permits. Office in Maun and Gaborone.</td>
+    </tr>
+    <tr>
+      <td><span class="operator">Kwalate Safaris</span></td>
+      <td>Moremi: Xakanaxa, South Gate<br>Chobe: Ihaha (Riverfront)</td>
+      <td><span class="contact">Tel: +267 686 1448<br>kwalatesafari@gmail.com<br>kwalatesafaris.com</span></td>
+      <td>Some reports of slow responsiveness — email early and follow up. Xakanaxa is highly sought after; book Xakanaxa before anything else for the Moremi circuit.</td>
+    </tr>
+    <tr>
+      <td><span class="operator">SKL Camps</span></td>
+      <td>Chobe: Savuti, Linyanti<br>Moremi: Khwai North Gate<br>Makgadikgadi: Khumaga</td>
+      <td><span class="contact">Tel: +267 686 5365<br>reservations@sklcamps.co.bw<br>sklcamps.com</span></td>
+      <td>Manages the Savuti campsite — one of the most sought-after camps in southern Africa. Book Savuti 8–12 months ahead for peak season. Generally responsive.</td>
+    </tr>
+    <tr>
+      <td><span class="operator">Xomae Adventures</span></td>
+      <td>Moremi: Third Bridge, Gcodikwe Island<br>Nxai Pan: Baines' Baobabs, South Camp</td>
+      <td><span class="contact">Tel: +267 686 2221<br>reservations@xomaecamps.co.bw<br>xomaesites.com</span></td>
+      <td>Third Bridge is the most coveted campsite in Moremi — often booked months ahead. Baines' Baobabs (Nxai Pan) is spectacular; seasonal access in wet season.</td>
+    </tr>
+    <tr>
+      <td><span class="operator">BigFoot Tours</span></td>
+      <td>CKGR: Deception Valley, Sunday Pan, Letiahau, Passarge, Motopi<br>Khutse GR: all five campsites</td>
+      <td><span class="contact">Tel: +267 395 3360<br>bigfoottoursbw@gmail.com<br>operations@bigfoottours.co.bw<br>bigfoottours.co.bw</span></td>
+      <td>Manages all major CKGR interior sites. Deception Valley is the prime Kalahari camp. Also try Facebook (Bigfoot Tours Botswana) if email response is slow.</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="scenario">
+  <h4>Step-by-Step Booking Process</h4>
+  <div class="scenario-meta">For a mixed-park circuit (Chobe + Moremi + Makgadikgadi)</div>
+  <ul>
+    <li><strong>Step 1:</strong> Decide your route and dates. Identify all campsites needed with GPS coordinates.</li>
+    <li><strong>Step 2:</strong> Check DWNP availability first for any DWNP-managed sites (tel/email above). Reserve provisionally — do not pay yet.</li>
+    <li><strong>Step 3:</strong> Email all private operators simultaneously (Kwalate / SKL / Xomae / BigFoot as relevant). State: dates, number of adults, vehicle registration, SA passport.</li>
+    <li><strong>Step 4:</strong> Once private operator confirms availability, pay private operators and obtain booking vouchers.</li>
+    <li><strong>Step 5:</strong> Send all booking vouchers to DWNP (dwnp@gov.bw or fax +267 318 0775). DWNP will then invoice you for park entry permit fees.</li>
+    <li><strong>Step 6:</strong> Pay DWNP park entry fees. Receive entry permits.</li>
+    <li><strong>Step 7:</strong> Print ALL vouchers and permits. No cell service inside parks — digital-only is not reliable at gates.</li>
+    <li><strong>Step 8 (optional):</strong> Pay park entry fees in cash at the gate on arrival — this is possible if you have campsite vouchers confirmed, though pre-paying avoids any gate-day complications.</li>
+  </ul>
+</div>
+
+<div class="alert alert-note">
+  <strong>Maun as your booking base</strong>
+  If you have not pre-booked and arrive in Maun without reservations, the DWNP Maun office (S19.98°, E23.43°) and private operator Maun offices can sometimes sort last-minute availability — but do not count on it in peak season. Maun-based agents (McKenzie 4×4, Travel Adventures Botswana, Go Bold Safaris) can handle all bookings for you for a small fee — worth it if the admin complexity of the five-operator system is daunting.
+</div>
+
+<!-- 13 · KALAHARI REGION -->
+<div class="sec-header" id="s13">
+  <span class="sec-num">13</span>
+  <span class="sec-title">Kalahari Region</span>
+  <span class="sec-sub">CKGR · Makgadikgadi · Nxai Pan · Kgalagadi</span>
+</div>
+
+<p class="prose">The Kalahari is not a desert in the conventional sense — it is a fossil sand sea, ancient Aeolian dunes now stabilised by vegetation, sitting on a vast underground water table. The ecosystem is one of Africa's most extraordinary: sparse, seemingly empty, then suddenly revealing lions, brown hyena, black-maned Kalahari lions, oryx, springbok, and vast skies that dwarf everything. The Central Kalahari Game Reserve alone is 52,800 km² — larger than Switzerland.</p>
+
+<div class="subsec"><span class="subsec-title">Central Kalahari Game Reserve (CKGR)</span><span class="subsec-tag">52,800 km² · Expert 4×4 · Remotest Park</span></div>
+
+<div class="route-grid">
+  <div class="route-card">
+    <span class="route-badge">★★★★★ Wilderness Absolute</span>
+    <h3>Deception Valley — CKGR Heartland</h3>
+    <ul>
+      <li>Ancient fossil valley carved by the (now dry) Deception River — 3.5 billion years old in parts</li>
+      <li>The Kalahari's famous <strong>black-maned lions</strong> — the males grow unusually long, dark manes due to the harsh climate. One of the most distinctive lion populations in Africa.</li>
+      <li>Cheetah on the open valley floor — exceptional sightings in the early morning</li>
+      <li>Brown hyena: nocturnal, shy, and rarely seen elsewhere — CKGR gives some of the best encounters</li>
+      <li>Oryx (gemsbok), springbok, eland, wildebeest — large herds in the dry season</li>
+      <li>Deception Valley campsite (BigFoot): sits right in the valley — completely isolated, extraordinary night sky, remarkable silence broken only by lions calling</li>
+      <li><strong>Access:</strong> Matswere Gate (east, near Rakops) or Xade Gate (west, near Ghanzi). Matswere most used.</li>
+      <li><strong>Road from Matswere to Deception Valley:</strong> ~130 km of deep Kalahari sand. Allow 4–5 hours. Low range required for significant stretches.</li>
+    </ul>
+  </div>
+  <div class="route-card secondary">
+    <span class="route-badge">★★★★ Remote Interior</span>
+    <h3>Sunday Pan &amp; Passarge Valley</h3>
+    <ul>
+      <li>Further south in CKGR — even more remote than Deception Valley</li>
+      <li>Sunday Pan: open saltpan, flat, stark. Oryx and springbok in large numbers. Excellent for predator sightings at the pan edges at dawn and dusk.</li>
+      <li>Passarge Valley: similar character to Deception but less visited — more likelihood of having the entire landscape to yourself</li>
+      <li>Both managed by BigFoot Tours — book as part of a Deception Valley circuit</li>
+      <li>Self-rescue essential: 300+ km from any town, no comms, no other vehicles guaranteed</li>
+    </ul>
+  </div>
+  <div class="route-card secondary">
+    <span class="route-badge">★★★★ Easier Access</span>
+    <h3>Khutse Game Reserve</h3>
+    <ul>
+      <li>Contiguous with CKGR to the south — managed separately but accessed as part of Kalahari circuit</li>
+      <li>Only 240 km from Gaborone — the most accessible Kalahari destination from SA</li>
+      <li>Brown hyena, lion, cheetah, wild dog occasional. Less dramatic landscape than Deception Valley but excellent and less-visited.</li>
+      <li>All five campsites managed by BigFoot Tours</li>
+      <li>DWNP park entry fees apply separately from CKGR</li>
+    </ul>
+  </div>
+</div>
+
+<div class="subsec"><span class="subsec-title">Makgadikgadi Pans</span><span class="subsec-tag">World's Largest Salt Pan System</span></div>
+
+<div class="route-grid">
+  <div class="route-card">
+    <span class="route-badge">★★★★★ Iconic</span>
+    <h3>Baines' Baobabs — Nxai Pan</h3>
+    <ul>
+      <li>A cluster of ancient baobab trees (painted by Thomas Baines in 1862) standing alone on the edge of Nxai Pan — one of the most photographed subjects in Botswana</li>
+      <li>Virtually unchanged in over 160 years — you are standing where Baines stood with his paint and canvas</li>
+      <li>Xomae Adventures manages the campsite directly adjacent — one of the most atmospheric campsites in Africa</li>
+      <li><strong>Access:</strong> Via Nxai Pan NP gate (Gweta side) — ~70 km from Gweta. Seasonal: wet-season flooding can block access November–April</li>
+      <li>Dry season: firm salt pan surface, stark white, deeply atmospheric</li>
+    </ul>
+  </div>
+  <div class="route-card">
+    <span class="route-badge">★★★★★ Wildlife</span>
+    <h3>Makgadikgadi Pans NP — Khumaga &amp; Boteti River</h3>
+    <ul>
+      <li>The Boteti River runs along the western edge of Makgadikgadi Pans NP — one of the few permanent water sources in the area</li>
+      <li><strong>Zebra migration (November–April):</strong> 25,000–30,000 Burchell's zebra follow the rains from the pan basin to the Boteti River corridor — the second largest zebra migration in Africa after the Serengeti</li>
+      <li>Dry season (June–October): elephants, lions, and predators concentrated at the Boteti River — excellent game viewing from Khumaga camp</li>
+      <li>Khumaga camp (SKL) sits directly on the Boteti River — excellent hippo and elephant viewing from camp</li>
+      <li>Meerkats at Makgadikgadi: habituated meerkat families near Ntwetwe Pan — a famous experience where meerkats use you as a lookout post</li>
+    </ul>
+  </div>
+  <div class="route-card secondary">
+    <span class="route-badge">★★★★ Salt Pans</span>
+    <h3>Ntwetwe Pan — Flamingos &amp; Meerkats</h3>
+    <ul>
+      <li>Vast blinding white salt surface — disorienting and spectacular in all directions</li>
+      <li>Flamingos gather on the shallow alkaline water after rains — pink against white salt</li>
+      <li>Habituated meerkat families: contact Jack's Camp or Planet Baobab for meerkat sunrise experiences — early morning dawn ritual of meerkats warming themselves on an open observer's arm or head</li>
+      <li>Quad biking on the pan surface is available through Planet Baobab</li>
+      <li>Star gazing from the flat pan: zero light pollution, 360° horizon — extraordinary</li>
+    </ul>
+  </div>
+</div>
+
+<div class="subsec"><span class="subsec-title">Kgalagadi Transfrontier Park</span><span class="subsec-tag">Southern Kalahari · SA Botswana Shared</span></div>
+
+<p class="prose">The Kgalagadi Transfrontier Park (shared with South Africa's Kgalagadi section) occupies the far south-western corner of Botswana at the convergence of the Nossob and Auob dry riverbeds. While primarily accessed from the SA side, the Botswana (Mabuasehube) section offers a more remote experience with basic campsites in a completely undeveloped environment. <strong>Black-maned Kalahari lions, leopards, cheetah, and raptors</strong> are the signature species. Mabuasehube Pan is one of the most isolated camping experiences in southern Africa. Managed by DWNP (southern sector) and Intertourism Group for private camps. Access from Tsabong in the far south-west, or crossing from the SA KGNP main camp area. Road from Tsabong to Mabuasehube is deep sand — 4×4 expert territory.</p>
+
+<!-- 14 · OKAVANGO & CHOBE -->
+<div class="sec-header" id="s14">
+  <span class="sec-num">14</span>
+  <span class="sec-title">Okavango Delta &amp; Chobe</span>
+  <span class="sec-sub">Moremi · Chobe · Savuti · Khwai</span>
+</div>
+
+<p class="prose">Northern Botswana is where the Okavango River fans out into an inland delta of 15,000 km² — one of the world's seven natural wonders — and where the Chobe River system supports the highest elephant density on Earth. This is the classic Botswana safari zone: extraordinary wildlife, dramatic landscapes, and some of the most sought-after campsites in Africa.</p>
+
+<div class="subsec"><span class="subsec-title">— Chobe National Park</span><span class="subsec-tag">11,700 km² · Highest Elephant Density on Earth</span></div>
+
+<div class="route-grid">
+  <div class="route-card">
+    <span class="route-badge">★★★★★ Must-Do</span>
+    <h3>Chobe Riverfront — Kasane &amp; Ihaha</h3>
+    <ul>
+      <li>The Chobe River supports an estimated <strong>130,000 elephants</strong> — the largest concentration in the world. Seeing 200+ elephants at the river simultaneously is a routine afternoon experience.</li>
+      <li>Boat cruises on the Chobe River: the most iconic way to see the elephants and buffalo herds — book from Kasane (multiple operators, roughly BWP 400/person)</li>
+      <li>Ihaha campsite (Kwalate): directly on the Chobe River — elephants drink at the bank metres from camp. One of the most spectacular camping positions in Africa.</li>
+      <li>Kasane town has all services — fuel, supermarkets, ATM, accommodation</li>
+      <li>Chobe riverfront game drive: gravel road with deep sand sections along the river — use 4×4 throughout</li>
+    </ul>
+  </div>
+  <div class="route-card">
+    <span class="route-badge">★★★★★ Legendary</span>
+    <h3>Savuti — Lions &amp; Elephants</h3>
+    <ul>
+      <li>The Savuti Channel — a mysterious watercourse that has flowed, stopped, and reversed multiple times in recorded history — creates a wildlife oasis deep in Chobe's interior</li>
+      <li>The <strong>Savuti lion prides</strong> are famous for hunting elephants — the only lion population consistently documented doing this. Seeing a pride stalk or take down an elephant is one of Africa's rarest wildlife encounters.</li>
+      <li>Rock paintings at Gubatsa Hills — San bushman rock art dating back 3,000+ years</li>
+      <li>Savuti campsite (SKL): set in open woodland near the channel — lions walk through camp regularly. Hyenas are bold, persistent, and intelligent camp raiders — secure everything.</li>
+      <li><strong>Access from Kasane:</strong> ~180 km on deep sand tracks. Allow a full day. Fill fuel in Kasane — nothing available at Savuti.</li>
+    </ul>
+  </div>
+  <div class="route-card secondary">
+    <span class="route-badge">★★★★ Remote</span>
+    <h3>Linyanti Wetlands</h3>
+    <ul>
+      <li>Northwest Chobe — the Linyanti River system creates a remote wetland bordering Namibia's Caprivi Strip</li>
+      <li>Wild dog: some of Botswana's best wild dog sightings — packs use the Linyanti as a denning area</li>
+      <li>Red lechwe, sitatunga, elephant, lion — wetland-edge species</li>
+      <li>SKL Linyanti camp: most remote public campsite in Chobe NP — a serious self-sufficient expedition</li>
+      <li>Access from Kasane or from the Namibia Caprivi side via Ngoma</li>
+    </ul>
+  </div>
+</div>
+
+<div class="subsec"><span class="subsec-title">— Moremi Game Reserve &amp; Khwai</span><span class="subsec-tag">Heart of the Okavango Delta</span></div>
+
+<div class="route-grid">
+  <div class="route-card">
+    <span class="route-badge">★★★★★ Best Camp in Moremi</span>
+    <h3>Third Bridge — Moremi</h3>
+    <ul>
+      <li>A simple wooden bridge over a narrow Okavango channel, surrounded by palm islands and papyrus — one of the most beautiful campsites in Africa</li>
+      <li>Hippo pods directly adjacent to camp — the night sounds of hippos grunting in the channel are unforgettable</li>
+      <li>Lions and leopard patrol the camp regularly. A leopard den is located within 2 km — habitually active</li>
+      <li>The famous <strong>Moremi hippo path</strong> crosses the campsite — hippos return to the water at dawn along a path that runs through the tent area. Do not intercept a hippo on its path.</li>
+      <li>Managed by Xomae Adventures — book months ahead. The most sought-after public campsite in Moremi.</li>
+      <li>Road from South Gate to Third Bridge: ~50 km of deep sand, seasonal water crossings. Allow 3–4 hours.</li>
+    </ul>
+  </div>
+  <div class="route-card">
+    <span class="route-badge">★★★★★ Wild Dog Capital</span>
+    <h3>Xakanaxa &amp; Moremi Tongue</h3>
+    <ul>
+      <li>At the end of the Moremi Tongue — the deep sand peninsula that juts into the heart of the delta</li>
+      <li>Xakanaxa Lagoon: hippo pods, crocodiles, and extraordinary waterbird diversity — African fish eagle, saddlebill stork, open-billed stork, pygmy goose</li>
+      <li><strong>Wild dog packs den near Xakanaxa</strong> — this is one of the most reliable wild dog locations in Africa, particularly April–June when pups are present at the den</li>
+      <li>Elephant and buffalo herds throughout. Lions common.</li>
+      <li>Kwalate Safaris manages Xakanaxa campsite — same responsiveness caveats apply; follow up diligently</li>
+    </ul>
+  </div>
+  <div class="route-card secondary">
+    <span class="route-badge">★★★★ Community Area</span>
+    <h3>Khwai Community Area</h3>
+    <ul>
+      <li>The Khwai Community Area borders Moremi GR to the north — wildlife moves freely between both areas</li>
+      <li>Community-managed concession: slightly different rules from the NP but same wildlife. Night drives are permitted here (unlike inside Moremi itself)</li>
+      <li>SKL Khwai North Gate campsite: on the Khwai River — excellent elephant and hippo viewing</li>
+      <li>The Khwai River floodplain is superb game viewing — lion, wild dog, elephant, and red lechwe all present</li>
+      <li>Night drives reveal civets, porcupine, African wildcat, and frequent lion and leopard encounters</li>
+    </ul>
+  </div>
+</div>
+
+<div class="subsec"><span class="subsec-title">— Other Highlights</span><span class="subsec-tag">Beyond the Big Parks</span></div>
+
+<div class="route-grid">
+  <div class="route-card secondary">
+    <span class="route-badge">★★★★ Accessible</span>
+    <h3>Khama Rhino Sanctuary</h3>
+    <ul>
+      <li>Community-run sanctuary 25 km from Serowe — the most accessible rhino viewing in Botswana</li>
+      <li>White and black rhino in a semi-wild setting. The sanctuary was established in 1992 when rhino were locally extinct — now over 30 animals.</li>
+      <li>Camping on-site at the sanctuary. Very affordable. No 4×4 required for the sanctuary itself.</li>
+      <li>GPS: ~S22.65°, E26.72°. On the road between Gaborone and Francistown — natural stopover on the north–south route.</li>
+    </ul>
+  </div>
+  <div class="route-card secondary">
+    <span class="route-badge">★★★★ Culture</span>
+    <h3>Tsodilo Hills</h3>
+    <ul>
+      <li>UNESCO World Heritage Site: 4,500 rock paintings on four hills in the far northwest, near Shakawe on the Namibia border</li>
+      <li>The San people consider the hills a sacred site — they call it the "Mountain of the Gods." The paintings span 100,000 years of human presence.</li>
+      <li>Walking trail to the male, female, and child hills. A local guide is strongly recommended (and often mandatory).</li>
+      <li>Access from Shakawe or Sehithwa on the main road — 30 km on sandy track. 4×4 needed.</li>
+      <li>Basic campsite at the foot of the hills. Carry all water.</li>
+    </ul>
+  </div>
+  <div class="route-card secondary">
+    <span class="route-badge">★★★ Gateway Town</span>
+    <h3>Maun — Okavango Hub</h3>
+    <ul>
+      <li>The gateway to the Okavango Delta — bush pilot capital of Africa. Dozens of light aircraft operations flying into delta camps daily.</li>
+      <li>All services: fuel, supermarkets (Choppies, Spar), ATM, mechanical (several Toyota-experienced workshops), accommodation range from budget camping to good lodges</li>
+      <li>Ideal admin base: book final provisions, draw Pula, confirm bookings, service vehicle before Moremi or CKGR circuit</li>
+      <li>Boat trips into the delta periphery available from Maun — can access parts of the delta without flying</li>
+      <li>Crocodile Camp and Island Safari Lodge are popular overlander-friendly options</li>
+    </ul>
+  </div>
+</div>
+
+<div class="verdict">
+  <div class="verdict-col pros">
+    <h4>Botswana Delivers</h4>
+    <ul>
+      <li>Best elephant and predator concentrations in the world</li>
+      <li>Wild dogs — some of Africa's most reliable sightings in Moremi/Khwai</li>
+      <li>Black-maned Kalahari lions — unique to this region</li>
+      <li>Savuti lion–elephant dynamic — incomparable anywhere else</li>
+      <li>Makgadikgadi / Baines' Baobabs — truly otherworldly landscape</li>
+      <li>Botswana is politically stable, affluent, and professionally managed</li>
+      <li>Multi-currency at park gates (ZAR accepted) — logistics simpler than Zambia</li>
+      <li>SA passport visa-free 90 days — zero entry admin</li>
+    </ul>
+  </div>
+  <div class="verdict-col cons">
+    <h4>Genuine Challenges</h4>
+    <ul>
+      <li>Booking complexity — five operators, multi-step DWNP process</li>
+      <li>Park fees are significant — budget carefully before committing</li>
+      <li>Peak season (Jul–Sep) campsites impossible to get without 6–12 month lead time</li>
+      <li>Deep sand throughout — vehicle preparation and recovery kit non-negotiable</li>
+      <li>CKGR isolation — mechanical failure could mean days stranded without help</li>
+      <li>No cell coverage in any major park — full satellite comms dependency</li>
+      <li>FMD vet cordon complicates meat provisioning for northern parks</li>
+    </ul>
+  </div>
+</div>
+
+<!-- 15 · INTERACTIVE MAPS -->
+<div class="sec-header" id="s15">
+  <span class="sec-num">15</span>
+  <span class="sec-title">Botswana — Interactive Maps</span>
+  <span class="sec-sub">Overview · Kalahari Circuit · Northern Parks</span>
+</div>
+
+<p class="prose" style="margin-top:14px;">Three map views. <strong>Overview</strong> shows all key locations and borders. <strong>Kalahari Circuit</strong> maps CKGR, Makgadikgadi, and Nxai Pan. <strong>Northern Parks</strong> maps Chobe, Savuti, Moremi, and Khwai. Click any marker for details.</p>
+
+<div class="map-tabs">
+  <button class="map-tab active" onclick="switchTab('overview')" id="tab-overview">Overview · All Locations</button>
+  <button class="map-tab" onclick="switchTab('kalahari')" id="tab-kalahari">Kalahari Circuit</button>
+  <button class="map-tab" onclick="switchTab('north')" id="tab-north">Northern Parks</button>
+</div>
+<div id="country-map"></div>
+<p class="map-attrib">© OpenStreetMap contributors — routes are indicative, verify all park tracks and access conditions before travel · always carry paper maps inside national parks</p>
+
+<!-- 16 · SOUTHERN ROUTE GUIDE -->
+<div class="sec-header" id="s16">
+  <span class="sec-num">16</span>
+  <span class="sec-title">Southern Botswana Route Guide</span>
+  <span class="sec-sub">Entry from SA · Kalahari · Makgadikgadi · Approach to Maun</span>
+</div>
+
+<p class="prose">The southern route enters Botswana from South Africa or from Namibia's western border (Mamuno), traverses the Kalahari, and works north toward Maun as the staging point for the northern parks circuit. This is the less-visited, more challenging, and deeply rewarding part of Botswana that most safaris skip entirely.</p>
+
+<div class="scenario">
+  <h4>Route A — Full Kalahari Circuit (10–14 days)</h4>
+  <div class="scenario-meta">Tlokweng (SA) or Mamuno (Namibia) → CKGR → Makgadikgadi → Maun</div>
+  <ul>
+    <li><strong>Day 1:</strong> Cross into Botswana. Head to Khama Rhino Sanctuary near Serowe (~360 km from Tlokweng) — overnight at the sanctuary. Rhino walk in the afternoon.</li>
+    <li><strong>Day 2:</strong> Serowe → Rakops → Matswere Gate (CKGR entry). ~260 km. Fill fuel completely at Rakops — last station before CKGR. Arrive late afternoon, set up at Matswere Gate area or first CKGR camp.</li>
+    <li><strong>Days 3–5:</strong> CKGR — Deception Valley, Sunday Pan. Morning lion patrols. Midday rest. Evening predator watch. Extraordinary night sky. Completely self-sufficient. Inform BigFoot Tours of your entry date.</li>
+    <li><strong>Day 6:</strong> Exit CKGR via Matswere Gate → Rakops → Nata (~350 km). Refuel at Nata. Overnight in Nata area.</li>
+    <li><strong>Day 7:</strong> Nata → Gweta (fuel) → Makgadikgadi Pans NP entry → Khumaga campsite on the Boteti River (~180 km). Afternoon game drive along Boteti River.</li>
+    <li><strong>Days 8–9:</strong> Makgadikgadi: Khumaga morning drives, afternoon Boteti River walk. Day trip to Baines' Baobabs (Nxai Pan NP via Gweta) — one of Africa's most photogenic spots. Night at Khumaga.</li>
+    <li><strong>Day 10:</strong> Khumaga → Maun (~200 km) — provisioning, ATM, vehicle check, confirm northern parks bookings. Overnight in Maun (Crocodile Camp / Island Safari Lodge).</li>
+  </ul>
+</div>
+
+<div class="scenario">
+  <h4>Route B — Kalahari Fast (5–6 days)</h4>
+  <div class="scenario-meta">For tighter schedules — CKGR highlight + Makgadikgadi day</div>
+  <ul>
+    <li>Enter at Tlokweng, bypass Gaborone, head directly north to Rakops</li>
+    <li>2 nights at Deception Valley CKGR (minimum Kalahari experience)</li>
+    <li>Exit CKGR → Nata → Gweta → Baines' Baobabs day visit → Maun</li>
+    <li>Skip Khumaga if time is tight — Baines' Baobabs via day trip from Gweta is accessible without camping in the park</li>
+  </ul>
+</div>
+
+<div class="subsec"><span class="subsec-title">4×4 Tracks — Southern Botswana</span><span class="subsec-tag">Difficulty Reference</span></div>
+
+<table class="spec-table">
+  <thead><tr><th>Route / Track</th><th>Distance</th><th>Difficulty</th><th>Terrain</th><th>Key Notes</th></tr></thead>
+  <tbody>
+    <tr><td><strong>A1 Tlokweng → Francistown → Nata</strong></td><td>~570 km</td><td>🟢 Easy</td><td>Sealed — good</td><td>Main north–south highway. Efficient, good condition.</td></tr>
+    <tr><td><strong>Rakops → Matswere Gate</strong></td><td>~100 km</td><td>🟡 Moderate</td><td>Gravel / sandy track</td><td>Last 30 km roughens up. High clearance needed; 4×4 strongly recommended.</td></tr>
+    <tr><td><strong>CKGR — Deception Valley loop</strong></td><td>~350–450 km</td><td>🔴 Expert</td><td>Deep sand throughout</td><td>Some of the softest Kalahari sand in southern Africa. Low range essential. Sand ladders, MaxTrax recommended. Two vehicles strongly advised.</td></tr>
+    <tr><td><strong>Gweta → Nxai Pan / Baines' Baobabs</strong></td><td>~60 km</td><td>🟡 Moderate</td><td>Sand track</td><td>Generally manageable 4×4. Sandy approaches to the pans. Can be wet/flooded Jan–Apr.</td></tr>
+    <tr><td><strong>Makgadikgadi → Khumaga internal</strong></td><td>~80 km</td><td>🟡 Moderate</td><td>Sandy tracks, pan edges</td><td>Follow the signed tracks — the pan surface can look firm but has soft patches. Stay on established tracks.</td></tr>
+    <tr><td><strong>Nata → Maun (A3)</strong></td><td>~300 km</td><td>🟢 Easy</td><td>Sealed</td><td>Good road via Gweta. Keep speed down through Gweta town — police checkpoint common.</td></tr>
+  </tbody>
+</table>
+
+<!-- 17 · NORTHERN PARKS ROUTE GUIDE -->
+<div class="sec-header" id="s17">
+  <span class="sec-num">17</span>
+  <span class="sec-title">Northern Parks Route Guide</span>
+  <span class="sec-sub">Maun → Moremi → Khwai → Chobe → Savuti → Kasane</span>
+</div>
+
+<p class="prose">The northern circuit is the classic Botswana overland route — leaving Maun through Moremi, exiting at Khwai North Gate, passing through the Chobe corridor to Savuti, and ending at Kasane. This is the route with the extraordinary wildlife encounters, the most challenging sand tracks, and the most sought-after campsites in southern Africa.</p>
+
+<div class="scenario">
+  <h4>Route C — Full Northern Circuit (10–12 days from Maun)</h4>
+  <div class="scenario-meta">Maun → South Gate → Third Bridge → Xakanaxa → Khwai → Savuti → Chobe Riverfront → Kasane</div>
+  <ul>
+    <li><strong>Day 1:</strong> Maun → South Gate (Moremi entry) → Third Bridge (50 km, allow 3–4 hours on deep sand). Afternoon camp setup. Evening hippo chorus begins.</li>
+    <li><strong>Days 2–3:</strong> Third Bridge area: morning game drives, afternoon rest in the heat, night sounds of the delta. Lion and leopard patrol camp nightly.</li>
+    <li><strong>Day 4:</strong> Third Bridge → Xakanaxa (~40 km, deep sand). Afternoon — Xakanaxa Lagoon hippos and waterbirds.</li>
+    <li><strong>Days 5–6:</strong> Xakanaxa: early morning wild dog den visit (seasonal), game drives on the Moremi Tongue, afternoon lagoon birding. Night — lions calling from the mopane woodland.</li>
+    <li><strong>Day 7:</strong> Xakanaxa → Khwai North Gate (exit Moremi, enter Khwai Community Area) → Khwai camp (~30 km). Afternoon floodplain game drive — lechwe, elephant, buffalo.</li>
+    <li><strong>Day 8:</strong> Khwai → Savuti (via Chobe NP north boundary, ~150 km deep sand). Full day driving. Arrive Savuti late afternoon. Set up camp and observe the channel area before dark.</li>
+    <li><strong>Days 9–10:</strong> Savuti: morning elephant and lion drives, afternoon the famous Savuti channel and rock paintings at Gubatsa Hills. Keep hyenas out of camp — they will take anything.</li>
+    <li><strong>Day 11:</strong> Savuti → Kasane via Ngoma (~180 km) or via Chobe riverfront circuit (longer but spectacular). Arrive Kasane — full services.</li>
+    <li><strong>Day 12:</strong> Kasane: Chobe boat cruise on the river (morning, book from Kasane town), afternoon rest. Cross Kazungula Bridge to Zambia next day, or exit Ngoma into Namibia.</li>
+  </ul>
+</div>
+
+<div class="subsec"><span class="subsec-title">4×4 Tracks — Northern Botswana</span><span class="subsec-tag">Difficulty Reference</span></div>
+
+<table class="spec-table">
+  <thead><tr><th>Route / Track</th><th>Distance</th><th>Difficulty</th><th>Terrain</th><th>Key Notes</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Maun → South Gate (Moremi)</strong></td><td>~100 km</td><td>🟡 Moderate</td><td>Sandy track</td><td>2–3 hours. Sandy but manageable 4×4 in dry season. Dusty and rutted.</td></tr>
+    <tr><td><strong>South Gate → Third Bridge</strong></td><td>~50 km</td><td>🟠 Demanding</td><td>Deep sand, seasonal crossings</td><td>3–4 hours. Seasonal water crossings up to bumper-deep after good rains. Deflate to 1.4 bar. Low range recommended.</td></tr>
+    <tr><td><strong>Third Bridge → Xakanaxa</strong></td><td>~40 km</td><td>🟠 Demanding</td><td>Deep sand, wet crossings</td><td>Similar to Third Bridge approach. Soft sand. Allow 2–3 hours.</td></tr>
+    <tr><td><strong>Khwai → Savuti (Chobe NP)</strong></td><td>~150 km</td><td>🟠 Demanding</td><td>Deep sand, Kalahari sand sea</td><td>Full day drive. Long stretches of low-range Kalahari sand. No fuel or water. One of the longest unsupported drives on this route.</td></tr>
+    <tr><td><strong>Savuti → Kasane</strong></td><td>~180 km</td><td>🟠 Demanding</td><td>Sand transitioning to gravel near Kasane</td><td>Another full day. Sand improves toward Kasane. The Chobe riverfront detour adds 50 km but is spectacular.</td></tr>
+    <tr><td><strong>Chobe Riverfront (Kasane area)</strong></td><td>~60 km loop</td><td>🟡 Moderate</td><td>Gravel and deep sand</td><td>Can be done as an afternoon run from Kasane. Sand sections catch standard vehicles — always engage 4×4.</td></tr>
+  </tbody>
+</table>
+
+<!-- 18 · SETSWANA PHRASES -->
+<div class="sec-header" id="s18">
+  <span class="sec-num">18</span>
+  <span class="sec-title">Essential Setswana Phrases</span>
+  <span class="sec-sub">English Official · Setswana Widely Spoken</span>
+</div>
+
+<p class="prose">Botswana's official languages are Setswana and English. English is widely spoken in cities, tourist areas, and by all park and lodge staff. At rural villages, police checkpoints, and traditional communities, Setswana is the first language. A few phrases go a very long way — Batswana people respond warmly to any effort in Setswana. Always open with <em>Dumela</em> before any transaction or request.</p>
+
+<div class="subsec"><span class="subsec-title">— Greetings &amp; Courtesy</span></div>
+
+<table class="spec-table">
+  <thead><tr><th>Situation</th><th>Setswana</th><th>Pronunciation Guide</th></tr></thead>
+  <tbody>
+    <tr><td>Hello (to one person)</td><td><strong>Dumela</strong></td><td>doo-MEH-lah</td></tr>
+    <tr><td>Hello + title (to a man)</td><td><strong>Dumela rra</strong></td><td>doo-MEH-lah RAH</td></tr>
+    <tr><td>Hello + title (to a woman)</td><td><strong>Dumela mma</strong></td><td>doo-MEH-lah MAH</td></tr>
+    <tr><td>How are you?</td><td><strong>O kae?</strong></td><td>oh KAY</td></tr>
+    <tr><td>I'm fine (response)</td><td><strong>Ke teng, ke a leboga</strong></td><td>keh TENG, keh ah leh-BOH-gah</td></tr>
+    <tr><td>Thank you</td><td><strong>Ke a leboga</strong></td><td>keh ah leh-BOH-gah</td></tr>
+    <tr><td>Thank you very much</td><td><strong>Ke a leboga thata</strong></td><td>keh ah leh-BOH-gah TAH-tah</td></tr>
+    <tr><td>Please</td><td><strong>Ke kopa</strong></td><td>keh KOH-pah</td></tr>
+    <tr><td>Yes / No</td><td><strong>Ee / Nyaa</strong></td><td>EH / n-YAH</td></tr>
+    <tr><td>Goodbye</td><td><strong>Tsamaya sentle</strong> (to person leaving)</td><td>tsah-MAH-yah SEN-tleh</td></tr>
+    <tr><td>Stay well (response)</td><td><strong>Sala sentle</strong></td><td>sah-LAH SEN-tleh</td></tr>
+  </tbody>
+</table>
+
+<div class="subsec"><span class="subsec-title">— At the Border / Police Checkpoint</span></div>
+
+<table class="spec-table">
+  <thead><tr><th>Situation</th><th>What to Say</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td>At the gate — visa-free entry</td><td>"Good morning. South African passports — 90-day visa-free entry please."</td><td>Officers speak English. Passports and vehicle registration ready. TIP issued here.</td></tr>
+    <tr><td>SADC park fee rate</td><td>"We are South African residents — can we have the SADC rate please?"</td><td>Present SA passports. SADC rate is BWP 300 vs BWP 500 international for Chobe/Moremi.</td></tr>
+    <tr><td>FMD cordon crossing</td><td>"We have no raw meat or dairy — only processed and sealed food."</td><td>Officers may inspect cooler box. Be cooperative. Processed biltong and vac-packed cooked meat are fine.</td></tr>
+    <tr><td>At park gate with booking</td><td>"Here are our campsite reservation vouchers and entry permits."</td><td>Have printed copies. Officers need to see both the campsite booking AND the DWNP entry permit.</td></tr>
+    <tr><td>At gate without pre-paid permit</td><td>"We have our campsite booking vouchers. Can we pay the park entry fee here at the gate?"</td><td>Most gates accept gate payment if you have the campsite vouchers. Bring Pula cash as backup — card machines sometimes fail.</td></tr>
+  </tbody>
+</table>
+
+<div class="subsec"><span class="subsec-title">— Navigation &amp; Village</span></div>
+
+<table class="spec-table">
+  <thead><tr><th>Situation</th><th>Setswana</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td>Where is the road to…?</td><td><strong>Tsela e ya kwa…?</strong></td><td>TSEH-lah eh yah kwah…</td></tr>
+    <tr><td>How far to Maun?</td><td><strong>Go le kwa kwa go ya Maun?</strong></td><td>goh leh kwah kwah goh yah mah-OON</td></tr>
+    <tr><td>Is there fuel here?</td><td><strong>Go na le petrol fa?</strong></td><td>goh nah leh PEH-trol fah</td></tr>
+    <tr><td>Water / food</td><td><strong>Metsi / dijo</strong></td><td>MET-see / DEE-joh</td></tr>
+    <tr><td>I need help</td><td><strong>Ke tlhoka thuso</strong></td><td>keh TLOH-kah TOO-soh</td></tr>
+  </tbody>
+</table>
+
+<div class="alert alert-ok">
+  <strong>English is the official language — you will not have a language barrier</strong>
+  Botswana's education system uses English from primary school. Every park official, camp manager, border officer, and urban resident speaks workable English. Setswana phrases above are for warmth and respect. Opening every interaction with <em>Dumela rra</em> or <em>Dumela mma</em> immediately establishes goodwill — Batswana are formal in their greetings and appreciate the courtesy.
+</div>
+
+<!-- CHANGELOG -->
+<div class="sec-header" id="changelog">
+  <span class="sec-num">LOG</span>
+  <span class="sec-title">Changelog</span>
+  <span class="sec-sub">Update History</span>
+</div>
+
+<p class="prose">All material changes to this profile are recorded here.</p>
+
+<div style="margin-top:14px;">
+  <div class="changelog-entry">
+    <div class="cl-date">2026-04-28</div>
+    <div><span class="cl-tag new">New</span></div>
+    <div class="cl-note"><strong>Document created.</strong> Full Botswana country profile — Profile 003, LC76 v3.0 design system. Focus on Kalahari region (CKGR, Makgadikgadi, Nxai Pan, Kgalagadi) and northern parks (Chobe, Savuti, Linyanti, Moremi, Khwai). 18-section structure. Campsite booking matrix: Kwalate Safaris (Ihaha, Xakanaxa, South Gate), SKL Camps (Savuti, Linyanti, Khwai North Gate, Khumaga), Xomae Adventures (Third Bridge, Nxai Pan/Baines'), BigFoot Tours (CKGR, Khutse). Full cost estimate two-person 10-night northern circuit: ~BWP 14,671. Diesel BWP 22.66/L (BERA April 2026). Park fees: Chobe/Moremi BWP 300/pax/day SADC + BWP 138/vehicle; other parks BWP 200/pax SADC + BWP 90/vehicle. USD 1 ≈ BWP 13.70. FMD vet cordon documented. Botswana flag SVG corrected (light blue with black/white horizontal band). Interactive Leaflet maps (3 tabs). Setswana phrases included.</div>
+  </div>
+</div>
+
+<div class="alert alert-info" style="margin-top:18px;">
+  <strong>How to add a new entry</strong>
+  Bring this file back to Claude and say: <em>"Update [Section] — [what changed] — and add a changelog entry."</em> Tags: <code>new</code> · <code>update</code> · <code>fix</code> · <code>warn</code>
+</div>
+
+</main>
+
+<!-- EXPORT BAR -->
+<div id="export-bar">
+  <span>Export:</span>
+  <button class="export-btn-inline" onclick="exportHTML()">⤓ Save HTML</button>
+  <button class="export-btn-inline" onclick="exportPrint()">⎙ Print / PDF</button>
+  <button class="export-btn-inline" onclick="exportCopy()" id="copy-btn">⧉ Copy text</button>
+</div>
+
+<!-- FOOTER -->
+<div class="doc-footer">
+  <div><strong>LC76 Botswana Country Profile</strong> · Compiled 28 April 2026 · Profile 003</div>
+  <div>Rates: USD 1 ≈ BWP 13.70 · BWP/ZAR ≈ 1.33 · Diesel BWP 22.66/L (BERA April 2026)</div>
+  <div>Sources: DWNP Botswana · Khokelo Safaris park fees 2026 · SKL Camps · Xomae Adventures · BigFoot Tours · Kwalate Safaris · Tracks4Africa · OstrichTrails · iOverlander · Getaway Magazine · SA4x4</div>
+  <div>⚠ Verify all park fees, campsite availability, and booking contacts before travel — operators and fees change without notice</div>
+  <div>overlandslabs.github.io/Consumption</div>
+</div>
+
+<!-- SCRIPTS -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.spec-table, .booking-matrix').forEach(function(t) {
+    if (!t.closest('.table-scroll')) {
+      var w = document.createElement('div');
+      w.className = 'table-scroll';
+      t.parentNode.insertBefore(w, t);
+      w.appendChild(t);
+    }
+  });
+});
+</script>
+
+<!-- LEAFLET MAP -->
+<script>
+(function() {
+  var map = L.map('country-map', { zoomControl: true, scrollWheelZoom: false }).setView([-22.0, 24.0], 5);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors', maxZoom: 18
+  }).addTo(map);
+
+  // Botswana simplified border
+  var bwBorder = {"type":"Feature","properties":{},"geometry":{"type":"Polygon","coordinates":[[
+    [20.0,-22.0],[20.0,-18.3],[20.3,-18.0],[21.5,-18.0],[23.3,-17.5],[24.0,-17.5],
+    [24.68,-17.49],[25.26,-17.79],[25.5,-17.8],[26.0,-18.0],[26.7,-18.1],
+    [27.5,-18.5],[28.0,-18.5],[29.0,-18.0],[29.3,-18.0],[29.4,-19.0],
+    [29.0,-20.0],[28.5,-20.5],[27.5,-21.0],[26.5,-20.5],[25.9,-20.7],
+    [26.0,-22.0],[25.3,-22.5],[24.0,-23.0],[23.0,-23.0],[22.0,-22.5],
+    [20.5,-22.0],[20.0,-22.0]
+  ]]}};
+  L.geoJSON(bwBorder, {
+    style:{color:'#b86800',weight:2.5,opacity:0.9,fillColor:'#e07800',fillOpacity:0.08}
+  }).addTo(map);
+
+  var C = {
+    amber:'#e07800', amber2:'#b86800',
+    green:'#1A5C2E', blue:'#1A4A6B',
+    red:'#7a1010', teal:'#0D6B6B', purple:'#6B2D8B'
+  };
+
+  function mkIcon(color, size) {
+    size = size || 12;
+    return L.divIcon({
+      html: '<div style="width:'+size+'px;height:'+size+'px;border-radius:50%;background:'+color+';border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.5)"></div>',
+      className:'', iconSize:[size,size], iconAnchor:[size/2,size/2], popupAnchor:[0,-size/2]
+    });
+  }
+  function labelIcon(color, label) {
+    if (window.innerWidth < 700) return mkIcon(color);
+    return L.divIcon({
+      html: '<div style="display:flex;align-items:center;gap:5px;white-space:nowrap"><div style="width:10px;height:10px;border-radius:50%;background:'+color+';border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.4);flex-shrink:0"></div><span style="font-family:\'IBM Plex Mono\',monospace;font-size:10px;color:#0d0e12;font-weight:600;background:rgba(218,210,192,0.92);padding:1px 4px;max-width:150px;overflow:hidden;text-overflow:ellipsis">'+label+'</span></div>',
+      className:'', iconSize:null, iconAnchor:[5,5], popupAnchor:[60,-5]
+    });
+  }
+  function pop(name, detail) {
+    return L.popup({maxWidth:270}).setContent(
+      '<div style="font-family:\'IBM Plex Mono\',monospace;font-size:11px"><strong style="font-size:12px;color:#0d0e12">'+name+'</strong><br><span style="color:#6a7080">'+detail+'</span></div>'
+    );
+  }
+  function dmnd(){return '<span style="display:inline-block;width:9px;height:9px;background:#7a1010;transform:rotate(45deg);margin-right:7px;margin-left:1px;vertical-align:middle"></span>'}
+  function dot(c){return '<span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:'+c+';margin-right:7px;vertical-align:middle"></span>'}
+
+  // Border crossings
+  var crossingsGroup = L.layerGroup();
+  var crossings = [
+    [-24.872, 25.812, 'Tlokweng / Pioneer Gate (SA → BWA)', '07:00–22:00 · Main SA entry · Near Gaborone'],
+    [-25.340, 25.630, 'Ramatlabama (SA → BWA)', '06:00–22:00 · NW Province SA entry'],
+    [-18.121, 24.651, 'Ngoma Bridge (NAM → BWA)', '07:00–18:00 · Caprivi entry → Kasane/Chobe'],
+    [-21.960, 20.021, 'Mamuno (NAM → BWA)', '07:00–18:00 · Western entry → CKGR / Ghanzi'],
+    [-17.794, 25.267, 'Kazungula Bridge (BWA → ZAM)', '06:00–18:00 · Modern road-rail bridge 2021'],
+    [-20.193, 27.491, 'Ramokgwebana / Plumtree (BWA → ZIM)', '06:00–22:00 · Exit to Zimbabwe / Bulawayo'],
+  ];
+  crossings.forEach(function(c){
+    var icon = L.divIcon({
+      html: '<div style="width:14px;height:14px;background:'+C.red+';border:2.5px solid #fff;box-shadow:0 1px 5px rgba(0,0,0,0.6);transform:rotate(45deg)"></div>',
+      className:'', iconSize:[14,14], iconAnchor:[7,7], popupAnchor:[0,-7]
+    });
+    L.marker([c[0],c[1]], {icon:icon}).addTo(crossingsGroup).bindPopup(pop(c[2],c[3]), {maxWidth:220});
+  });
+  crossingsGroup.addTo(map);
+
+  // ── OVERVIEW GROUP ──
+  var overviewGroup = L.layerGroup();
+  var overviewPts = [
+    [-24.646, 25.912, C.amber, 'Gaborone', 'Capital · All services · Entry point from SA'],
+    [-21.160, 27.507, C.amber, 'Francistown', 'Eastern hub · Fuel · ATM · Staging town'],
+    [-20.215, 26.145, C.amber, 'Nata', 'Key junction · Fuel · Gateway to Chobe/Makgadikgadi'],
+    [-19.984, 23.416, C.amber, 'Maun', 'Okavango hub · All services · Booking base for northern parks'],
+    [-17.482, 24.879, C.amber, 'Kasane', 'Chobe gateway · Full services · Boat cruises'],
+    [-21.452, 22.421, C.amber, 'Ghanzi', 'Western hub · Last fuel before CKGR west'],
+    [-21.830, 24.365, C.green, 'Central Kalahari GR', '52,800 km² · Black-maned lions · Expert 4×4 only'],
+    [-20.567, 26.175, C.green, 'Makgadikgadi Pans NP', 'Salt pans · Boteti River · Zebra migration'],
+    [-19.900, 24.745, C.green, 'Nxai Pan / Baines\' Baobabs', 'Thomas Baines 1862 · Atmospheric campsite'],
+    [-19.150, 23.500, C.green, 'Moremi Game Reserve', 'Okavango Delta · Wild dogs · Third Bridge · Xakanaxa'],
+    [-18.500, 24.200, C.green, 'Chobe NP — Savuti', 'Elephant-hunting lions · Savuti Channel · Gubatsa Hills art'],
+    [-17.600, 24.700, C.green, 'Chobe NP — Riverfront', '130,000 elephants · Ihaha camp · Boat cruises'],
+    [-18.300, 23.800, C.teal, 'Khwai Community Area', 'Night drives permitted · Wild dog · Lechwe'],
+    [-22.630, 26.720, C.teal, 'Khama Rhino Sanctuary', 'White + black rhino · Easy from SA · Camping on-site'],
+    [-18.750, 21.750, C.purple, 'Tsodilo Hills', 'UNESCO · 4,500 rock paintings · San sacred site'],
+    [-25.500, 20.500, C.green, 'Kgalagadi / Mabuasehube', 'Transfrontier Park · Remote · Black-maned lions · Kalahari'],
+  ];
+  overviewPts.forEach(function(l){
+    L.marker([l[0],l[1]], {icon:mkIcon(l[2])}).addTo(overviewGroup).bindPopup(pop(l[3],l[4]), {maxWidth:260});
+  });
+  var ovLeg = L.control({position:'bottomright'});
+  ovLeg.onAdd = function() {
+    var d = L.DomUtil.create('div');
+    d.style.cssText = 'background:#0d0e12;color:#a8b0bc;padding:9px 13px;font-family:monospace;font-size:11px;line-height:1.9;border:1px solid rgba(232,120,0,0.3)';
+    d.innerHTML = '<div style="color:#e07800;letter-spacing:0.10em;font-size:10px;margin-bottom:2px">LEGEND</div>'+
+      dmnd()+'Border crossing<br>'+dot(C.amber)+'City / service<br>'+
+      dot(C.green)+'National park<br>'+dot(C.teal)+'Reserve / sanctuary<br>'+dot(C.purple)+'Heritage site';
+    return d;
+  };
+
+  // ── KALAHARI GROUP ──
+  var kalaGroup = L.layerGroup();
+  var kalaPts = [
+    [-24.646, 25.912, C.amber, 'Gaborone / Tlokweng', 'Entry point from SA'],
+    [-22.630, 26.720, C.teal, 'Khama Rhino Sanctuary', 'Stop en route north — rhino walk'],
+    [-21.160, 27.507, C.amber, 'Francistown', 'Fuel + ATM — fill before heading west'],
+    [-20.215, 26.145, C.amber, 'Nata', 'Junction — northwest to Makgadikgadi, north to Chobe'],
+    [-20.465, 25.919, C.amber, 'Gweta', 'Last fuel for Makgadikgadi / Nxai Pan'],
+    [-21.452, 22.421, C.amber, 'Ghanzi', 'Western entry for CKGR — last fuel west approach'],
+    [-22.500, 23.000, C.red, 'Matswere Gate (CKGR East)', 'Entry gate · Fill completely at Rakops before here'],
+    [-21.830, 24.365, C.green, 'CKGR — Deception Valley', 'Heart of the Kalahari · BigFoot Tours · Expert sand'],
+    [-22.200, 24.100, C.green, 'Sunday Pan', 'Remote southern CKGR · Oryx + cheetah'],
+    [-20.567, 26.175, C.green, 'Makgadikgadi Pans NP', 'Khumaga camp · Boteti River · SKL Camps'],
+    [-19.900, 24.745, C.green, 'Nxai Pan / Baines\' Baobabs', 'Xomae Adventures · Book months ahead'],
+    [-19.984, 23.416, C.amber, 'Maun', 'Northern parks hub — all services'],
+  ];
+  kalaPts.forEach(function(l){
+    L.marker([l[0],l[1]], {icon:labelIcon(l[2],l[3])}).addTo(kalaGroup).bindPopup(pop(l[3],l[4]), {maxWidth:250});
+  });
+  L.polyline([[-24.646,25.912],[-22.630,26.720],[-20.215,26.145],[-20.465,25.919],[-20.567,26.175],[-19.900,24.745],[-19.984,23.416]], {color:C.amber,weight:2.5,opacity:0.75,dashArray:'6,4'}).addTo(kalaGroup);
+  L.polyline([[-20.215,26.145],[-22.500,23.000],[-21.830,24.365],[-22.200,24.100]], {color:C.red,weight:2,opacity:0.65,dashArray:'4,6'}).addTo(kalaGroup);
+  var kaLeg = L.control({position:'bottomright'});
+  kaLeg.onAdd = function() {
+    var d = L.DomUtil.create('div');
+    d.style.cssText = 'background:#0d0e12;color:#a8b0bc;padding:9px 13px;font-family:monospace;font-size:11px;line-height:2;border:1px solid rgba(232,120,0,0.3)';
+    d.innerHTML = '<div style="color:#e07800;letter-spacing:0.10em;font-size:10px;margin-bottom:2px">KALAHARI CIRCUIT</div>'+
+      dot(C.amber)+'Service / fuel<br>'+dot(C.green)+'Park / pan<br>'+dot(C.red)+'Expert 4×4 zone<br>'+dot(C.teal)+'Wildlife sanctuary';
+    return d;
+  };
+
+  // ── NORTHERN GROUP ──
+  var northGroup = L.layerGroup();
+  var northPts = [
+    [-19.984, 23.416, C.amber, 'Maun', 'Start of northern circuit — provisions + fuel'],
+    [-19.150, 23.500, C.green, 'Moremi South Gate', 'Enter Moremi here · Kwalate for South Gate camp'],
+    [-19.250, 23.300, C.green, 'Third Bridge', 'Best camp in Moremi · Xomae · Hippo path'],
+    [-19.110, 23.200, C.green, 'Xakanaxa', 'Wild dogs · Lagoon · Kwalate Safaris'],
+    [-18.300, 23.800, C.teal, 'Khwai North Gate', 'Community area · Night drives · SKL Camps'],
+    [-18.500, 24.200, C.green, 'Savuti', 'Elephant-hunting lions · SKL · Fill fuel in Kasane'],
+    [-18.200, 24.100, C.green, 'Linyanti', 'Remote wetlands · Wild dogs · SKL'],
+    [-17.600, 24.700, C.green, 'Ihaha / Chobe Riverfront', 'Kwalate · 130,000 elephants · Boat cruises'],
+    [-17.482, 24.879, C.amber, 'Kasane', 'Full services · Gateway to Zambia/Namibia'],
+    [-18.121, 24.651, C.red, 'Ngoma Bridge', 'Exit to Namibia Caprivi'],
+    [-17.794, 25.267, C.red, 'Kazungula Bridge', 'Exit to Zambia'],
+  ];
+  northPts.forEach(function(l){
+    L.marker([l[0],l[1]], {icon:labelIcon(l[2],l[3])}).addTo(northGroup).bindPopup(pop(l[3],l[4]), {maxWidth:250});
+  });
+  L.polyline([[-19.984,23.416],[-19.150,23.500],[-19.250,23.300],[-19.110,23.200],[-18.300,23.800],[-18.500,24.200],[-17.600,24.700],[-17.482,24.879]], {color:C.amber,weight:2.5,opacity:0.75,dashArray:'6,4'}).addTo(northGroup);
+  L.polyline([[-17.482,24.879],[-17.794,25.267]], {color:C.red,weight:1.5,opacity:0.6,dashArray:'4,8'}).addTo(northGroup);
+  L.polyline([[-17.482,24.879],[-18.121,24.651]], {color:C.red,weight:1.5,opacity:0.6,dashArray:'4,8'}).addTo(northGroup);
+  var noLeg = L.control({position:'bottomright'});
+  noLeg.onAdd = function() {
+    var d = L.DomUtil.create('div');
+    d.style.cssText = 'background:#0d0e12;color:#a8b0bc;padding:9px 13px;font-family:monospace;font-size:11px;line-height:2;border:1px solid rgba(232,120,0,0.3)';
+    d.innerHTML = '<div style="color:#e07800;letter-spacing:0.10em;font-size:10px;margin-bottom:2px">NORTHERN PARKS</div>'+
+      dot(C.amber)+'City / service<br>'+dot(C.green)+'NP campsite<br>'+dot(C.teal)+'Community area<br>'+dot(C.red)+'Border / exit';
+    return d;
+  };
+
+  // TAB SWITCHING
+  var activeLeg = null;
+  window.switchTab = function(tab) {
+    [overviewGroup,kalaGroup,northGroup].forEach(function(g){try{map.removeLayer(g);}catch(e){}});
+    if(activeLeg){try{map.removeControl(activeLeg);}catch(e){}}
+    ['tab-overview','tab-kalahari','tab-north'].forEach(function(id){document.getElementById(id).classList.remove('active');});
+    crossingsGroup.addTo(map);
+    if(tab==='overview'){
+      overviewGroup.addTo(map); ovLeg.addTo(map); activeLeg=ovLeg;
+      document.getElementById('tab-overview').classList.add('active');
+      setTimeout(function(){map.invalidateSize();map.setView([-22.0,24.0],5);},100);
+    } else if(tab==='kalahari'){
+      kalaGroup.addTo(map); kaLeg.addTo(map); activeLeg=kaLeg;
+      document.getElementById('tab-kalahari').classList.add('active');
+      setTimeout(function(){map.invalidateSize();map.setView([-21.5,24.5],6);},100);
+    } else {
+      northGroup.addTo(map); noLeg.addTo(map); activeLeg=noLeg;
+      document.getElementById('tab-north').classList.add('active');
+      setTimeout(function(){map.invalidateSize();map.setView([-18.5,24.0],7);},100);
+    }
+  };
+  setTimeout(function(){switchTab('overview');},250);
+  window.addEventListener('resize',function(){setTimeout(function(){map.invalidateSize();},300);});
+})();
+</script>
+
+<!-- EXPORT FUNCTIONS -->
+<script>
+function exportHTML(){
+  var html='<!DOCTYPE html>\n'+document.documentElement.outerHTML;
+  var blob=new Blob([html],{type:'text/html;charset=utf-8'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');a.href=url;
+  a.download='Botswana_Overland_Profile_'+new Date().toISOString().slice(0,10)+'.html';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+}
+function exportPrint(){
+  var html='<!DOCTYPE html>\n'+document.documentElement.outerHTML;
+  html=html.replace('</body>','<scr'+'ipt>window.addEventListener("load",function(){setTimeout(function(){window.print();},400);});<\/scr'+'ipt></body>');
+  var blob=new Blob([html],{type:'text/html;charset=utf-8'});
+  var url=URL.createObjectURL(blob);
+  var w=window.open(url,'_blank');
+  if(w){setTimeout(function(){URL.revokeObjectURL(url);},10000);}
+  else{URL.revokeObjectURL(url);document.getElementById('export-bar').style.display='none';window.print();document.getElementById('export-bar').style.display='';}
+}
+function exportCopy(){
+  var text=document.body.innerText;
+  navigator.clipboard.writeText(text).then(function(){
+    var btn=document.getElementById('copy-btn');var orig=btn.innerHTML;
+    btn.innerHTML='✓ Copied';setTimeout(function(){btn.innerHTML=orig;},2000);
+  }).catch(function(){alert('Copy not supported — use Save as HTML instead.');});
+}
+</script>
+
+<!-- SCROLL MARGIN + ACTIVE TOC -->
+<script>
+function updateScrollMargins(){
+  var nav=document.querySelector('.sticky-nav-unit');if(!nav)return;
+  var h=nav.offsetHeight;
+  document.querySelectorAll('.sec-header').forEach(function(el){el.style.scrollMarginTop=(h+4)+'px';});
+}
+updateScrollMargins();
+window.addEventListener('resize',updateScrollMargins);
+var sectionIds=['alerts','s01','s02','s03','s04','s05','s06','s07','s08','s09','s10','s11','s12','s13','s14','s15','s16','s17','s18','changelog'];
+var tocLinks=document.querySelectorAll('.toc-link');
+var observer=new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
+    if(entry.isIntersecting){
+      var idx=sectionIds.indexOf(entry.target.id);
+      tocLinks.forEach(function(l,i){l.classList.toggle('active',i===idx);});
+    }
+  });
+},{rootMargin:'-25% 0px -65% 0px'});
+sectionIds.forEach(function(id){var el=document.getElementById(id);if(el)observer.observe(el);});
+</script>
+
+<!-- SERVICE WORKER -->
+<script>
+if('serviceWorker' in navigator && location.hostname !== 'www.claudeusercontent.com'){
+  window.addEventListener('load',function(){
+    navigator.serviceWorker.register('./sw.js')
+      .then(function(){console.log('LC76 Profile SW registered');})
+      .catch(function(e){console.log('SW error:',e);});
+  });
+}
+</script>
+
+</body>
+</html>
