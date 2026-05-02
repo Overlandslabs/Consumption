@@ -1,0 +1,1394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LC76 Library">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0d0e12">
+<title>LC76 · Tanzania Country Profile · 006</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500;600&family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+:root{
+  --ink:#0d0e12;--paper:#dad2c0;--paper2:#edeae0;--rule:#d4cfc4;
+  --amber:#b86800;--amber2:#e07800;
+  --steeldk:#2a2f3a;--steelmd:#6a7080;--steellt:#a8b0bc;
+  --red-warn:#B91C1C;--green-ok:#059669;
+  --mono:'IBM Plex Mono',monospace;
+  --sans:'Oswald',sans-serif;
+  --display:'Bebas Neue',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{overflow-x:hidden}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55}
+.sticky-nav-unit{position:sticky;top:0;z-index:100;background:var(--ink);padding-top:env(safe-area-inset-top)}
+.std-header{background:var(--ink);padding:18px 24px 14px;position:relative;border-bottom:3px solid var(--amber);}
+.std-eyebrow{font-family:var(--mono);font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--steelmd);margin-bottom:8px;display:flex;align-items:center;gap:10px;}
+.masthead-flag{display:inline-flex;width:44px;height:28px;border:2px solid rgba(255,255,255,.30);overflow:hidden;flex-shrink:0;box-shadow:0 1px 4px rgba(0,0,0,.4);}
+.flag-third-h{width:100%;height:33.33%}
+.std-title{font-family:var(--display);font-size:clamp(2.1rem,6vw,3.4rem);letter-spacing:.06em;color:var(--amber2);line-height:1;}
+.std-local{font-family:var(--mono);font-size:.62rem;letter-spacing:.10em;color:rgba(255,200,100,.65);margin-top:7px;font-style:italic;}
+.std-sub{font-family:var(--sans);font-size:.92rem;font-style:italic;color:rgba(232,213,163,.85);margin-top:8px;line-height:1.4;}
+.std-vehicle{font-family:var(--mono);font-size:.50rem;letter-spacing:.08em;color:var(--steelmd);margin-top:10px;line-height:1.55;}
+.lib-home-btn{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--amber2);background:rgba(232,120,0,.15);border:1px solid var(--amber2);border-radius:20px;padding:6px 12px;min-height:32px;white-space:nowrap;position:absolute;top:50%;right:16px;transform:translateY(-50%);transition:background .2s;}
+.lib-home-btn:hover,.lib-home-btn:active{background:rgba(232,120,0,.30);}
+.alert-strip{background:#fff4f0;padding:14px 5%;display:flex;flex-direction:column;gap:10px;border-left:5px solid var(--red-warn);}
+.alert-strip .alert-main{font-family:var(--display);font-size:1.5rem;letter-spacing:.04em;line-height:1.1;color:#7a1010;}
+.alert-strip .alert-main .warn-icon{font-size:1.1rem;margin-right:6px;color:var(--red-warn);}
+.alert-pills{display:flex;flex-wrap:wrap;gap:8px;}
+.alert-strip .pill{background:#fff;padding:5px 12px;font-family:var(--sans);font-size:.84rem;font-weight:400;line-height:1.4;color:#5a1010;border-left:3px solid var(--red-warn);border:1px solid #fecaca;}
+.alert-strip .pill.warn{background:#fee2e2;color:#7a1010;border-color:#fca5a5;font-weight:600;}
+.alert-strip .pill strong{font-weight:600;color:#7a1010;}
+.toc-bar{background:var(--steeldk);padding:7px 24px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;border-bottom:2px solid var(--amber);}
+.toc-label{font-family:var(--mono);font-size:.48rem;letter-spacing:.18em;color:var(--steellt);text-transform:uppercase;margin-right:4px;flex-shrink:0}
+.toc-link{font-family:var(--mono);font-size:.48rem;color:rgba(255,255,255,.55);text-decoration:none;padding:2px 6px;border:1px solid transparent;transition:all .12s;white-space:nowrap;cursor:pointer;}
+.toc-link:hover{color:var(--amber2);border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.06)}
+.toc-link.active{color:var(--amber2);border-color:var(--amber2);background:rgba(232,120,0,.1)}
+.updated-banner{background:var(--ink);color:var(--steellt);font-family:var(--mono);font-size:.54rem;letter-spacing:.08em;padding:8px 5%;display:flex;flex-wrap:wrap;align-items:center;gap:14px;border-bottom:1px solid var(--steeldk);}
+.updated-banner strong{color:var(--amber2);font-weight:600}
+.content{padding:20px 5% 80px;max-width:100%}
+.sec-header{display:flex;align-items:center;gap:12px;padding:10px 5%;background:var(--steeldk);border-left:5px solid var(--amber2);margin:28px 0 0;}
+.sec-num{font-family:var(--mono);font-size:.58rem;font-weight:600;color:#fff;background:var(--amber);padding:3px 8px;letter-spacing:.12em;flex-shrink:0;}
+.sec-title{font-family:var(--display);font-size:1.7rem;letter-spacing:.10em;color:#fff;line-height:1;}
+.sec-sub{font-family:var(--mono);font-size:.46rem;letter-spacing:.10em;color:var(--steellt);margin-left:auto;flex-shrink:0;}
+.subsec{background:var(--paper2);border-left:3px solid var(--amber);padding:6px 16px 6px 14px;margin:20px 0 10px;display:flex;align-items:center;gap:10px;}
+.subsec-title{font-family:var(--display);font-size:1.1rem;letter-spacing:.12em;color:var(--ink);}
+.subsec-tag{font-family:var(--mono);font-size:.44rem;letter-spacing:.12em;color:var(--steelmd);text-transform:uppercase;margin-left:auto;}
+.prose{font-family:var(--sans);font-size:.92rem;line-height:1.65;color:var(--ink);margin:8px 0 12px;}
+.prose strong{font-weight:600;color:var(--ink)}
+.prose em{color:var(--amber);font-style:italic}
+.data-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:12px 0;}
+.data-card{background:var(--paper2);border:1px solid var(--rule);border-left:3px solid var(--amber);padding:11px 14px;}
+.data-card.warn{border-left-color:var(--red-warn);background:#fff4f0}
+.data-card.note{border-left-color:var(--amber2);background:#fffbe8}
+.data-card.ok{border-left-color:var(--green-ok);background:#f0fff8}
+.data-card.dark{border-left-color:var(--amber2);background:var(--ink);color:var(--steellt)}
+.data-card-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.14em;text-transform:uppercase;color:var(--steelmd);margin-bottom:5px;}
+.data-card.warn .data-card-label{color:var(--red-warn)}
+.data-card.note .data-card-label{color:var(--amber)}
+.data-card.ok .data-card-label{color:var(--green-ok)}
+.data-card.dark .data-card-label{color:var(--amber2)}
+.data-card-value{font-family:var(--display);font-size:1.5rem;letter-spacing:.04em;color:var(--ink);line-height:1;margin-bottom:3px;}
+.data-card.warn .data-card-value{color:#7a1010}
+.data-card.ok .data-card-value{color:#0a3a20}
+.data-card.dark .data-card-value{color:#fff}
+.data-card-sub{font-family:var(--sans);font-size:.78rem;color:var(--steelmd);line-height:1.5;}
+.data-card.dark .data-card-sub{color:var(--steellt)}
+.alert{border-left:4px solid;padding:10px 14px;margin:12px 0;font-family:var(--sans);font-size:.84rem;line-height:1.55;}
+.alert strong{font-weight:600;display:block;margin-bottom:3px;font-family:var(--mono);font-size:.54rem;letter-spacing:.10em;text-transform:uppercase}
+.alert-warn{background:#fff4f0;border-color:#B91C1C;color:#5a1010}
+.alert-warn strong{color:#B91C1C}
+.alert-note{background:#fffbe8;border-color:var(--amber2);color:#4a3000}
+.alert-note strong{color:var(--amber)}
+.alert-ok{background:#f0fff8;border-color:var(--green-ok);color:#0a3a20}
+.alert-ok strong{color:var(--green-ok)}
+.alert-info{background:var(--paper2);border-color:var(--steelmd);color:var(--steeldk)}
+.alert-info strong{color:var(--steelmd)}
+.spec-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.82rem}
+.spec-table th{background:var(--steeldk);color:#fff;font-family:var(--mono);font-size:.46rem;letter-spacing:.12em;text-transform:uppercase;padding:7px 10px;text-align:left;}
+.spec-table td{padding:6px 10px;border-bottom:1px solid var(--rule);vertical-align:top;font-family:var(--sans)}
+.spec-table tr:nth-child(even) td{background:var(--paper2)}
+.spec-table .mono{font-family:var(--mono);font-size:.72rem;color:var(--amber)}
+.spec-table .warn{color:var(--red-warn);font-weight:600}
+.spec-table .ok{color:var(--green-ok);font-weight:600}
+.spec-table .num{font-family:var(--mono);font-size:.78rem;text-align:right;white-space:nowrap}
+.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+.route-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin:12px 0;}
+.route-card{background:var(--paper2);border:1px solid var(--rule);border-left:4px solid var(--amber2);padding:12px 16px;}
+.route-card.secondary{border-left-color:var(--steelmd)}
+.route-badge{font-family:var(--mono);font-size:.44rem;letter-spacing:.16em;text-transform:uppercase;color:#fff;background:var(--amber);padding:2px 8px;display:inline-block;margin-bottom:6px;}
+.route-card.secondary .route-badge{background:var(--steelmd)}
+.route-card h3{font-family:var(--display);font-size:1.25rem;letter-spacing:.06em;color:var(--ink);line-height:1.05;margin-bottom:8px;}
+.route-card ul{list-style:none;padding:0}
+.route-card li{font-family:var(--sans);font-size:.82rem;line-height:1.55;padding:4px 0;border-bottom:1px solid var(--rule);}
+.route-card li:last-child{border-bottom:none}
+.route-card li::before{content:"▸ ";color:var(--amber2);font-weight:600}
+.route-card li strong{font-weight:600;color:var(--ink)}
+.scenario{background:var(--paper2);border:1px solid var(--rule);border-top:3px solid var(--amber2);padding:12px 16px;margin:12px 0;}
+.scenario h4{font-family:var(--display);font-size:1.2rem;letter-spacing:.06em;color:var(--ink);margin-bottom:4px;line-height:1.05;}
+.scenario .scenario-meta{font-family:var(--mono);font-size:.50rem;letter-spacing:.10em;color:var(--steelmd);text-transform:uppercase;margin-bottom:8px;}
+.scenario p{font-family:var(--sans);font-size:.84rem;line-height:1.6;margin-bottom:6px;}
+.scenario ul{list-style:none;padding:0;margin-top:6px}
+.scenario li{font-family:var(--sans);font-size:.82rem;line-height:1.55;padding:3px 0;}
+.scenario li::before{content:"→ ";color:var(--amber2);font-weight:600}
+.verdict{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--rule);margin:14px 0;}
+.verdict-col{padding:11px 14px;background:var(--paper2)}
+.verdict-col:first-child{border-right:1px solid var(--rule)}
+.verdict-col h4{font-family:var(--mono);font-size:.50rem;letter-spacing:.16em;text-transform:uppercase;margin-bottom:8px;}
+.verdict-col.pros h4{color:var(--green-ok)}
+.verdict-col.cons h4{color:var(--red-warn)}
+.verdict-col ul{list-style:none;padding:0}
+.verdict-col li{font-family:var(--sans);font-size:.82rem;line-height:1.55;padding:3px 0}
+.verdict-col.pros li::before{content:"+ ";color:var(--green-ok);font-weight:700}
+.verdict-col.cons li::before{content:"− ";color:var(--red-warn);font-weight:700}
+.fuel-band{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:0;margin:12px 0;border:1px solid var(--rule);}
+.fuel-cell{padding:11px 14px;background:var(--paper2);border-right:1px solid var(--rule);}
+.fuel-cell:last-child{border-right:none}
+.fuel-cell-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.14em;text-transform:uppercase;color:var(--steelmd);margin-bottom:4px;}
+.fuel-cell-value{font-family:var(--display);font-size:1.4rem;letter-spacing:.04em;color:var(--amber);line-height:1;}
+.fuel-cell-sub{font-family:var(--mono);font-size:.62rem;color:var(--steelmd);margin-top:3px;}
+.data-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:12px 0;}
+.xref-bar{background:var(--steeldk);padding:8px 14px;display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:18px 0 4px;}
+.xref-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.18em;color:var(--steellt);text-transform:uppercase;flex-shrink:0;margin-right:4px}
+.xref-pill{font-family:var(--mono);font-size:.46rem;letter-spacing:.10em;color:var(--amber2);background:rgba(232,120,0,.12);border:1px solid rgba(232,120,0,.4);padding:2px 8px;text-decoration:none;white-space:nowrap;}
+.map-tabs{display:flex;border-bottom:0;margin:12px 0 0}
+.map-tab{font-family:var(--mono);font-size:.50rem;letter-spacing:.12em;text-transform:uppercase;background:var(--steeldk);color:var(--steellt);border:1px solid var(--ink);border-bottom:none;padding:9px 12px;cursor:pointer;flex:1;transition:all .12s;}
+.map-tab.active,.map-tab:hover{background:var(--amber);color:#fff;border-color:var(--amber)}
+#country-map{height:480px;border:1px solid var(--rule);background:var(--paper2);}
+.map-attrib{font-family:var(--mono);font-size:.48rem;letter-spacing:.06em;color:var(--steelmd);margin-top:6px;line-height:1.5;}
+.changelog-entry{display:grid;grid-template-columns:90px 70px 1fr;gap:12px;padding:10px 0;border-bottom:1px solid var(--rule);align-items:start;}
+.cl-date{font-family:var(--mono);font-size:.62rem;color:var(--steelmd);letter-spacing:.04em;line-height:1.4;}
+.cl-tag{font-family:var(--mono);font-size:.46rem;letter-spacing:.14em;text-transform:uppercase;padding:2px 7px;display:inline-block;font-weight:600;}
+.cl-tag.new{background:#dcfce7;color:#166534;border:1px solid #bbf7d0}
+.cl-tag.update{background:#dbeafe;color:#1e40af;border:1px solid #bfdbfe}
+.cl-tag.warn{background:#fee2e2;color:#991b1b;border:1px solid #fecaca}
+.cl-note{font-family:var(--sans);font-size:.84rem;line-height:1.55;color:var(--ink)}
+.cl-note strong{font-weight:600}
+#export-bar{background:var(--steeldk);padding:11px 5%;display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:0;font-family:var(--mono);font-size:.54rem;letter-spacing:.10em;color:var(--steellt);text-transform:uppercase;border-top:2px solid var(--amber);}
+.export-btn-inline{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:.54rem;letter-spacing:.10em;text-transform:uppercase;color:var(--amber2);background:rgba(232,120,0,.10);border:1px solid var(--amber2);padding:6px 12px;cursor:pointer;}
+.export-btn-inline:hover{background:rgba(232,120,0,.25)}
+.doc-footer{background:var(--ink);color:var(--steellt);font-family:var(--mono);font-size:.48rem;letter-spacing:.08em;padding:14px 5%;line-height:1.7;display:flex;flex-direction:column;gap:3px;}
+.doc-footer strong{color:var(--amber2);font-weight:600}
+@media(max-width:600px){
+  .std-header{padding:14px 16px 12px}
+  .std-title{font-size:clamp(1.7rem,7vw,2.6rem)}
+  .toc-bar{padding:5px 12px!important;flex-wrap:nowrap!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch!important;scrollbar-width:none!important}
+  .toc-bar::-webkit-scrollbar{display:none}
+  .toc-link{font-size:.44rem!important;padding:2px 5px!important;white-space:nowrap!important}
+  .alert-strip{padding:12px 16px!important;gap:8px!important;}
+  .updated-banner{padding:7px 16px;font-size:.50rem}
+  .sec-header{padding:8px 16px;margin:18px 0 0}
+  .sec-title{font-size:1.4rem}
+  .content{padding:14px 4% 60px}
+  .data-grid,.route-grid,.data-cards{grid-template-columns:1fr}
+  .verdict{grid-template-columns:1fr}
+  .verdict-col:first-child{border-right:none;border-bottom:1px solid var(--rule)}
+  .fuel-band{grid-template-columns:repeat(2,1fr)}
+  .fuel-cell{border-right:none;border-bottom:1px solid var(--rule)}
+  .spec-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  #country-map{height:340px}
+  .changelog-entry{grid-template-columns:1fr;gap:4px}
+  #export-bar{padding:10px 16px}
+}
+@media print{
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;color-adjust:exact!important}
+  @page{margin:7mm;size:A4}
+  :root{--ink:#0d0e12;--paper:#dad2c0;--paper2:#edeae0;--amber:#b86800;--amber2:#e07800;--steeldk:#2a2f3a;--steelmd:#6a7080;--red-warn:#B91C1C;--green-ok:#059669}
+  html,body{overflow:visible!important}
+  body{font-size:7.5pt;background:#dad2c0}
+  .sticky-nav-unit{position:static!important}
+  .std-header{background:#0d0e12!important;padding:6px 10px!important;border-bottom:2px solid #e07800!important}
+  .std-title{color:#e07800!important;font-size:1.6rem!important}
+  .toc-bar{display:none!important}
+  .alert-strip{break-inside:avoid}
+  .sec-header{background:#2a2f3a!important;margin:8px 0 0!important;padding:5px 10px!important;break-after:avoid}
+  .sec-num{background:#b86800!important}
+  .content{padding:0 8px 10px!important}
+  .data-card,.route-card,.alert{break-inside:avoid}
+  .scenario{break-inside:auto}
+  .scenario h4,.scenario .scenario-meta{break-after:avoid}
+  .scenario .spec-table{break-inside:auto}
+  .scenario .spec-table thead{display:table-header-group}
+  .data-card.dark{background:#0d0e12!important}
+  .data-card.dark .data-card-value{color:#fff!important}
+  .spec-table th{background:#2a2f3a!important;color:#fff!important}
+  .spec-table tr:nth-child(even) td{background:#edeae0!important}
+  #country-map{display:none!important}
+  .map-tabs{display:none!important}
+  .map-attrib{display:none!important}
+  #export-bar{display:none!important}
+  .doc-footer{background:#0d0e12!important;padding:6px 10px!important}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ STICKY NAV UNIT ════════════════════════════════════ -->
+<div class="sticky-nav-unit">
+
+<header class="std-header">
+  <a href="index.html" class="lib-home-btn" title="Library Index">⌂ Index</a>
+  <div class="std-eyebrow">
+    <!-- Tanzania flag: green / yellow / black / yellow / blue diagonal from bottom-left to top-right — simplified as horizontal bands -->
+    <span class="masthead-flag">
+      <svg viewBox="0 0 44 28" xmlns="http://www.w3.org/2000/svg" style="width:44px;height:28px;display:block">
+        <rect width="44" height="28" fill="#1EB53A"/>
+        <polygon points="0,28 44,0 44,28" fill="#00A3DD"/>
+        <polygon points="0,28 44,0 36.4,0 0,22.4" fill="#FCD116"/>
+        <polygon points="0,22.4 36.4,0 30.8,0 0,18.2" fill="#000"/>
+        <polygon points="0,18.2 30.8,0 0,0" fill="#1EB53A"/>
+      </svg>
+    </span>
+    <span style="margin-left:auto;white-space:nowrap">Overland Series · Country Profile 006</span>
+  </div>
+  <h1 class="std-title">Tanzania</h1>
+  <div class="std-local">Jamhuri ya Muungano wa Tanzania · United Republic of Tanzania</div>
+  <div class="std-sub">Northern Circuit, Southern Parks &amp; Zanzibar — East Africa's most diverse overlanding territory</div>
+  <div class="std-vehicle">
+    LC76 SW 1HZ · SA-plated / RHD · Entry: Kasumulu/Songwe (Malawi) or Namanga (Kenya) · e-Visa required · Compiled 01 May 2026
+  </div>
+</header>
+
+<nav class="toc-bar">
+  <span class="toc-label">Sections</span>
+  <a href="javascript:void(0)" onclick="document.getElementById('alerts').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">! Alerts</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s01').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">01. Entry</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s02').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">02. Borders</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s03').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">03. Vehicle</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s04').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">04. Season</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s05').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">05. Fuel</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s06').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">06. Roads</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s07').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">07. Security</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s08').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">08. Health</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s09').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">09. Camp Safety</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s10').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">10. Comms</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s11').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">11. Money</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s12').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">12. Parks &amp; Camping</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s13').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">13. Northern Circuit</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s14').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">14. Southern Parks</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s15').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">15. Maps</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s16').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">16. Northern Route</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s17').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">17. Southern Route</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s18').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">18. Phrases</a>
+</nav>
+
+</div><!-- end sticky-nav-unit -->
+
+<div class="updated-banner">
+  <span>🗓 <strong>Last updated:</strong> 01 May 2026</span>
+  <span>· USD 1 ≈ TZS 2,620 · ZAR 1 ≈ TZS 144</span>
+  <span>· <a href="javascript:void(0)" onclick="document.getElementById('changelog').scrollIntoView({behavior:'smooth'});return false;">View changelog ↓</a></span>
+</div>
+
+<main class="content">
+
+<!-- ── CRITICAL FIELD NOTICES ── -->
+<div class="sec-header" id="alerts" style="background:#fff4f0;border-left-color:var(--red-warn);">
+  <span class="sec-num" style="background:var(--red-warn);color:#fff;">!</span>
+  <span class="sec-title" style="color:#7a1010;">Critical Field Notices — Tanzania</span>
+  <span class="sec-sub" style="color:#B91C1C;">Read Before Entering</span>
+</div>
+<div class="alert-strip">
+  <div class="alert-main"><span class="warn-icon">⚠</span>Malaria high risk year-round throughout — prophylaxis is non-negotiable</div>
+  <div class="alert-pills">
+    <span class="pill warn">Yellow Fever certificate required if arriving from endemic country (Zambia, Uganda, DRC, etc.)</span>
+    <span class="pill warn">e-Visa required for SA passport — apply minimum 2 weeks before at eservices.immigration.go.tz · USD 50</span>
+    <span class="pill warn">USD cash essential — all TANAPA park gates · crisp post-2013 notes only · draw before entering Tanzania</span>
+    <span class="pill">Off-road driving: USD 10,000 fine strictly enforced in all national parks — stay on tracks</span>
+    <span class="pill">Diesel April 2026: TZS ~3,200/L (≈ USD 1.22) · widely available on main routes</span>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 01 · ENTRY & VISAS                                       -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s01">
+  <span class="sec-num">01</span>
+  <span class="sec-title">Entry &amp; Visas</span>
+  <span class="sec-sub">SA Passport · e-Visa Required · USD Fee</span>
+</div>
+
+<div class="data-grid">
+  <div class="data-card warn">
+    <div class="data-card-label">SA Passport Status</div>
+    <div class="data-card-value">e-Visa Required</div>
+    <div class="data-card-sub">SA passport is NOT visa-free for Tanzania. An e-Visa must be obtained before arrival via the Tanzania Immigration portal. Do not rely on visa-on-arrival — this service is inconsistent and the e-Visa is the only reliable route.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">e-Visa Cost</div>
+    <div class="data-card-value">USD 50</div>
+    <div class="data-card-sub">Single entry · 90-day stay · apply at eservices.immigration.go.tz · Allow 7–14 working days · Pay by credit/debit card online</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Max Stay</div>
+    <div class="data-card-value">90 Days</div>
+    <div class="data-card-sub">Extensions possible at immigration offices in Dar es Salaam, Arusha, or Zanzibar — allow several days. Bring proof of funds and itinerary.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">Yellow Fever</div>
+    <div class="data-card-value">Conditional</div>
+    <div class="data-card-sub">Required if arriving from or transiting through a yellow fever endemic country — this includes Zambia, Uganda, DRC, Kenya (some routes). Carry the yellow card. Border officials check it.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Passport Validity</div>
+    <div class="data-card-value">6 Months</div>
+    <div class="data-card-sub">Must be valid 6 months beyond entry. Minimum 2 blank pages required. e-Visa is linked to passport number — if you renew your passport after applying, you must reapply.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">TANAPA Conservation Levy</div>
+    <div class="data-card-value">Included in fees</div>
+    <div class="data-card-sub">Conservation levy is embedded in park entry fees. No separate payment at border — but park entries must be paid at park gates or via TANAPA's online system.</div>
+  </div>
+</div>
+
+<div class="alert alert-note">
+  <strong>e-Visa application timing</strong>
+  Apply a minimum of 2 weeks before departure, preferably 4 weeks. The portal (eservices.immigration.go.tz) is sometimes slow or temporarily unavailable. Processing is supposed to take 3–10 working days but can exceed this. Screenshot the approval confirmation and carry a printed copy alongside your passport. The QR code on the approval is scanned at the border.
+</div>
+
+<div class="alert alert-warn">
+  <strong>Zanzibar entry — separate stamp required</strong>
+  Zanzibar (Unguja Island) is an autonomous region with its own entry formalities. If crossing from mainland Tanzania to Zanzibar (ferry from Dar es Salaam or Zanzibar Airport), you will go through a separate immigration process and receive a Zanzibar entry stamp. Your mainland Tanzania visa covers Zanzibar — this is a documentation check, not a new visa cost. However, the LC76 cannot be taken to Zanzibar by vehicle (no practical ferry route for private vehicles). Zanzibar is a people-only side trip by ferry.
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 02 · BORDER CROSSINGS                                    -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s02">
+  <span class="sec-num">02</span>
+  <span class="sec-title">Border Crossings</span>
+  <span class="sec-sub">From Malawi · Zambia · Kenya · Uganda</span>
+</div>
+
+<p class="prose">Tanzania is reached from the south via Malawi (Kasumulu/Songwe) or Zambia (Tunduma/Nakonde). From the north, Namanga is the primary Kenya crossing for the Arusha/Serengeti approach. From Uganda, Mutukula is the main crossing.</p>
+
+<div class="table-scroll">
+<table class="spec-table">
+  <thead><tr><th>Border Post</th><th>From/To</th><th>Hours</th><th>Road condition</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Kasumulu / Songwe</strong></td><td>Malawi ↔ Tanzania</td><td class="mono">06:00–22:00</td><td>Good — sealed B345/T1</td><td>Primary southern entry. Busy truck route — can queue. TIP issued here. Fuel available Songwe side.</td></tr>
+    <tr><td><strong>Tunduma / Nakonde</strong></td><td>Zambia ↔ Tanzania</td><td class="mono">06:00–18:00</td><td>Good — TANZAM Highway</td><td>Major freight crossing — long truck queues possible. Allow 2–4 hours. USD cash required for all fees.</td></tr>
+    <tr><td><strong>Namanga</strong></td><td>Kenya ↔ Tanzania</td><td class="mono">06:00–22:00</td><td>Good — sealed A104</td><td>Primary northern entry to Arusha. Busy but efficient. Flat terrain — straightforward crossing.</td></tr>
+    <tr><td><strong>Horohoro / Lunga Lunga</strong></td><td>Kenya ↔ Tanzania (coast)</td><td class="mono">06:00–18:00</td><td>Good — sealed</td><td>Coastal route — Mombasa to Tanga. Less used by overlanders. Good condition.</td></tr>
+    <tr><td><strong>Mutukula</strong></td><td>Uganda ↔ Tanzania</td><td class="mono">07:00–18:00</td><td>Good — sealed</td><td>Main Uganda/Tanzania crossing. Used for Kampala–Mwanza–Serengeti routing.</td></tr>
+    <tr><td><strong>Sirari / Isebania</strong></td><td>Kenya ↔ Tanzania (west)</td><td class="mono">06:00–18:00</td><td>Good</td><td>Kisumu–Musoma route. Less common but useful for western Tanzania approach.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="alert alert-note">
+  <strong>Kasumulu / Songwe — recommended southern entry from Malawi circuit</strong>
+  If approaching from Malawi → Tanzania, the Kasumulu/Songwe crossing connects directly to the TANZAM Highway (T1) running north through Mbeya toward Dar es Salaam and ultimately the Northern Circuit. Fill fuel at Mbeya (~100 km north) — better quality and selection than at the border.
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 03 · VEHICLE DOCUMENTS                                   -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s03">
+  <span class="sec-num">03</span>
+  <span class="sec-title">Vehicle Documents</span>
+  <span class="sec-sub">TIP · Insurance · No Carnet Required</span>
+</div>
+
+<div class="data-grid">
+  <div class="data-card ok">
+    <div class="data-card-label">Carnet de Passage</div>
+    <div class="data-card-value">Not Required</div>
+    <div class="data-card-sub">SA-registered vehicles do not require a Carnet de Passages for Tanzania. A TIP (Temporary Import Permit) is issued free at the border and is sufficient.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">TIP</div>
+    <div class="data-card-value">Free — at border</div>
+    <div class="data-card-sub">Temporary Import Permit issued free of charge at port of entry. Tied to your passport and vehicle registration. Must be surrendered on exit — do not lose it.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">Third-Party Insurance</div>
+    <div class="data-card-value">Compulsory</div>
+    <div class="data-card-sub">Tanzanian third-party insurance is compulsory and must be purchased at the border. Fee approximately USD 30–40 for 30 days. Confirm current rate before departure.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Road Licence / Sticker</div>
+    <div class="data-card-value">ZA sticker required</div>
+    <div class="data-card-sub">ZA country identifier sticker required on vehicle. SA licence accepted — International Driving Permit (IDP) recommended as backup for police interactions.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Vehicle Registration</div>
+    <div class="data-card-value">Mary-Ann's name</div>
+    <div class="data-card-sub">Vehicle registered to Mary-Ann. Carry a signed letter of authority for Neil as driver. Original NaTIS/registration document required — not a photocopy.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">Road Toll &amp; Carbon Tax</div>
+    <div class="data-card-value">Charged at border</div>
+    <div class="data-card-sub">Road maintenance levy and carbon tax charged on entry. USD cash required. Approximately USD 10–20 combined — confirm current rate. Receipts must be retained.</div>
+  </div>
+</div>
+
+<div class="alert alert-note">
+  <strong>Documents checklist — Tanzania border</strong>
+  Passports (both) · e-Visa approval printout · Vehicle registration (original) · Letter of authority (signed) · SA driver's licence + IDP · Yellow fever certificates (if applicable) · TIP from previous country (to surrender) · USD cash for insurance, taxes, and any gate fees · ZA sticker on vehicle
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 04 · BEST SEASON & TIMING                                -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s04">
+  <span class="sec-num">04</span>
+  <span class="sec-title">Best Season &amp; Timing</span>
+  <span class="sec-sub">Two Dry Windows · Avoid Long Rains · Wildebeest Calendar</span>
+</div>
+
+<div class="subsec"><span class="subsec-title">Seasonal Quick-Reference</span><span class="subsec-tag">Access · Hazards · Cost at a glance</span></div>
+
+<table class="spec-table">
+  <thead><tr><th>Month</th><th>Weather</th><th>Northern Circuit</th><th>Southern Parks</th><th>Wildebeest</th><th>Key Hazards</th><th>Crowd &amp; Cost</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Jan–Feb</strong></td><td>Hot, short dry</td><td class="ok">Good — quiet</td><td class="ok">Good</td><td>Calving — Ndutu area</td><td>Malaria moderate · Heat · Some roads degraded from short rains Dec</td><td class="ok">Low — excellent value</td></tr>
+    <tr><td><strong>Mar–May</strong></td><td class="warn">Long rains</td><td class="warn">Difficult — many camps close</td><td class="warn">Rough — Ruaha/Selous roads bad</td><td>Moving north through Serengeti</td><td>Flash floods · Track washouts · Malaria peaks · Mud · Some park closures</td><td>Very low — avoid for parks</td></tr>
+    <tr><td><strong>Jun–Jul</strong></td><td>Cool and dry</td><td class="ok">Excellent</td><td class="ok">Excellent</td><td>Crossing to Masai Mara — Mara River crossings</td><td>Cold nights (Ngorongoro 5°C) · Dust · Crowds building at Serengeti north</td><td class="warn">Peak — book 6+ months ahead</td></tr>
+    <tr><td><strong>Aug–Oct</strong></td><td>Warm and dry</td><td class="ok">Excellent</td><td class="ok">Outstanding — Ruaha peak</td><td>Returns south Oct–Nov</td><td>Heat building Oct · Extreme crowd pressure at Serengeti crossings · Dust</td><td class="warn">Peak — fully booked</td></tr>
+    <tr><td><strong>Nov</strong></td><td>Short rains</td><td>Good — short rains light</td><td>Good</td><td>Moving back south</td><td>Short rains — usually brief daily showers · Green landscapes · Malaria risk rising</td><td class="ok">Med — post-peak value</td></tr>
+    <tr><td><strong>Dec</strong></td><td>Short rains ending</td><td class="ok">Good — Ndutu green season begins</td><td class="ok">Good</td><td>Arrival in Ndutu/Ngorongoro</td><td>Malaria rising · Some tracks soft</td><td>Low–Med</td></tr>
+  </tbody>
+</table>
+
+<p class="prose">Tanzania has two dry seasons and two rainy seasons — this makes timing more complex than most southern African countries. The <strong>long rains</strong> (March–May) are the one period to avoid if possible — many camps close, tracks become impassable, and the Southern parks in particular are difficult to access. The <strong>short rains</strong> (November) are usually brief and manageable. Both dry windows (January–February and June–October) offer excellent game viewing.</p>
+
+<div class="verdict">
+  <div class="verdict-col pros">
+    <h4>Best windows for LC76 trip</h4>
+    <ul>
+      <li>June–July: Cool, dry, crossings peak — book far ahead</li>
+      <li>Jan–Feb: Calving season at Ndutu — quiet, excellent value</li>
+      <li>Oct–Nov: Post-peak, Southern parks outstanding, wildebeest returning</li>
+      <li>December: Green Ndutu, lower crowds, good value</li>
+    </ul>
+  </div>
+  <div class="verdict-col cons">
+    <h4>Periods to avoid</h4>
+    <ul>
+      <li>March–May: Long rains — impassable tracks, camp closures</li>
+      <li>August: Extreme crowd pressure at Serengeti crossing sites</li>
+      <li>School holiday peaks (July SA / December UK): price surge</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 05 · FUEL                                                -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s05">
+  <span class="sec-num">05</span>
+  <span class="sec-title">Fuel</span>
+  <span class="sec-sub">Price · Availability · Critical Waypoints</span>
+</div>
+
+<div class="fuel-band">
+  <div class="fuel-cell">
+    <div class="fuel-cell-label">Diesel price</div>
+    <div class="fuel-cell-value">TZS 3,200/L</div>
+    <div class="fuel-cell-sub">April 2026 · EWURA official · ≈ USD 1.22/L · ≈ ZAR 22.20/L</div>
+  </div>
+  <div class="fuel-cell">
+    <div class="fuel-cell-label">vs Namibia</div>
+    <div class="fuel-cell-value">~6% Cheaper</div>
+    <div class="fuel-cell-sub">NAD 23.63/L ≈ USD 1.30 · Tanzania currently marginally cheaper</div>
+  </div>
+  <div class="fuel-cell">
+    <div class="fuel-cell-label">LC76 range (145L)</div>
+    <div class="fuel-cell-value">~1,200 km</div>
+    <div class="fuel-cell-sub">At 12L/100km highway · 14–15L/100km on rough/sandy tracks</div>
+  </div>
+  <div class="fuel-cell">
+    <div class="fuel-cell-label">With 2×20L cells</div>
+    <div class="fuel-cell-value">~1,450 km</div>
+    <div class="fuel-cell-sub">Maximum fuel carry · essential for remote southern parks</div>
+  </div>
+</div>
+
+<div class="subsec"><span class="subsec-title">Fuel Availability by Region</span><span class="subsec-tag">Critical Gaps</span></div>
+
+<table class="spec-table">
+  <thead><tr><th>Route / Area</th><th>Availability</th><th>Last reliable fuel before gap</th><th>Gap km</th></tr></thead>
+  <tbody>
+    <tr><td><strong>TANZAM Highway (Tunduma–Dar)</strong></td><td class="ok">Plentiful — main route</td><td>Every 80–120 km</td><td>None significant</td></tr>
+    <tr><td><strong>Mbeya — major hub</strong></td><td class="ok">Multiple stations</td><td>Mbeya town</td><td>—</td></tr>
+    <tr><td><strong>Arusha</strong></td><td class="ok">Plentiful — all brands</td><td>Arusha town</td><td>—</td></tr>
+    <tr><td><strong>Arusha → Serengeti (via Ngorongoro)</strong></td><td>Limited at Loliondo</td><td>Arusha or Karatu</td><td>~230 km to Seronera</td></tr>
+    <tr><td><strong>Serengeti interior</strong></td><td class="warn">None — carry all</td><td>Seronera centre (basic diesel sometimes)</td><td>Variable — check ahead</td></tr>
+    <tr><td><strong>Ruaha NP</strong></td><td class="warn">None inside park</td><td>Iringa (~130 km from park gate)</td><td>~130 km + return</td></tr>
+    <tr><td><strong>Selous / Nyerere NP</strong></td><td class="warn">None inside park</td><td>Morogoro (~200 km from park area)</td><td>~200 km</td></tr>
+    <tr><td><strong>Katavi NP</strong></td><td class="warn">Very limited — Mpanda town only</td><td>Mpanda (~60 km from gate)</td><td>~60 km · quality variable</td></tr>
+    <tr><td><strong>Coastal route (Dar–Lindi–Mtwara)</strong></td><td>Available in towns</td><td>Each major town</td><td>80–150 km between stations</td></tr>
+  </tbody>
+</table>
+
+<div class="alert alert-warn">
+  <strong>Southern circuit fuel planning — critical</strong>
+  Ruaha, Nyerere (formerly Selous), and Katavi are among the most remote parks in Tanzania. Carry maximum fuel before entering any of these. The 2×20L Desert Fox cells plus 145L main tank gives ~185L total — essential for Ruaha/Katavi circuits. Diesel quality can be variable at remote stations — Oryx or Total branded stations in larger towns are preferable.
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 06 · ROADS                                               -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s06">
+  <span class="sec-num">06</span>
+  <span class="sec-title">Roads</span>
+  <span class="sec-sub">Left-Hand Traffic · TANZAM Sealed · Park Tracks Variable</span>
+</div>
+
+<p class="prose">Tanzania drives on the left — same as South Africa, making the transition straightforward. The main trunk roads are sealed and generally good. The game-changer is the park tracks — Serengeti and Ngorongoro crater tracks are maintained, but Ruaha, Katavi, and Nyerere interiors are genuine 4×4 territory, especially after rain.</p>
+
+<div class="data-grid">
+  <div class="data-card ok">
+    <div class="data-card-label">TANZAM Highway (T1)</div>
+    <div class="data-card-value">Good</div>
+    <div class="data-card-sub">Tunduma to Dar es Salaam — 900 km sealed, generally good condition. Mbeya and Iringa bypasses completed. Watch for trucks and speed bumps in towns.</div>
+  </div>
+  <div class="data-card ok">
+    <div class="data-card-label">Arusha–Dar (A14/T2)</div>
+    <div class="data-card-value">Good</div>
+    <div class="data-card-sub">Main northern spine — sealed, good condition. Dodoma–Arusha section some rough patches but passable at road speed.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Arusha → Ngorongoro</div>
+    <div class="data-card-value">Good — sealed</div>
+    <div class="data-card-sub">~180 km sealed via Karatu. Good condition. Congested with safari vehicles in peak season. Last fuel and supplies at Karatu or Mto wa Mbu.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">Serengeti interior</div>
+    <div class="data-card-value">Demanding 4×4</div>
+    <div class="data-card-sub">Sandy, corrugated, and muddy in rains. Low range frequently needed in remote circuits. Northern Serengeti (Kogatende) is the most challenging — sandy and remote.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">Ruaha interior</div>
+    <div class="data-card-value">Expert 4×4</div>
+    <div class="data-card-sub">Rocky, rough, and very remote. Great Ruaha River crossing points vary seasonally. Not suitable in long rains (Mar–May). Carry extensive recovery kit.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">Katavi interior</div>
+    <div class="data-card-value">Expert 4×4</div>
+    <div class="data-card-sub">Extremely remote — one of Tanzania's most isolated parks. Seasonal tracks; some impassable in rains. Very few other vehicles — solo driving inadvisable.</div>
+  </div>
+</div>
+
+<div class="alert alert-note">
+  <strong>Ngorongoro Crater — private vehicles restricted</strong>
+  Self-drive is permitted into the Ngorongoro Crater only in 4×4 vehicles with a mandatory guide hired at the gate. You can drive your own vehicle but must have a registered Ngorongoro guide in the vehicle. Guide fee is separate from crater entry fee. Descend/ascend only at designated points.
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 07 · SECURITY                                            -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s07">
+  <span class="sec-num">07</span>
+  <span class="sec-title">Security</span>
+  <span class="sec-sub">Generally Low Risk · Petty Crime in Cities · Political Stability</span>
+</div>
+
+<p class="prose">Tanzania is one of East Africa's most politically stable countries and has an excellent safety record for tourists and overlanders. Violent crime against tourists is rare. The main risks are petty theft in cities (Dar es Salaam, Zanzibar town) and opportunistic crime at busy border crossings. The country has no history of internal conflict or regional instability relevant to the overlanding circuit.</p>
+
+<div class="data-grid">
+  <div class="data-card ok">
+    <div class="data-card-label">Overall Assessment</div>
+    <div class="data-card-value">Low Risk</div>
+    <div class="data-card-sub">Stable multi-party democracy. No active conflict zones on the overland circuit. Rural areas and parks are safe. Tourist infrastructure is well-established.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Dar es Salaam</div>
+    <div class="data-card-value">Petty crime — moderate</div>
+    <div class="data-card-sub">Bag snatching and phone theft in markets and busy streets. Keep valuables out of sight. Avoid displaying camera gear in city traffic. Stay on well-lit streets at night. Vehicle break-ins possible — park in secured parking.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Border crossings</div>
+    <div class="data-card-value">Low–moderate</div>
+    <div class="data-card-sub">Unofficial "helpers" and fixers operate at all major crossings — politely decline. All legitimate fees have official receipts. Do not pay anyone not behind a counter.</div>
+  </div>
+  <div class="data-card ok">
+    <div class="data-card-label">Northern circuit / parks</div>
+    <div class="data-card-value">Very safe</div>
+    <div class="data-card-sub">Serengeti, Ngorongoro, Tarangire, Lake Manyara — all safe. Well-managed. No security concerns for self-drive overlanders in these areas.</div>
+  </div>
+  <div class="data-card ok">
+    <div class="data-card-label">Southern parks</div>
+    <div class="data-card-value">Safe — remoteness the main risk</div>
+    <div class="data-card-sub">Ruaha, Katavi, Nyerere are very safe in terms of crime. The risk is isolation — mechanical failure in a remote area with no communication or passing traffic.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Road police</div>
+    <div class="data-card-value">Active — checkpoints common</div>
+    <div class="data-card-sub">Police roadblocks are frequent on main roads. Always stop. Have documents ready. Be courteous and patient. Officials are generally professional. Do not offer bribes.</div>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 08 · HEALTH                                              -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s08">
+  <span class="sec-num">08</span>
+  <span class="sec-title">Health</span>
+  <span class="sec-sub">Malaria High Risk · Yellow Fever · Medical Facilities</span>
+</div>
+
+<div class="data-grid">
+  <div class="data-card warn">
+    <div class="data-card-label">Malaria</div>
+    <div class="data-card-value">High — year-round</div>
+    <div class="data-card-sub">Malaria transmission is high throughout Tanzania and year-round. Prophylaxis is mandatory — Malarone (atovaquone/proguanil) or doxycycline. No prophylaxis is not an option. Peaks during and after rainy seasons. Use treated nets and repellent every night.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">Yellow Fever</div>
+    <div class="data-card-value">Conditional required</div>
+    <div class="data-card-sub">Required if arriving from endemic country. Certificate must be presented at border — SA does not count as endemic. If coming from Zambia, Uganda, DRC, or Kenya (some routes), carry the yellow card. Vaccination must be at least 10 days old to be valid.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">Bilharzia</div>
+    <div class="data-card-value">All freshwater — risk</div>
+    <div class="data-card-sub">Present in Lake Victoria, Lake Tanganyika shallows, Lake Malawi (border), and many rivers. No swimming in any slow or still freshwater unless specifically confirmed clear. Seawater is safe.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Water safety</div>
+    <div class="data-card-value">Treat or bottled only</div>
+    <div class="data-card-sub">Tap water not safe to drink in most areas. Bottled water widely available in towns. Filter + purification tablets for remote areas. Do not use ice in restaurants outside of top-end establishments.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Medical facilities</div>
+    <div class="data-card-value">Limited outside cities</div>
+    <div class="data-card-sub">Arusha and Dar es Salaam have reasonable private clinics (Arusha Lutheran Medical Centre, Aga Khan Hospital). Remote areas have minimal facilities. Comprehensive first-aid kit and wilderness medical training essential. Medevac cover mandatory.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Recommended vaccinations</div>
+    <div class="data-card-value">Beyond standard</div>
+    <div class="data-card-sub">Hepatitis A and B · Typhoid · Rabies (pre-exposure for extended bush travel) · Meningococcal (if visiting during dry season and Sahel-adjacent areas) · Tetanus current</div>
+  </div>
+</div>
+
+<div class="alert alert-warn">
+  <strong>Medevac cover — non-negotiable for remote Tanzania</strong>
+  Ruaha, Katavi, and Nyerere NP are hours from any surgical facility. Flying Doctor Society of Africa (AMREF) operates the main medevac network in Tanzania. Ensure your travel insurance includes medevac to Nairobi or Dar es Salaam. Carry inReach or satellite communicator and test it before entering remote areas. This is not optional for the southern circuit.
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 09 · CAMP SAFETY & WILDLIFE                              -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s09">
+  <span class="sec-num">09</span>
+  <span class="sec-title">Camp Safety &amp; Wildlife</span>
+  <span class="sec-sub">Ground Tent · Predator Awareness · Hippo &amp; Buffalo</span>
+</div>
+
+<p class="prose">Tanzania's parks host the full complement of dangerous wildlife. Ground tenting — the LC76 approach — requires consistent discipline around predators, hippo, elephant, and buffalo. The key rule: treat every night in or near a park as if an apex predator could be within 200 metres. In most parks, that is not an exaggeration.</p>
+
+<div class="data-grid">
+  <div class="data-card warn">
+    <div class="data-card-label">Lion</div>
+    <div class="data-card-value">Do not walk at night</div>
+    <div class="data-card-sub">Serengeti and Ruaha have extremely high lion density. Several serious incidents involving ground tents at public campsites on record — always use designated camping areas, maintain fire or light at camp perimeter, and never walk between tent and vehicle without torch and awareness of surroundings after dark.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">Hippo</div>
+    <div class="data-card-value">Night movement — lethal risk</div>
+    <div class="data-card-sub">Hippos leave water at night to graze — often several km from the river. Do not camp between any water source and grassland without full awareness. Announce your presence loudly at any waterway after dark. Do not use headtorches at low level — aim high to see ahead without blinding yourself to what's at ground level.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">Elephant</div>
+    <div class="data-card-value">Approach cautiously</div>
+    <div class="data-card-sub">Ruaha elephant are numerous and occasionally aggressive — the park has seen human fatalities from elephant. Keep minimum 50m at all times. If an elephant mock-charges, stay still in vehicle — it will nearly always stop. Do not rev the engine or reverse quickly.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">Buffalo</div>
+    <div class="data-card-value">Most dangerous on foot</div>
+    <div class="data-card-sub">Buffalo are arguably the most dangerous animal for ground campers — unpredictable, fast, and hard to see in bush. In Ruaha and Nyerere, buffalo herds can be very large (500+). Confirm with camp that your site is away from buffalo movement routes.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Crocodile</div>
+    <div class="data-card-value">All rivers — significant risk</div>
+    <div class="data-card-sub">Great Ruaha, Rufiji, Mara, and all major rivers have large Nile crocodile populations. No swimming, no wading, no standing at water's edge at night — even briefly. Wash dishes and camp equipment well away from the water.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">General rules — ground tent</div>
+    <div class="data-card-value">Consistent discipline</div>
+    <div class="data-card-sub">Never eat in the tent. Food sealed in vehicle, not tent. Torch always within reach. Shoes inside tent. Do a perimeter check before dark. Use designated campsites only — do not free-camp inside or adjacent to wildlife areas. Check the OzTent tent zip before sleep.</div>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 10 · COMMUNICATIONS                                      -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s10">
+  <span class="sec-num">10</span>
+  <span class="sec-title">Communications</span>
+  <span class="sec-sub">SIM · Coverage · Satellite · Drone Rules</span>
+</div>
+
+<div class="data-grid">
+  <div class="data-card ok">
+    <div class="data-card-label">Best SIM provider</div>
+    <div class="data-card-value">Vodacom Tanzania</div>
+    <div class="data-card-sub">Vodacom TZ (different entity from SA Vodacom) has the widest 4G coverage on main routes and in northern circuit towns. Airtel Tanzania is a strong second. Available at all airports and major towns — buy with passport.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Coverage quality</div>
+    <div class="data-card-value">Good in towns / zero in parks</div>
+    <div class="data-card-sub">Arusha, Moshi, Dar, Mbeya, Iringa — excellent. Park interiors: virtually zero. Ngorongoro crater rim has some coverage. Serengeti interior, Ruaha, Katavi — assume no coverage throughout.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Data costs</div>
+    <div class="data-card-value">Moderate vs SA</div>
+    <div class="data-card-sub">More expensive than SA but not dramatically. 10GB bundle approximately TZS 20,000–30,000 (≈ ZAR 130–200). Download all maps, park information, and emergency contacts before entering parks.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">Satellite comms</div>
+    <div class="data-card-value">Mandatory — remote parks</div>
+    <div class="data-card-sub">Garmin inReach or equivalent is mandatory for Ruaha, Katavi, and Nyerere circuits. Test two-way messaging before departure. Register with AMREF Flying Doctor or equivalent emergency coordination. Share daily check-in schedule with a contact in SA.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">Drones</div>
+    <div class="data-card-value">Restricted — permit required</div>
+    <div class="data-card-sub">Drone flight in Tanzania requires a permit from the Tanzania Civil Aviation Authority (TCAA). Drones are prohibited over all national parks without specific written TANAPA permission. This permission is very rarely granted. Leave the drone at home or accept it will not fly inside parks.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Emergency numbers</div>
+    <div class="data-card-value">Police: 112 / 117</div>
+    <div class="data-card-sub">Tanzania Police: 112 · Fire: 118 · Ambulance: 115 · AMREF Flying Doctor: +254 20 6000 090 (Nairobi base) · SA emergency contact pre-arranged</div>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 11 · MONEY & CURRENCY                                    -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s11">
+  <span class="sec-num">11</span>
+  <span class="sec-title">Money &amp; Currency</span>
+  <span class="sec-sub">TZS · USD for Parks · Crisp Notes Essential</span>
+</div>
+
+<div class="data-grid">
+  <div class="data-card dark">
+    <div class="data-card-label">Currency</div>
+    <div class="data-card-value">TZS</div>
+    <div class="data-card-sub">Tanzanian Shilling (TZS). April 2026: 1 USD ≈ TZS 2,620 · 1 ZAR ≈ TZS 144. Note: park fees and most camp bookings are priced and payable in USD only.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">USD cash</div>
+    <div class="data-card-value">Mandatory</div>
+    <div class="data-card-sub">All TANAPA park entries, Ngorongoro fees, and most camps charge in USD. Carry substantial USD cash in crisp, undamaged post-2013 notes. USD 100 bills preferred — smaller denominations attract poor exchange rates or rejection. Draw USD before entering Tanzania.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">ATMs</div>
+    <div class="data-card-value">Available — cities only</div>
+    <div class="data-card-sub">Dar es Salaam, Arusha, Moshi, Mbeya have reliable Visa/Mastercard ATMs (CRDB, NMB, Standard Chartered). Smaller towns: unreliable. Parks: none. Daily withdrawal limits vary — plan for multiple withdrawals before remote travel.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Cards</div>
+    <div class="data-card-value">Major towns only</div>
+    <div class="data-card-sub">Cards accepted at larger camps, hotels, and some fuel stations in major towns. Not accepted at park gates, most bush camps, or rural fuel stations. Never rely on cards as primary payment method.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Currency re-exchange</div>
+    <div class="data-card-value">Difficult</div>
+    <div class="data-card-sub">TZS is difficult to re-exchange outside Tanzania. Spend down shillings before exiting. USD, ZAR, and KES are more practical to hold as residual currency.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Cost level vs SA</div>
+    <div class="data-card-value">Comparable — parks expensive</div>
+    <div class="data-card-sub">Day-to-day costs (food, fuel, accommodation in towns) are comparable or slightly cheaper than SA. Park fees are considerably more expensive than SA or Botswana — budget carefully. Tanzania is not a budget safari destination.</div>
+  </div>
+</div>
+
+<div class="alert alert-warn">
+  <strong>Park fee budget — Tanzania is expensive</strong>
+  A full northern circuit (Serengeti + Ngorongoro + Tarangire + Lake Manyara) for 2 people in a private vehicle for 7 days will cost approximately USD 1,400–1,800 in park entry fees alone, before camps. Ngorongoro crater entry (per day including vehicle and guide) is approximately USD 250–300 for 2 people. Budget well in advance — Tanzania's fees are among the highest in Africa.
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 12 · NATIONAL PARKS & CAMPING                           -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s12">
+  <span class="sec-num">12</span>
+  <span class="sec-title">National Parks &amp; Camping</span>
+  <span class="sec-sub">TANAPA · Ngorongoro Authority · Public Sites · USD Cash</span>
+</div>
+
+<p class="prose">Tanzania's parks are managed by TANAPA (Tanzania National Parks Authority) for most national parks, and the NCAA (Ngorongoro Conservation Area Authority) for the Ngorongoro Conservation Area. Fees are high and USD-only. Public campsites in most TANAPA parks allow self-drive camping without a guide (except Ngorongoro Crater floor). Special campsites (exclusive use, walk-in) require advance booking and are significantly more expensive.</p>
+
+<div class="subsec"><span class="subsec-title">Park Fee Reference</span><span class="subsec-tag">TANAPA 2025/26 rates · USD · Verify before travel</span></div>
+
+<div class="table-scroll">
+<table class="spec-table">
+  <thead><tr><th>Park / Zone</th><th>Person entry / day</th><th>Vehicle</th><th>Campsite (public)</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Serengeti NP</strong></td><td class="mono">USD 60 / adult</td><td class="mono">USD 40 / vehicle</td><td class="mono">USD 30–40 / person</td><td>All fees per 24h. Pay at gate or TANAPA portal. Fees higher than most African parks.</td></tr>
+    <tr><td><strong>Ngorongoro Conservation Area (entry)</strong></td><td class="mono">USD 70 / adult</td><td class="mono">USD 70 / vehicle</td><td class="mono">USD 50–70 / person</td><td>Fee on entry to the conservation area — covers rim access. Crater descent: additional USD 70/person + guide mandatory.</td></tr>
+    <tr><td><strong>Ngorongoro Crater floor</strong></td><td class="mono">USD 70 (included)</td><td class="mono">USD 70 + guide fee</td><td>N/A — day visit only</td><td>Cannot camp on crater floor. Day descent only. Guide hired at gate — approx USD 30–60. Limited descent time (usually out by 18:00).</td></tr>
+    <tr><td><strong>Tarangire NP</strong></td><td class="mono">USD 53 / adult</td><td class="mono">USD 40 / vehicle</td><td class="mono">USD 30 / person</td><td>Outstanding elephant concentrations. Public campsites available — book via TANAPA.</td></tr>
+    <tr><td><strong>Lake Manyara NP</strong></td><td class="mono">USD 53 / adult</td><td class="mono">USD 40 / vehicle</td><td class="mono">USD 30 / person</td><td>Half-day park. Tree-climbing lions. Good birding. Combine with Ngorongoro.</td></tr>
+    <tr><td><strong>Ruaha NP</strong></td><td class="mono">USD 30 / adult</td><td class="mono">USD 40 / vehicle</td><td class="mono">USD 20 / person</td><td>Tanzania's largest NP. Remote — most rewarding for independent overlanders. Public sites at Msembe area.</td></tr>
+    <tr><td><strong>Nyerere NP (formerly Selous GR)</strong></td><td class="mono">USD 30 / adult</td><td class="mono">USD 40 / vehicle</td><td class="mono">USD 20 / person</td><td>Rufiji River — excellent boating safari option (guided). Self-drive in northern sector only. Southern sector guided only.</td></tr>
+    <tr><td><strong>Katavi NP</strong></td><td class="mono">USD 30 / adult</td><td class="mono">USD 40 / vehicle</td><td class="mono">USD 20 / person</td><td>Most remote. Exceptional buffalo and hippo. Very few visitors. Public campsite near Katuma River.</td></tr>
+    <tr><td><strong>Mikumi NP</strong></td><td class="mono">USD 30 / adult</td><td class="mono">USD 40 / vehicle</td><td class="mono">USD 20 / person</td><td>Roadside park on TANZAM Highway — easy add-on en route. Good game viewing from the road.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="alert alert-note">
+  <strong>Booking via TANAPA portal</strong>
+  TANAPA has an online booking system at bookings.tanzaniaparks.go.tz. As of 2026, the system is functional but slow and occasionally errors — book at least 4–6 weeks ahead for public campsites in Serengeti and Tarangire during peak season (June–October). Print confirmation and carry it. Payment by credit card online. USD fees charged at point-of-sale exchange rate.
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 13 · NORTHERN CIRCUIT — HIGHLIGHTS                       -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s13">
+  <span class="sec-num">13</span>
+  <span class="sec-title">Northern Circuit — Highlights</span>
+  <span class="sec-sub">Serengeti · Ngorongoro · Tarangire · Kilimanjaro</span>
+</div>
+
+<p class="prose">The Northern Circuit is Tanzania's most visited wildlife area and one of the most celebrated ecosystems on earth. It centres on the Serengeti–Mara ecosystem, anchored by Ngorongoro Crater, with Tarangire and Lake Manyara as complementary parks. Arusha is the base city. The Wildebeest Great Migration passes through this circuit year-round — timing determines where in the Serengeti to focus.</p>
+
+<div class="subsec"><span class="subsec-title">Human History &amp; Context</span><span class="subsec-tag">Pre-colonial · Colonial · Independence</span></div>
+
+<div class="data-cards">
+  <div class="data-card">
+    <div class="data-card-label">First peoples</div>
+    <div class="data-card-value">Hadza · Maasai · Bantu migrations</div>
+    <div class="data-card-sub">The Hadza (<em>Hadzabe</em>) of the Lake Eyasi area are among the world's last true hunter-gatherer peoples — genetic studies suggest their lineage diverged from all other human populations roughly 100,000 years ago, making them one of humanity's oldest extant cultures. The <strong>Maasai</strong> arrived in Tanzania from the north in the 17th–18th centuries, displacing earlier Cushitic peoples. Their pastoral cattle culture shaped the landscape of the Northern Circuit and defines it culturally today. Bantu-speaking farmers (Chaga, Haya, Gogo) dominate the agricultural zones surrounding the parks.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Colonial period</div>
+    <div class="data-card-value">German East Africa · British Tanganyika</div>
+    <div class="data-card-sub">Germany colonised Tanganyika (mainland Tanzania) from 1885 as German East Africa. The <strong>Maji Maji Rebellion</strong> (1905–1907) — one of the largest anti-colonial uprisings in African history — ended with German forces killing an estimated 200,000–300,000 Tanzanians. Germany lost Tanganyika after WWI; Britain administered it as a League of Nations mandate from 1919. <strong>Julius Nyerere</strong>, the "Teacher" (<em>Mwalimu</em>), led the independence movement through TANU and became the first president on 9 December 1961. Zanzibar gained independence separately in 1963 and merged with Tanganyika in 1964 to form the United Republic of Tanzania.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Nyerere's Tanzania</div>
+    <div class="data-card-value">Ujamaa · Swahili nation-building</div>
+    <div class="data-card-sub">Nyerere's <em>ujamaa</em> (familyhood/African socialism) policy was idealistic but economically damaging — forced villagisation uprooted millions. However, his nation-building instincts were sound: Tanzania is remarkable in having no dominant tribal identity; <strong>Swahili</strong> functions as a genuine unifying language across 120+ ethnic groups. This national cohesion has made Tanzania one of the most politically stable countries in sub-Saharan Africa. Nyerere voluntarily stepped down in 1985 — rare in post-independence Africa.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Modern Tanzania</div>
+    <div class="data-card-value">Stable democracy · tourism economy</div>
+    <div class="data-card-sub">Tanzania has had peaceful multi-party elections since 1995. Samia Suluhu Hassan became Africa's first female head of state (in Tanzania) in 2021 after President Magufuli's death, and was elected in her own right in 2025. Tourism is the country's second-largest foreign exchange earner after gold. The government has invested significantly in Northern Circuit infrastructure. There is some tension over Maasai land rights in the Ngorongoro Conservation Area — a live political issue.</div>
+  </div>
+</div>
+
+<div class="subsec"><span class="subsec-title">Flora &amp; Vegetation — Northern Circuit</span><span class="subsec-tag">Biome · Dominant species · Seasonal change</span></div>
+
+<div class="data-cards">
+  <div class="data-card">
+    <div class="data-card-label">Serengeti — short-grass plains</div>
+    <div class="data-card-value">Themeda · Pennisetum · volcanic soil</div>
+    <div class="data-card-sub">The southern Serengeti short-grass plains are underlain by alkaline volcanic soils from Ngorongoro and Olmoti — shallow, calcium-rich, and nutrient-dense. <em>Themeda triandra</em> (red oat grass) and <em>Pennisetum mezianum</em> are the dominant grasses. This is what draws the wildebeest calving herds to Ndutu: the short grass allows newborns to see predators. The plains transform from brown to vivid green within days of rain.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Serengeti — woodlands</div>
+    <div class="data-card-value">Acacia · Commiphora · kopje vegetation</div>
+    <div class="data-card-sub">Northern and western Serengeti are dominated by <em>Acacia tortilis</em> (umbrella thorn) and <em>Commiphora</em> woodland — classic East African savanna. Kopjes (granite outcrops) support a distinct micro-flora including figs, aloes, and succulents, and are critical leopard and cheetah habitat. <em>Balanites aegyptiaca</em> (desert date) marks seasonally dry areas.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Ngorongoro</div>
+    <div class="data-card-value">Afromontane · crater floor grassland</div>
+    <div class="data-card-sub">The crater rim (2,200m+) supports Afromontane forest — <em>Hagenia abyssinica</em>, tree heath (<em>Erica arborea</em>), and podocarp (<em>Podocarpus</em>) at upper elevations. The crater floor is short alkaline grassland with seasonal soda lake (<em>Flamingo lake</em>) and scattered <em>Acacia xanthophloea</em> (fever tree) in yellow-barked groves. Temperature drops dramatically at the rim — 5°C nights possible.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Tarangire</div>
+    <div class="data-card-value">Baobab · Acacia · Combretum</div>
+    <div class="data-card-sub">Tarangire is defined by its extraordinary baobab (<em>Adansonia digitata</em>) density — ancient, enormous specimens punctuate the dry landscape. <em>Combretum apiculatum</em> and <em>Acacia nigrescens</em> (knob thorn) dominate the hillside woodland. The Tarangire River is a dry-season lifeline — all game concentrates along it June–October, making Tarangire one of Africa's underrated dry-season parks.</div>
+  </div>
+</div>
+
+<div class="subsec"><span class="subsec-title">— Serengeti National Park</span><span class="subsec-tag">UNESCO World Heritage · 14,763 km²</span></div>
+
+<div class="route-grid">
+  <div class="route-card">
+    <span class="route-badge">★★★★★ Unmissable</span>
+    <h3>Serengeti National Park</h3>
+    <ul>
+      <li><strong>Size:</strong> 14,763 km² — the ecosystem extends 30,000 km² including Maasai Mara in Kenya</li>
+      <li><strong>Seronera:</strong> The central hub — park headquarters, visitor centre, airstrip, and public campsites. Lion, leopard, cheetah all regularly seen in the Seronera Valley.</li>
+      <li><strong>Northern Serengeti (Kogatende):</strong> Mara River crossings July–October — the most dramatic wildlife spectacle on earth. Very remote — long sandy drive from Seronera (~130 km, 3–4 hours).</li>
+      <li><strong>Southern Serengeti (Ndutu):</strong> Calving season January–March — 500,000 wildebeest calves born in 3 weeks. Remarkable and undervisited compared to crossing season.</li>
+      <li><strong>Western Corridor:</strong> Grumeti crossings May–June. Huge Nile crocodile population in Grumeti River. Less visited than north.</li>
+      <li><strong>Self-drive:</strong> Fully permitted throughout. Off-road driving strictly prohibited — 10,000 USD fine for track creation.</li>
+    </ul>
+  </div>
+  <div class="route-card">
+    <span class="route-badge">★★★★★ Unmissable</span>
+    <h3>Ngorongoro Conservation Area</h3>
+    <ul>
+      <li><strong>The Crater:</strong> 260 km² caldera containing ~25,000 animals permanently — lion, black rhino, elephant, hippo, flamingo, wildebeest. The greatest wildlife concentration on earth per km².</li>
+      <li><strong>Black rhino:</strong> Ngorongoro has one of the best black rhino sightings in Tanzania — a small resident population in the crater. Rare but regularly seen.</li>
+      <li><strong>Olduvai Gorge:</strong> 50 km west of the crater rim — where Mary Leakey found Australopithecus boisei in 1959. One of the most important palaeontological sites in the world. Day visit from the rim.</li>
+      <li><strong>Empakaai Crater:</strong> Less visited volcanic crater — flamingo-filled soda lake inside. Walking permitted with armed ranger. Spectacular rim views to Kilimanjaro.</li>
+      <li><strong>Access:</strong> Via Lodoare Gate from Karatu. Vehicle + guide fee for crater descent. Day visit only — no camping on crater floor.</li>
+    </ul>
+  </div>
+  <div class="route-card secondary">
+    <span class="route-badge">★★★★ Excellent</span>
+    <h3>Tarangire National Park</h3>
+    <ul>
+      <li>Highest elephant density per km² in Tanzania in dry season — herds of 200–500 concentrate along the Tarangire River July–October</li>
+      <li>Extraordinary baobab landscape — some specimens estimated 2,000+ years old</li>
+      <li>Tree-climbing lions — occasional sightings on large acacias, more common than in Lake Manyara despite the reputation</li>
+      <li>Public campsite near Boundary Hill — excellent dry-season camp as game passes through at dawn</li>
+      <li>Entry from Kwa Kuchinja gate on the Arusha–Dodoma road · 118 km from Arusha</li>
+    </ul>
+  </div>
+  <div class="route-card secondary">
+    <span class="route-badge">★★★ Good</span>
+    <h3>Lake Manyara National Park</h3>
+    <ul>
+      <li>Compact — 325 km² park around soda lake · half-day drive covers most of the floor</li>
+      <li>Famous for tree-climbing lions (less frequently seen than Tarangire, but the reputation persists)</li>
+      <li>Exceptional birding — over 400 species · flamingo on the lake · pelicans, storks, herons along shore</li>
+      <li>Best used as a warm-up day on the way from Arusha to Ngorongoro · 126 km from Arusha</li>
+      <li>Public campsite at Endabash · Good facilities for a TANAPA site</li>
+    </ul>
+  </div>
+</div>
+
+<div class="subsec"><span class="subsec-title">Wildebeest Migration — Monthly Position</span><span class="subsec-tag">For route timing</span></div>
+
+<table class="spec-table">
+  <thead><tr><th>Month</th><th>Where</th><th>Event</th><th>Overlander value</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Jan–Mar</strong></td><td>Ndutu / Southern Serengeti</td><td>Calving season — 500,000+ calves born</td><td class="ok">Exceptional — quiet, affordable</td></tr>
+    <tr><td><strong>Apr–May</strong></td><td>Central and Western Serengeti</td><td>Moving northwest · Grumeti area</td><td class="warn">Long rains — avoid</td></tr>
+    <tr><td><strong>Jun–Jul</strong></td><td>Western Corridor → Northern Serengeti</td><td>Grumeti crossings begin · moving north</td><td class="ok">Outstanding — Kogatende or Seronera</td></tr>
+    <tr><td><strong>Aug–Oct</strong></td><td>Northern Serengeti ↔ Maasai Mara</td><td>Mara River crossings — peak drama</td><td>Excellent but crowded · book very far ahead</td></tr>
+    <tr><td><strong>Nov–Dec</strong></td><td>Moving south through Serengeti</td><td>Short rains · returning to Ndutu</td><td class="ok">Good — quieter · value</td></tr>
+  </tbody>
+</table>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 14 · SOUTHERN PARKS — HIGHLIGHTS                        -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s14">
+  <span class="sec-num">14</span>
+  <span class="sec-title">Southern Parks — Highlights</span>
+  <span class="sec-sub">Ruaha · Nyerere · Katavi · Mikumi</span>
+</div>
+
+<p class="prose">Southern Tanzania is the country's wilderness heartland — vast, remote, and spectacularly wild. Ruaha is Tanzania's largest national park and arguably its finest for independent overlanders. Katavi is among the most remote and rewarding parks in Africa. Both reward commitment: the distances are significant, the infrastructure is basic, and the wildlife is extraordinary precisely because few people make the effort.</p>
+
+<div class="subsec"><span class="subsec-title">Flora &amp; Vegetation — Southern Parks</span><span class="subsec-tag">Miombo · Ruaha drainage · Rufiji floodplain</span></div>
+
+<div class="data-cards">
+  <div class="data-card">
+    <div class="data-card-label">Ruaha — dominant biome</div>
+    <div class="data-card-value">Miombo + mixed acacia</div>
+    <div class="data-card-sub">Ruaha sits on the junction of miombo (<em>Brachystegia</em>) woodland and Acacia–Combretum savanna — the two biomes create exceptional biodiversity. The Great Ruaha River and its tributaries support riverine forest: sycamore fig, mahogany, and ebony. <em>Borassus aethiopum</em> (fan palm) lines the river in stately lines. The massive baobabs of central Ruaha are among the most impressive in Africa.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Katavi — wetlands and woodland</div>
+    <div class="data-card-value">Miombo · Lake Katavi seasonal floodplain</div>
+    <div class="data-card-sub">Lake Katavi and Lake Chada are seasonal — they flood in the rains and shrink dramatically in the dry season, concentrating extraordinary hippo and buffalo populations on ever-smaller water surfaces. The surrounding miombo woodland (<em>Brachystegia spiciformis</em>) and <em>Combretum</em> is spectacular for birds. <em>Diospyros</em> (ebony) and <em>Ficus</em> mark permanent water sources.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Nyerere — Rufiji floodplain</div>
+    <div class="data-card-value">Riverine forest · seasonal swamp</div>
+    <div class="data-card-sub">The Rufiji River — Tanzania's largest — drains 180,000 km² and creates an extensive floodplain ecosystem in Nyerere NP. Riverine forest (<em>Phoenix reclinata</em> wild date palm, waterberry, sycamore fig) lines the banks. The boating safari on the Rufiji is unique in East Africa — hippo, crocodile, and waterbirds from a small boat on a wild river.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Seasonal vegetation change</div>
+    <div class="data-card-value">Miombo: red-bronze flush Aug–Sep</div>
+    <div class="data-card-sub">Miombo produces new leaves in August–September before the rains — distinctive red-bronze flush that colours the entire woodland. Dry season (June–October): short grass, open sightlines, game concentrated at water. Wet season: dense grass growth, closed tracks, lush landscape, exceptional birding.</div>
+  </div>
+</div>
+
+<div class="route-grid">
+  <div class="route-card">
+    <span class="route-badge">★★★★★ Outstanding</span>
+    <h3>Ruaha National Park</h3>
+    <ul>
+      <li><strong>Size:</strong> 22,000 km² — Tanzania's largest national park. Sees ~10% of the visitors Serengeti receives. A reward for the effort.</li>
+      <li><strong>Wildlife:</strong> Tanzania's largest elephant population. Lion prides with 20+ members. Wild dog denning (rare and spectacular). Exceptional birds — over 570 species.</li>
+      <li><strong>Great Ruaha River:</strong> The artery of the park — all game concentrates here in the dry season. Drive the river track at dawn for sustained action.</li>
+      <li><strong>Self-drive:</strong> Fully permitted. Msembe headquarters has public camping, fuel (sometimes available — do not rely on it), and basic information.</li>
+      <li><strong>Access:</strong> Iringa (130 km) → Msembe gate. Iringa is the last reliable fuel and supplies point. Road from Iringa is gravel/dirt — allow 3–4 hours.</li>
+      <li><strong>Season:</strong> June–October ideal. Avoid March–May (long rains — tracks impassable).</li>
+    </ul>
+  </div>
+  <div class="route-card">
+    <span class="route-badge">★★★★★ Remote</span>
+    <h3>Katavi National Park</h3>
+    <ul>
+      <li>Tanzania's third-largest and most remote national park — 4,471 km² with very few visitors</li>
+      <li>Dry season hippo concentrations are the most dramatic in Africa — hundreds packed into shrinking pools, constant conflict</li>
+      <li>Buffalo herds of 1,000+ follow the seasonal water · Lion prides follow the buffalo</li>
+      <li>No camps open in the long rains (Mar–May). Very basic public campsite near Sitalike.</li>
+      <li>Access: Mpanda town (~60 km) is the last fuel. From Mpanda, roads to Katavi can be rough. TANZAM from Mbeya then west to Sumbawanga and north — allow 2 days from Mbeya.</li>
+      <li>Two-vehicle minimum — this is genuinely remote territory. Satellite communicator mandatory.</li>
+    </ul>
+  </div>
+  <div class="route-card secondary">
+    <span class="route-badge">★★★★ River Safari</span>
+    <h3>Nyerere NP (formerly Selous GR)</h3>
+    <ul>
+      <li>One of the world's largest game reserves by area — 54,600 km² total (self-drive in northern sector only)</li>
+      <li>Rufiji River boating safari is unique in East Africa — can be done as a guided add-on while camping at the river</li>
+      <li>Wild dog population is one of Tanzania's largest — Selous/Nyerere is a key wild dog stronghold</li>
+      <li>Access via Matambwe Gate from Morogoro (~200 km). TANZAM detour or approach from Dar.</li>
+      <li>Note: park was renamed Nyerere NP in 2019 but most maps still show Selous</li>
+    </ul>
+  </div>
+  <div class="route-card secondary">
+    <span class="route-badge">★★★ En Route</span>
+    <h3>Mikumi National Park</h3>
+    <ul>
+      <li>Straddles the TANZAM Highway — easily accessible from the road without a major detour</li>
+      <li>Good lion, elephant, buffalo, zebra, and hippo — quality is genuinely underrated</li>
+      <li>Use as an overnight between Dar es Salaam / Morogoro and Iringa — breaks the long highway drive and adds a quality game day</li>
+      <li>Public campsite at Mikumi Wildlife Camp near the highway · Book via TANAPA</li>
+    </ul>
+  </div>
+</div>
+
+<div class="subsec"><span class="subsec-title">Conservation &amp; Environmental Issues</span><span class="subsec-tag">Poaching · Maasai land rights · TANAPA</span></div>
+
+<div class="data-cards">
+  <div class="data-card warn">
+    <div class="data-card-label">Poaching pressure</div>
+    <div class="data-card-value">Elephant ivory · Rhino horn</div>
+    <div class="data-card-sub">Tanzania suffered catastrophic elephant poaching 2009–2014, losing an estimated 60% of its elephant population in five years. The poaching crisis was met with significant international pressure and internal reform. Numbers are recovering but vigilance remains high. Anti-poaching enforcement in Ruaha and Nyerere is active and well-resourced. Rhino poaching remains a persistent pressure on Ngorongoro's small rhino population. Report suspicious activity to TANAPA rangers.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">Ngorongoro — Maasai displacement</div>
+    <div class="data-card-value">Live political issue</div>
+    <div class="data-card-sub">The Tanzanian government has been restricting and relocating Maasai communities from the Ngorongoro Conservation Area — a policy with significant international opposition and legal challenges. The Maasai have inhabited Ngorongoro for centuries alongside the wildlife. The tension between conservation and community rights is a live political issue. Sensitive engagement with Maasai communities around Ngorongoro is warranted — their hospitality and cultural knowledge are remarkable, and they are navigating a difficult situation.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">TANAPA &amp; community conservation</div>
+    <div class="data-card-value">Game Management Units</div>
+    <div class="data-card-sub">Tanzania's Wildlife Management Areas (WMAs) surround national parks — community-run areas where villages have legal rights over wildlife and tourism revenue. WMA performance is variable: some (Ikona, Randilen near Serengeti) are genuine successes; others are struggling. Choosing camps that invest in WMA community structures is the most effective lever travellers have.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Traveller ethics</div>
+    <div class="data-card-value">Track discipline · no off-road</div>
+    <div class="data-card-sub">Tanzania enforces off-road driving rules seriously — USD 10,000 fine for track creation in national parks. Obey this absolutely. Do not drive through or over vegetation for any reason. Buy local at every opportunity — community curio stalls near park gates are almost always better value and more culturally authentic than lodge shops. Maasai beaded jewellery sold directly by Maasai women is the real deal.</div>
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 15 · INTERACTIVE MAPS                                    -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s15">
+  <span class="sec-num">15</span>
+  <span class="sec-title">Tanzania — Interactive Maps</span>
+  <span class="sec-sub">Overview · Northern Circuit · Southern Parks</span>
+</div>
+
+<p class="prose" style="margin-top:14px;">Three map views. <strong>Overview</strong> shows the full country with key locations. <strong>Northern Circuit</strong> maps Arusha, Serengeti, Ngorongoro, and Tarangire. <strong>Southern Parks</strong> maps Ruaha, Nyerere, and Katavi. Click any marker for details.</p>
+
+<div class="alert alert-note">
+  <strong>Map planning principle — two separate layers</strong>
+  When trip-planning, always treat <strong>political/administrative boundaries</strong> (park borders, conservation area limits, WMA boundaries, district lines) and <strong>ecological boundaries</strong> (Great Rift Valley escarpments, seasonal floodplains, river drainage basins, volcanic calderas) as separate layers serving different purposes. Political boundaries determine permits, fees, and legal access. Ecological boundaries determine travel safety and seasonal passability. In Tanzania this is especially relevant: the Ngorongoro Conservation Area boundary determines entry fees; the crater's caldera wall determines what is physically driveable. Ruaha's seasonal track access is driven by the Great Ruaha River flood pulse, not by park administration.
+</div>
+
+<div class="map-tabs">
+  <button class="map-tab active" onclick="setMapView('overview')">Overview · All Locations</button>
+  <button class="map-tab" onclick="setMapView('north')">Northern Circuit</button>
+  <button class="map-tab" onclick="setMapView('south')">Southern Parks</button>
+</div>
+
+<div id="country-map"></div>
+<p class="map-attrib">© OpenStreetMap contributors — routes are indicative only, verify all tracks before travel via Tracks4Africa</p>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 16 · NORTHERN CIRCUIT ROUTE GUIDE                        -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s16">
+  <span class="sec-num">16</span>
+  <span class="sec-title">Northern Circuit Route Guide</span>
+  <span class="sec-sub">Namanga / Kasumulu → Arusha → Serengeti → Ngorongoro</span>
+</div>
+
+<p class="prose">The northern circuit is most efficiently approached from Kenya via Namanga (if coming from the north) or from Malawi/Zambia via the TANZAM Highway to Mbeya–Dodoma–Arusha (if coming from the south). The southern approach adds 2 full driving days but avoids Kenya and allows the TANZAM to double as a route through Mikumi.</p>
+
+<div class="subsec"><span class="subsec-title">Sample Route — Northern Circuit Loop</span><span class="subsec-tag">Self-drive camping · GPX reference</span></div>
+
+<div class="scenario">
+  <h4>Namanga → Arusha → Tarangire → Ngorongoro → Serengeti → Arusha</h4>
+  <div class="scenario-meta">~900 km · 10–14 days · 4×4 required for park interiors</div>
+  <table class="spec-table" style="margin-bottom:12px;">
+    <thead><tr><th>Waypoint</th><th>Location</th><th>GPS (approx.)</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Entry / Base</strong></td><td>Arusha</td><td class="mono">S3°22', E36°41'</td><td>Full provisions, ATM (USD), fuel, e-Visa check, vehicle service if needed. Confirm all park bookings before departing. Buy SIM (Vodacom TZ). Stock 5+ days food and water.</td></tr>
+      <tr><td><strong>Camp 1–2</strong></td><td>Tarangire NP — Boundary Hill camp</td><td class="mono">S3°51', E36°04'</td><td>118 km from Arusha · Kwa Kuchinja gate · Pay USD fees at gate · Dry-season elephant concentration extraordinary. Dawn and dusk game drives on river track.</td></tr>
+      <tr><td><strong>Transit stop</strong></td><td>Karatu / Mto wa Mbu</td><td class="mono">S3°22', E35°37'</td><td>Last fuel and supplies before Ngorongoro. Karatu town: good provisioning. Lake Manyara optional half-day here.</td></tr>
+      <tr><td><strong>Camp 3–4</strong></td><td>Ngorongoro rim campsite</td><td class="mono">S3°11', E35°31'</td><td>Pay NCAA fees at Lodoare Gate. Rim campsite: book in advance via NCAA/TANAPA. Crater descent Day 4 — arrange guide at gate morning. Cold nights — full sleeping gear required.</td></tr>
+      <tr><td><strong>Camp 5–7</strong></td><td>Serengeti — Seronera public campsite</td><td class="mono">S2°27', E34°49'</td><td>Via Naabi Hill Gate. Pay TANAPA fees. Seronera Valley: lion, leopard, cheetah. Dawn drives essential. Book campsite well ahead June–Oct.</td></tr>
+      <tr><td><strong>Option: Camp 8–9</strong></td><td>Northern Serengeti — Kogatende area</td><td class="mono">S1°29', E34°50'</td><td>130 km from Seronera · sandy, 3–4 hours · Mara River crossings July–Oct. Remote campsite — advance booking essential. Carry extra fuel.</td></tr>
+      <tr><td><strong>Exit</strong></td><td>Arusha via Naabi Hill or Klein's Gate</td><td class="mono">S3°22', E36°41'</td><td>Klein's Gate exit (north) → Loliondo → Arusha (longer but scenic). Or return via Naabi Hill → Ngorongoro → Karatu → Arusha (more direct).</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">Cross-ref</span>
+  <span class="xref-pill">R15 Border Crossings — Namanga border procedure</span>
+  <span class="xref-pill">R8 Service History — service before departure</span>
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 17 · SOUTHERN CIRCUIT ROUTE GUIDE                        -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s17">
+  <span class="sec-num">17</span>
+  <span class="sec-title">Southern Circuit Route Guide</span>
+  <span class="sec-sub">Kasumulu → Mbeya → Iringa → Ruaha → Katavi</span>
+</div>
+
+<p class="prose">The southern circuit is the LC76's natural approach from Malawi or Zambia — enter at Kasumulu/Songwe, drive north on the TANZAM to Mbeya, then branch off the highway to Ruaha (via Iringa) and optionally continue to Katavi (via Mbeya west and Sumbawanga). This is Tanzania without the crowds, without the tourist infrastructure, and without compromise.</p>
+
+<div class="subsec"><span class="subsec-title">Sample Route — Southern Tanzania Loop</span><span class="subsec-tag">Self-drive camping · GPX reference</span></div>
+
+<div class="scenario">
+  <h4>Kasumulu → Mbeya → Mikumi → Iringa → Ruaha → Katavi → (Mbeya exit)</h4>
+  <div class="scenario-meta">~1,800 km · 14–18 days · Expert 4×4 required for Ruaha and Katavi</div>
+  <table class="spec-table" style="margin-bottom:12px;">
+    <thead><tr><th>Waypoint</th><th>Location</th><th>GPS (approx.)</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Entry</strong></td><td>Kasumulu / Songwe border</td><td class="mono">S9°32', E33°59'</td><td>From Malawi. TIP, insurance, road tax paid here. Fill fuel at Mbeya (~100 km north) — better quality than border.</td></tr>
+      <tr><td><strong>Base / Fuel</strong></td><td>Mbeya</td><td class="mono">S8°54', E33°27'</td><td>Full provisions, ATM, Oryx/Total fuel, vehicle check. Last major urban centre for the southern circuit. Draw USD here.</td></tr>
+      <tr><td><strong>Camp 1</strong></td><td>Mikumi NP — Mikumi Wildlife Camp</td><td class="mono">S7°25', E36°49'</td><td>~350 km from Mbeya on TANZAM. Easy access from highway. Good lion and elephant. Break-up long drive to Iringa. Book via TANAPA.</td></tr>
+      <tr><td><strong>Fuel / Supplies</strong></td><td>Iringa</td><td class="mono">S7°46', E35°42'</td><td>Last reliable fuel before Ruaha. Fill both main tank and all jerry cans. Good provisioning (Shoppers supermarket). Draw remaining TZS cash.</td></tr>
+      <tr><td><strong>Camp 2–5</strong></td><td>Ruaha NP — Msembe area</td><td class="mono">S7°55', E34°56'</td><td>~130 km from Iringa · gravel/dirt road 3–4 hours. Pay TANAPA fees at Msembe gate (USD cash). Public campsites near headquarters. Fly camp options available deep in park. Ruaha River dawn drives: 05:30 is the magic hour.</td></tr>
+      <tr><td><strong>Camp 6–8</strong></td><td>Katavi NP — Sitalike</td><td class="mono">S6°40', E31°06'</td><td>~500 km from Ruaha — long drive via Mbeya and west · 2 full days · Mpanda for final fuel (~60 km from gate). Public campsite near Katuma River. Satellite comms essential. Two-vehicle minimum.</td></tr>
+      <tr><td><strong>Exit</strong></td><td>Mbeya → Kasumulu (return) or continue north</td><td class="mono">S8°54', E33°27'</td><td>Return south to exit at Kasumulu (Malawi) · or continue north via Tabora → Dodoma → Arusha for full Tanzania circuit (add 4–5 days)</td></tr>
+    </tbody>
+  </table>
+  <div class="alert alert-warn">
+    <strong>Katavi access — planning critical</strong>
+    The western route to Katavi (Mbeya → Tunduma → Sumbawanga → Mpanda) is long (500+ km from Mbeya), partly on poor roads, and logistically demanding. Allow 2 full driving days from Mbeya to Katavi gate with an overnight at Sumbawanga or Mpanda. Fuel at Sumbawanga and Mpanda — do not rely on fuel availability beyond Mpanda. This circuit rewards planning and commitment. Solo travel inadvisable.
+  </div>
+</div>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- 18 · ESSENTIAL PHRASES — SWAHILI                        -->
+<!-- ─────────────────────────────────────────────────────── -->
+<div class="sec-header" id="s18">
+  <span class="sec-num">18</span>
+  <span class="sec-title">Essential Phrases</span>
+  <span class="sec-sub">Swahili · English widely spoken in tourist areas</span>
+</div>
+
+<p class="prose">Swahili (<em>Kiswahili</em>) is Tanzania's official language and the genuine lingua franca across all 120+ ethnic groups. English is widely spoken in tourist areas, cities, and by educated Tanzanians. Basic Swahili is warmly received and is a mark of respect — even a few phrases opens doors. Pronunciation is phonetic and straightforward once the rules are understood.</p>
+
+<div class="alert alert-ok">
+  <strong>Swahili pronunciation guide</strong>
+  Vowels: a = "ah", e = "eh", i = "ee", o = "oh", u = "oo" — always the same, never silent. G is always hard (never soft). Ch = "ch" as in "chair". Stress is almost always on the second-to-last syllable. <em>Karibu</em> = ka-REE-boo. <em>Asante</em> = ah-SAN-teh.
+</div>
+
+<table class="spec-table">
+  <thead><tr><th>English</th><th>Swahili</th><th>Pronunciation guide</th></tr></thead>
+  <tbody>
+    <tr><td>Hello / How are you?</td><td><strong>Habari?</strong></td><td>ha-BAH-ree</td></tr>
+    <tr><td>Response: Fine / Good</td><td><strong>Nzuri</strong></td><td>n-ZOO-ree</td></tr>
+    <tr><td>Welcome / You're welcome</td><td><strong>Karibu</strong></td><td>ka-REE-boo</td></tr>
+    <tr><td>Thank you</td><td><strong>Asante (sana)</strong></td><td>ah-SAN-teh (SAH-nah) — "sana" = very much</td></tr>
+    <tr><td>Please</td><td><strong>Tafadhali</strong></td><td>ta-fad-HAH-lee</td></tr>
+    <tr><td>Yes / No</td><td><strong>Ndiyo / Hapana</strong></td><td>n-DEE-yo / ha-PAH-nah</td></tr>
+    <tr><td>Good morning</td><td><strong>Habari za asubuhi</strong></td><td>ha-BAH-ree za ah-soo-BOO-hee</td></tr>
+    <tr><td>Good evening</td><td><strong>Habari za jioni</strong></td><td>ha-BAH-ree za jee-OH-nee</td></tr>
+    <tr><td>Goodbye</td><td><strong>Kwaheri</strong></td><td>kwa-HEH-ree</td></tr>
+    <tr><td>How much?</td><td><strong>Bei gani?</strong></td><td>BEH-ee GAH-nee</td></tr>
+    <tr><td>Too expensive</td><td><strong>Ghali sana</strong></td><td>GAH-lee SAH-nah</td></tr>
+    <tr><td>Where is…?</td><td><strong>…iko wapi?</strong></td><td>…EE-ko WAH-pee</td></tr>
+    <tr><td>Petrol / diesel</td><td><strong>Petroli / Dizeli</strong></td><td>peh-TRO-lee / dee-ZEH-lee</td></tr>
+    <tr><td>Fill it up please</td><td><strong>Jaza tank tafadhali</strong></td><td>JAH-zah tank ta-fad-HAH-lee</td></tr>
+    <tr><td>I need help</td><td><strong>Ninahitaji msaada</strong></td><td>nee-nah-hee-TAH-jee m-SAH-dah</td></tr>
+    <tr><td>Vehicle broken down</td><td><strong>Gari imeharibika</strong></td><td>GAH-ree ee-meh-hah-ree-BEE-kah</td></tr>
+    <tr><td>Police</td><td><strong>Polisi</strong></td><td>po-LEE-see</td></tr>
+    <tr><td>Hospital</td><td><strong>Hospitali</strong></td><td>hos-pee-TAH-lee</td></tr>
+    <tr><td>Campsite</td><td><strong>Kambi</strong></td><td>KAM-bee</td></tr>
+    <tr><td>Animal / wildlife</td><td><strong>Wanyama</strong></td><td>wah-NYAH-mah</td></tr>
+    <tr><td>Elephant · Lion · Buffalo</td><td><strong>Tembo · Simba · Nyati</strong></td><td>TEM-bo · SIM-bah · NYAH-tee</td></tr>
+    <tr><td>No problem</td><td><strong>Hakuna matata</strong></td><td>hah-KOO-nah mah-TAH-tah — yes, that one</td></tr>
+    <tr><td>Wait a moment</td><td><strong>Subiri kidogo</strong></td><td>soo-BEE-ree kee-DOH-go</td></tr>
+    <tr><td>Go slowly</td><td><strong>Pole pole</strong></td><td>POH-leh POH-leh — also means "take it easy"</td></tr>
+  </tbody>
+</table>
+
+</main><!-- end content -->
+
+<!-- ── CHANGELOG ──────────────────────────────────────────── -->
+<div class="sec-header" id="changelog">
+  <span class="sec-num">LOG</span>
+  <span class="sec-title">Changelog</span>
+  <span class="sec-sub">Update History</span>
+</div>
+
+<div class="content" style="padding-top:12px;padding-bottom:40px;">
+<p class="prose">All material changes to this profile are recorded here. Add new entries at the top with date, tag, and brief note.</p>
+
+<div style="margin-top:14px;">
+  <div class="changelog-entry">
+    <div class="cl-date">2026-05-01</div>
+    <div><span class="cl-tag new">New</span></div>
+    <div class="cl-note"><strong>Document created.</strong> Full Tanzania country profile compiled — 18 sections covering entry/visa, borders, vehicle documents, seasonal timing, fuel, roads, security, health, camp safety, communications, money, parks/camping, northern and southern highlights (with human history, flora/vegetation, conservation sections), interactive map, northern and southern GPX route guides, and Swahili phrases. Wildebeest migration monthly position table included. Park fees based on TANAPA 2025/26 rates — verify before travel.</div>
+  </div>
+</div>
+</div>
+
+<!-- ── EXPORT BAR ──────────────────────────────────────────── -->
+<div id="export-bar">
+  Export:
+  <button class="export-btn-inline" onclick="window.print()">⎙ Print / Save PDF</button>
+  <button class="export-btn-inline" id="copy-btn" onclick="navigator.clipboard.writeText(document.body.innerText).then(()=>{this.textContent='✓ Copied';setTimeout(()=>this.textContent='⧉ Copy text',2000})">⧉ Copy text</button>
+</div>
+
+<!-- ── FOOTER ─────────────────────────────────────────────── -->
+<div class="doc-footer">
+  <div><strong>Tanzania Overland Profile · 006</strong> · LC76 Overland Reference Library</div>
+  <div>Vehicle: LC76 SW 1HZ · HZJ76R · SA-plated · RHD</div>
+  <div>Compiled: 01 May 2026 · Sources: TANAPA 2025/26, Tanzania Immigration, iOverlander Apr 2026</div>
+  <div>Verify all fees, visa requirements, and park conditions before travel — changes frequently</div>
+  <div><strong>overlandslabs.github.io/Consumption</strong></div>
+</div>
+
+<script>
+var map, currentView = 'overview';
+
+var views = {
+  overview: { center: [-6.5, 35.0], zoom: 6 },
+  north:    { center: [-3.0, 35.5], zoom: 7 },
+  south:    { center: [-8.0, 34.5], zoom: 7 }
+};
+
+function setMapView(v) {
+  currentView = v;
+  document.querySelectorAll('.map-tab').forEach(function(t,i){
+    t.classList.toggle('active', ['overview','north','south'][i]===v);
+  });
+  map.flyTo(views[v].center, views[v].zoom, {duration:1});
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  map = L.map('country-map', { zoomControl: true, scrollWheelZoom: false })
+         .setView(views.overview.center, views.overview.zoom);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors', maxZoom: 18
+  }).addTo(map);
+
+  // Tanzania border outline (simplified)
+  var tzBorder = {
+    "type":"Feature","properties":{},
+    "geometry":{"type":"Polygon","coordinates":[[
+      [33.90,-1.00],[34.68,-1.18],[35.03,-1.90],[37.67,-3.06],[37.76,-3.70],
+      [39.20,-4.68],[40.44,-10.46],[40.20,-11.00],[39.50,-11.35],[38.45,-11.28],
+      [37.82,-11.27],[37.12,-11.59],[36.52,-11.71],[35.79,-11.57],[34.96,-11.58],
+      [34.28,-11.70],[34.00,-11.57],[33.68,-12.53],[33.21,-12.02],[32.75,-11.57],
+      [32.59,-11.00],[32.45,-10.00],[32.20,-9.41],[31.94,-9.05],[31.51,-8.72],
+      [30.74,-8.25],[30.20,-7.08],[29.58,-6.52],[29.34,-4.50],[29.32,-3.08],
+      [29.58,-2.40],[30.17,-2.01],[30.82,-1.36],[30.90,-1.02],[31.29,-1.01],
+      [31.87,-1.13],[32.30,-1.26],[33.90,-1.00]
+    ]]}
+  };
+  L.geoJSON(tzBorder, {
+    style: { color:'#b86800', weight:2.5, opacity:0.9, fillColor:'#e07800', fillOpacity:0.08 }
+  }).addTo(map);
+
+  var C = {
+    amber:'#e07800', red:'#7a1010', green:'#1A5C2E',
+    blue:'#1A4A6B', teal:'#0D6B6B'
+  };
+
+  function mkIcon(color, size) {
+    size = size || 12;
+    return L.divIcon({
+      html: '<div style="width:'+size+'px;height:'+size+'px;border-radius:50%;background:'+color+';border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.5)"></div>',
+      iconSize: [size+4,size+4], iconAnchor: [(size+4)/2,(size+4)/2], className:''
+    });
+  }
+
+  // Cities and entry points
+  var cities = [
+    { ll:[-3.387, 36.682], name:'Arusha', note:'Northern Circuit base · full services · fuel' },
+    { ll:[-6.792, 39.209], name:'Dar es Salaam', note:'Capital · international airport · Aga Khan Hospital' },
+    { ll:[-3.354, 37.344], name:'Moshi', note:'Kilimanjaro base · gateway town' },
+    { ll:[-8.900, 33.460], name:'Mbeya', note:'Southern gateway · TANZAM hub · fuel & supplies' },
+    { ll:[-7.770, 35.690], name:'Iringa', note:'Last fuel before Ruaha · 130 km from park' },
+    { ll:[-6.160, 35.740], name:'Dodoma', note:'Capital (administrative) · transit point' },
+    { ll:[-5.050, 32.800], name:'Mpanda', note:'Last fuel for Katavi (~60 km) · basic supplies' }
+  ];
+  cities.forEach(function(c){
+    L.marker(c.ll, {icon: mkIcon(C.blue, 10)}).addTo(map)
+     .bindPopup('<strong>'+c.name+'</strong><br>'+c.note);
+  });
+
+  // Border crossings
+  var borders = [
+    { ll:[-3.110, 36.842], name:'Namanga', note:'Kenya ↔ Tanzania · main northern entry · 06:00–22:00' },
+    { ll:[-9.530, 33.985], name:'Kasumulu / Songwe', note:'Malawi ↔ Tanzania · southern entry · 06:00–22:00' },
+    { ll:[-9.300, 32.750], name:'Tunduma / Nakonde', note:'Zambia ↔ Tanzania · TANZAM crossing · 06:00–18:00' },
+    { ll:[-4.640, 39.000], name:'Horohoro / Lunga Lunga', note:'Kenya ↔ Tanzania coastal · 06:00–18:00' },
+    { ll:[-1.180, 31.435], name:'Mutukula', note:'Uganda ↔ Tanzania · 07:00–18:00' }
+  ];
+  borders.forEach(function(b){
+    L.marker(b.ll, {icon: mkIcon(C.red, 9)}).addTo(map)
+     .bindPopup('<strong>'+b.name+'</strong><br>'+b.note);
+  });
+
+  // National parks
+  var parks = [
+    { ll:[-2.333, 34.833], name:'Serengeti NP', note:'1.4M ha · Wildebeest migration · Lion · Leopard · Cheetah' },
+    { ll:[-3.180, 35.490], name:'Ngorongoro CA', note:'260 km² crater · Black rhino · 25,000 permanent animals' },
+    { ll:[-3.850, 36.000], name:'Tarangire NP', note:'Elephant concentration dry season · Baobabs · 570+ birds' },
+    { ll:[-3.380, 35.840], name:'Lake Manyara NP', note:'Tree-climbing lions · Flamingo · Birding' },
+    { ll:[-7.920, 34.950], name:'Ruaha NP', note:"Tanzania's largest NP · 22,000 km² · Elephant · Wild dog · Remote" },
+    { ll:[-9.000, 38.500], name:'Nyerere NP (Selous)', note:'Rufiji River · Wild dog stronghold · Boating safari' },
+    { ll:[-6.670, 31.100], name:'Katavi NP', note:'Most remote NP · Hippo concentrations · Buffalo · Zero crowds' },
+    { ll:[-7.420, 36.800], name:'Mikumi NP', note:'TANZAM roadside park · Good lion · Easy access' },
+    { ll:[-3.060, 35.860], name:'Ndutu / Southern Serengeti', note:'Calving season Jan–Mar · Quiet · Excellent value' }
+  ];
+  parks.forEach(function(p){
+    L.marker(p.ll, {icon: mkIcon(C.green, 13)}).addTo(map)
+     .bindPopup('<strong>'+p.name+'</strong><br>'+p.note);
+  });
+
+  // Key camps / waypoints
+  var camps = [
+    { ll:[-2.467, 34.833], name:'Seronera — Serengeti centre', note:'Public campsite · park HQ · Lion Valley' },
+    { ll:[-1.483, 34.833], name:'Kogatende — N. Serengeti', note:'Mara River crossings Jul–Oct · Remote' },
+    { ll:[-2.733, 35.000], name:'Ndutu Lake area', note:'Calving season base · Jan–Mar wildebeest' },
+    { ll:[-3.215, 35.490], name:'Ngorongoro rim camp', note:'Cold nights · Crater descent from here' },
+    { ll:[-7.950, 34.960], name:'Msembe — Ruaha HQ', note:'Public campsite · River track access dawn' },
+    { ll:[-6.650, 31.120], name:'Sitalike — Katavi', note:'Katuma River camp · Hippo concentration' }
+  ];
+  camps.forEach(function(c){
+    L.marker(c.ll, {icon: mkIcon(C.amber, 9)}).addTo(map)
+     .bindPopup('<strong>'+c.name+'</strong><br>'+c.note);
+  });
+
+  // Indicative route lines
+  L.polyline([[-9.530,33.985],[-8.900,33.460],[-7.770,35.690],[-7.420,36.800],[-7.770,35.690],[-3.387,36.682]], {
+    color:'#b86800', weight:2, opacity:0.6, dashArray:'6,4'
+  }).addTo(map).bindPopup('Southern approach: Kasumulu → Mbeya → Iringa → Mikumi → Arusha');
+
+  L.polyline([[-3.387,36.682],[-3.850,36.000],[-3.380,35.840],[-3.215,35.490],[-2.333,34.833],[-1.483,34.833]], {
+    color:'#1A5C2E', weight:2, opacity:0.6, dashArray:'6,4'
+  }).addTo(map).bindPopup('Northern Circuit: Arusha → Tarangire → Manyara → Ngorongoro → Serengeti North');
+
+  L.polyline([[-7.770,35.690],[-7.950,34.960],[-8.900,33.460],[-6.670,31.100]], {
+    color:'#1A4A6B', weight:2, opacity:0.6, dashArray:'6,4'
+  }).addTo(map).bindPopup('Southern circuit: Mbeya → Ruaha → Katavi');
+
+  // Legend
+  var legend = L.control({position:'bottomright'});
+  legend.onAdd = function(){
+    var d = L.DomUtil.create('div');
+    d.style.cssText='background:rgba(13,14,18,.88);padding:8px 12px;font-family:IBM Plex Mono,monospace;font-size:10px;color:#a8b0bc;line-height:2;border:1px solid #2a2f3a';
+    d.innerHTML='<div style="color:#e07800;letter-spacing:.1em;margin-bottom:3px">LEGEND</div>'+
+      '<span style="color:#1A4A6B">●</span> City / service point<br>'+
+      '<span style="color:#7a1010">●</span> Border crossing<br>'+
+      '<span style="color:#1A5C2E">●</span> National park<br>'+
+      '<span style="color:#e07800">●</span> Camp / waypoint';
+    return d;
+  };
+  legend.addTo(map);
+
+  // IntersectionObserver for TOC active state
+  var sectionIds = ['s01','s02','s03','s04','s05','s06','s07','s08','s09','s10','s11','s12','s13','s14','s15','s16','s17','s18'];
+  var tocLinks = document.querySelectorAll('.toc-link');
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        var idx = sectionIds.indexOf(e.target.id);
+        tocLinks.forEach(function(l,i){ l.classList.toggle('active', i===idx); });
+      }
+    });
+  }, { rootMargin:'-20% 0px -70% 0px' });
+  sectionIds.forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) observer.observe(el);
+  });
+});
+</script>
+</body>
+</html>
