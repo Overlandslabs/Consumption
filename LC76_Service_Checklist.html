@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Service Checklist — LC76 1HZ</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=Oswald:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0d0e12;--paper:#dad2c0;--paper2:#edeae0;--amber:#b86800;--amber2:#e07800;--rule:#d4cfc4;--steeldk:#2a2f3a;--steelmd:#6a7080;--red-warn:#B91C1C;--green-ok:#059669;--green-field:#10b981;--blue:#1d4ed8}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{overflow-x:hidden}
+body{font-family:Oswald,sans-serif;background:var(--paper);color:var(--steeldk);line-height:1.5;-webkit-font-smoothing:antialiased;min-height:100vh}
+header{background:var(--ink);color:#fff;padding:18px 24px 14px;position:sticky;top:0;z-index:100}
+.mh-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--steelmd);margin-bottom:6px}
+.mh-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.6rem,4vw,2.4rem);letter-spacing:.06em;color:var(--amber2);line-height:1}
+.mh-sub{font-family:'IBM Plex Mono',monospace;font-size:.54rem;letter-spacing:.12em;color:rgba(255,200,100,.65);margin-top:4px}
+.session-bar{background:var(--steeldk);padding:1rem 1.5rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:.75rem;align-items:end}
+.sfield label{font-family:'IBM Plex Mono',monospace;font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--steelmd);display:block;margin-bottom:4px}
+.sfield input{width:100%;padding:.55rem .75rem;font-family:'IBM Plex Mono',monospace;font-size:.82rem;border:2px solid #444;border-radius:4px;background:#1a1f2a;color:#fff;min-height:44px}
+.sfield input:focus{outline:0;border-color:var(--amber2)}
+.sfield input::placeholder{color:#555}
+.interval-bar{background:var(--paper2);border-bottom:2px solid var(--rule);padding:.9rem 1.5rem;display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+.interval-bar-label{font-family:'IBM Plex Mono',monospace;font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:var(--steelmd);margin-right:.25rem;white-space:nowrap}
+.int-btn{font-family:'IBM Plex Mono',monospace;font-size:.75rem;font-weight:600;padding:.45rem .9rem;border:2px solid var(--rule);background:#fff;color:var(--steeldk);cursor:pointer;border-radius:4px;transition:all .15s;min-height:44px;-webkit-tap-highlight-color:transparent}
+.int-btn:hover{border-color:var(--amber2);color:var(--amber)}
+.int-btn.active{background:var(--ink);color:var(--amber2);border-color:var(--ink)}
+.int-btn.major{border-color:var(--amber)}
+.int-btn.not-due{opacity:.45;border-style:dashed}
+.int-btn.not-due.active{opacity:1}
+.due-notice{background:var(--green-ok);color:#fff;padding:.5rem 1.5rem;font-family:'IBM Plex Mono',monospace;font-size:.72rem;letter-spacing:.05em}
+.progress-bar-wrap{background:var(--ink);padding:.65rem 1.5rem;display:flex;align-items:center;gap:1rem}
+.progress-track{flex:1;height:8px;background:#333;border-radius:4px;overflow:hidden}
+.progress-fill{height:100%;background:var(--green-ok);border-radius:4px;transition:width .3s}
+.progress-label{font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--amber2);white-space:nowrap;min-width:90px;text-align:right}
+.reset-btn{font-family:'IBM Plex Mono',monospace;font-size:.7rem;font-weight:600;padding:.35rem .8rem;border:1px solid #555;background:0 0;color:#888;cursor:pointer;border-radius:4px;transition:all .2s;min-height:44px}
+.reset-btn:hover{border-color:#fff;color:#fff}
+main{padding:1.25rem 1.5rem 90px;width:100%}
+.section{margin-bottom:1.5rem}
+.section-header{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.05em;color:var(--steeldk);border-bottom:2px solid var(--rule);padding-bottom:.3rem;margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
+.section-badge{font-family:'IBM Plex Mono',monospace;font-size:.65rem;font-weight:600;padding:.2rem .5rem;border-radius:3px;background:var(--paper2);color:var(--steelmd)}
+.section-badge.done{background:var(--green-ok);color:#fff}
+.outstanding-header{background:var(--red-warn);color:#fff;padding:.6rem 1rem;border-radius:6px 6px 0 0}
+.outstanding-header .section-header{border-bottom:none;color:#fff;padding-bottom:0;margin-bottom:0;font-size:1.3rem}
+.outstanding-header .section-badge{background:rgba(255,255,255,.25);color:#fff}
+.outstanding-body{background:#fff;border:3px solid var(--red-warn);border-top:none;border-radius:0 0 6px 6px;padding:.75rem;margin-bottom:1.5rem}
+.checklist{display:flex;flex-direction:column;gap:.4rem}
+.check-item{display:flex;align-items:flex-start;gap:.75rem;background:#fff;border:1.5px solid var(--rule);border-radius:6px;padding:.65rem .85rem;cursor:pointer;transition:all .15s;user-select:none;-webkit-user-select:none;min-height:44px}
+.check-item:hover{border-color:var(--amber2);background:var(--paper2)}
+.check-item.checked{background:#f0faf6;border-color:var(--green-ok)}
+.check-item.critical{border-left:3px solid var(--red-warn)}
+.check-item.warn{border-left:3px solid var(--amber2)}
+.check-box{width:22px;height:22px;min-width:22px;border:2px solid var(--rule);border-radius:4px;display:flex;align-items:center;justify-content:center;transition:all .15s;margin-top:1px;flex-shrink:0}
+.check-item.checked .check-box{background:var(--green-ok);border-color:var(--green-ok)}
+.check-box svg{display:none}
+.check-item.checked .check-box svg{display:block}
+.check-content{flex:1;min-width:0}
+.check-name{font-family:Oswald,sans-serif;font-size:.95rem;font-weight:600;color:var(--steeldk);line-height:1.3;word-wrap:break-word}
+.check-item.checked .check-name{color:var(--green-ok)}
+.check-detail{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--steelmd);margin-top:2px;line-height:1.4;word-wrap:break-word}
+.check-flag{font-family:'IBM Plex Mono',monospace;font-size:.62rem;font-weight:600;padding:.15rem .4rem;border-radius:3px;margin-left:.4rem;vertical-align:middle;white-space:nowrap;display:inline-block}
+.flag-critical{background:var(--red-warn);color:#fff}
+.flag-warn{background:var(--amber);color:#fff}
+.no-record{font-family:'IBM Plex Mono',monospace;font-size:.62rem;background:#fef2f2;color:var(--red-warn);border:1px solid var(--red-warn);padding:.1rem .4rem;border-radius:3px;margin-left:.4rem;display:inline-block}
+.source-tag{font-family:'IBM Plex Mono',monospace;font-size:.58rem;background:var(--paper2);color:var(--steelmd);border:1px solid var(--rule);padding:.1rem .35rem;border-radius:3px;margin-left:.4rem;vertical-align:middle;display:inline-block}
+.cumulative-notice{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--steeldk);background:var(--paper2);border:1px solid var(--rule);border-radius:4px;padding:.45rem .75rem;margin-bottom:.85rem;line-height:1.6}
+.notes-section{background:#fff;border:2px solid var(--rule);border-radius:8px;padding:1rem 1.25rem;margin-top:1.25rem}
+.notes-title{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;color:var(--steeldk);margin-bottom:.6rem}
+.notes-area{width:100%;min-height:80px;font-family:'IBM Plex Mono',monospace;font-size:.8rem;border:2px solid var(--rule);border-radius:4px;padding:.6rem .75rem;resize:vertical;color:var(--steeldk);background:var(--paper2)}
+.notes-area:focus{outline:0;border-color:var(--amber2)}
+.print-bar{position:fixed;bottom:0;left:0;right:0;background:var(--ink);padding:.75rem 1.5rem;padding-bottom:calc(.75rem + env(safe-area-inset-bottom));display:flex;gap:.75rem;justify-content:flex-end;z-index:50;border-top:2px solid var(--amber)}
+.print-bar button{font-family:'IBM Plex Mono',monospace;font-size:.8rem;font-weight:600;padding:.6rem 1.25rem;border:2px solid;cursor:pointer;border-radius:4px;min-height:44px;transition:all .2s;-webkit-tap-highlight-color:transparent}
+.btn-print{background:var(--amber2);color:#fff;border-color:var(--amber2)}
+.btn-print:hover{background:#c06800}
+.btn-clear-all{background:0 0;color:#888;border-color:#444}
+.btn-clear-all:hover{color:#fff;border-color:#fff}
+/* Custom confirm overlay — replaces confirm() which is blocked in PWA standalone */
+.confirm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:999;display:flex;align-items:center;justify-content:center}
+.confirm-box{background:var(--paper2);border:2px solid var(--rule);border-radius:8px;padding:1.5rem;max-width:320px;width:90%;font-family:Oswald,sans-serif}
+.confirm-msg{font-size:1.05rem;font-weight:600;color:var(--steeldk);margin-bottom:.75rem}
+.confirm-btns{display:flex;gap:.75rem;justify-content:flex-end;margin-top:1rem}
+.confirm-btns button{font-family:'IBM Plex Mono',monospace;font-size:.78rem;font-weight:600;padding:.5rem 1rem;border:2px solid;cursor:pointer;border-radius:4px;min-height:44px}
+.confirm-ok{background:var(--red-warn);color:#fff;border-color:var(--red-warn)}
+.confirm-cancel{background:0 0;color:var(--steeldk);border-color:var(--rule)}
+@media(max-width:600px){
+  header{padding:14px 16px 12px;padding-top:calc(14px + env(safe-area-inset-top))}
+  .mh-sub{display:none}
+  .session-bar{padding:.75rem 1rem;grid-template-columns:1fr 1fr}
+  .interval-bar{padding:.75rem 1rem;gap:.4rem}
+  .int-btn{font-size:.68rem;padding:.4rem .65rem;min-height:44px}
+  .interval-bar-label{width:100%;margin-bottom:.15rem}
+  main{padding:1rem 1rem 100px}
+  .print-bar{padding:.6rem 1rem;padding-bottom:calc(.6rem + env(safe-area-inset-bottom));gap:.5rem}
+  .print-bar button{font-size:.72rem;padding:.5rem .85rem}
+  .check-item{padding:.6rem .75rem}
+  .check-name{font-size:.88rem}
+  .check-detail{font-size:.64rem}
+  .due-notice{font-size:.65rem;padding:.45rem 1rem}
+}
+@media print{
+  @page{size:A4;margin:7mm}
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;color-adjust:exact!important}
+  :root{
+    --ink:#0d0e12;--paper:#dad2c0;--paper2:#edeae0;--amber:#b86800;--amber2:#e07800;
+    --rule:#d4cfc4;--steeldk:#2a2f3a;--steelmd:#6a7080;--red-warn:#B91C1C;--green-ok:#059669
+  }
+  html,body{overflow:visible!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  body{background:#fff;font-size:7.5pt;line-height:1.3}
+  header{position:static!important;padding:3mm 5mm;background:#0d0e12!important;color:#fff!important}
+  .mh-eyebrow{font-size:5pt;color:#6a7080!important}
+  .mh-title{font-size:14pt;color:#e07800!important}
+  .mh-sub{font-size:5pt;color:rgba(255,200,100,.65)!important;display:block!important}
+  .session-bar{background:#2a2f3a!important;padding:2mm 4mm;gap:2mm;grid-template-columns:repeat(4,1fr);display:grid!important}
+  .sfield label{font-size:5pt;color:#6a7080!important}
+  .sfield input{font-size:6pt;padding:1mm 2mm;min-height:auto;background:#1a1f2a!important;color:#fff!important;border-color:#555!important}
+  .interval-bar,.progress-bar-wrap,.due-notice,.print-bar,.reset-btn,.confirm-overlay{display:none!important}
+  main{padding:2mm 0 0;width:100%}
+  .cumulative-notice{font-size:5.5pt;padding:1mm 2mm;margin-bottom:2mm;line-height:1.3;background:#edeae0!important;border-color:#d4cfc4!important}
+  .outstanding-header{padding:1.5mm 3mm;border-radius:0;background:#B91C1C!important;color:#fff!important}
+  .outstanding-header .section-header{font-size:8pt;margin-bottom:0;color:#fff!important;border-bottom:none}
+  .outstanding-header .section-badge{background:rgba(255,255,255,.25)!important;color:#fff!important}
+  .outstanding-body{padding:1.5mm 3mm;border-radius:0;border-width:2px;border-color:#B91C1C!important;background:#fff!important}
+  .outstanding-body .checklist{gap:1mm}
+  .section{margin-bottom:2mm;break-inside:auto}
+  .section-header{font-size:8pt;padding-bottom:.5mm;margin-bottom:1.5mm}
+  .section-badge{font-size:5pt;padding:.05rem .25rem;background:#edeae0!important}
+  .section-badge.done{background:#059669!important;color:#fff!important}
+  .checklist{gap:1mm;break-inside:auto}
+  .check-item{padding:1.2mm 2mm;border-radius:3px;break-inside:avoid;page-break-inside:avoid;min-height:auto;background:#fff!important;border-color:#d4cfc4!important}
+  .check-item.checked{background:#f0faf6!important;border-color:#059669!important}
+  .check-item.critical{border-left:3px solid #B91C1C!important}
+  .check-item.warn{border-left:2px solid #e07800!important}
+  .check-box{width:14px;height:14px;min-width:14px;border-width:1.5px;background:#fff!important;border-color:#d4cfc4!important}
+  .check-item.checked .check-box{background:#059669!important;border-color:#059669!important}
+  .check-box svg{width:8px;height:7px}
+  .check-name{font-size:7pt;line-height:1.25;color:#2a2f3a!important}
+  .check-item.checked .check-name{color:#059669!important}
+  .check-detail{font-size:5.5pt;line-height:1.3;margin-top:1px;color:#6a7080!important}
+  .check-flag{font-size:5pt;padding:.05rem .2rem}
+  .flag-critical{background:#B91C1C!important;color:#fff!important}
+  .flag-warn{background:#b86800!important;color:#fff!important}
+  .no-record{font-size:5pt;padding:.05rem .2rem;background:#fef2f2!important;color:#B91C1C!important;border-color:#B91C1C!important}
+  .source-tag{font-size:4.5pt;padding:.05rem .15rem;background:#edeae0!important;color:#6a7080!important}
+  .notes-section{padding:2mm 3mm;margin-top:2mm;border-width:1.5px;border-color:#d4cfc4!important;background:#fff!important;break-inside:avoid}
+  .notes-title{font-size:9pt;margin-bottom:1mm}
+  .notes-area{min-height:25mm;font-size:6pt;padding:1mm 2mm;background:#f5f3ee!important;border-color:#d4cfc4!important}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="mh-eyebrow">Overland Series · R8 Supplement · v3 — Multi-Source Verified</div>
+  <div class="mh-title">Service Checklist</div>
+  <div class="mh-sub">HZJ76R-RKMRS · 1HZ + SAC Low-Boost Turbo · Last service 308,248 km · Next service 315,000 km</div>
+</header>
+
+<div class="session-bar">
+  <div class="sfield"><label>Date</label><input type="date" id="sessionDate"></div>
+  <div class="sfield"><label>Odometer (km)</label><input type="number" id="sessionOdo" placeholder="315000"></div>
+  <div class="sfield"><label>Workshop</label><input type="text" id="sessionWorkshop" placeholder="e.g. PW Auto Centre"></div>
+  <div class="sfield"><label>Technician</label><input type="text" id="sessionTech" placeholder="e.g. Pieter W"></div>
+</div>
+
+<div class="interval-bar" id="intervalBar">
+  <span class="interval-bar-label">Interval:</span>
+  <button class="int-btn active" id="btn5000"   onclick="selectInterval(5000,this)">5,000 km</button>
+  <button class="int-btn major"  id="btn10000"  onclick="selectInterval(10000,this)">10,000 km</button>
+  <button class="int-btn"        id="btn15000"  onclick="selectInterval(15000,this)">15,000 km</button>
+  <button class="int-btn major"  id="btn20000"  onclick="selectInterval(20000,this)">20,000 km</button>
+  <button class="int-btn major"  id="btn40000"  onclick="selectInterval(40000,this)">40,000 km</button>
+  <button class="int-btn major"  id="btn100000" onclick="selectInterval(100000,this)">100,000 km</button>
+</div>
+<div class="due-notice" id="dueNotice"></div>
+
+<div class="progress-bar-wrap">
+  <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div class="progress-label" id="progressLabel">0 / 0 done</div>
+  <button class="reset-btn" onclick="resetChecks()">Reset</button>
+</div>
+
+<main id="mainContent"></main>
+
+<div class="print-bar">
+  <button class="btn-clear-all" onclick="resetChecks()">Clear All</button>
+  <button class="btn-print" onclick="openPrint()">Print / PDF</button>
+</div>
+
+<!-- Custom confirm overlay — replaces confirm() blocked in PWA standalone mode -->
+<div class="confirm-overlay" id="confirmOverlay" style="display:none">
+  <div class="confirm-box">
+    <div class="confirm-msg" id="confirmMsg">Are you sure?</div>
+    <div class="confirm-btns">
+      <button class="confirm-cancel" onclick="hideConfirm()">Cancel</button>
+      <button class="confirm-ok" id="confirmOk">OK</button>
+    </div>
+  </div>
+</div>
+
+<script>
+var LAST_SERVICE_KM = 308248;
+var NEXT_SERVICE_KM = 315000;
+var KM_SINCE_LAST   = NEXT_SERVICE_KM - LAST_SERVICE_KM; // 6,752 km
+
+function isDue(interval){ return KM_SINCE_LAST >= interval; }
+
+function intLabel(km){
+  var m = {5000:'5,000',10000:'10,000',15000:'15,000',20000:'20,000',40000:'40,000',100000:'100,000'};
+  return m[km] || km.toLocaleString();
+}
+
+var ALL_ITEMS = [
+  // ── 5,000 km ──
+  {id:'eng_oil',       name:'Engine Oil — Drain & Refill',            detail:'15W-40 diesel-rated (API CI-4+). Strict 5,000 km turbo interval — oil degrades faster due to turbo heat and diesel soot. Record quantity used.',                                        interval:5000,  section:'Engine',     src:'BOTH'},
+  {id:'oil_filter',    name:'Engine Oil Filter',                       detail:'Genuine Toyota or GUD. Replace at every oil change. Carbon buildup from skipped changes can clog turbo feed lines.',                                                                    interval:5000,  section:'Engine',     src:'BOTH'},
+  {id:'ps_fluid',      name:'Power Steering Fluid — Check & Top Up',  detail:'Inspect level and condition. Top up with Toyota PSF if low. Check for leaks at pump, hoses, and steering box. Toyota FSM: every service.',                                              interval:5000,  section:'Fluids',     src:'FSM'},
+  {id:'brake_fl_chk',  name:'Brake Fluid — Check Level',              detail:'Check reservoir level. A dropping level indicates pad wear or a leak. Separate from scheduled full change (every 2 years — last Jan 2026, due Jan 2028).',                              interval:5000,  section:'Fluids',     src:'FSM'},
+  {id:'coolant_chk',   name:'Coolant — Check Level & Condition',      detail:'Check expansion tank when cold. Note colour change or contamination. Topped up Apr 2026 @ 308,248 km.',                                                                                 interval:5000,  section:'Fluids',     src:'FSM'},
+  {id:'wash_fluid',    name:'Windshield Washer Fluid — Top Up',       detail:'Top up every service. Functional in dusty African conditions — a dry reservoir = zero forward visibility in a dust cloud.',                                                              interval:5000,  section:'Fluids',     src:'FSM'},
+  {id:'prop_grease',   name:'Propshaft — Grease All UJ & Spline',     detail:'Grease all UJ nipples and sliding assy front and rear. Also immediately after every water crossing. Front UJ failure history at only 37,048 km — grease discipline is critical.',        interval:5000,  section:'Drivetrain', src:'BOTH'},
+  {id:'steer_grease',  name:'Steering Linkage — Grease & Inspect',    detail:'Grease all steering nipples. While greasing, inspect rubber boots on tie rods and drag link for cracking or tears — a torn boot contaminates the joint immediately.',                   interval:5000,  section:'Suspension', src:'BOTH'},
+  {id:'susp_grease',   name:'Suspension — Grease All Points',         detail:'All suspension grease nipples including greasable shackles (fitted Jan 2026). Confirm nipples accepting grease and not blocked.',                                                        interval:5000,  section:'Suspension', src:'BOTH'},
+  {id:'tyre_check',    name:'Tyre Pressure & Visual Condition',        detail:'All 5 tyres including spare. Maxxis AT811 fitted Nov 2024 @ 263,000 km. Check sidewalls for cuts and bulges. Verify TPMS sensor readings (TP-V31, fitted May 2025).',                   interval:5000,  section:'Tyres',      src:'FSM'},
+  {id:'wiper_check',   name:'Wiper Blades — Inspect',                 detail:'Check for streaking, chattering, or splitting. Replace if leaving blind spots — critical in heavy rain and dust storms.',                                                                interval:5000,  section:'Electrical', src:'FSM'},
+  {id:'egt_monitor',   name:'EGT Gauge & Monitoring System — Check',  detail:'Confirm Madman pyrometer functioning and alarm set to 600\u00b0C. Hard limit: sustained \u2264550\u00b0C, burst max \u2264650\u00b0C. Post-turbo sensor: add ~150\u00b0C to estimate true pre-turbo temp. #1 killer of turbocharged 1HZ engines.',interval:5000,section:'Turbo',src:'DOC',flag:'critical'},
+  // ── 5k Monitors (always shown) ──
+  {id:'mon_head',      name:'Cylinder Head Oil Seepage — Monitor',    detail:'Clean area, run to temp, observe exact origin. Worsening to a drip \u2192 escalate immediately to rocker cover gasket replacement (see Outstanding). Flagged Apr 2026 @ 308,248 km.',        interval:5000,  section:'Monitors',   src:'SH',  flag:'critical'},
+  {id:'mon_hub',       name:'Rear Hub Seal Leak — Monitor',           detail:'Check both rear drums for oil contamination. Rear shoes replaced Jan 2026 @ 293,949 km. Oil-contaminated shoes lose all friction — inspect before every drive in this state.',           interval:5000,  section:'Monitors',   src:'SH',  flag:'critical'},
+  {id:'mon_knuckle',   name:'Fat Knuckle Grease Leak — Monitor',      detail:'Confirm which side is leaking. Re-pack with MoS2 grease. Inspect knuckle seal face. A dry birfield in sand or river crossings accelerates rapidly to CV failure.',                      interval:5000,  section:'Monitors',   src:'SH',  flag:'warn'},
+  {id:'mon_waterpump', name:'Water Pump Weep Hole — Inspect',         detail:'No replacement record on file. Inspect weep hole for any dampness or residue at every service. Any sign of seeping \u2192 replace immediately. Field failure = expedition-ender.',            interval:5000,  section:'Monitors',   src:'SH',  flag:'critical', noRecord:true},
+  {id:'mon_rearmain',  name:'Rear Main Seal — Inspect',               detail:'Known common oil leak point on high-km 1HZ engines — oil seeps between engine and transmission. Check bell-housing area and clutch area for oil tracking. Track trend across services.', interval:5000,  section:'Monitors',   src:'DOC', flag:'warn'},
+  // ── 10,000 km ──
+  {id:'exhaust_insp',  name:'Exhaust Pipes & Mountings — Inspect',    detail:'Toyota FSM mandatory item. Check for cracks, holes, and loose brackets. Turbo exhaust runs significantly hotter than NA — inspect downpipe flange and turbo outlet gasket carefully.',  interval:10000, section:'Engine',     src:'FSM'},
+  {id:'brake_lines',   name:'Brake Lines & Hoses — Inspect',          detail:'Toyota FSM mandatory. Inspect steel lines for corrosion, rubber hoses for cracking or bulging. Check all flexi-hoses at caliper and rear wheel cylinder connections.',                  interval:10000, section:'Brakes',     src:'FSM'},
+  {id:'dshaft_boots',  name:'Drive Shaft Boots — Inspect',            detail:'Toyota FSM 4WD mandatory. Inspect front CV joint boots and rear prop shaft boots for splits. A split boot = CV joint contamination within days under normal driving.',                  interval:10000, section:'Drivetrain', src:'FSM'},
+  {id:'tyre_rotation', name:'Tyre Rotation',                          detail:'5-tyre rotation pattern. Check TPMS sensor retention after rotation — TP-V31 internal sensors. Record tread depth at each position. Last rotation: Apr 2026 @ 308,684 km (Tiger Wheel & Tyre — 45,684 km on tyres at that point).',                                                   interval:10000, section:'Tyres',      src:'SH'},
+  {id:'brake_inspect', name:'Brake Pads/Shoes/Drums — Measure',       detail:'Measure front pad thickness and rear shoe lining depth. Record measurements. Check rear drums for oil contamination from hub seal monitor.',                                            interval:10000, section:'Brakes',     src:'BOTH'},
+  {id:'blowby',        name:'Blow-By Check at Idle',                  detail:'Remove oil filler cap at idle and observe for smoke or pressure. Worn piston rings = blow-by. Effect worsened under turbo boost pressure.',                                             interval:10000, section:'Engine',     src:'DOC'},
+  {id:'boost_pipes',   name:'Boost Pipes & Clamps — Inspect',         detail:'Listen for hissing under load. Check all intercooler pipe clamp torque. A boost leak causes the engine to run rich, spikes EGT, and risks overtemp. Confirm boost \u226410 psi.',           interval:10000, section:'Turbo',      src:'BOTH', flag:'warn'},
+  {id:'turbo_shaft',   name:'Turbo Shaft Play — Check',               detail:'Grasp shaft and check radial and axial play. Significant axial play indicates bearing wear. Last recon Aug 2023 @ 224,406 km — currently ~84,278 km on reconditioned unit.',           interval:10000, section:'Turbo',      src:'SH',   flag:'warn'},
+  {id:'intake_smoke',  name:'Air Intake & Snorkel Seal — Smoke Test', detail:'Dust is a turbo\u2019s most destructive enemy. Verify snorkel seating, airbox lid seal, and all intake pipe clamps are 100% airtight. Use a smoke machine or visual inspection under light.',interval:10000,section:'Turbo',src:'DOC',flag:'warn'},
+  {id:'radiator_insp', name:'Radiator & Condenser — Inspect',         detail:'Check fins for blockage or physical damage. Inspect for leaks at tanks and seams. Current G-Tec unit (Nov 2024) was flagged as not best quality — monitor closely.',                   interval:10000, section:'Cooling',    src:'FSM'},
+  {id:'battery_chk',   name:'Battery & Charging System — Check',      detail:'Check dual battery health (starter + aux). Verify Victron Cyrix 120A isolator and BM2000 dual monitor functioning. Inspect terminals for corrosion. Check alternator charging voltage.',interval:10000,section:'Electrical',src:'FSM'},
+  // ── 15,000 km ──
+  {id:'air_filter',    name:'Air Filter — Replace',                   detail:'15,000 km standard interval; shorten to 10,000 km in African dust conditions. Turbo amplifies damage from dust ingestion — do not skip.',                                               interval:15000, section:'Engine',     src:'BOTH'},
+  // ── 20,000 km ──
+  {id:'fuel_filter',   name:'Fuel Filter — Replace',                  detail:'20,000 km; shorten to 15,000 km with poor-quality diesel. Part of filter kit. Injection pump is calibrated for clean fuel — contamination causes accelerated wear.',                     interval:20000, section:'Fuel System',src:'BOTH'},
+  {id:'cabin_filter',  name:'Cabin Air Filter — Replace',             detail:'Part of filter kit. 20,000 km interval. Overlanding conditions shorten effective service life.',                                                                                         interval:20000, section:'Engine',     src:'BOTH'},
+  {id:'fan_clutch',    name:'Viscous Fan Clutch — Full Test',         detail:'Cold: spin by hand, stops 1\u20133 rotations. Hot (after shutdown): stops almost immediately. Visual: dry housing, no wobble. Crucial for EGT management under sustained load. Passed Apr 2026 @ 308,500 km (Radiator King).',interval:20000,section:'Cooling',src:'BOTH'},
+  {id:'intercooler',   name:'Intercooler — Inspect Core, Fins & Boots',detail:'Clean external fins. Inspect rubber boots for oil contamination (indicates turbo seal wear). Check mounting brackets for cracks. 258,000 km on unit since Jul 2012.',                interval:20000, section:'Turbo',      src:'BOTH', flag:'warn'},
+  {id:'shock_inspect', name:'Shock Absorbers — Inspect',              detail:'Check for leaking seals and worn lower bushings. Rear OME Nitrocharger Plus 63111 replaced Jan 2026.',                                                                                  interval:20000, section:'Suspension', src:'FSM'},
+  {id:'ball_joints',   name:'Ball Joints & Dust Covers — Inspect',    detail:'Toyota FSM 4WD mandatory. Check for play and torn boots. Torn boot = immediate contamination. Knuckle overhaul kit replaced Feb 2025 @ 271,200 km. No separate ball joint record.',    interval:20000, section:'Suspension', src:'BOTH', flag:'warn'},
+  {id:'bushings',      name:'Suspension Bushings — Inspect',          detail:'Check polyurethane rear bushes and greasable shackles (Apr 2025). Confirm shackle nipples accepting grease. Check for cracking or deformation.',                                        interval:20000, section:'Suspension', src:'SH'},
+  {id:'diff_breathers',name:'Diff & Transfer Case Breather Vents — Inspect',detail:'Toyota FSM item. Blocked breathers cause seal blowout under thermal expansion. Check front diff, rear diff, and transfer case breather outlets are clear. Extended breather status: UNKNOWN.',interval:20000,section:'Drivetrain',src:'FSM',flag:'warn',noRecord:true},
+  {id:'wheel_align',   name:'Wheel Alignment — Check',                detail:'Check after any suspension work or significant off-road. Castor correction and OME spring work done Jan 2026. Uneven tyre wear is the primary field indicator.',                        interval:20000, section:'Suspension', src:'FSM'},
+  {id:'tpms_check',    name:'TPMS — Verify All Sensors Reading',      detail:'TP-V31 internal sensors fitted May 2025. Verify all 5 sensors reporting correct pressures. Check solar charging indicator. Replace dead sensors before any expedition departure.',      interval:20000, section:'Tyres',      src:'SH'},
+  {id:'chassis_insp',  name:'Chassis — Inspect Rear Shock Mounts & Firewall Seams',detail:'70-series chassis are tough but can crack at rear shock mounts and firewall seams under sustained heavy overland loads. Inspect for hairline cracks or stress fractures.',interval:20000,section:'Chassis',src:'DOC',flag:'warn'},
+  {id:'door_hinge',    name:'Rear Door Hinges — Inspect for Cracking',detail:'76 SW-specific item. The spare wheel weight causes the rear door to sag and crack the body skin around hinge mounting points. Inspect for hairline cracks at hinge mounts. Catch early.',interval:20000,section:'Chassis',src:'DOC',flag:'warn'},
+  // ── 40,000 km ──
+  {id:'fuel_lines',    name:'Fuel Lines, Connections & Tank Cap — Inspect',detail:'Toyota FSM 40,000 km item. Inspect lines for chafing and cracking, all connections for weeping, fuel cap gasket condition, and tank band security. Also check injection pump shaft seal.',interval:40000,section:'Fuel System',src:'FSM'},
+  {id:'inj_pump_seal', name:'Injection Pump Shaft Seal — Inspect',    detail:'Known failure point on high-km 1HZ engines. Monitor main shaft seal for any fuel leaking or weeping. Leaks worsen under high km and heat. Service history shows pump rebuilt Mar 2025.',interval:40000,section:'Fuel System',src:'DOC',flag:'warn'},
+  {id:'steer_boots',   name:'Steering Gear — Inspect for Play & Leaks',detail:'Toyota FSM item. Inspect steering box for play and for oil weeping from seals. Check all rubber boots on tie rods and drag link for cracks or tears.',                               interval:40000, section:'Suspension', src:'FSM'},
+  {id:'diff_oil_f',    name:'Front Differential Oil — Change',        detail:'80W-90 gear oil. Check for milky colour before drain (water ingestion). Last: Jan 2026 @ 293,949 km. Also change immediately after any water crossing.',                                interval:40000, section:'Drivetrain', src:'BOTH'},
+  {id:'diff_oil_r',    name:'Rear Differential Oil — Change',         detail:'80W-90 gear oil. Last: Apr 2025 @ 273,023 km.',                                                                                                                                         interval:40000, section:'Drivetrain', src:'BOTH'},
+  {id:'gearbox_oil',   name:'Gearbox Oil — Change',                   detail:'Use GL-4 specification ONLY — GL-5 contains sulfur compounds that damage brass synchronisers. Last: Feb 2025 @ 271,200 km (rebuilt). Check for milky colour before drain.',             interval:40000, section:'Drivetrain', src:'BOTH'},
+  {id:'tcase_oil',     name:'Transfer Case Oil — Change',             detail:'Last: Feb 2025 @ 271,200 km (rebuilt).',                                                                                                                                                interval:40000, section:'Drivetrain', src:'BOTH'},
+  {id:'fan_belt',      name:'Fan Belt Kit — Replace',                 detail:'Inspect condition at every service; replace at 40,000 km or if any cracking or glazing. Avoid inferior quality belts — multiple failures recorded. Always carry a spare.',             interval:40000, section:'Engine',     src:'BOTH'},
+  {id:'valve_clear',   name:'Valve Clearances (Tappets) — Inspect & Adjust',detail:'NO RECORD — approximately 6\u20137 intervals missed at 308,500 km. 1HZ uses outer shim-type adjustment. Tight valves under turbo boost cause hard starting, power loss, and burnt valves. Record all 12 measurements.',interval:40000,section:'Engine',src:'BOTH',flag:'critical',noRecord:true},
+  {id:'coolant_hoses', name:'Radiator & Cooling Hoses — Squeeze Test',detail:'Squeeze top and bottom hoses. Replace if soft, cracking, or spongy. No standalone replacement record — possibly changed with radiator Nov 2024 but unconfirmed.',                      interval:40000, section:'Cooling',    src:'BOTH', flag:'warn'},
+  {id:'turbo_oilfeed', name:'Turbo Oil Feed Line — Inspect',          detail:'Inspect banjo fittings and hose condition. Replace if cracking or oil-soaked. A failed feed line = dry turbo in seconds \u2192 immediate bearing failure. No separate replacement record — inspect at every 40,000 km service.',     interval:40000, section:'Turbo',      src:'BOTH', flag:'warn', noRecord:true},
+  {id:'turbo_drain',   name:'Turbo Drain Hose — Inspect',             detail:'Replace if oil-soaked, cracking, or soft. A blocked drain forces oil past turbo seals \u2192 blue smoke \u2192 turbo failure. Last: Mar 2025 @ 272,185 km.',                                  interval:40000, section:'Turbo',      src:'SH'},
+  {id:'brake_fluid',   name:'Brake Fluid — Full Change',              detail:'Every 2 years or 40,000 km. Last full change: Jan 2026. Due Jan 2028. DOT 3 or 4.',                                                                                                     interval:40000, section:'Brakes',     src:'BOTH'},
+  {id:'wb_repack',     name:'Wheel Bearing Repack',                   detail:'Severe-use interval: 20,000 km (Toyota). OVERDUE — last repack Nov 2023 @ 245,370 km (63,378 km ago). Use Toyota-spec wheel bearing grease. Inspect seals at same time.',     interval:40000, section:'Suspension', src:'BOTH', flag:'critical'},
+  // ── 100,000 km ──
+  {id:'thermostat',    name:'Thermostat — Replace',                   detail:'NO RECORD. 82\u00b0C OEM spec only. Bundle with coolant flush. A stuck-closed thermostat is one of the top three 1HZ overheating causes. Carry removed unit as a field spare.',         interval:100000,section:'Cooling',    src:'BOTH', flag:'critical', noRecord:true},
+  {id:'water_pump',    name:'Water Pump — Proactive Replacement',     detail:'NO RECORD. Bundle with cambelt at ~373,000 km. Inspect weep hole every service. Bearing failure before a remote crossing is an expedition-ender.',                                       interval:100000,section:'Cooling',    src:'BOTH', flag:'critical', noRecord:true},
+  {id:'coolant_flush', name:'Cooling System — Full Flush',            detail:'Last flush: Aug 2023 @ 224,406 km (~84,000 km overdue). Full flush restores the corrosion inhibitor package — not the same as a coolant top-up. Schedule before expedition.',          interval:100000,section:'Cooling',    src:'BOTH', flag:'warn'},
+  {id:'cambelt',       name:'Cambelt + Tensioner + Idlers — Replace', detail:'INTERFERENCE ENGINE — belt failure = pistons hit valves = catastrophic engine loss. Next due ~373,000 km / Apr 2030. Last: Apr 2025 @ 273,023 km. Bundle with water pump, cam/crank seals, thermostat.',interval:100000,section:'Engine',src:'BOTH',flag:'critical'},
+  {id:'injectors',     name:'Injectors — Pop Test & Flow Check',      detail:'Poor spray patterns cause hot spots on piston crowns, made worse by turbo boost. Reman Toyota fitted Mar 2025 @ 272,185 km (36,499 km ago).',                                          interval:100000,section:'Fuel System',src:'BOTH'},
+  {id:'inj_pump',      name:'Injection Pump — Service & Calibrate',   detail:'Last: Mar 2025 @ 272,185 km (dyno 118 kW / 373 Nm). Service at 100,000 km intervals. Over-fuelling relative to boost = excessive EGT = engine damage.',                                interval:100000,section:'Fuel System',src:'BOTH'},
+  {id:'glow_plugs',    name:'Glow Plugs — Test & Replace Set',        detail:'Main cause of hard cold starting and white smoke on cold mornings. Tested OK Mar 2025 @ 272,185 km. Replace as a full set at 150,000 km interval.',                                    interval:100000,section:'Fuel System',src:'DOC'}
+];
+
+var OUTSTANDING = [
+  {id:'out_rockergas', name:'Rocker Cover Gasket + Half-Moon Seal — Replace',   detail:'First and most cost-effective intervention for the cylinder head oil seepage monitor. Genuine Toyota rocker cover gasket + front/rear rubber grommets + reseal half-moon plug (11183-54011) with silicone. Combine with tappet inspection — rocker cover is already off.',flag:'critical'},
+  {id:'out_pcv',       name:'PCV Routing — Verify at Next Specialist Workshop', detail:'If the crankcase breather is routed post-intercooler rather than pre-turbo, boost pressure can back-pressurise the crankcase and force oil out at all top-end seals — directly explaining the head seepage. Trace breather hose from valve cover to intake at next visit to a 1HZ-experienced workshop.',flag:'critical'},
+  {id:'out_boost',     name:'Boost Gauge — Verify Fitted or Install',           detail:'Status unknown per service records. Without a boost gauge, wastegate function, boost leaks, and compensator failure cannot be diagnosed in the field. Recommended: 0\u201315 psi mechanical gauge. Safe boost limit: 6\u201310 psi for this low-boost setup.',flag:'warn'},
+  {id:'out_diff_ext',  name:'Diff Breather Extensions — Verify or Fit',         detail:'Status unknown. Standard Toyota breathers are inadequate for water crossings deeper than ankle height. Extended breathers route front diff, rear diff, and transfer case vents to a high point in the engine bay. Confirm before any river crossings.',flag:'critical'},
+  {id:'out_hstuds',    name:'Head Studs — Assess for Turbocharged Application', detail:'Not installed per service records. Stock head bolts are a known weak point on turbocharged 1HZ engines. Head studs increase clamping force and reduce head lift risk under sustained boost. Assess before 2028 expedition departure.',flag:'warn'},
+  {id:'out_racor',     name:'Racor Pre-Filter — Fit Before Expedition',         detail:'Africa diesel quality is variable. A Racor 500FG series water-separating pre-filter upstream of the factory fuel filter is standard expedition fit for sub-Saharan overlanding. Protects injection pump from water and contamination.',flag:'warn'},
+  {id:'out_exhaust',   name:'Free-Flow Exhaust — Assess Before Expedition',     detail:'Exhaust backpressure increases pre-turbo heat and raises EGT under load. A free-flow exhaust is a recommended upgrade for any turbocharged 1HZ operating in sustained high-load conditions. Listed in R23 pre-departure items.',flag:'warn'}
+];
+
+var SECTIONS_ORDER = ['Engine','Fuel System','Fluids','Drivetrain','Cooling','Turbo','Brakes','Suspension','Chassis','Tyres','Electrical','Monitors'];
+
+var currentInterval = 5000;
+var checks = {};
+
+function getItemsForInterval(km){ return ALL_ITEMS.filter(function(i){ return i.interval <= km; }); }
+
+function selectInterval(km, btn){
+  currentInterval = km;
+  document.querySelectorAll('.int-btn').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  updateDueNotice();
+  render();
+}
+
+function updateDueNotice(){
+  var notice = document.getElementById('dueNotice');
+  if(isDue(currentInterval)){
+    notice.textContent = '\u2713 This interval (' + intLabel(currentInterval) + ' km) IS DUE at 315,000 km \u2014 ' + KM_SINCE_LAST.toLocaleString() + ' km since last service @ 308,248 km.';
+    notice.style.background = '#059669';
+  } else {
+    notice.textContent = '\u2139 Not yet due at 315,000 km \u2014 ' + KM_SINCE_LAST.toLocaleString() + ' km since last service. Next ' + intLabel(currentInterval) + ' km service due at ~' + (Math.ceil((LAST_SERVICE_KM + 1) / currentInterval) * currentInterval).toLocaleString() + ' km.';
+    notice.style.background = '#6a7080';
+  }
+  document.querySelectorAll('.int-btn').forEach(function(btn){
+    var km = parseInt(btn.id.replace('btn',''));
+    btn.classList.toggle('not-due', !isDue(km));
+  });
+}
+
+function showConfirm(msg, cb){
+  document.getElementById('confirmMsg').textContent = msg;
+  var overlay = document.getElementById('confirmOverlay');
+  overlay.style.display = 'flex';
+  document.getElementById('confirmOk').onclick = function(){ hideConfirm(); cb(); };
+}
+function hideConfirm(){
+  document.getElementById('confirmOverlay').style.display = 'none';
+}
+
+function resetChecks(){
+  showConfirm('Clear all checked items for this session?', function(){ checks = {}; render(); });
+}
+
+function toggleCheck(id){
+  checks[id] = !checks[id];
+  updateProgress();
+  var el = document.getElementById('ci_' + id);
+  if(el) el.classList.toggle('checked', !!checks[id]);
+}
+
+function groupBySection(items){
+  var g = {};
+  items.forEach(function(i){ if(!g[i.section]) g[i.section] = []; g[i.section].push(i); });
+  return g;
+}
+
+function updateProgress(){
+  var items = getItemsForInterval(currentInterval);
+  var all = items.concat(OUTSTANDING);
+  var total = all.length;
+  var done = all.filter(function(i){ return checks[i.id]; }).length;
+  var pct = total ? Math.round(done / total * 100) : 0;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = done + ' / ' + total + ' done';
+  var grouped = groupBySection(items);
+  SECTIONS_ORDER.forEach(function(sec){
+    var si = grouped[sec] || [];
+    var sd = si.filter(function(i){ return checks[i.id]; }).length;
+    var b = document.getElementById('badge_' + sec);
+    if(b){ b.textContent = sd + '/' + si.length; b.className = 'section-badge' + (sd === si.length && si.length > 0 ? ' done' : ''); }
+  });
+  var od = OUTSTANDING.filter(function(i){ return checks[i.id]; }).length;
+  var ob = document.getElementById('badge_outstanding');
+  if(ob){ ob.textContent = od + '/' + OUTSTANDING.length; ob.className = 'section-badge' + (od === OUTSTANDING.length ? ' done' : ''); }
+}
+
+function srcLabel(s){
+  if(!s) return '';
+  return '<span class="source-tag">' + s + '</span>';
+}
+
+function buildItem(item, inOut){
+  var isChecked = !!checks[item.id];
+  var fc = item.flag === 'critical' ? 'critical' : item.flag === 'warn' ? 'warn' : '';
+  var fb = item.flag === 'critical' ? '<span class="check-flag flag-critical">CRITICAL</span>' : item.flag === 'warn' ? '<span class="check-flag flag-warn">MONITOR</span>' : '';
+  var nr = item.noRecord ? '<span class="no-record">NO RECORD</span>' : '';
+  var ib = (!inOut && item.interval > 5000) ? '<span class="check-flag" style="background:#2a2f3a;color:#e07800;">' + intLabel(item.interval) + ' km</span>' : '';
+  return '<div class="check-item' + (isChecked ? ' checked' : '') + ' ' + fc + '" id="ci_' + item.id + '" onclick="toggleCheck(\'' + item.id + '\')">'
+    + '<div class="check-box"><svg width="12" height="10" viewBox="0 0 12 10" fill="none"><polyline points="1,5 4.5,8.5 11,1" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>'
+    + '<div class="check-content">'
+    + '<div class="check-name">' + item.name + fb + nr + ib + srcLabel(item.src) + '</div>'
+    + '<div class="check-detail">' + item.detail + '</div>'
+    + '</div></div>';
+}
+
+function render(){
+  var items = getItemsForInterval(currentInterval);
+  var grouped = groupBySection(items);
+  var date = document.getElementById('sessionDate').value;
+  var odo  = document.getElementById('sessionOdo').value;
+  var ws   = document.getElementById('sessionWorkshop').value;
+  var tech = document.getElementById('sessionTech').value;
+  var notDue = !isDue(currentInterval);
+
+  var html = '<div class="cumulative-notice">'
+    + '<strong>Sources:</strong> FSM = Toyota FSM / Gregory\u2019s LC70 \u00a0|\u00a0 SH = Service History file \u00a0|\u00a0 DOC = Turbo 1HZ reference documents \u00a0|\u00a0 BOTH = multiple sources'
+    + (notDue ? '<br><strong style="color:#B91C1C;">\u26a0 Note:</strong> This interval is not yet due at 315,000 km (' + KM_SINCE_LAST.toLocaleString() + ' km since last service). Items shown for planning only.' : '')
+    + ((date || odo) ? '<br>Session: ' + (date ? new Date(date + 'T00:00:00').toLocaleDateString('en-ZA',{day:'2-digit',month:'short',year:'numeric'}) : '') + (odo ? ' \u00b7 ' + parseInt(odo).toLocaleString() + ' km' : '') + (ws ? ' \u00b7 ' + ws : '') + (tech ? ' \u00b7 ' + tech : '') : '')
+    + '</div>';
+
+  html += '<div class="outstanding-header"><div class="section-header">\u26a0\ufe0f Outstanding \u2014 Schedule Independently of Mileage Interval <span class="section-badge" id="badge_outstanding">-</span></div></div>'
+       +  '<div class="outstanding-body"><div class="checklist">';
+  OUTSTANDING.forEach(function(i){ html += buildItem(i, true); });
+  html += '</div></div>';
+
+  SECTIONS_ORDER.forEach(function(sec){
+    var si = grouped[sec];
+    if(!si || si.length === 0) return;
+    var sd = si.filter(function(i){ return checks[i.id]; }).length;
+    html += '<div class="section"><div class="section-header">' + sec + '<span class="section-badge' + (sd === si.length ? ' done' : '') + '" id="badge_' + sec + '">' + sd + '/' + si.length + '</span></div><div class="checklist">';
+    si.forEach(function(i){ html += buildItem(i, false); });
+    html += '</div></div>';
+  });
+
+  html += '<div class="notes-section"><div class="notes-title">Technician Notes</div>'
+       +  '<textarea class="notes-area" id="techNotes" placeholder="Record findings, parts used, torque values, measurements, observations, follow-up items\u2026" rows="6"></textarea></div>';
+
+  document.getElementById('mainContent').innerHTML = html;
+  updateProgress();
+  var stored = sessionStorage.getItem('techNotes');
+  if(stored) document.getElementById('techNotes').value = stored;
+  document.getElementById('techNotes').addEventListener('input', function(){ sessionStorage.setItem('techNotes', this.value); });
+}
+
+// ── Print / PDF ──────────────────────────────────────────────────────────────
+function openPrint(){
+  var date  = document.getElementById('sessionDate').value;
+  var odo   = document.getElementById('sessionOdo').value;
+  var ws    = document.getElementById('sessionWorkshop').value;
+  var tech  = document.getElementById('sessionTech').value;
+  var notes = document.getElementById('techNotes') ? document.getElementById('techNotes').value : '';
+  var items = getItemsForInterval(currentInterval);
+  var grouped = groupBySection(items);
+
+  function badge(item, isOut){
+    var b = '';
+    if(item.flag === 'critical') b += '<b style="display:inline-block;font-size:5pt;background:#B91C1C;color:#fff;padding:1px 3px;margin-left:2px;border-radius:2px;font-family:monospace">CRITICAL</b>';
+    else if(item.flag === 'warn') b += '<b style="display:inline-block;font-size:5pt;background:#b86800;color:#fff;padding:1px 3px;margin-left:2px;border-radius:2px;font-family:monospace">MONITOR</b>';
+    if(item.noRecord) b += '<b style="display:inline-block;font-size:5pt;background:#fef2f2;color:#B91C1C;border:1px solid #B91C1C;padding:1px 3px;margin-left:2px;border-radius:2px;font-family:monospace">NO RECORD</b>';
+    if(!isOut && item.interval > 5000) b += '<b style="display:inline-block;font-size:5pt;background:#2a2f3a;color:#e07800;padding:1px 3px;margin-left:2px;border-radius:2px;font-family:monospace">' + intLabel(item.interval) + ' km</b>';
+    if(item.src) b += '<b style="display:inline-block;font-size:4pt;background:#edeae0;color:#6a7080;border:1px solid #d4cfc4;padding:1px 3px;margin-left:2px;border-radius:2px;font-family:monospace">' + item.src + '</b>';
+    return b;
+  }
+
+  function itemHTML(item, isOut){
+    var chk = checks[item.id];
+    var borderLeft = item.flag === 'critical' ? 'border-left:3px solid #B91C1C;' : item.flag === 'warn' ? 'border-left:2px solid #e07800;' : '';
+    var bg     = chk ? 'background:#f0faf6;border-color:#059669;' : 'background:#ffffff;';
+    var nameCol = chk ? 'color:#059669;' : 'color:#2a2f3a;';
+    var cbBg   = chk ? 'background:#059669;border-color:#059669;' : 'background:#ffffff;border-color:#aaa;';
+    var tick   = chk ? '<svg width="8" height="7" viewBox="0 0 12 10" fill="none"><polyline points="1,5 4.5,8.5 11,1" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>' : '';
+    return '<div style="display:flex;gap:3mm;align-items:flex-start;' + bg + 'border:1px solid #d4cfc4;' + borderLeft + 'padding:1.5mm 2mm;margin-bottom:1mm;page-break-inside:avoid;break-inside:avoid;">'
+      + '<div style="width:12px;height:12px;min-width:12px;border:1.5px solid #aaa;border-radius:2px;' + cbBg + 'display:flex;align-items:center;justify-content:center;margin-top:1px;flex-shrink:0;">' + tick + '</div>'
+      + '<div style="flex:1;min-width:0;">'
+      + '<div style="font-size:7pt;font-weight:bold;' + nameCol + 'line-height:1.25;">' + item.name + badge(item, isOut) + '</div>'
+      + '<div style="font-size:5.5pt;color:#6a7080;margin-top:1px;line-height:1.3;">' + item.detail + '</div>'
+      + '</div></div>';
+  }
+
+  // Build the print document as a string. The closing script tag is split to prevent HTML parser termination.
+  var scriptOpen  = '<scr' + 'ipt>';
+  var scriptClose = '</sc' + 'ript>';
+
+  var sessionLine = '';
+  if(date || odo){
+    sessionLine = (date ? new Date(date + 'T00:00:00').toLocaleDateString('en-ZA',{day:'2-digit',month:'short',year:'numeric'}) : '')
+      + (odo ? ' \u00b7 ' + parseInt(odo).toLocaleString() + ' km' : '')
+      + (ws   ? ' \u00b7 ' + ws   : '')
+      + (tech ? ' \u00b7 ' + tech : '');
+  }
+
+  var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>LC76 Service Checklist</title>'
+    + '<style>'
+    + '@page{size:A4;margin:7mm}'
+    + '*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;color-adjust:exact!important}'
+    + 'body{font-family:Arial,sans-serif;font-size:7.5pt;line-height:1.3;color:#2a2f3a;background:#fff}'
+    + '</style>'
+    + '</head><body>';
+
+  // Header
+  html += '<div style="background:#0d0e12;color:#fff;padding:3mm 5mm;margin-bottom:3mm;">'
+    + '<div style="font-size:5pt;letter-spacing:.2em;text-transform:uppercase;color:#6a7080;margin-bottom:2px;">Overland Series \u00b7 R8 Supplement \u00b7 v3</div>'
+    + '<div style="font-size:14pt;letter-spacing:.06em;color:#e07800;line-height:1;">Service Checklist</div>'
+    + '<div style="font-size:5pt;color:rgba(255,200,100,.7);margin-top:2px;">HZJ76R-RKMRS \u00b7 1HZ + SAC Low-Boost Turbo \u00b7 Last service 308,248 km \u00b7 Next service 315,000 km</div>'
+    + '</div>';
+
+  // Session bar
+  var sessionFields = [['Date', date||'\u2014'],['Odometer (km)', odo ? parseInt(odo).toLocaleString() : '\u2014'],['Workshop', ws||'\u2014'],['Technician', tech||'\u2014']];
+  html += '<div style="background:#2a2f3a;padding:2mm 4mm;display:grid;grid-template-columns:repeat(4,1fr);gap:3mm;margin-bottom:3mm;">';
+  sessionFields.forEach(function(pair){
+    html += '<div><div style="font-size:5pt;letter-spacing:.1em;text-transform:uppercase;color:#6a7080;margin-bottom:1px;">' + pair[0] + '</div>'
+      + '<div style="font-size:6.5pt;color:#fff;border-bottom:1px solid #555;padding-bottom:1px;">' + pair[1] + '</div></div>';
+  });
+  html += '</div>';
+
+  // Notice
+  html += '<div style="background:#edeae0;border:1px solid #d4cfc4;font-size:5.5pt;padding:1.5mm 2.5mm;margin-bottom:3mm;font-family:monospace;line-height:1.4;">'
+    + 'Interval: <b>' + intLabel(currentInterval) + ' km</b> \u00b7 Cumulative from 5,000 km \u00a0|\u00a0 FSM = Toyota FSM \u00a0|\u00a0 SH = Service History \u00a0|\u00a0 DOC = Reference docs \u00a0|\u00a0 BOTH = multiple sources'
+    + (sessionLine ? '<br>Session: ' + sessionLine : '')
+    + '</div>';
+
+  // Outstanding
+  html += '<div style="background:#B91C1C;color:#fff;padding:2mm 3mm;">'
+    + '<div style="font-size:8pt;font-weight:bold;letter-spacing:.04em;text-transform:uppercase;">\u26a0 Outstanding \u2014 Schedule Independently of Mileage Interval</div>'
+    + '</div>'
+    + '<div style="border:2px solid #B91C1C;border-top:none;padding:2mm 3mm;margin-bottom:4mm;">';
+  OUTSTANDING.forEach(function(i){ html += itemHTML(i, true); });
+  html += '</div>';
+
+  // Sections
+  SECTIONS_ORDER.forEach(function(sec){
+    var si = grouped[sec];
+    if(!si || si.length === 0) return;
+    html += '<div style="margin-bottom:3mm;">'
+      + '<div style="font-size:8pt;font-weight:bold;letter-spacing:.04em;text-transform:uppercase;border-bottom:1.5px solid #2a2f3a;padding-bottom:1mm;margin-bottom:2mm;color:#2a2f3a;">' + sec + '</div>';
+    si.forEach(function(i){ html += itemHTML(i, false); });
+    html += '</div>';
+  });
+
+  // Notes
+  html += '<div style="border:1.5px solid #d4cfc4;padding:3mm;margin-top:4mm;">'
+    + '<div style="font-size:9pt;font-weight:bold;margin-bottom:2mm;color:#2a2f3a;">Technician Notes</div>'
+    + '<div style="background:#f5f3ee;border:1px solid #d4cfc4;min-height:30mm;padding:2mm;font-size:6pt;color:#2a2f3a;white-space:pre-wrap;font-family:monospace;">'
+    + (notes.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') || '')
+    + '</div></div>';
+
+  html += scriptOpen + 'window.onload=function(){window.print();}' + scriptClose + '</body></html>';
+
+  var win = window.open('', '_blank');
+  if(!win){ alert('Pop-up blocked. Please allow pop-ups for this page to use Print / PDF.'); return; }
+  win.document.open();
+  win.document.write(html);
+  win.document.close();
+}
+
+// ── Init ─────────────────────────────────────────────────────────────────────
+document.getElementById('sessionDate').value = new Date().toISOString().split('T')[0];
+['sessionDate','sessionOdo','sessionWorkshop','sessionTech'].forEach(function(id){
+  var el = document.getElementById(id);
+  el.addEventListener('change', render);
+  el.addEventListener('input', render);
+});
+updateDueNotice();
+render();
+</script>
+</body>
+</html>
