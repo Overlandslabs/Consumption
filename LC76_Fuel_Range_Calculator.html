@@ -169,7 +169,7 @@
     <div>Tank: <span id="ms-tank">145 L</span></div>
     <div>Aux: <span id="ms-aux">40 L</span></div>
     <div>Total: <span id="ms-total">185 L</span></div>
-    <div>Baseline: <span id="ms-base">7.26 km/L</span></div>
+    <div>Baseline: <span id="ms-base">7.00 km/L</span></div>
   </div>
 </header></div>
 
@@ -216,26 +216,33 @@
       <div class="setup-note">Sets the altitude consumption penalty coefficient</div>
     </div>
     <div class="setup-field" style="grid-column:1/-1">
-      <div class="setup-label">Avg consumption (km/L) &mdash; <span style="font-weight:400;letter-spacing:0.03em;text-transform:none;font-size:10px;color:var(--bark)">your recorded real-world average; all calculations scale from this</span></div>
+      <div class="setup-label" id="bunit-label">Avg consumption (km/L) &mdash; <span style="font-weight:400;letter-spacing:0.03em;text-transform:none;font-size:10px;color:var(--bark)">your recorded real-world average; all calculations scale from this</span></div>
       <div style="display:flex;align-items:center;gap:10px;">
-        <input type="number" id="inp-base" value="7.26" min="2.0" max="20.0" step="0.01"
+        <input type="number" id="inp-base" value="7.00" min="1.5" max="60.0" step="0.01"
           oninput="syncBaseFromInput()" onblur="syncBaseFromInput()"
           style="width:90px;font-family:'Oswald',sans-serif;font-size:18px;font-weight:600;color:var(--bark);background:var(--sand);border:2px solid var(--clay);padding:6px 10px;text-align:right;outline:none;flex-shrink:0;">
+        <button type="button" id="bunit-btn" onclick="toggleBUnit()" title="Switch input unit between km/L and L/100km" style="font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding:7px 9px;background:var(--cream);border:2px solid var(--ochre);color:var(--bark);cursor:pointer;white-space:nowrap;flex-shrink:0;">km/L</button>
         <div style="flex:1">
-          <input type="range" min="2.0" max="20.0" step="0.1" value="7.26" id="sl-base" oninput="syncBaseFromSlider()" style="width:100%">
+          <input type="range" min="2.0" max="20.0" step="0.1" value="7.0" id="sl-base" oninput="syncBaseFromSlider()" style="width:100%">
         </div>
-        <div style="font-size:11px;color:var(--clay);font-weight:500;white-space:nowrap;" id="v-base-l100">13.7 L/100km</div>
+        <div style="font-size:11px;color:var(--clay);font-weight:500;white-space:nowrap;" id="v-base-l100">14.3 L/100km</div>
       </div>
-      <div class="setup-note">Type your GPS/app average or drag the slider &mdash; both stay in sync.</div>
+      <div style="display:flex;align-items:center;gap:6px;margin-top:6px;flex-wrap:wrap;">
+        <span style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--smoke);font-family:'IBM Plex Mono',monospace;">Presets</span>
+        <button type="button" onclick="setPreset(7.0)" style="font-family:'Oswald',sans-serif;font-size:11px;font-weight:600;padding:4px 9px;background:var(--cream);border:1px solid var(--border);border-left:3px solid var(--ochre);color:var(--bark);cursor:pointer;">Median 7.00</button>
+        <button type="button" onclick="setPreset(6.2)" style="font-family:'Oswald',sans-serif;font-size:11px;font-weight:600;padding:4px 9px;background:var(--cream);border:1px solid var(--border);border-left:3px solid var(--clay);color:var(--bark);cursor:pointer;">Conservative 6.20</button>
+        <span style="font-size:10px;color:var(--smoke);font-style:italic;">remote / heavily-loaded legs</span>
+      </div>
+      <div class="setup-note">Type your average, drag the slider, or tap a preset &mdash; use the unit button to work in km/L or L/100km. Figures from your Fuel Log Analyser.</div>
     </div>
   </div>
 
   <!-- ══ BASELINE CARD ══ -->
   <div class="sec">Baseline summary</div>
   <div class="icard" style="margin-bottom:4px">
-    <div class="icard-sub" id="bc-kmL" style="font-weight:700;color:var(--bark);margin-bottom:4px">7.26 km/L</div>
+    <div class="icard-sub" id="bc-kmL" style="font-weight:700;color:var(--bark);margin-bottom:4px">7.00 km/L</div>
     <div class="icard-sub">
-      <strong id="bc-l100">13.8 L/100km</strong> &middot; Tank <strong id="cap-tank">145 L</strong> &middot; Aux <strong id="cap-aux">40 L</strong> &middot; Total <strong id="cap-total">185 L</strong><br>
+      <strong id="bc-l100">14.3 L/100km</strong> &middot; Tank <strong id="cap-tank">145 L</strong> &middot; Aux <strong id="cap-aux">40 L</strong> &middot; Total <strong id="cap-total">185 L</strong><br>
       Recorded at <strong id="bc-load">350 kg</strong> load &middot; <strong id="bc-bar">2.6 bar</strong><br>
       <span id="bc-asp" style="color:var(--smoke);font-size:10px;display:block;margin:2px 0;">Turbo + intercooler &middot; 3.5%/1,000m altitude penalty</span>
       At these exact conditions the model returns your baseline with zero adjustment. Any deviation is calculated as a penalty or benefit relative to this anchor.
@@ -371,8 +378,8 @@
   <div class="rgrid">
     <div class="rc">
       <div class="rcl">Adjusted consumption</div>
-      <div class="rcv" id="r-cons">7.26</div>
-      <div class="rcs" id="r-l100">km/L &middot; 13.8 L/100km</div>
+      <div class="rcv" id="r-cons">7.00</div>
+      <div class="rcs" id="r-l100">km/L &middot; 14.3 L/100km</div>
     </div>
     <div class="rc h">
       <div class="rcl">Estimated range</div>
@@ -460,7 +467,7 @@
 
 <footer>
   <div>Overland Fuel Range Calculator</div>
-  <div>Baseline: <span id="ft-base">7.26 km/L</span> &middot; Total capacity: <span id="ft-tank">185 L</span></div>
+  <div>Baseline: <span id="ft-base">7.00 km/L</span> &middot; Total capacity: <span id="ft-tank">185 L</span></div>
   <div>Estimates only &mdash; always verify against your own logs and carry reserves.</div>
 </footer>
 
@@ -532,22 +539,46 @@ function af(alt){return (alt/1000)*(parseFloat(document.getElementById('cfg-asp'
 function tf(temp){return Math.max(0,(temp-25)*0.002);}
 
 // ── Baseline ──
-function getBase(){var v=parseFloat(document.getElementById('inp-base').value);return(!isNaN(v)&&v>=2&&v<=20)?v:parseFloat(document.getElementById('sl-base').value)||7.26;}
+var BUNIT='kmL';
+function unitLabel(){return BUNIT==='l100'?'L/100km':'km/L';}
+function fmtPrimary(kmL){return BUNIT==='l100'?(100/kmL).toFixed(1):kmL.toFixed(2);}
+function fmtSecondary(kmL){return BUNIT==='l100'?(kmL.toFixed(2)+' km/L'):((100/kmL).toFixed(1)+' L/100km');}
+function getBase(){
+  var raw=parseFloat(document.getElementById('inp-base').value);
+  var kmL=(BUNIT==='l100'&&raw>0)?100/raw:raw;
+  return(!isNaN(kmL)&&kmL>=2&&kmL<=20)?kmL:(parseFloat(document.getElementById('sl-base').value)||7.0);
+}
 function syncBaseFromSlider(){
-  var sl=document.getElementById('sl-base');
-  var val=parseFloat(sl.value);
-  document.getElementById('inp-base').value=val.toFixed(2);
+  var sl=document.getElementById('sl-base');var kmL=parseFloat(sl.value);
+  document.getElementById('inp-base').value=(BUNIT==='l100')?(100/kmL).toFixed(1):kmL.toFixed(2);
+  document.getElementById('inp-base').style.borderColor='var(--border)';
   updateSliderFill(sl);
   upd();
 }
 function syncBaseFromInput(){
   var inp=document.getElementById('inp-base');
-  var val=parseFloat(inp.value.replace(',','.'));
-  if(isNaN(val)||val<2||val>20){inp.style.borderColor='var(--red-warn)';return;}
+  var raw=parseFloat(inp.value.replace(',','.'));
+  var kmL=(BUNIT==='l100'&&raw>0)?100/raw:raw;
+  if(isNaN(kmL)||kmL<2||kmL>20){inp.style.borderColor='var(--red-warn)';return;}
   inp.style.borderColor='var(--border)';
   var sl=document.getElementById('sl-base');
-  sl.value=Math.round(val*10)/10;
+  sl.value=Math.round(kmL*10)/10;
   updateSliderFill(sl);
+  upd();
+}
+function toggleBUnit(){
+  var base=getBase();
+  BUNIT=(BUNIT==='kmL')?'l100':'kmL';
+  document.getElementById('bunit-btn').textContent=unitLabel();
+  document.getElementById('bunit-label').innerHTML='Avg consumption ('+unitLabel()+') &mdash; <span style="font-weight:400;letter-spacing:0.03em;text-transform:none;font-size:10px;color:var(--bark)">your recorded real-world average; all calculations scale from this</span>';
+  document.getElementById('inp-base').value=(BUNIT==='l100')?(100/base).toFixed(1):base.toFixed(2);
+  document.getElementById('inp-base').style.borderColor='var(--border)';
+  upd();
+}
+function setPreset(kmL){
+  var sl=document.getElementById('sl-base');sl.value=Math.round(kmL*10)/10;updateSliderFill(sl);
+  document.getElementById('inp-base').value=(BUNIT==='l100')?(100/kmL).toFixed(1):kmL.toFixed(2);
+  document.getElementById('inp-base').style.borderColor='var(--border)';
   upd();
 }
 function gTemp(){return parseFloat(document.getElementById('sl-temp').value)||25;}
@@ -581,11 +612,11 @@ function selH(el){
 function upd(){
   var c=getCfg();
   var base=getBase();
-  document.getElementById('v-base-l100').textContent=(100/base).toFixed(1)+' L/100km';
-  document.getElementById('bc-kmL').textContent=base.toFixed(2)+' km/L';
-  document.getElementById('bc-l100').textContent=(100/base).toFixed(1)+' L/100km';
-  document.getElementById('ms-base').textContent=base.toFixed(2)+' km/L';
-  document.getElementById('ft-base').textContent=base.toFixed(2)+' km/L';
+  document.getElementById('v-base-l100').textContent=fmtSecondary(base);
+  document.getElementById('bc-kmL').textContent=fmtPrimary(base)+' '+unitLabel();
+  document.getElementById('bc-l100').textContent=fmtSecondary(base);
+  document.getElementById('ms-base').textContent=fmtPrimary(base)+' '+unitLabel();
+  document.getElementById('ft-base').textContent=fmtPrimary(base)+' '+unitLabel();
 
   var kg=parseInt(document.getElementById('sl-load').value)||0;
   var bar=parseFloat(document.getElementById('sl-bar').value)||2.5;
@@ -607,8 +638,8 @@ function upd(){
   var cons=cc(AM,kg,bar);
   var range=Math.round(fuel*cons);
   var safe=Math.round(range*0.75);
-  document.getElementById('r-cons').textContent=fc(cons);
-  document.getElementById('r-l100').textContent='km/L \u00b7 '+fl(cons)+' L/100km';
+  document.getElementById('r-cons').textContent=fmtPrimary(cons);
+  document.getElementById('r-l100').textContent=unitLabel()+' \u00b7 '+fmtSecondary(cons);
   document.getElementById('r-range').textContent=range.toLocaleString();
   document.getElementById('r-safe').textContent=safe.toLocaleString();
   document.getElementById('r-range-note').textContent='km total range';
@@ -652,7 +683,7 @@ function upd(){
   // Terrain button readouts
   TR.forEach(function(t,i){
     var el=document.getElementById('tc'+i);
-    if(el){var cv=cc(t.m,kg,bar);el.textContent=fc(cv)+' km/L \u00b7 '+Math.round(c.tank*cv).toLocaleString()+' km (tank only)';}
+    if(el){var cv=cc(t.m,kg,bar);el.textContent=fmtPrimary(cv)+' '+unitLabel()+' \u00b7 '+Math.round(c.tank*cv).toLocaleString()+' km (tank only)';}
   });
   // Reference table
   var tb=document.getElementById('rtbody');tb.innerHTML='';

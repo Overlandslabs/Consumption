@@ -220,8 +220,12 @@ footer span{color:var(--ochre)}
       <div class="vfield">
         <label id="v-base-label">Baseline consumption</label>
         <div style="display:flex;gap:6px;align-items:center;">
-          <input type="number" id="v-base" value="7.26" min="3" max="15" step="0.01" onchange="recalc()" style="flex:1;">
+          <input type="number" id="v-base" value="7.00" min="3" max="15" step="0.01" onchange="recalc()" style="flex:1;">
           <button onclick="toggleBaseUnit()" id="v-base-toggle" style="font-family:'Oswald',sans-serif;font-size:9px;letter-spacing:.08em;text-transform:uppercase;padding:4px 8px;background:var(--cream);border:1px solid var(--border);color:var(--smoke);cursor:pointer;white-space:nowrap;">km/L</button>
+        </div>
+        <div style="display:flex;gap:6px;align-items:center;margin-top:6px;flex-wrap:wrap;">
+          <button type="button" onclick="setBasePreset(7.0)" style="font-family:'Oswald',sans-serif;font-size:11px;font-weight:600;padding:4px 9px;background:var(--cream);border:1px solid var(--border);border-left:3px solid var(--ochre);color:var(--bark);cursor:pointer;">Median 7.00</button>
+          <button type="button" onclick="setBasePreset(6.2)" style="font-family:'Oswald',sans-serif;font-size:11px;font-weight:600;padding:4px 9px;background:var(--cream);border:1px solid var(--border);border-left:3px solid var(--clay);color:var(--bark);cursor:pointer;">Conservative 6.20</button>
         </div>
       </div>
       <div class="vfield">
@@ -310,7 +314,7 @@ footer span{color:var(--ochre)}
 
 <footer>
   <div>LC76 SW 1HZ &middot; <span>Trip Fuel Planner</span></div>
-  <div>Baseline: <span>7.26 km/L</span> &middot; LC76 SW 1HZ + Turbo + Intercooler</div>
+  <div>Baseline: <span>7.00 km/L</span> &middot; LC76 SW 1HZ + Turbo + Intercooler</div>
   <div>Estimates only &mdash; verify fuel availability before travel</div>
 </footer>
 
@@ -342,7 +346,7 @@ function toggleBaseUnit(){
   var inp=document.getElementById('v-base');
   var btn=document.getElementById('v-base-toggle');
   var lbl=document.getElementById('v-base-label');
-  var cur=parseFloat(inp.value)||7.26;
+  var cur=parseFloat(inp.value)||7.0;
   if(baseUnit==='kml'){
     baseUnit='l100';
     inp.value=+(100/cur).toFixed(1);
@@ -360,8 +364,13 @@ function toggleBaseUnit(){
 }
 
 function gBase(){
-  var v=parseFloat(document.getElementById('v-base').value)||7.26;
+  var v=parseFloat(document.getElementById('v-base').value)||7.0;
   return baseUnit==='l100'?100/v:v;
+}
+function setBasePreset(kmL){
+  var inp=document.getElementById('v-base');
+  inp.value=(baseUnit==='l100')?+(100/kmL).toFixed(1):+kmL.toFixed(2);
+  recalc();
 }
 function gTank(){return parseFloat(document.getElementById('v-tank').value)||145}
 function gJerry(){return parseFloat(document.getElementById('v-jerry').value)||40}

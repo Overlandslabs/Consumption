@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Fuel Log">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#1C1410">
+<link rel="manifest" href="manifest-fuellog.json">
+<link rel="apple-touch-icon" href="icon-fuellog-192.svg">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>LC76 Fuel Log Analyser</title>
+<style>
+  :root{
+    --clay:#C4572A; --ochre:#D4963A; --sand:#E8D5A3; --cream:#F5EDDA;
+    --ink:#1C1410; --bark:#3D2B1A; --smoke:#6B5B4E; --white:#FDFAF4;
+    --border:rgba(61,43,26,0.15); --green-ok:#059669; --red-warn:#B91C1C;
+    --amber:#92400E; --amber2:#e07800; --steeldk:#2a2f3a; --steelmd:#6a7080;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
+  html{overflow-x:hidden}
+  body{background:var(--white);color:var(--ink);font-family:'Oswald','Arial Narrow',sans-serif;font-size:16px;line-height:1.7}
+  .sticky-wrap{position:sticky;top:0;z-index:100;background:var(--ink);padding-top:env(safe-area-inset-top)}
+  .calc-masthead{position:relative;background:var(--ink);color:#fff;padding:18px 24px 14px;overflow:hidden}
+  .calc-masthead::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--amber),var(--amber2),transparent)}
+  .cm-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--steelmd);margin-bottom:8px}
+  .cm-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.8rem,5vw,2.6rem);letter-spacing:.06em;color:#fff;line-height:1;margin-bottom:4px}
+  .cm-title em{font-style:italic;color:var(--amber2)}
+  .cm-sub{font-family:'IBM Plex Mono',monospace;font-size:.52rem;letter-spacing:.1em;color:rgba(255,200,100,.65);margin-bottom:8px}
+  .cm-specs{font-family:'IBM Plex Mono',monospace;font-size:.48rem;letter-spacing:.08em;color:var(--steelmd);display:flex;gap:16px;flex-wrap:wrap}
+  .cm-specs span{color:var(--amber2)}
+  .page{max-width:100%;margin:0 auto;padding:16px 4% 40px}
+  .sec{font-family:'Oswald','Arial Narrow',sans-serif;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--smoke);border-bottom:1px solid var(--border);padding-bottom:4px;margin:22px 0 12px}
+  .sec:first-of-type{margin-top:0}
+  .sec b{color:var(--bark);font-weight:600}
+
+  /* Data source / upload */
+  .src{display:flex;gap:10px;align-items:stretch;flex-wrap:wrap;margin-bottom:6px}
+  .drop{flex:1;min-width:220px;border:2px dashed var(--ochre);background:var(--cream);padding:12px 16px;cursor:pointer;transition:all .15s;display:flex;flex-direction:column;justify-content:center}
+  .drop:hover,.drop.over{background:var(--sand);border-color:var(--clay)}
+  .drop .dt{font-family:'Oswald',sans-serif;font-size:13px;font-weight:600;color:var(--bark)}
+  .drop .ds{font-size:11px;color:var(--smoke);font-style:italic;margin-top:2px}
+  .srcbtn{font-family:'Oswald',sans-serif;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--bark);background:var(--sand);border:2px solid var(--ochre);padding:8px 14px;cursor:pointer;transition:all .15s}
+  .srcbtn:hover{background:var(--clay);color:#fff;border-color:var(--clay)}
+  .srcstat{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--smoke);margin-top:4px}
+  .srcstat b{color:var(--green-ok)}
+
+  /* Filters */
+  .fgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:6px}
+  .ffield{display:flex;flex-direction:column;gap:4px}
+  .flabel{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--smoke)}
+  .finput{font-family:'Oswald',sans-serif;font-size:14px;font-weight:500;color:var(--bark);background:var(--sand);border:2px solid var(--ochre);padding:7px 10px;outline:none;width:100%}
+  .finput:focus{border-color:var(--clay)}
+  .select-wrap{position:relative;width:100%}
+  .select-wrap select{-webkit-appearance:none;appearance:none;padding-right:34px;cursor:pointer}
+  .select-wrap::after{content:'';position:absolute;right:12px;top:50%;transform:translateY(-50%);width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:6px solid var(--smoke);pointer-events:none}
+
+  /* Stat cards */
+  .rgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:10px}
+  .rc{background:var(--cream);color:var(--bark);padding:12px 14px;border-left:3px solid var(--clay)}
+  .rc.h{border-left-color:var(--ochre)} .rc.g{border-left-color:var(--green-ok)} .rc.s{border-left-color:var(--steeldk)}
+  .rcl{font-family:'Oswald',sans-serif;font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--smoke);margin-bottom:3px}
+  .rcv{font-family:'Oswald',sans-serif;font-size:28px;font-weight:700;color:var(--clay);line-height:1;margin-bottom:2px}
+  .rc.h .rcv{color:var(--ochre)} .rc.g .rcv{color:var(--green-ok)} .rc.s .rcv{color:var(--bark)}
+  .rcs{font-size:12px;color:var(--smoke)}
+
+  /* Chart */
+  .chartcard{background:var(--cream);border:1px solid var(--border);border-left:3px solid var(--ochre);padding:14px 16px;margin-bottom:10px}
+  .charttitle{font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--smoke);margin-bottom:4px}
+  .chartsub{font-size:11px;color:var(--smoke);font-style:italic;margin-bottom:8px}
+  .chartcard svg{width:100%;height:auto;display:block}
+  .leg{display:flex;gap:16px;flex-wrap:wrap;font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--smoke);margin-top:6px}
+  .leg i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:middle}
+
+  /* Tables */
+  .tscroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .dtable{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:8px}
+  .dtable th{background:var(--ink);color:var(--ochre);font-family:'Oswald',sans-serif;font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:8px 12px;text-align:left;font-weight:500}
+  .dtable td{padding:7px 12px;border-bottom:1px solid var(--border);vertical-align:top;color:var(--smoke)}
+  .dtable td:first-child{font-weight:600;color:var(--bark)}
+  .dtable tr:nth-child(even) td{background:rgba(212,150,58,.04)}
+  .dtable td.num{font-family:'IBM Plex Mono',monospace;text-align:right}
+
+  /* Callouts */
+  .call{display:flex;gap:12px;padding:12px 16px;margin:10px 0;border-left:4px solid var(--smoke);background:var(--cream);font-size:13.5px}
+  .call.am{border-left-color:var(--ochre);background:#FFFBEB}
+  .call.gn{border-left-color:var(--green-ok);background:#F0FDF4}
+  .call.rd{border-left-color:var(--red-warn);background:#FEF2F2}
+  .ci{font-size:18px;flex-shrink:0;margin-top:1px}
+  .cb{line-height:1.6;color:var(--smoke)} .cb strong{color:var(--bark)}
+  .cb a{color:var(--clay);font-weight:600}
+
+  /* xref */
+  .xref{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+  .xref a{font-family:'IBM Plex Mono',monospace;font-size:11px;text-decoration:none;color:var(--bark);background:var(--cream);border:1px solid var(--border);border-left:3px solid var(--ochre);padding:6px 10px;transition:all .15s}
+  .xref a:hover{background:var(--sand);border-left-color:var(--clay)}
+
+  footer{background:var(--ink);color:var(--sand);padding:10px 4%;font-family:'Oswald',sans-serif;font-size:10px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;border-top:1px solid rgba(212,150,58,.2)}
+  footer span{color:var(--ochre)}
+
+  @media(max-width:780px){
+    .fgrid{grid-template-columns:1fr 1fr}
+    .rgrid{grid-template-columns:1fr 1fr}
+    .cm-title{font-size:1.6rem}
+  }
+  @media(max-width:480px){ .rgrid{grid-template-columns:1fr 1fr} }
+  @media print{
+    .page{padding:0 24px} footer{display:none} .drop,.srcbtn{display:none}
+    .tscroll{overflow:visible} .chartcard{break-inside:avoid}
+    .rc,.call,.chartcard{break-inside:avoid}
+    *{ -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; color-adjust:exact !important }
+  }
+</style>
+</head>
+<body>
+
+<div class="sticky-wrap"><header class="calc-masthead">
+  <div class="cm-eyebrow">Overlanding &middot; Field Tool</div>
+  <div class="cm-title">Fuel Log <em>Analyser</em></div>
+  <div class="cm-sub">Real-world 1HZ consumption from your Fuelio export</div>
+  <div class="cm-specs">
+    <div>Records: <span id="ms-n">&mdash;</span></div>
+    <div>Span: <span id="ms-span">&mdash;</span></div>
+    <div>Median: <span id="ms-med">&mdash;</span></div>
+    <div>Band: <span id="ms-band">&mdash;</span></div>
+  </div>
+</header></div>
+
+<main class="page">
+
+  <!-- DATA SOURCE -->
+  <div class="sec">Data source &mdash; <b>drop a fresh Fuelio CSV export to refresh</b></div>
+  <div class="src">
+    <label class="drop" id="drop">
+      <div class="dt">&#128228; Drop or tap to load a Fuelio CSV export</div>
+      <div class="ds">Everything is processed on your device &mdash; nothing is uploaded anywhere.</div>
+      <input type="file" id="file" accept=".csv,text/csv" style="display:none">
+    </label>
+    <button class="srcbtn" id="resetBtn">Reset to<br>bundled data</button>
+  </div>
+  <div class="srcstat" id="srcstat"></div>
+
+  <!-- HEADLINE -->
+  <div class="sec">Headline economy</div>
+  <div class="rgrid" id="headline"></div>
+
+  <!-- FILTERS -->
+  <div class="sec">Filter the dataset</div>
+  <div class="fgrid">
+    <div class="ffield">
+      <div class="flabel">Region</div>
+      <div class="select-wrap"><select class="finput" id="f-region">
+        <option value="all">All fills</option>
+        <option value="Home">Home (ZAR) only</option>
+        <option value="Angola">Angola trip only</option>
+      </select></div>
+    </div>
+    <div class="ffield">
+      <div class="flabel">From date</div>
+      <input type="date" class="finput" id="f-from">
+    </div>
+    <div class="ffield">
+      <div class="flabel">To date</div>
+      <input type="date" class="finput" id="f-to">
+    </div>
+    <div class="ffield">
+      <div class="flabel">&nbsp;</div>
+      <button class="srcbtn" id="clearFilters" style="height:100%">Clear filters</button>
+    </div>
+  </div>
+
+  <!-- ECONOMY OVER DISTANCE -->
+  <div class="sec">Economy over distance</div>
+  <div class="chartcard">
+    <div class="charttitle">km/L per fill interval, by odometer</div>
+    <div class="chartsub">Each point is one tank-to-tank interval. Partial fills are rolled into the following full fill.</div>
+    <div id="chart-econ"></div>
+    <div class="leg">
+      <span><i style="background:#D4963A"></i>Home (ZAR)</span>
+      <span><i style="background:#C4572A"></i>Angola trip</span>
+      <span><i style="background:#6B5B4E"></i>Median</span>
+    </div>
+  </div>
+
+  <!-- DISTRIBUTION -->
+  <div class="sec">Where your economy really sits</div>
+  <div class="chartcard">
+    <div class="charttitle">Distribution of fill economy (km/L)</div>
+    <div class="chartsub">The spread is what matters for range planning &mdash; plan on the left of this curve, not the average.</div>
+    <div id="chart-hist"></div>
+  </div>
+
+  <!-- YEAR TREND -->
+  <div class="sec">Trend by period</div>
+  <div class="tscroll"><table class="dtable" id="yeartable"></table></div>
+
+  <!-- RANGE -->
+  <div class="sec">Range implications</div>
+  <div class="fgrid" style="grid-template-columns:repeat(2,minmax(0,1fr));max-width:420px">
+    <div class="ffield"><div class="flabel">Main tank (L)</div><input type="number" class="finput" id="cfg-tank" value="145" min="10" max="500" step="1"></div>
+    <div class="ffield"><div class="flabel">Aux / cells (L)</div><input type="number" class="finput" id="cfg-aux" value="40" min="0" max="300" step="1"></div>
+  </div>
+  <div class="tscroll"><table class="dtable" id="rangetable"></table></div>
+  <div class="call am"><div class="ci">&#9888;</div><div class="cb">Range figures are theoretical full-burn distances with <strong>no reserve</strong>. For trip planning, feed the median and worst-case km/L below into the dedicated planners.</div></div>
+
+  <!-- COST -->
+  <div class="sec">Cost &mdash; segmented by price regime</div>
+  <div class="rgrid" id="cost"></div>
+  <div class="call"><div class="ci">&#8505;</div><div class="cb"><strong>Why segmented:</strong> Angola diesel is heavily subsidised (~R7/L equivalent) and recorded in a different price regime to home (ZAR ~R20&ndash;33/L). Blending them into one R/L or R/km figure would be misleading, so they are kept separate. The km/L economy figures above are currency-independent and can be read across both.</div></div>
+
+  <!-- DATA INTEGRITY -->
+  <div class="sec">Data integrity &mdash; what was used and what was excluded</div>
+  <div class="tscroll"><table class="dtable" id="auditTable"></table></div>
+
+  <!-- LINKS -->
+  <div class="sec">Use this with</div>
+  <div class="xref">
+    <a href="LC76_Fuel_Range_Calculator.html">&#8594; Fuel Range Calculator</a>
+    <a href="LC76_Trip_Fuel_Planner.html">&#8594; Trip Fuel Planner</a>
+    <a href="LC76_Fuel_System_Guide.html">&#8594; R24 Fuel System</a>
+    <a href="LC76_Service_History.html">&#8594; R8 Service History</a>
+  </div>
+  <div class="call gn"><div class="ci">&#10003;</div><div class="cb">Plug the <strong>median km/L</strong> into the Fuel Range Calculator and Trip Fuel Planner as your realistic baseline, and the <strong>worst-case (P10)</strong> figure for conservative remote-leg planning. If economy drifts down over successive exports, cross-check against <a href="LC76_Service_History.html">R8</a> service events and <a href="LC76_Fuel_System_Guide.html">R24</a> (filters, injectors, diesel quality).</div></div>
+
+</main>
+
+<footer>
+  <div>LC76 Overland Library &middot; <span>Fuel Log Analyser</span></div>
+  <div>1HZ 4.2L &middot; <span id="ft-src">bundled data</span></div>
+  <div>v1.0 &middot; <span>Eco not ego</span></div>
+</footer>
+
+<script type="text/csv" id="bundled">"## Vehicle"
+"Name","Description","DistUnit","FuelUnit","ConsumptionUnit","ImportCSVDateFormat","VIN","Insurance","Plate","Make","Model","Year","TankCount","Tank1Type","Tank2Type","Active","Tank1Capacity","Tank2Capacity","FuelUnitTank2","FuelConsumptionTank2"
+"LC","","0","0","3","yyyy-MM-dd","","","","Toyota","Landcruiser","2010","1","200","0","1","145.0","0.0","0","0"
+"## Log"
+"Date","Odo (km)","Fuel (l)","Full","Price","km/l","latitude","longitude","City","Notes","Missed","TankNumber","FuelType","VolumePrice","StationID","ExcludeDistance","UniqueId","TankCalc","Weather"
+"2024-11-24","266166.0","0.0","1","1526.6","0.0","","","","","0","1","0","0.0","0","0.0","1","0.0",""
+"2024-11-25","265023.0","80.461","1","1557.72","0.0","","","","","0","1","201","19.36","0","0.0","2","0.0",""
+"2024-11-29","265663.0","87.94","1","1909.29","7.27768933363657","","","","","0","1","201","21.711","0","0.0","3","0.0",""
+"2024-12-03","266772.0","81.93","1","1684.15","7.396558037348956","","","","","0","1","201","20.556","0","0.0","4","0.0",""
+"2024-12-05","267060.0","43.975","1","912.48","6.549175667993178","","","","","0","1","201","20.75","0","0.0","5","0.0",""
+"2024-12-07","267384.0","48.081","1","1018.38","6.738628564297747","","","","","0","1","201","21.181","0","0.0","6","0.0",""
+"2024-12-08","267647.0","31.93","1","690.12","8.23676792984654","","","","","0","1","201","21.614","0","0.0","7","0.0",""
+"2024-12-19","268163.0","75.92","1","1623.17","6.796628029504741","","","","","0","1","201","21.38","0","0.0","8","0.0",""
+"2024-12-24","268696.0","70.68","1","1506.9","7.541029994340691","","","","","0","1","201","21.32","0","0.0","9","0.0",""
+"2025-01-01","268969.0","46.19","1","989.85","5.9103702100021644","","","","","0","1","201","21.43","0","0.0","10","0.0",""
+"2025-01-02","269336.0","45.69","1","896.0","8.032392208360692","","","","","0","1","201","19.61","0","0.0","11","0.0",""
+"2025-01-04","269702.0","54.69","1","1073.21","6.692265496434449","","","","","0","1","201","19.62","0","0.0","12","0.0",""
+"2025-01-14","270173.0","77.08","1","1571.75","6.110534509600415","","","","","0","1","201","20.41","0","0.0","13","0.0",""
+"2025-01-16","270914.0","111.49","1","2429.5","6.646335994259575","","","","","0","1","201","21.791","0","0.0","14","0.0",""
+"2025-03-09","271760.0","118.828","1","2680.8","7.11953411653819","","","","","0","1","201","22.56","0","0.0","15","0.0",""
+"2025-04-06","272567.0","122.3","1","2650.24","6.5985282093213415","","","","","0","1","201","21.67","0","0.0","16","0.0",""
+"2025-05-17","273314.0","107.29","1","2152.24","6.962438251467984","","","","","0","1","201","20.06","0","0.0","17","0.0",""
+"2025-07-01","274204.0","121.05","1","0.0","7.352333746385791","","","","","0","1","201","0.0","0","0.0","18","0.0",""
+"2025-07-02","274502.6","42.22","1","851.66","7.072477498815175","","","","","0","1","201","20.172","0","0.0","19","0.0",""
+"2025-07-07","274908.8","63.71","1","1386.97","6.37576518599924","","","","","0","1","201","21.77","0","0.0","20","0.0",""
+"2025-07-12","275338.6","65.54","1","1392.7","6.557827281049563","","","","","0","1","201","21.25","0","0.0","21","0.0",""
+"2025-07-19","275853.8","79.68","1","1785.63","6.465863453815407","","","","","0","1","201","22.41","0","0.0","22","0.0",""
+"2025-07-27","276315.3","64.85","1","1536.41","7.116422513492676","","","","","0","1","0","23.692","0","0.0","23","0.0",""
+"2025-08-03","276966.5","105.0","1","2297.0","6.201904761904872","","","","","0","1","201","21.876","0","0.0","24","0.0",""
+"2025-08-05","277708.8","114.2","1","2497.55","6.499999999999898","","","","","0","1","201","21.87","0","0.0","25","0.0",""
+"2025-08-05","278101.2","52.9","1","1177.02","7.417769376181914","","","","","0","1","201","22.25","0","0.0","26","0.0",""
+"2025-08-13","278781.8","98.56","1","2071.74","6.905438311688075","","","","","0","1","201","21.68","0","0.0","27","0.0",""
+"2025-08-16","279251.0","61.2","1","1442.0","7.666666666666856","","","","","0","1","201","23.562","0","0.0","28","0.0",""
+"2025-08-18","279618.2","59.31","1","1368.28","6.191198786039649","","","","","0","1","201","23.07","0","0.0","29","0.0",""
+"2025-08-22","280070.9","69.758","1","1558.39","6.489578256257515","","","","","0","1","201","22.34","0","0.0","30","0.0",""
+"2025-08-25","280428.9","48.67","1","1296.0","7.355660571193753","","","","zimbabwe","0","1","201","27.0","0","0.0","31","0.0",""
+"2025-08-29","280890.9","63.0","1","1701.0","7.333333333333334","","","","","0","1","201","27.0","0","0.0","32","0.0",""
+"2025-09-12","281708.80000000005","113.02","1","3051.0","7.236772252698844","","","","zimbabwe","0","1","201","27.0","0","0.0","33","0.0",""
+"2025-09-19","281912.50000000006","34.9","1","698.0","5.836676217765377","","","","","0","1","201","27.0","0","0.0","34","0.0",""
+"2025-09-24","282305.00000000006","56.3","1","1520.1","6.971580817051511","","","","","0","1","201","27.0","0","0.0","35","0.0",""
+"2025-09-30","282880.00000000006","88.39","1","2386.53","6.505260776105895","","","","","0","1","0","27.0","0","0.0","36","0.0",""
+"2025-10-03","283132.4000000001","33.79","1","912.33","7.469665581533688","","","","","0","1","201","27.0","0","0.0","37","0.0",""
+"2025-10-06","283439.4000000001","47.0","1","1269.0","6.531914893617021","","","","","0","1","0","27.0","0","0.0","38","0.0",""
+"2025-10-12","283957.4000000001","78.0","1","2106.0","6.6410256410256405","","","","","0","1","0","27.0","0","0.0","39","0.0",""
+"2025-10-16","284306.4000000001","54.0","1","1458.0","6.462962962962964","","","","","0","1","201","27.0","0","0.0","40","0.0",""
+"2025-10-22","284938.4000000001","43.43","0","1000.0","0.0","","","","","0","1","201","23.026","0","0.0","41","0.0",""
+"2025-10-24","285093.4000000001","57.74","0","1329.79","0.0","","","","","0","1","201","23.031","0","0.0","42","0.0",""
+"2025-10-28","285723.4000000001","81.16","1","1846.39","7.771622881588329","","","","","0","1","201","22.75","0","0.0","43","0.0",""
+"2025-11-02","286438.50000000006","85.51","1","1945.35","8.362764588936693","","","","","0","1","201","22.75","0","0.0","44","0.0",""
+"2025-11-08","287019.50000000006","88.45","1","1998.09","6.568682871678914","","","","","0","1","201","22.59","0","0.0","45","0.0",""
+"2025-11-12","287687.50000000006","77.29","1","0.0","8.642773968171818","","","","","0","1","201","0.0","0","0.0","46","0.0",""
+"2025-11-19","288712.50000000006","113.59","1","2566.0","9.023681662118143","","","","","0","1","201","22.59","0","0.0","47","0.0",""
+"2025-11-26","289355.50000000006","87.975","1","2017.27","7.308894572321682","","","","","0","1","201","22.93","0","0.0","48","0.0",""
+"2025-11-28","289815.50000000006","53.66","1","1210.03","8.572493477450616","","","","","0","1","201","22.55","0","0.0","49","0.0",""
+"2025-11-30","290077.50000000006","32.09000000000001","1","723.63","8.164537239015267","","","","","0","1","201","22.55","0","0.0","50","0.0",""
+"2025-12-05","290570.0","64.91","1","1307.9400000000005","7.587428747495639","","","","","0","1","201","20.15","0","0.0","51","0.0",""
+"2025-12-11","290965.0","55.410000000000004","1","1138.6800000000005","7.128677134091318","","","","","0","1","201","20.55","0","0.0","52","0.0",""
+"2025-12-18","291553.0","80.13","1","1858.2099999999998","7.338075627105953","","","","","0","1","201","23.19","0","0.0","53","0.0",""
+"2025-12-22","292074.0","59.61","1","1345.99","8.740144271095454","","","","","0","1","201","22.580000000000002","0","0.0","54","0.0",""
+"2025-12-23","292868.0","104.8","1","2440.79","7.576335877862596","","","","","0","1","201","23.29","0","0.0","55","0.0",""
+"2026-01-09","293869.0","122.35999999999999","1","2408.04","8.180778032036613","","","","","0","1","201","19.68","0","0.0","56","0.0",""
+"2026-02-02","294600.0","93.59","1","1900.89","7.810663532428678","","","","","0","1","201","20.311","0","0.0","57","0.0",""
+"2026-02-09","295386.0","105.297","1","2019.4599999999998","7.464600131057866","","","","","0","1","201","19.179000000000002","0","0.0","58","0.0",""
+"2026-02-25","296170.0","110.77000000000001","1","2124.57","7.077728626884535","","","","","0","1","201","19.18","0","0.0","59","0.0",""
+"2026-03-11","296838.0","95.46000000000001","1","1990.3399999999995","6.997695369788392","","","","","0","1","201","20.85","0","0.0","60","0.0",""
+"2026-03-12","297524.0","108.7","1","2253.35","6.310947562097516","","","","","0","1","201","20.73","0","0.0","61","0.0",""
+"2026-03-13","298088.0","94.78999999999999","1","1929.0","5.949994725181981","","","","","0","1","201","20.35","0","0.0","62","0.0",""
+"2026-03-15","298653.0","86.34","1","1738.0","6.54389622422979","","","","","0","1","201","20.129999999999992","0","0.0","63","0.0",""
+"2026-03-15","298840.0","24.46","1","497.52","7.645134914145544","","","","","0","1","201","20.34","0","0.0","64","0.0",""
+"2026-03-16","299211.0","50.0","1","364.59000000000003","7.42","","","","","0","1","201","7.292","0","0.0","65","0.0",""
+"2026-03-20","299767.0","90.0","1","740.0","6.177777777777777","","","","","0","1","201","7.4","0","0.0","66","0.0",""
+"2026-03-21","300447.0","110.0","1","814.6600000000001","6.181818181818182","","","","","0","1","201","7.406000000000001","0","0.0","67","0.0",""
+"2026-03-24","300972.0","81.26","1","601.26","6.460743293133153","","","","","0","1","201","7.398999999999999","0","0.0","68","0.0",""
+"2026-03-25","301467.0","66.42999999999999","1","490.0","7.45145265693211","","","","","0","1","201","7.376","0","0.0","69","0.0",""
+"2026-03-27","301906.0","68.75","1","507.0","6.385454545454545","","","","","0","1","201","7.375","0","0.0","70","0.0",""
+"2026-04-01","302243.0","40.0","1","294.51","8.424999999999999","","","","","0","1","201","7.363000000000002","0","0.0","71","0.0",""
+"2026-04-01","302995.0","55.010000000000005","0","404.8","0.0","","","","","0","1","201","7.3590000000000035","0","0.0","72","0.0",""
+"2026-04-01","303601.0","60.0","0","439.0","0.0","","","","","0","1","201","7.317","0","0.0","73","0.0",""
+"2026-04-02","304006.0","83.27000000000001","1","614.88","8.891466612870685","","","","","0","1","201","7.384000000000003","0","0.0","74","0.0",""
+"2026-04-03","304529.0","50.0","0","369.79","0.0","","","","","0","1","201","7.395999999999996","0","0.0","75","0.0",""
+"2026-04-05","304929.0","65.0","1","478.75","8.02608695652174","","","","","0","1","201","7.365","0","0.0","76","0.0",""
+"2026-04-05","305470.0","82.5","1","607.65","6.557575757575758","","","","","0","1","201","7.365","0","0.0","77","0.0",""
+"2026-04-06","305753.0","32.17","1","236.95","8.797015853279452","","","","","0","1","201","7.365999999999997","0","0.0","78","0.0",""
+"2026-04-06","305847.0","13.75","1","101.27000000000001","6.836363636363636","","","","","0","1","201","7.365","0","0.0","79","0.0",""
+"2026-04-10","306403.0","85.55","1","2064.32","6.499123319696085","","","","","0","1","201","24.130000000000003","0","0.0","80","0.0",""
+"2026-04-10","306929.0","86.2","1","2098.95","6.102088167053364","","","","","0","1","201","24.35","0","0.0","81","0.0",""
+"2026-04-10","307466.0","80.0","1","1003.8","6.7124999999999995","","","","","0","1","201","24.73","0","0.0","82","0.0",""
+"2026-04-10","308029.0","85.28999999999999","1","2422.2400000000002","6.601008324539807","","","","","0","1","201","28.4","0","0.0","83","0.0",""
+"2026-04-24","308684.0","89.75","1","2450.18","7.298050139275766","","","","","0","1","201","27.3","0","0.0","84","0.0",""
+"2026-05-04","308857.0","32.67","1","925.8700000000001","5.29537802265075","","","","","0","1","201","28.339999999999996","0","0.0","85","0.0",""
+"2026-05-04","309421.0","82.42","1","2250.07","6.842999272021353","","","","","0","1","201","27.3","0","0.0","86","0.0",""
+"2026-05-20","309968.0","65.34","1","2154.2599999999998","8.371594735231097","","","","","0","1","201","32.97","0","0.0","87","0.0",""
+"## CostCategories"
+"CostTypeID","Name","priority","color"
+"1","Service","1","#9E9E9E"
+"2","Maintenance","2","#FFC107"
+"3","Insurance","3","#000000"
+"4","Registration","4","#E91E63"
+"5","Parking","5","#000000"
+"6","Wash","6","#FFC107"
+"7","Tolls","7","#000000"
+"8","Tickets/Fines","8","#424242"
+"9","Tuning","9","#B71C1C"
+"## Costs"
+"CostTitle","Date","Odo","CostTypeID","Notes","Cost","flag","idR","read","RemindOdo","RemindDate","isTemplate","RepeatOdo","RepeatMonths","isIncome","UniqueId"
+"## FavStations"
+"Name","Latitude","Longitude","StationId","Description","CountryCode"
+"BP Noordhoek","-34.11936","18.38882","120598","","ZAF"
+"## Pictures"
+"Filename","Note","Type","target_id"
+</script>
+<script>
+/* ---------- Fuelio CSV parsing ---------- */
+function splitCsv(line){
+  var out=[],cur='',q=false;
+  for(var i=0;i<line.length;i++){var c=line[i];
+    if(c==='"'){q=!q;} else if(c===',' && !q){out.push(cur);cur='';} else cur+=c;}
+  out.push(cur);return out;
+}
+function parseFuelio(text){
+  var lines=text.split(/\r?\n/),start=-1,end=lines.length;
+  for(var i=0;i<lines.length;i++){
+    if(lines[i].indexOf('## Log')>-1){start=i+1;continue;}
+    if(start>-1 && /##/.test(lines[i]) && /^"?##/.test(lines[i].trim())){end=i;break;}
+  }
+  if(start<0) return [];
+  var header=splitCsv(lines[start]).map(function(h){return h.replace(/^"|"$/g,'').trim();});
+  function idx(name){return header.indexOf(name);}
+  var iDate=idx('Date'),iOdo=idx('Odo (km)'),iFuel=idx('Fuel (l)'),iFull=idx('Full'),
+      iPrice=idx('Price'),iVp=idx('VolumePrice'),iCity=idx('City');
+  var recs=[];
+  for(var r=start+1;r<end;r++){
+    var ln=lines[r]; if(!ln.trim()) continue;
+    var c=splitCsv(ln).map(function(x){return x.replace(/^"|"$/g,'');});
+    var odo=parseFloat(c[iOdo]),fuel=parseFloat(c[iFuel]);
+    if(isNaN(odo)||isNaN(fuel)) continue;
+    recs.push({date:c[iDate],odo:odo,fuel:fuel,full:parseInt(c[iFull]||'0',10),
+      price:parseFloat(c[iPrice]||'0')||0,vp:parseFloat(c[iVp]||'0')||0,city:(c[iCity]||'').trim()});
+  }
+  return recs;
+}
+/* ---------- helpers ---------- */
+function tagRegion(rec){
+  var foreign=(rec.vp>0 && rec.vp<12) || (rec.date>='2026-03-15' && rec.date<='2026-04-09');
+  return foreign?'Angola':'Home';
+}
+function median(a){if(!a.length)return 0;var s=a.slice().sort(function(x,y){return x-y;});var m=Math.floor(s.length/2);return s.length%2?s[m]:(s[m-1]+s[m])/2;}
+function mean(a){return a.length?a.reduce(function(x,y){return x+y;},0)/a.length:0;}
+function pctile(a,p){if(!a.length)return 0;var s=a.slice().sort(function(x,y){return x-y;});var idx=Math.min(s.length-1,Math.max(0,Math.round((p/100)*(s.length-1))));return s[idx];}
+
+/* tank-to-tank economy (robust): partials roll into next full fill */
+function computeEconomy(recs){
+  var pts=[],lastFull=null,acc=0;
+  for(var i=0;i<recs.length;i++){
+    var r=recs[i]; acc+=r.fuel;
+    if(r.full===1){
+      if(lastFull!==null){
+        var dist=r.odo-lastFull;
+        if(dist>0 && acc>0){var k=dist/acc; if(k>=3 && k<=11){
+          pts.push({odo:r.odo,date:r.date,kmpl:k,l100:100/k,region:r.region,dist:dist,fuel:acc});}}
+      }
+      lastFull=r.odo; acc=0;
+    }
+  }
+  return pts;
+}
+
+/* ---------- state ---------- */
+var RAW=[], SRCNAME='bundled data';
+function loadText(text,name){
+  var recs=parseFuelio(text);
+  recs.forEach(function(r){r.region=tagRegion(r);});
+  RAW=recs; SRCNAME=name||'uploaded export';
+  document.getElementById('ft-src').textContent=SRCNAME;
+  // set filter date bounds
+  var used=RAW.filter(function(r){return r.fuel>0;});
+  if(used.length){
+    document.getElementById('f-from').value='';
+    document.getElementById('f-to').value='';
+  }
+  render();
+}
+
+/* ---------- render ---------- */
+function applyFilters(recs){
+  var reg=document.getElementById('f-region').value;
+  var from=document.getElementById('f-from').value, to=document.getElementById('f-to').value;
+  return recs.filter(function(r){
+    if(r.fuel<=0) return false;
+    if(reg!=='all' && r.region!==reg) return false;
+    if(from && r.date<from) return false;
+    if(to && r.date>to) return false;
+    return true;
+  });
+}
+function render(){
+  var all=RAW.filter(function(r){return r.fuel>0;});
+  all.sort(function(a,b){return a.odo-b.odo;});
+  var filt=applyFilters(RAW).sort(function(a,b){return a.odo-b.odo;});
+  var pts=computeEconomy(filt);
+  var ks=pts.map(function(p){return p.kmpl;});
+
+  // headline
+  var med=median(ks),mn=mean(ks),p10=pctile(ks,10),p90=pctile(ks,90),
+      mnK=ks.length?Math.min.apply(null,ks):0,mxK=ks.length?Math.max.apply(null,ks):0;
+  var totFuel=filt.reduce(function(s,r){return s+r.fuel;},0);
+  var distSpan=filt.length?(filt[filt.length-1].odo-filt[0].odo):0;
+  function card(cls,label,val,sub){return '<div class="rc '+cls+'"><div class="rcl">'+label+'</div><div class="rcv">'+val+'</div><div class="rcs">'+sub+'</div></div>';}
+  document.getElementById('headline').innerHTML=
+    card('','Median',med.toFixed(2)+' km/L',(med?(100/med).toFixed(1):'0')+' L/100km')
+    +card('h','Mean',mn.toFixed(2)+' km/L',(mn?(100/mn).toFixed(1):'0')+' L/100km')
+    +card('g','Best (P90)',p90.toFixed(2)+' km/L','range top: '+mxK.toFixed(2))
+    +card('s','Worst (P10)',p10.toFixed(2)+' km/L','range floor: '+mnK.toFixed(2))
+    +card('','Intervals',ks.length+'','valid tank-to-tank reads')
+    +card('h','Fuel',Math.round(totFuel)+' L','total in filtered set')
+    +card('s','Distance',Math.round(distSpan).toLocaleString()+' km','odometer span')
+    +card('g','Band',mnK.toFixed(1)+'&ndash;'+mxK.toFixed(1),'km/L observed');
+
+  // masthead
+  document.getElementById('ms-n').textContent=ks.length;
+  document.getElementById('ms-span').textContent=Math.round(distSpan).toLocaleString()+' km';
+  document.getElementById('ms-med').textContent=med.toFixed(2)+' km/L';
+  document.getElementById('ms-band').textContent=mnK.toFixed(1)+'&ndash;'+mxK.toFixed(1);
+
+  drawEcon(pts,med);
+  drawHist(ks);
+  // year table
+  var byY={};
+  pts.forEach(function(p){var y=p.date.slice(0,4);(byY[y]=byY[y]||[]).push(p.kmpl);});
+  var yrs=Object.keys(byY).sort();
+  var yh='<thead><tr><th>Period</th><th>Intervals</th><th>Median km/L</th><th>L/100km</th><th>Range</th></tr></thead><tbody>';
+  yrs.forEach(function(y){var v=byY[y];var m=median(v);
+    yh+='<tr><td>'+y+'</td><td class="num">'+v.length+'</td><td class="num">'+m.toFixed(2)+'</td><td class="num">'+(100/m).toFixed(1)+'</td><td class="num">'+Math.min.apply(null,v).toFixed(2)+'&ndash;'+Math.max.apply(null,v).toFixed(2)+'</td></tr>';});
+  yh+='</tbody>';
+  document.getElementById('yeartable').innerHTML=yh;
+
+  // range
+  var tank=parseFloat(document.getElementById('cfg-tank').value)||0;
+  var aux=parseFloat(document.getElementById('cfg-aux').value)||0;
+  var full=tank+aux;
+  function rr(label,k){return '<tr><td>'+label+'</td><td class="num">'+k.toFixed(2)+'</td><td class="num">'+Math.round(k*tank).toLocaleString()+'</td><td class="num">'+Math.round(k*full).toLocaleString()+'</td></tr>';}
+  document.getElementById('rangetable').innerHTML=
+    '<thead><tr><th>Scenario</th><th>km/L</th><th>Main '+tank+' L</th><th>Full '+full+' L</th></tr></thead><tbody>'
+    +rr('Best (P90)',p90)+rr('Typical (median)',med)+rr('Worst (P10)',p10)+'</tbody>';
+
+  // cost
+  var home=filt.filter(function(r){return r.region==='Home'&&r.price>0;});
+  var ang=filt.filter(function(r){return r.region==='Angola'&&r.price>0;});
+  var hL=home.reduce(function(s,r){return s+r.fuel;},0), hR=home.reduce(function(s,r){return s+r.price;},0);
+  var aL=ang.reduce(function(s,r){return s+r.fuel;},0), aR=ang.reduce(function(s,r){return s+r.price;},0);
+  var homeRpl=hL?hR/hL:0, homeKpl=med; var homeRpkm=homeKpl?homeRpl/homeKpl:0;
+  var angRpl=aL?aR/aL:0;
+  document.getElementById('cost').innerHTML=
+    card('','Home R/L',hL?('R'+homeRpl.toFixed(2)):'&mdash;','avg, ZAR fills')
+    +card('h','Home spend',hL?('R'+Math.round(hR).toLocaleString()):'&mdash;',home.length+' fills')
+    +card('s','Home R/km',hL?('R'+homeRpkm.toFixed(2)):'&mdash;','derived: R/L \u00f7 km/L')
+    +card('g','Angola \u2248/L',aL?('R'+angRpl.toFixed(2)):'&mdash;','subsidised, '+ang.length+' fills');
+
+  // audit
+  var total=RAW.length, excluded=RAW.filter(function(r){return r.fuel<=0;}).length;
+  var partials=filt.filter(function(r){return r.full===0;}).length;
+  var rev=0,prev=null; all.forEach(function(r){if(prev!==null&&r.odo<prev)rev++;prev=r.odo;});
+  var angC=filt.filter(function(r){return r.region==='Angola';}).length;
+  var at='<thead><tr><th>Check</th><th>Value</th><th>Treatment</th></tr></thead><tbody>'
+    +'<tr><td>Rows parsed</td><td class="num">'+total+'</td><td>all log entries in export</td></tr>'
+    +'<tr><td>Zero/empty-fuel rows</td><td class="num">'+excluded+'</td><td>excluded (initial set-point)</td></tr>'
+    +'<tr><td>Odometer reversals</td><td class="num">'+rev+'</td><td>after exclusions, in filtered set</td></tr>'
+    +'<tr><td>Partial fills (in filter)</td><td class="num">'+partials+'</td><td>rolled into next full fill</td></tr>'
+    +'<tr><td>Valid economy intervals</td><td class="num">'+ks.length+'</td><td>full-to-full, 3&ndash;11 km/L sanity bound</td></tr>'
+    +'<tr><td>Angola / foreign fills</td><td class="num">'+angC+'</td><td>tagged; cost kept separate</td></tr>'
+    +'</tbody>';
+  document.getElementById('auditTable').innerHTML=at;
+
+  // src stat
+  document.getElementById('srcstat').innerHTML='Loaded: <b>'+SRCNAME+'</b> &middot; '+RAW.length+' rows &middot; '+ks.length+' economy intervals in current view';
+}
+
+/* ---------- SVG charts ---------- */
+function svgEl(w,h){return '<svg viewBox="0 0 '+w+' '+h+'" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">';}
+function drawEcon(pts,med){
+  var W=720,H=300,pl=46,pr=14,pt=12,pb=30; var iw=W-pl-pr,ih=H-pt-pb;
+  if(!pts.length){document.getElementById('chart-econ').innerHTML=svgEl(W,H)+'<text x="'+(W/2)+'" y="'+(H/2)+'" text-anchor="middle" fill="#6B5B4E" font-family="Oswald" font-size="14">No data in current filter</text></svg>';return;}
+  var xs=pts.map(function(p){return p.odo;}),ys=pts.map(function(p){return p.kmpl;});
+  var x0=Math.min.apply(null,xs),x1=Math.max.apply(null,xs);
+  var y0=Math.min(5,Math.floor(Math.min.apply(null,ys))),y1=Math.max(10,Math.ceil(Math.max.apply(null,ys)));
+  if(x1===x0)x1=x0+1;
+  function X(v){return pl+(v-x0)/(x1-x0)*iw;}
+  function Y(v){return pt+(1-(v-y0)/(y1-y0))*ih;}
+  var s=svgEl(W,H);
+  // gridlines y
+  for(var gy=y0;gy<=y1;gy++){var yy=Y(gy);s+='<line x1="'+pl+'" y1="'+yy+'" x2="'+(W-pr)+'" y2="'+yy+'" stroke="#3D2B1A" stroke-opacity="0.08"/>';
+    s+='<text x="'+(pl-6)+'" y="'+(yy+3)+'" text-anchor="end" fill="#6B5B4E" font-family="IBM Plex Mono" font-size="9">'+gy+'</text>';}
+  // x ticks
+  for(var t=0;t<=4;t++){var xv=x0+(x1-x0)*t/4;var xx=X(xv);
+    s+='<text x="'+xx+'" y="'+(H-10)+'" text-anchor="middle" fill="#6B5B4E" font-family="IBM Plex Mono" font-size="9">'+Math.round(xv/1000)+'k</text>';}
+  // median line
+  var my=Y(med); s+='<line x1="'+pl+'" y1="'+my+'" x2="'+(W-pr)+'" y2="'+my+'" stroke="#6B5B4E" stroke-width="1.4" stroke-dasharray="5 4"/>';
+  s+='<text x="'+(W-pr)+'" y="'+(my-4)+'" text-anchor="end" fill="#6B5B4E" font-family="IBM Plex Mono" font-size="9">median '+med.toFixed(2)+'</text>';
+  // connecting line (home colour)
+  var path=''; pts.forEach(function(p,i){path+=(i?'L':'M')+X(p.odo).toFixed(1)+' '+Y(p.kmpl).toFixed(1)+' ';});
+  s+='<path d="'+path+'" fill="none" stroke="#D4963A" stroke-width="1.2" stroke-opacity="0.55"/>';
+  // dots
+  pts.forEach(function(p){var col=p.region==='Angola'?'#C4572A':'#D4963A';
+    s+='<circle cx="'+X(p.odo).toFixed(1)+'" cy="'+Y(p.kmpl).toFixed(1)+'" r="3.4" fill="'+col+'" stroke="#FDFAF4" stroke-width="0.8"/>';});
+  s+='</svg>';
+  document.getElementById('chart-econ').innerHTML=s;
+}
+function drawHist(ks){
+  var W=720,H=240,pl=36,pr=14,pt=12,pb=30;var iw=W-pl-pr,ih=H-pt-pb;
+  if(!ks.length){document.getElementById('chart-hist').innerHTML=svgEl(W,H)+'<text x="'+(W/2)+'" y="'+(H/2)+'" text-anchor="middle" fill="#6B5B4E" font-family="Oswald" font-size="14">No data in current filter</text></svg>';return;}
+  var lo=Math.floor(Math.min.apply(null,ks)*2)/2, hi=Math.ceil(Math.max.apply(null,ks)*2)/2;
+  var step=0.5,nb=Math.max(1,Math.round((hi-lo)/step)),bins=new Array(nb).fill(0);
+  ks.forEach(function(k){var b=Math.min(nb-1,Math.floor((k-lo)/step));bins[b]++;});
+  var maxc=Math.max.apply(null,bins);
+  var bw=iw/nb;
+  var s=svgEl(W,H);
+  for(var gc=0;gc<=maxc;gc++){if(maxc>6&&gc%2)continue;var yy=pt+(1-gc/maxc)*ih;
+    s+='<line x1="'+pl+'" y1="'+yy+'" x2="'+(W-pr)+'" y2="'+yy+'" stroke="#3D2B1A" stroke-opacity="0.08"/>';
+    s+='<text x="'+(pl-6)+'" y="'+(yy+3)+'" text-anchor="end" fill="#6B5B4E" font-family="IBM Plex Mono" font-size="9">'+gc+'</text>';}
+  for(var i=0;i<nb;i++){var h=maxc?bins[i]/maxc*ih:0;var x=pl+i*bw;var y=pt+ih-h;
+    s+='<rect x="'+(x+1).toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+(bw-2).toFixed(1)+'" height="'+h.toFixed(1)+'" fill="#D4963A" fill-opacity="0.85"/>';
+    if(i%2===0||nb<=8){s+='<text x="'+(x+bw/2).toFixed(1)+'" y="'+(H-10)+'" text-anchor="middle" fill="#6B5B4E" font-family="IBM Plex Mono" font-size="9">'+(lo+i*step).toFixed(1)+'</text>';}}
+  s+='</svg>';
+  document.getElementById('chart-hist').innerHTML=s;
+}
+
+/* ---------- wiring ---------- */
+['f-region','f-from','f-to','cfg-tank','cfg-aux'].forEach(function(id){
+  document.getElementById(id).addEventListener('input',render);
+  document.getElementById(id).addEventListener('change',render);
+});
+document.getElementById('clearFilters').addEventListener('click',function(){
+  document.getElementById('f-region').value='all';
+  document.getElementById('f-from').value='';document.getElementById('f-to').value='';render();});
+var drop=document.getElementById('drop'),fileInput=document.getElementById('file');
+fileInput.addEventListener('change',function(e){var f=e.target.files[0];if(f){var rd=new FileReader();rd.onload=function(){loadText(rd.result,f.name);};rd.readAsText(f);}});
+['dragenter','dragover'].forEach(function(ev){drop.addEventListener(ev,function(e){e.preventDefault();drop.classList.add('over');});});
+['dragleave','drop'].forEach(function(ev){drop.addEventListener(ev,function(e){e.preventDefault();drop.classList.remove('over');});});
+drop.addEventListener('drop',function(e){var f=e.dataTransfer.files[0];if(f){var rd=new FileReader();rd.onload=function(){loadText(rd.result,f.name);};rd.readAsText(f);}});
+document.getElementById('resetBtn').addEventListener('click',function(){loadText(document.getElementById('bundled').textContent,'bundled data');});
+
+/* init */
+loadText(document.getElementById('bundled').textContent,'bundled data');
+
+/* PWA */
+if('serviceWorker' in navigator && location.hostname!=='www.claudeusercontent.com'){
+  navigator.serviceWorker.register('./sw-fuellog.js')
+    .then(function(){console.log('Fuel Log SW registered');})
+    .catch(function(e){console.log('SW error:',e);});
+}
+</script>
+</body>
+</html>
