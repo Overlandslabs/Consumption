@@ -143,8 +143,18 @@
   <div class="srcstat" id="srcstat"></div>
 
   <!-- HEADLINE -->
-  <div class="sec">Headline economy</div>
+  <div class="sec" style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
+    <span>Headline economy</span>
+    <span style="display:flex;align-items:center;gap:6px;">
+      <span style="font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--smoke);font-family:'IBM Plex Mono',monospace;">Units</span>
+      <button id="unit-btn" onclick="toggleUnit()" title="Switch between km/L and L/100km" style="font-family:'Oswald',sans-serif;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:5px 10px;background:var(--sand);border:2px solid var(--ochre);color:var(--bark);cursor:pointer;">km/L</button>
+    </span>
+  </div>
   <div class="rgrid" id="headline"></div>
+  <div class="call" style="border-left-color:var(--steeldk);background:#f1ede3;">
+    <div class="ci">&#128208;</div>
+    <div class="cb"><strong>Reading these numbers.</strong> <strong>Median</strong> &mdash; the middle reading; half your tanks did better, half worse (outlier-proof, best for planning). <strong>Mean</strong> &mdash; the plain average (total &divide; count); one freak tank skews it. <strong>P90 / P10</strong> &mdash; percentiles: 90% of tanks fall below P90 (your realistically-good end), only 10% fall below P10 (your realistically-bad end &mdash; use it for conservative remote legs). <strong>Band</strong> &mdash; the raw best-to-worst spread across every interval, outliers included.</div>
+  </div>
 
   <!-- FILTERS -->
   <div class="sec">Filter the dataset</div>
@@ -174,7 +184,7 @@
   <!-- ECONOMY OVER DISTANCE -->
   <div class="sec">Economy over distance</div>
   <div class="chartcard">
-    <div class="charttitle">km/L per fill interval, by odometer</div>
+    <div class="charttitle">Economy per fill interval (<span class="unit-lbl">km/L</span>), by odometer</div>
     <div class="chartsub">Each point is one tank-to-tank interval. Partial fills are rolled into the following full fill.</div>
     <div id="chart-econ"></div>
     <div class="leg">
@@ -187,7 +197,7 @@
   <!-- DISTRIBUTION -->
   <div class="sec">Where your economy really sits</div>
   <div class="chartcard">
-    <div class="charttitle">Distribution of fill economy (km/L)</div>
+    <div class="charttitle">Distribution of fill economy (<span class="unit-lbl">km/L</span>)</div>
     <div class="chartsub">The spread is what matters for range planning &mdash; plan on the left of this curve, not the average.</div>
     <div id="chart-hist"></div>
   </div>
@@ -210,6 +220,41 @@
   <div class="rgrid" id="cost"></div>
   <div class="call"><div class="ci">&#8505;</div><div class="cb"><strong>Why segmented:</strong> Angola diesel is heavily subsidised (~R7/L equivalent) and recorded in a different price regime to home (ZAR ~R20&ndash;33/L). Blending them into one R/L or R/km figure would be misleading, so they are kept separate. The km/L economy figures above are currency-independent and can be read across both.</div></div>
 
+  <!-- MONTHLY & ANNUAL -->
+  <div class="sec">Consumption by month &amp; year</div>
+  <div class="rgrid" id="permonth-avg"></div>
+  <div class="tscroll"><table class="dtable" id="periodtable"></table></div>
+  <div class="call"><div class="ci">&#8505;</div><div class="cb">Months with only one or two fills are noisy &mdash; read the shaded <strong>annual rows</strong> as the stable view. Cost is <strong>home ZAR only</strong>; the Angola month is excluded so subsidised fuel doesn't distort R/month.</div></div>
+
+  <!-- MONTHLY BARS -->
+  <div class="sec">Per-month distance, fuel &amp; cost</div>
+  <div class="chartcard"><div class="charttitle">Kilometres driven per month</div><div id="chart-km"></div></div>
+  <div class="chartcard"><div class="charttitle">Litres purchased per month</div><div id="chart-l"></div></div>
+  <div class="chartcard"><div class="charttitle">Cost per month (home ZAR)</div><div class="chartsub">Angola month excluded.</div><div id="chart-cost"></div></div>
+
+  <!-- SEASONALITY -->
+  <div class="sec">Seasonality &mdash; economy by calendar month</div>
+  <div class="chartcard"><div class="charttitle">Median <span class="unit-lbl">km/L</span> by month of year (all years combined)</div><div class="chartsub">Reveals heat / wet-season effects independent of which year &mdash; values labelled on each bar.</div><div id="chart-season"></div></div>
+
+  <!-- TANK RANGE & CADENCE -->
+  <div class="sec">Achieved tank range &amp; fill cadence</div>
+  <div class="rgrid" id="cadence"></div>
+  <div class="call"><div class="ci">&#8505;</div><div class="cb"><strong>Achieved</strong> range is how far you actually drove between fills &mdash; real-world, not theoretical. A useful sanity check against the range table above.</div></div>
+
+  <!-- BUDGET -->
+  <div class="sec">Expedition fuel-budget projection</div>
+  <div class="fgrid" style="grid-template-columns:repeat(3,minmax(0,1fr));max-width:600px">
+    <div class="ffield"><div class="flabel">Expedition months</div><input type="number" class="finput" id="cfg-months" value="24" min="1" max="60" step="1"></div>
+    <div class="ffield"><div class="flabel">Fuel price R/L (today)</div><input type="number" class="finput" id="cfg-rpl" value="" min="1" max="60" step="0.01"></div>
+    <div class="ffield"><div class="flabel">Driving intensity</div><div class="select-wrap"><select class="finput" id="cfg-basis"><option value="actual">As logged</option><option value="heavy">+25% (expedition load)</option></select></div></div>
+  </div>
+  <div class="rgrid" id="budget"></div>
+  <div class="call am"><div class="ci">&#9888;</div><div class="cb">Scales your real <strong>litres/month</strong> across the expedition and prices it in <strong>today's ZAR</strong>. An order-of-magnitude budget figure, not a forecast &mdash; it excludes future fuel-price inflation and assumes driving intensity similar to your logged history. R/L defaults to your current home average; override it for a planning assumption.</div></div>
+
+  <!-- PRICE TREND -->
+  <div class="sec">Fuel-price trend (home ZAR)</div>
+  <div class="chartcard"><div class="charttitle">Diesel R/L paid over time</div><div class="chartsub">The price you've personally paid &mdash; Angola fills excluded.</div><div id="chart-price"></div></div>
+
   <!-- DATA INTEGRITY -->
   <div class="sec">Data integrity &mdash; what was used and what was excluded</div>
   <div class="tscroll"><table class="dtable" id="auditTable"></table></div>
@@ -229,7 +274,7 @@
 <footer>
   <div>LC76 Overland Library &middot; <span>Fuel Log Analyser</span></div>
   <div>1HZ 4.2L &middot; <span id="ft-src">bundled data</span></div>
-  <div>v1.0 &middot; <span>Eco not ego</span></div>
+  <div>v2.0 &middot; <span>Eco not ego</span></div>
 </footer>
 
 <script type="text/csv" id="bundled">"## Vehicle"
@@ -382,6 +427,14 @@ function median(a){if(!a.length)return 0;var s=a.slice().sort(function(x,y){retu
 function mean(a){return a.length?a.reduce(function(x,y){return x+y;},0)/a.length:0;}
 function pctile(a,p){if(!a.length)return 0;var s=a.slice().sort(function(x,y){return x-y;});var idx=Math.min(s.length-1,Math.max(0,Math.round((p/100)*(s.length-1))));return s[idx];}
 
+/* ---------- display unit ---------- */
+var BUNIT='kmL';
+function unitLabel(){return BUNIT==='l100'?'L/100km':'km/L';}
+function fmtP(kmL){if(!kmL||!isFinite(kmL))return '\u2014';return BUNIT==='l100'?(100/kmL).toFixed(1):kmL.toFixed(2);}
+function fmtS(kmL){if(!kmL||!isFinite(kmL))return '';return BUNIT==='l100'?(kmL.toFixed(2)+' km/L'):((100/kmL).toFixed(1)+' L/100km');}
+function toU(kmL){return BUNIT==='l100'?100/kmL:kmL;}
+function toggleUnit(){BUNIT=(BUNIT==='kmL')?'l100':'kmL';var b=document.getElementById('unit-btn');if(b)b.textContent=unitLabel();render();}
+
 /* tank-to-tank economy (robust): partials roll into next full fill */
 function computeEconomy(recs){
   var pts=[],lastFull=null,acc=0;
@@ -440,21 +493,22 @@ function render(){
   var totFuel=filt.reduce(function(s,r){return s+r.fuel;},0);
   var distSpan=filt.length?(filt[filt.length-1].odo-filt[0].odo):0;
   function card(cls,label,val,sub){return '<div class="rc '+cls+'"><div class="rcl">'+label+'</div><div class="rcv">'+val+'</div><div class="rcs">'+sub+'</div></div>';}
+  var bandLo=BUNIT==='l100'?(mxK?100/mxK:0):mnK, bandHi=BUNIT==='l100'?(mnK?100/mnK:0):mxK;
   document.getElementById('headline').innerHTML=
-    card('','Median',med.toFixed(2)+' km/L',(med?(100/med).toFixed(1):'0')+' L/100km')
-    +card('h','Mean',mn.toFixed(2)+' km/L',(mn?(100/mn).toFixed(1):'0')+' L/100km')
-    +card('g','Best (P90)',p90.toFixed(2)+' km/L','range top: '+mxK.toFixed(2))
-    +card('s','Worst (P10)',p10.toFixed(2)+' km/L','range floor: '+mnK.toFixed(2))
+    card('','Median',fmtP(med)+' '+unitLabel(),fmtS(med))
+    +card('h','Mean',fmtP(mn)+' '+unitLabel(),fmtS(mn))
+    +card('g','Best (P90)',fmtP(p90)+' '+unitLabel(),'best read '+fmtP(mxK))
+    +card('s','Worst (P10)',fmtP(p10)+' '+unitLabel(),'worst read '+fmtP(mnK))
     +card('','Intervals',ks.length+'','valid tank-to-tank reads')
     +card('h','Fuel',Math.round(totFuel)+' L','total in filtered set')
     +card('s','Distance',Math.round(distSpan).toLocaleString()+' km','odometer span')
-    +card('g','Band',mnK.toFixed(1)+'&ndash;'+mxK.toFixed(1),'km/L observed');
+    +card('g','Band',(bandLo?bandLo.toFixed(1):'0')+'&ndash;'+(bandHi?bandHi.toFixed(1):'0'),unitLabel()+' observed');
 
   // masthead
   document.getElementById('ms-n').textContent=ks.length;
   document.getElementById('ms-span').textContent=Math.round(distSpan).toLocaleString()+' km';
-  document.getElementById('ms-med').textContent=med.toFixed(2)+' km/L';
-  document.getElementById('ms-band').textContent=mnK.toFixed(1)+'&ndash;'+mxK.toFixed(1);
+  document.getElementById('ms-med').textContent=fmtP(med)+' '+unitLabel();
+  document.getElementById('ms-band').textContent=(bandLo?bandLo.toFixed(1):'0')+'\u2013'+(bandHi?bandHi.toFixed(1):'0');
 
   drawEcon(pts,med);
   drawHist(ks);
@@ -472,9 +526,9 @@ function render(){
   var tank=parseFloat(document.getElementById('cfg-tank').value)||0;
   var aux=parseFloat(document.getElementById('cfg-aux').value)||0;
   var full=tank+aux;
-  function rr(label,k){return '<tr><td>'+label+'</td><td class="num">'+k.toFixed(2)+'</td><td class="num">'+Math.round(k*tank).toLocaleString()+'</td><td class="num">'+Math.round(k*full).toLocaleString()+'</td></tr>';}
+  function rr(label,k){return '<tr><td>'+label+'</td><td class="num">'+fmtP(k)+'</td><td class="num">'+Math.round(k*tank).toLocaleString()+'</td><td class="num">'+Math.round(k*full).toLocaleString()+'</td></tr>';}
   document.getElementById('rangetable').innerHTML=
-    '<thead><tr><th>Scenario</th><th>km/L</th><th>Main '+tank+' L</th><th>Full '+full+' L</th></tr></thead><tbody>'
+    '<thead><tr><th>Scenario</th><th>'+unitLabel()+'</th><th>Main '+tank+' L</th><th>Full '+full+' L</th></tr></thead><tbody>'
     +rr('Best (P90)',p90)+rr('Typical (median)',med)+rr('Worst (P10)',p10)+'</tbody>';
 
   // cost
@@ -489,6 +543,9 @@ function render(){
     +card('h','Home spend',hL?('R'+Math.round(hR).toLocaleString()):'&mdash;',home.length+' fills')
     +card('s','Home R/km',hL?('R'+homeRpkm.toFixed(2)):'&mdash;','derived: R/L \u00f7 km/L')
     +card('g','Angola \u2248/L',aL?('R'+angRpl.toFixed(2)):'&mdash;','subsidised, '+ang.length+' fills');
+
+  [].forEach.call(document.querySelectorAll('.unit-lbl'),function(e){e.textContent=unitLabel();});
+  renderExtras(filt,pts,med,homeRpl);
 
   // audit
   var total=RAW.length, excluded=RAW.filter(function(r){return r.fuel<=0;}).length;
@@ -514,13 +571,14 @@ function svgEl(w,h){return '<svg viewBox="0 0 '+w+' '+h+'" xmlns="http://www.w3.
 function drawEcon(pts,med){
   var W=720,H=300,pl=46,pr=14,pt=12,pb=30; var iw=W-pl-pr,ih=H-pt-pb;
   if(!pts.length){document.getElementById('chart-econ').innerHTML=svgEl(W,H)+'<text x="'+(W/2)+'" y="'+(H/2)+'" text-anchor="middle" fill="#6B5B4E" font-family="Oswald" font-size="14">No data in current filter</text></svg>';return;}
-  var xs=pts.map(function(p){return p.odo;}),ys=pts.map(function(p){return p.kmpl;});
+  var xs=pts.map(function(p){return p.odo;}),ys=pts.map(function(p){return toU(p.kmpl);});
   var x0=Math.min.apply(null,xs),x1=Math.max.apply(null,xs);
-  var y0=Math.min(5,Math.floor(Math.min.apply(null,ys))),y1=Math.max(10,Math.ceil(Math.max.apply(null,ys)));
-  if(x1===x0)x1=x0+1;
+  var y0=Math.floor(Math.min.apply(null,ys)),y1=Math.ceil(Math.max.apply(null,ys));
+  if(y1<=y0)y1=y0+1; if(x1===x0)x1=x0+1;
   function X(v){return pl+(v-x0)/(x1-x0)*iw;}
   function Y(v){return pt+(1-(v-y0)/(y1-y0))*ih;}
   var s=svgEl(W,H);
+  s+='<text x="'+pl+'" y="'+(pt-2)+'" fill="#6B5B4E" font-family="IBM Plex Mono" font-size="9">'+unitLabel()+'</text>';
   // gridlines y
   for(var gy=y0;gy<=y1;gy++){var yy=Y(gy);s+='<line x1="'+pl+'" y1="'+yy+'" x2="'+(W-pr)+'" y2="'+yy+'" stroke="#3D2B1A" stroke-opacity="0.08"/>';
     s+='<text x="'+(pl-6)+'" y="'+(yy+3)+'" text-anchor="end" fill="#6B5B4E" font-family="IBM Plex Mono" font-size="9">'+gy+'</text>';}
@@ -528,26 +586,29 @@ function drawEcon(pts,med){
   for(var t=0;t<=4;t++){var xv=x0+(x1-x0)*t/4;var xx=X(xv);
     s+='<text x="'+xx+'" y="'+(H-10)+'" text-anchor="middle" fill="#6B5B4E" font-family="IBM Plex Mono" font-size="9">'+Math.round(xv/1000)+'k</text>';}
   // median line
-  var my=Y(med); s+='<line x1="'+pl+'" y1="'+my+'" x2="'+(W-pr)+'" y2="'+my+'" stroke="#6B5B4E" stroke-width="1.4" stroke-dasharray="5 4"/>';
-  s+='<text x="'+(W-pr)+'" y="'+(my-4)+'" text-anchor="end" fill="#6B5B4E" font-family="IBM Plex Mono" font-size="9">median '+med.toFixed(2)+'</text>';
+  var mu=toU(med);var my=Y(mu); s+='<line x1="'+pl+'" y1="'+my+'" x2="'+(W-pr)+'" y2="'+my+'" stroke="#6B5B4E" stroke-width="1.4" stroke-dasharray="5 4"/>';
+  s+='<text x="'+(W-pr)+'" y="'+(my-4)+'" text-anchor="end" fill="#6B5B4E" font-family="IBM Plex Mono" font-size="9">median '+fmtP(med)+'</text>';
   // connecting line (home colour)
-  var path=''; pts.forEach(function(p,i){path+=(i?'L':'M')+X(p.odo).toFixed(1)+' '+Y(p.kmpl).toFixed(1)+' ';});
+  var path=''; pts.forEach(function(p,i){path+=(i?'L':'M')+X(p.odo).toFixed(1)+' '+Y(toU(p.kmpl)).toFixed(1)+' ';});
   s+='<path d="'+path+'" fill="none" stroke="#D4963A" stroke-width="1.2" stroke-opacity="0.55"/>';
   // dots
   pts.forEach(function(p){var col=p.region==='Angola'?'#C4572A':'#D4963A';
-    s+='<circle cx="'+X(p.odo).toFixed(1)+'" cy="'+Y(p.kmpl).toFixed(1)+'" r="3.4" fill="'+col+'" stroke="#FDFAF4" stroke-width="0.8"/>';});
+    s+='<circle cx="'+X(p.odo).toFixed(1)+'" cy="'+Y(toU(p.kmpl)).toFixed(1)+'" r="3.4" fill="'+col+'" stroke="#FDFAF4" stroke-width="0.8"/>';});
   s+='</svg>';
   document.getElementById('chart-econ').innerHTML=s;
 }
 function drawHist(ks){
   var W=720,H=240,pl=36,pr=14,pt=12,pb=30;var iw=W-pl-pr,ih=H-pt-pb;
   if(!ks.length){document.getElementById('chart-hist').innerHTML=svgEl(W,H)+'<text x="'+(W/2)+'" y="'+(H/2)+'" text-anchor="middle" fill="#6B5B4E" font-family="Oswald" font-size="14">No data in current filter</text></svg>';return;}
-  var lo=Math.floor(Math.min.apply(null,ks)*2)/2, hi=Math.ceil(Math.max.apply(null,ks)*2)/2;
-  var step=0.5,nb=Math.max(1,Math.round((hi-lo)/step)),bins=new Array(nb).fill(0);
-  ks.forEach(function(k){var b=Math.min(nb-1,Math.floor((k-lo)/step));bins[b]++;});
+  var vals=ks.map(function(k){return toU(k);});
+  var lo=Math.floor(Math.min.apply(null,vals)*2)/2, hi=Math.ceil(Math.max.apply(null,vals)*2)/2;
+  var step=Math.max(0.5,Math.round((hi-lo)/9*2)/2);
+  var nb=Math.max(1,Math.ceil((hi-lo)/step)),bins=new Array(nb).fill(0);
+  vals.forEach(function(k){var b=Math.min(nb-1,Math.max(0,Math.floor((k-lo)/step)));bins[b]++;});
   var maxc=Math.max.apply(null,bins);
   var bw=iw/nb;
   var s=svgEl(W,H);
+  s+='<text x="'+(W-pr)+'" y="'+(pt-2)+'" text-anchor="end" fill="#6B5B4E" font-family="IBM Plex Mono" font-size="9">'+unitLabel()+'</text>';
   for(var gc=0;gc<=maxc;gc++){if(maxc>6&&gc%2)continue;var yy=pt+(1-gc/maxc)*ih;
     s+='<line x1="'+pl+'" y1="'+yy+'" x2="'+(W-pr)+'" y2="'+yy+'" stroke="#3D2B1A" stroke-opacity="0.08"/>';
     s+='<text x="'+(pl-6)+'" y="'+(yy+3)+'" text-anchor="end" fill="#6B5B4E" font-family="IBM Plex Mono" font-size="9">'+gc+'</text>';}
@@ -558,8 +619,127 @@ function drawHist(ks){
   document.getElementById('chart-hist').innerHTML=s;
 }
 
+/* ---------- shared chart helpers ---------- */
+function gl(x1,y,x2){return '<line x1="'+x1+'" y1="'+y+'" x2="'+x2+'" y2="'+y+'" stroke="#3D2B1A" stroke-opacity="0.08"/>';}
+function ytxt(x,y,t){return '<text x="'+x+'" y="'+y+'" text-anchor="end" fill="#6B5B4E" font-family="IBM Plex Mono" font-size="9">'+t+'</text>';}
+function xtxt(x,y,t){return '<text x="'+x+'" y="'+y+'" text-anchor="middle" fill="#6B5B4E" font-family="IBM Plex Mono" font-size="9">'+t+'</text>';}
+function xrot(x,y,t){return '<text x="'+x+'" y="'+y+'" text-anchor="end" fill="#6B5B4E" font-family="IBM Plex Mono" font-size="8" transform="rotate(-45 '+x+' '+y+')">'+t+'</text>';}
+function emptySvg(W,H){return svgEl(W,H)+'<text x="'+(W/2)+'" y="'+(H/2)+'" text-anchor="middle" fill="#6B5B4E" font-family="Oswald" font-size="13">No data in current filter</text></svg>';}
+function fmtNum(v){return v>=1000?((Math.round(v/100)/10)+'k'):Math.round(v);}
+
+function drawBars(id,labels,vals,color){
+  var el=document.getElementById(id);if(!el)return;
+  var W=720,H=220,pl=46,pr=12,pt=14,pb=46,iw=W-pl-pr,ih=H-pt-pb;
+  if(!vals.length||Math.max.apply(null,vals)<=0){el.innerHTML=emptySvg(W,H);return;}
+  var maxv=Math.max.apply(null,vals),n=vals.length,bw=iw/n;
+  var s=svgEl(W,H);
+  for(var g=0;g<=4;g++){var yy=pt+(1-g/4)*ih;s+=gl(pl,yy,W-pr)+ytxt(pl-6,yy+3,fmtNum(maxv*g/4));}
+  for(var i=0;i<n;i++){var h=Math.max(0,vals[i]/maxv*ih),x=pl+i*bw,y=pt+ih-h;
+    s+='<rect x="'+(x+2).toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+Math.max(1,bw-4).toFixed(1)+'" height="'+h.toFixed(1)+'" fill="'+color+'" fill-opacity="0.85"/>';
+    if(n<=26){s+=xrot(x+bw/2+4,pt+ih+12,labels[i]);}}
+  s+='</svg>';el.innerHTML=s;
+}
+function drawSeason(SM){
+  var el=document.getElementById('chart-season');if(!el)return;
+  var names=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var vals=[];for(var m=1;m<=12;m++){vals.push(SM[m]&&SM[m].length?toU(median(SM[m])):null);}
+  var present=vals.filter(function(v){return v!==null;});
+  var W=720,H=240,pl=46,pr=12,pt=16,pb=30,iw=W-pl-pr,ih=H-pt-pb;
+  if(!present.length){el.innerHTML=emptySvg(W,H);return;}
+  var lo=Math.floor(Math.min.apply(null,present)),hi=Math.ceil(Math.max.apply(null,present));if(hi<=lo)hi=lo+1;
+  var bw=iw/12;var s=svgEl(W,H);
+  s+='<text x="'+pl+'" y="'+(pt-4)+'" fill="#6B5B4E" font-family="IBM Plex Mono" font-size="9">'+unitLabel()+'</text>';
+  for(var g=lo;g<=hi;g++){var yy=pt+(1-(g-lo)/(hi-lo))*ih;s+=gl(pl,yy,W-pr)+ytxt(pl-6,yy+3,g);}
+  for(var mi=0;mi<12;mi++){var x=pl+mi*bw;s+=xtxt(x+bw/2,H-10,names[mi]);
+    if(vals[mi]!==null){var h=(vals[mi]-lo)/(hi-lo)*ih,y=pt+ih-h;
+      s+='<rect x="'+(x+4).toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+(bw-8).toFixed(1)+'" height="'+h.toFixed(1)+'" fill="#D4963A" fill-opacity="0.85"/>';
+      s+='<text x="'+(x+bw/2).toFixed(1)+'" y="'+(y-3).toFixed(1)+'" text-anchor="middle" fill="#6B5B4E" font-family="IBM Plex Mono" font-size="8">'+vals[mi].toFixed(1)+'</text>';}}
+  s+='</svg>';el.innerHTML=s;
+}
+function drawPriceTrend(fills){
+  var el=document.getElementById('chart-price');if(!el)return;
+  var pts=fills.map(function(f){return {d:f.date,v:f.price/f.fuel};}).filter(function(p){return isFinite(p.v)&&p.v>0;});
+  pts.sort(function(a,b){return a.d<b.d?-1:1;});
+  var W=720,H=240,pl=44,pr=14,pt=12,pb=30,iw=W-pl-pr,ih=H-pt-pb;
+  if(pts.length<2){el.innerHTML=emptySvg(W,H);return;}
+  var vs=pts.map(function(p){return p.v;});
+  var y0=Math.floor(Math.min.apply(null,vs)),y1=Math.ceil(Math.max.apply(null,vs));if(y1<=y0)y1=y0+1;
+  var n=pts.length;
+  function X(i){return pl+(n<=1?0:i/(n-1)*iw);}
+  function Y(v){return pt+(1-(v-y0)/(y1-y0))*ih;}
+  var s=svgEl(W,H);
+  for(var g=y0;g<=y1;g++){var yy=Y(g);s+=gl(pl,yy,W-pr)+ytxt(pl-6,yy+3,'R'+g);}
+  [0,Math.floor(n/2),n-1].forEach(function(i){s+=xtxt(X(i),H-10,pts[i].d.slice(0,7));});
+  var path='';pts.forEach(function(p,i){path+=(i?'L':'M')+X(i).toFixed(1)+' '+Y(p.v).toFixed(1)+' ';});
+  s+='<path d="'+path+'" fill="none" stroke="#C4572A" stroke-width="1.6"/>';
+  pts.forEach(function(p,i){s+='<circle cx="'+X(i).toFixed(1)+'" cy="'+Y(p.v).toFixed(1)+'" r="2.6" fill="#C4572A"/>';});
+  s+='</svg>';el.innerHTML=s;
+}
+
+/* ---------- monthly / yearly / cadence / budget ---------- */
+function blankP(){return {km:0,kArr:[],Lfill:0,cost:0,hasHome:false};}
+function renderExtras(filt,pts,med,homeRpl){
+  function card(cls,label,val,sub){return '<div class="rc '+cls+'"><div class="rcl">'+label+'</div><div class="rcv">'+val+'</div><div class="rcs">'+sub+'</div></div>';}
+  function agg(keyLen){var M={};
+    pts.forEach(function(p){var k=p.date.slice(0,keyLen);(M[k]=M[k]||blankP());M[k].km+=p.dist;M[k].kArr.push(p.kmpl);});
+    filt.forEach(function(r){var k=r.date.slice(0,keyLen);M[k]=M[k]||blankP();M[k].Lfill+=r.fuel;if(r.region==='Home'&&r.price>0){M[k].cost+=r.price;M[k].hasHome=true;}});
+    return M;}
+  var Mmon=agg(7), Myr=agg(4);
+  var monthKeys=Object.keys(Mmon).sort(), yrKeys=Object.keys(Myr).sort();
+  var nMonths=monthKeys.length,totKm=0,totL=0,totCost=0,nCostMonths=0;
+  monthKeys.forEach(function(k){var o=Mmon[k];totKm+=o.km;totL+=o.Lfill;if(o.hasHome){totCost+=o.cost;nCostMonths++;}});
+  document.getElementById('permonth-avg').innerHTML=
+    card('','Avg km / month',nMonths?Math.round(totKm/nMonths).toLocaleString():'\u2014','over '+nMonths+' months')
+    +card('h','Avg litres / month',nMonths?Math.round(totL/nMonths):'\u2014','fuel purchased')
+    +card('g','Avg cost / month',nCostMonths?('R'+Math.round(totCost/nCostMonths).toLocaleString()):'\u2014','home ZAR, '+nCostMonths+' mo')
+    +card('s','Months logged',nMonths+'','distinct calendar months');
+  var th='<thead><tr><th>Period</th><th>km</th><th>Litres</th><th>Cost (R)</th><th>Median '+unitLabel()+'</th></tr></thead><tbody>';
+  function row(k,o,isYr){var kmpl=median(o.kArr);
+    return '<tr'+(isYr?' style="background:#efe9da;"':'')+'><td'+(isYr?' style="font-weight:600;"':' style="padding-left:24px;font-weight:400;color:#6B5B4E;"')+'>'+k+'</td>'
+      +'<td class="num">'+(o.km?Math.round(o.km).toLocaleString():'\u2014')+'</td>'
+      +'<td class="num">'+(o.Lfill?Math.round(o.Lfill):'\u2014')+'</td>'
+      +'<td class="num">'+(o.hasHome?('R'+Math.round(o.cost).toLocaleString()):'\u2014')+'</td>'
+      +'<td class="num">'+(o.kArr.length?fmtP(kmpl):'\u2014')+'</td></tr>';}
+  var body='';
+  yrKeys.forEach(function(y){body+=row(y,Myr[y],true);
+    monthKeys.filter(function(k){return k.slice(0,4)===y;}).forEach(function(k){body+=row(k,Mmon[k],false);});});
+  document.getElementById('periodtable').innerHTML=th+body+'</tbody>';
+  var labels=monthKeys.map(function(k){return k.slice(2);});
+  drawBars('chart-km',labels,monthKeys.map(function(k){return Mmon[k].km;}),'#D4963A');
+  drawBars('chart-l',labels,monthKeys.map(function(k){return Mmon[k].Lfill;}),'#C4572A');
+  drawBars('chart-cost',labels,monthKeys.map(function(k){return Mmon[k].hasHome?Mmon[k].cost:0;}),'#2a2f3a');
+  var SM={};pts.forEach(function(p){var m=parseInt(p.date.slice(5,7),10);(SM[m]=SM[m]||[]).push(p.kmpl);});
+  drawSeason(SM);
+  var dists=pts.map(function(p){return p.dist;});
+  var fullFills=filt.filter(function(r){return r.full===1;});
+  var avgRange=dists.length?dists.reduce(function(a,b){return a+b;},0)/dists.length:0;
+  var maxRange=dists.length?Math.max.apply(null,dists):0;
+  var avgLfill=fullFills.length?fullFills.reduce(function(a,b){return a+b.fuel;},0)/fullFills.length:0;
+  var byDate=filt.slice().sort(function(a,b){return a.date<b.date?-1:1;});
+  var dd=[];for(var i=1;i<byDate.length;i++){var diff=(new Date(byDate[i].date)-new Date(byDate[i-1].date))/86400000;if(diff>0&&diff<120)dd.push(diff);}
+  var avgDays=dd.length?dd.reduce(function(a,b){return a+b;},0)/dd.length:0;
+  document.getElementById('cadence').innerHTML=
+    card('','Avg tank range',avgRange?Math.round(avgRange).toLocaleString()+' km':'\u2014','actual, between fills')
+    +card('h','Best tank range',maxRange?Math.round(maxRange).toLocaleString()+' km':'\u2014','longest interval')
+    +card('s','Avg litres / fill',avgLfill?avgLfill.toFixed(1)+' L':'\u2014','full fills only')
+    +card('g','Avg days / fill',avgDays?avgDays.toFixed(0)+' days':'\u2014','typical refuel gap');
+  var rplEl=document.getElementById('cfg-rpl');
+  if(rplEl&&(!rplEl.value||parseFloat(rplEl.value)<=0)&&homeRpl)rplEl.value=homeRpl.toFixed(2);
+  var months=parseFloat(document.getElementById('cfg-months').value)||24;
+  var rpl=parseFloat(rplEl.value)||homeRpl||0;
+  var factor=document.getElementById('cfg-basis').value==='heavy'?1.25:1.0;
+  var avgLmonth=nMonths?totL/nMonths:0;
+  var projL=avgLmonth*months*factor, projCost=projL*rpl, projDist=projL*med;
+  document.getElementById('budget').innerHTML=
+    card('h','Fuel needed',projL?Math.round(projL).toLocaleString()+' L':'\u2014',months+' months'+(factor>1?' +25%':''))
+    +card('g','Cost (today\u2019s R)',projCost?('R'+Math.round(projCost).toLocaleString()):'\u2014','@ R'+rpl.toFixed(2)+'/L')
+    +card('','Approx distance',projDist?Math.round(projDist).toLocaleString()+' km':'\u2014','at median economy')
+    +card('s','Your burn rate',avgLmonth?Math.round(avgLmonth)+' L/mo':'\u2014',Math.round(avgLmonth*med).toLocaleString()+' km/mo');
+  drawPriceTrend(filt.filter(function(r){return r.region==='Home'&&r.price>0&&r.fuel>0;}));
+}
+
 /* ---------- wiring ---------- */
-['f-region','f-from','f-to','cfg-tank','cfg-aux'].forEach(function(id){
+['f-region','f-from','f-to','cfg-tank','cfg-aux','cfg-months','cfg-rpl','cfg-basis'].forEach(function(id){
   document.getElementById(id).addEventListener('input',render);
   document.getElementById(id).addEventListener('change',render);
 });
