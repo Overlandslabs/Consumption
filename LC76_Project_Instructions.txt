@@ -158,6 +158,16 @@ WORKING CONVENTIONS
   confirmed working file as the reference template. Never conclude an element
   is absent without careful full-file inspection.
 - Update index.html AND LC76_Library_Register.txt when adding new documents.
+- Service-worker cache versioning (Claude-owned — do NOT rely on Neil to
+  remember this): whenever a library file is ADDED, REMOVED, or RENAMED,
+  Claude bumps the CACHE constant in sw.js (e.g. 'lc76-library-v1' ->
+  'lc76-library-v2') and includes the updated sw.js in the deliverables for
+  that session. When adding a new document, sw.js must also be re-generated so
+  the new file joins the offline precache list. Plain edits to existing files
+  self-refresh via the worker's background revalidation and do NOT require a
+  bump. Neil simply commits sw.js alongside the changed files — no decision
+  needed. (Note: this convention only fires for changes made through Claude;
+  files hand-edited and pushed to GitHub directly will not trigger it.)
 - All country/terrain profiles are on GitHub (incl. Angola). The register's
   "NOT ON GITHUB" section is empty — nothing is intentionally excluded.
 - Chrome extension get_page_content is unreliable — prefer web_fetch with a
