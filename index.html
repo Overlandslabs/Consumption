@@ -592,5 +592,16 @@ footer{margin-top:0.5cm;padding:0.3cm;border-top:1pt solid #ccc}
 <p>LC76 Overland Reference Library</p>
 </footer>
 
+<script>
+// Register the library-wide service worker (offline field availability).
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('./sw.js').catch(function (err) {
+      console.warn('[lc76] service worker registration failed:', err);
+    });
+  });
+}
+</script>
+
 </body>
 </html>
