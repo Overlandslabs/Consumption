@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LC76 Library">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0d0e12">
+<title>LC76 · Crank Battery Care</title>
+<link rel="manifest" href="manifest-ref.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500;600&family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0d0e12;--paper:#dad2c0;--paper2:#edeae0;--rule:#d4cfc4;
+  --amber:#b86800;--amber2:#e07800;
+  --steeldk:#2a2f3a;--steelmd:#6a7080;--steellt:#a8b0bc;
+  --red-warn:#B91C1C;--green-ok:#059669;
+  --mono:'IBM Plex Mono',monospace;
+  --sans:'Oswald',sans-serif;
+  --display:'Bebas Neue',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{overflow-x:hidden}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.6}
+
+/* ── STICKY NAV ── */
+.sticky-nav-unit{position:sticky;top:0;z-index:100;padding-top:env(safe-area-inset-top)}
+.std-header{background:var(--ink);padding:18px 24px 14px;position:relative;border-bottom:3px solid var(--amber)}
+.std-eyebrow{font-family:var(--mono);font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--steelmd);margin-bottom:6px}
+.std-title{font-family:var(--display);font-size:clamp(1.9rem,5vw,2.8rem);letter-spacing:.06em;color:var(--amber2);line-height:1}
+.std-sub{font-family:var(--mono);font-size:.54rem;letter-spacing:.12em;color:rgba(255,200,100,.65);margin-top:5px}
+.std-vehicle{font-family:var(--mono);font-size:.48rem;letter-spacing:.08em;color:var(--steelmd);margin-top:8px}
+.lib-home-btn{position:absolute;top:14px;right:16px;display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--amber2);background:rgba(232,120,0,.15);border:1px solid var(--amber2);border-radius:20px;padding:6px 12px;min-height:32px;white-space:nowrap;transition:background .2s}
+.lib-home-btn:hover{background:rgba(232,120,0,.30)}
+.toc-bar{background:var(--steeldk);padding:7px 24px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;border-bottom:2px solid var(--amber)}
+.toc-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.18em;color:var(--steellt);text-transform:uppercase;margin-right:4px;flex-shrink:0}
+.toc-link{font-family:var(--mono);font-size:.46rem;color:rgba(255,255,255,.45);text-decoration:none;padding:2px 6px;border:1px solid transparent;transition:all .12s;white-space:nowrap;cursor:pointer}
+.toc-link:hover,.toc-link.active{color:var(--amber2);border-color:var(--amber2);background:rgba(232,120,0,.1)}
+
+/* ── CONTENT ── */
+.content{padding:24px 5% 80px;max-width:100%}
+.lead{font-size:.92rem;color:var(--steeldk);line-height:1.7;margin:6px 0 4px}
+.p{font-size:.86rem;color:var(--steeldk);line-height:1.65;margin:10px 0}
+.p strong{color:var(--ink);font-weight:600}
+
+/* ── SECTION HEADERS ── */
+.sec-header{display:flex;align-items:center;gap:12px;padding:10px 5%;background:var(--steeldk);border-left:5px solid var(--amber2);margin:34px 0 0;margin-left:-5%;margin-right:-5%}
+.sec-num{font-family:var(--mono);font-size:.58rem;font-weight:600;color:#fff;background:var(--amber);padding:3px 8px;letter-spacing:.12em;flex-shrink:0}
+.sec-title{font-family:var(--display);font-size:1.7rem;letter-spacing:.10em;color:#fff;line-height:1}
+.sec-sub{font-family:var(--mono);font-size:.44rem;letter-spacing:.10em;color:var(--steellt);margin-left:auto;flex-shrink:0;text-align:right}
+
+/* ── SUBSECTIONS ── */
+.subsec{background:var(--paper2);border-left:3px solid var(--amber);padding:6px 16px 6px 14px;margin:22px 0 10px;display:flex;align-items:center;gap:10px}
+.subsec-title{font-family:var(--display);font-size:1.1rem;letter-spacing:.12em;color:var(--ink)}
+.subsec-tag{font-family:var(--mono);font-size:.44rem;letter-spacing:.12em;color:var(--steelmd);text-transform:uppercase;margin-left:auto}
+
+/* ── RULE BOXES ── */
+.rule{border-left:4px solid;padding:11px 15px;margin:12px 0;font-family:var(--sans);font-size:.86rem;line-height:1.65}
+.rule .rule-hdr{font-weight:700;display:block;margin-bottom:5px;font-family:var(--sans);font-size:.92rem;letter-spacing:.01em}
+.rule strong{font-weight:700;color:inherit}
+.rule u{text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
+.rule-warn{background:#fff4f0;border-color:var(--red-warn);color:#5a1010}
+.rule-warn .rule-hdr{color:var(--red-warn)}
+.rule-note{background:#fffbe8;border-color:var(--amber2);color:#4a3000}
+.rule-note .rule-hdr{color:var(--amber)}
+.rule-ok{background:#f0fff8;border-color:var(--green-ok);color:#0a3a20}
+.rule-ok .rule-hdr{color:var(--green-ok)}
+.rule-info{background:var(--paper2);border-color:var(--steelmd);color:var(--steeldk)}
+.rule-info .rule-hdr{color:var(--steelmd)}
+
+/* ── SPEC TABLES ── */
+.spec-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.82rem}
+.spec-table caption{font-family:var(--mono);font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;color:var(--steelmd);text-align:left;padding-bottom:6px}
+.spec-table th{background:var(--steeldk);color:#fff;font-family:var(--mono);font-size:.44rem;letter-spacing:.12em;text-transform:uppercase;padding:7px 10px;text-align:left}
+.spec-table td{padding:6px 10px;border-bottom:1px solid var(--rule);vertical-align:top;font-family:var(--sans)}
+.spec-table tr:nth-child(even) td{background:var(--paper2)}
+.mono{font-family:var(--mono);font-size:.72rem;color:var(--amber)}
+.v-good{color:var(--green-ok);font-weight:600}
+.v-warn{color:var(--amber);font-weight:600}
+.v-bad{color:var(--red-warn);font-weight:600}
+
+/* ── CHECK LISTS ── */
+.task{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--rule)}
+.task-box{width:16px;height:16px;min-width:16px;border:2px solid var(--steelmd);border-radius:2px;flex-shrink:0;margin-top:3px}
+.task-body{flex:1}
+.task-name{font-family:var(--sans);font-size:.88rem;font-weight:600;color:var(--ink)}
+.task-detail{font-family:var(--sans);font-size:.8rem;color:var(--steeldk);line-height:1.5;margin-top:2px}
+.task-spec{font-family:var(--mono);font-size:.54rem;color:var(--steeldk);margin-top:4px;border-top:1px solid var(--rule);padding-top:4px}
+.freq{font-family:var(--mono);font-size:.42rem;letter-spacing:.10em;text-transform:uppercase;padding:1px 6px;border:1px solid var(--steelmd);color:var(--steelmd);white-space:nowrap;font-weight:600;border-radius:2px}
+
+/* ── CARDS ── */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+.data-card{background:var(--paper2);border:1px solid var(--rule);border-top:3px solid var(--amber);padding:12px 14px}
+.data-card h4{font-family:var(--display);font-size:1.05rem;letter-spacing:.08em;color:var(--ink);margin-bottom:6px}
+.data-card p{font-size:.8rem;color:var(--steeldk);line-height:1.55}
+.data-card .big{font-family:var(--mono);font-size:1.1rem;font-weight:600;color:var(--amber);display:block;margin:2px 0}
+
+/* ── STEP LIST ── */
+.steps{counter-reset:step;margin:12px 0;padding:0;list-style:none}
+.steps li{counter-increment:step;position:relative;padding:8px 0 8px 38px;border-bottom:1px solid var(--rule);font-size:.84rem;color:var(--steeldk);line-height:1.55}
+.steps li::before{content:counter(step);position:absolute;left:0;top:8px;width:24px;height:24px;background:var(--amber);color:#fff;font-family:var(--mono);font-size:.7rem;font-weight:600;display:flex;align-items:center;justify-content:center;border-radius:50%}
+.steps li strong{color:var(--ink);font-weight:600}
+
+/* ── DECISION ── */
+.tree{margin:14px 0}
+.tree-row{display:flex;gap:0;border:1px solid var(--rule);margin-bottom:-1px;background:var(--paper2)}
+.tree-q{flex:1;padding:9px 12px;font-size:.82rem;color:var(--ink);font-weight:600}
+.tree-a{flex:1.4;padding:9px 12px;font-size:.8rem;color:var(--steeldk);border-left:3px solid var(--amber);background:#fff}
+
+/* ── XREF ── */
+.xref-bar{background:var(--steeldk);padding:9px 5%;display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:32px -5% 0}
+.xref-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.16em;color:var(--steellt);text-transform:uppercase;margin-right:6px}
+.xref-pill{font-family:var(--mono);font-size:.46rem;letter-spacing:.08em;color:var(--amber2);background:rgba(232,120,0,.12);border:1px solid rgba(232,120,0,.4);padding:3px 9px;text-decoration:none;white-space:nowrap}
+.xref-pill:hover{background:rgba(232,120,0,.25)}
+
+/* ── FOOTER ── */
+.doc-footer{background:var(--steeldk);color:var(--steellt);font-family:var(--mono);font-size:.44rem;letter-spacing:.10em;padding:14px 5%;margin-top:0;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+
+/* ── MOBILE ── */
+@media(max-width:600px){
+  .std-header{padding:14px 16px 12px}
+  .std-title{font-size:clamp(1.6rem,6vw,2.4rem)}
+  .lib-home-btn{top:12px;right:12px}
+  .toc-bar{padding:5px 12px!important;flex-wrap:nowrap!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch!important;scrollbar-width:none!important}
+  .toc-bar::-webkit-scrollbar{display:none}
+  .toc-link{font-size:.42rem!important;padding:2px 5px!important}
+  .content{padding:14px 4% 60px}
+  .sec-header{margin-left:-4%;margin-right:-4%;padding:10px 4%}
+  .xref-bar{margin-left:-4%;margin-right:-4%;padding:9px 4%}
+  .grid2{grid-template-columns:1fr}
+  .spec-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .tree-row{flex-direction:column}
+  .tree-a{border-left:none;border-top:3px solid var(--amber)}
+}
+
+/* ── PRINT ── */
+@media print{
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;color-adjust:exact!important}
+  @page{margin:7mm;size:A4}
+  :root{
+    --ink:#0d0e12;--paper:#ffffff;--paper2:#edeae0;--rule:#d4cfc4;
+    --amber:#b86800;--amber2:#e07800;--steeldk:#2a2f3a;--steelmd:#6a7080;
+    --steellt:#a8b0bc;--red-warn:#B91C1C;--green-ok:#059669;
+  }
+  body{font-size:7.5pt;background:#fff!important}
+  .lib-home-btn,.toc-bar{display:none!important}
+  .sticky-nav-unit{position:static!important}
+  .std-header{background:#0d0e12!important;padding:8px 14px 6px!important;border-bottom:2px solid #e07800!important}
+  .std-title{color:#e07800!important;font-size:1.5rem!important}
+  .std-eyebrow,.std-vehicle{color:#9aa0ae!important}
+  .std-sub{color:#e8c864!important}
+  .sec-header{background:#2a2f3a!important;border-left:4px solid #e07800!important;padding:6px 14px!important;page-break-after:avoid;margin-left:0!important;margin-right:0!important}
+  .sec-num{background:#b86800!important;color:#fff!important}
+  .sec-title{color:#fff!important}
+  .sec-sub{color:#a8b0bc!important}
+  .subsec{background:#edeae0!important;page-break-after:avoid}
+  .spec-table{break-inside:auto}
+  .spec-table thead{display:table-header-group}
+  .spec-table th{background:#2a2f3a!important;color:#fff!important}
+  .spec-table tr:nth-child(even) td{background:#edeae0!important}
+  .rule,.data-card,.task,.tree-row{break-inside:avoid}
+  .rule-warn{background:#fff4f0!important}
+  .rule-note{background:#fffbe8!important}
+  .rule-ok{background:#f0fff8!important}
+  .rule-info,.data-card{background:#edeae0!important}
+  .xref-bar{background:#2a2f3a!important;margin-left:0!important;margin-right:0!important}
+  .xref-pill{color:#e07800!important;background:#fff!important}
+  .doc-footer{background:#2a2f3a!important;color:#a8b0bc!important}
+  .steps li::before{background:#b86800!important;color:#fff!important}
+}
+</style>
+</head>
+<body>
+
+<div class="sticky-nav-unit">
+<div class="std-header">
+  <a href="index.html" class="lib-home-btn">⌂ Index</a>
+  <div class="std-eyebrow">Overland Series · R32</div>
+  <div class="std-title">Crank Battery Care</div>
+  <div class="std-sub">Starting Battery · Care, Checks &amp; Field Diagnosis</div>
+  <div class="std-vehicle">2009 LC76 SW 1HZ · HZJ76R-RKMRS · Dual-battery (lead-acid) — LiFePO4 upgrade pending</div>
+</div>
+<div class="toc-bar">
+  <span class="toc-label">Sections</span>
+  <a href="javascript:void(0)" onclick="document.getElementById('s1').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">1. System</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s2').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">2. Battery Types</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s3').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">3. Voltmeter</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s4').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">4. Check Schedule</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s5').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">5. Heat &amp; Vibration</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s6').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">6. Charging</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s7').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">7. Home / Short Trips</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s8').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">8. Trouble Signs</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s9').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">9. Replace &amp; Emergency</a>
+</div>
+</div>
+
+<div class="content">
+
+<p class="lead">The crank (starting) battery has one job: deliver a high-current burst to turn the 1HZ over. On this vehicle it is electrically separate from the auxiliary/house battery, isolated by the Victron Cyrix. The 1HZ runs 22.4:1 compression, so cold-cranking current peaks high — a tired crank battery shows up as a slow, laboured start long before it leaves you stranded. This document covers how to look after it, what to check and when, how to read it with the multimeter you carry, and how to tell when it is in trouble.</p>
+
+<div class="rule rule-note">
+  <span class="rule-hdr">⚠ Read this first — current system status</span>
+  This guide describes the <strong>current lead-acid dual-battery system</strong> as fitted: a crank battery plus a 105 Ah lead-acid auxiliary, joined by a Victron Cyrix 120 A voltage-sensitive relay and watched by a BM2000 dual-battery monitor. The all-Victron LiFePO4 upgrade is <strong>imminent but <u>not yet installed</u></strong>. When it is, the auxiliary side changes — the crank battery and everything in this document about it does not. A note in §6 flags what shifts at that point.
+</div>
+
+<!-- S1 ──────────────────────────────────────────────── -->
+<div class="sec-header" id="s1">
+  <span class="sec-num">S1</span>
+  <span class="sec-title">The System &amp; the Crank Battery's Job</span>
+  <span class="sec-sub">Architecture · Role</span>
+</div>
+
+<p class="p">The electrical system is a <strong>two-battery setup with the batteries kept apart</strong>. The crank battery sits under the bonnet and does nothing but start the engine and run the vehicle's own systems. The auxiliary battery runs camp loads — fridge, lights, charging. The Cyrix relay links them only when one side is being charged (engine running or mains/solar in), so a flat fridge can never leave you unable to start.</p>
+
+<table class="spec-table">
+  <caption>Current electrical system — as fitted (per R1)</caption>
+  <thead><tr><th>Component</th><th>Fitment</th><th>Role</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Crank battery</strong></td><td>Willard 650 (WPL320T) · flooded lead-acid · 12 V · 95 Ah (C20) · 740 CCA (SAE)</td><td>Engine starting + vehicle systems only</td></tr>
+    <tr><td><strong>Auxiliary battery</strong></td><td>Lead-acid 105 Ah</td><td>Fridge, camp lights, accessory loads</td></tr>
+    <tr><td><strong>Isolator</strong></td><td>Victron Cyrix 120 A 12/24 V</td><td>Voltage-sensitive relay — joins batteries only while charging</td></tr>
+    <tr><td><strong>Monitor</strong></td><td>BM2000 dual-battery</td><td>At-a-glance voltage on both batteries</td></tr>
+    <tr><td><strong>Mains charger</strong></td><td>DEFA SmartCharge</td><td>Shore/home charging &amp; maintenance</td></tr>
+    <tr><td><strong>Solar</strong></td><td>Hardkorr 200 W portable</td><td>Auxiliary top-up in camp</td></tr>
+    <tr><td><strong>Inverter</strong></td><td>Sinetech 1200 W / 12 V</td><td>230 V loads off auxiliary</td></tr>
+    <tr><td><strong>Emergency start</strong></td><td>ARB portable lithium jump pack + HD jumper cables</td><td>Self-rescue if crank battery is flat</td></tr>
+  </tbody>
+</table>
+
+<div class="rule rule-info">
+  <span class="rule-hdr">Why the 1HZ is hard on a crank battery</span>
+  High compression and indirect injection mean a big starting draw (roughly 600–700 A peak on a cold start). Add under-bonnet heat from the SAC turbo, long stationary spells between trips, and corrugation vibration — and the crank battery lives one of the harder lives in the vehicle. Expect roughly <strong>3–5 years from a quality flooded battery, 5–7 from a good AGM</strong> — heat and deep discharge cut both figures sharply.
+</div>
+
+<!-- S2 ──────────────────────────────────────────────── -->
+<div class="sec-header" id="s2">
+  <span class="sec-num">S2</span>
+  <span class="sec-title">Best Battery Types for the 1HZ</span>
+  <span class="sec-sub">Selection · CCA · Form factor</span>
+</div>
+
+<p class="p">The 76 takes a tall <strong>N70ZZ-class case (JIS 80D26R / D31R family), positive terminal on the right</strong>. Target roughly <strong>650–720 CCA</strong> and a reserve capacity strong enough to also feed the T-Max winch without bottoming out. Because camp loads sit on the auxiliary, the crank battery is doing near-pure starting duty — which keeps the choice simple. Three tiers are worth knowing, cheapest first.</p>
+
+<table class="spec-table">
+  <caption>Crank battery options — South African market (indicative pricing, 2026)</caption>
+  <thead><tr><th>Tier · Type</th><th>Examples (SA)</th><th>~Price</th><th>Verdict for this vehicle</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Flooded N70ZZ</strong><br><span class="mono">Standard / SMF</span></td>
+      <td>Raylite, Willard Mega Cycle, Enertec, Exide</td>
+      <td>R2,000–R2,800</td>
+      <td>The default 1HZ choice across Africa. Cheap, field-serviceable, proven. Sealed maintenance-free (SMF) versions remove the top-up chore. Shortest life under heat.</td>
+    </tr>
+    <tr>
+      <td><strong>EFB / Premium SMF</strong><br><span class="mono">Enhanced flooded</span></td>
+      <td>First National Battery SuperStart, Exide Torque Premium</td>
+      <td>R2,800–R3,800</td>
+      <td>Better vibration and cycling tolerance than plain flooded, no top-ups. Sensible middle ground if AGM is more than you want to spend.</td>
+    </tr>
+    <tr>
+      <td><strong>AGM N70ZZ</strong><br><span class="mono">Absorbed glass mat</span></td>
+      <td>Exide Sprinter AGM, FNB Enduro Life AGM</td>
+      <td>R4,500–R5,500</td>
+      <td><strong>Recommended for the expedition.</strong> Sealed, vibration- and heat-tolerant, true OE drop-in fitment. Best CCA-per-rand in the AGM tier and serviceable through any FNB / Battery Centre branch across the subcontinent.</td>
+    </tr>
+    <tr>
+      <td><strong>AGM spiral-cell</strong><br><span class="mono">Premium / badge</span></td>
+      <td>Optima RedTop (e.g. D34R)</td>
+      <td>R6,500–R7,500</td>
+      <td>Iconic and extremely vibration-resistant, but the case is <strong>smaller than the OE tray and needs a bracket/spacer adapter</strong>, and pan-African support is thinner. Worth it only with a history of vibration damage.</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="rule rule-ok">
+  <span class="rule-hdr">✓ Recommendation</span>
+  For an expedition vehicle that may need spares support north of the border, a true <strong>N70ZZ-cased AGM (FNB Enduro Life AGM or Exide Sprinter AGM)</strong> is the sweet spot: AGM benefits, straight OE drop-in (no adapter), mid-tier price, and a support network that reaches across Southern and East Africa. Match or exceed the outgoing CCA and confirm positive-terminal-on-right before paying.
+</div>
+
+<div class="rule rule-warn">
+  <span class="rule-hdr">Buying discipline</span>
+  Check the <strong>manufacture date code</strong> on the case — buy stock under 6 months old. Counterfeit and re-stamped batteries are widespread north of the Limpopo, so <strong>buy the expedition battery in South Africa before crossing</strong>. Keep the receipt: there is a R150–R300 recycling deposit refund on the old unit at any major SA supplier.
+</div>
+
+<div class="subsec"><span class="subsec-title">Your Fitted Battery — Assessment</span><span class="subsec-tag">Confirmed Jun 2026</span></div>
+
+<p class="p">The crank battery currently fitted is a <strong>Willard 650 (model WPL320T)</strong> — a flooded lead-acid battery: 12 V, 95 Ah (C20), 740 CCA (SAE). Willard is a First National Battery / Metair brand, a quality South African make with one of the widest service networks across the subcontinent.</p>
+
+<table class="spec-table">
+  <caption>Willard 650 WPL320T measured against the targets above</caption>
+  <thead><tr><th>Measure</th><th>Fitted</th><th>Target / Tier</th><th>Assessment</th></tr></thead>
+  <tbody>
+    <tr><td>Cranking (CCA)</td><td class="mono">740 A</td><td>650–720 A</td><td class="v-good">Above target — strong, good winch headroom</td></tr>
+    <tr><td>Capacity (C20)</td><td class="mono">95 Ah</td><td>~75–95 Ah</td><td class="v-good">Generous reserve for a crank battery</td></tr>
+    <tr><td>Type</td><td>Flooded lead-acid</td><td>Flooded / EFB / AGM</td><td class="v-warn">Entry tier — correct &amp; well-sized, but not AGM</td></tr>
+    <tr><td>Brand / support</td><td>Willard (FNB / Metair)</td><td>Pan-African support preferred</td><td class="v-good">Excellent SA &amp; cross-border support</td></tr>
+  </tbody>
+</table>
+
+<div class="rule rule-ok">
+  <span class="rule-hdr">✓ Verdict</span>
+  A <u>well-specced, correctly-sized flooded crank battery</u> that comfortably exceeds the cranking target. For daily and local use it is exactly right. The AGM upgrade remains the recommendation <strong>for the 2028–2030 expedition specifically</strong>, for heat and vibration tolerance — but there is <u>no reason to replace a healthy Willard 650 early</u>. Run it out, then step up to an N70ZZ-class AGM as the dedicated expedition battery.
+</div>
+
+<!-- S3 ──────────────────────────────────────────────── -->
+<div class="sec-header" id="s3">
+  <span class="sec-num">S3</span>
+  <span class="sec-title">Using the Voltmeter</span>
+  <span class="sec-sub">Multimeter · BM2000 · Readings</span>
+</div>
+
+<p class="p">You carry a multimeter, and the BM2000 gives an at-a-glance reading on both batteries. The multimeter is the more accurate tool and the one to trust for diagnosis. Voltage is a proxy for state of charge <strong>only when the battery has rested</strong> — measured straight after driving or charging it reads falsely high (surface charge). Let it sit at least 2 hours, ideally overnight, for a true resting reading.</p>
+
+<div class="subsec"><span class="subsec-title">Resting Voltage → State of Charge</span><span class="subsec-tag">Engine off · rested ≥2 hr · ~25°C</span></div>
+
+<table class="spec-table">
+  <caption>12 V lead-acid at rest (AGM reads ~0.1–0.2 V higher)</caption>
+  <thead><tr><th>Resting Voltage</th><th>State of Charge</th><th>Action</th></tr></thead>
+  <tbody>
+    <tr><td class="v-good mono">≥ 12.70 V</td><td>100%</td><td class="v-good">Fully charged — healthy</td></tr>
+    <tr><td class="v-good mono">12.50 V</td><td>~80–90%</td><td>Good</td></tr>
+    <tr><td class="v-warn mono">12.40 V</td><td>~70%</td><td class="v-warn">Recharge soon</td></tr>
+    <tr><td class="v-warn mono">12.20 V</td><td>~50%</td><td class="v-warn">Recharge now — sulphation begins below here</td></tr>
+    <tr><td class="v-bad mono">12.00 V</td><td>~25%</td><td class="v-bad">Deeply discharged</td></tr>
+    <tr><td class="v-bad mono">≤ 11.80 V</td><td>~0%</td><td class="v-bad">Flat — likely damaged if left here</td></tr>
+  </tbody>
+</table>
+
+<div class="subsec"><span class="subsec-title">Charging &amp; Cranking Voltages</span><span class="subsec-tag">Engine running / under start</span></div>
+
+<table class="spec-table">
+  <caption>Measured at the crank battery terminals</caption>
+  <thead><tr><th>Condition</th><th>Healthy Reading</th><th>If Outside Range</th></tr></thead>
+  <tbody>
+    <tr><td>Engine running, ~1500 rpm, loads off</td><td class="v-good mono">13.8 – 14.4 V</td><td><span class="v-bad">&lt;13.6 V</span> = undercharging / alternator; <span class="v-bad">&gt;14.8 V</span> = overcharge risk (AGM limit 14.7 V)</td></tr>
+    <tr><td>During cranking (someone turns key while you watch)</td><td class="v-good mono">stays above ~9.6 V</td><td><span class="v-bad">drops below 9.5 V</span> = weak/failing battery</td></tr>
+    <tr><td>Alternator ripple (meter on AC volts, engine running)</td><td class="v-good mono">&lt; 0.1 V AC</td><td><span class="v-bad">higher</span> = failing diode pack in alternator</td></tr>
+  </tbody>
+</table>
+
+<div class="subsec"><span class="subsec-title">How to Take Each Reading</span></div>
+
+<ol class="steps">
+  <li><strong>Resting / SoC:</strong> meter to DC volts (20 V range). Engine off, rested. Red probe to <strong>+</strong>, black to <strong>−</strong>. Read and compare to the table above.</li>
+  <li><strong>Alternator check:</strong> probes still on the terminals, start the engine, hold ~1500 rpm with everything off. Reading should climb to 13.8–14.4 V.</li>
+  <li><strong>Cranking (load) test:</strong> probes on terminals, have someone crank the engine while you watch the dip. A healthy battery holds above ~9.6 V through the crank.</li>
+  <li><strong>Parasitic draw:</strong> everything off, key out, doors closed, bonnet light disabled. Meter to DC <strong>amps</strong> (10 A jack), disconnect the negative lead, put the meter <strong>in series</strong> between post and lead. Wait 30 min for modules to sleep, then read. Target <strong>&lt; 50 mA</strong>; over 100 mA means chase the drain (Multi Media Unit, alarm, dashcam, tracker).</li>
+  <li><strong>BM2000 cross-check:</strong> note both battery voltages on the monitor for a quick day-to-day view — but verify anything suspicious with the multimeter.</li>
+</ol>
+
+<div class="rule rule-warn">
+  <span class="rule-hdr">Amps mode safety</span>
+  Never touch the meter probes across the terminals (start the engine) while the meter is set to <strong>amps</strong> — it will blow the meter's internal fuse instantly. Amps mode is only ever used in series, engine off.
+</div>
+
+<!-- S4 ──────────────────────────────────────────────── -->
+<div class="sec-header" id="s4">
+  <span class="sec-num">S4</span>
+  <span class="sec-title">Check Schedule</span>
+  <span class="sec-sub">Daily · Weekly · Monthly · Pre-trip</span>
+</div>
+
+<p class="p">On the trail, the 1HZ is your first instrument: any slowing of the cranking speed is the earliest warning and is worth investigating the same day. The checks below scale from a glance to a proper service.</p>
+
+<div class="task">
+  <span class="task-box"></span>
+  <div class="task-body">
+    <span class="freq">Daily / each start</span>
+    <div class="task-name">Listen to the crank</div>
+    <div class="task-detail">Engine should spin briskly and fire promptly. Any sluggishness, hesitation, or slow churn → investigate before the next start.</div>
+  </div>
+</div>
+<div class="task">
+  <span class="task-box"></span>
+  <div class="task-body">
+    <span class="freq">Daily / fuel stop</span>
+    <div class="task-name">Quick visual</div>
+    <div class="task-detail">Terminals clean, dry and tight; case not swollen or cracked; hold-down secure; no white/green corrosion bloom; no smell.</div>
+    <div class="task-spec">Rotten-egg (sulphur) smell = overcharge or internal fault — stop and diagnose.</div>
+  </div>
+</div>
+<div class="task">
+  <span class="task-box"></span>
+  <div class="task-body">
+    <span class="freq">Weekly</span>
+    <div class="task-name">Resting voltage</div>
+    <div class="task-detail">Multimeter or BM2000 first thing in the morning before starting. Want ≥ 12.5 V. Below 12.4 V → recharge / drive longer that day.</div>
+    <div class="task-spec">See §3 voltage table.</div>
+  </div>
+</div>
+<div class="task">
+  <span class="task-box"></span>
+  <div class="task-body">
+    <span class="freq">Monthly</span>
+    <div class="task-name">Terminals &amp; hold-down</div>
+    <div class="task-detail">Clean terminals with baking-soda &amp; water paste, rinse, dry, apply dielectric/petroleum grease. Re-torque hold-down clamp (≈5–8 Nm). Wipe the case top.</div>
+    <div class="task-spec">A dirty case top creates a slow surface-leak discharge path.</div>
+  </div>
+</div>
+<div class="task">
+  <span class="task-box"></span>
+  <div class="task-body">
+    <span class="freq">Monthly (flooded only)</span>
+    <div class="task-name">Electrolyte level</div>
+    <div class="task-detail">If a non-sealed flooded battery: check level, top up plates with distilled water only. Sealed (SMF) and AGM batteries — skip, never open.</div>
+  </div>
+</div>
+<div class="task">
+  <span class="task-box"></span>
+  <div class="task-body">
+    <span class="freq">Pre-trip</span>
+    <div class="task-name">Full health check</div>
+    <div class="task-detail">Resting voltage, cranking-voltage test, alternator output, and an annual parasitic-draw test (§3). If the battery is over 4 years old, replace before departure regardless of test result.</div>
+    <div class="task-spec">Cross-ref R23 Pre-Trip Prep Protocol · R2 Departure Checklist.</div>
+  </div>
+</div>
+
+<!-- S5 ──────────────────────────────────────────────── -->
+<div class="sec-header" id="s5">
+  <span class="sec-num">S5</span>
+  <span class="sec-title">Heat &amp; Vibration — the Two Killers</span>
+  <span class="sec-sub">Mitigation</span>
+</div>
+
+<div class="grid2">
+  <div class="data-card">
+    <h4>Heat</h4>
+    <span class="big">Life halves per +10°C</span>
+    <p>Post-turbo under-bonnet temps at the battery can reach 70–80°C. Battery life roughly halves for every 10°C above 25°C case temperature — this is the single biggest factor you control.</p>
+    <p><strong>Fit a reflective heat shield</strong> between battery and engine block (Thermo-Tec or similar, ~R150–R300). Park nose out of direct sun in summer.</p>
+  </div>
+  <div class="data-card">
+    <h4>Vibration</h4>
+    <span class="big">Torque, don't hand-tighten</span>
+    <p>Corrugation shakes plates loose and cracks internal welds. The hold-down must be properly torqued (≈5–8 Nm), not finger-tight.</p>
+    <p>Fit rubber matting under the battery if not factory-fitted. Re-check the clamp after every long corrugated section (≥100 km).</p>
+  </div>
+</div>
+
+<div class="rule rule-note">
+  <span class="rule-hdr">The cheapest reliability upgrade you can make</span>
+  A heat shield costs less than a tank of diesel and can add a year or more to crank-battery life on a turbo 1HZ. If only one thing from this section gets done, make it the heat shield.
+</div>
+
+<!-- S6 ──────────────────────────────────────────────── -->
+<div class="sec-header" id="s6">
+  <span class="sec-num">S6</span>
+  <span class="sec-title">Charging Discipline</span>
+  <span class="sec-sub">Drive · Mains · Solar · Maintainer</span>
+</div>
+
+<p class="p">A crank battery wants to live near full charge. It is topped up by the alternator while driving, and by the DEFA SmartCharge at home. The Cyrix relay shares charge to the auxiliary only once the crank side is up to voltage, so the crank battery always gets priority.</p>
+
+<table class="spec-table">
+  <thead><tr><th>Source</th><th>Use</th><th>Watch for</th></tr></thead>
+  <tbody>
+    <tr><td>Alternator (driving)</td><td>Primary top-up. Needs ~20 min above 50 km/h to meaningfully recharge — short urban hops undercharge.</td><td>13.8–14.4 V at terminals when running.</td></tr>
+    <tr><td>DEFA SmartCharge (mains)</td><td>Home / shore charging and float maintenance between trips.</td><td>Leave connected when parked long-term.</td></tr>
+    <tr><td>Hardkorr 200 W solar</td><td>Auxiliary side in camp; keeps the house bank up so the Cyrix isn't dragging the crank down.</td><td>Portable — aux-focused, not the crank.</td></tr>
+  </tbody>
+</table>
+
+<div class="rule rule-warn">
+  <span class="rule-hdr">Never sit below 12.4 V</span>
+  Sulphation — hard crystals on the plates that permanently reduce capacity — begins as soon as a lead-acid battery sits part-discharged. Recharge promptly. A single deep discharge below 10.5 V can permanently damage a lead-acid battery even if voltage later recovers.
+</div>
+
+<div class="rule rule-note">
+  <span class="rule-hdr">When the LiFePO4 upgrade is installed</span>
+  The auxiliary side changes — Cyrix and the lead-acid 105 Ah give way to the Victron stack (Orion-Tr Smart DC-DC, SmartSolar MPPT, Smart BMS, BMV-712). <strong>The crank battery's role and every check in this guide stay the same.</strong> Two practical changes: (1) the DC-DC charger draws from the crank/alternator side only while the engine runs — it does not discharge the crank at rest; (2) the BMV-712 monitors the lithium house bank, not the crank, so keep a simple voltmeter (or the retained BM2000 reading) on the crank for at-a-glance health. AGM-mode charging limits (max ~14.7 V) still apply to an AGM crank battery regardless of the house chemistry.
+</div>
+
+<!-- S7 ──────────────────────────────────────────────── -->
+<div class="sec-header" id="s7">
+  <span class="sec-num">S7</span>
+  <span class="sec-title">Care at Home &amp; on Short Trips</span>
+  <span class="sec-sub">Between expeditions</span>
+</div>
+
+<p class="p">The vehicle doubles as a home run-around, so the crank battery spends much of its life on short hops and standing spells — which is, paradoxically, harder on it than a long expedition. Short trips never fully recharge; long stands let it self-discharge and sulphate.</p>
+
+<div class="subsec"><span class="subsec-title">Short school-run / town use</span></div>
+<p class="p">Frequent short drives leave the battery chronically part-charged. Roughly once a fortnight, either take one longer run (30+ min at road speed) or put it on the DEFA SmartCharge overnight to bring it back to a true 100%. Check resting voltage monthly — if it is drifting down despite regular use, the alternator may not be keeping up on short trips, or a parasitic drain is at work.</p>
+
+<div class="subsec"><span class="subsec-title">Standing &gt; 2 weeks (between trips)</span></div>
+<ol class="steps">
+  <li><strong>Best:</strong> leave the DEFA SmartCharge connected on float. It holds the battery at 100% indefinitely without overcharging.</li>
+  <li><strong>Alternative:</strong> disconnect the negative terminal to stop all parasitic drain. You lose radio presets and the MMU clock, but the battery holds charge far longer.</li>
+  <li><strong>Either way:</strong> a lead-acid battery left at part charge in the heat is being slowly ruined. Self-discharge runs ~5%/month for flooded, ~3%/month for AGM at 25°C — and much faster when hot.</li>
+  <li><strong>On return:</strong> check resting voltage before the first start. Below 12.2 V means damage has started; recharge fully and watch it over the next few weeks.</li>
+</ol>
+
+<div class="rule rule-ok">
+  <span class="rule-hdr">✓ Simple home rule</span>
+  If it's parked more than a fortnight, it's on the charger or the negative is off. That one habit is the difference between a battery that lasts its full life and one that quietly dies in the driveway.
+</div>
+
+<!-- S8 ──────────────────────────────────────────────── -->
+<div class="sec-header" id="s8">
+  <span class="sec-num">S8</span>
+  <span class="sec-title">When the Battery Is in Trouble</span>
+  <span class="sec-sub">Warning signs · Diagnosis</span>
+</div>
+
+<p class="p">Catch a failing crank battery before it strands you. Any one of these warrants a check the same day.</p>
+
+<table class="spec-table">
+  <thead><tr><th>Warning sign</th><th>What it usually means</th></tr></thead>
+  <tbody>
+    <tr><td>Slow / laboured cranking</td><td>Earliest and most reliable warning — low charge or ageing battery</td></tr>
+    <tr><td>Headlights dim noticeably at idle</td><td>Low battery voltage or weak charging</td></tr>
+    <tr><td>Needs the jump pack to start after standing</td><td>Self-discharge too fast, parasitic drain, or capacity loss</td></tr>
+    <tr><td>Swollen / bulging case</td><td>Overcharge or extreme heat — replace, do not trust</td></tr>
+    <tr><td>Persistent terminal corrosion</td><td>Loose connection, overcharge, or venting — clean &amp; investigate</td></tr>
+    <tr><td>Rotten-egg (sulphur) smell</td><td>Overcharging or internal fault — stop, diagnose</td></tr>
+    <tr><td>Hot case after a short drive</td><td>Overcharge or internal short — serious, check at once</td></tr>
+    <tr><td>Voltage swings on the BM2000 with nothing changed</td><td>Failing cell or bad connection</td></tr>
+  </tbody>
+</table>
+
+<div class="subsec"><span class="subsec-title">Quick decision tree</span></div>
+<div class="tree">
+  <div class="tree-row"><div class="tree-q">Slow crank, but resting voltage is good (≥12.5 V)?</div><div class="tree-a">Suspect connections (clean/torque terminals) or a starter issue — not the battery's charge. Re-test cranking voltage.</div></div>
+  <div class="tree-row"><div class="tree-q">Resting voltage low, recovers fully after a charge?</div><div class="tree-a">Charge being lost — check for parasitic drain and confirm alternator output. Battery may be fine.</div></div>
+  <div class="tree-row"><div class="tree-q">Resting voltage low, won't hold charge after charging?</div><div class="tree-a">Battery losing capacity — load-test it. If it fails with a healthy charging system, replace.</div></div>
+  <div class="tree-row"><div class="tree-q">Cranking voltage drops below ~9.5 V?</div><div class="tree-a">Weak battery under load — replace soon, even if resting voltage looks acceptable.</div></div>
+  <div class="tree-row"><div class="tree-q">Under 2 years old but failing, charging system healthy?</div><div class="tree-a">Heat fatigue or a warranty fault. Push the warranty claim and fit a heat shield on the replacement.</div></div>
+</div>
+
+<div class="rule rule-info">
+  <span class="rule-hdr">Get numbers, not opinions</span>
+  Before replacing on a "battery's done" verdict, have it load-tested and the charging system checked — a battery condemns only at <strong>&lt;70% of rated CCA with a healthy alternator</strong>. Premature failure with a good charging system points to heat or a warranty fault, not a battery you simply need to keep buying.
+</div>
+
+<!-- S9 ──────────────────────────────────────────────── -->
+<div class="sec-header" id="s9">
+  <span class="sec-num">S9</span>
+  <span class="sec-title">Replacement &amp; Field Emergency</span>
+  <span class="sec-sub">Criteria · Self-rescue</span>
+</div>
+
+<div class="subsec"><span class="subsec-title">Replace when any one applies</span></div>
+<div class="task"><span class="task-box"></span><div class="task-body"><div class="task-name">Age over 5 years (flooded) / 7 years (AGM)</div><div class="task-detail">Replace preventively even if still working — and always before a major expedition if over 4 years.</div></div></div>
+<div class="task"><span class="task-box"></span><div class="task-body"><div class="task-name">Load test below 70% of rated CCA</div><div class="task-detail">With a confirmed-healthy charging system.</div></div></div>
+<div class="task"><span class="task-box"></span><div class="task-body"><div class="task-name">Cranking voltage drops below ~9.5 V</div><div class="task-detail">Weak under load regardless of resting voltage.</div></div></div>
+<div class="task"><span class="task-box"></span><div class="task-body"><div class="task-name">Visible swelling, cracking, or persistent heat</div><div class="task-detail">Physical failure — do not trust it.</div></div></div>
+<div class="task"><span class="task-box"></span><div class="task-body"><div class="task-name">After any deep discharge below 10.5 V</div><div class="task-detail">Assume permanent capacity loss even if it recovers voltage.</div></div></div>
+
+<div class="subsec"><span class="subsec-title">If the crank battery is flat in the field</span></div>
+<ol class="steps">
+  <li><strong>ARB lithium jump pack</strong> — primary self-rescue. Follow the pack's polarity and connection sequence; let it start the engine, then drive long enough to recharge (30+ min at road speed).</li>
+  <li><strong>HD jumper cables</strong> from another vehicle if no pack — standard sequence, dead battery negative to a chassis earth point, not the battery's own negative post.</li>
+  <li><strong>Do NOT</strong> try to start off the auxiliary battery by bridging the Cyrix. The relay and wiring are not rated for cranking current, and once the LiFePO4 is fitted, the BMS will not permit reverse flow to the crank at all. The jump pack and cables are the only sanctioned methods.</li>
+  <li>Once running, find the root cause (§8) before the next stop — a flat battery in camp is a warning, not a one-off.</li>
+</ol>
+
+<div class="rule rule-warn">
+  <span class="rule-hdr">Carry the means to self-rescue</span>
+  The ARB jump pack only helps if it is itself charged. Top it up before every trip and check it monthly at home — it is your single-point fallback for a dead crank battery in a remote place.
+</div>
+
+</div><!-- end .content -->
+
+<div class="xref-bar">
+  <span class="xref-label">Cross-Reference</span>
+  <a href="LC76_Reference_Card.html" class="xref-pill">R1 · Reference Card</a>
+  <a href="LC76_Departure_Checklist.html" class="xref-pill">R2 · Departure</a>
+  <a href="LC76_Battery_Training_Guide.html" class="xref-pill">R5 · Battery Training</a>
+  <a href="LC76_Battery_Longevity_Report.html" class="xref-pill">R6 · Longevity</a>
+  <a href="LC76_LiFePO4_System_Report.html" class="xref-pill">R7 · LiFePO4 Report</a>
+  <a href="LC76_1HZ_Troubleshooting_Guide.html" class="xref-pill">R18 · Troubleshooting</a>
+  <a href="LC76_Pre_Trip_Prep_Protocol.html" class="xref-pill">R23 · Pre-Trip Prep</a>
+</div>
+
+<div class="doc-footer">
+  <span>LC76 Overland Reference Library · R32 · Crank Battery Care · v1.0 · June 2026</span>
+  <span>2009 LC76 SW 1HZ · HZJ76R-RKMRS · System status: lead-acid dual-battery (LiFePO4 pending)</span>
+  <span>overlandslabs.github.io/Consumption</span>
+</div>
+
+<script>
+// Active TOC state
+const sections = ['s1','s2','s3','s4','s5','s6','s7','s8','s9'];
+const tocLinks = document.querySelectorAll('.toc-link');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      const idx = sections.indexOf(entry.target.id);
+      tocLinks.forEach((l, i) => l.classList.toggle('active', i === idx));
+    }
+  });
+}, {rootMargin: '-30% 0px -60% 0px'});
+sections.forEach(id => {
+  const el = document.getElementById(id);
+  if(el) observer.observe(el);
+});
+
+// Dynamic scroll margin
+function updateScrollMargins(){
+  const navH = document.querySelector('.sticky-nav-unit').offsetHeight;
+  document.querySelectorAll('.sec-header').forEach(el => {
+    el.style.scrollMarginTop = (navH + 4) + 'px';
+  });
+}
+updateScrollMargins();
+window.addEventListener('resize', updateScrollMargins);
+
+// Service worker — domain-guarded
+if('serviceWorker' in navigator && location.hostname !== 'www.claudeusercontent.com'){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('./sw.js')
+      .then(r => console.log('LC76 SW registered'))
+      .catch(e => console.log('SW error:', e));
+  });
+}
+</script>
+</body>
+</html>
