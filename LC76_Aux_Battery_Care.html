@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LC76 Library">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0d0e12">
+<title>LC76 · Aux Battery Care</title>
+<link rel="manifest" href="manifest-ref.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500;600&family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0d0e12;--paper:#dad2c0;--paper2:#edeae0;--rule:#d4cfc4;
+  --amber:#b86800;--amber2:#e07800;
+  --steeldk:#2a2f3a;--steelmd:#6a7080;--steellt:#a8b0bc;
+  --red-warn:#B91C1C;--green-ok:#059669;
+  --mono:'IBM Plex Mono',monospace;
+  --sans:'Oswald',sans-serif;
+  --display:'Bebas Neue',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{overflow-x:hidden}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.6}
+
+/* ── STICKY NAV ── */
+.sticky-nav-unit{position:sticky;top:0;z-index:100;padding-top:env(safe-area-inset-top)}
+.std-header{background:var(--ink);padding:18px 24px 14px;position:relative;border-bottom:3px solid var(--amber)}
+.std-eyebrow{font-family:var(--mono);font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--steelmd);margin-bottom:6px}
+.std-title{font-family:var(--display);font-size:clamp(1.9rem,5vw,2.8rem);letter-spacing:.06em;color:var(--amber2);line-height:1}
+.std-sub{font-family:var(--mono);font-size:.54rem;letter-spacing:.12em;color:rgba(255,200,100,.65);margin-top:5px}
+.std-vehicle{font-family:var(--mono);font-size:.48rem;letter-spacing:.08em;color:var(--steelmd);margin-top:8px}
+.lib-home-btn{position:absolute;top:14px;right:16px;display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--amber2);background:rgba(232,120,0,.15);border:1px solid var(--amber2);border-radius:20px;padding:6px 12px;min-height:32px;white-space:nowrap;transition:background .2s}
+.lib-home-btn:hover{background:rgba(232,120,0,.30)}
+.toc-bar{background:var(--steeldk);padding:7px 24px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;border-bottom:2px solid var(--amber)}
+.toc-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.18em;color:var(--steellt);text-transform:uppercase;margin-right:4px;flex-shrink:0}
+.toc-link{font-family:var(--mono);font-size:.46rem;color:rgba(255,255,255,.45);text-decoration:none;padding:2px 6px;border:1px solid transparent;transition:all .12s;white-space:nowrap;cursor:pointer}
+.toc-link:hover,.toc-link.active{color:var(--amber2);border-color:var(--amber2);background:rgba(232,120,0,.1)}
+
+/* ── CONTENT ── */
+.content{padding:24px 5% 80px;max-width:100%}
+.lead{font-size:.92rem;color:var(--steeldk);line-height:1.7;margin:6px 0 4px}
+.p{font-size:.86rem;color:var(--steeldk);line-height:1.65;margin:10px 0}
+.p strong{color:var(--ink);font-weight:600}
+
+/* ── SECTION HEADERS ── */
+.sec-header{display:flex;align-items:center;gap:12px;padding:10px 5%;background:var(--steeldk);border-left:5px solid var(--amber2);margin:34px 0 0;margin-left:-5%;margin-right:-5%}
+.sec-num{font-family:var(--mono);font-size:.58rem;font-weight:600;color:#fff;background:var(--amber);padding:3px 8px;letter-spacing:.12em;flex-shrink:0}
+.sec-title{font-family:var(--display);font-size:1.7rem;letter-spacing:.10em;color:#fff;line-height:1}
+.sec-sub{font-family:var(--mono);font-size:.44rem;letter-spacing:.10em;color:var(--steellt);margin-left:auto;flex-shrink:0;text-align:right}
+
+/* ── SUBSECTIONS ── */
+.subsec{background:var(--paper2);border-left:3px solid var(--amber);padding:6px 16px 6px 14px;margin:22px 0 10px;display:flex;align-items:center;gap:10px}
+.subsec-title{font-family:var(--display);font-size:1.1rem;letter-spacing:.12em;color:var(--ink)}
+.subsec-tag{font-family:var(--mono);font-size:.44rem;letter-spacing:.12em;color:var(--steelmd);text-transform:uppercase;margin-left:auto}
+
+/* ── RULE BOXES ── */
+.rule{border-left:4px solid;padding:11px 15px;margin:12px 0;font-family:var(--sans);font-size:.86rem;line-height:1.65}
+.rule .rule-hdr{font-weight:700;display:block;margin-bottom:5px;font-family:var(--sans);font-size:.92rem;letter-spacing:.01em}
+.rule strong{font-weight:700;color:inherit}
+.rule u{text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
+.rule-warn{background:#fff4f0;border-color:var(--red-warn);color:#5a1010}
+.rule-warn .rule-hdr{color:var(--red-warn)}
+.rule-note{background:#fffbe8;border-color:var(--amber2);color:#4a3000}
+.rule-note .rule-hdr{color:var(--amber)}
+.rule-ok{background:#f0fff8;border-color:var(--green-ok);color:#0a3a20}
+.rule-ok .rule-hdr{color:var(--green-ok)}
+.rule-info{background:var(--paper2);border-color:var(--steelmd);color:var(--steeldk)}
+.rule-info .rule-hdr{color:var(--steelmd)}
+
+/* ── SPEC TABLES ── */
+.spec-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.82rem}
+.spec-table caption{font-family:var(--mono);font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;color:var(--steelmd);text-align:left;padding-bottom:6px}
+.spec-table th{background:var(--steeldk);color:#fff;font-family:var(--mono);font-size:.44rem;letter-spacing:.12em;text-transform:uppercase;padding:7px 10px;text-align:left}
+.spec-table td{padding:6px 10px;border-bottom:1px solid var(--rule);vertical-align:top;font-family:var(--sans)}
+.spec-table tr:nth-child(even) td{background:var(--paper2)}
+.mono{font-family:var(--mono);font-size:.72rem;color:var(--amber)}
+.v-good{color:var(--green-ok);font-weight:600}
+.v-warn{color:var(--amber);font-weight:600}
+.v-bad{color:var(--red-warn);font-weight:600}
+
+/* ── CHECK LISTS ── */
+.task{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--rule)}
+.task-box{width:16px;height:16px;min-width:16px;border:2px solid var(--steelmd);border-radius:2px;flex-shrink:0;margin-top:3px}
+.task-body{flex:1}
+.task-name{font-family:var(--sans);font-size:.88rem;font-weight:600;color:var(--ink)}
+.task-detail{font-family:var(--sans);font-size:.8rem;color:var(--steeldk);line-height:1.5;margin-top:2px}
+.task-spec{font-family:var(--mono);font-size:.54rem;color:var(--steeldk);margin-top:4px;border-top:1px solid var(--rule);padding-top:4px}
+.freq{font-family:var(--mono);font-size:.42rem;letter-spacing:.10em;text-transform:uppercase;padding:1px 6px;border:1px solid var(--steelmd);color:var(--steelmd);white-space:nowrap;font-weight:600;border-radius:2px}
+
+/* ── CARDS ── */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+.data-card{background:var(--paper2);border:1px solid var(--rule);border-top:3px solid var(--amber);padding:12px 14px}
+.data-card h4{font-family:var(--display);font-size:1.05rem;letter-spacing:.08em;color:var(--ink);margin-bottom:6px}
+.data-card p{font-size:.8rem;color:var(--steeldk);line-height:1.55}
+.data-card .big{font-family:var(--mono);font-size:1.1rem;font-weight:600;color:var(--amber);display:block;margin:2px 0}
+
+/* ── STEP LIST ── */
+.steps{counter-reset:step;margin:12px 0;padding:0;list-style:none}
+.steps li{counter-increment:step;position:relative;padding:8px 0 8px 38px;border-bottom:1px solid var(--rule);font-size:.84rem;color:var(--steeldk);line-height:1.55}
+.steps li::before{content:counter(step);position:absolute;left:0;top:8px;width:24px;height:24px;background:var(--amber);color:#fff;font-family:var(--mono);font-size:.7rem;font-weight:600;display:flex;align-items:center;justify-content:center;border-radius:50%}
+.steps li strong{color:var(--ink);font-weight:600}
+
+/* ── DECISION ── */
+.tree{margin:14px 0}
+.tree-row{display:flex;gap:0;border:1px solid var(--rule);margin-bottom:-1px;background:var(--paper2)}
+.tree-q{flex:1;padding:9px 12px;font-size:.82rem;color:var(--ink);font-weight:600}
+.tree-a{flex:1.4;padding:9px 12px;font-size:.8rem;color:var(--steeldk);border-left:3px solid var(--amber);background:#fff}
+
+/* ── XREF ── */
+.xref-bar{background:var(--steeldk);padding:9px 5%;display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:32px -5% 0}
+.xref-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.16em;color:var(--steellt);text-transform:uppercase;margin-right:6px}
+.xref-pill{font-family:var(--mono);font-size:.46rem;letter-spacing:.08em;color:var(--amber2);background:rgba(232,120,0,.12);border:1px solid rgba(232,120,0,.4);padding:3px 9px;text-decoration:none;white-space:nowrap}
+.xref-pill:hover{background:rgba(232,120,0,.25)}
+
+/* ── FOOTER ── */
+.doc-footer{background:var(--steeldk);color:var(--steellt);font-family:var(--mono);font-size:.44rem;letter-spacing:.10em;padding:14px 5%;margin-top:0;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+
+/* ── MOBILE ── */
+@media(max-width:600px){
+  .std-header{padding:14px 16px 12px}
+  .std-title{font-size:clamp(1.6rem,6vw,2.4rem)}
+  .lib-home-btn{top:12px;right:12px}
+  .toc-bar{padding:5px 12px!important;flex-wrap:nowrap!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch!important;scrollbar-width:none!important}
+  .toc-bar::-webkit-scrollbar{display:none}
+  .toc-link{font-size:.42rem!important;padding:2px 5px!important}
+  .content{padding:14px 4% 60px}
+  .sec-header{margin-left:-4%;margin-right:-4%;padding:10px 4%}
+  .xref-bar{margin-left:-4%;margin-right:-4%;padding:9px 4%}
+  .grid2{grid-template-columns:1fr}
+  .spec-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .tree-row{flex-direction:column}
+  .tree-a{border-left:none;border-top:3px solid var(--amber)}
+}
+
+/* ── PRINT ── */
+@media print{
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;color-adjust:exact!important}
+  @page{margin:7mm;size:A4}
+  :root{
+    --ink:#0d0e12;--paper:#ffffff;--paper2:#edeae0;--rule:#d4cfc4;
+    --amber:#b86800;--amber2:#e07800;--steeldk:#2a2f3a;--steelmd:#6a7080;
+    --steellt:#a8b0bc;--red-warn:#B91C1C;--green-ok:#059669;
+  }
+  body{font-size:7.5pt;background:#fff!important}
+  .lib-home-btn,.toc-bar{display:none!important}
+  .sticky-nav-unit{position:static!important}
+  .std-header{background:#0d0e12!important;padding:8px 14px 6px!important;border-bottom:2px solid #e07800!important}
+  .std-title{color:#e07800!important;font-size:1.5rem!important}
+  .std-eyebrow,.std-vehicle{color:#9aa0ae!important}
+  .std-sub{color:#e8c864!important}
+  .sec-header{background:#2a2f3a!important;border-left:4px solid #e07800!important;padding:6px 14px!important;page-break-after:avoid;margin-left:0!important;margin-right:0!important}
+  .sec-num{background:#b86800!important;color:#fff!important}
+  .sec-title{color:#fff!important}
+  .sec-sub{color:#a8b0bc!important}
+  .subsec{background:#edeae0!important;page-break-after:avoid}
+  .spec-table{break-inside:auto}
+  .spec-table thead{display:table-header-group}
+  .spec-table th{background:#2a2f3a!important;color:#fff!important}
+  .spec-table tr:nth-child(even) td{background:#edeae0!important}
+  .rule,.data-card,.task,.tree-row{break-inside:avoid}
+  .rule-warn{background:#fff4f0!important}
+  .rule-note{background:#fffbe8!important}
+  .rule-ok{background:#f0fff8!important}
+  .rule-info,.data-card{background:#edeae0!important}
+  .xref-bar{background:#2a2f3a!important;margin-left:0!important;margin-right:0!important}
+  .xref-pill{color:#e07800!important;background:#fff!important}
+  .doc-footer{background:#2a2f3a!important;color:#a8b0bc!important}
+  .steps li::before{background:#b86800!important;color:#fff!important}
+}
+</style>
+</head>
+<body>
+
+<div class="sticky-nav-unit">
+<div class="std-header">
+  <a href="index.html" class="lib-home-btn">⌂ Index</a>
+  <div class="std-eyebrow">Overland Series · R33 · Interim</div>
+  <div class="std-title">Aux Battery Care</div>
+  <div class="std-sub">Auxiliary / House Battery · Care, Charging &amp; Checks (Lead-Acid)</div>
+  <div class="std-vehicle">2009 LC76 SW 1HZ · HZJ76R-RKMRS · Sealed lead-acid house battery — LiFePO4 upgrade pending</div>
+</div>
+<div class="toc-bar">
+  <span class="toc-label">Sections</span>
+  <a href="javascript:void(0)" onclick="document.getElementById('s1').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">1. System</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s2').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">2. Golden Rule</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s3').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">3. Reading SoC</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s4').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">4. Charging</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s5').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">5. DEFA &amp; the Cyrix</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s6').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">6. Sealed Specifics</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s7').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">7. Heat &amp; Vibration</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s8').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">8. Inverter</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s9').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">9. Schedule</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s10').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">10. Trouble Signs</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s11').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">11. Open Items</a>
+</div>
+</div>
+
+<div class="content">
+
+<p class="lead">The auxiliary (house) battery runs the camp side of the vehicle — fridge, lights, charging, the inverter. Unlike the crank battery, which delivers one short burst and is immediately recharged, the house battery is <strong>deep-cycled</strong>: drawn down over hours, then built back up. That working pattern, not age alone, is what wears it out. This interim document covers how to keep the current sealed lead-acid unit healthy until the LiFePO4 house battery is installed — at which point R26 (Electrical &amp; Wiring) supersedes it.</p>
+
+<div class="rule rule-note">
+  <span class="rule-hdr">⚠ Read this first — status &amp; scope</span>
+  This is an <strong>interim document</strong> for the <strong>lead-acid</strong> house battery currently fitted. The planned 200 Ah LiFePO4 house battery is <u>not yet installed</u>. Lithium is managed in almost the opposite way to lead-acid — so once the upgrade is done, <strong>this document is retired and R26 takes over</strong>. Do not apply lead-acid rules to the lithium system or vice-versa.
+</div>
+
+<!-- S1 ──────────────────────────────────────────────── -->
+<div class="sec-header" id="s1">
+  <span class="sec-num">S1</span>
+  <span class="sec-title">The System &amp; the Aux Battery's Job</span>
+  <span class="sec-sub">Architecture · Role</span>
+</div>
+
+<p class="p">The electrical system is a <strong>two-battery setup with the batteries kept apart</strong> by the Victron Cyrix. The crank battery starts the engine and runs the vehicle's own systems. The <strong>auxiliary battery carries every camp load</strong> — it is the one that gets discharged and recharged repeatedly, so it needs the most attention. The Deltec was fitted at the same time as the Willard crank battery (23 Jan 2025 @ 271,056 km), so both share a service-age baseline.</p>
+
+<table class="spec-table">
+  <caption>Auxiliary side — as fitted (per R1 / Facts.txt)</caption>
+  <thead><tr><th>Component</th><th>Fitment</th><th>Role</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Auxiliary battery</strong></td><td>Deltec 1250 · <strong>sealed</strong> lead-acid · 12 V · 105 Ah · fitted 23 Jan 2025 @ 271,056 km</td><td>Fridge, camp lights, accessory &amp; inverter loads</td></tr>
+    <tr><td><strong>Crank battery</strong></td><td>Willard 650 (WPL320T) · flooded lead-acid · 95 Ah · fitted same day, 23 Jan 2025</td><td>Engine starting only (see R32)</td></tr>
+    <tr><td><strong>Isolator</strong></td><td>Victron Cyrix 120 A 12/24 V</td><td>Voltage-sensitive relay — joins batteries only while charging</td></tr>
+    <tr><td><strong>Monitor</strong></td><td>BM2000 dual-battery</td><td>At-a-glance voltage on both batteries</td></tr>
+    <tr><td><strong>Mains charger</strong></td><td>DEFA SmartCharge</td><td>Shore/home charging &amp; maintenance</td></tr>
+    <tr><td><strong>Solar</strong></td><td>Hardkorr 200 W portable</td><td>Auxiliary top-up &amp; absorption finish in camp</td></tr>
+    <tr><td><strong>Inverter</strong></td><td>Sinetech 1200 W / 12 V</td><td>230 V loads off the auxiliary</td></tr>
+  </tbody>
+</table>
+
+<div class="rule rule-info">
+  <span class="rule-hdr">Why the house battery lives a harder life than the crank</span>
+  A crank battery is shallow-cycled — a few percent, then instantly refilled. The house battery is dragged down 40–60% every night on a fridge and slowly refilled the next day. Deep-cycle lead-acid tolerates this far better than a starting battery would, but it is still the abuse pattern that ends its life. <strong>How you manage state of charge decides whether it lasts 2 years or 6.</strong>
+</div>
+
+<!-- S2 ──────────────────────────────────────────────── -->
+<div class="sec-header" id="s2">
+  <span class="sec-num">S2</span>
+  <span class="sec-title">The Golden Rule — State of Charge</span>
+  <span class="sec-sub">50% floor · Recharge to 100%</span>
+</div>
+
+<p class="p">Lead-acid dies of <strong>sulfation</strong> — hard lead-sulfate crystals that form whenever the battery sits below full charge, and which permanently reduce capacity. The governing principle is the opposite of lithium: <strong>lead-acid hates sitting partially charged.</strong> Two habits protect it.</p>
+
+<div class="grid2">
+  <div class="data-card">
+    <h4>Don't go below 50%</h4>
+    <span class="big">≈ 12.2 V rested</span>
+    <p>Treat half-charge as the floor for routine use, not 20%. Habitually pulling a lead-acid below 50% roughly halves its cycle life. The usable bank is therefore about <strong>50 Ah of the 105 Ah</strong>, not the full nameplate.</p>
+  </div>
+  <div class="data-card">
+    <h4>Get it back to 100%</h4>
+    <span class="big">≈ 12.7–12.8 V rested</span>
+    <p>Return it to a genuine full charge as often as possible. A lead-acid left at 70–90% for weeks sulfates and loses capacity for good. This is the single most common way overland house batteries are killed.</p>
+  </div>
+</div>
+
+<div class="rule rule-warn">
+  <span class="rule-hdr">The slow killer: chronic part-charge</span>
+  Fridge-only camping that never sees a full recharge — short drives, cloudy days, no mains — leaves the battery hovering at 80–90% for weeks. It still works, so nothing looks wrong, but capacity bleeds away quietly. The fix is to make sure it periodically reaches a <u>completed</u> full charge (see S4–S5), not just "topped up".
+</div>
+
+<!-- S3 ──────────────────────────────────────────────── -->
+<div class="sec-header" id="s3">
+  <span class="sec-num">S3</span>
+  <span class="sec-title">Reading State of Charge</span>
+  <span class="sec-sub">Rested voltage · BM2000 caveat</span>
+</div>
+
+<p class="p">The BM2000 shows live voltage on both batteries — but live voltage under load reads low (sag), and under charge reads high. For a true state-of-charge reading, take it <strong>rested</strong>: no charging and no significant load for about 2 hours, at roughly 25&nbsp;°C.</p>
+
+<table class="spec-table">
+  <caption>Rested voltage → state of charge (12 V lead-acid, ~25 °C)</caption>
+  <thead><tr><th>Rested voltage</th><th>State of charge</th><th>Action</th></tr></thead>
+  <tbody>
+    <tr><td class="mono">12.7–12.8 V</td><td class="v-good">100% — full</td><td>Target after every charge</td></tr>
+    <tr><td class="mono">12.5 V</td><td class="v-good">~75%</td><td>Healthy working range</td></tr>
+    <tr><td class="mono">12.2 V</td><td class="v-warn">~50% — FLOOR</td><td>Recharge now; don't go lower in routine use</td></tr>
+    <tr><td class="mono">12.0 V</td><td class="v-bad">~25%</td><td>Damage zone — recharge fully ASAP</td></tr>
+    <tr><td class="mono">≤ 11.8 V</td><td class="v-bad">~empty</td><td>Harmful; sulfation likely if left here</td></tr>
+  </tbody>
+</table>
+
+<div class="rule rule-note">
+  <span class="rule-hdr">Don't trust voltage under load</span>
+  Run the fridge compressor or inverter and the displayed voltage drops half a volt or more — that is sag, not state of charge. Read the battery rested. Equally, a battery on charge can read 14&nbsp;V and still be only 80% full: voltage is the destination, current acceptance is the proof it has arrived (see S4).
+</div>
+
+<!-- S4 ──────────────────────────────────────────────── -->
+<div class="sec-header" id="s4">
+  <span class="sec-num">S4</span>
+  <span class="sec-title">Charging — Sources &amp; Limits</span>
+  <span class="sec-sub">Mains · Alternator · Solar</span>
+</div>
+
+<p class="p">Three sources can charge the house battery. Each behaves differently, and only some of them actually finish the job.</p>
+
+<table class="spec-table">
+  <caption>Charge sources and what they realistically achieve</caption>
+  <thead><tr><th>Source</th><th>Behaviour</th><th>Gets to true 100%?</th></tr></thead>
+  <tbody>
+    <tr><td><strong>DEFA SmartCharge (mains)</strong></td><td>Multi-stage bulk → absorption → float. The proper "restore to full" tool at home.</td><td class="v-good">Yes — on the battery it is connected to</td></tr>
+    <tr><td><strong>Alternator (via Cyrix)</strong></td><td>Bulk-charges fast while driving, then tapers; sits around 14 V and floats. Rarely completes a full absorption stage.</td><td class="v-warn">No — top-up only</td></tr>
+    <tr><td><strong>Hardkorr 200 W solar</strong></td><td>Slow but steady; with a proper controller profile it can hold the battery up and <em>finish</em> the absorption the alternator won't.</td><td class="v-good">Yes — over a sunny day, if direct to aux</td></tr>
+  </tbody>
+</table>
+
+<div class="subsec"><span class="subsec-title">Charge voltage targets — SEALED lead-acid</span><span class="subsec-tag">~25 °C</span></div>
+
+<table class="spec-table">
+  <caption>Sealed/AGM-type charge profile (confirm against Deltec 1250 datasheet — see S11)</caption>
+  <thead><tr><th>Stage</th><th>Voltage (12 V)</th><th>Note</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Bulk</strong></td><td class="mono">up to ~14.4 V</td><td>Maximum current until voltage rises to absorption</td></tr>
+    <tr><td><strong>Absorption</strong></td><td class="mono">14.4–14.7 V</td><td>Hold until charge current tapers to a low tail — this is what completes the charge</td></tr>
+    <tr><td><strong>Float</strong></td><td class="mono">13.6–13.8 V</td><td>Maintenance hold for long-term standby</td></tr>
+    <tr><td><strong>Equalise</strong></td><td class="v-bad">DO NOT</td><td>Never equalise (&gt;15 V) a <strong>sealed</strong> battery — it dries it out and cannot be refilled</td></tr>
+  </tbody>
+</table>
+
+<div class="rule rule-info">
+  <span class="rule-hdr">Temperature compensation</span>
+  These figures are for ~25&nbsp;°C. When hot (Kalahari, engine bay), the charge voltage should come <strong>down</strong> — roughly 20&nbsp;mV per °C above 25&nbsp;°C for a 12&nbsp;V battery — or the battery gasses and loses water it can't replace. Quality chargers do this automatically; verify the DEFA and the solar controller are temperature-compensated.
+</div>
+
+<!-- S5 ──────────────────────────────────────────────── -->
+<div class="sec-header" id="s5">
+  <span class="sec-num">S5</span>
+  <span class="sec-title">Does the DEFA Also Charge the Aux?</span>
+  <span class="sec-sub">Cyrix behaviour · Field test</span>
+</div>
+
+<p class="p">Short answer: <strong>almost certainly yes — but probably not to a true 100%</strong>, and it depends on which battery the DEFA is connected to. Here is the mechanism, then a two-minute test that settles it for your specific install.</p>
+
+<p class="p">The Cyrix is a <strong>voltage-sensitive relay (VSR)</strong>. It watches voltage and <strong>combines the two batteries when it sees charging voltage</strong> (closes at roughly 13.7&nbsp;V), and isolates them again when voltage falls (opens around 12.8&nbsp;V) so camp loads can never flatten the starter. It does this regardless of <em>where</em> the charge comes from — alternator, solar, or the DEFA on mains.</p>
+
+<div class="tree">
+  <div class="tree-row">
+    <div class="tree-q">If the DEFA is connected to the CRANK battery</div>
+    <div class="tree-a">DEFA charges the crank; once it holds charging voltage, the Cyrix combines and the aux charges <em>through the relay</em>. But the aux sits below the DEFA's regulation point by the voltage drop across the relay and cabling — so it may never complete absorption and can chronically rest at ~90–95%.</div>
+  </div>
+  <div class="tree-row">
+    <div class="tree-q">If the DEFA is connected to the AUX battery</div>
+    <div class="tree-a">DEFA charges the aux fully to its proper profile; once combine voltage is reached, the crank also tops up. This is the better arrangement for house-battery health.</div>
+  </div>
+  <div class="tree-row">
+    <div class="tree-q">Which one is it on this vehicle?</div>
+    <div class="tree-a"><strong>To be confirmed</strong> — this is a wiring fact, not a spec. Run the field test below, then record the result (S11).</div>
+  </div>
+</div>
+
+<div class="subsec"><span class="subsec-title">Field test — does one charger charge both?</span><span class="subsec-tag">~5 min · BM2000</span></div>
+<ol class="steps">
+  <li>Vehicle <strong>off</strong>, batteries rested ≥2 h. Note <strong>both</strong> voltages on the BM2000.</li>
+  <li>Plug in the DEFA on mains. Wait 2–5 minutes.</li>
+  <li><strong>Both readings climb together</strong> (toward 13.5–14.5 V) → the Cyrix is combining; one charger is servicing both batteries.</li>
+  <li><strong>Only one climbs, the other stays put</strong> → they are isolated for that session and the aux needs its own charge.</li>
+  <li>Record the outcome and the DEFA connection point in this document and in Facts.txt §8.</li>
+</ol>
+
+<div class="rule rule-ok">
+  <span class="rule-hdr">Practical recommendation</span>
+  Whatever the test shows, make sure the <strong>aux periodically reaches a completed full charge</strong>, not just a top-up. Best options, in order: (1) if the DEFA is on the crank, occasionally connect it <u>directly to the aux</u> for a full multi-stage charge every few weeks; or (2) let the <strong>Hardkorr 200 W solar</strong>, connected to the aux, finish the absorption on a sunny day. Do not assume a crank-side DEFA fully services the house battery — it usually doesn't.
+</div>
+
+<!-- S6 ──────────────────────────────────────────────── -->
+<div class="sec-header" id="s6">
+  <span class="sec-num">S6</span>
+  <span class="sec-title">Sealed-Battery Specifics</span>
+  <span class="sec-sub">What you must NOT do</span>
+</div>
+
+<p class="p">The Deltec 1250 is <strong>sealed</strong>. That simplifies maintenance — there is nothing to top up — but it also removes your margin for error on overcharging, because you cannot replace lost electrolyte.</p>
+
+<div class="grid2">
+  <div class="data-card">
+    <h4>No water top-ups</h4>
+    <p>Sealed means no removable cell caps and no distilled-water service. Don't try to open it. This is one fewer field chore than a flooded battery.</p>
+  </div>
+  <div class="data-card">
+    <h4>No equalisation</h4>
+    <p>Never run an equalisation / desulfation overcharge (&gt;15 V) on a sealed unit. It boils off water that can't be refilled and permanently dries the battery. Disable any "recondition" mode on chargers.</p>
+  </div>
+</div>
+
+<div class="rule rule-warn">
+  <span class="rule-hdr">Keep the charge voltage capped</span>
+  Sealed batteries gas and lose moisture if held too high. Stay within the S4 profile (absorption ≤ ~14.7 V, float ~13.6–13.8 V), and make sure temperature compensation is active in hot conditions. Heat + overcharge is the fastest way to kill a sealed lead-acid.
+</div>
+
+<!-- S7 ──────────────────────────────────────────────── -->
+<div class="sec-header" id="s7">
+  <span class="sec-num">S7</span>
+  <span class="sec-title">Heat &amp; Vibration</span>
+  <span class="sec-sub">The overland killers</span>
+</div>
+
+<p class="p">Two environmental factors do more damage than cycling itself on an African overland trip.</p>
+
+<div class="grid2">
+  <div class="data-card">
+    <h4>Heat</h4>
+    <p>Lead-acid life roughly <strong>halves for every 10&nbsp;°C above 25&nbsp;°C</strong>. Keep the battery ventilated and out of direct engine-bay and exhaust heat. Check its mounting location stays as cool and airflow-fed as practical.</p>
+  </div>
+  <div class="data-card">
+    <h4>Vibration</h4>
+    <p>Corrugations shake active material off the plates and loosen terminals. Confirm the <strong>clamp/box is genuinely tight</strong> at every pre-trip check, and that cable lugs are torqued — a loose lug arcs, heats and fails.</p>
+  </div>
+</div>
+
+<!-- S8 ──────────────────────────────────────────────── -->
+<div class="sec-header" id="s8">
+  <span class="sec-num">S8</span>
+  <span class="sec-title">Inverter Load Discipline</span>
+  <span class="sec-sub">Sinetech 1200 W</span>
+</div>
+
+<p class="p">The Sinetech 1200 W inverter is the heaviest single load on the house battery. At full output it pulls roughly <strong>100–115 A</strong> from a 12 V battery (1200&nbsp;W ÷ ~12.4&nbsp;V ÷ efficiency). On a 105 Ah battery that is more than a 1C draw — brutal. Voltage sags hard, and sustained high loads age the battery quickly.</p>
+
+<div class="rule rule-note">
+  <span class="rule-hdr">Use it for bursts, not sustained loads</span>
+  Kettle, laptop charger, short tool runs — fine. Running a high-wattage appliance for long stretches off this battery is not. Watch the BM2000: if voltage dives toward 12.0&nbsp;V under inverter load, stop and recharge before going lower. Prefer running heavy 230&nbsp;V loads while the engine is running so the alternator carries some of the draw.
+</div>
+
+<!-- S9 ──────────────────────────────────────────────── -->
+<div class="sec-header" id="s9">
+  <span class="sec-num">S9</span>
+  <span class="sec-title">Routine Schedule</span>
+  <span class="sec-sub">Camp · Home · Pre-trip</span>
+</div>
+
+<div class="task">
+  <div class="task-box"></div>
+  <div class="task-body">
+    <div class="task-name">Check rested voltage on the BM2000</div>
+    <div class="task-detail">Each morning in camp before loads come on. Stay above ~12.2 V; plan the day's charging if it's near the floor.</div>
+    <div class="task-spec">FLOOR 12.2 V · TARGET RETURN TO 12.7–12.8 V</div>
+  </div>
+  <span class="freq">In Camp</span>
+</div>
+<div class="task">
+  <div class="task-box"></div>
+  <div class="task-body">
+    <div class="task-name">Make sure it reaches a completed full charge</div>
+    <div class="task-detail">At least weekly on a trip — via a long sunny solar day or mains. Not just a top-up: a finished absorption stage.</div>
+    <div class="task-spec">ABSORPTION HELD UNTIL TAIL CURRENT LOW</div>
+  </div>
+  <span class="freq">Weekly</span>
+</div>
+<div class="task">
+  <div class="task-box"></div>
+  <div class="task-body">
+    <div class="task-name">Plug in the DEFA between trips at home</div>
+    <div class="task-detail">Don't leave a lead-acid sitting partially discharged for weeks. A maintenance/float charge prevents standing sulfation. Confirm it is actually charging the aux (S5).</div>
+    <div class="task-spec">FLOAT 13.6–13.8 V</div>
+  </div>
+  <span class="freq">At Home</span>
+</div>
+<div class="task">
+  <div class="task-box"></div>
+  <div class="task-body">
+    <div class="task-name">Inspect clamps, lugs and terminals</div>
+    <div class="task-detail">Tight, clean, corrosion-free. Re-torque after long corrugated sections.</div>
+    <div class="task-spec">NO MOVEMENT · NO GREEN/WHITE CORROSION</div>
+  </div>
+  <span class="freq">Pre-Trip</span>
+</div>
+<div class="task">
+  <div class="task-box"></div>
+  <div class="task-body">
+    <div class="task-name">Capacity / load check before a serious trip</div>
+    <div class="task-detail">A sulfated battery can show 12.7 V rested and still collapse under load. Confirm it holds voltage under a known load before committing to remote travel.</div>
+    <div class="task-spec">HOLDS VOLTAGE UNDER LOAD = HEALTHY</div>
+  </div>
+  <span class="freq">Pre-Trip</span>
+</div>
+
+<!-- S10 ─────────────────────────────────────────────── -->
+<div class="sec-header" id="s10">
+  <span class="sec-num">S10</span>
+  <span class="sec-title">Trouble Signs &amp; End of Life</span>
+  <span class="sec-sub">When to replace</span>
+</div>
+
+<div class="subsec"><span class="subsec-title">Warning signs</span></div>
+<table class="spec-table">
+  <thead><tr><th>Sign</th><th>Likely cause</th></tr></thead>
+  <tbody>
+    <tr><td>Fridge runs the battery flat far quicker than it used to</td><td>Lost capacity — sulfation or age</td></tr>
+    <tr><td>Voltage drops sharply under modest load then recovers when rested</td><td>High internal resistance — failing cells</td></tr>
+    <tr><td>Reads "full" (12.7 V) rested but won't hold under load</td><td>Sulfation — usable capacity gone</td></tr>
+    <tr><td>Case swelling, heat, or smell during charge</td><td>Stop charging — internal failure / overcharge</td></tr>
+  </tbody>
+</table>
+
+<div class="rule rule-warn">
+  <span class="rule-hdr">Plan replacement before the expedition, not during</span>
+  Fitted Jan 2025, the Deltec will be several years old by the 2028 departure. A house battery that is degrading at home is a stranding risk in the field. Test capacity well before departure and replace on evidence, not optimism. <strong>Note:</strong> the planned LiFePO4 upgrade may make a like-for-like lead-acid replacement unnecessary — coordinate the two decisions.
+</div>
+
+<!-- S11 ─────────────────────────────────────────────── -->
+<div class="sec-header" id="s11">
+  <span class="sec-num">S11</span>
+  <span class="sec-title">Open Items — To Confirm</span>
+  <span class="sec-sub">Verify &amp; record</span>
+</div>
+
+<div class="task">
+  <div class="task-box"></div>
+  <div class="task-body">
+    <div class="task-name">Which battery is the DEFA connected to?</div>
+    <div class="task-detail">Run the S5 field test. Determines whether the aux gets a full charge directly or only second-hand through the Cyrix. Record the answer here and in Facts.txt §8.</div>
+    <div class="task-spec">FIELD TEST · BM2000 · ~5 MIN</div>
+  </div>
+  <span class="freq">Confirm</span>
+</div>
+<div class="task">
+  <div class="task-box"></div>
+  <div class="task-body">
+    <div class="task-name">Deltec 1250 datasheet — exact charge ceilings</div>
+    <div class="task-detail">Confirm chemistry (AGM vs sealed-calcium) and the manufacturer's absorption/float maxima. The S4 figures are safe generic sealed values; the datasheet is authoritative.</div>
+    <div class="task-spec">CONFIRM ABSORPTION &amp; FLOAT MAX</div>
+  </div>
+  <span class="freq">Confirm</span>
+</div>
+<div class="task">
+  <div class="task-box"></div>
+  <div class="task-body">
+    <div class="task-name">DEFA &amp; solar controller temperature compensation</div>
+    <div class="task-detail">Verify both charge sources reduce voltage in heat. Critical for a sealed battery that cannot be re-watered.</div>
+    <div class="task-spec">TEMP-COMP ACTIVE</div>
+  </div>
+  <span class="freq">Confirm</span>
+</div>
+
+</div><!-- end .content -->
+
+<div class="xref-bar">
+  <span class="xref-label">Cross-Reference</span>
+  <a href="LC76_Reference_Card.html" class="xref-pill">R1 · Reference Card</a>
+  <a href="LC76_Battery_Training_Guide.html" class="xref-pill">R5 · Battery Training</a>
+  <a href="LC76_Battery_Longevity_Report.html" class="xref-pill">R6 · Longevity</a>
+  <a href="LC76_LiFePO4_System_Report.html" class="xref-pill">R7 · LiFePO4 Report</a>
+  <a href="LC76_Crank_Battery_Care.html" class="xref-pill">R32 · Crank Battery Care</a>
+</div>
+
+<div class="doc-footer">
+  <span>LC76 Overland Reference Library · R33 · Aux Battery Care (Interim) · v1.0 · June 2026</span>
+  <span>2009 LC76 SW 1HZ · HZJ76R-RKMRS · Sealed lead-acid house battery (LiFePO4 pending — R26)</span>
+  <span>overlandslabs.github.io/Consumption</span>
+</div>
+
+<script>
+// Active TOC state
+const sections = ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10','s11'];
+const tocLinks = document.querySelectorAll('.toc-link');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      const idx = sections.indexOf(entry.target.id);
+      tocLinks.forEach((l, i) => l.classList.toggle('active', i === idx));
+    }
+  });
+}, {rootMargin: '-30% 0px -60% 0px'});
+sections.forEach(id => {
+  const el = document.getElementById(id);
+  if(el) observer.observe(el);
+});
+
+// Dynamic scroll margin
+function updateScrollMargins(){
+  const navH = document.querySelector('.sticky-nav-unit').offsetHeight;
+  document.querySelectorAll('.sec-header').forEach(el => {
+    el.style.scrollMarginTop = (navH + 4) + 'px';
+  });
+}
+updateScrollMargins();
+window.addEventListener('resize', updateScrollMargins);
+
+// Service worker — domain-guarded
+if('serviceWorker' in navigator && location.hostname !== 'www.claudeusercontent.com'){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('./sw.js')
+      .then(r => console.log('LC76 SW registered'))
+      .catch(e => console.log('SW error:', e));
+  });
+}
+</script>
+</body>
+</html>
