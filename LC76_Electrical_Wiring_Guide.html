@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LC76 Library">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0d0e12">
+<title>LC76 · Electrical &amp; Wiring Guide · Interim R26</title>
+<link rel="manifest" href="manifest-ref.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500;600&family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0d0e12;--paper:#dad2c0;--paper2:#edeae0;--rule:#d4cfc4;
+  --amber:#b86800;--amber2:#e07800;
+  --steeldk:#2a2f3a;--steelmd:#6a7080;--steellt:#a8b0bc;
+  --red-warn:#B91C1C;--green-ok:#059669;
+  --mono:'IBM Plex Mono',monospace;
+  --sans:'Oswald',sans-serif;
+  --display:'Bebas Neue',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{overflow-x:hidden}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.6}
+
+/* ── INTERIM BANNER ── */
+.interim-banner{background:#7c1010;color:#fff;font-family:var(--mono);font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;text-align:center;padding:7px 5%;border-bottom:2px solid #B91C1C}
+.interim-banner strong{color:#ffcccc}
+
+/* ── STICKY NAV ── */
+.sticky-nav-unit{position:sticky;top:0;z-index:100;padding-top:env(safe-area-inset-top)}
+.std-header{background:var(--ink);padding:18px 24px 14px;position:relative;border-bottom:3px solid var(--amber)}
+.std-eyebrow{font-family:var(--mono);font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--steelmd);margin-bottom:6px}
+.std-title{font-family:var(--display);font-size:clamp(1.9rem,5vw,2.8rem);letter-spacing:.06em;color:var(--amber2);line-height:1}
+.std-sub{font-family:var(--mono);font-size:.54rem;letter-spacing:.12em;color:rgba(255,200,100,.65);margin-top:5px}
+.std-vehicle{font-family:var(--mono);font-size:.48rem;letter-spacing:.08em;color:var(--steelmd);margin-top:8px}
+.lib-home-btn{position:absolute;top:14px;right:16px;display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--amber2);background:rgba(232,120,0,.15);border:1px solid var(--amber2);border-radius:20px;padding:6px 12px;min-height:32px;white-space:nowrap;transition:background .2s}
+.lib-home-btn:hover{background:rgba(232,120,0,.30)}
+.toc-bar{background:var(--steeldk);padding:7px 24px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;border-bottom:2px solid var(--amber)}
+.toc-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.18em;color:var(--steellt);text-transform:uppercase;margin-right:4px;flex-shrink:0}
+.toc-link{font-family:var(--mono);font-size:.46rem;color:rgba(255,255,255,.45);text-decoration:none;padding:2px 6px;border:1px solid transparent;transition:all .12s;white-space:nowrap;cursor:pointer}
+.toc-link:hover,.toc-link.active{color:var(--amber2);border-color:var(--amber2);background:rgba(232,120,0,.1)}
+
+/* ── CONTENT ── */
+.content{padding:24px 5% 80px;max-width:100%}
+.lead{font-size:.92rem;color:var(--steeldk);line-height:1.7;margin:6px 0 4px}
+.p{font-size:.86rem;color:var(--steeldk);line-height:1.65;margin:10px 0}
+.p strong{color:var(--ink);font-weight:600}
+
+/* ── SECTION HEADERS ── */
+.sec-header{display:flex;align-items:center;gap:12px;padding:10px 5%;background:var(--steeldk);border-left:5px solid var(--amber2);margin:34px 0 0;margin-left:-5%;margin-right:-5%}
+.sec-num{font-family:var(--mono);font-size:.58rem;font-weight:600;color:#fff;background:var(--amber);padding:3px 8px;letter-spacing:.12em;flex-shrink:0}
+.sec-title{font-family:var(--display);font-size:1.7rem;letter-spacing:.10em;color:#fff;line-height:1}
+.sec-sub{font-family:var(--mono);font-size:.44rem;letter-spacing:.10em;color:var(--steellt);margin-left:auto;flex-shrink:0;text-align:right}
+
+/* ── SUBSECTIONS ── */
+.subsec{background:var(--paper2);border-left:3px solid var(--amber);padding:6px 16px 6px 14px;margin:22px 0 10px;display:flex;align-items:center;gap:10px}
+.subsec-title{font-family:var(--display);font-size:1.1rem;letter-spacing:.12em;color:var(--ink)}
+.subsec-tag{font-family:var(--mono);font-size:.44rem;letter-spacing:.12em;color:var(--steelmd);text-transform:uppercase;margin-left:auto}
+
+/* ── RULE BOXES ── */
+.rule{border-left:4px solid;padding:11px 15px;margin:12px 0;font-family:var(--sans);font-size:.86rem;line-height:1.65}
+.rule .rule-hdr{font-weight:700;display:block;margin-bottom:5px;font-family:var(--sans);font-size:.92rem;letter-spacing:.01em}
+.rule strong{font-weight:700;color:inherit}
+.rule u{text-decoration:underline;text-underline-offset:2px;text-decoration-thickness:1px}
+.rule-warn{background:#fff4f0;border-color:var(--red-warn);color:#5a1010}
+.rule-warn .rule-hdr{color:var(--red-warn)}
+.rule-note{background:#fffbe8;border-color:var(--amber2);color:#4a3000}
+.rule-note .rule-hdr{color:var(--amber)}
+.rule-ok{background:#f0fff8;border-color:var(--green-ok);color:#0a3a20}
+.rule-ok .rule-hdr{color:var(--green-ok)}
+.rule-info{background:var(--paper2);border-color:var(--steelmd);color:var(--steeldk)}
+.rule-info .rule-hdr{color:var(--steelmd)}
+
+/* ── SPEC TABLES ── */
+.spec-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.82rem}
+.spec-table caption{font-family:var(--mono);font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;color:var(--steelmd);text-align:left;padding-bottom:6px}
+.spec-table th{background:var(--steeldk);color:#fff;font-family:var(--mono);font-size:.44rem;letter-spacing:.12em;text-transform:uppercase;padding:7px 10px;text-align:left}
+.spec-table td{padding:6px 10px;border-bottom:1px solid var(--rule);vertical-align:top;font-family:var(--sans)}
+.spec-table tr:nth-child(even) td{background:var(--paper2)}
+.mono{font-family:var(--mono);font-size:.72rem;color:var(--amber)}
+.v-good{color:var(--green-ok);font-weight:600}
+.v-warn{color:var(--amber);font-weight:600}
+.v-bad{color:var(--red-warn);font-weight:600}
+
+/* ── FILL-IN TABLES ── */
+.fill-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.82rem}
+.fill-table caption{font-family:var(--mono);font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;color:var(--steelmd);text-align:left;padding-bottom:6px}
+.fill-table th{background:var(--steeldk);color:#fff;font-family:var(--mono);font-size:.44rem;letter-spacing:.12em;text-transform:uppercase;padding:7px 10px;text-align:left}
+.fill-table td{padding:7px 10px;border-bottom:1px solid var(--rule);vertical-align:top;font-family:var(--sans);font-size:.82rem}
+.fill-table tr:nth-child(even) td{background:var(--paper2)}
+.fill-blank{font-family:var(--mono);font-size:.7rem;color:var(--steelmd);font-style:italic}
+.fill-note{font-size:.75rem;color:var(--steelmd);margin-top:3px}
+
+/* ── FAULT TABLE ── */
+.fault-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.80rem}
+.fault-table th{background:var(--steeldk);color:#fff;font-family:var(--mono);font-size:.44rem;letter-spacing:.12em;text-transform:uppercase;padding:7px 10px;text-align:left}
+.fault-table td{padding:7px 10px;border-bottom:1px solid var(--rule);vertical-align:top;font-family:var(--sans);line-height:1.5}
+.fault-table tr:nth-child(even) td{background:var(--paper2)}
+.fault-table .sym{font-family:var(--mono);font-size:.68rem;color:var(--red-warn)}
+
+/* ── CHECK LISTS ── */
+.task{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--rule)}
+.task-box{width:16px;height:16px;min-width:16px;border:2px solid var(--steelmd);border-radius:2px;flex-shrink:0;margin-top:3px}
+.task-body{flex:1}
+.task-name{font-family:var(--sans);font-size:.88rem;font-weight:600;color:var(--ink)}
+.task-detail{font-family:var(--sans);font-size:.8rem;color:var(--steeldk);line-height:1.5;margin-top:2px}
+
+/* ── STEP LIST ── */
+.steps{counter-reset:step;margin:12px 0;padding:0;list-style:none}
+.steps li{counter-increment:step;position:relative;padding:8px 0 8px 38px;border-bottom:1px solid var(--rule);font-size:.84rem;color:var(--steeldk);line-height:1.55}
+.steps li::before{content:counter(step);position:absolute;left:0;top:8px;width:24px;height:24px;background:var(--amber);color:#fff;font-family:var(--mono);font-size:.7rem;font-weight:600;display:flex;align-items:center;justify-content:center;border-radius:50%}
+.steps li strong{color:var(--ink);font-weight:600}
+
+/* ── DECISION TREE ── */
+.tree{margin:14px 0}
+.tree-row{display:flex;gap:0;border:1px solid var(--rule);margin-bottom:-1px;background:var(--paper2)}
+.tree-q{flex:1;padding:9px 12px;font-size:.82rem;color:var(--ink);font-weight:600}
+.tree-a{flex:1.4;padding:9px 12px;font-size:.8rem;color:var(--steeldk);border-left:3px solid var(--amber);background:#fff}
+
+/* ── SVG DIAGRAM ── */
+.diagram-wrap{background:var(--steeldk);border-radius:4px;padding:18px;margin:18px 0;overflow-x:auto}
+.diagram-wrap svg{display:block;max-width:100%;height:auto}
+
+/* ── XREF ── */
+.xref-bar{background:var(--steeldk);padding:9px 5%;display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:32px -5% 0}
+.xref-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.16em;color:var(--steellt);text-transform:uppercase;margin-right:6px}
+.xref-pill{font-family:var(--mono);font-size:.46rem;letter-spacing:.08em;color:var(--amber2);background:rgba(232,120,0,.12);border:1px solid rgba(232,120,0,.4);padding:3px 9px;text-decoration:none;white-space:nowrap}
+.xref-pill:hover{background:rgba(232,120,0,.25)}
+
+/* ── FOOTER ── */
+.doc-footer{background:var(--steeldk);color:var(--steellt);font-family:var(--mono);font-size:.44rem;letter-spacing:.10em;padding:14px 5%;margin-top:0;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+
+/* ── MOBILE ── */
+@media(max-width:600px){
+  .std-header{padding:14px 16px 12px}
+  .std-title{font-size:clamp(1.6rem,6vw,2.4rem)}
+  .lib-home-btn{top:12px;right:12px}
+  .toc-bar{padding:5px 12px!important;flex-wrap:nowrap!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch!important;scrollbar-width:none!important}
+  .toc-bar::-webkit-scrollbar{display:none}
+  .toc-link{font-size:.42rem!important;padding:2px 5px!important}
+  .content{padding:14px 4% 60px}
+  .sec-header{margin-left:-4%;margin-right:-4%;padding:10px 4%}
+  .xref-bar{margin-left:-4%;margin-right:-4%;padding:9px 4%}
+  .spec-table,.fill-table,.fault-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .tree-row{flex-direction:column}
+  .tree-a{border-left:none;border-top:3px solid var(--amber)}
+}
+
+/* ── PRINT ── */
+@media print{
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;color-adjust:exact!important}
+  @page{margin:7mm;size:A4}
+  :root{
+    --ink:#0d0e12;--paper:#ffffff;--paper2:#edeae0;--rule:#d4cfc4;
+    --amber:#b86800;--amber2:#e07800;--steeldk:#2a2f3a;--steelmd:#6a7080;
+    --steellt:#a8b0bc;--red-warn:#B91C1C;--green-ok:#059669;
+  }
+  body{font-size:7.5pt;background:#fff!important}
+  .interim-banner{background:#7c1010!important;color:#fff!important;border-bottom:2px solid #B91C1C!important}
+  .interim-banner strong{color:#ffcccc!important}
+  .lib-home-btn,.toc-bar{display:none!important}
+  .sticky-nav-unit{position:static!important}
+  .std-header{background:#0d0e12!important;padding:8px 14px 6px!important;border-bottom:2px solid #e07800!important}
+  .std-title{color:#e07800!important;font-size:1.5rem!important}
+  .std-eyebrow,.std-vehicle{color:#9aa0ae!important}
+  .std-sub{color:#e8c864!important}
+  .sec-header{background:#2a2f3a!important;border-left:4px solid #e07800!important;padding:6px 14px!important;page-break-after:avoid;margin-left:0!important;margin-right:0!important}
+  .sec-num{background:#b86800!important;color:#fff!important}
+  .sec-title{color:#fff!important}
+  .sec-sub{color:#a8b0bc!important}
+  .subsec{background:#edeae0!important;page-break-after:avoid}
+  .spec-table,.fill-table,.fault-table{break-inside:auto}
+  .spec-table thead,.fill-table thead,.fault-table thead{display:table-header-group}
+  .spec-table th,.fill-table th,.fault-table th{background:#2a2f3a!important;color:#fff!important}
+  .spec-table tr:nth-child(even) td,.fill-table tr:nth-child(even) td,.fault-table tr:nth-child(even) td{background:#edeae0!important}
+  .rule,.task,.tree-row{break-inside:avoid}
+  .rule-warn{background:#fff4f0!important}
+  .rule-note{background:#fffbe8!important}
+  .rule-ok{background:#f0fff8!important}
+  .rule-info{background:#edeae0!important}
+  .xref-bar{background:#2a2f3a!important;margin-left:0!important;margin-right:0!important}
+  .xref-pill{color:#e07800!important;background:#fff!important}
+  .doc-footer{background:#2a2f3a!important;color:#a8b0bc!important}
+  .diagram-wrap{background:#2a2f3a!important}
+  .steps li::before{background:#b86800!important;color:#fff!important}
+}
+</style>
+</head>
+<body>
+
+<div class="interim-banner">⚠ INTERIM DOCUMENT — Covers the current lead-acid dual-battery system only · <strong>Superseded by full R26 at LiFePO4 install (~2027)</strong> · LiFePO4 system: see R5, R7</div>
+
+<div class="sticky-nav-unit">
+<div class="std-header">
+  <a href="index.html" class="lib-home-btn">⌂ Index</a>
+  <div class="std-eyebrow">Overland Series · R26 · Interim</div>
+  <div class="std-title">Electrical &amp; Wiring Guide</div>
+  <div class="std-sub">Dual-Battery System · Topology · Fault Tracing · Field Fixes (Lead-Acid)</div>
+  <div class="std-vehicle">2009 LC76 SW 1HZ · HZJ76R-RKMRS · Lead-acid dual-battery — LiFePO4 upgrade pending ~2027</div>
+</div>
+<div class="toc-bar">
+  <span class="toc-label">Sections</span>
+  <a href="javascript:void(0)" onclick="document.getElementById('s1').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">1. Overview</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s2').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">2. Fuse Map</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s3').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">3. How It Works</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s4').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">4. Charging</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s5').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">5. Fault-Tracing</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s6').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">6. Common Faults</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s7').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">7. Field Fixes</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s8').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">8. Baselines</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s9').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">9. Tools</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s10').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">10. Safety</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s11').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">11. Supersession</a>
+</div>
+</div>
+
+<div class="content">
+
+<!-- ═══ SECTION 1: OVERVIEW ═══ -->
+<div id="s1" class="sec-header">
+  <span class="sec-num">§1</span>
+  <span class="sec-title">System Overview &amp; Topology</span>
+  <span class="sec-sub">As fitted · June 2026</span>
+</div>
+
+<p class="lead">The LC76 runs a lead-acid dual-battery system. A Victron Cyrix VSR (voltage-sensitive relay) automatically isolates or combines the two batteries based on measured voltage — protecting the crank battery from discharge by accessories while allowing the alternator to charge both.</p>
+
+<div class="subsec"><span class="subsec-title">Installed Components</span></div>
+
+<table class="spec-table">
+  <caption>System inventory — as fitted Jan 2025</caption>
+  <thead><tr><th>Component</th><th>Spec</th><th>Fitted</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Crank battery</strong></td><td class="mono">Willard 650 WPL320T · FLA · 12V · 95Ah · 740 CCA</td><td>23 Jan 2025 @ 271,056 km</td></tr>
+    <tr><td><strong>Auxiliary (house) battery</strong></td><td class="mono">Deltec 1250 · sealed LA · 12V · 105Ah</td><td>23 Jan 2025 @ 271,056 km</td></tr>
+    <tr><td><strong>Isolator</strong></td><td class="mono">Victron Cyrix 120A 12/24V VSR</td><td>—</td></tr>
+    <tr><td><strong>Monitor</strong></td><td class="mono">BM2000 dual-battery monitor</td><td>—</td></tr>
+    <tr><td><strong>Inverter</strong></td><td class="mono">Sinetech 1200W / 12V</td><td>—</td></tr>
+    <tr><td><strong>Mains charger</strong></td><td class="mono">DEFA SmartCharge</td><td>—</td></tr>
+    <tr><td><strong>Solar</strong></td><td class="mono">Hardkorr 200W portable</td><td>—</td></tr>
+    <tr><td><strong>Emergency start</strong></td><td class="mono">ARB portable lithium jump pack + HD jumper cables</td><td>—</td></tr>
+  </tbody>
+</table>
+
+<div class="subsec"><span class="subsec-title">Topology Diagram</span><span class="subsec-tag">Charging flow</span></div>
+
+<div class="diagram-wrap">
+<svg viewBox="0 0 720 420" xmlns="http://www.w3.org/2000/svg" font-family="'IBM Plex Mono',monospace" font-size="11">
+
+  <!-- Background -->
+  <rect width="720" height="420" fill="#2a2f3a" rx="4"/>
+
+  <!-- ── ALTERNATOR ── -->
+  <rect x="20" y="170" width="110" height="56" rx="4" fill="#1c2030" stroke="#6a7080" stroke-width="1.5"/>
+  <text x="75" y="194" text-anchor="middle" fill="#a8b0bc" font-size="9" letter-spacing="1">ALTERNATOR</text>
+  <text x="75" y="208" text-anchor="middle" fill="#e07800" font-size="10" font-weight="600">1HZ</text>
+  <text x="75" y="220" text-anchor="middle" fill="#6a7080" font-size="8">~55–80A output</text>
+
+  <!-- Alternator → Crank arrow -->
+  <line x1="130" y1="198" x2="180" y2="198" stroke="#e07800" stroke-width="2.5"/>
+  <polygon points="180,193 190,198 180,203" fill="#e07800"/>
+  <text x="155" y="192" text-anchor="middle" fill="#6a7080" font-size="8">+ve feed</text>
+
+  <!-- ── CRANK BATTERY ── -->
+  <rect x="190" y="148" width="130" height="100" rx="4" fill="#1c2030" stroke="#e07800" stroke-width="2"/>
+  <text x="255" y="170" text-anchor="middle" fill="#a8b0bc" font-size="9" letter-spacing="1">CRANK</text>
+  <text x="255" y="184" text-anchor="middle" fill="#e07800" font-size="11" font-weight="600">WILLARD 650</text>
+  <text x="255" y="197" text-anchor="middle" fill="#6a7080" font-size="8">FLA · 95Ah · 740 CCA</text>
+  <text x="255" y="210" text-anchor="middle" fill="#6a7080" font-size="8">WPL320T</text>
+  <text x="255" y="236" text-anchor="middle" fill="#059669" font-size="9">12V / Starter motor</text>
+
+  <!-- Crank → Cyrix arrow -->
+  <line x1="320" y1="198" x2="368" y2="198" stroke="#b86800" stroke-width="2"/>
+  <polygon points="368,193 378,198 368,203" fill="#b86800"/>
+  <text x="344" y="192" text-anchor="middle" fill="#6a7080" font-size="8">VSR input</text>
+
+  <!-- ── CYRIX VSR ── -->
+  <rect x="378" y="168" width="100" height="60" rx="4" fill="#1c2030" stroke="#b86800" stroke-width="1.5"/>
+  <text x="428" y="188" text-anchor="middle" fill="#a8b0bc" font-size="9" letter-spacing="1">CYRIX VSR</text>
+  <text x="428" y="202" text-anchor="middle" fill="#e07800" font-size="10" font-weight="600">120A</text>
+  <text x="428" y="217" text-anchor="middle" fill="#6a7080" font-size="8">Victron 12/24V</text>
+
+  <!-- Cyrix → Aux arrow -->
+  <line x1="478" y1="198" x2="526" y2="198" stroke="#b86800" stroke-width="2"/>
+  <polygon points="526,193 536,198 526,203" fill="#b86800"/>
+  <text x="502" y="192" text-anchor="middle" fill="#6a7080" font-size="8">VSR output</text>
+
+  <!-- ── AUX BATTERY ── -->
+  <rect x="536" y="148" width="130" height="100" rx="4" fill="#1c2030" stroke="#b86800" stroke-width="2"/>
+  <text x="601" y="170" text-anchor="middle" fill="#a8b0bc" font-size="9" letter-spacing="1">AUX / HOUSE</text>
+  <text x="601" y="184" text-anchor="middle" fill="#e07800" font-size="11" font-weight="600">DELTEC 1250</text>
+  <text x="601" y="197" text-anchor="middle" fill="#6a7080" font-size="8">Sealed LA · 105Ah</text>
+  <text x="601" y="236" text-anchor="middle" fill="#059669" font-size="9">Accessories / Loads</text>
+
+  <!-- ── LOADS from Aux — bottom row ── -->
+  <!-- Fridge -->
+  <rect x="450" y="300" width="80" height="36" rx="3" fill="#1c2030" stroke="#6a7080" stroke-width="1"/>
+  <text x="490" y="316" text-anchor="middle" fill="#a8b0bc" font-size="9">FRIDGE</text>
+  <text x="490" y="329" text-anchor="middle" fill="#6a7080" font-size="8">12V compressor</text>
+
+  <!-- Inverter -->
+  <rect x="546" y="300" width="80" height="36" rx="3" fill="#1c2030" stroke="#6a7080" stroke-width="1"/>
+  <text x="586" y="316" text-anchor="middle" fill="#a8b0bc" font-size="9">INVERTER</text>
+  <text x="586" y="329" text-anchor="middle" fill="#6a7080" font-size="8">Sinetech 1200W</text>
+
+  <!-- Accessories -->
+  <rect x="354" y="300" width="80" height="36" rx="3" fill="#1c2030" stroke="#6a7080" stroke-width="1"/>
+  <text x="394" y="316" text-anchor="middle" fill="#a8b0bc" font-size="9">ACCESSORIES</text>
+  <text x="394" y="329" text-anchor="middle" fill="#6a7080" font-size="8">Lights · USB · etc</text>
+
+  <!-- Aux → loads vertical line -->
+  <line x1="601" y1="248" x2="601" y2="275" stroke="#6a7080" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="394" y1="275" x2="636" y2="275" stroke="#6a7080" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="394" y1="275" x2="394" y2="300" stroke="#6a7080" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="490" y1="275" x2="490" y2="300" stroke="#6a7080" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="586" y1="275" x2="586" y2="300" stroke="#6a7080" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <!-- ── WINCH from Crank ── -->
+  <rect x="190" y="295" width="80" height="36" rx="3" fill="#1c2030" stroke="#B91C1C" stroke-width="1.5"/>
+  <text x="230" y="311" text-anchor="middle" fill="#a8b0bc" font-size="9">WINCH</text>
+  <text x="230" y="324" text-anchor="middle" fill="#B91C1C" font-size="8">Crank direct</text>
+  <line x1="255" y1="248" x2="255" y2="272" stroke="#B91C1C" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="230" y1="272" x2="255" y2="272" stroke="#B91C1C" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="230" y1="272" x2="230" y2="295" stroke="#B91C1C" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <!-- ── CHARGING INPUTS — top ── -->
+  <!-- DEFA SmartCharge -->
+  <rect x="378" y="50" width="100" height="40" rx="3" fill="#1c2030" stroke="#059669" stroke-width="1.5"/>
+  <text x="428" y="67" text-anchor="middle" fill="#a8b0bc" font-size="9">DEFA</text>
+  <text x="428" y="80" text-anchor="middle" fill="#059669" font-size="8">SmartCharge (mains)</text>
+  <!-- DEFA → Crank (then through Cyrix) -->
+  <line x1="428" y1="90" x2="428" y2="120" stroke="#059669" stroke-width="1.5" stroke-dasharray="3,3"/>
+  <line x1="255" y1="120" x2="428" y2="120" stroke="#059669" stroke-width="1.5" stroke-dasharray="3,3"/>
+  <line x1="255" y1="120" x2="255" y2="148" stroke="#059669" stroke-width="1.5" stroke-dasharray="3,3"/>
+  <polygon points="251,148 255,138 259,148" fill="#059669"/>
+
+  <!-- Hardkorr Solar -->
+  <rect x="536" y="50" width="130" height="40" rx="3" fill="#1c2030" stroke="#059669" stroke-width="1.5"/>
+  <text x="601" y="67" text-anchor="middle" fill="#a8b0bc" font-size="9">HARDKORR 200W</text>
+  <text x="601" y="80" text-anchor="middle" fill="#059669" font-size="8">Portable solar</text>
+  <!-- Solar → Aux direct -->
+  <line x1="601" y1="90" x2="601" y2="148" stroke="#059669" stroke-width="1.5" stroke-dasharray="3,3"/>
+  <polygon points="597,148 601,138 605,148" fill="#059669"/>
+
+  <!-- BM2000 monitor label -->
+  <rect x="20" y="50" width="100" height="40" rx="3" fill="#1c2030" stroke="#6a7080" stroke-width="1"/>
+  <text x="70" y="67" text-anchor="middle" fill="#a8b0bc" font-size="9">BM2000</text>
+  <text x="70" y="80" text-anchor="middle" fill="#6a7080" font-size="8">Monitor (sense)</text>
+  <line x1="70" y1="90" x2="70" y2="170" stroke="#6a7080" stroke-width="1" stroke-dasharray="2,4"/>
+  <line x1="70" y1="170" x2="190" y2="170" stroke="#6a7080" stroke-width="1" stroke-dasharray="2,4"/>
+
+  <!-- ── EARTH ── -->
+  <text x="360" y="400" text-anchor="middle" fill="#6a7080" font-size="9">EARTH: Crank (−) → chassis · Aux (−) → chassis · All loads earth to chassis</text>
+
+  <!-- ── LEGEND ── -->
+  <line x1="20" y1="376" x2="44" y2="376" stroke="#e07800" stroke-width="2.5"/>
+  <text x="48" y="379" fill="#a8b0bc" font-size="8">Alternator charge path</text>
+  <line x1="140" y1="376" x2="164" y2="376" stroke="#b86800" stroke-width="2"/>
+  <text x="168" y="379" fill="#a8b0bc" font-size="8">VSR / combined path</text>
+  <line x1="255" y1="376" x2="279" y2="376" stroke="#059669" stroke-width="1.5" stroke-dasharray="3,3"/>
+  <text x="283" y="379" fill="#a8b0bc" font-size="8">Mains / solar charge</text>
+  <line x1="390" y1="376" x2="414" y2="376" stroke="#6a7080" stroke-width="1.5" stroke-dasharray="2,4"/>
+  <text x="418" y="379" fill="#a8b0bc" font-size="8">Monitor sense / loads</text>
+  <line x1="510" y1="376" x2="534" y2="376" stroke="#B91C1C" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="538" y="379" fill="#a8b0bc" font-size="8">Winch (crank direct)</text>
+</svg>
+</div>
+
+<div class="rule rule-note">
+  <span class="rule-hdr">Winch wiring note</span>
+  The T-Max winch draws very high current (100A+) and is typically wired directly to the crank battery with its own heavy-gauge cables and solenoid, bypassing the Cyrix. <strong>Never operate the winch with the engine off for more than brief pulls</strong> — it will flatten the crank battery rapidly. Verify your wiring at the pre-departure electrical audit.
+</div>
+
+<!-- ═══ SECTION 2: FUSE & CIRCUIT MAP ═══ -->
+<div id="s2" class="sec-header">
+  <span class="sec-num">§2</span>
+  <span class="sec-title">Fuse &amp; Circuit Map</span>
+  <span class="sec-sub">Owner-populate before 2028 departure</span>
+</div>
+
+<div class="rule rule-warn">
+  <span class="rule-hdr">This table is unpopulated — complete it before the 2028 departure</span>
+  No fuse inventory has been documented for this vehicle. Complete this table during a dedicated pre-departure electrical audit. Work through each circuit with a test light or multimeter: trace the fuse, confirm its rating, note its location in the fuse box or inline holder, and record the cable gauge where visible. <strong>An accurate fuse map is critical for field fault diagnosis.</strong>
+</div>
+
+<div class="subsec"><span class="subsec-title">Main Fuse Box</span><span class="subsec-tag">Location: engine bay — record exact position below</span></div>
+
+<p class="p"><strong>Fuse box location:</strong> <span class="fill-blank">[ record location, e.g. "passenger side engine bay, under black cover" ]</span></p>
+
+<table class="fill-table">
+  <caption>Primary circuits — populate during pre-departure audit</caption>
+  <thead>
+    <tr>
+      <th>Circuit</th>
+      <th>Fuse rating</th>
+      <th>Fuse type</th>
+      <th>Location</th>
+      <th>Cable gauge</th>
+      <th>Notes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Main crank battery feed</td><td class="fill-blank">[ A ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ mm² ]</td><td></td></tr>
+    <tr><td>Aux battery feed (Cyrix output)</td><td class="fill-blank">[ A ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ mm² ]</td><td></td></tr>
+    <tr><td>Winch (T-Max)</td><td class="fill-blank">[ A ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ mm² ]</td><td>Likely inline near battery</td></tr>
+    <tr><td>Fridge / compressor cooler</td><td class="fill-blank">[ A ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ mm² ]</td><td></td></tr>
+    <tr><td>Sinetech inverter (1200W)</td><td class="fill-blank">[ A ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ mm² ]</td><td>High-current — verify</td></tr>
+    <tr><td>ARB lights / driving lights</td><td class="fill-blank">[ A ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ mm² ]</td><td></td></tr>
+    <tr><td>USB / 12V accessory sockets</td><td class="fill-blank">[ A ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ mm² ]</td><td></td></tr>
+    <tr><td>BM2000 monitor</td><td class="fill-blank">[ A ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ mm² ]</td><td>Low-current sense circuit</td></tr>
+    <tr><td>Hardkorr solar input</td><td class="fill-blank">[ A ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ mm² ]</td><td></td></tr>
+    <tr><td><span class="fill-blank">[ circuit ]</span></td><td class="fill-blank">[ A ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ mm² ]</td><td></td></tr>
+    <tr><td><span class="fill-blank">[ circuit ]</span></td><td class="fill-blank">[ A ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ mm² ]</td><td></td></tr>
+  </tbody>
+</table>
+
+<div class="rule rule-info">
+  <span class="rule-hdr">Spare fuse kit</span>
+  Once this table is complete, assemble a spare fuse kit covering every rating in the map (minimum 2× of each), plus a general assortment of mini blade, standard blade, and maxi fuses. Store in a clearly labelled container in the tool drawer. Cross-ref R3 §4 Electrical &amp; Starting Spares.
+</div>
+
+<!-- ═══ SECTION 3: HOW IT WORKS ═══ -->
+<div id="s3" class="sec-header">
+  <span class="sec-num">§3</span>
+  <span class="sec-title">How the Dual-Battery System Works</span>
+  <span class="sec-sub">Cyrix VSR logic · BM2000 readings</span>
+</div>
+
+<div class="subsec"><span class="subsec-title">Cyrix VSR Logic</span><span class="subsec-tag">Voltage-sensitive relay</span></div>
+
+<p class="p">The Victron Cyrix 120A is a voltage-sensitive relay (VSR) — not a simple switch. It monitors the crank battery voltage and automatically combines or separates the two batteries based on that voltage.</p>
+
+<table class="spec-table">
+  <caption>Cyrix operating thresholds</caption>
+  <thead><tr><th>State</th><th>Voltage threshold</th><th>What happens</th></tr></thead>
+  <tbody>
+    <tr><td><span class="v-good">COMBINED</span></td><td class="mono">≥ 13.7V for 30 sec</td><td>Relay closes — both batteries connected. Alternator or mains charger charges both simultaneously.</td></tr>
+    <tr><td><span class="v-good">HOLD COMBINED</span></td><td class="mono">≥ 13.0V</td><td>Relay stays closed while voltage holds above this level.</td></tr>
+    <tr><td><span class="v-warn">SEPARATING</span></td><td class="mono">&lt; 13.0V for 30 sec</td><td>Relay opens — batteries isolated. Crank battery protected from accessory discharge.</td></tr>
+    <tr><td><span class="v-bad">SEPARATED</span></td><td class="mono">&lt; 12.5V</td><td>Batteries fully isolated. Engine must be running (or mains connected) to re-combine.</td></tr>
+  </tbody>
+</table>
+
+<div class="rule rule-note">
+  <span class="rule-hdr">Key implication: the Cyrix does not combine on engine ignition alone</span>
+  The Cyrix triggers on <strong>voltage, not the ignition switch.</strong> The relay will only close once the alternator has raised crank voltage to ~13.7V — typically 30–60 seconds after start-up at idle. Until then, the aux battery is isolated and not receiving charge. This is normal behaviour.
+</div>
+
+<div class="subsec"><span class="subsec-title">Reading the BM2000</span><span class="subsec-tag">Dual-battery monitor</span></div>
+
+<p class="p">The BM2000 displays voltage and/or state-of-charge for both batteries. Use it as your primary in-field electrical status check.</p>
+
+<table class="spec-table">
+  <caption>BM2000 readings — interpretation guide (lead-acid)</caption>
+  <thead><tr><th>Reading</th><th>Crank (Willard 650)</th><th>Aux (Deltec 1250)</th><th>Action</th></tr></thead>
+  <tbody>
+    <tr><td><span class="v-good">Healthy resting</span></td><td class="mono">12.6–12.8V</td><td class="mono">12.6–12.8V</td><td>Normal — record as your baseline.</td></tr>
+    <tr><td><span class="v-good">Charging (alternator)</span></td><td class="mono">13.8–14.4V</td><td class="mono">13.5–14.2V</td><td>Normal. Aux may be slightly lower due to Cyrix voltage drop.</td></tr>
+    <tr><td><span class="v-warn">Low resting</span></td><td class="mono">12.2–12.5V</td><td class="mono">12.2–12.5V</td><td>Partially discharged. Charge before use.</td></tr>
+    <tr><td><span class="v-bad">Flat / discharge</span></td><td class="mono">&lt; 12.0V</td><td class="mono">&lt; 12.0V</td><td>Battery significantly discharged. Do not attempt engine start until charged.</td></tr>
+    <tr><td><span class="v-bad">Critical</span></td><td class="mono">&lt; 11.8V</td><td class="mono">&lt; 11.8V</td><td>Battery deeply discharged — potential damage. Charge immediately, assess condition.</td></tr>
+  </tbody>
+</table>
+
+<div class="rule rule-info">
+  <span class="rule-hdr">Surface charge masking</span>
+  Immediately after charging, a lead-acid battery can show a falsely high voltage (surface charge). For an accurate resting voltage reading, leave the battery at rest with no load or charge for at least <strong>2 hours</strong> after the last charge. Overnight is better.
+</div>
+
+<!-- ═══ SECTION 4: CHARGING PATHS ═══ -->
+<div id="s4" class="sec-header">
+  <span class="sec-num">§4</span>
+  <span class="sec-title">Charging Paths</span>
+  <span class="sec-sub">Alternator · DEFA mains · Hardkorr solar</span>
+</div>
+
+<div class="subsec"><span class="subsec-title">Alternator Charging</span><span class="subsec-tag">Primary source — engine running</span></div>
+
+<p class="p">The 1HZ alternator is the primary charge source on the road. Once the crank battery voltage reaches ~13.7V and the Cyrix combines (after ~30–60 sec at idle), both batteries charge in parallel. The alternator's regulated output (~13.8–14.4V) is sufficient to bring both batteries through bulk charge. It cannot complete the absorption and float stages that a smart charger provides — full charge requires mains or extended driving.</p>
+
+<div class="rule rule-note">
+  <span class="rule-hdr">Alternator charge time — rough guide</span>
+  A 50% discharged 200Ah combined bank (crank + aux) requires approximately 3–4 hours of highway driving to reach ~80% state of charge. The alternator is not efficient at the top 20% — it tapers off as battery voltage rises. Never assume a battery is full after even a long drive. <strong>Verify with the BM2000.</strong>
+</div>
+
+<div class="subsec"><span class="subsec-title">DEFA SmartCharge — Mains Charging</span><span class="subsec-tag">Campsite / home use</span></div>
+
+<p class="p">The DEFA SmartCharge provides multi-stage (bulk / absorption / float) charging from a 220V mains supply. It is connected to the crank battery. When the DEFA raises crank voltage to ~13.7V, the Cyrix combines and the aux battery charges <em>through the relay</em>.</p>
+
+<div class="rule rule-warn">
+  <span class="rule-hdr">Known quirk: aux battery may not reach 100% via DEFA</span>
+  The aux (Deltec 1250) sits below the DEFA's regulation point by the voltage drop across the Cyrix relay and cabling — typically 0.1–0.3V. This means the aux may complete bulk charge but may never fully complete the absorption stage, and can chronically rest at ~90–95% even after an overnight DEFA charge. <strong>Field check:</strong> after a full overnight DEFA charge, read both battery voltages on the BM2000 with engine off. If the aux reads 0.2V or more below the crank, the aux is not reaching full charge via the DEFA path. Record the result here and in Facts.txt §8.
+  <br><br>
+  <strong>DEFA connection point:</strong> <span class="fill-blank">[ verify and record — direct to crank battery or to crank bus bar? ]</span><br>
+  <strong>Field test result:</strong> <span class="fill-blank">[ record after first campsite test ]</span>
+</div>
+
+<div class="subsec"><span class="subsec-title">Hardkorr 200W Portable Solar</span><span class="subsec-tag">Supplementary — stationary use</span></div>
+
+<p class="p">The Hardkorr 200W portable panel provides supplementary charge when stationary. It is typically connected directly to the aux battery (verify your wiring). Solar output is weather and angle dependent — on a clear day in southern Africa, expect 50–80Ah of usable charge over 6–8 hours of good sun. This is adequate to offset moderate fridge and lighting loads but will not recover a significantly discharged bank.</p>
+
+<div class="rule rule-info">
+  <span class="rule-hdr">Solar connection point</span>
+  <strong>Aux battery or crank?</strong> <span class="fill-blank">[ verify and record during pre-departure audit ]</span><br>
+  If solar is connected directly to the aux (bypassing the Cyrix), the crank battery does not benefit from solar charging. This is the recommended configuration — it protects the crank and directs solar energy where it is most useful.
+</div>
+
+<!-- ═══ SECTION 5: FAULT-TRACING ═══ -->
+<div id="s5" class="sec-header">
+  <span class="sec-num">§5</span>
+  <span class="sec-title">Fault-Tracing Method</span>
+  <span class="sec-sub">Multimeter-based · systematic isolation</span>
+</div>
+
+<div class="rule rule-warn">
+  <span class="rule-hdr">Know your limits</span>
+  This section covers basic multimeter-based diagnosis. It is not a substitute for a qualified auto-electrician or 12V specialist. If a fault is beyond basic diagnosis, <strong>do not improvise with high-current circuits</strong> — a short on a main battery cable can cause a fire. Diagnose and manage; seek professional repair at the next opportunity.
+</div>
+
+<div class="subsec"><span class="subsec-title">Multimeter Setup</span><span class="subsec-tag">Four essential tests</span></div>
+
+<table class="spec-table">
+  <caption>Multimeter tests — settings and use</caption>
+  <thead><tr><th>Test</th><th>Meter setting</th><th>Probes</th><th>What you're measuring</th></tr></thead>
+  <tbody>
+    <tr><td><strong>DC voltage</strong></td><td class="mono">DC V (20V range)</td><td>Red → +ve · Black → −ve/chassis</td><td>Battery state, charging voltage, presence of supply at a fuse or terminal</td></tr>
+    <tr><td><strong>Continuity</strong></td><td class="mono">Ω / beep mode</td><td>One probe each end of wire/fuse</td><td>Whether a wire or fuse is intact (continuous). Beep = good.</td></tr>
+    <tr><td><strong>Voltage drop</strong></td><td class="mono">DC V (low range)</td><td>Across a terminal, connector, or section of cable</td><td>Resistance in the circuit under load. &gt;0.2V across a connection = poor connection.</td></tr>
+    <tr><td><strong>Parasitic drain</strong></td><td class="mono">DC mA (or A)</td><td>In series: disconnect one battery cable, insert meter between cable end and post</td><td>Current drawn with engine off and everything switched off. &lt;50mA is normal; &gt;100mA sustained = drain fault.</td></tr>
+  </tbody>
+</table>
+
+<div class="subsec"><span class="subsec-title">Systematic Isolation Method</span><span class="subsec-tag">Always start here</span></div>
+
+<ol class="steps">
+  <li><strong>Confirm the symptom precisely.</strong> "Battery flat" is not enough — is it the crank, the aux, or both? What was the last known state? Does the BM2000 show a voltage?</li>
+  <li><strong>Measure battery voltages first.</strong> Crank and aux — note readings. This tells you immediately whether you have a battery problem or a wiring/supply problem.</li>
+  <li><strong>Check the obvious first.</strong> Loose terminal, blown fuse, tripped isolator. These cause most field failures. Do not skip to complex diagnosis.</li>
+  <li><strong>Work from the source toward the load.</strong> Battery → fuse → switch → load. Confirm voltage is present at each stage. Where voltage disappears, the fault is between that point and the previous one.</li>
+  <li><strong>Isolate before probing.</strong> For continuity tests, the circuit must be de-energised (battery disconnected). Never test continuity on a live circuit.</li>
+  <li><strong>Document what you find.</strong> Note the voltage readings, which fuses you pulled, and what changed when. This matters if a specialist has to continue the diagnosis later.</li>
+</ol>
+
+<!-- ═══ SECTION 6: COMMON FAULTS ═══ -->
+<div id="s6" class="sec-header">
+  <span class="sec-num">§6</span>
+  <span class="sec-title">Common Faults &amp; Diagnosis</span>
+  <span class="sec-sub">Symptom → cause → check → fix</span>
+</div>
+
+<table class="fault-table">
+  <thead>
+    <tr>
+      <th style="width:18%">Symptom</th>
+      <th style="width:22%">Likely cause</th>
+      <th style="width:30%">Check</th>
+      <th style="width:30%">Field fix / action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><span class="fault-sym">Aux not charging after long drive</span></td>
+      <td>Cyrix not combining; blown Cyrix fuse; bad connection on Cyrix terminals</td>
+      <td>Is crank voltage ≥13.7V? Check Cyrix fuse (if fitted). Check voltage at Cyrix input and output terminals under load.</td>
+      <td>Clean Cyrix terminals. Replace fuse if blown. If Cyrix faulty, aux will need direct-charge workaround (see §7).</td>
+    </tr>
+    <tr>
+      <td><span class="fault-sym">Cyrix not engaging (engine running)</span></td>
+      <td>Alternator output low; Cyrix fuse blown; Cyrix failed open</td>
+      <td>Measure alternator output voltage at crank battery terminals (engine running). Should be 13.8–14.4V. If low, suspect alternator or charge circuit.</td>
+      <td>If alternator output is good but Cyrix still open: replace Cyrix (carry spare if possible) or bridge with a direct cable for aux charging (supervised only).</td>
+    </tr>
+    <tr>
+      <td><span class="fault-sym">Cyrix stuck closed (aux draining crank)</span></td>
+      <td>Cyrix relay welded; internal fault</td>
+      <td>With engine off and no charger, both batteries should show independent voltages. If crank is draining toward aux level overnight with nothing on, Cyrix may be welded closed.</td>
+      <td>Disconnect the Cyrix cable on the aux side to isolate. Seek replacement at next opportunity.</td>
+    </tr>
+    <tr>
+      <td><span class="fault-sym">Flat crank — won't start</span></td>
+      <td>Battery deeply discharged; poor terminal contact; battery failed</td>
+      <td>BM2000 or multimeter: crank voltage &lt;12V? Check terminal clamps are tight and clean.</td>
+      <td>Jump-start with ARB pack (see §7). Once running, drive to charge. If battery fails to recover, replace at next opportunity.</td>
+    </tr>
+    <tr>
+      <td><span class="fault-sym">Parasitic drain — battery flat with no load</span></td>
+      <td>Accessory left on; faulty switch or relay; wiring fault</td>
+      <td>With everything off, measure current draw in series on the battery cable (mA mode). &gt;100mA sustained = drain. Pull fuses one at a time — when drain drops, that circuit is the culprit.</td>
+      <td>Isolate faulty circuit (pull fuse or disconnect). Do not leave batteries connected if drain is significant and vehicle is parked for days.</td>
+    </tr>
+    <tr>
+      <td><span class="fault-sym">Blown fuse (circuit dead)</span></td>
+      <td>Overload; short circuit; loose fitting causing arc</td>
+      <td>Locate fuse for that circuit (§2 fuse map). Inspect visually — blown fuses show a broken wire or blackening inside.</td>
+      <td>Replace with same-rating fuse (never higher). If new fuse blows immediately, there is a short — do not replace again until fault is found. Isolate circuit.</td>
+    </tr>
+    <tr>
+      <td><span class="fault-sym">Bad earth / intermittent fault</span></td>
+      <td>Corroded earth strap; loose chassis connection</td>
+      <td>Voltage drop test across earth strap under load (&gt;0.2V = high resistance). Inspect earth points — battery negative, chassis straps, body earths.</td>
+      <td>Clean earth connections with terminal brush, tighten. A temporary extra earth strap can confirm the fault.</td>
+    </tr>
+    <tr>
+      <td><span class="fault-sym">Winch no power</span></td>
+      <td>Blown inline fuse; tripped solenoid; poor crank terminal contact</td>
+      <td>Check inline winch fuse first (likely near battery). Check solenoid — does it click when you activate the winch switch? Measure voltage at solenoid input.</td>
+      <td>Replace fuse if blown (verify correct rating — do not oversize). If solenoid fails to click, check winch control circuit fuse and wiring to switch.</td>
+    </tr>
+    <tr>
+      <td><span class="fault-sym">Inverter low-voltage cutout</span></td>
+      <td>Aux battery low; high load exceeds available capacity</td>
+      <td>Check aux voltage on BM2000. Inverter typically cuts out at ~10.5–11V to protect the battery.</td>
+      <td>Reduce load. Allow aux to charge. Do not override the cutout — it protects the battery from deep discharge damage.</td>
+    </tr>
+    <tr>
+      <td><span class="fault-sym">Fridge cutting out</span></td>
+      <td>Aux voltage low; fridge low-voltage protection triggering; blown fridge fuse</td>
+      <td>Check aux voltage — below 11.8V will trigger most compressor fridge protection. Check fridge inline fuse.</td>
+      <td>Allow aux to charge before resuming fridge use. If voltage is adequate but fridge still cuts: check fridge fuse and terminals.</td>
+    </tr>
+    <tr>
+      <td><span class="fault-sym">Solar not charging aux</span></td>
+      <td>Panel disconnected; reverse polarity; blown solar fuse; bad connection</td>
+      <td>Is the panel plugged in and in sun? Measure panel output voltage (open circuit, in sun, should be ~20V+ for a 12V panel). Check inline fuse on solar lead. Measure voltage at battery connection point.</td>
+      <td>Clean and reseat connectors. Replace fuse if blown. If panel output is present at battery but battery is not rising, check polarity and connection integrity.</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ═══ SECTION 7: FIELD FIXES ═══ -->
+<div id="s7" class="sec-header">
+  <span class="sec-num">§7</span>
+  <span class="sec-title">Field Fixes &amp; Workarounds</span>
+  <span class="sec-sub">Terminal care · manual combining · jump-start · limp options</span>
+</div>
+
+<div class="subsec"><span class="subsec-title">Clean and Tighten Terminals</span><span class="subsec-tag">Most common field fix</span></div>
+
+<p class="p">Corroded or loose terminals are the single most common cause of intermittent electrical faults in the field. Vibration on corrugated roads works terminals loose over time. Include a terminal check in every pre-departure inspection.</p>
+
+<div class="task">
+  <div class="task-box"></div>
+  <div class="task-body">
+    <div class="task-name">Inspect all battery terminal clamps</div>
+    <div class="task-detail">Check for white/blue powdery corrosion (sulphation). Clean with terminal brush or baking-soda solution. Ensure clamps are tight — cannot rotate by hand. Apply petroleum jelly or terminal grease after cleaning.</div>
+  </div>
+</div>
+<div class="task">
+  <div class="task-box"></div>
+  <div class="task-body">
+    <div class="task-name">Check earth straps</div>
+    <div class="task-detail">Battery negative to chassis, engine block to chassis. Tug-test each strap — should be solid. Clean contact points if corroded.</div>
+  </div>
+</div>
+<div class="task">
+  <div class="task-box"></div>
+  <div class="task-body">
+    <div class="task-name">Re-torque after corrugated sections</div>
+    <div class="task-detail">After 200+ km of corrugated road, re-check all terminal clamps and main earth connections.</div>
+  </div>
+</div>
+
+<div class="subsec"><span class="subsec-title">Manually Combining to Charge Aux</span><span class="subsec-tag">Cyrix bypass — workaround only</span></div>
+
+<p class="p">If the Cyrix has failed open and the aux battery cannot charge via the normal path, the batteries can be temporarily bridged using heavy-gauge jumper cables to allow the alternator to charge the aux. <strong>This is a workaround, not a permanent solution.</strong></p>
+
+<div class="rule rule-warn">
+  <span class="rule-hdr">Manual combining — safety rules</span>
+  Only do this with the engine running. <strong>Never bridge a fully charged battery to a deeply discharged one with the engine off</strong> — the current surge can damage both batteries or cause a fire. Monitor both batteries continuously while bridged. Remove the bridge cable before switching off the engine.
+</div>
+
+<ol class="steps">
+  <li><strong>Start the engine</strong> and allow it to run at a fast idle (~1500 RPM).</li>
+  <li><strong>Connect a heavy-gauge jumper cable</strong> from the crank battery positive terminal to the aux battery positive terminal. Do not connect negative-to-negative — both are already earthed to chassis.</li>
+  <li><strong>Monitor with the BM2000.</strong> Aux voltage should begin rising. Expect slow recovery — allow 30–60 minutes of driving to bring aux to an acceptable level.</li>
+  <li><strong>Remove the cable before switching off the engine.</strong> Disconnect the aux (+) end first, then the crank (+) end.</li>
+</ol>
+
+<div class="subsec"><span class="subsec-title">Jump-Starting with the ARB Pack</span><span class="subsec-tag">Flat crank battery</span></div>
+
+<div class="rule rule-warn">
+  <span class="rule-hdr">ARB jump pack — mandatory cable order</span>
+  Connect in this order only. Reverse polarity will destroy electronics. Do not connect to a frozen battery.
+</div>
+
+<ol class="steps">
+  <li><strong>Red (positive) → flat crank battery positive terminal.</strong></li>
+  <li><strong>Black (negative) → chassis earth point</strong> — NOT the flat battery negative terminal. Connecting to the battery negative can ignite hydrogen gas near the battery.</li>
+  <li>Switch on the ARB pack and wait 60 seconds.</li>
+  <li><strong>Attempt engine start.</strong> If no start after 2–3 attempts, wait 2 minutes before retrying (pack needs to recover).</li>
+  <li>Once running, <strong>disconnect black (negative) first, then red (positive).</strong></li>
+  <li>Drive for at least 30–60 minutes to charge the crank battery before switching off.</li>
+</ol>
+
+<div class="subsec"><span class="subsec-title">Limp Options</span><span class="subsec-tag">When a full fix is not possible</span></div>
+
+<table class="spec-table">
+  <thead><tr><th>Scenario</th><th>Limp option</th></tr></thead>
+  <tbody>
+    <tr><td>Cyrix failed — aux cannot charge</td><td>Manual bridge (see above) or accept limited aux capacity; prioritise load reduction (no inverter, fridge on minimum).</td></tr>
+    <tr><td>Aux battery failed</td><td>Disconnect aux from Cyrix output to prevent it loading the crank. Run on crank only — no high-draw accessories. Reach next town for replacement.</td></tr>
+    <tr><td>Parasitic drain causing flat crank</td><td>Isolate the drain by pulling fuses selectively. Once identified, leave that circuit's fuse out. Not comfortable but allows the vehicle to remain mobile.</td></tr>
+    <tr><td>Blown inverter fuse</td><td>Replace with correct-rating spare. If it blows again, the inverter or its wiring has a fault — do not continue use.</td></tr>
+  </tbody>
+</table>
+
+<!-- ═══ SECTION 8: BASELINES ═══ -->
+<div id="s8" class="sec-header">
+  <span class="sec-num">§8</span>
+  <span class="sec-title">Baselines to Record</span>
+  <span class="sec-sub">Capture before 2028 departure</span>
+</div>
+
+<p class="p">Accurate baseline readings make field diagnosis fast. Without a known-good reference, you cannot tell whether a reading is normal for your specific vehicle or indicates a fault. Record all baselines below before departure.</p>
+
+<div class="subsec"><span class="subsec-title">Resting Voltages</span><span class="subsec-tag">Measure after 2h+ rest, no load, no charge</span></div>
+
+<table class="fill-table">
+  <caption>Battery resting voltages — record once baselines are stable</caption>
+  <thead><tr><th>Battery</th><th>Expected range</th><th>Your baseline (100% SoC)</th><th>Date recorded</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td>Crank — Willard 650</td><td class="mono">12.6–12.8V</td><td class="fill-blank">[ V ]</td><td class="fill-blank">[ date ]</td><td></td></tr>
+    <tr><td>Aux — Deltec 1250</td><td class="mono">12.6–12.8V</td><td class="fill-blank">[ V ]</td><td class="fill-blank">[ date ]</td><td></td></tr>
+    <tr><td>Aux after DEFA overnight charge</td><td class="mono">Expect 12.4–12.7V</td><td class="fill-blank">[ V ]</td><td class="fill-blank">[ date ]</td><td>Confirms Cyrix quirk — see §4</td></tr>
+  </tbody>
+</table>
+
+<div class="subsec"><span class="subsec-title">Charging Voltages</span><span class="subsec-tag">Engine running at 2000 RPM</span></div>
+
+<table class="fill-table">
+  <caption>Charging voltages — engine running, 2000 RPM, 10 min after start</caption>
+  <thead><tr><th>Measurement point</th><th>Expected range</th><th>Your baseline</th><th>Date</th></tr></thead>
+  <tbody>
+    <tr><td>Crank battery terminals (alternator output)</td><td class="mono">13.8–14.4V</td><td class="fill-blank">[ V ]</td><td class="fill-blank">[ date ]</td></tr>
+    <tr><td>Aux battery terminals (Cyrix combined)</td><td class="mono">13.5–14.2V</td><td class="fill-blank">[ V ]</td><td class="fill-blank">[ date ]</td></tr>
+    <tr><td>Cyrix input vs Cyrix output voltage drop</td><td class="mono">&lt;0.3V normal</td><td class="fill-blank">[ V drop ]</td><td class="fill-blank">[ date ]</td></tr>
+  </tbody>
+</table>
+
+<div class="subsec"><span class="subsec-title">Pre-Departure Completion Checklist</span><span class="subsec-tag">Must be done before 2028 departure</span></div>
+
+<div class="task">
+  <div class="task-box"></div>
+  <div class="task-body">
+    <div class="task-name">Complete the fuse &amp; circuit map (§2)</div>
+    <div class="task-detail">Every circuit rated, located, and recorded. Spare fuse kit assembled.</div>
+  </div>
+</div>
+<div class="task">
+  <div class="task-box"></div>
+  <div class="task-body">
+    <div class="task-name">Record all baseline voltages (this section)</div>
+    <div class="task-detail">Resting, charging, and DEFA quirk baseline all documented.</div>
+  </div>
+</div>
+<div class="task">
+  <div class="task-box"></div>
+  <div class="task-body">
+    <div class="task-name">Verify DEFA SmartCharge connection point</div>
+    <div class="task-detail">Confirm whether DEFA connects direct to crank battery or to a bus bar. Record in §4 field above and Facts.txt §8.</div>
+  </div>
+</div>
+<div class="task">
+  <div class="task-box"></div>
+  <div class="task-body">
+    <div class="task-name">Verify Hardkorr solar connection point</div>
+    <div class="task-detail">Confirm which battery the solar panel connects to. Record in §4 field above.</div>
+  </div>
+</div>
+<div class="task">
+  <div class="task-box"></div>
+  <div class="task-body">
+    <div class="task-name">Conduct a parasitic drain test</div>
+    <div class="task-detail">With everything off and batteries at rest — measure drain on each battery. Record the result. &lt;50mA per battery is acceptable.</div>
+  </div>
+</div>
+<div class="task">
+  <div class="task-box"></div>
+  <div class="task-body">
+    <div class="task-name">ARB jump pack — confirm charged and functional</div>
+    <div class="task-detail">Charge to 100% and test-start the vehicle at least once before departure.</div>
+  </div>
+</div>
+
+<!-- ═══ SECTION 9: TOOLS & SPARES ═══ -->
+<div id="s9" class="sec-header">
+  <span class="sec-num">§9</span>
+  <span class="sec-title">Tools &amp; Spares</span>
+  <span class="sec-sub">Minimum electrical kit for field diagnosis</span>
+</div>
+
+<p class="p">The following kit supports all fault-tracing and basic field repairs described in this guide. Cross-ref R3 §4 (Electrical &amp; Starting Spares) for the full spares inventory.</p>
+
+<table class="spec-table">
+  <thead><tr><th>Item</th><th>Use</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Digital multimeter</strong></td><td>Voltage, continuity, current draw</td><td>A quality auto-ranging unit. Keep spare battery (9V) in the pouch.</td></tr>
+    <tr><td><strong>Test light (12V)</strong></td><td>Fast circuit live/dead check</td><td>Faster than a multimeter for basic fuse checks.</td></tr>
+    <tr><td><strong>Spare fuses — full set</strong></td><td>Replace blown fuses</td><td>One set per §2 fuse map + general assortment. Mini blade, standard blade, maxi.</td></tr>
+    <tr><td><strong>Spare relay (12V)</strong></td><td>Replace failed relay</td><td>Carry one matching the most common relay type in your accessory circuits.</td></tr>
+    <tr><td><strong>Terminal cleaning brush</strong></td><td>Clean battery and earth terminals</td><td>Post/clamp style wire brush. Small, lightweight.</td></tr>
+    <tr><td><strong>Terminal grease / petroleum jelly</strong></td><td>Protect cleaned terminals from corrosion</td><td>Small tube or sachet.</td></tr>
+    <tr><td><strong>Crimping tool + assorted crimp terminals</strong></td><td>Repair broken wires, replace terminals</td><td>Ratchet crimper preferred. Assorted male/female spade + ring terminals.</td></tr>
+    <tr><td><strong>Spare cable — 2.5mm² and 6mm²</strong></td><td>Repair or bypass short sections</td><td>3–5m of each. Enough for a bridge or bypass, not a rewire.</td></tr>
+    <tr><td><strong>Electrical tape + self-amalgamating tape</strong></td><td>Insulate repairs</td><td>Both types — self-amalgamating is waterproof and superior in the field.</td></tr>
+    <tr><td><strong>ARB lithium jump pack</strong></td><td>Emergency engine start</td><td>Keep charged (top up monthly). See §7 for jump-start procedure.</td></tr>
+    <tr><td><strong>Heavy-gauge jumper cables (HD)</strong></td><td>Battery-to-battery jump or manual bridge</td><td>3m minimum. Rated 400A+.</td></tr>
+  </tbody>
+</table>
+
+<!-- ═══ SECTION 10: SAFETY ═══ -->
+<div id="s10" class="sec-header">
+  <span class="sec-num">§10</span>
+  <span class="sec-title">Safety</span>
+  <span class="sec-sub">Disconnect order · arc risk · lead-acid hazards</span>
+</div>
+
+<div class="rule rule-warn">
+  <span class="rule-hdr">Battery disconnect order — always follow this sequence</span>
+  <strong>Disconnecting:</strong> negative (black, −) first, then positive (red, +).<br>
+  <strong>Reconnecting:</strong> positive (red, +) first, then negative (black, −).<br><br>
+  Reversing this sequence risks a short circuit: if the positive terminal is disconnected first and the spanner bridges to the chassis while the negative is still connected, the short occurs through the spanner. Disconnecting negative first eliminates this risk.
+</div>
+
+<div class="subsec"><span class="subsec-title">Short-Circuit and Arc Risk</span></div>
+
+<p class="p">A 12V lead-acid battery can deliver thousands of amps into a short circuit — enough to instantly vaporise a spanner, ignite fuel or insulation, and cause a severe burn. The risk is low in a well-maintained system but becomes real during any wiring work.</p>
+
+<div class="task">
+  <div class="task-box"></div>
+  <div class="task-body">
+    <div class="task-name">Remove rings, watches and metal jewellery before working near batteries</div>
+    <div class="task-detail">Metal jewellery bridging battery terminals causes immediate severe burns.</div>
+  </div>
+</div>
+<div class="task">
+  <div class="task-box"></div>
+  <div class="task-body">
+    <div class="task-name">Insulate all tools before working in the battery bay</div>
+    <div class="task-detail">Wrap spanner handles in electrical tape or use insulated tools.</div>
+  </div>
+</div>
+<div class="task">
+  <div class="task-box"></div>
+  <div class="task-body">
+    <div class="task-name">Never lay tools across the battery terminals</div>
+    <div class="task-detail">Keep spanners and screwdrivers away from the battery top while working on adjacent components.</div>
+  </div>
+</div>
+
+<div class="subsec"><span class="subsec-title">Flooded Lead-Acid (FLA) — Crank Battery</span><span class="subsec-tag">Willard 650</span></div>
+
+<div class="rule rule-warn">
+  <span class="rule-hdr">Hydrogen gas and acid — flooded LA specific</span>
+  The Willard 650 crank battery is a flooded lead-acid (FLA) unit. Charging generates hydrogen gas, which is flammable. Acid electrolyte can cause burns.
+  <ul style="margin-top:8px;padding-left:18px">
+    <li style="margin-bottom:4px">Do not charge in an enclosed space without ventilation.</li>
+    <li style="margin-bottom:4px">Do not connect or disconnect the battery (or jump leads) while the battery is actively gassing (bubbling) — a spark can ignite hydrogen.</li>
+    <li style="margin-bottom:4px">If electrolyte contacts skin or eyes: flush immediately with large quantities of water for 15 minutes. Seek medical attention for eye exposure.</li>
+    <li>Keep the crank battery upright. If tipped, acid can spill from the vent caps.</li>
+  </ul>
+</div>
+
+<div class="subsec"><span class="subsec-title">Sealed Lead-Acid (SLA) — Aux Battery</span><span class="subsec-tag">Deltec 1250</span></div>
+
+<p class="p">The Deltec 1250 is a sealed (valve-regulated) lead-acid battery. Under normal conditions it does not vent gas. However, overcharging or reverse charging can cause pressure build-up and electrolyte venting. Keep away from open flame and do not overcharge beyond the rated charge voltage. If the battery case is swollen or distorted, do not use it — replace immediately.</p>
+
+<!-- ═══ SECTION 11: SUPERSESSION ═══ -->
+<div id="s11" class="sec-header">
+  <span class="sec-num">§11</span>
+  <span class="sec-title">Interim Notice &amp; Supersession</span>
+  <span class="sec-sub">This document's scope and future replacement</span>
+</div>
+
+<div class="rule rule-warn">
+  <span class="rule-hdr">INTERIM DOCUMENT — Lead-Acid System Only</span>
+  This is the interim version of R26. It covers <strong>only the current lead-acid dual-battery system</strong> as fitted January 2025. It does not cover the planned Victron LiFePO4 stack (Orion-Tr DC-DC, SmartSolar MPPT, 200Ah LiFePO4, BMV-712, Smart BMS, Lynx Distributor), which is expected to be procured ~mid-2027.<br><br>
+  <strong>At LiFePO4 installation:</strong> this document is superseded by the full R26 (LC76_Electrical_Wiring_Guide.html), which will be rebuilt to cover the Victron system topology, Orion-Tr DC-DC logic, MPPT charging, BMS operation, and updated fault-tracing. R32 (Crank Battery Care) and R33 (Aux Battery Care) will also be revised at that time.
+</div>
+
+<div class="rule rule-info">
+  <span class="rule-hdr">Companion documents</span>
+  This guide covers system wiring, topology, and fault tracing. It deliberately does not duplicate battery care content:
+  <ul style="margin-top:8px;padding-left:18px">
+    <li style="margin-bottom:4px"><strong>R32 — Crank Battery Care:</strong> Willard 650 care schedule, SoC monitoring, home and short-trip use, trouble signs.</li>
+    <li style="margin-bottom:4px"><strong>R33 — Aux Battery Care:</strong> Deltec 1250 care, golden rule, DEFA/Cyrix field test, sealed specifics, schedule.</li>
+    <li><strong>R5 — Battery Training Guide:</strong> Theory of dual-battery systems, charging chemistry, LiFePO4 background.</li>
+  </ul>
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">Cross-Reference</span>
+  <a href="LC76_Spares_Tools.html" class="xref-pill">R3 · Spares &amp; Tools</a>
+  <a href="LC76_Battery_Training_Guide.html" class="xref-pill">R5 · Battery Training</a>
+  <a href="LC76_Battery_Longevity_Report.html" class="xref-pill">R6 · Longevity</a>
+  <a href="LC76_Emergency_Procedures_Guide.html" class="xref-pill">R10 · Emergency Procedures</a>
+  <a href="LC76_Upgrade_Assessment.html" class="xref-pill">R31 · Upgrade Assessment</a>
+  <a href="LC76_Crank_Battery_Care.html" class="xref-pill">R32 · Crank Battery Care</a>
+  <a href="LC76_Aux_Battery_Care.html" class="xref-pill">R33 · Aux Battery Care</a>
+  <a href="LC76_LiFePO4_Calculator.html" class="xref-pill">LiFePO4 Calculator</a>
+</div>
+
+<div class="doc-footer">
+  <span>LC76 Overland Reference Library · R26 · Electrical &amp; Wiring Guide (Interim) · v1.0 · June 2026</span>
+  <span>2009 LC76 SW 1HZ · HZJ76R-RKMRS · Lead-acid dual-battery (LiFePO4 pending ~2027)</span>
+  <span>overlandslabs.github.io/Consumption</span>
+</div>
+
+</div><!-- /content -->
+
+<script>
+// Active TOC state
+const sections = ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10','s11'];
+const tocLinks = document.querySelectorAll('.toc-link');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      const idx = sections.indexOf(entry.target.id);
+      tocLinks.forEach((l, i) => l.classList.toggle('active', i === idx));
+    }
+  });
+}, {rootMargin: '-30% 0px -60% 0px'});
+sections.forEach(id => {
+  const el = document.getElementById(id);
+  if(el) observer.observe(el);
+});
+
+// Dynamic scroll margin
+function updateScrollMargins(){
+  const navH = document.querySelector('.sticky-nav-unit').offsetHeight;
+  document.querySelectorAll('.sec-header').forEach(el => {
+    el.style.scrollMarginTop = (navH + 4) + 'px';
+  });
+}
+updateScrollMargins();
+window.addEventListener('resize', updateScrollMargins);
+
+// Service worker — domain-guarded
+if('serviceWorker' in navigator && location.hostname !== 'www.claudeusercontent.com'){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('./sw.js')
+      .then(r => console.log('LC76 SW registered'))
+      .catch(e => console.log('SW error:', e));
+  });
+}
+</script>
+</body>
+</html>
