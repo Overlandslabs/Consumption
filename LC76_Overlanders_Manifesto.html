@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LC76 Library">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0d0e12">
+<title>LC76 · The Overlander's Manifesto</title>
+<link rel="manifest" href="manifest-ref.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500;600&family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0d0e12;--paper:#dad2c0;--paper2:#edeae0;--rule:#d4cfc4;
+  --amber:#b86800;--amber2:#e07800;
+  --steeldk:#2a2f3a;--steelmd:#6a7080;--steellt:#a8b0bc;
+  --red-warn:#B91C1C;--green-ok:#059669;
+  --mono:'IBM Plex Mono',monospace;
+  --sans:'Oswald',sans-serif;
+  --display:'Bebas Neue',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{overflow-x:hidden;overflow-x:clip;overscroll-behavior-x:none}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.6}
+
+/* ── STICKY NAV ── */
+.sticky-nav-unit{position:sticky;top:0;z-index:100;padding-top:env(safe-area-inset-top);background:var(--ink)}
+.sticky-nav-unit::before{content:"";position:absolute;left:0;right:0;bottom:100%;height:100vh;background:var(--ink)}
+.std-header{background:var(--ink);padding:18px 24px 14px;position:relative;border-bottom:3px solid var(--amber)}
+.std-eyebrow{font-family:var(--mono);font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--steelmd);margin-bottom:6px}
+.std-title{font-family:var(--display);font-size:clamp(1.9rem,5vw,2.8rem);letter-spacing:.06em;color:var(--amber2);line-height:1}
+.std-sub{font-family:var(--mono);font-size:.54rem;letter-spacing:.12em;color:rgba(255,200,100,.65);margin-top:5px}
+.std-vehicle{font-family:var(--mono);font-size:.48rem;letter-spacing:.08em;color:var(--steelmd);margin-top:8px}
+.lib-home-btn{position:absolute;top:14px;right:16px;display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--amber2);background:rgba(232,120,0,.15);border:1px solid var(--amber2);border-radius:20px;padding:6px 12px;min-height:32px;white-space:nowrap;transition:background .2s}
+.lib-home-btn:hover{background:rgba(232,120,0,.30)}
+.toc-bar{background:var(--steeldk);padding:7px 24px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;border-bottom:2px solid var(--amber)}
+.toc-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.18em;color:var(--steellt);text-transform:uppercase;margin-right:4px;flex-shrink:0}
+.toc-link{font-family:var(--mono);font-size:.46rem;color:rgba(255,255,255,.45);text-decoration:none;padding:2px 6px;border:1px solid transparent;transition:all .12s;white-space:nowrap;cursor:pointer}
+.toc-link:hover,.toc-link.active{color:var(--amber2);border-color:var(--amber2);background:rgba(232,120,0,.1)}
+
+/* ── CONTENT ── */
+.content{padding:24px 5% 80px;max-width:100%}
+.lead{font-size:.96rem;color:var(--steeldk);line-height:1.75;margin:6px 0 4px}
+.lead strong{color:var(--ink);font-weight:600}
+.p{font-size:.9rem;color:var(--steeldk);line-height:1.72;margin:12px 0}
+.p strong{color:var(--ink);font-weight:600}
+.p em{font-style:italic}
+.p.first::first-letter{font-family:var(--display);font-size:2.6rem;line-height:.8;float:left;color:var(--amber2);margin:4px 8px 0 0}
+
+/* ── SECTION (COMMITMENT) HEADERS ── */
+.sec-header{display:flex;align-items:baseline;gap:14px;padding:10px 5%;background:var(--steeldk);border-left:5px solid var(--amber2);margin:38px 0 0;margin-left:-5%;margin-right:-5%}
+.sec-num{font-family:var(--display);font-size:1.5rem;letter-spacing:.08em;color:#fff;background:var(--amber);padding:1px 12px;flex-shrink:0;line-height:1.3}
+.sec-title{font-family:var(--display);font-size:1.75rem;letter-spacing:.09em;color:#fff;line-height:1.05}
+.sec-header.plain{background:var(--ink)}
+
+/* ── EPIGRAPH / PULL QUOTE ── */
+.epigraph{margin:22px 4% 18px;padding:14px 24px;border-left:3px solid var(--amber2);background:var(--paper2);font-style:italic;font-size:1.06rem;line-height:1.55;color:var(--ink)}
+.epigraph cite{display:block;font-family:var(--mono);font-style:normal;font-size:.5rem;letter-spacing:.18em;text-transform:uppercase;color:var(--steelmd);margin-top:10px}
+.epigraph.center{text-align:center;border-left:none;border-top:2px solid var(--amber2);border-bottom:2px solid var(--amber2);background:transparent;margin:22px 6%}
+
+/* ── THINKERS STRIP ── */
+.thinkers{margin:18px 0 6px;padding:12px 16px 13px;background:var(--steeldk);border-left:4px solid var(--amber2)}
+.thinkers-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.18em;text-transform:uppercase;color:var(--steellt);display:block;margin-bottom:9px}
+.thinker{font-family:var(--mono);font-size:.64rem;line-height:1.85;color:rgba(255,255,255,.82);display:block}
+.thinker b{color:var(--amber2);font-weight:600;letter-spacing:.05em}
+
+/* ── CLOSING BANNER ── */
+.closing-banner{background:var(--ink);border-top:3px solid var(--amber2);border-bottom:3px solid var(--amber2);text-align:center;padding:26px 5%;margin:34px -5% 0}
+.closing-banner .big-line{font-family:var(--display);font-size:clamp(1.9rem,7vw,3.1rem);letter-spacing:.12em;color:var(--amber2);line-height:1.1}
+.closing-banner .sign{font-family:var(--mono);font-size:.52rem;letter-spacing:.18em;color:var(--steellt);margin-top:14px}
+
+/* ── XREF ── */
+.xref-bar{background:var(--steeldk);padding:9px 5%;display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:34px -5% 0}
+.xref-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.16em;color:var(--steellt);text-transform:uppercase;margin-right:6px}
+.xref-pill{font-family:var(--mono);font-size:.46rem;letter-spacing:.08em;color:var(--amber2);background:rgba(232,120,0,.12);border:1px solid rgba(232,120,0,.4);padding:3px 9px;text-decoration:none;white-space:nowrap}
+.xref-pill:hover{background:rgba(232,120,0,.25)}
+
+/* ── FOOTER ── */
+.doc-footer{background:var(--steeldk);color:var(--steellt);font-family:var(--mono);font-size:.44rem;letter-spacing:.10em;padding:14px 5%;margin-top:0;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+
+/* ── MOBILE ── */
+@media(max-width:600px){
+  .std-header{padding:14px 16px 12px}
+  .std-title{font-size:clamp(1.6rem,6vw,2.4rem)}
+  .lib-home-btn{top:12px;right:12px}
+  .toc-bar{padding:5px 12px!important;flex-wrap:nowrap!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch!important;scrollbar-width:none!important}
+  .toc-bar::-webkit-scrollbar{display:none}
+  .toc-link{font-size:.42rem!important;padding:2px 5px!important}
+  .content{padding:14px 4% 60px}
+  .sec-header{margin-left:-4%;margin-right:-4%;padding:10px 4%}
+  .xref-bar{margin-left:-4%;margin-right:-4%;padding:9px 4%}
+  .closing-banner{margin-left:-4%;margin-right:-4%}
+  .epigraph{margin-left:2%;margin-right:2%}
+  .toc-bar{overscroll-behavior-x:contain}
+}
+
+/* ── PRINT ── */
+@media print{
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;color-adjust:exact!important}
+  @page{margin:7mm;size:A4}
+  :root{
+    --ink:#0d0e12;--paper:#ffffff;--paper2:#edeae0;--rule:#d4cfc4;
+    --amber:#b86800;--amber2:#e07800;--steeldk:#2a2f3a;--steelmd:#6a7080;
+    --steellt:#a8b0bc;--red-warn:#B91C1C;--green-ok:#059669;
+  }
+  body{font-size:8pt;background:#fff!important}
+  .lib-home-btn,.toc-bar{display:none!important}
+  .sticky-nav-unit{position:static!important}
+  .sticky-nav-unit::before{content:none}
+  .std-header{background:#0d0e12!important;padding:8px 14px 6px!important;border-bottom:2px solid #e07800!important}
+  .std-title{color:#e07800!important;font-size:1.6rem!important}
+  .std-eyebrow,.std-vehicle{color:#9aa0ae!important}
+  .std-sub{color:#e8c864!important}
+  .sec-header{background:#2a2f3a!important;border-left:4px solid #e07800!important;padding:6px 14px!important;page-break-after:avoid;break-after:avoid;margin-left:0!important;margin-right:0!important}
+  .sec-header.plain{background:#0d0e12!important}
+  .sec-num{background:#b86800!important;color:#fff!important}
+  .sec-title{color:#fff!important}
+  .epigraph{background:#edeae0!important;break-inside:avoid}
+  .epigraph.center{background:#fff!important}
+  .epigraph cite{color:#6a7080!important}
+  .thinkers{background:#2a2f3a!important;break-inside:avoid}
+  .thinkers-label{color:#a8b0bc!important}
+  .thinker{color:#e8e4da!important}
+  .thinker b{color:#e07800!important}
+  .closing-banner{background:#0d0e12!important;margin-left:0!important;margin-right:0!important;break-inside:avoid}
+  .closing-banner .big-line{color:#e07800!important}
+  .closing-banner .sign{color:#a8b0bc!important}
+  .xref-bar{background:#2a2f3a!important;margin-left:0!important;margin-right:0!important}
+  .xref-pill{color:#e07800!important;background:#fff!important}
+  .doc-footer{background:#2a2f3a!important;color:#a8b0bc!important}
+  .p.first::first-letter{color:#b86800!important}
+}
+</style>
+</head>
+<body>
+
+<div class="sticky-nav-unit">
+<div class="std-header">
+  <a href="index.html" class="lib-home-btn">⌂ Index</a>
+  <div class="std-eyebrow">Philosophy &amp; Ethos · The Manifesto</div>
+  <div class="std-title">The Overlander's Manifesto</div>
+  <div class="std-sub">A Journey of Movement, Attention, and Becoming · Fourteen Commitments</div>
+  <div class="std-vehicle">The philosophy beneath the library — written to be read at the fire</div>
+</div>
+<div class="toc-bar">
+  <span class="toc-label">Commitments</span>
+  <a href="javascript:void(0)" onclick="document.getElementById('pre').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">Preamble</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('c1').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">I · Journey</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('c2').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">II · No Score</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('c3').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">III · Not Content</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('c4').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">IV · Attention</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('c5').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">V · Not Empty</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('c6').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">VI · Worlds</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('c7').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">VII · Slow</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('c8').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">VIII · Home</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('c9').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">IX · Road Makes Us</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('c10').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">X · Self-Reliance</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('c11').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">XI · Sunglasses</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('c12').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">XII · Privilege</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('c13').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">XIII · Vehicle</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('c14').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">XIV · Be Changed</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('end').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">Closing</a>
+</div>
+</div>
+
+<div class="content">
+
+<p class="epigraph center"><em>We don't travel to see different things; we travel to see things differently.</em></p>
+
+<!-- PREAMBLE ────────────────────────────────────────── -->
+<div class="sec-header plain" id="pre">
+  <span class="sec-num">§</span>
+  <span class="sec-title">Preamble</span>
+</div>
+
+<p class="p first">This is not a manual; neither is it a route plan or a gear list. It's a way of being present.</p>
+
+<p class="p">We're overlanders. Overlanding is vehicle-based travel where the journey itself is the point — not the destination, not the campsite count, not the kilometres logged. It's self-reliant, it's slow, it's deliberate, and somewhere along the way it stopped being what we do on holiday and became the way we understand our lives. We don't travel to collect places. We travel to be changed by them.</p>
+
+<p class="p">The modern world has become very good at managing us. It measures us, optimises us, predicts us. It teaches that uncertainty is a risk, that the unknown is a threat, and that the answer to both is always a little more control. Gently, and with the best of intentions, it has domesticated us — and like every deep change, it made no noise while it happened.</p>
+
+<p class="p">This manifesto is our refusal. We call it <strong>going feral</strong> — returning to a wild state after a long and comfortable captivity. Not as an escape, though, because freedom to leave is not yet freedom. That has to be earned out on the road, in how we travel and in who we become. And it costs something: the well-worn path doesn't give you up easily.</p>
+
+<p class="p">And here is the discovery we made after years of reflection: the feral road doesn't lead away from home, the road <em>is</em> home. Home was never the house we locked behind us — it travels with us, and it gets remade wherever we stop, which is to say that home is wherever we are. The Cape philosopher Martin Versfeld recognised this long before us: every journey worth taking is a homecoming.</p>
+
+<p class="p">The road doesn't hand out answers — it hands out tensions, and we've stopped expecting to resolve them. We hold them instead, the way you hold a vehicle on a camber: leaning into both forces at once.</p>
+
+<p class="p"><strong>These are our commitments.</strong></p>
+
+<!-- I ───────────────────────────────────────────────── -->
+<div class="sec-header" id="c1">
+  <span class="sec-num">I</span>
+  <span class="sec-title">The Journey Is the Purpose</span>
+</div>
+
+<p class="p">We don't travel to get somewhere; we travel to keep moving — to stay alert, present and alive to whatever the road decides to show us. We reject the logic of arrival, with its box-ticking and its hurry.</p>
+
+<p class="p">Tourism collects destinations — experiences that are packaged, chosen, and consumed. Overlanding refuses this, because the road is not a path between places; it is where life happens. And the moment the tarmac turns to gravel is not a change of surface. It is a threshold, and crossings are strange: for a while we are neither here nor there, a little disoriented, a little exposed, not quite the people we were at the last fuel stop. That unsettled in-between is exactly where transformation becomes possible — so we cross gladly. The speed drops. The world becomes real again.</p>
+
+<p class="p">We measure the journey in texture, not in kilometres. Clock time cuts a day into equal, empty pieces; lived time flows — lingering in some places, racing through others. An hour stuck in sand is longer than a week of tar, and a single dusk at a waterhole can outlast a month at home. That is the time we travel in.</p>
+
+<p class="p">Life is not a destination but a journey we keep on taking. A trip is not just about arriving; it is about experiencing it — and when we concentrate on the enjoyment of the journey rather than the destination, something quietly shifts: we stop counting nights and start counting moments.</p>
+
+<p class="epigraph"><em>A good traveller has no fixed plans and is not intent on arriving.</em><cite>Lao Tzu</cite></p>
+
+<div class="thinkers">
+  <span class="thinkers-label">Underneath the plain words</span>
+  <span class="thinker"><b>LAO TZU</b> — action that flows rather than forces</span>
+  <span class="thinker"><b>BERGSON</b> — time is something lived, not something counted</span>
+  <span class="thinker"><b>TURNER</b> — the threshold is where transformation happens</span>
+</div>
+
+<!-- II ──────────────────────────────────────────────── -->
+<div class="sec-header" id="c2">
+  <span class="sec-num">II</span>
+  <span class="sec-title">We Don't Keep Score</span>
+</div>
+
+<p class="p">When you ask us what the trip is for, we don't really have an answer — and we've stopped being embarrassed about that. It isn't a failure. It's the point.</p>
+
+<p class="p">The world mostly runs on achievement. Every hour must produce, every effort must show a return, every experience must improve us, until we end up managing ourselves harder than any boss would dare — and calling the compulsion freedom.</p>
+
+<p class="p">The gravel road is our refusal. Out in the wilderness we don't keep score: no personal best, no badge at the border, no target to hit. The detour that costs a day and yields nothing but a dry riverbed and a pair of hornbills needs no justification, and it gets none. We'll even take the <em>twee spoor</em> track on purpose now and then, for no better reason than that the obstacle is the game. Play, we've learned, is not what's left over when the work is done; it's what life feels like when nothing is being extracted from it.</p>
+
+<p class="p">So we guard the journey's futility the way other people guard their assets — because the moment it becomes a project, something to complete and optimise and prove, it stops being a journey at all.</p>
+
+<p class="p">And when the plan collapses anyway — the broken U-bolt, the washed-out track, the border that closed an hour ago — we smile. Not because it's funny (it usually isn't), but because we came for an undertaking with an unknown outcome, and this is what one looks like up close. We fix what we can, wait out what we can't, and carry on.</p>
+
+<div class="thinkers">
+  <span class="thinkers-label">Underneath the plain words</span>
+  <span class="thinker"><b>HUIZINGA</b> — play is older than culture, and needs no purpose</span>
+  <span class="thinker"><b>HAN</b> — the achievement society makes us exploit ourselves and call it freedom</span>
+  <span class="thinker"><b>CAMUS</b> — the world owes us no meaning; persist, and smile anyway</span>
+</div>
+
+<!-- III ─────────────────────────────────────────────── -->
+<div class="sec-header" id="c3">
+  <span class="sec-num">III</span>
+  <span class="sec-title">The Journey Is Not Content</span>
+</div>
+
+<p class="p">We love photographs. We take far too many, and we regret none of them. The camera is welcome on this journey — what's not welcome is the rehearsal: the posing, the performing, the trip staged for an audience that isn't here.</p>
+
+<p class="p">A picture intended for posting is consumed the moment it is shared. But a truly memorable evening takes its time to become a story, and a story keeps unfolding for the rest of life. Given the choice, we'd rather come home with three stories than three thousand images.</p>
+
+<p class="p">So we watch for the moment the lens starts leading — the route chosen for the feed, the camp pitched for the shot, the sunset watched through a screen — because when that happens, the place becomes a backdrop and we become the product.</p>
+
+<p class="p">Presence first; the camera waits its turn. Some of the best moments will leave no evidence at all. We'll know they happened. That's enough.</p>
+
+<div class="thinkers">
+  <span class="thinkers-label">Underneath the plain words</span>
+  <span class="thinker"><b>BENJAMIN</b> — the aura of a place cannot be reproduced — only met</span>
+</div>
+
+<!-- IV ──────────────────────────────────────────────── -->
+<div class="sec-header" id="c4">
+  <span class="sec-num">IV</span>
+  <span class="sec-title">Attention Is Wild</span>
+</div>
+
+<p class="p">Modern life works hard to spare us the trouble of paying attention. Apps guide us, notifications tell us what to feel, algorithms decide what we should want next. The wild asks for something else entirely.</p>
+
+<p class="p">Imagine stepping away from a world that smooths every edge and into a place that challenges you. In that moment, attention becomes the first thing you reach for. We watch the sand for soft spots and the sky for weather; we listen to the engine for the note that wasn't there yesterday; we read the elephant's ears and the set of her shoulders. We listen to the silence of a place to learn whether we are welcome in it.</p>
+
+<p class="p">But attention turns out to be more than a survival skill. At its fullest it is a form of generosity — a quieting of the self so that the place, the animal, the person in front of us, can appear as they are, and not as we need them to be. What we attend to, we begin to love.</p>
+
+<p class="p">This is <strong>rewilding</strong> — not a retreat into some imagined past, but the slow recovery of capacities that comfort has dulled. The wild is relational: it can't be seen from a single vantage point, because it surrounds us and exceeds us. To travel in it is to train ourselves to use all the senses again.</p>
+
+<p class="p">And attention, kept up long enough, ripens into wonder. Wonder isn't naïveté. It's a stance — the refusal to treat the world as a warehouse of resources and sights — and what we wonder at, we will not carelessly use.</p>
+
+<p class="p">So we stay curious. We keep learning. We keep exploring. Friction sharpens us, uncertainty makes us present, exposure wakes the senses. To travel is to become perceptive again.</p>
+
+<p class="epigraph"><em>The real voyage of discovery consists not in seeking new landscapes, but in having new eyes.</em><cite>Marcel Proust</cite></p>
+
+<div class="thinkers">
+  <span class="thinkers-label">Underneath the plain words</span>
+  <span class="thinker"><b>WEIL</b> — attention is the rarest and purest form of generosity</span>
+  <span class="thinker"><b>HUMBOLDT</b> — wonder is a way of knowing the world whole</span>
+  <span class="thinker"><b>PROUST</b> — the real discovery is new eyes</span>
+</div>
+
+<!-- V ───────────────────────────────────────────────── -->
+<div class="sec-header" id="c5">
+  <span class="sec-num">V</span>
+  <span class="sec-title">The Land Is Not Empty</span>
+</div>
+
+<p class="p">The land is not our scenery, and it is not our friend. It is older than we are, indifferent to us, and entirely capable of killing us. We love it anyway — not because it welcomes us, but because it is real.</p>
+
+<p class="p">And it is not empty. People live here; history runs through here. A careless eye edits them out and calls the place "wild"; we keep our eyes open and remember that we travel through a world that was never ours to discover.</p>
+
+<p class="p">The elephant before us isn't a photograph waiting to be taken; she is a continuous process within her herd, her ecosystem, her long evolutionary memory. The tree isn't a tree; it's a network of soil and fungi, water and inheritance. The Makgadikgadi is not empty. It is alive with process we cannot see.</p>
+
+<p class="p">And we know the windscreen for what it is: the most perfect picture-window ever built, able to turn a living continent into scenery at thirty kilometres an hour. And so we get out. Landscape is not something we look at; it is something we live from — shade, water, firewood, the lie of the land. The view is what the place looks like. The place is what holds us.</p>
+
+<p class="p">And when we manage to see in this way, we become, briefly, a part of something older and larger than ourselves. We are not watching from outside anymore. We are inside the system, for a moment, and we are grateful for it.</p>
+
+<div class="thinkers">
+  <span class="thinkers-label">Underneath the plain words</span>
+  <span class="thinker"><b>MCCARTHY</b> — the land is ancient, indifferent, and owes us nothing</span>
+  <span class="thinker"><b>MIÉVILLE</b> — the "wild" is never innocent; we are trained not to see who lives there</span>
+  <span class="thinker"><b>JULLIEN</b> — landscape is not a view; it is what we live from</span>
+</div>
+
+<!-- VI ──────────────────────────────────────────────── -->
+<div class="sec-header" id="c6">
+  <span class="sec-num">VI</span>
+  <span class="sec-title">Worlds Within Worlds</span>
+</div>
+
+<p class="p">There is no such thing as "Africa." There are only worlds — layered, plural, alive.</p>
+
+<p class="p">An informal mining community at dawn, a border post at noon, a cattle kraal at dusk: each one is a complete world with its own logic, its own pace, its own way of making meaning. The single golden "Africa" of the brochures doesn't exist, and the eye that sees it flattens a thousand living worlds into scenery.</p>
+
+<p class="p">To overland well is to move between worlds, not across a map, and every crossing asks something of us — a new rhythm, a new register, a new humility. We arrive underqualified. Always.</p>
+
+<p class="p">We don't master these worlds, and we don't collect them. We are admitted to them, briefly, invitationally, as guests — and only if we knock.</p>
+
+<div class="thinkers">
+  <span class="thinkers-label">Underneath the plain words</span>
+  <span class="thinker"><b>LUGONES</b> — to know others, travel to their world — playfully, as a guest</span>
+  <span class="thinker"><b>GLISSANT</b> — every place is a weave of relations, not a single story</span>
+</div>
+
+<!-- VII ─────────────────────────────────────────────── -->
+<div class="sec-header" id="c7">
+  <span class="sec-num">VII</span>
+  <span class="sec-title">Slow Is Not Lazy — Slow Is Deep</span>
+</div>
+
+<p class="p">Speed severs us from the world and flattens it into a blur. Our rule is simple: stop and stay, not stop and go.</p>
+
+<p class="p">Three nights in one place gives it time to show itself. The first evening we see only the surface. By the second morning we notice how the light moves. By the third day we begin to understand — and by then slowness has made room for the unplanned: a chance word with the ranger, a herd moving at dusk, the clarity that arrives only once we've been still long enough for the world to forget we're there.</p>
+
+<p class="p">And slowness has a second job: the biggest changes make no noise. Deserts creep, pans dry a little more each decade, a fence inches across an old migration route — the world transforms silently, and events only announce changes long underway. Speed is calibrated to events. Slowness, and returning year after year, is how we learn to see what was changing all along.</p>
+
+<p class="p">We prepare rigorously, and then we hold the plan loosely. The itinerary is a hypothesis, not a contract, and we leave room in every plan for what we can't foresee — because the moments we remember are, almost without exception, the ones we never planned. We are never behind schedule.</p>
+
+<div class="thinkers">
+  <span class="thinkers-label">Underneath the plain words</span>
+  <span class="thinker"><b>ROSA</b> — a good life is resonance — a world that answers back</span>
+  <span class="thinker"><b>MORIN</b> — complexity asks for humility, not mastery</span>
+  <span class="thinker"><b>SERRES</b> — the interruption is not failure; it is where learning begins</span>
+  <span class="thinker"><b>JULLIEN</b> — the world changes silently; events only announce it</span>
+</div>
+
+<!-- VIII ────────────────────────────────────────────── -->
+<div class="sec-header" id="c8">
+  <span class="sec-num">VIII</span>
+  <span class="sec-title">Every Camp Is a Home We Make</span>
+</div>
+
+<p class="p">Home is not what we left behind — because we didn't leave it behind. Home is what we do, nightly, with two chairs, a fire and a glass of wine.</p>
+
+<p class="p">We unpack the same boxes in a hundred different places. The table goes here, the lamp goes there, the coffee gets ground for the morning. It looks like routine; it is ritual — the practice of care that turns a patch of borrowed ground into a dwelling — and by the time the fire has caught, the place has admitted us. Home, it turns out, is never a structure on a street. It is an activity; the architecture is optional. It can be performed anywhere, and it must be performed somewhere.</p>
+
+<p class="p">We live between places, and we've stopped treating the in-between as a gap. The threshold isn't something we pass through on the way to somewhere real; it is the honest place, the one that admits what life actually is — transition, all the way down. A life without thresholds is a life without depth.</p>
+
+<p class="p">This is what we meant when we said the road is home. Going feral was never the opposite of homecoming; it is homecoming by other means. We left the house to learn how to dwell, and found that home is not an address at all — it is the capacity to be in motion without being lost.</p>
+
+<div class="thinkers">
+  <span class="thinkers-label">Underneath the plain words</span>
+  <span class="thinker"><b>HEIDEGGER</b> — dwelling is not occupying a place but caring for it</span>
+  <span class="thinker"><b>VERSFELD</b> — home is made in ordinary acts — a meal cooked with attention</span>
+  <span class="thinker"><b>TURNER</b> — the in-between is not a gap in life; it is where life turns</span>
+</div>
+
+<!-- IX ──────────────────────────────────────────────── -->
+<div class="sec-header" id="c9">
+  <span class="sec-num">IX</span>
+  <span class="sec-title">The Road Makes Us</span>
+</div>
+
+<p class="p">It's tempting to see ourselves as fixed, self-contained selves driving through a passive world. We are nothing of the kind.</p>
+
+<p class="p">Every road, every meeting, every breakdown and every unexpected kindness shapes us. The gravel, the dust, the stranger who stops to lend a hand — they change us, and we change them too, because identity is made of what it's connected to. The vehicle, the landscape, each other, the company around the fire; these don't surround us. They make us, together.</p>
+
+<p class="p">And the road makes more than one of us. At the border post we're a patient diplomat; in the dunes we're a careful reader of sand; by the fire we become a storyteller. We become different selves in different worlds, a plurality of the self — and none of them is more real than the others. We keep them all.</p>
+
+<p class="p">We are made by what we move through.</p>
+
+<p class="epigraph center"><em>The way of the road is the rule for all upon it.</em></p>
+
+<div class="thinkers">
+  <span class="thinkers-label">Underneath the plain words</span>
+  <span class="thinker"><b>WHITEHEAD</b> — reality is process; we are events, not objects</span>
+  <span class="thinker"><b>LUGONES</b> — we are plural — a different self in every world, all of them real</span>
+  <span class="thinker"><b>JOHAR</b> — there is no separate self; we become with everything around us</span>
+</div>
+
+<!-- X ───────────────────────────────────────────────── -->
+<div class="sec-header" id="c10">
+  <span class="sec-num">X</span>
+  <span class="sec-title">Self-Reliance Is Not Independence</span>
+</div>
+
+<p class="p">There's something dishonest in calling ourselves "self-sufficient" while leaning on satellite communications, imported fuel and a global supply chain. It's a comfortable story — and that's all it is.</p>
+
+<p class="p">The truth is that we depend. On the vehicle to carry us, on the terrain to let us through, and on the communities we encounter — for information, for food, and for the kindness that comes without expecting anything in return. We depend on each other most of all.</p>
+
+<p class="p">So self-reliance, for us, means being prepared, resourceful and capable — not pretending the world isn't there holding us up. We travel with gratitude rather than entitlement: we leave with an empty fridge and buy from the people we meet along the way, not as charity but because that is what we are out here — trade partners, guests, a passing thread in the local economy.</p>
+
+<p class="p">Even our freedom is not our own work. The freedom to leave is only a departure; freedom itself has to be earned — practised on the road, answered for in every encounter, built with others or not built at all. The open road doesn't set us free. It gives us the room to become free, which is harder, and better.</p>
+
+<p class="epigraph"><em>umuntu ngumuntu ngabantu</em> — a person is a person through other persons. It is as true on a dirt road in Zambia as it is in any city on earth.</p>
+
+<div class="thinkers">
+  <span class="thinkers-label">Underneath the plain words</span>
+  <span class="thinker"><b>YPI</b> — freedom is not escape; it is earned with, and answerable to, others</span>
+  <span class="thinker"><b>BEAUVOIR</b> — our freedom is bound to the freedom of others</span>
+  <span class="thinker"><b>UBUNTU</b> — I am because we are</span>
+</div>
+
+<!-- XI ──────────────────────────────────────────────── -->
+<div class="sec-header" id="c11">
+  <span class="sec-num">XI</span>
+  <span class="sec-title">Take Off the Sunglasses</span>
+</div>
+
+<p class="p">Our first line of defence is a handshake, not a locked door. We stop the engine, take off the sunglasses, get out, and meet the face in front of us.</p>
+
+<p class="p">There are two ways of seeing a person. Arrogant perception arrives already knowing: it files people into categories — the locals, the guide, the man at the gate — and learns nothing. Loving perception travels toward them instead, far enough into their world to glimpse how they understand themselves, and it accepts that we'll sometimes get it wrong.</p>
+
+<p class="p">So we're willing to be fools. We mispronounce the greeting, misread the custom, miss the joke — and stay open anyway. If we are never slightly embarrassed, we are not paying attention.</p>
+
+<p class="p">And the person before us will always exceed our understanding. They have the right to. We don't need to see through someone to respect them; their opacity isn't a wall, it's their depth.</p>
+
+<p class="p">Every encounter carries weight out here. To travel through Southern Africa — through its history, its landscapes, its people — is never neutral, and how we arrive and how we leave both matter. A handshake isn't a tactic; it's how we choose to be in the world: presence over consumption, the greeting over the transaction, the person over the picture of the person. We take the risks of real contact, and we try to be more substantial in the lives of the people we meet.</p>
+
+<div class="thinkers">
+  <span class="thinkers-label">Underneath the plain words</span>
+  <span class="thinker"><b>LEVINAS</b> — the face of the other makes a claim on us before we understand them</span>
+  <span class="thinker"><b>LUGONES</b> — loving perception enters another's world; arrogant perception files it away</span>
+  <span class="thinker"><b>GLISSANT</b> — everyone has the right not to be fully understood</span>
+</div>
+
+<!-- XII ─────────────────────────────────────────────── -->
+<div class="sec-header" id="c12">
+  <span class="sec-num">XII</span>
+  <span class="sec-title">Our Hardship Is a Privilege</span>
+</div>
+
+<p class="p">The heat. The breakdown two days from anywhere. The long dry track with no certainty at the end of it. We seek these out and we call them hardship — but we owe everyone else the honesty of saying what they really are.</p>
+
+<p class="p">They are hardships we chose, and can un-choose. The tank is full, the credit card works, and the road home stays open behind us. Our suffering always has an exit; we are never more than one decision away from taking it.</p>
+
+<p class="p">That is what separates it from the hardship others carry — the kind that was never chosen, has no exit, and is not an adventure. We won't confuse the two. We won't mistake discomfort for endurance, or wear a hard day on the road as if it were the weight some people carry every day of their lives.</p>
+
+<p class="p">And the freedom that lets us go is not handed out evenly. We cross borders where others are turned back; our passports are keys most of the world is never given. Our mobility — the very thing this manifesto celebrates — is a privilege many are denied.</p>
+
+<p class="p">So we hold it lightly. We don't dramatise our hardships or collect them like trophies. We let the clear sight of our privilege become a reason for humility, and for care — care for how we treat the people whose home we are only passing through.</p>
+
+<div class="thinkers">
+  <span class="thinkers-label">Underneath the plain words</span>
+  <span class="thinker"><b>WEIL</b> — chosen suffering is not affliction; affliction has no exit</span>
+  <span class="thinker"><b>YPI</b> — mobility is a privilege the world does not share out evenly</span>
+  <span class="thinker"><b>BENJAMIN</b> — the longing for the untouched can be its own kind of vanity</span>
+</div>
+
+<!-- XIII ────────────────────────────────────────────── -->
+<div class="sec-header" id="c13">
+  <span class="sec-num">XIII</span>
+  <span class="sec-title">The Vehicle Is a Collaborator</span>
+</div>
+
+<p class="p">We don't just drive the Land Cruiser; we become one with it.</p>
+
+<p class="p">We drive gently — as slow as possible, as fast as necessary — with a soft right foot, never riding the clutch. We don't force a line; we back off, go around, or turn back, and we rarely need the recovery gear, because we're comfortable retreating. The track is not a challenge to conquer. It's a conversation.</p>
+
+<p class="p">The vehicle speaks, and reading it is not maintenance — it's relationship. Metal remembers every corrugation, and the break, when it comes, only announces what ten thousand kilometres have quietly prepared. The gap between what the vehicle tells us and what we notice is where danger lives, so mechanical sympathy is a form of attention, and attention is a form of respect.</p>
+
+<p class="p">Without gravel roads to explore, the Land Cruiser is like a dragon-slayer with no dragons to slay. We respect the dragon; the dragon respects us.</p>
+
+<div class="thinkers">
+  <span class="thinkers-label">Underneath the plain words</span>
+  <span class="thinker"><b>RAVAISSON</b> — practised skill becomes second nature — grace in habit</span>
+  <span class="thinker"><b>SIMONDON</b> — the machine is not a tool but an evolving partner</span>
+</div>
+
+<!-- XIV ─────────────────────────────────────────────── -->
+<div class="sec-header" id="c14">
+  <span class="sec-num">XIV</span>
+  <span class="sec-title">Stay Long Enough to Be Changed</span>
+</div>
+
+<p class="p">Movement is not transformation. It's perfectly possible to cover ten thousand kilometres and come home exactly the same person as the one who left.</p>
+
+<p class="p">Transformation needs duration, attention, and a willingness to be unsettled. It needs us to sit with a place long enough for it to stop performing and simply be itself, and it needs the kind of stillness in which the self can loosen and something new can form in the space that opens.</p>
+
+<p class="p">So we don't hunt the transformative moment — the summit revelation, the perfect sunrise. Those are events, and events only announce what the quiet days have already done. The change is made in the uneventful middle of the journey, and we will see it only afterwards — the way we notice, one morning, that we have aged.</p>
+
+<p class="p">Because the self is not a fixed object we carry around. It becomes — through time, relation, memory and encounter — and it is also chosen: nobody is born an overlander. We make ourselves into one, decision by decision, road by road. Overlanding, done slowly and honestly, creates the conditions for an expanded self — one rooted in a place, in a relation, in a shared sense of future with the world it has moved through. Rootedness, we've found, is a quality of attention, not of duration.</p>
+
+<p class="p">We refuse to settle for less than the life we are capable of living.</p>
+
+<p class="p">If we visit only two continents in a lifetime, let them be Africa — twice. Not because it is one spectacular place; it isn't one place at all. It is worlds within worlds, and twice is barely a beginning. We go back not to repeat it, but because it refuses to let us stay the same.</p>
+
+<p class="epigraph"><em>Not all those who wander are lost.</em><cite>J.R.R. Tolkien</cite></p>
+
+<div class="thinkers">
+  <span class="thinkers-label">Underneath the plain words</span>
+  <span class="thinker"><b>WEIL</b> — rootedness is a need of the soul — and a quality of attention</span>
+  <span class="thinker"><b>SARTRE</b> — we are not born who we are; we make ourselves, choice by choice</span>
+  <span class="thinker"><b>ROSA</b> — we are transformed only by what we let touch us</span>
+  <span class="thinker"><b>JULLIEN</b> — we never see ourselves change; we discover that we have changed</span>
+</div>
+
+<!-- CLOSING ─────────────────────────────────────────── -->
+<div class="sec-header plain" id="end">
+  <span class="sec-num">§</span>
+  <span class="sec-title">A Closing Thought</span>
+</div>
+
+<p class="p">These fourteen commitments aren't rules, and they're certainly not a checklist. They're invitations — to see differently, to travel differently, and in the end to live differently.</p>
+
+<p class="p">The overlander doesn't conquer the road; the overlander is changed by it. We go out not to prove ourselves but to lose ourselves — and to discover, somewhere in that losing, something more durable than the self we brought along.</p>
+
+<p class="p">The road ahead is uncertain. That is the point.</p>
+
+<div class="closing-banner">
+  <div class="big-line">Go Well. Go Slow. Stay Long.</div>
+  <div class="sign">Neil &amp; Mary-Ann</div>
+</div>
+
+</div><!-- end .content -->
+
+<div class="xref-bar">
+  <span class="xref-label">Companion</span>
+  <a href="LC76_Overlanders_Manifesto_Commentary.html" class="xref-pill">The Commentary · the thinkers behind the commitments</a>
+  <a href="index.html" class="xref-pill">⌂ Library Index</a>
+</div>
+
+<script>
+// Active TOC state
+const sections = ['pre','c1','c2','c3','c4','c5','c6','c7','c8','c9','c10','c11','c12','c13','c14','end'];
+const tocLinks = document.querySelectorAll('.toc-link');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      const idx = sections.indexOf(entry.target.id);
+      tocLinks.forEach((l, i) => l.classList.toggle('active', i === idx));
+    }
+  });
+}, {rootMargin: '-30% 0px -60% 0px'});
+sections.forEach(id => {
+  const el = document.getElementById(id);
+  if(el) observer.observe(el);
+});
+
+// Dynamic scroll margin
+function updateScrollMargins(){
+  const navH = document.querySelector('.sticky-nav-unit').offsetHeight;
+  document.querySelectorAll('.sec-header').forEach(el => {
+    el.style.scrollMarginTop = (navH + 4) + 'px';
+  });
+}
+updateScrollMargins();
+window.addEventListener('resize', updateScrollMargins);
+
+// Service worker — domain-guarded
+if('serviceWorker' in navigator && location.hostname !== 'www.claudeusercontent.com'){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('./sw.js')
+      .then(r => console.log('LC76 SW registered'))
+      .catch(e => console.log('SW error:', e));
+  });
+}
+</script>
+</body>
+</html>
