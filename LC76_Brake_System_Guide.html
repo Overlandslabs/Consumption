@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>R34 — Brake System Guide | HZJ76R-RKMRS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=Oswald:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:      #1C1410;
+    --paper:    #F5EDDA;
+    --paper2:   #EDE5D0;
+    --amber:    #b86800;
+    --amber2:   #e07800;
+    --rule:     #d4cfc4;
+    --steeldk:  #2a2f3a;
+    --steelmd:  #6a7080;
+    --red-warn: #B91C1C;
+    --green-ok: #059669;
+    --orange:   #c05a00;
+    --border:   #c8bfad;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { overflow-x: hidden; }
+
+  body {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  /* STICKY WRAP */
+  .sticky-wrap { position: sticky; top: 0; z-index: 100; background: var(--ink); padding-top: env(safe-area-inset-top); }
+
+  /* MASTHEAD */
+  .masthead { position: relative; background: var(--ink); color: #fff; padding: 18px 24px 14px; }
+  .lib-home-btn { position:absolute; top:50%; right:16px; transform:translateY(-50%); display:inline-flex; align-items:center; gap:5px; font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; text-decoration:none; color:var(--amber2); background:rgba(232,120,0,.15); border:1px solid var(--amber2); border-radius:20px; padding:6px 12px; min-height:32px; white-space:nowrap; z-index:10; transition:background .2s; }
+  .lib-home-btn:hover, .lib-home-btn:active { background:rgba(232,120,0,.30); }
+
+  @media(max-width:600px){
+    .masthead { padding:14px 16px 12px; }
+    .lib-home-btn { top:14px; transform:none; }
+    .mh-title { font-size:clamp(1.5rem,6vw,2.2rem); }
+    .toc-bar { padding:0 12px; }
+    .toc-btn { font-size:.46rem; padding:8px 9px; }
+    .main { padding:14px 4% 60px; }
+    .principle-grid, .terrain-grid { grid-template-columns:1fr; }
+  }
+
+  @media print { .lib-home-btn { display:none !important; } }
+
+  .mh-eyebrow  { font-family:'IBM Plex Mono',monospace; font-size:.5rem; letter-spacing:.28em; text-transform:uppercase; color:var(--steelmd); margin-bottom:6px; }
+  .mh-title    { font-family:'Bebas Neue',sans-serif; font-size:clamp(1.8rem,5vw,2.6rem); letter-spacing:.06em; color:var(--amber2); line-height:1; }
+  .mh-sub      { font-family:'IBM Plex Mono',monospace; font-size:.54rem; letter-spacing:.12em; color:rgba(255,200,100,.65); margin-top:5px; }
+  .mh-vehicle  { font-family:'IBM Plex Mono',monospace; font-size:.48rem; letter-spacing:.08em; color:var(--steelmd); margin-top:8px; }
+
+  /* TOC BAR */
+  .toc-bar {
+    background: var(--steeldk);
+    border-top: 3px solid var(--amber2);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    padding: 0 20px;
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .toc-bar::-webkit-scrollbar { display: none; }
+  .toc-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .52rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--steelmd);
+    background: none;
+    border: none;
+    padding: 10px 12px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color 0.15s;
+  }
+  .toc-btn:hover  { color: #c8bfad; }
+  .toc-btn.active { color: var(--amber2); }
+
+  /* MAIN */
+  .main { padding: 28px 5% 80px; max-width: 100%; }
+
+  /* SECTION HEADINGS */
+  .section-head {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: var(--ink);
+    letter-spacing: 0.04em;
+    border-bottom: 2px solid var(--amber2);
+    padding-bottom: 4px;
+    margin-bottom: 14px;
+    margin-top: 28px;
+  }
+  .section-head:first-child { margin-top: 0; }
+  .section-intro { font-size: 13px; color: var(--steelmd); margin-bottom: 14px; font-style: italic; }
+
+  /* SECTION ANCHOR OFFSET */
+  .sa { scroll-margin-top: 130px; }
+
+  /* SUBSECTION TITLE */
+  .sub-head {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 15px;
+    color: var(--amber2);
+    letter-spacing: 0.04em;
+    background: var(--steeldk);
+    padding: 8px 14px;
+    margin-bottom: 0;
+    margin-top: 16px;
+  }
+
+  p.body { font-size:13px; margin:10px 0; }
+  p.body:first-of-type { margin-top:0; }
+
+  /* PRINCIPLE CARDS GRID */
+  .principle-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:10px; margin:14px 0; }
+  .principle-card { border:1px solid var(--border); border-top:3px solid var(--amber2); background:#fff; border-radius:2px; padding:14px 14px 12px; }
+  .p-num   { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.12em; color:var(--steelmd); text-transform:uppercase; margin-bottom:4px; }
+  .p-title { font-family:'Bebas Neue',sans-serif; font-size:17px; color:var(--amber2); letter-spacing:.04em; margin-bottom:6px; line-height:1.1; }
+  .p-body  { font-size:12.5px; color:var(--ink); line-height:1.55; }
+
+  /* SPECS TABLE */
+  .specs-table { width:100%; border-collapse:collapse; font-size:12.5px; margin:14px 0; }
+  .specs-table th { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; background:var(--steeldk); color:#b0bcc8; padding:7px 10px; text-align:left; border:1px solid rgba(255,255,255,.07); }
+  .specs-table td { padding:7px 10px; border:1px solid var(--rule); vertical-align:top; }
+  .specs-table tr:nth-child(even) td { background:var(--paper2); }
+  .specs-table tr:nth-child(odd)  td { background:#fff; }
+  .mono { font-family:'IBM Plex Mono',monospace; font-size:11px; }
+  .stop-cell { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; color:var(--red-warn); }
+  .cont-cell { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; color:var(--green-ok); }
+  .caut-cell { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; color:var(--orange); }
+
+  /* CHECKLIST */
+  .checklist { list-style:none; margin:10px 0; }
+  .checklist li { display:flex; gap:10px; align-items:flex-start; padding:7px 0; border-bottom:1px solid var(--rule); font-size:13px; }
+  .checklist li:last-child { border-bottom:none; }
+  .cl-num  { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; color:#fff; background:var(--steeldk); min-width:22px; height:22px; border-radius:2px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .cl-text { flex:1; }
+  .cl-label { font-weight:500; color:var(--ink); }
+  .cl-note  { color:var(--steelmd); font-size:12px; display:block; margin-top:2px; font-family:'Oswald',sans-serif; font-weight:300; }
+
+  /* STEP LIST (amber) */
+  .check-steps { margin:10px 0; }
+  .check-step  { display:flex; gap:10px; align-items:flex-start; margin-bottom:8px; font-size:13px; }
+  .step-num  { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; color:#fff; background:var(--amber); min-width:22px; height:22px; border-radius:2px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .step-text { flex:1; }
+  .step-text b { font-weight:600; }
+
+  /* NOT-TO-DO LIST */
+  .notodo-list { list-style:none; margin:10px 0; }
+  .notodo-list li { display:flex; gap:10px; align-items:flex-start; padding:8px 0; border-bottom:1px solid var(--rule); font-size:13px; }
+  .notodo-list li:last-child { border-bottom:none; }
+  .notodo-x     { font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; color:#fff; background:var(--red-warn); min-width:22px; height:22px; border-radius:2px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .notodo-text  { flex:1; }
+  .notodo-label { font-weight:500; color:var(--ink); }
+  .notodo-note  { color:var(--steelmd); font-size:12px; display:block; margin-top:2px; }
+
+  /* SIGNAL CHAIN */
+  .signal-chain { display:flex; align-items:center; flex-wrap:wrap; gap:4px; margin:14px 0; }
+  .sc-step  { font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; color:#fff; background:var(--amber); padding:7px 12px; border-radius:2px; white-space:nowrap; }
+  .sc-stop  { font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; color:#fff; background:var(--red-warn); padding:7px 12px; border-radius:2px; white-space:nowrap; }
+  .sc-key   { font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; color:#fff; background:var(--steeldk); padding:7px 12px; border-radius:2px; white-space:nowrap; border:1px solid var(--amber2); }
+  .sc-arrow { font-size:14px; color:var(--steelmd); }
+
+  /* ALERT BOXES */
+  .warn-box { background:#fde8e8; border-left:3px solid var(--red-warn); padding:9px 12px; font-size:12.5px; color:#7a1010; margin:10px 0; }
+  .note-box { background:#fef9e7; border-left:3px solid var(--amber); padding:9px 12px; font-size:12.5px; color:#5a3800; margin:10px 0; }
+  .ok-box   { background:#e8f5e9; border-left:3px solid var(--green-ok); padding:9px 12px; font-size:12.5px; color:#0d4a28; margin:10px 0; }
+  .info-box { background:#e8eef8; border-left:3px solid #3b6abf; padding:9px 12px; font-size:12.5px; color:#1a2f5a; margin:10px 0; }
+
+  /* CROSS-REF BAR */
+  .xref-bar { background:var(--steeldk); border:1px solid rgba(255,255,255,.08); padding:9px 14px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:12px; font-size:12px; }
+  .xref-label { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.08em; color:var(--steelmd); text-transform:uppercase; white-space:nowrap; }
+  .xref-pill  { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; color:var(--amber2); background:rgba(224,120,0,.12); border:1px solid rgba(224,120,0,.3); padding:2px 8px; border-radius:2px; white-space:nowrap; }
+
+  .footer { margin-top:36px; padding-top:14px; border-top:1px solid var(--rule); font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--steelmd); line-height:1.6; }
+
+  /* PRINT */
+  @media print {
+    @page { margin: 7mm; size: A4; }
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    body { font-size: 7.5pt; background: #fff; line-height: 1.35; }
+    .sticky-wrap { position: static; }
+    .toc-bar { display: none; }
+    .masthead { padding: 4mm 8mm; break-after: avoid; background: #1C1410 !important; color: #fff !important; }
+    .mh-eyebrow { font-size: 5pt; color: #6a7080 !important; }
+    .mh-title { font-size: 16pt; color: #e07800 !important; }
+    .mh-sub, .mh-vehicle { font-size: 5pt; }
+    .main { padding: 4mm 0 10mm; }
+    .section-head { font-size: 14pt; margin-top: 8mm; page-break-after: avoid; break-after: avoid; border-bottom: 2pt solid #e07800 !important; }
+    .sub-head { font-size: 11pt; page-break-after: avoid; break-after: avoid; background: #2a2f3a !important; color: #e07800 !important; }
+    .principle-card { break-inside: avoid; }
+    .warn-box  { break-inside: avoid; background: #fde8e8 !important; border-left: 3pt solid #B91C1C !important; color: #7a1010 !important; }
+    .note-box  { break-inside: avoid; background: #fef9e7 !important; border-left: 3pt solid #b86800 !important; color: #5a3800 !important; }
+    .ok-box    { break-inside: avoid; background: #e8f5e9 !important; border-left: 3pt solid #059669 !important; color: #0d4a28 !important; }
+    .info-box  { break-inside: avoid; background: #e8eef8 !important; border-left: 3pt solid #3b6abf !important; color: #1a2f5a !important; }
+    .xref-bar  { background: #2a2f3a !important; border: 1px solid rgba(255,255,255,.08) !important; }
+    .xref-pill { background: rgba(224,120,0,.12) !important; color: #e07800 !important; border: 1px solid rgba(224,120,0,.3) !important; }
+    .specs-table thead { display: table-header-group; }
+    .specs-table th { background: #2a2f3a !important; color: #b0bcc8 !important; }
+    .specs-table tr { break-inside: avoid; }
+    .step-num   { background: #b86800 !important; color: #fff !important; }
+    .cl-num     { background: #2a2f3a !important; color: #fff !important; }
+    .notodo-x   { background: #B91C1C !important; color: #fff !important; }
+    .sc-step    { background: #b86800 !important; color: #fff !important; }
+    .sc-stop    { background: #B91C1C !important; color: #fff !important; }
+    .sc-key     { background: #2a2f3a !important; color: #fff !important; border: 1pt solid #e07800 !important; }
+    .checklist li   { break-inside: avoid; }
+    .notodo-list li { break-inside: avoid; }
+    .check-step     { break-inside: avoid; }
+    .signal-chain   { break-inside: avoid; }
+    a { color: var(--ink); text-decoration: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="sticky-wrap">
+  <div class="masthead">
+    <a href="index.html" class="lib-home-btn">⌂ Index</a>
+    <div class="mh-eyebrow">HZJ76R-RKMRS · Overland Reference Library · R34</div>
+    <div class="mh-title">Brake System Guide</div>
+    <div class="mh-sub">Layout · Fluid · Inspection · Bleeding · Fault Diagnosis · Hub-Seal Monitor · Field Doctrine · Spares</div>
+    <div class="mh-vehicle">2009 LC76 SW · 1HZ 4.2L Diesel · Front discs · Rear drums · Tandem master + booster · Load-sensing proportioning valve · DOT 4 (shared clutch/brake reservoir) · ~310,000 km · HZJ76R-RKMRS</div>
+  </div>
+  <nav class="toc-bar">
+    <button class="toc-btn" data-target="s-system">System</button>
+    <button class="toc-btn" data-target="s-fluid">Fluid</button>
+    <button class="toc-btn" data-target="s-inspect">Inspection</button>
+    <button class="toc-btn" data-target="s-bleed">Bleeding</button>
+    <button class="toc-btn" data-target="s-diag">Diagnosis</button>
+    <button class="toc-btn" data-target="s-hubseal">Hub-Seal</button>
+    <button class="toc-btn" data-target="s-doctrine">Doctrine</button>
+    <button class="toc-btn" data-target="s-technique">Technique</button>
+    <button class="toc-btn" data-target="s-spares">Spares</button>
+    <button class="toc-btn" data-target="s-check">Pre-Trip</button>
+  </nav>
+</div>
+
+<div class="main">
+
+  <div class="info-box">
+    <b>What this guide is.</b> A single home for the LC76's brake material, which otherwise lives spread across R23 (scheduling &amp; inspection), R25 (disc-weep &amp; hose inspection), R27 (fluid &amp; line field doctrine), R28 (braking technique) and R3 (hydraulic spares). It consolidates those, adds the step-by-step bleeding procedure and a field fault-diagnosis table, and surfaces the rear hub-seal contamination monitor here where it belongs. Where a fact is owned elsewhere — service intervals (R8/R23), swivel-seal detail (R25/R20) — this guide points there rather than competing with it.
+  </div>
+
+  <!-- ============ SYSTEM ============ -->
+  <div id="s-system" class="sa"></div>
+  <h2 class="section-head">1 · System Overview</h2>
+  <p class="section-intro">The 76's brakes are simple, robust and hydraulically split — know the five parts and the one quirk.</p>
+
+  <div class="principle-grid">
+    <div class="principle-card"><div class="p-num">Front</div><div class="p-title">Discs &amp; Calipers</div><div class="p-body">Ventilated front discs with floating calipers. Pads wear faster than the rear; they do most of the stopping work, especially loaded and downhill.</div></div>
+    <div class="principle-card"><div class="p-num">Rear</div><div class="p-title">Drums &amp; Shoes</div><div class="p-body">Rear drum brakes with shoes and wheel cylinders. More tolerant of mud and water than discs, but the linings are vulnerable to oil contamination from a leaking hub seal (§6).</div></div>
+    <div class="principle-card"><div class="p-num">Master</div><div class="p-title">Tandem Master + Booster</div><div class="p-body">A dual-circuit (front/rear split) tandem master cylinder with a vacuum booster. The split means a single circuit failure still leaves partial braking — degraded, not zero.</div></div>
+    <div class="principle-card"><div class="p-num">LSPV</div><div class="p-title">Proportioning Valve</div><div class="p-body">A load-sensing proportioning valve (LSPV) at the rear axle varies rear brake pressure with axle load — more pressure when heavily laden, less when light, to resist rear lock-up. It has its own bleed nipple that must not be skipped (§4).</div></div>
+    <div class="principle-card"><div class="p-num">Shared</div><div class="p-title">One Reservoir, Two Jobs</div><div class="p-body">The fluid reservoir feeds both the brakes and the hydraulic clutch. This is the single most important system fact on this vehicle — see the box below.</div></div>
+  </div>
+
+  <div class="info-box">
+    <b>The shared reservoir.</b> Brakes and the Terrain Tamer hydraulic clutch draw from the same reservoir. A dropping fluid level therefore means a leak in <i>either</i> circuit — and a leak that empties the reservoir takes out both. Check the level daily; a spongy clutch pedal can be the first warning of a brake-side problem and vice versa. (R3, R13.)
+  </div>
+
+  <!-- ============ FLUID ============ -->
+  <div id="s-fluid" class="sa"></div>
+  <h2 class="section-head">2 · Fluid &amp; Hydraulics</h2>
+  <p class="section-intro">Right spec, changed on time, never contaminated.</p>
+
+  <table class="specs-table">
+    <thead><tr><th style="width:26%">Item</th><th style="width:74%">Spec / rule</th></tr></thead>
+    <tbody>
+      <tr><td>Fluid spec</td><td>DOT 3 or DOT 4 (the factory spec is DOT 3; the vehicle currently runs DOT 4, which is fully compatible and has a higher boiling point — preferred for loaded, hot, mountain work). <b>Never DOT 5 (silicone).</b></td></tr>
+      <tr><td>Change interval</td><td>Time-based — every 2 years regardless of mileage. Brake fluid is hygroscopic: it absorbs moisture, which lowers the boiling point and corrodes internals, with no visible change. You change it on the calendar, not on appearance.</td></tr>
+      <tr><td>Current state</td><td>Full fluid change <span class="mono">Jan 2026 @ 293,949 km</span>. <b>Next due ~Jan 2028.</b> (Owned by R8/R23; repeated here for the brake picture.)</td></tr>
+      <tr><td>Reservoir level</td><td>Keep between MIN and MAX. A falling level is a leak (brake or clutch circuit) until proven otherwise — never just top up and forget.</td></tr>
+      <tr><td>Paint</td><td>Brake fluid strips paint. Wipe spills off bodywork immediately and flush with water.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="warn-box"><b>Never mix DOT 5 (silicone) into a DOT 3/4 system.</b> It will not mix, it contaminates the entire system and destroys the rubber seals. If the fluid history is unknown, flush completely with fresh DOT 4 rather than topping up blind. (R27.)</div>
+
+  <!-- ============ INSPECTION ============ -->
+  <div id="s-inspect" class="sa"></div>
+  <h2 class="section-head">3 · Inspection &amp; Intervals</h2>
+  <p class="section-intro">What to measure, the trigger figures, and how often. Cross-ref R23, R25, R20.</p>
+
+  <table class="specs-table">
+    <thead><tr><th style="width:22%">Item</th><th style="width:40%">Spec / trigger</th><th style="width:20%">When</th><th style="width:18%">Cross-ref</th></tr></thead>
+    <tbody>
+      <tr><td>Front pads</td><td>Minimum <b>4 mm</b> for expedition departure (new ≈ 12 mm). Under 4 mm or marginal → replace before departure.</td><td>Every wheel-off; before any major trip</td><td>R23</td></tr>
+      <tr><td>Front rotors</td><td>Check for scoring and lip. Minimum thickness is stamped on the rotor — measure if in question; replace below spec.</td><td>With pad inspection</td><td>R23</td></tr>
+      <tr><td>Rear drums &amp; shoes</td><td>Inspect lining thickness and drum scoring/out-of-round. Check shoes for oil contamination (§6). Carry a spare rear shoe set.</td><td>Every wheel-off</td><td>R23, §6</td></tr>
+      <tr><td>Brake hoses</td><td>Inspect flexible hoses for chafing, cracking, bulging and proximity to moving suspension. A perished hose can balloon or collapse.</td><td>Every 10,000 km wheel-off</td><td>R25</td></tr>
+      <tr><td>Brake-disc oil weep</td><td>Inspect the inside of the front wheels/discs (left front especially) for oil weep from the swivel/front-hub seal — oil on a disc destroys braking and pads.</td><td>Every wheel-off service</td><td>R25, R20</td></tr>
+      <tr><td>Hard lines</td><td>Look for corrosion, kinks and weeping at unions, particularly around the rear axle and LSPV.</td><td>Every wheel-off</td><td>§7</td></tr>
+    </tbody>
+  </table>
+
+  <!-- ============ BLEEDING ============ -->
+  <div id="s-bleed" class="sa"></div>
+  <h2 class="section-head">4 · Bleeding the Brakes</h2>
+  <p class="section-intro">For a full fluid change, a spongy pedal, after any hydraulic work, or if the reservoir has run dry. The 76-specific trap is the LSPV.</p>
+
+  <div class="sub-head">Order — Furthest From Master First</div>
+  <div class="signal-chain">
+    <span class="sc-step">RR</span><span class="sc-arrow">→</span>
+    <span class="sc-step">LR</span><span class="sc-arrow">→</span>
+    <span class="sc-key">LSPV</span><span class="sc-arrow">→</span>
+    <span class="sc-step">RF</span><span class="sc-arrow">→</span>
+    <span class="sc-step">LF</span>
+  </div>
+  <p class="body">The principle is to bleed in order of descending distance from the master cylinder, ending at the nearest corner. The widely-used 70-series order is rear-right, rear-left, the LSPV bleeder, then right-front and left-front. Exact left/right ordering follows line length on a right-hand-drive vehicle — <b>confirm the precise sequence against the vehicle's service manual</b>; what matters most is that clean, bubble-free fluid reaches every point, the LSPV included.</p>
+
+  <div class="warn-box"><b>Do not skip the LSPV bleeder.</b> The classic 70-series mistake is bleeding the four wheels and leaving air trapped in the load-sensing proportioning valve on the rear axle — the result is weak or unbalanced rear braking that no amount of wheel bleeding will fix. If the LSPV nipple is rusted or seized, free it (penetrating oil, wire brush) <i>before</i> you start, not after.</div>
+
+  <div class="sub-head">Two-Person Method</div>
+  <div class="check-steps">
+    <div class="check-step"><div class="step-num">1</div><div class="step-text">Top the reservoir to MAX. Keep it between MIN and MAX throughout — <b>never let it run dry</b>, or you draw air back into the master and start over.</div></div>
+    <div class="check-step"><div class="step-num">2</div><div class="step-text">Fit a clear tube to the first bleed nipple, into a part-filled jar so you can see bubbles. Start at the point furthest from the master.</div></div>
+    <div class="check-step"><div class="step-num">3</div><div class="step-text">Assistant pumps the pedal a few times and holds it firmly down.</div></div>
+    <div class="check-step"><div class="step-num">4</div><div class="step-text">Crack the nipple ¼–½ turn; fluid and air escape and the pedal drops. Close the nipple <b>before</b> the assistant releases the pedal.</div></div>
+    <div class="check-step"><div class="step-num">5</div><div class="step-text">Assistant releases the pedal slowly. Repeat roughly five cycles per point — until the fluid runs clean and bubble-free.</div></div>
+    <div class="check-step"><div class="step-num">6</div><div class="step-text">Top the reservoir, move to the next point in sequence, and repeat. Do the LSPV in its place in the order. Finish at the corner nearest the master.</div></div>
+    <div class="check-step"><div class="step-num">7</div><div class="step-text">Reservoir to MAX, cap on. Test the pedal: firm and high, no sponginess. <b>Test braking at low speed in a safe area before driving normally.</b></div></div>
+  </div>
+
+  <div class="note-box"><b>One-person options.</b> A vacuum bleeder draws fluid from each nipple in the same order; a pressure bleeder pushes from the reservoir. Either is fine — the order and the "keep the reservoir wet" rule are unchanged. Carry a simple vacuum bleed kit and 500 ml of DOT 4 (R3).</div>
+
+  <!-- ============ DIAGNOSIS ============ -->
+  <div id="s-diag" class="sa"></div>
+  <h2 class="section-head">5 · Field Fault Diagnosis</h2>
+  <p class="section-intro">Symptom → likely cause → field action → whether it is a Stop condition.</p>
+
+  <table class="specs-table">
+    <thead><tr><th style="width:24%">Symptom</th><th style="width:30%">Likely cause</th><th style="width:32%">Field action</th><th style="width:14%">Verdict</th></tr></thead>
+    <tbody>
+      <tr><td>Spongy / soft pedal</td><td>Air in lines, or degraded/boiled fluid</td><td>Bleed (§4). If it firms up, continue with care. If it stays soft, suspect a leak — investigate before relying on the brakes.</td><td><span class="caut-cell">CAUTION</span></td></tr>
+      <tr><td>Pedal slowly sinks under steady foot pressure</td><td>Master cylinder bypassing internally</td><td>No field fix. The master is failing.</td><td><span class="stop-cell">STOP</span></td></tr>
+      <tr><td>Pedal goes to the floor / little or no braking</td><td>Fluid loss — burst hose, failed line, or empty reservoir</td><td>Find and isolate the leak. A brake-line leak cannot be bodged (§7).</td><td><span class="stop-cell">STOP</span></td></tr>
+      <tr><td>Pulls to one side under braking</td><td>Seized caliper or wheel cylinder, contaminated lining, or a collapsed hose acting as a one-way valve</td><td>Reduce speed. Feel hubs for uneven heat. Inspect the affected corner.</td><td><span class="caut-cell">CAUTION</span></td></tr>
+      <tr><td>Judder / pulsing through the pedal</td><td>Warped front rotor or out-of-round rear drum</td><td>Brake gently; plan to skim or replace. Not an immediate stop on its own.</td><td><span class="cont-cell">CONTINUE</span></td></tr>
+      <tr><td>Fade on a long descent</td><td>Overheated fluid and friction material</td><td>Use engine braking in low gear, ease off, let the brakes cool. Don't ride them (R28).</td><td><span class="caut-cell">CAUTION</span></td></tr>
+      <tr><td>Weak / grabbing rear brakes</td><td>Oil-contaminated rear shoes (hub-seal leak) or trapped LSPV air</td><td>Inspect rear shoes (§6); re-bleed including the LSPV (§4).</td><td><span class="caut-cell">CAUTION</span></td></tr>
+      <tr><td>A wheel runs hot / brake drags</td><td>Seized caliper, sticking wheel cylinder, or a binding handbrake</td><td>Free off the binding component; check handbrake adjustment. A dragging brake overheats fluid and bearings.</td><td><span class="caut-cell">CAUTION</span></td></tr>
+    </tbody>
+  </table>
+
+  <!-- ============ HUB SEAL ============ -->
+  <div id="s-hubseal" class="sa"></div>
+  <h2 class="section-head">6 · Hub-Seal → Shoe Contamination Monitor</h2>
+  <p class="section-intro">An active monitor on this vehicle, surfaced here because it shows up as a brake fault.</p>
+
+  <div class="note-box"><b>Active monitor (Facts §3).</b> The rear hub seal is on the watch list for leaking, and a leaking rear hub seal lets axle oil reach the rear brake shoes. <b>Oil-contaminated shoes lose their friction</b> — degreasing rarely restores them.</div>
+
+  <p class="body"><b>What you'll notice:</b> rear braking that feels weak or grabby, a pull, or a faint burning smell under braking. A check at the drum confirms it.</p>
+
+  <div class="check-steps">
+    <div class="check-step"><div class="step-num">1</div><div class="step-text">At every rear wheel-off service, pull the drum and look at the shoe linings and the inside of the backing plate for an oil film or glazing.</div></div>
+    <div class="check-step"><div class="step-num">2</div><div class="step-text">Check the hub/axle seal as the source. A weeping seal is the cause — the shoes are the symptom.</div></div>
+    <div class="check-step"><div class="step-num">3</div><div class="step-text">If contaminated: <b>replace the shoes</b> and fix the seal. Do not just clean the linings and refit — the oil has soaked in and the friction is gone.</div></div>
+  </div>
+
+  <!-- ============ DOCTRINE ============ -->
+  <div id="s-doctrine" class="sa"></div>
+  <h2 class="section-head">7 · Field Doctrine &amp; Limits</h2>
+  <p class="section-intro">The hard lines that keep a brake problem from becoming an accident. Cross-ref R27.</p>
+
+  <div class="signal-chain">
+    <span class="sc-stop">STOP CONDITION</span>
+    <span class="sc-arrow">—</span>
+    <span class="sc-key">A brake-line leak means the vehicle is not safely driveable until the line is replaced.</span>
+  </div>
+
+  <ul class="notodo-list">
+    <li><span class="notodo-x">✕</span><span class="notodo-text"><span class="notodo-label">Hose clamp on a brake line.</span><span class="notodo-note">It will not hold the pressure. This is not a field repair — it is a delay before failure.</span></span></li>
+    <li><span class="notodo-x">✕</span><span class="notodo-text"><span class="notodo-label">JB Weld / epoxy patch on a brake line.</span><span class="notodo-note">Will not hold. Brake hydraulic pressure is far beyond what a patch survives.</span></span></li>
+    <li><span class="notodo-x">✕</span><span class="notodo-text"><span class="notodo-label">Driving on a leaking circuit.</span><span class="notodo-note">The split system gives you partial braking only — move the vehicle to safety, gently, then fix it. Do not continue a journey on it.</span></span></li>
+    <li><span class="notodo-x">✕</span><span class="notodo-text"><span class="notodo-label">Anti-seize on disc or drum friction / mating surfaces.</span><span class="notodo-note">Compromises torque retention and contaminates the friction material. Keep all grease and anti-seize off rotors, drums and linings.</span></span></li>
+    <li><span class="notodo-x">✕</span><span class="notodo-text"><span class="notodo-label">DOT 5 silicone fluid.</span><span class="notodo-note">Never in this system (§2).</span></span></li>
+  </ul>
+
+  <div class="ok-box"><b>Do use anti-seize on caliper guide pins and slider hardware</b> — it prevents seizure between dissimilar metals and keeps the caliper floating freely. The rule is simple: lubricant on the mechanism, never on the friction.</div>
+
+  <!-- ============ TECHNIQUE ============ -->
+  <div id="s-technique" class="sa"></div>
+  <h2 class="section-head">8 · Braking Technique</h2>
+  <p class="section-intro">Brief — the full terrain treatment lives in R28.</p>
+  <p class="body"><b>Long descents:</b> select a low gear and let engine braking do the work; brake in firm, intermittent applications rather than riding the pedal, which overheats fluid and fades the brakes. <b>Clay mud:</b> do not brake mid-section — locked wheels mean no steering and the mud packs the brakes; carry momentum and let off the throttle instead. For sand, water, rock and corrugation technique, see R28 Driving Conditions Guide.</p>
+  <div class="xref-bar"><span class="xref-label">Full technique</span><span class="xref-pill">R28 · Driving Conditions</span></div>
+
+  <!-- ============ SPARES ============ -->
+  <div id="s-spares" class="sa"></div>
+  <h2 class="section-head">9 · Spares &amp; Tools</h2>
+  <p class="section-intro">The brake-specific carry list. Cross-ref R3 for the full spares manifest.</p>
+
+  <ul class="checklist">
+    <li><span class="cl-num">1</span><span class="cl-text"><span class="cl-label">Front brake pads (set)</span><span class="cl-note">Replace-trigger is 4 mm; carry a set if the fitted pads are mid-life or lower.</span></span></li>
+    <li><span class="cl-num">2</span><span class="cl-text"><span class="cl-label">Rear brake shoe set</span><span class="cl-note">Also the recovery part if a hub-seal leak contaminates the shoes (§6).</span></span></li>
+    <li><span class="cl-num">3</span><span class="cl-text"><span class="cl-label">Spare flexible brake hose</span><span class="cl-note">A perished or chafed hose is a Stop condition; a spare turns it into a roadside fix.</span></span></li>
+    <li><span class="cl-num">4</span><span class="cl-text"><span class="cl-label">DOT 4 fluid — 500 ml minimum</span><span class="cl-note">Shared with the clutch. Sealed container; replace once opened.</span></span></li>
+    <li><span class="cl-num">5</span><span class="cl-text"><span class="cl-label">Vacuum bleed kit + clear tube</span><span class="cl-note">Lets one person bleed brakes or clutch (R3).</span></span></li>
+    <li><span class="cl-num">6</span><span class="cl-text"><span class="cl-label">Brake cleaner + copper washers + wire brush</span><span class="cl-note">Cleaner for de-glazing tools/surfaces (not linings); washers for unions; wire brush to free the LSPV nipple.</span></span></li>
+  </ul>
+
+  <!-- ============ PRE-TRIP ============ -->
+  <div id="s-check" class="sa"></div>
+  <h2 class="section-head">10 · Pre-Departure Brake Check</h2>
+  <p class="section-intro">Run this before any major trip. Each line is a go/no-go.</p>
+
+  <ul class="checklist">
+    <li><span class="cl-num">1</span><span class="cl-text"><span class="cl-label">Front pads ≥ 4 mm, rotors within spec</span></span></li>
+    <li><span class="cl-num">2</span><span class="cl-text"><span class="cl-label">Rear shoes serviceable and free of oil</span><span class="cl-note">Pull a drum if the hub-seal monitor is live (§6).</span></span></li>
+    <li><span class="cl-num">3</span><span class="cl-text"><span class="cl-label">Fluid less than 2 years old, level MIN–MAX</span><span class="cl-note">Last change Jan 2026 → due Jan 2028.</span></span></li>
+    <li><span class="cl-num">4</span><span class="cl-text"><span class="cl-label">Pedal firm and high; no slow sink under steady pressure</span></span></li>
+    <li><span class="cl-num">5</span><span class="cl-text"><span class="cl-label">No weeping at hoses, hard lines, wheel cylinders or the LSPV</span></span></li>
+    <li><span class="cl-num">6</span><span class="cl-text"><span class="cl-label">LSPV bleeder free, not seized</span><span class="cl-note">So a roadside bleed is possible if needed.</span></span></li>
+    <li><span class="cl-num">7</span><span class="cl-text"><span class="cl-label">Handbrake holds the loaded vehicle on a grade</span></span></li>
+    <li><span class="cl-num">8</span><span class="cl-text"><span class="cl-label">Brake spares aboard (§9)</span></span></li>
+  </ul>
+
+  <div class="xref-bar">
+    <span class="xref-label">Cross-ref</span>
+    <span class="xref-pill">R3 · Spares &amp; Tools</span>
+    <span class="xref-pill">R8 · Service History</span>
+    <span class="xref-pill">R20 · Seal &amp; Gasket Atlas</span>
+    <span class="xref-pill">R23 · Pre-Trip Prep</span>
+    <span class="xref-pill">R25 · Suspension &amp; Steering</span>
+    <span class="xref-pill">R27 · Bush Mechanics</span>
+    <span class="xref-pill">R28 · Driving Conditions</span>
+  </div>
+
+  <div class="footer">
+    LC76 OVERLAND REFERENCE LIBRARY · R34 · BRAKE SYSTEM GUIDE<br>
+    Front disc / rear drum · tandem master + booster · load-sensing proportioning valve · DOT 4 (shared clutch/brake reservoir).<br>
+    Consolidation of distributed brake material (R3, R23, R25, R27, R28) + bleeding procedure, fault diagnosis and hub-seal monitor. Bleed sequence to be confirmed against the vehicle service manual. Compiled June 2026.
+  </div>
+
+</div>
+
+<script>
+  // TOC scroll
+  document.querySelectorAll('.toc-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.getAttribute('data-target');
+      const el = document.getElementById(id);
+      if (!el) return;
+      const stickyH = document.querySelector('.sticky-wrap').offsetHeight;
+      const top = el.getBoundingClientRect().top + window.scrollY - stickyH - 8;
+      window.scrollTo({ top, behavior: 'smooth' });
+    });
+  });
+
+  // IntersectionObserver for active TOC state
+  const sections = ['s-system','s-fluid','s-inspect','s-bleed','s-diag','s-hubseal','s-doctrine','s-technique','s-spares','s-check'];
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        document.querySelectorAll('.toc-btn').forEach(b => b.classList.remove('active'));
+        const id = entry.target.id;
+        const btn = document.querySelector(`.toc-btn[data-target="${id}"]`);
+        if (btn) btn.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -60% 0px', threshold: 0 });
+
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) observer.observe(el);
+  });
+</script>
+</body>
+</html>
