@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>R36 — Dangerous Wildlife &amp; Camp Safety | HZJ76R-RKMRS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=Oswald:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:      #1C1410;
+    --paper:    #F5EDDA;
+    --paper2:   #EDE5D0;
+    --amber:    #b86800;
+    --amber2:   #e07800;
+    --rule:     #d4cfc4;
+    --steeldk:  #2a2f3a;
+    --steelmd:  #6a7080;
+    --red-warn: #B91C1C;
+    --green-ok: #059669;
+    --orange:   #c05a00;
+    --border:   #c8bfad;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { overflow-x: hidden; }
+
+  body {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  /* STICKY WRAP */
+  .sticky-wrap { position: sticky; top: 0; z-index: 100; background: var(--ink); padding-top: env(safe-area-inset-top); }
+
+  /* MASTHEAD */
+  .masthead { position: relative; background: var(--ink); color: #fff; padding: 18px 24px 14px; }
+  .lib-home-btn { position:absolute; top:50%; right:16px; transform:translateY(-50%); display:inline-flex; align-items:center; gap:5px; font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; text-decoration:none; color:var(--amber2); background:rgba(232,120,0,.15); border:1px solid var(--amber2); border-radius:20px; padding:6px 12px; min-height:32px; white-space:nowrap; z-index:10; transition:background .2s; }
+  .lib-home-btn:hover, .lib-home-btn:active { background:rgba(232,120,0,.30); }
+
+  @media(max-width:600px){
+    .masthead { padding:14px 16px 12px; }
+    .lib-home-btn { top:14px; transform:none; }
+    .mh-title { font-size:clamp(1.5rem,6vw,2.2rem); }
+    .toc-bar { padding:0 12px; }
+    .toc-btn { font-size:.46rem; padding:8px 9px; }
+    .main { padding:14px 4% 60px; }
+    .principle-grid { grid-template-columns:1fr; }
+  }
+
+  @media print { .lib-home-btn { display:none !important; } }
+
+  .mh-eyebrow  { font-family:'IBM Plex Mono',monospace; font-size:.5rem; letter-spacing:.28em; text-transform:uppercase; color:var(--steelmd); margin-bottom:6px; }
+  .mh-title    { font-family:'Bebas Neue',sans-serif; font-size:clamp(1.8rem,5vw,2.6rem); letter-spacing:.06em; color:var(--amber2); line-height:1; }
+  .mh-sub      { font-family:'IBM Plex Mono',monospace; font-size:.54rem; letter-spacing:.12em; color:rgba(255,200,100,.65); margin-top:5px; }
+  .mh-vehicle  { font-family:'IBM Plex Mono',monospace; font-size:.48rem; letter-spacing:.08em; color:var(--steelmd); margin-top:8px; }
+
+  /* TOC BAR */
+  .toc-bar {
+    background: var(--steeldk);
+    border-top: 3px solid var(--amber2);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    padding: 0 20px;
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .toc-bar::-webkit-scrollbar { display: none; }
+  .toc-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .52rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--steelmd);
+    background: none;
+    border: none;
+    padding: 10px 12px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color 0.15s;
+  }
+  .toc-btn:hover  { color: #c8bfad; }
+  .toc-btn.active { color: var(--amber2); }
+
+  /* MAIN */
+  .main { padding: 28px 5% 80px; max-width: 100%; }
+
+  /* SECTION HEADINGS */
+  .section-head {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: var(--ink);
+    letter-spacing: 0.04em;
+    border-bottom: 2px solid var(--amber2);
+    padding-bottom: 4px;
+    margin-bottom: 14px;
+    margin-top: 28px;
+  }
+  .section-intro { font-size: 13px; color: var(--steelmd); margin-bottom: 14px; font-style: italic; }
+
+  /* SECTION ANCHOR OFFSET */
+  .sa { scroll-margin-top: 150px; }
+
+  /* SUBSECTION TITLE */
+  .sub-head {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 15px;
+    color: var(--amber2);
+    letter-spacing: 0.04em;
+    background: var(--steeldk);
+    padding: 8px 14px;
+    margin-bottom: 0;
+    margin-top: 16px;
+  }
+
+  p.body { font-size:13px; margin:10px 0; }
+  p.body:first-of-type { margin-top:0; }
+
+  /* PRINCIPLE CARDS GRID */
+  .principle-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:10px; margin:14px 0; }
+  .principle-card { border:1px solid var(--border); border-top:3px solid var(--amber2); background:#fff; border-radius:2px; padding:13px 14px 11px; }
+  .p-num   { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.12em; color:var(--steelmd); text-transform:uppercase; margin-bottom:4px; }
+  .p-title { font-family:'Bebas Neue',sans-serif; font-size:17px; color:var(--amber2); letter-spacing:.04em; margin-bottom:6px; line-height:1.1; }
+  .p-body  { font-size:12.5px; color:var(--ink); line-height:1.55; }
+
+  /* SPECS TABLE */
+  .specs-table { width:100%; border-collapse:collapse; font-size:12.5px; margin:14px 0; }
+  .specs-table th { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; background:var(--steeldk); color:#b0bcc8; padding:7px 10px; text-align:left; border:1px solid rgba(255,255,255,.07); }
+  .specs-table td { padding:7px 10px; border:1px solid var(--rule); vertical-align:top; }
+  .specs-table tr:nth-child(even) td { background:var(--paper2); }
+  .specs-table tr:nth-child(odd)  td { background:#fff; }
+  .mono { font-family:'IBM Plex Mono',monospace; font-size:11px; }
+
+  /* CHECKLIST */
+  .checklist { list-style:none; margin:10px 0; }
+  .checklist li { display:flex; gap:10px; align-items:flex-start; padding:7px 0; border-bottom:1px solid var(--rule); font-size:13px; }
+  .checklist li:last-child { border-bottom:none; }
+  .cl-num  { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; color:#fff; background:var(--steeldk); min-width:22px; height:22px; border-radius:2px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .cl-text { flex:1; }
+  .cl-label { font-weight:500; color:var(--ink); }
+  .cl-note  { color:var(--steelmd); font-size:12px; display:block; margin-top:2px; font-family:'Oswald',sans-serif; font-weight:300; }
+
+  /* STEP LIST (amber) */
+  .check-steps { margin:10px 0; }
+  .check-step  { display:flex; gap:10px; align-items:flex-start; margin-bottom:8px; font-size:13px; }
+  .step-num  { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; color:#fff; background:var(--amber); min-width:22px; height:22px; border-radius:2px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .step-text { flex:1; }
+  .step-text b { font-weight:600; }
+
+  /* NOT-TO-DO LIST */
+  .notodo-list { list-style:none; margin:10px 0; }
+  .notodo-list li { display:flex; gap:10px; align-items:flex-start; padding:8px 0; border-bottom:1px solid var(--rule); font-size:13px; }
+  .notodo-list li:last-child { border-bottom:none; }
+  .notodo-x     { font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; color:#fff; background:var(--red-warn); min-width:22px; height:22px; border-radius:2px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .notodo-text  { flex:1; }
+  .notodo-label { font-weight:500; color:var(--ink); }
+  .notodo-note  { color:var(--steelmd); font-size:12px; display:block; margin-top:2px; }
+
+  /* SIGNAL CHAIN */
+  .signal-chain { display:flex; align-items:center; flex-wrap:wrap; gap:4px; margin:14px 0; }
+  .sc-stop  { font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; color:#fff; background:var(--red-warn); padding:7px 12px; border-radius:2px; white-space:nowrap; }
+  .sc-key   { font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; color:#fff; background:var(--steeldk); padding:7px 12px; border-radius:2px; border:1px solid var(--amber2); }
+  .sc-arrow { font-size:14px; color:var(--steelmd); }
+
+  /* ALERT BOXES */
+  .warn-box { background:#fde8e8; border-left:3px solid var(--red-warn); padding:9px 12px; font-size:12.5px; color:#7a1010; margin:10px 0; }
+  .note-box { background:#fef9e7; border-left:3px solid var(--amber); padding:9px 12px; font-size:12.5px; color:#5a3800; margin:10px 0; }
+  .ok-box   { background:#e8f5e9; border-left:3px solid var(--green-ok); padding:9px 12px; font-size:12.5px; color:#0d4a28; margin:10px 0; }
+  .info-box { background:#e8eef8; border-left:3px solid #3b6abf; padding:9px 12px; font-size:12.5px; color:#1a2f5a; margin:10px 0; }
+
+  /* CROSS-REF BAR */
+  .xref-bar { background:var(--steeldk); border:1px solid rgba(255,255,255,.08); padding:9px 14px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:12px; font-size:12px; }
+  .xref-label { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.08em; color:var(--steelmd); text-transform:uppercase; white-space:nowrap; }
+  .xref-pill  { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; color:var(--amber2); background:rgba(224,120,0,.12); border:1px solid rgba(224,120,0,.3); padding:2px 8px; border-radius:2px; white-space:nowrap; }
+
+  .footer { margin-top:36px; padding-top:14px; border-top:1px solid var(--rule); font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--steelmd); line-height:1.6; }
+
+  /* PRINT */
+  @media print {
+    @page { margin: 7mm; size: A4; }
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    body { font-size: 7.5pt; background: #fff; line-height: 1.35; }
+    .sticky-wrap { position: static; }
+    .toc-bar { display: none; }
+    .masthead { padding: 4mm 8mm; break-after: avoid; background: #1C1410 !important; color: #fff !important; }
+    .mh-eyebrow { font-size: 5pt; color: #6a7080 !important; }
+    .mh-title { font-size: 16pt; color: #e07800 !important; }
+    .mh-sub, .mh-vehicle { font-size: 5pt; }
+    .main { padding: 4mm 0 10mm; }
+    .section-head { font-size: 14pt; margin-top: 8mm; page-break-after: avoid; break-after: avoid; border-bottom: 2pt solid #e07800 !important; }
+    .sub-head { font-size: 11pt; page-break-after: avoid; break-after: avoid; background: #2a2f3a !important; color: #e07800 !important; }
+    .principle-card { break-inside: avoid; }
+    .warn-box  { break-inside: avoid; background: #fde8e8 !important; border-left: 3pt solid #B91C1C !important; color: #7a1010 !important; }
+    .note-box  { break-inside: avoid; background: #fef9e7 !important; border-left: 3pt solid #b86800 !important; color: #5a3800 !important; }
+    .ok-box    { break-inside: avoid; background: #e8f5e9 !important; border-left: 3pt solid #059669 !important; color: #0d4a28 !important; }
+    .info-box  { break-inside: avoid; background: #e8eef8 !important; border-left: 3pt solid #3b6abf !important; color: #1a2f5a !important; }
+    .xref-bar  { background: #2a2f3a !important; border: 1px solid rgba(255,255,255,.08) !important; }
+    .xref-pill { background: rgba(224,120,0,.12) !important; color: #e07800 !important; border: 1px solid rgba(224,120,0,.3) !important; }
+    .specs-table thead { display: table-header-group; }
+    .specs-table th { background: #2a2f3a !important; color: #b0bcc8 !important; }
+    .specs-table tr { break-inside: avoid; }
+    .step-num   { background: #b86800 !important; color: #fff !important; }
+    .cl-num     { background: #2a2f3a !important; color: #fff !important; }
+    .notodo-x   { background: #B91C1C !important; color: #fff !important; }
+    .sc-stop    { background: #B91C1C !important; color: #fff !important; }
+    .sc-key     { background: #2a2f3a !important; color: #fff !important; border: 1pt solid #e07800 !important; }
+    .checklist li   { break-inside: avoid; }
+    .notodo-list li { break-inside: avoid; }
+    .check-step     { break-inside: avoid; }
+    a { color: var(--ink); text-decoration: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="sticky-wrap">
+  <div class="masthead">
+    <a href="index.html" class="lib-home-btn">⌂ Index</a>
+    <div class="mh-eyebrow">HZJ76R-RKMRS · Overland Reference Library · R36</div>
+    <div class="mh-title">Dangerous Wildlife &amp; Camp Safety</div>
+    <div class="mh-sub">Big-Game Encounters · Camp Siting · After-Dark Conduct · On-Foot &amp; Breakdowns · Encounter Card</div>
+    <div class="mh-vehicle">2009 LC76 SW · Ground-tent (OzTent RV4) field protocol · Unfenced wildlife camps · Southern &amp; East Africa · Snakebite owned by R10/R17 · HZJ76R-RKMRS</div>
+  </div>
+  <nav class="toc-bar">
+    <button class="toc-btn" data-target="s-scope">Scope</button>
+    <button class="toc-btn" data-target="s-game">The Animals</button>
+    <button class="toc-btn" data-target="s-siting">Camp Siting</button>
+    <button class="toc-btn" data-target="s-dark">After Dark</button>
+    <button class="toc-btn" data-target="s-vehicle">On Foot</button>
+    <button class="toc-btn" data-target="s-card">Encounter Card</button>
+    <button class="toc-btn" data-target="s-xref">Cross-Refs</button>
+  </nav>
+</div>
+
+<div class="main">
+
+  <div class="info-box">
+    <b>What this guide is.</b> The single field reference for surviving close contact with dangerous game and for running an unfenced ground camp safely — material the library audit found thin and scattered across the country profiles. It owns <b>big-game encounter behaviour</b> and <b>camp conduct in wildlife areas</b>. It does <b>not</b> restate what other guides own: snakebite, scorpion and insect stings and first aid are fully covered by <span class="mono">R10 §5</span> and <span class="mono">R17</span> (any bite → hospital); night-driving animal collisions by <span class="mono">R28</span>; checkpoint/theft security and fire by <span class="mono">R35</span>; breakdown recovery by <span class="mono">R9</span>. Country-by-country species detail lives in the profiles. This guide consolidates the conduct and points to those rather than competing with them.
+  </div>
+
+  <!-- ============ 1 · SCOPE & DOCTRINE ============ -->
+  <div id="s-scope" class="sa"></div>
+  <h2 class="section-head">1 · Scope &amp; Core Doctrine</h2>
+  <p class="section-intro">Six principles that sit under everything else in this guide. If you remember nothing else, remember these.</p>
+
+  <div class="warn-box"><b>The headline reality.</b> Hippo and buffalo — not lion or leopard — kill the most people in this region. The animals that feel least dramatic are the ones to fear most. Water margins and dense bush, not open plains, are where it goes wrong.</div>
+
+  <div class="principle-grid">
+    <div class="principle-card"><div class="p-num">01</div><div class="p-title">Avoid, Don't Manage</div><div class="p-body">The safest encounter is the one that never happens. Almost all of your safety is bought before contact — by where you camp, when you move, and how you read the bush.</div></div>
+    <div class="principle-card"><div class="p-num">02</div><div class="p-title">A Shape, Not A Wall</div><div class="p-body">Fabric stops nothing larger than an insect. But a closed, zipped tent reads to most large animals as one solid object — not prey — and holds your scent in. That unbroken outline is the protection: stay fully inside, zipped, and still. Break it and you lose it.</div></div>
+    <div class="principle-card"><div class="p-num">03</div><div class="p-title">Assume Presence</div><div class="p-body">Treat every night in or near a park as if an apex predator is within 200 m — because it routinely is. Behave accordingly from dusk, not after you hear something.</div></div>
+    <div class="principle-card"><div class="p-num">04</div><div class="p-title">Read, Then Retreat</div><div class="p-body">Most large animals warn before they commit — ears, posture, mock charges, vocalisation. Learn the signs and give ground early, calmly, while you still have the choice.</div></div>
+    <div class="principle-card"><div class="p-num">05</div><div class="p-title">Water Is The Danger Zone</div><div class="p-body">Hippo and crocodile concentrate the risk at rivers, pans and waterholes — at every hour, not just at night. Treat any water margin as hostile ground.</div></div>
+    <div class="principle-card"><div class="p-num">06</div><div class="p-title">Eco Not Ego</div><div class="p-body">Never approach, bait, crowd or block an animal for a photograph or a closer look. Pressure is what turns a tolerant animal into a dangerous one.</div></div>
+  </div>
+
+  <div class="note-box"><b>How the tent actually protects you.</b> A zipped ground tent works not as a wall but as a shape: lions and most large game treat a closed tent as one solid object and don't connect the human scent inside with prey — the same reason they ignore you in a vehicle. The protection is the unbroken outline, and it fails the moment you break it: unzipping to look out, sitting up in an open doorway, a limb against the wall, or climbing out at first light while game is still about. Bold scavengers — hyena especially — will still test a tent for food, which is why nothing edible goes inside and the zip stays shut. It is <b>not</b> foolproof: documented exceptions exist, and it does nothing about a bad pitch beside a hippo path or a waterhole.</div>
+
+  <!-- ============ 2 · THE ANIMALS ============ -->
+  <div id="s-game" class="sa"></div>
+  <h2 class="section-head">2 · The Animals</h2>
+  <p class="section-intro">Eight species that account for nearly all dangerous-game incidents on a ground-tent expedition. Overview first, then the specifics — drawn from the field notes in the country profiles.</p>
+
+  <table class="specs-table">
+    <thead><tr><th>Animal</th><th>The real danger</th><th>The one rule that matters most</th></tr></thead>
+    <tbody>
+      <tr><td><b>Hippo</b></td><td>The most human deaths of any African large land mammal. Territorial on land at night; ferocious in water.</td><td>Never get between a hippo and its water.</td></tr>
+      <tr><td><b>Buffalo</b></td><td>The profiles call it the most dangerous animal for ground campers — fast, ambushes from cover, circles back when wounded.</td><td>Give a wide berth; treat lone old bulls as the highest danger.</td></tr>
+      <tr><td><b>Elephant</b></td><td>Cows with calves and musth bulls are unpredictable; documented human fatalities. Mock-charges common, real charges deadly.</td><td>Give way, 50 m+; never get between a cow and her calf.</td></tr>
+      <tr><td><b>Lion</b></td><td>Rarely targets people, but bold prides walk through unfenced camps; less vehicle-habituated in CKGR/Savuti.</td><td>In camp, stay in the tent — never run.</td></tr>
+      <tr><td><b>Leopard</b></td><td>Secretive; patrols camps at night; dangerous mainly when cornered or wounded.</td><td>Always leave it an exit; keep food and dogs secured.</td></tr>
+      <tr><td><b>Rhino</b></td><td>Poor eyesight, will charge a perceived threat; black rhino notably aggressive.</td><td>Never approach on foot — guided tracking only.</td></tr>
+      <tr><td><b>Crocodile</b></td><td>Ambush from the water's edge; takes people fetching water, washing or launching boats.</td><td>Stay back from the water's edge — always.</td></tr>
+      <tr><td><b>Hyena</b></td><td>Bold camp raiders (Savuti especially); steal food and kit, will bite an exposed limb at the tent edge.</td><td>Lock all food and kit in the vehicle; zip the tent fully.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="sub-head">Hippo</div>
+  <p class="body">Hippos cause more human deaths than any other large animal in the region. At night they graze far from water and attack anything that blocks their escape route back to it. The profiles are consistent and blunt on this.</p>
+  <ul class="notodo-list">
+    <li><span class="notodo-x">!</span><span class="notodo-text"><span class="notodo-label">Never stand between a hippo and water.</span><span class="notodo-note">They panic and charge when they feel cut off (Zambia profile).</span></span></li>
+    <li><span class="notodo-x">!</span><span class="notodo-text"><span class="notodo-label">On foot at night: freeze, find the way <i>away</i> from water, move that way slowly.</span><span class="notodo-note">Do not bolt toward the river — that is exactly where the hippo is heading (Zambia profile).</span></span></li>
+    <li><span class="notodo-x">!</span><span class="notodo-text"><span class="notodo-label">Do not intercept a hippo on its path; if one is between you and your destination, wait.</span><span class="notodo-note">Hippo paths run straight through riverbank camps (Botswana / Namibia profiles).</span></span></li>
+  </ul>
+
+  <div class="sub-head">Buffalo</div>
+  <p class="body">The Tanzania profile names buffalo the most dangerous animal for ground campers — unpredictable, fast, and hard to see in bush. Lone old bulls ("dagga boys") are the most dangerous of all. Herds of 500+ occur in Ruaha and Nyerere.</p>
+  <ul class="checklist">
+    <li><span class="cl-num">1</span><span class="cl-text"><span class="cl-label">Confirm your site is clear of buffalo movement routes.</span><span class="cl-note">Ask the camp or operator before you pitch (Tanzania profile).</span></span></li>
+    <li><span class="cl-num">2</span><span class="cl-text"><span class="cl-label">Never walk into thick bush where you can't see ahead.</span><span class="cl-note">Buffalo ambush at close range and charge without a long warning.</span></span></li>
+    <li><span class="cl-num">3</span><span class="cl-text"><span class="cl-label">A snort close to camp at night → stay in the tent.</span><span class="cl-note">The profiles flag the buffalo snort as a stay-put signal (Zambia profile).</span></span></li>
+  </ul>
+
+  <div class="sub-head">Elephant</div>
+  <p class="body">Most elephants are tolerant, but cows with calves and musth bulls are not, and Ruaha has recorded human fatalities. Learn the difference: a mock charge (ears spread, trumpeting, stops short) is a warning; a real charge (ears back, trunk curled under, silent, head down) is not.</p>
+  <ul class="checklist">
+    <li><span class="cl-num">1</span><span class="cl-text"><span class="cl-label">Give way and keep 50 m or more.</span><span class="cl-note">Desert elephant are given the riverbed in the Hoarusib — yield, don't crowd (Namibia profile).</span></span></li>
+    <li><span class="cl-num">2</span><span class="cl-text"><span class="cl-label">In the vehicle, hold still on a mock charge — it nearly always stops.</span><span class="cl-note">Engine running, ready to reverse slowly if it presses (Tanzania profile).</span></span></li>
+    <li><span class="cl-num">3</span><span class="cl-text"><span class="cl-label">Never put yourself between a cow and her calf.</span><span class="cl-note">Back off the way you came, calmly; don't try to drive past.</span></span></li>
+    <li><span class="cl-num">4</span><span class="cl-text"><span class="cl-label">Slow right down at elephant crossings after dark.</span><span class="cl-note">They are on roads and tarmac at night in Chobe District (Botswana profile). See R28.</span></span></li>
+  </ul>
+
+  <div class="sub-head">Lion</div>
+  <p class="body">Lions rarely target people, but unfenced river-edge and Kalahari camps are walked through routinely, and Savuti and CKGR prides are bold and less used to vehicles. Hearing them is normal; reacting badly is the danger.</p>
+  <ul class="notodo-list">
+    <li><span class="notodo-x">!</span><span class="notodo-text"><span class="notodo-label">A lion roaring close in camp is normal — not a reason to leave the tent.</span><span class="notodo-note">Stay put. If you hear a deep grunt, stay in the tent (Zambia profile).</span></span></li>
+    <li><span class="notodo-x">!</span><span class="notodo-text"><span class="notodo-label">If caught outside: never run, never crouch, never shine a torch in its eyes.</span><span class="notodo-note">Stand tall, face it, back away slowly. Running triggers the chase response.</span></span></li>
+  </ul>
+
+  <div class="sub-head">Leopard</div>
+  <p class="body">Leopards patrol camps at night — the Botswana profile records lion and leopard patrolling camp nightly — and are almost never a threat to an adult unless cornered or wounded. The risk is to small animals and to your kit.</p>
+  <ul class="checklist">
+    <li><span class="cl-num">1</span><span class="cl-text"><span class="cl-label">Keep food, bins and any dogs secured.</span><span class="cl-note">Leopards take small animals and scraps from around camp.</span></span></li>
+    <li><span class="cl-num">2</span><span class="cl-text"><span class="cl-label">Never corner one between yourself and an obstacle.</span><span class="cl-note">Give it a clear exit and it will take it.</span></span></li>
+  </ul>
+
+  <div class="sub-head">Rhino</div>
+  <p class="body">Black rhino are aggressive and will charge a perceived threat despite poor eyesight. On foot they are extremely dangerous; from the vehicle, the rule is simply distance.</p>
+  <ul class="notodo-list">
+    <li><span class="notodo-x">!</span><span class="notodo-text"><span class="notodo-label">Never approach rhino on foot.</span><span class="notodo-note">Guided tracking (e.g. SRT in the Kunene) is the only safe and appropriate way (Namibia profile).</span></span></li>
+    <li><span class="notodo-x">!</span><span class="notodo-text"><span class="notodo-label">Never publish GPS coordinates of a rhino sighting.</span><span class="notodo-note">Library policy — poaching risk. Keep locations out of any shared document or post.</span></span></li>
+    <li><span class="notodo-x">!</span><span class="notodo-text"><span class="notodo-label">If charged on foot, get a tree or the vehicle between you and it.</span><span class="notodo-note">Rhino turn poorly; break its line and it usually loses you.</span></span></li>
+  </ul>
+
+  <div class="sub-head">Crocodile</div>
+  <p class="body">Nile crocodile take people at the water's edge — fetching water, washing, or launching a boat. Large populations sit in the Luangwa, Kafue and Zambezi, the Okavango channels, the Grumeti and Rufiji, and at Foz do Cunene (profiles). The danger is the routine task done at the same spot.</p>
+  <ul class="checklist">
+    <li><span class="cl-num">1</span><span class="cl-text"><span class="cl-label">Camp back from the river edge at night.</span><span class="cl-note">Crocodile risk at the margin is real (Namibia profile).</span></span></li>
+    <li><span class="cl-num">2</span><span class="cl-text"><span class="cl-label">Stay well back from the water's edge; never wash, fetch or swim at the same spot repeatedly.</span><span class="cl-note">Crocs learn a routine and wait for it. Vary nothing near water — just stay out of it.</span></span></li>
+    <li><span class="cl-num">3</span><span class="cl-text"><span class="cl-label">Keep dogs and anyone vulnerable away from every water margin.</span><span class="cl-note">Most attacks are on the smallest, lowest target at the bank.</span></span></li>
+  </ul>
+
+  <div class="sub-head">Hyena (spotted &amp; brown)</div>
+  <p class="body">Spotted hyena, and brown hyena in the Kalahari, are bold camp raiders. The Botswana profile records Savuti hyenas as notorious for stealing equipment left outside, and brown hyena visiting camp after dark routinely. The danger is to your kit, and to an exposed limb against the tent.</p>
+  <ul class="checklist">
+    <li><span class="cl-num">1</span><span class="cl-text"><span class="cl-label">Lock all food in the vehicle; secure cooler boxes; bring jerry cans inside.</span><span class="cl-note">Savuti hyenas raid for food and steal kit (Botswana profile).</span></span></li>
+    <li><span class="cl-num">2</span><span class="cl-text"><span class="cl-label">Zip the tent fully closed; keep limbs off the tent wall while sleeping.</span><span class="cl-note">A hyena will test and bite at an exposed shape at the tent edge.</span></span></li>
+    <li><span class="cl-num">3</span><span class="cl-text"><span class="cl-label">Never leave food, toiletries or rubbish out overnight.</span><span class="cl-note">Scent draws them in; an empty camp surface keeps the night quiet.</span></span></li>
+  </ul>
+
+  <!-- ============ 3 · CAMP SITING ============ -->
+  <div id="s-siting" class="sa"></div>
+  <h2 class="section-head">3 · Camp Siting In Unfenced Areas</h2>
+  <p class="section-intro">Botswana's, Zambia's and most regional park campsites are unfenced and sit in active wildlife habitat. Where you pitch decides most of your night-time risk.</p>
+
+  <ul class="checklist">
+    <li><span class="cl-num">1</span><span class="cl-text"><span class="cl-label">Pitch back from water.</span><span class="cl-note">Rivers, pans and waterholes concentrate hippo paths, crocodile, drinking elephant and hunting predators. Distance from water is the single biggest safety lever.</span></span></li>
+    <li><span class="cl-num">2</span><span class="cl-text"><span class="cl-label">Keep off game trails and animal paths.</span><span class="cl-note">Don't pitch across the route between bush and water — that is a highway after dark.</span></span></li>
+    <li><span class="cl-num">3</span><span class="cl-text"><span class="cl-label">Choose open ground with sightlines.</span><span class="cl-note">Avoid dense thicket where buffalo and elephant move unseen until they're on top of you.</span></span></li>
+    <li><span class="cl-num">4</span><span class="cl-text"><span class="cl-label">Ask the camp where animals move, and pitch clear of it.</span><span class="cl-note">Operators know the local hippo paths and buffalo routes — use that (Tanzania profile).</span></span></li>
+    <li><span class="cl-num">5</span><span class="cl-text"><span class="cl-label">Separate the kitchen and food from the tent.</span><span class="cl-note">Cook and store food well away from where you sleep; never keep food in or beside the tent.</span></span></li>
+    <li><span class="cl-num">6</span><span class="cl-text"><span class="cl-label">Use the LC76 as a partial barrier on the most exposed side — but never as protection.</span><span class="cl-note">Park to break a sightline or a wind line if it helps; your safety is still siting and conduct, not the vehicle.</span></span></li>
+  </ul>
+
+  <div class="note-box"><b>Ground-tent reality.</b> The profiles put it plainly: ground tenting — the LC76 approach — requires consistent discipline around predators, hippo, elephant and buffalo. The OzTent stops weather and insects, nothing larger. On the Skeleton Coast and similar predator-free stretches a ground tent is genuinely low-risk; inside a Big-Five park it is only as safe as your siting and your habits.</div>
+
+  <!-- ============ 4 · AFTER DARK ============ -->
+  <div id="s-dark" class="sa"></div>
+  <h2 class="section-head">4 · After-Dark Conduct</h2>
+  <p class="section-intro">The doctrine in practice: from dusk, behave as though an apex predator is within 200 m. Most serious incidents come from a person leaving the tent at night.</p>
+
+  <ul class="checklist">
+    <li><span class="cl-num">1</span><span class="cl-text"><span class="cl-label">Finish cooking, eating and washing-up before dark.</span><span class="cl-note">Clear every scrap of food and lock it in the vehicle. A clean camp is a quiet camp.</span></span></li>
+    <li><span class="cl-num">2</span><span class="cl-text"><span class="cl-label">Keep a strong torch and your boots inside the tent.</span><span class="cl-note">Relieve yourself right beside the tent — never on a walk into the dark.</span></span></li>
+    <li><span class="cl-num">3</span><span class="cl-text"><span class="cl-label">If you must move, use a bright light, sweep for eye-shine, and stay close to the vehicle.</span><span class="cl-note">Two people, never alone; keep the truck between you and open bush where you can.</span></span></li>
+    <li><span class="cl-num">4</span><span class="cl-text"><span class="cl-label">Never walk to the water at night.</span><span class="cl-note">Hippo and crocodile own the bank after dark (Botswana / Namibia profiles).</span></span></li>
+    <li><span class="cl-num">5</span><span class="cl-text"><span class="cl-label">Inside the tent: lion roar or grunt, or a buffalo snort close by → stay put, stay quiet.</span><span class="cl-note">Do not unzip to look (Zambia profile). The sound being close is not, by itself, an emergency.</span></span></li>
+  </ul>
+
+  <div class="warn-box"><b>The one rule for the night.</b> The most dangerous thing you can do is leave the tent to investigate a noise on foot. Don't. Stay in, stay still, keep the light handy, and wait for daylight. If something is genuinely wrong, your move is the vehicle — reached calmly, not a walk into the dark.</div>
+
+  <!-- ============ 5 · ON FOOT & BREAKDOWNS ============ -->
+  <div id="s-vehicle" class="sa"></div>
+  <h2 class="section-head">5 · On Foot &amp; Breakdowns In Game Areas</h2>
+  <p class="section-intro">In wildlife areas the vehicle is your safest position — animals read it as one large object, not as prey. Most on-foot risk is optional.</p>
+
+  <ul class="checklist">
+    <li><span class="cl-num">1</span><span class="cl-text"><span class="cl-label">Stay in the vehicle. Don't get out to photograph, approach water, or have a closer look.</span><span class="cl-note">The closer-look is how tolerant animals become incidents — and how you become prey-shaped.</span></span></li>
+    <li><span class="cl-num">2</span><span class="cl-text"><span class="cl-label">Forced to work outside (tyre, recovery): scan 360° first — bush and water margins especially.</span><span class="cl-note">If predators, elephant or buffalo are near, wait, or drive clear first if the fault allows. See R9 for recovery technique.</span></span></li>
+    <li><span class="cl-num">3</span><span class="cl-text"><span class="cl-label">Post a spotter on the bush side while the other works.</span><span class="cl-note">Whoever isn't working watches and calls — swap driver and spotter as needed. Keep a door open and the cab clear to retreat into.</span></span></li>
+    <li><span class="cl-num">4</span><span class="cl-text"><span class="cl-label">Never separate from the vehicle on foot to scout a track in dense bush.</span><span class="cl-note">Walk a line only in open ground with full sightlines, and not at all where buffalo or elephant could be standing unseen.</span></span></li>
+    <li><span class="cl-num">5</span><span class="cl-text"><span class="cl-label">Before walking any river line, check the banks for crocodile and hippo.</span><span class="cl-note">Never wade a murky pool to check depth — probe from the bank or pick another crossing.</span></span></li>
+  </ul>
+
+  <!-- ============ 6 · ENCOUNTER CARD ============ -->
+  <div id="s-card" class="sa"></div>
+  <h2 class="section-head">6 · Quick-Reference Encounter Card</h2>
+  <p class="section-intro">Print this page and keep it in the cab. At-a-glance response by animal — on foot versus from the vehicle.</p>
+
+  <table class="specs-table">
+    <thead><tr><th>Animal</th><th>On foot</th><th>From the vehicle</th></tr></thead>
+    <tbody>
+      <tr><td><b>Hippo</b></td><td>Freeze; move away from water slowly; never block its route to water.</td><td>Keep distance; don't park on its path to water.</td></tr>
+      <tr><td><b>Buffalo</b></td><td>Back to solid cover or climb; lone bulls = highest danger; don't enter thick bush.</td><td>Stay inside; give herds a wide berth.</td></tr>
+      <tr><td><b>Elephant</b></td><td>Retreat quietly, 50 m+; never between cow and calf.</td><td>Hold still on a mock charge; reverse slowly if it presses; engine on.</td></tr>
+      <tr><td><b>Lion</b></td><td>Stand tall, don't run, back away; in camp stay in the tent.</td><td>Stay inside; don't crowd or block the pride.</td></tr>
+      <tr><td><b>Leopard</b></td><td>Give it an exit; don't corner; back away.</td><td>Don't follow it into cover.</td></tr>
+      <tr><td><b>Rhino</b></td><td>Get a tree or vehicle between you and it; never approach.</td><td>Keep distance; don't pursue.</td></tr>
+      <tr><td><b>Crocodile</b></td><td>Stay back from the water's edge at all times; don't wash or fetch at one spot.</td><td>Manage at camp and water tasks; keep dogs back.</td></tr>
+      <tr><td><b>Hyena</b></td><td>Stand tall, be loud; secure food and kit; zip the tent.</td><td>Don't feed; lock the camp down at night.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="signal-chain">
+    <span class="sc-key">STAY IN THE TENT</span><span class="sc-arrow">·</span>
+    <span class="sc-key">DON'T RUN</span><span class="sc-arrow">·</span>
+    <span class="sc-stop">GIVE WATER A WIDE BERTH</span><span class="sc-arrow">·</span>
+    <span class="sc-key">LOCK FOOD AWAY</span><span class="sc-arrow">·</span>
+    <span class="sc-key">ECO NOT EGO</span>
+  </div>
+
+  <!-- ============ 7 · CROSS-REFERENCES ============ -->
+  <div id="s-xref" class="sa"></div>
+  <h2 class="section-head">7 · What This Guide Does Not Cover</h2>
+  <p class="section-intro">One owner per topic. For the adjacent subjects below, go to the owning document — this guide deliberately does not restate them.</p>
+
+  <table class="specs-table">
+    <thead><tr><th>Adjacent topic</th><th>Owner</th></tr></thead>
+    <tbody>
+      <tr><td>Snakebite, scorpion &amp; insect stings, bite first aid</td><td class="mono">R10 §5 · R17</td></tr>
+      <tr><td>Night driving &amp; animal collisions on the road</td><td class="mono">R28</td></tr>
+      <tr><td>Vehicle recovery &amp; breakdown extraction</td><td class="mono">R9</td></tr>
+      <tr><td>Security, theft prevention &amp; fire</td><td class="mono">R35</td></tr>
+      <tr><td>Emergency procedures &amp; casualty evacuation</td><td class="mono">R10 · R29</td></tr>
+      <tr><td>Country / region species detail &amp; per-camp wildlife notes</td><td class="mono">Country &amp; terrain profiles</td></tr>
+    </tbody>
+  </table>
+
+  <div class="xref-bar">
+    <span class="xref-label">Cross-ref</span>
+    <span class="xref-pill">R9 · Vehicle Recovery</span>
+    <span class="xref-pill">R10 · Emergency Procedures</span>
+    <span class="xref-pill">R17 · Health &amp; Hygiene</span>
+    <span class="xref-pill">R28 · Driving Conditions</span>
+    <span class="xref-pill">R29 · Insurance &amp; Medevac</span>
+    <span class="xref-pill">R35 · Security &amp; Fire</span>
+    <span class="xref-pill">Country Profiles</span>
+  </div>
+
+  <div class="footer">
+    LC76 OVERLAND REFERENCE LIBRARY · R36 · DANGEROUS WILDLIFE &amp; CAMP SAFETY GUIDE<br>
+    Big-game encounter behaviour (hippo, buffalo, elephant, lion, leopard, rhino, crocodile, hyena), camp siting in unfenced areas, after-dark conduct, on-foot &amp; breakdown protocol, and a printable encounter card.<br>
+    Folds audit finding F2 (dangerous-game encounter &amp; camp safety — thin). Encounter &amp; camp conduct only — snakebite owned by R10/R17, road collisions by R28, recovery by R9, security &amp; fire by R35, country detail by the profiles. Consolidated from the country-profile field notes, June 2026.
+  </div>
+
+</div>
+
+<script>
+  // TOC scroll
+  document.querySelectorAll('.toc-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.getAttribute('data-target');
+      const el = document.getElementById(id);
+      if (!el) return;
+      const stickyH = document.querySelector('.sticky-wrap').offsetHeight;
+      const top = el.getBoundingClientRect().top + window.scrollY - stickyH - 8;
+      window.scrollTo({ top, behavior: 'smooth' });
+    });
+  });
+
+  // IntersectionObserver for active TOC state
+  const sections = ['s-scope','s-game','s-siting','s-dark','s-vehicle','s-card','s-xref'];
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        document.querySelectorAll('.toc-btn').forEach(b => b.classList.remove('active'));
+        const id = entry.target.id;
+        const btn = document.querySelector(`.toc-btn[data-target="${id}"]`);
+        if (btn) btn.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-25% 0px -65% 0px', threshold: 0 });
+
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) observer.observe(el);
+  });
+</script>
+</body>
+</html>
