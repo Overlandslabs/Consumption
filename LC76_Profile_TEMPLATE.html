@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<!-- ════════════════════════════════════════════════════════════
+  LC76 PROFILE TEMPLATE  (built from the current profile pattern)
+  Carries: toc-bar nav (mobile single-row scroll), scrollIntoView,
+  IntersectionObserver active-state, Leaflet map engine, design system.
+  TO USE: copy this file, rename to <Country>_Overland_Profile_<YYYY-MM>.html,
+  fill every [PLACEHOLDER] and TEMPLATE note, populate the map data arrays,
+  set the section subtitles. NEVER publish GPS for sensitive sites.
+  ════════════════════════════════════════════════════════════ -->
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LC76 Library">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0d0e12">
+<title>[COUNTRY] Overland Profile &middot; LC76</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500;600&family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+:root{
+  --ink:#0d0e12;--paper:#dad2c0;--paper2:#edeae0;--rule:#d4cfc4;
+  --amber:#b86800;--amber2:#e07800;
+  --steeldk:#2a2f3a;--steelmd:#6a7080;--steellt:#a8b0bc;
+  --red-warn:#B91C1C;--green-ok:#059669;
+  --mono:'IBM Plex Mono',monospace;
+  --sans:'Oswald',sans-serif;
+  --display:'Bebas Neue',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{overflow-x:hidden}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55}
+.sticky-nav-unit{position:sticky;top:0;z-index:100;background:var(--ink);padding-top:env(safe-area-inset-top)}
+.std-header{background:var(--ink);padding:18px 24px 14px;position:relative;border-bottom:3px solid var(--amber);}
+.std-eyebrow{font-family:var(--mono);font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--steelmd);margin-bottom:8px;display:flex;align-items:center;gap:10px;}
+.masthead-flag{display:inline-flex;width:44px;height:28px;border:2px solid rgba(255,255,255,.30);overflow:hidden;flex-shrink:0;box-shadow:0 1px 4px rgba(0,0,0,.4);}
+.flag-third-h{width:100%;height:33.33%}
+.std-title{font-family:var(--display);font-size:clamp(2.1rem,6vw,3.4rem);letter-spacing:.06em;color:var(--amber2);line-height:1;}
+.std-local{font-family:var(--mono);font-size:.62rem;letter-spacing:.10em;color:rgba(255,200,100,.65);margin-top:7px;font-style:italic;}
+.std-sub{font-family:var(--sans);font-size:.92rem;font-style:italic;color:rgba(232,213,163,.85);margin-top:8px;line-height:1.4;}
+.std-vehicle{font-family:var(--mono);font-size:.50rem;letter-spacing:.08em;color:var(--steelmd);margin-top:10px;line-height:1.55;}
+.lib-home-btn{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--amber2);background:rgba(232,120,0,.15);border:1px solid var(--amber2);border-radius:20px;padding:6px 12px;min-height:32px;white-space:nowrap;position:absolute;top:50%;right:16px;transform:translateY(-50%);transition:background .2s;}
+.lib-home-btn:hover,.lib-home-btn:active{background:rgba(232,120,0,.30);}
+.alert-strip{background:#fff4f0;padding:14px 5%;display:flex;flex-direction:column;gap:10px;border-left:5px solid var(--red-warn);}
+.alert-strip .alert-main{font-family:var(--display);font-size:1.5rem;letter-spacing:.04em;line-height:1.1;color:#7a1010;}
+.alert-strip .alert-main .warn-icon{font-size:1.1rem;margin-right:6px;color:var(--red-warn);}
+.alert-pills{display:flex;flex-wrap:wrap;gap:8px;}
+.alert-strip .pill{background:#fff;padding:5px 12px;font-family:var(--sans);font-size:.84rem;font-weight:400;line-height:1.4;color:#5a1010;border-left:3px solid var(--red-warn);border:1px solid #fecaca;}
+.alert-strip .pill.warn{background:#fee2e2;color:#7a1010;border-color:#fca5a5;font-weight:600;}
+.alert-strip .pill strong{font-weight:600;color:#7a1010;}
+.toc-bar{background:var(--steeldk);padding:7px 24px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;border-bottom:2px solid var(--amber);}
+.toc-label{font-family:var(--mono);font-size:.48rem;letter-spacing:.18em;color:var(--steellt);text-transform:uppercase;margin-right:4px;flex-shrink:0}
+.toc-link{font-family:var(--mono);font-size:.48rem;color:rgba(255,255,255,.55);text-decoration:none;padding:2px 6px;border:1px solid transparent;transition:all .12s;white-space:nowrap;cursor:pointer;}
+.toc-link:hover{color:var(--amber2);border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.06)}
+.toc-link.active{color:var(--amber2);border-color:var(--amber2);background:rgba(232,120,0,.1)}
+.updated-banner{background:var(--ink);color:var(--steellt);font-family:var(--mono);font-size:.54rem;letter-spacing:.08em;padding:8px 5%;display:flex;flex-wrap:wrap;align-items:center;gap:14px;border-bottom:1px solid var(--steeldk);}
+.updated-banner strong{color:var(--amber2);font-weight:600}
+.content{padding:20px 5% 80px;max-width:100%}
+.sec-header{display:flex;align-items:center;gap:12px;padding:10px 5%;background:var(--steeldk);border-left:5px solid var(--amber2);margin:28px 0 0;}
+.sec-num{font-family:var(--mono);font-size:.58rem;font-weight:600;color:#fff;background:var(--amber);padding:3px 8px;letter-spacing:.12em;flex-shrink:0;}
+.sec-title{font-family:var(--display);font-size:1.7rem;letter-spacing:.10em;color:#fff;line-height:1;}
+.sec-sub{font-family:var(--mono);font-size:.46rem;letter-spacing:.10em;color:var(--steellt);margin-left:auto;flex-shrink:0;}
+.subsec{background:var(--paper2);border-left:3px solid var(--amber);padding:6px 16px 6px 14px;margin:20px 0 10px;display:flex;align-items:center;gap:10px;}
+.subsec-title{font-family:var(--display);font-size:1.1rem;letter-spacing:.12em;color:var(--ink);}
+.subsec-tag{font-family:var(--mono);font-size:.44rem;letter-spacing:.12em;color:var(--steelmd);text-transform:uppercase;margin-left:auto;}
+.prose{font-family:var(--sans);font-size:.92rem;line-height:1.65;color:var(--ink);margin:8px 0 12px;}
+.prose strong{font-weight:600;color:var(--ink)}
+.prose em{color:var(--amber);font-style:italic}
+.data-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:12px 0;}
+.data-card{background:var(--paper2);border:1px solid var(--rule);border-left:3px solid var(--amber);padding:11px 14px;}
+.data-card.warn{border-left-color:var(--red-warn);background:#fff4f0}
+.data-card.note{border-left-color:var(--amber2);background:#fffbe8}
+.data-card.ok{border-left-color:var(--green-ok);background:#f0fff8}
+.data-card.dark{border-left-color:var(--amber2);background:var(--ink);color:var(--steellt)}
+.data-card-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.14em;text-transform:uppercase;color:var(--steelmd);margin-bottom:5px;}
+.data-card.warn .data-card-label{color:var(--red-warn)}
+.data-card.note .data-card-label{color:var(--amber)}
+.data-card.ok .data-card-label{color:var(--green-ok)}
+.data-card.dark .data-card-label{color:var(--amber2)}
+.data-card-value{font-family:var(--display);font-size:1.5rem;letter-spacing:.04em;color:var(--ink);line-height:1;margin-bottom:3px;}
+.data-card.warn .data-card-value{color:#7a1010}
+.data-card.ok .data-card-value{color:#0a3a20}
+.data-card.dark .data-card-value{color:#fff}
+.data-card-sub{font-family:var(--sans);font-size:.78rem;color:var(--steelmd);line-height:1.5;}
+.data-card.dark .data-card-sub{color:var(--steellt)}
+.alert{border-left:4px solid;padding:10px 14px;margin:12px 0;font-family:var(--sans);font-size:.84rem;line-height:1.55;}
+.alert strong{font-weight:600;display:block;margin-bottom:3px;font-family:var(--mono);font-size:.54rem;letter-spacing:.10em;text-transform:uppercase}
+.alert-warn{background:#fff4f0;border-color:#B91C1C;color:#5a1010}
+.alert-warn strong{color:#B91C1C}
+.alert-note{background:#fffbe8;border-color:var(--amber2);color:#4a3000}
+.alert-note strong{color:var(--amber)}
+.alert-ok{background:#f0fff8;border-color:var(--green-ok);color:#0a3a20}
+.alert-ok strong{color:var(--green-ok)}
+.alert-info{background:var(--paper2);border-color:var(--steelmd);color:var(--steeldk)}
+.alert-info strong{color:var(--steelmd)}
+.spec-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.82rem}
+.spec-table th{background:var(--steeldk);color:#fff;font-family:var(--mono);font-size:.46rem;letter-spacing:.12em;text-transform:uppercase;padding:7px 10px;text-align:left;}
+.spec-table td{padding:6px 10px;border-bottom:1px solid var(--rule);vertical-align:top;font-family:var(--sans)}
+.spec-table tr:nth-child(even) td{background:var(--paper2)}
+.spec-table .mono{font-family:var(--mono);font-size:.72rem;color:var(--amber)}
+.spec-table .warn{color:var(--red-warn);font-weight:600}
+.spec-table .ok{color:var(--green-ok);font-weight:600}
+.spec-table .num{font-family:var(--mono);font-size:.78rem;text-align:right;white-space:nowrap}
+.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;max-width:100%}
+.route-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin:12px 0;}
+.route-card{background:var(--paper2);border:1px solid var(--rule);border-left:4px solid var(--amber2);padding:12px 16px;}
+.route-card.secondary{border-left-color:var(--steelmd)}
+.route-badge{font-family:var(--mono);font-size:.44rem;letter-spacing:.16em;text-transform:uppercase;color:#fff;background:var(--amber);padding:2px 8px;display:inline-block;margin-bottom:6px;}
+.route-card.secondary .route-badge{background:var(--steelmd)}
+.route-card h3{font-family:var(--display);font-size:1.25rem;letter-spacing:.06em;color:var(--ink);line-height:1.05;margin-bottom:8px;}
+.route-card ul{list-style:none;padding:0}
+.route-card li{font-family:var(--sans);font-size:.82rem;line-height:1.55;padding:4px 0;border-bottom:1px solid var(--rule);}
+.route-card li:last-child{border-bottom:none}
+.route-card li::before{content:"▸ ";color:var(--amber2);font-weight:600}
+.route-card li strong{font-weight:600;color:var(--ink)}
+.scenario{background:var(--paper2);border:1px solid var(--rule);border-top:3px solid var(--amber2);padding:12px 16px;margin:12px 0;}
+.scenario h4{font-family:var(--display);font-size:1.2rem;letter-spacing:.06em;color:var(--ink);margin-bottom:4px;line-height:1.05;}
+.scenario .scenario-meta{font-family:var(--mono);font-size:.50rem;letter-spacing:.10em;color:var(--steelmd);text-transform:uppercase;margin-bottom:8px;}
+.scenario p{font-family:var(--sans);font-size:.84rem;line-height:1.6;margin-bottom:6px;}
+.scenario ul{list-style:none;padding:0;margin-top:6px}
+.scenario li{font-family:var(--sans);font-size:.82rem;line-height:1.55;padding:3px 0;}
+.scenario li::before{content:"→ ";color:var(--amber2);font-weight:600}
+.verdict{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--rule);margin:14px 0;}
+.verdict-col{padding:11px 14px;background:var(--paper2)}
+.verdict-col:first-child{border-right:1px solid var(--rule)}
+.verdict-col h4{font-family:var(--mono);font-size:.50rem;letter-spacing:.16em;text-transform:uppercase;margin-bottom:8px;}
+.verdict-col.pros h4{color:var(--green-ok)}
+.verdict-col.cons h4{color:var(--red-warn)}
+.verdict-col ul{list-style:none;padding:0}
+.verdict-col li{font-family:var(--sans);font-size:.82rem;line-height:1.55;padding:3px 0}
+.verdict-col.pros li::before{content:"+ ";color:var(--green-ok);font-weight:700}
+.verdict-col.cons li::before{content:"− ";color:var(--red-warn);font-weight:700}
+.fuel-band{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:0;margin:12px 0;border:1px solid var(--rule);}
+.fuel-cell{padding:11px 14px;background:var(--paper2);border-right:1px solid var(--rule);}
+.fuel-cell:last-child{border-right:none}
+.fuel-cell-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.14em;text-transform:uppercase;color:var(--steelmd);margin-bottom:4px;}
+.fuel-cell-value{font-family:var(--display);font-size:1.4rem;letter-spacing:.04em;color:var(--amber);line-height:1;}
+.fuel-cell-sub{font-family:var(--mono);font-size:.62rem;color:var(--steelmd);margin-top:3px;}
+.data-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:12px 0;}
+.xref-bar{background:var(--steeldk);padding:8px 14px;display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:18px 0 4px;}
+.xref-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.18em;color:var(--steellt);text-transform:uppercase;flex-shrink:0;margin-right:4px}
+.xref-pill{font-family:var(--mono);font-size:.46rem;letter-spacing:.10em;color:var(--amber2);background:rgba(232,120,0,.12);border:1px solid rgba(232,120,0,.4);padding:2px 8px;text-decoration:none;white-space:nowrap;}
+.map-tabs{display:flex;border-bottom:0;margin:12px 0 0}
+.map-tab{font-family:var(--mono);font-size:.50rem;letter-spacing:.12em;text-transform:uppercase;background:var(--steeldk);color:var(--steellt);border:1px solid var(--ink);border-bottom:none;padding:9px 12px;cursor:pointer;flex:1;transition:all .12s;}
+.map-tab.active,.map-tab:hover{background:var(--amber);color:#fff;border-color:var(--amber)}
+#country-map{height:480px;border:1px solid var(--rule);background:var(--paper2);}
+.map-attrib{font-family:var(--mono);font-size:.48rem;letter-spacing:.06em;color:var(--steelmd);margin-top:6px;line-height:1.5;}
+.changelog-entry{display:grid;grid-template-columns:90px 70px 1fr;gap:12px;padding:10px 0;border-bottom:1px solid var(--rule);align-items:start;}
+.cl-date{font-family:var(--mono);font-size:.62rem;color:var(--steelmd);letter-spacing:.04em;line-height:1.4;}
+.cl-tag{font-family:var(--mono);font-size:.46rem;letter-spacing:.14em;text-transform:uppercase;padding:2px 7px;display:inline-block;font-weight:600;}
+.cl-tag.new{background:#dcfce7;color:#166534;border:1px solid #bbf7d0}
+.cl-tag.update{background:#dbeafe;color:#1e40af;border:1px solid #bfdbfe}
+.cl-tag.warn{background:#fee2e2;color:#991b1b;border:1px solid #fecaca}
+.cl-note{font-family:var(--sans);font-size:.84rem;line-height:1.55;color:var(--ink)}
+.cl-note strong{font-weight:600}
+#export-bar{background:var(--steeldk);padding:11px 5%;display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:0;font-family:var(--mono);font-size:.54rem;letter-spacing:.10em;color:var(--steellt);text-transform:uppercase;border-top:2px solid var(--amber);}
+.export-btn-inline{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:.54rem;letter-spacing:.10em;text-transform:uppercase;color:var(--amber2);background:rgba(232,120,0,.10);border:1px solid var(--amber2);padding:6px 12px;cursor:pointer;}
+.export-btn-inline:hover{background:rgba(232,120,0,.25)}
+.doc-footer{background:var(--ink);color:var(--steellt);font-family:var(--mono);font-size:.48rem;letter-spacing:.08em;padding:14px 5%;line-height:1.7;display:flex;flex-direction:column;gap:3px;}
+.doc-footer strong{color:var(--amber2);font-weight:600}
+@media(max-width:600px){
+  .std-header{padding:14px 16px 12px}
+  .std-title{font-size:clamp(1.7rem,7vw,2.6rem)}
+  .toc-bar{padding:5px 12px!important;flex-wrap:nowrap!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch!important;scrollbar-width:none!important}
+  .toc-bar::-webkit-scrollbar{display:none}
+  .toc-link{font-size:.44rem!important;padding:2px 5px!important;white-space:nowrap!important}
+  .alert-strip{padding:12px 16px!important;gap:8px!important;}
+  .updated-banner{padding:7px 16px;font-size:.50rem}
+  .sec-header{padding:8px 16px;margin:18px 0 0}
+  .sec-title{font-size:1.4rem}
+  .content{padding:14px 4% 60px}
+  .data-grid,.route-grid,.data-cards{grid-template-columns:1fr}
+  .verdict{grid-template-columns:1fr}
+  .verdict-col:first-child{border-right:none;border-bottom:1px solid var(--rule)}
+  .fuel-band{grid-template-columns:repeat(2,1fr)}
+  .fuel-cell{border-right:none;border-bottom:1px solid var(--rule)}
+  .spec-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  #country-map{height:340px}
+  .changelog-entry{grid-template-columns:1fr;gap:4px}
+  #export-bar{padding:10px 16px}
+}
+@media print{
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;color-adjust:exact!important}
+  @page{margin:7mm;size:A4}
+  :root{--ink:#0d0e12;--paper:#dad2c0;--paper2:#edeae0;--amber:#b86800;--amber2:#e07800;--steeldk:#2a2f3a;--steelmd:#6a7080;--red-warn:#B91C1C;--green-ok:#059669}
+  html,body{overflow:visible!important}
+  body{font-size:7.5pt;background:#dad2c0}
+  .sticky-nav-unit{position:static!important}
+  .std-header{background:#0d0e12!important;padding:6px 10px!important;border-bottom:2px solid #e07800!important}
+  .std-title{color:#e07800!important;font-size:1.6rem!important}
+  .toc-bar{display:none!important}
+  .alert-strip{break-inside:avoid}
+  .sec-header{background:#2a2f3a!important;margin:8px 0 0!important;padding:5px 10px!important;break-after:avoid}
+  .sec-num{background:#b86800!important}
+  .content{padding:0 8px 10px!important}
+  .data-card,.route-card,.alert{break-inside:avoid}
+  .scenario{break-inside:auto}
+  .scenario h4,.scenario .scenario-meta{break-after:avoid}
+  .scenario .spec-table{break-inside:auto}
+  .scenario .spec-table thead{display:table-header-group}
+  .data-card.dark{background:#0d0e12!important}
+  .data-card.dark .data-card-value{color:#fff!important}
+  .spec-table th{background:#2a2f3a!important;color:#fff!important}
+  .spec-table tr:nth-child(even) td{background:#edeae0!important}
+  #country-map{display:none!important}
+  .map-tabs{display:none!important}
+  .map-attrib{display:none!important}
+  #export-bar{display:none!important}
+  .doc-footer{background:#0d0e12!important;padding:6px 10px!important}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ STICKY NAV UNIT ════════════════════════════════════ -->
+<div class="sticky-nav-unit">
+
+<header class="std-header">
+  <a href="index.html" class="lib-home-btn" title="Library Index">⌂ Index</a>
+  <div class="std-eyebrow">
+    <!-- [COUNTRY] flag: green / yellow / black / yellow / blue diagonal from bottom-left to top-right — simplified as horizontal bands -->
+    <span class="masthead-flag"><svg viewBox="0 0 44 28" style="width:44px;height:28px;display:block"><rect width="44" height="28" fill="#6a7080"/></svg><!-- TODO: [COUNTRY] flag SVG --></span>
+    <span style="margin-left:auto;white-space:nowrap">Overland Series · Country Profile [NN]</span>
+  </div>
+  <h1 class="std-title">[Country Name]</h1>
+  <div class="std-local">[Official long-form name]</div>
+  <div class="std-sub">[One-line positioning subtitle]</div>
+  <div class="std-vehicle">
+LC76 SW 1HZ &middot; SA-plated / RHD &middot; [entry points] &middot; [visa note] &middot; Compiled [DATE]
+</div>
+</header>
+
+<nav class="toc-bar">
+  <span class="toc-label">Sections</span>
+  <a href="javascript:void(0)" onclick="document.getElementById('alerts').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">! Alerts</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s01').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">01. Entry</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s02').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">02. Borders</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s03').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">03. Vehicle</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s04').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">04. Season</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s05').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">05. Fuel</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s06').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">06. Roads</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s07').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">07. Security</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s08').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">08. Health</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s09').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">09. Camp Safety</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s10').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">10. Comms</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s11').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">11. Money</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s12').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">12. Parks &amp; Camping</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s13').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">13. [Key Region A]</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s14').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">14. [Key Region B]</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s15').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">15. Maps</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s16').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">16. [Route Option A]</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s17').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">17. [Route Option B]</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s18').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">18. Phrases</a>
+</nav>
+
+</div><!-- end sticky-nav-unit -->
+
+<div class="updated-banner">
+  <span>🗓 <strong>Last updated:</strong> 01 May 2026</span>
+  <span>· USD 1 ≈ TZS 2,620 · ZAR 1 ≈ TZS 144</span>
+  <span>· <a href="javascript:void(0)" onclick="document.getElementById('changelog').scrollIntoView({behavior:'smooth'});return false;">View changelog ↓</a></span>
+</div>
+
+<main class="content">
+<div class="sec-header" id="alerts" style="background:#fff4f0;border-left-color:var(--red-warn);">
+  <span class="sec-num" style="background:var(--red-warn);color:#fff;">!</span>
+  <span class="sec-title" style="color:#7a1010;">Critical Field Notices — [COUNTRY]</span>
+  <span class="sec-sub" style="color:#B91C1C;">Read Before Entering</span>
+</div>
+
+<div class="alert alert-note" style="margin:14px 0">TEMPLATE &mdash; replace with this section's content. Component patterns available: <code>data-grid</code>/<code>data-card</code>, <code>table-scroll</code>/<code>spec-table</code>, <code>callout</code>, <code>alert alert-note</code>/<code>alert-warn</code>. Do NOT publish GPS for sensitive sites (rock art, villages, rhino, boma).</div>
+
+<div class="sec-header" id="s01">
+  <span class="sec-num">01</span>
+  <span class="sec-title">Entry &amp; Visas</span>
+  <span class="sec-sub">[subtitle]</span>
+</div>
+
+<div class="alert alert-note" style="margin:14px 0">TEMPLATE &mdash; replace with this section's content. Component patterns available: <code>data-grid</code>/<code>data-card</code>, <code>table-scroll</code>/<code>spec-table</code>, <code>callout</code>, <code>alert alert-note</code>/<code>alert-warn</code>. Do NOT publish GPS for sensitive sites (rock art, villages, rhino, boma).</div>
+
+<div class="sec-header" id="s02">
+  <span class="sec-num">02</span>
+  <span class="sec-title">Border Crossings</span>
+  <span class="sec-sub">[subtitle]</span>
+</div>
+
+<div class="alert alert-note" style="margin:14px 0">TEMPLATE &mdash; replace with this section's content. Component patterns available: <code>data-grid</code>/<code>data-card</code>, <code>table-scroll</code>/<code>spec-table</code>, <code>callout</code>, <code>alert alert-note</code>/<code>alert-warn</code>. Do NOT publish GPS for sensitive sites (rock art, villages, rhino, boma).</div>
+
+<div class="sec-header" id="s03">
+  <span class="sec-num">03</span>
+  <span class="sec-title">Vehicle Documents</span>
+  <span class="sec-sub">[subtitle]</span>
+</div>
+
+<div class="alert alert-note" style="margin:14px 0">TEMPLATE &mdash; replace with this section's content. Component patterns available: <code>data-grid</code>/<code>data-card</code>, <code>table-scroll</code>/<code>spec-table</code>, <code>callout</code>, <code>alert alert-note</code>/<code>alert-warn</code>. Do NOT publish GPS for sensitive sites (rock art, villages, rhino, boma).</div>
+
+<div class="sec-header" id="s04">
+  <span class="sec-num">04</span>
+  <span class="sec-title">Best Season &amp; Timing</span>
+  <span class="sec-sub">[subtitle]</span>
+</div>
+
+<div class="alert alert-note" style="margin:14px 0">TEMPLATE &mdash; replace with this section's content. Component patterns available: <code>data-grid</code>/<code>data-card</code>, <code>table-scroll</code>/<code>spec-table</code>, <code>callout</code>, <code>alert alert-note</code>/<code>alert-warn</code>. Do NOT publish GPS for sensitive sites (rock art, villages, rhino, boma).</div>
+
+<div class="sec-header" id="s05">
+  <span class="sec-num">05</span>
+  <span class="sec-title">Fuel</span>
+  <span class="sec-sub">[subtitle]</span>
+</div>
+
+<div class="alert alert-note" style="margin:14px 0">TEMPLATE &mdash; replace with this section's content. Component patterns available: <code>data-grid</code>/<code>data-card</code>, <code>table-scroll</code>/<code>spec-table</code>, <code>callout</code>, <code>alert alert-note</code>/<code>alert-warn</code>. Do NOT publish GPS for sensitive sites (rock art, villages, rhino, boma).</div>
+
+<div class="sec-header" id="s06">
+  <span class="sec-num">06</span>
+  <span class="sec-title">Roads</span>
+  <span class="sec-sub">[subtitle]</span>
+</div>
+
+<div class="alert alert-note" style="margin:14px 0">TEMPLATE &mdash; replace with this section's content. Component patterns available: <code>data-grid</code>/<code>data-card</code>, <code>table-scroll</code>/<code>spec-table</code>, <code>callout</code>, <code>alert alert-note</code>/<code>alert-warn</code>. Do NOT publish GPS for sensitive sites (rock art, villages, rhino, boma).</div>
+
+<div class="sec-header" id="s07">
+  <span class="sec-num">07</span>
+  <span class="sec-title">Security</span>
+  <span class="sec-sub">[subtitle]</span>
+</div>
+
+<div class="alert alert-note" style="margin:14px 0">TEMPLATE &mdash; replace with this section's content. Component patterns available: <code>data-grid</code>/<code>data-card</code>, <code>table-scroll</code>/<code>spec-table</code>, <code>callout</code>, <code>alert alert-note</code>/<code>alert-warn</code>. Do NOT publish GPS for sensitive sites (rock art, villages, rhino, boma).</div>
+
+<div class="sec-header" id="s08">
+  <span class="sec-num">08</span>
+  <span class="sec-title">Health</span>
+  <span class="sec-sub">[subtitle]</span>
+</div>
+
+<div class="alert alert-note" style="margin:14px 0">TEMPLATE &mdash; replace with this section's content. Component patterns available: <code>data-grid</code>/<code>data-card</code>, <code>table-scroll</code>/<code>spec-table</code>, <code>callout</code>, <code>alert alert-note</code>/<code>alert-warn</code>. Do NOT publish GPS for sensitive sites (rock art, villages, rhino, boma).</div>
+
+<div class="sec-header" id="s09">
+  <span class="sec-num">09</span>
+  <span class="sec-title">Camp Safety &amp; Wildlife</span>
+  <span class="sec-sub">[subtitle]</span>
+</div>
+
+<div class="alert alert-note" style="margin:14px 0">TEMPLATE &mdash; replace with this section's content. Component patterns available: <code>data-grid</code>/<code>data-card</code>, <code>table-scroll</code>/<code>spec-table</code>, <code>callout</code>, <code>alert alert-note</code>/<code>alert-warn</code>. Do NOT publish GPS for sensitive sites (rock art, villages, rhino, boma).</div>
+
+<div class="sec-header" id="s10">
+  <span class="sec-num">10</span>
+  <span class="sec-title">Communications</span>
+  <span class="sec-sub">[subtitle]</span>
+</div>
+
+<div class="alert alert-note" style="margin:14px 0">TEMPLATE &mdash; replace with this section's content. Component patterns available: <code>data-grid</code>/<code>data-card</code>, <code>table-scroll</code>/<code>spec-table</code>, <code>callout</code>, <code>alert alert-note</code>/<code>alert-warn</code>. Do NOT publish GPS for sensitive sites (rock art, villages, rhino, boma).</div>
+
+<div class="sec-header" id="s11">
+  <span class="sec-num">11</span>
+  <span class="sec-title">Money &amp; Currency</span>
+  <span class="sec-sub">[subtitle]</span>
+</div>
+
+<div class="alert alert-note" style="margin:14px 0">TEMPLATE &mdash; replace with this section's content. Component patterns available: <code>data-grid</code>/<code>data-card</code>, <code>table-scroll</code>/<code>spec-table</code>, <code>callout</code>, <code>alert alert-note</code>/<code>alert-warn</code>. Do NOT publish GPS for sensitive sites (rock art, villages, rhino, boma).</div>
+
+<div class="sec-header" id="s12">
+  <span class="sec-num">12</span>
+  <span class="sec-title">National Parks &amp; Camping</span>
+  <span class="sec-sub">[subtitle]</span>
+</div>
+
+<div class="alert alert-note" style="margin:14px 0">TEMPLATE &mdash; replace with this section's content. Component patterns available: <code>data-grid</code>/<code>data-card</code>, <code>table-scroll</code>/<code>spec-table</code>, <code>callout</code>, <code>alert alert-note</code>/<code>alert-warn</code>. Do NOT publish GPS for sensitive sites (rock art, villages, rhino, boma).</div>
+
+<div class="sec-header" id="s13">
+  <span class="sec-num">13</span>
+  <span class="sec-title">[Key Region A] — Highlights</span>
+  <span class="sec-sub">[subtitle]</span>
+</div>
+
+<div class="alert alert-note" style="margin:14px 0">TEMPLATE &mdash; replace with this section's content. Component patterns available: <code>data-grid</code>/<code>data-card</code>, <code>table-scroll</code>/<code>spec-table</code>, <code>callout</code>, <code>alert alert-note</code>/<code>alert-warn</code>. Do NOT publish GPS for sensitive sites (rock art, villages, rhino, boma).</div>
+
+<div class="sec-header" id="s14">
+  <span class="sec-num">14</span>
+  <span class="sec-title">[Key Region B] — Highlights</span>
+  <span class="sec-sub">[subtitle]</span>
+</div>
+
+<div class="alert alert-note" style="margin:14px 0">TEMPLATE &mdash; replace with this section's content. Component patterns available: <code>data-grid</code>/<code>data-card</code>, <code>table-scroll</code>/<code>spec-table</code>, <code>callout</code>, <code>alert alert-note</code>/<code>alert-warn</code>. Do NOT publish GPS for sensitive sites (rock art, villages, rhino, boma).</div>
+
+<div class="sec-header" id="s15">
+  <span class="sec-num">15</span>
+  <span class="sec-title">[COUNTRY] — Interactive Maps</span>
+  <span class="sec-sub">[subtitle]</span>
+</div>
+
+<div class="alert alert-note" style="margin:14px 0">TEMPLATE &mdash; replace with this section's content. Component patterns available: <code>data-grid</code>/<code>data-card</code>, <code>table-scroll</code>/<code>spec-table</code>, <code>callout</code>, <code>alert alert-note</code>/<code>alert-warn</code>. Do NOT publish GPS for sensitive sites (rock art, villages, rhino, boma).</div>
+
+<div class="sec-header" id="s16">
+  <span class="sec-num">16</span>
+  <span class="sec-title">[Key Region A] Route Guide</span>
+  <span class="sec-sub">[subtitle]</span>
+</div>
+
+<div class="alert alert-note" style="margin:14px 0">TEMPLATE &mdash; replace with this section's content. Component patterns available: <code>data-grid</code>/<code>data-card</code>, <code>table-scroll</code>/<code>spec-table</code>, <code>callout</code>, <code>alert alert-note</code>/<code>alert-warn</code>. Do NOT publish GPS for sensitive sites (rock art, villages, rhino, boma).</div>
+
+<div class="sec-header" id="s17">
+  <span class="sec-num">17</span>
+  <span class="sec-title">Southern Circuit Route Guide</span>
+  <span class="sec-sub">[subtitle]</span>
+</div>
+
+<div class="alert alert-note" style="margin:14px 0">TEMPLATE &mdash; replace with this section's content. Component patterns available: <code>data-grid</code>/<code>data-card</code>, <code>table-scroll</code>/<code>spec-table</code>, <code>callout</code>, <code>alert alert-note</code>/<code>alert-warn</code>. Do NOT publish GPS for sensitive sites (rock art, villages, rhino, boma).</div>
+
+<div class="sec-header" id="s18">
+  <span class="sec-num">18</span>
+  <span class="sec-title">Essential Phrases</span>
+  <span class="sec-sub">[subtitle]</span>
+</div>
+
+<div class="alert alert-note" style="margin:14px 0">TEMPLATE &mdash; replace with this section's content. Component patterns available: <code>data-grid</code>/<code>data-card</code>, <code>table-scroll</code>/<code>spec-table</code>, <code>callout</code>, <code>alert alert-note</code>/<code>alert-warn</code>. Do NOT publish GPS for sensitive sites (rock art, villages, rhino, boma).</div>
+
+</main><!-- end content -->
+
+<!-- ── CHANGELOG ──────────────────────────────────────────── -->
+<div class="sec-header" id="changelog">
+  <span class="sec-num">LOG</span>
+  <span class="sec-title">Changelog</span>
+  <span class="sec-sub">[subtitle]</span>
+</div>
+
+<div class="content" style="padding-top:12px;padding-bottom:40px;">
+<p class="prose">All material changes to this profile are recorded here. Add new entries at the top with date, tag, and brief note.</p>
+
+<div style="margin-top:14px;">
+  <div class="changelog-entry">
+    <div class="cl-date">2026-05-01</div>
+    <div><span class="cl-tag new">New</span></div>
+    <div class="cl-note"><strong>Document created.</strong> Full [COUNTRY] country profile compiled — 18 sections covering entry/visa, borders, vehicle documents, seasonal timing, fuel, roads, security, health, camp safety, communications, money, parks/camping, northern and southern highlights (with human history, flora/vegetation, conservation sections), interactive map, northern and southern GPX route guides, and Swahili phrases. Wildebeest migration monthly position table included. Park fees based on TANAPA 2025/26 rates — verify before travel.</div>
+  </div>
+</div>
+</div>
+
+<!-- ── EXPORT BAR ──────────────────────────────────────────── -->
+<div id="export-bar">
+  Export:
+  <button class="export-btn-inline" onclick="window.print()">⎙ Print / Save PDF</button>
+  <button class="export-btn-inline" id="copy-btn" onclick="navigator.clipboard.writeText(document.body.innerText).then(()=>{this.textContent='✓ Copied';setTimeout(()=>this.textContent='⧉ Copy text',2000})">⧉ Copy text</button>
+</div>
+
+<!-- ── FOOTER ─────────────────────────────────────────────── -->
+<div class="doc-footer">
+  <div><strong>[COUNTRY] Overland Profile · 006</strong> · LC76 Overland Reference Library</div>
+  <div>Vehicle: LC76 SW 1HZ · HZJ76R · SA-plated · RHD</div>
+  <div>Compiled: 01 May 2026 · Sources: TANAPA 2025/26, [COUNTRY] Immigration, iOverlander Apr 2026</div>
+  <div>Verify all fees, visa requirements, and park conditions before travel — changes frequently</div>
+  <div><strong>overlandslabs.github.io/Consumption</strong></div>
+</div>
+
+<script>
+var map, currentView = 'overview';
+
+var views = {
+  overview: { center: [0, 0], zoom: 5 },
+  north:    { center: [0, 0], zoom: 6 },
+  south:    { center: [0, 0], zoom: 6 }
+};
+
+function setMapView(v) {
+  currentView = v;
+  document.querySelectorAll('.map-tab').forEach(function(t,i){
+    t.classList.toggle('active', ['overview','north','south'][i]===v);
+  });
+  map.flyTo(views[v].center, views[v].zoom, {duration:1});
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  map = L.map('country-map', { zoomControl: true, scrollWheelZoom: false })
+         .setView(views.overview.center, views.overview.zoom);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors', maxZoom: 18
+  }).addTo(map);
+
+  // TODO: paste country border GeoJSON polygon, then L.geoJSON(...).addTo(map);
+
+  var C = {
+    amber:'#e07800', red:'#7a1010', green:'#1A5C2E',
+    blue:'#1A4A6B', teal:'#0D6B6B'
+  };
+
+  function mkIcon(color, size) {
+    size = size || 12;
+    return L.divIcon({
+      html: '<div style="width:'+size+'px;height:'+size+'px;border-radius:50%;background:'+color+';border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.5)"></div>',
+      iconSize: [size+4,size+4], iconAnchor: [(size+4)/2,(size+4)/2], className:''
+    });
+  }
+
+  // Cities and entry points
+  var cities = [ /* TODO: { ll:[lat,lng], name:'', note:'' } */ ];
+  cities.forEach(function(c){
+    L.marker(c.ll, {icon: mkIcon(C.blue, 10)}).addTo(map)
+     .bindPopup('<strong>'+c.name+'</strong><br>'+c.note);
+  });
+
+  // Border crossings
+  var borders = [ /* TODO: { ll:[lat,lng], name:'', note:'' } */ ];
+  borders.forEach(function(b){
+    L.marker(b.ll, {icon: mkIcon(C.red, 9)}).addTo(map)
+     .bindPopup('<strong>'+b.name+'</strong><br>'+b.note);
+  });
+
+  // National parks
+  var parks = [ /* TODO: { ll:[lat,lng], name:'', note:'' } */ ];
+  parks.forEach(function(p){
+    L.marker(p.ll, {icon: mkIcon(C.green, 13)}).addTo(map)
+     .bindPopup('<strong>'+p.name+'</strong><br>'+p.note);
+  });
+
+  // Key camps / waypoints
+  var camps = [ /* TODO: { ll:[lat,lng], name:'', note:'' } */ ];
+  camps.forEach(function(c){
+    L.marker(c.ll, {icon: mkIcon(C.amber, 9)}).addTo(map)
+     .bindPopup('<strong>'+c.name+'</strong><br>'+c.note);
+  });
+
+  // Indicative route lines
+  /* TODO: add indicative route polyline for this country */
+
+  /* TODO: add indicative route polyline for this country */
+
+  /* TODO: add indicative route polyline for this country */
+
+  // Legend
+  var legend = L.control({position:'bottomright'});
+  legend.onAdd = function(){
+    var d = L.DomUtil.create('div');
+    d.style.cssText='background:rgba(13,14,18,.88);padding:8px 12px;font-family:IBM Plex Mono,monospace;font-size:10px;color:#a8b0bc;line-height:2;border:1px solid #2a2f3a';
+    d.innerHTML='<div style="color:#e07800;letter-spacing:.1em;margin-bottom:3px">LEGEND</div>'+
+      '<span style="color:#1A4A6B">●</span> City / service point<br>'+
+      '<span style="color:#7a1010">●</span> Border crossing<br>'+
+      '<span style="color:#1A5C2E">●</span> National park<br>'+
+      '<span style="color:#e07800">●</span> Camp / waypoint';
+    return d;
+  };
+  legend.addTo(map);
+
+  // IntersectionObserver for TOC active state
+  var sectionIds = ['s01','s02','s03','s04','s05','s06','s07','s08','s09','s10','s11','s12','s13','s14','s15','s16','s17','s18'];
+  var tocLinks = document.querySelectorAll('.toc-link');
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        var idx = sectionIds.indexOf(e.target.id);
+        tocLinks.forEach(function(l,i){ l.classList.toggle('active', i===idx); });
+      }
+    });
+  }, { rootMargin:'-20% 0px -70% 0px' });
+  sectionIds.forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) observer.observe(el);
+  });
+});
+</script>
+</body>
+</html>
