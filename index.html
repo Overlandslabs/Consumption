@@ -26,7 +26,7 @@ header{background:var(--ink);color:#fff;padding:2rem;padding-top:calc(2rem + env
 .status-value{font-family:Bebas Neue,sans-serif;font-size:1.8rem;color:var(--amber2);display:block}
 .status-label{font-family:IBM Plex Mono,monospace;font-size:.7rem;text-transform:uppercase;letter-spacing:1px;opacity:.8;line-height:1.3}
 main{max-width:1200px;margin:0 auto;padding:2rem}
-h2{font-family:Bebas Neue,sans-serif;font-size:2rem;margin:2rem 0 1rem;color:var(--steeldk);border-bottom:2px solid var(--rule);padding-bottom:.5rem}
+h2{font-family:Bebas Neue,sans-serif;font-size:2rem;margin:2rem 0 1rem;color:var(--steeldk);border-bottom:2px solid var(--rule);padding-bottom:.5rem;scroll-margin-top:50px}
 h2:first-of-type{margin-top:0}
 .card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin-bottom:1.5rem}
 .card{background:#fff;border:2px solid var(--rule);border-radius:8px;overflow:hidden;text-decoration:none;color:inherit;transition:all .2s;display:block}
@@ -43,15 +43,22 @@ h2:first-of-type{margin-top:0}
 .section-intro{font-size:.95rem;color:var(--steelmd);margin-bottom:1.5rem;max-width:800px;line-height:1.6}
 footer{background:var(--ink);color:var(--steelmd);padding:1rem;text-align:center;font-family:IBM Plex Mono,monospace;font-size:.75rem}
 footer p{color:var(--amber)}
+.toc-bar{position:sticky;top:0;z-index:100;background:var(--steeldk);padding:7px 20px;display:flex;align-items:center;gap:0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;border-top:3px solid var(--amber2);border-bottom:1px solid rgba(255,255,255,.08)}
+.toc-bar::-webkit-scrollbar{display:none}
+.toc-bar::before{content:"";position:absolute;left:0;right:0;bottom:100%;height:100vh;background:var(--steeldk)}
+.toc-btn{font-family:'IBM Plex Mono',monospace;font-size:.52rem;letter-spacing:.08em;text-transform:uppercase;color:var(--steelmd);background:none;border:none;padding:10px 12px;cursor:pointer;white-space:nowrap;transition:color .2s}
+.toc-btn:hover,.toc-btn.active{color:var(--amber2)}
 @media(max-width:768px){
 header{padding:1.5rem 1rem;padding-top:calc(1.5rem + env(safe-area-inset-top))}
 .header-title{font-size:2.2rem}
 main{padding:1.5rem 1rem}
 .card-grid{grid-template-columns:1fr}
 h2{font-size:1.6rem}
+.toc-bar{padding:5px 12px}
 }
 @media print{
 *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.toc-bar{display:none!important}
 body{padding:0.5cm;font-size:10pt}
 header{position:static;padding:0.5cm;border-bottom:2pt solid var(--amber2)}
 .header-title{font-size:24pt}
@@ -68,7 +75,7 @@ footer{margin-top:0.5cm;padding:0.3cm;border-top:1pt solid #ccc}
 <header>
 <h1 class="header-title"><span class="accent">LC76</span> OVERLAND REFERENCE LIBRARY</h1>
 <p class="header-subtitle">2009 Land Cruiser 76 Series • 1HZ 4.2L Diesel • SAC Turbo</p>
-<p class="header-meta">Last Updated: 17 June 2026</p>
+<p class="header-meta">Last Updated: 18 June 2026</p>
 </header>
 
 <div class="status-bar">
@@ -78,10 +85,29 @@ footer{margin-top:0.5cm;padding:0.3cm;border-top:1pt solid #ccc}
 <div class="status-item"><span class="status-value">26</span><span class="status-label">Reference Docs</span></div>
 </div>
 
+<div class="toc-bar" id="tocBar">
+  <button class="toc-btn" data-target="sec-philosophy">Philosophy</button>
+  <button class="toc-btn" data-target="sec-tools">Tools</button>
+  <button class="toc-btn" data-target="sec-predep">Pre-Dep</button>
+  <button class="toc-btn" data-target="sec-mechanical">Mechanical</button>
+  <button class="toc-btn" data-target="sec-drivetrain">Drivetrain</button>
+  <button class="toc-btn" data-target="sec-tyres">Tyres</button>
+  <button class="toc-btn" data-target="sec-atlases">Atlases</button>
+  <button class="toc-btn" data-target="sec-electrical">Electrical</button>
+  <button class="toc-btn" data-target="sec-terrain">Terrain</button>
+  <button class="toc-btn" data-target="sec-emergency">Emergency</button>
+  <button class="toc-btn" data-target="sec-logistics">Logistics</button>
+  <button class="toc-btn" data-target="sec-prep">Prep</button>
+  <button class="toc-btn" data-target="sec-service">Service</button>
+  <button class="toc-btn" data-target="sec-crossref">Cross-Ref</button>
+  <button class="toc-btn" data-target="sec-profiles">Profiles</button>
+  <button class="toc-btn" data-target="sec-itineraries">Itineraries</button>
+</div>
+
 <main>
 
 <!-- ═══ PHILOSOPHY & ETHOS ═══ -->
-<h2>📜 Philosophy &amp; Ethos</h2>
+<h2 id="sec-philosophy">📜 Philosophy &amp; Ethos</h2>
 <p class="section-intro">The philosophy and values beneath the whole library — why we travel the way we do. Written to be read on its own, at the fire.</p>
 <div class="card-grid">
 <a href="LC76_Overlanders_Manifesto.html" class="card">
@@ -105,7 +131,7 @@ footer{margin-top:0.5cm;padding:0.3cm;border-top:1pt solid #ccc}
 </div>
 
 <!-- ═══ FIELD TOOLS ═══ -->
-<h2>🛠️ Field Tools</h2>
+<h2 id="sec-tools">🛠️ Field Tools</h2>
 <p class="section-intro">Interactive calculators and planners for expedition use. Designed for offline access on mobile devices.</p>
 <div class="card-grid">
 <a href="LC76_Fuel_Range_Calculator.html" class="card tool">
@@ -165,7 +191,7 @@ footer{margin-top:0.5cm;padding:0.3cm;border-top:1pt solid #ccc}
 </div>
 
 <!-- ═══ PRE-DEPARTURE R1–R3 ═══ -->
-<h2>📋 Pre-Departure</h2>
+<h2 id="sec-predep">📋 Pre-Departure</h2>
 <p class="section-intro">The before-you-leave set. Print, laminate, and carry in the vehicle.</p>
 <div class="card-grid">
 <a href="LC76_Reference_Card.html" class="card">
@@ -198,7 +224,7 @@ footer{margin-top:0.5cm;padding:0.3cm;border-top:1pt solid #ccc}
 </div>
 
 <!-- ═══ MECHANICAL SYSTEMS R4, R21–R22, R24–R25, R27 ═══ -->
-<h2>🔧 Mechanical Systems</h2>
+<h2 id="sec-mechanical">🔧 Mechanical Systems</h2>
 <p class="section-intro">Engine and engine-system reference guides — architecture, wear, field diagnosis, and pre-departure protocols. Study before the trip; diagnose in the field using R18.</p>
 <div class="card-grid">
 <a href="LC76_Engine_Training.html" class="card">
@@ -276,7 +302,7 @@ footer{margin-top:0.5cm;padding:0.3cm;border-top:1pt solid #ccc}
 </div>
 
 <!-- ═══ DRIVETRAIN R13 ═══ -->
-<h2>⚙️ Drivetrain</h2>
+<h2 id="sec-drivetrain">⚙️ Drivetrain</h2>
 <p class="section-intro">Gearbox, transfer case, propshafts, differentials, and 4WD engagement.</p>
 <div class="card-grid">
 <a href="LC76_Drivetrain_Training_Guide.html" class="card">
@@ -291,7 +317,7 @@ footer{margin-top:0.5cm;padding:0.3cm;border-top:1pt solid #ccc}
 </div>
 
 <!-- ═══ TYRES R14, R19 ═══ -->
-<h2>🔵 Tyres</h2>
+<h2 id="sec-tyres">🔵 Tyres</h2>
 <p class="section-intro">Tyre management, field repair, and comparative review. The high-touch component — pressures change daily by terrain. Pair with the Tyre Pressure Calculator above.</p>
 <div class="card-grid">
 <a href="LC76_Tyre_Management_Guide.html" class="card">
@@ -315,7 +341,7 @@ footer{margin-top:0.5cm;padding:0.3cm;border-top:1pt solid #ccc}
 </div>
 
 <!-- ═══ REFERENCE ATLASES R20 ═══ -->
-<h2>📚 Reference Atlases</h2>
+<h2 id="sec-atlases">📚 Reference Atlases</h2>
 <p class="section-intro">Cross-system lookup references — symptom and component reverse-lookup, not training material.</p>
 <div class="card-grid">
 <a href="LC76_Seal_Gasket_Atlas.html" class="card">
@@ -330,7 +356,7 @@ footer{margin-top:0.5cm;padding:0.3cm;border-top:1pt solid #ccc}
 </div>
 
 <!-- ═══ BATTERY & ELECTRICAL R5–R7 ═══ -->
-<h2>🔋 Battery &amp; Electrical</h2>
+<h2 id="sec-electrical">🔋 Battery &amp; Electrical</h2>
 <p class="section-intro">All battery and electrical content in one place — wiring &amp; fault-tracing, training, longevity analysis, and lithium upgrade report.</p>
 <div class="card-grid">
 <a href="LC76_Battery_Training_Guide.html" class="card">
@@ -390,7 +416,7 @@ footer{margin-top:0.5cm;padding:0.3cm;border-top:1pt solid #ccc}
 </div>
 
 <!-- ═══ TERRAIN TECHNIQUE R9, R28 ═══ -->
-<h2>🏔️ Terrain Technique</h2>
+<h2 id="sec-terrain">🏔️ Terrain Technique</h2>
 <p class="section-intro">How to drive and how to recover. R28 covers terrain reading and technique before you get stuck; R9 covers recovery after. Use them together.</p>
 <div class="card-grid">
 <a href="LC76_Vehicle_Recovery_Guide.html" class="card">
@@ -414,7 +440,7 @@ footer{margin-top:0.5cm;padding:0.3cm;border-top:1pt solid #ccc}
 </div>
 
 <!-- ═══ FIELD EMERGENCY R10, R18 ═══ -->
-<h2>🆘 Field Emergency</h2>
+<h2 id="sec-emergency">🆘 Field Emergency</h2>
 <p class="section-intro">Something has gone wrong. R10 and R18 should be printed and kept accessible in the vehicle at all times.</p>
 <div class="card-grid">
 <a href="LC76_Emergency_Procedures_Guide.html" class="card emergency">
@@ -456,7 +482,7 @@ footer{margin-top:0.5cm;padding:0.3cm;border-top:1pt solid #ccc}
 </div>
 
 <!-- ═══ EXPEDITION LOGISTICS R11, R12, R15–R17 ═══ -->
-<h2>🌍 Expedition Logistics</h2>
+<h2 id="sec-logistics">🌍 Expedition Logistics</h2>
 <p class="section-intro">Planning and management for the two-year trip — packing, water, borders, communications, and health.</p>
 <div class="card-grid">
 <a href="LC76_Packing_Optimisation_Guide.html" class="card">
@@ -516,7 +542,7 @@ footer{margin-top:0.5cm;padding:0.3cm;border-top:1pt solid #ccc}
 </div>
 
 <!-- ═══ EXPEDITION PREPARATION R23 ═══ -->
-<h2>🗓️ Expedition Preparation</h2>
+<h2 id="sec-prep">🗓️ Expedition Preparation</h2>
 <p class="section-intro">Pre-expedition vehicle preparation — systematic workshop protocol for high-mileage expedition readiness.</p>
 <div class="card-grid">
 <a href="LC76_Pre_Trip_Prep_Protocol.html" class="card">
@@ -531,7 +557,7 @@ footer{margin-top:0.5cm;padding:0.3cm;border-top:1pt solid #ccc}
 </div>
 
 <!-- ═══ SERVICE HISTORY R8 ═══ -->
-<h2>🔍 Service History</h2>
+<h2 id="sec-service">🔍 Service History</h2>
 <p class="section-intro">Complete vehicle service record from new.</p>
 <div class="card-grid">
 <a href="LC76_Service_History.html" class="card">
@@ -556,7 +582,7 @@ footer{margin-top:0.5cm;padding:0.3cm;border-top:1pt solid #ccc}
 
 
 <!-- ═══ CROSS-REFERENCE R30 ═══ -->
-<h2>🗂️ Cross-Reference</h2>
+<h2 id="sec-crossref">🗂️ Cross-Reference</h2>
 <p class="section-intro">Master index mapping every document, system, and maintenance task across the library.</p>
 <div class="card-grid">
 <a href="LC76_Cross_Reference_Index.html" class="card">
@@ -572,7 +598,7 @@ footer{margin-top:0.5cm;padding:0.3cm;border-top:1pt solid #ccc}
 
 
 <!-- ═══ COUNTRY & TERRAIN PROFILES ═══ -->
-<h2>🌍 Country &amp; Terrain Profiles</h2>
+<h2 id="sec-profiles">🌍 Country &amp; Terrain Profiles</h2>
 <p class="section-intro">Expedition reference guides for the 2028–2030 Southern and East Africa circuit. Country profiles cover entry, borders, fuel, roads, health, booking, and route guides. Terrain profiles cover ecosystems that span multiple countries.</p>
 <div class="card-grid">
 
@@ -639,7 +665,7 @@ footer{margin-top:0.5cm;padding:0.3cm;border-top:1pt solid #ccc}
 </div>
 
 <!-- ═══ TRIP ITINERARIES ═══ -->
-<h2>🧭 Trip Itineraries</h2>
+<h2 id="sec-itineraries">🧭 Trip Itineraries</h2>
 <p class="section-intro">Specific dated trip plans built on the profile system — route, stops, contacts, facilities and background for a particular journey.</p>
 <div class="card-grid">
 
@@ -670,6 +696,35 @@ if ('serviceWorker' in navigator) {
     });
   });
 }
+
+// TOC navigation: scroll to section with offset for sticky bar
+document.querySelectorAll('.toc-btn').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var target = document.getElementById(btn.dataset.target);
+    if(target){
+      var offset = document.getElementById('tocBar').offsetHeight + 8;
+      var top = target.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({top:top, behavior:'smooth'});
+    }
+  });
+});
+
+// IntersectionObserver: highlight active TOC button
+var tocSections = document.querySelectorAll('h2[id]');
+var tocBtns = document.querySelectorAll('.toc-btn');
+var tocObs = new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
+    if(entry.isIntersecting){
+      tocBtns.forEach(function(b){b.classList.remove('active');});
+      var btn = document.querySelector('.toc-btn[data-target="'+entry.target.id+'"]');
+      if(btn){
+        btn.classList.add('active');
+        btn.scrollIntoView({behavior:'smooth',block:'nearest',inline:'nearest'});
+      }
+    }
+  });
+},{rootMargin:'-20% 0px -70% 0px',threshold:0});
+tocSections.forEach(function(s){tocObs.observe(s);});
 </script>
 
 </body>
