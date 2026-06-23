@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LC76 Library">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0d0e12">
+<title>LC76 · The History of Overlanding</title>
+<link rel="manifest" href="manifest-ref.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500;600&family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0d0e12;--paper:#dad2c0;--paper2:#edeae0;--rule:#d4cfc4;
+  --amber:#b86800;--amber2:#e07800;
+  --steeldk:#2a2f3a;--steelmd:#6a7080;--steellt:#a8b0bc;
+  --red-warn:#B91C1C;--green-ok:#059669;
+  --mono:'IBM Plex Mono',monospace;
+  --sans:'Oswald',sans-serif;
+  --display:'Bebas Neue',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{overflow-x:hidden;overflow-x:clip;overscroll-behavior-x:none}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.6}
+
+/* ── STICKY NAV ── */
+.sticky-nav-unit{position:sticky;top:0;z-index:100;padding-top:env(safe-area-inset-top);background:var(--ink)}
+.sticky-nav-unit::before{content:"";position:absolute;left:0;right:0;bottom:100%;height:100vh;background:var(--ink)}
+.std-header{background:var(--ink);padding:18px 24px 14px;position:relative;border-bottom:3px solid var(--amber)}
+.std-eyebrow{font-family:var(--mono);font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--steelmd);margin-bottom:6px}
+.std-title{font-family:var(--display);font-size:clamp(1.9rem,5vw,2.8rem);letter-spacing:.06em;color:var(--amber2);line-height:1}
+.std-sub{font-family:var(--mono);font-size:.54rem;letter-spacing:.12em;color:rgba(255,200,100,.65);margin-top:5px}
+.std-vehicle{font-family:var(--mono);font-size:.48rem;letter-spacing:.08em;color:var(--steelmd);margin-top:8px}
+.lib-home-btn{position:absolute;top:14px;right:16px;display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--amber2);background:rgba(232,120,0,.15);border:1px solid var(--amber2);border-radius:20px;padding:6px 12px;min-height:32px;white-space:nowrap;transition:background .2s}
+.lib-home-btn:hover{background:rgba(232,120,0,.30)}
+.toc-bar{background:var(--steeldk);padding:7px 24px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;border-bottom:2px solid var(--amber)}
+.toc-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.18em;color:var(--steellt);text-transform:uppercase;margin-right:4px;flex-shrink:0}
+.toc-link{font-family:var(--mono);font-size:.46rem;color:rgba(255,255,255,.45);text-decoration:none;padding:2px 6px;border:1px solid transparent;transition:all .12s;white-space:nowrap;cursor:pointer}
+.toc-link:hover,.toc-link.active{color:var(--amber2);border-color:var(--amber2);background:rgba(232,120,0,.1)}
+
+/* ── CONTENT ── */
+.content{padding:24px 5% 80px;max-width:100%}
+.lead{font-size:.96rem;color:var(--steeldk);line-height:1.75;margin:6px 0 4px}
+.lead strong{color:var(--ink);font-weight:600}
+.p{font-size:.9rem;color:var(--steeldk);line-height:1.72;margin:12px 0}
+.p strong{color:var(--ink);font-weight:600}
+.p em{font-style:italic}
+.p.first::first-letter{font-family:var(--display);font-size:2.6rem;line-height:.8;float:left;color:var(--amber2);margin:4px 8px 0 0}
+
+/* ── SECTION HEADERS ── */
+.sec-header{display:flex;align-items:baseline;gap:14px;padding:10px 5%;background:var(--steeldk);border-left:5px solid var(--amber2);margin:38px 0 0;margin-left:-5%;margin-right:-5%}
+.sec-num{font-family:var(--display);font-size:1.5rem;letter-spacing:.08em;color:#fff;background:var(--amber);padding:1px 12px;flex-shrink:0;line-height:1.3}
+.sec-title{font-family:var(--display);font-size:1.75rem;letter-spacing:.09em;color:#fff;line-height:1.05}
+.sec-header.plain{background:var(--ink)}
+.sec-era{font-family:var(--mono);font-size:.46rem;letter-spacing:.18em;text-transform:uppercase;color:var(--steellt);align-self:center;margin-left:auto;flex-shrink:0}
+
+/* ── EPIGRAPH / PULL QUOTE ── */
+.epigraph{margin:22px 4% 18px;padding:14px 24px;border-left:3px solid var(--amber2);background:var(--paper2);font-style:italic;font-size:1.06rem;line-height:1.55;color:var(--ink)}
+.epigraph cite{display:block;font-family:var(--mono);font-style:normal;font-size:.5rem;letter-spacing:.18em;text-transform:uppercase;color:var(--steelmd);margin-top:10px}
+.epigraph.center{text-align:center;border-left:none;border-top:2px solid var(--amber2);border-bottom:2px solid var(--amber2);background:transparent;margin:22px 6%}
+
+/* ── KEY-FIGURE / NOTE STRIP (echoes the manifesto thinkers strip) ── */
+.note{margin:18px 0 6px;padding:12px 16px 13px;background:var(--steeldk);border-left:4px solid var(--amber2)}
+.note-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.18em;text-transform:uppercase;color:var(--steellt);display:block;margin-bottom:9px}
+.note-line{font-family:var(--mono);font-size:.64rem;line-height:1.85;color:rgba(255,255,255,.82);display:block}
+.note-line b{color:var(--amber2);font-weight:600;letter-spacing:.05em}
+
+/* ── CAST LIST ── */
+.cast-item{font-size:.9rem;color:var(--steeldk);line-height:1.68;margin:10px 0;padding-left:14px;border-left:2px solid var(--rule)}
+.cast-item b{color:var(--amber);font-weight:600}
+
+/* ── REFERENCES ── */
+.refs{margin:14px 0 4px}
+.refs-group{font-family:var(--mono);font-size:.48rem;letter-spacing:.18em;text-transform:uppercase;color:var(--amber);display:block;margin:16px 0 7px;padding-bottom:4px;border-bottom:1px solid var(--rule)}
+.ref{font-family:var(--mono);font-size:.62rem;line-height:1.7;color:var(--steeldk);margin:5px 0 5px 16px;text-indent:-16px}
+.ref a{color:var(--amber);text-decoration:none;border-bottom:1px dotted var(--amber)}
+.ref a:hover{color:var(--amber2)}
+.refs-note{font-size:.84rem;color:var(--steeldk);line-height:1.65;margin:10px 0;padding:11px 15px;background:var(--paper2);border-left:3px solid var(--steelmd)}
+.refs-note b{color:var(--ink)}
+
+/* ── CLOSING BANNER ── */
+.closing-banner{background:var(--ink);border-top:3px solid var(--amber2);border-bottom:3px solid var(--amber2);text-align:center;padding:26px 5%;margin:34px -5% 0}
+.closing-banner .big-line{font-family:var(--display);font-size:clamp(1.9rem,7vw,3.1rem);letter-spacing:.12em;color:var(--amber2);line-height:1.1}
+.closing-banner .sign{font-family:var(--mono);font-size:.52rem;letter-spacing:.18em;color:var(--steellt);margin-top:14px}
+
+/* ── XREF ── */
+.xref-bar{background:var(--steeldk);padding:9px 5%;display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:34px -5% 0}
+.xref-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.16em;color:var(--steellt);text-transform:uppercase;margin-right:6px}
+.xref-pill{font-family:var(--mono);font-size:.46rem;letter-spacing:.08em;color:var(--amber2);background:rgba(232,120,0,.12);border:1px solid rgba(232,120,0,.4);padding:3px 9px;text-decoration:none;white-space:nowrap}
+.xref-pill:hover{background:rgba(232,120,0,.25)}
+
+/* ── FOOTER ── */
+.doc-footer{background:var(--steeldk);color:var(--steellt);font-family:var(--mono);font-size:.44rem;letter-spacing:.10em;padding:14px 5%;margin-top:0;display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+
+/* ── MOBILE ── */
+@media(max-width:600px){
+  .std-header{padding:14px 16px 12px}
+  .std-title{font-size:clamp(1.6rem,6vw,2.4rem)}
+  .lib-home-btn{top:12px;right:12px}
+  .toc-bar{padding:5px 12px!important;flex-wrap:nowrap!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch!important;scrollbar-width:none!important;overscroll-behavior-x:contain}
+  .toc-bar::-webkit-scrollbar{display:none}
+  .toc-link{font-size:.42rem!important;padding:2px 5px!important}
+  .content{padding:14px 4% 60px}
+  .sec-header{margin-left:-4%;margin-right:-4%;padding:10px 4%}
+  .sec-era{display:none}
+  .xref-bar{margin-left:-4%;margin-right:-4%;padding:9px 4%}
+  .closing-banner{margin-left:-4%;margin-right:-4%}
+  .epigraph{margin-left:2%;margin-right:2%}
+}
+
+/* ── PRINT ── */
+@media print{
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;color-adjust:exact!important}
+  @page{margin:7mm;size:A4}
+  :root{--paper:#ffffff}
+  body{font-size:8pt;background:#fff!important}
+  .lib-home-btn,.toc-bar{display:none!important}
+  .sticky-nav-unit{position:static!important}
+  .sticky-nav-unit::before{content:none}
+  .reveal{opacity:1!important;transform:none!important}
+  .std-header{background:#0d0e12!important;border-bottom:2px solid #e07800!important}
+  .std-title{color:#e07800!important}
+  .sec-header{background:#2a2f3a!important;border-left:4px solid #e07800!important;page-break-after:avoid;break-after:avoid;margin-left:0!important;margin-right:0!important}
+  .sec-header.plain{background:#0d0e12!important}
+  .sec-num{background:#b86800!important;color:#fff!important}
+  .sec-title{color:#fff!important}
+  .epigraph{background:#edeae0!important;break-inside:avoid}
+  .epigraph.center{background:#fff!important}
+  .note{background:#2a2f3a!important;break-inside:avoid}
+  .note-line{color:#e8e4da!important}.note-line b{color:#e07800!important}
+  .closing-banner{background:#0d0e12!important;margin-left:0!important;margin-right:0!important;break-inside:avoid}
+  .closing-banner .big-line{color:#e07800!important}
+  .xref-bar{background:#2a2f3a!important;margin-left:0!important;margin-right:0!important}
+  .xref-pill{color:#e07800!important;background:#fff!important}
+  .doc-footer{background:#2a2f3a!important;color:#a8b0bc!important}
+  .p.first::first-letter{color:#b86800!important}
+}
+</style>
+</head>
+<body>
+
+<div class="sticky-nav-unit">
+<div class="std-header">
+  <a href="index.html" class="lib-home-btn">⌂ Index</a>
+  <div class="std-eyebrow">Philosophy &amp; Ethos · A History</div>
+  <div class="std-title">The History of Overlanding</div>
+  <div class="std-sub">The Long Way Round · From Droving Routes to a Practice of Becoming</div>
+  <div class="std-vehicle">A companion to the Manifesto — the practice we inherited, and what we made of it</div>
+</div>
+<div class="toc-bar">
+  <span class="toc-label">Contents</span>
+  <a href="javascript:void(0)" onclick="document.getElementById('intro').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">Intro</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('def').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">Definition</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('word').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">The Word</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('race').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">Cross Continents</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('toy').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">Barbara Toy</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('first').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">First Overlands</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('trail').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">Trail &amp; Truck</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('sheppard').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">Tom Sheppard</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('poles').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">Poles &amp; Gaps</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('camel').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">Camel Trophy</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('africa').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">Africa</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('modern').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">Modern Boom</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('science').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">Science</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('cast').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">The Cast</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('ethos').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">Our Ethos</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('parting').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">Where We Part</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('end').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">Closing</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('sources').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">Sources</a>
+</div>
+</div>
+
+<div class="content">
+
+<p class="epigraph center"><em>The world is a book, and those who do not travel read only one page.</em></p>
+
+<!-- INTRO ─────────────────────────────────────────────── -->
+<div class="sec-header plain" id="intro">
+  <span class="sec-num">§</span>
+  <span class="sec-title">Stop and Stay, Not Stop and Go</span>
+</div>
+
+<p class="p first">Ask ten people what overlanding is and you will get ten answers, most of them about hardware. Roof tents and recovery boards, dual-battery systems and ladder frames, the fortress on wheels engineered to need nothing from the places it passes through. The gear is real and some of it is even necessary. But it is not the thing itself. Overlanding is not a category of vehicle, nor a shopping list, nor a flag planted at the end of a hard track. It is a way of moving through the world — and, if we let it, a way of being changed by the world we move through.</p>
+
+<p class="p">This essay sets out to do three things. First, to fix a working definition and trace where the practice actually came from: a longer and stranger history than the modern marketing suggests, running from a centuries-old English word through nineteenth-century cattle drovers and a determined woman in a Benz, to university students in borrowed Land Rovers and the cigarette-sponsored spectacle of the Camel Trophy. Second, to introduce the people who shaped it — the explorers, writers, builders, and publishers whose journeys and books made overlanding a recognisable thing. And third, to set out our own philosophy of the practice, and to say plainly where it agrees with the mainstream view and where it deliberately parts company.</p>
+
+<p class="p">Our own version can be put in five words: <strong>stop and stay, not stop and go</strong>. The industry sells distance and difficulty. We are interested in dwelling — in staying somewhere long enough that the place stops performing for us and simply gets on with being itself. That is a quieter ambition than crossing a continent in record time, and a more demanding one.</p>
+
+<!-- DEFINITION ────────────────────────────────────────── -->
+<div class="sec-header" id="def">
+  <span class="sec-title">A Definition to Start From</span>
+</div>
+
+<p class="p">The most useful baseline comes from <em>Overland Journal</em>, where Jonathan Hanson and Scott Brady set down a definition in 2007 after polling experienced long-distance travellers. In its simplest form: vehicle-dependent adventure travel. In its fuller form: self-reliant, vehicle-supported adventure travel to remote destinations, where the journey itself is the principal goal — typically accomplished by off-road-capable transport, lodged mostly in camp, often lasting months or years and crossing international borders.</p>
+
+<p class="p">Brady offers a clean test. If the travel is by vehicle and you can answer yes to any one of four questions, you are most likely overlanding: Am I travelling remotely? Am I experiencing a culture different from my own? Am I visiting an under-explored region? Am I travelling self-supported in unfamiliar territory for days, weeks, months, or years?</p>
+
+<p class="p">This sits comfortably beside the compact definition we keep returning to, also from Brady: overlanding is vehicle-based adventure travel, where adventure is an undertaking with an unknown outcome and travel is a journey to a distant or unfamiliar place. The genius of that phrasing is the word <em>unknown</em>. Strip the certainty out of a journey and what remains is adventure. Engineer the uncertainty back out — with itineraries, reviews, and connectivity — and you are left with logistics.</p>
+
+<!-- THE WORD ──────────────────────────────────────────── -->
+<div class="sec-header" id="word">
+  <span class="sec-title">The Word Before the Practice</span>
+</div>
+
+<p class="p">Where the word itself comes from is a small puzzle worth pausing on, because the sources genuinely disagree. The components are ancient: <em>over</em> and <em>land</em> are Old English, and the Oxford English Dictionary traces the adverb back to the Old English period and the compound to around 1400. The Online Etymology Dictionary is more conservative, dating the adverb to the 1580s and the adjective to about 1800. Scott Brady, in <em>Overlanding 101</em>, pushes it further still, to a Middle English <em>overlond</em> of the 1200s. The medieval instinct is not unreasonable — but that precise date outruns the standard references, and in any case the word then simply meant "across the land," not the modern pursuit.</p>
+
+<p class="p">The distinctive identity — the <em>overlander</em> — is far more precisely located. It is an Australian coinage of the 1830s, born of colonial pastoral expansion to describe the drovers who walked livestock across vast, barely-mapped distances to open new country or reach distant markets. In 1838 Joseph Hawdon and Charles Bonney completed the first such drive into South Australia, reaching Adelaide after a ten-week journey. Later the routes were surveyed and named: Alfred Canning laid out the 1,500-kilometre Canning Stock Route between 1906 and 1910, and from 1947 the surveyor Len Beadell carved thousands of kilometres of road into the interior, including the famously straight Gunbarrel Highway.</p>
+
+<p class="p">It matters that the identity began here, with work rather than recreation, because it carries the original sense intact: long distances, mixed and difficult terrain, multi-day journeys, and a traveller forced into self-reliance. That is the genetic code of the practice. It also carries a harder inheritance worth naming honestly — the overlanders of colonial Australia opened "new country" that was never empty, and their routes ran straight through Aboriginal lands and lives. The romance of the open track has always had a shadow side, and an honest philosophy of travel keeps that shadow in view.</p>
+
+<!-- CROSS CONTINENTS ──────────────────────────────────── -->
+<div class="sec-header" id="race">
+  <span class="sec-title">The Race to Cross Continents</span>
+  <span class="sec-era">1888 – 1920s</span>
+</div>
+
+<p class="p">Once the word existed, the machine arrived to fill it. The first long-distance journey by a petrol automobile was made not by an explorer but by a businesswoman proving a point. In August 1888, without her husband's knowledge, Bertha Benz drove the Benz Patent-Motorwagen with her two teenage sons roughly 105 kilometres from Mannheim to Pforzheim — buying fuel at a pharmacy, clearing a blocked line with a hatpin, and demonstrating that the horseless carriage her husband Karl had built could actually go somewhere. She is, in a real sense, the first overlander of the motor age: self-reliant, improvising, undertaking a journey of genuinely unknown outcome.</p>
+
+<p class="p">From there the ambitions lengthened. In 1903, on a fifty-dollar bet, the American doctor Horatio Nelson Jackson drove the first automobile across the United States — San Francisco to New York in some sixty-three days, with a hired mechanic and a goggled bulldog named Bud picked up along the way. In 1908 George Schuster won the gruelling New York-to-Paris Great Race, a journey across three continents often loosely called the first drive around the world. And through the 1920s Aloha Wanderwell, still a teenager when she set out, drove Ford Model Ts across dozens of countries and is remembered as the first woman to drive — rather than be driven — around the globe.</p>
+
+<div class="note">
+  <span class="note-label">Why they matter</span>
+  <span class="note-line"><b>BERTHA BENZ</b> — proved the automobile could make a journey, not just a demonstration</span>
+  <span class="note-line"><b>HORATIO JACKSON</b> — first across a continent by car, improvising the whole way</span>
+  <span class="note-line"><b>ALOHA WANDERWELL</b> — the open road as a life, undertaken absurdly young</span>
+</div>
+
+<!-- BARBARA TOY ───────────────────────────────────────── -->
+<div class="sec-header" id="toy">
+  <span class="sec-title">A Fool on Wheels: Barbara Toy</span>
+  <span class="sec-era">1950s</span>
+</div>
+
+<p class="p">Before the famous student expeditions, and largely written out of the popular story, came Barbara Toy. An Australian-born playwright living in London, she bought a second-hand Series I Land Rover, named it <em>Pollyanna</em>, and from the end of 1950 drove it alone from Tangier to Baghdad — roughly five years before the Oxford and Cambridge team set off for Singapore. Her account, <em>A Fool on Wheels</em>, took its title from a brigadier who told her she was a fool to attempt it; the books that followed traced the deserts of Libya and the Middle East, the incense routes, and the search for Sheba.</p>
+
+<p class="p">Toy matters for two reasons. First, she punctures the tidy male lineage of the "first overland" story: a solo woman in a Land Rover was doing the thing, and writing about it well, before the canonical expeditions that usually open these histories. Second, her instinct was already closer to ours than to the record-breakers'. She drove some 210,000 miles in that one vehicle, returned to it decades later, and at eighty-one set out to circle the world again. Hers was not a dash but a life lived largely on the road — the wandering, repeated, unhurried kind.</p>
+
+<!-- FIRST OVERLANDS ───────────────────────────────────── -->
+<div class="sec-header" id="first">
+  <span class="sec-title">The First Overlands: Students and Series Ones</span>
+  <span class="sec-era">1954 – 1956</span>
+</div>
+
+<p class="p">Motorised overlanding as the public came to know it arrives in the mid-1950s, and — fittingly — as a slightly mad student idea. A joint Oxford and Cambridge team drove from London to Cape Town in 1954. The following year, six undergraduates set out to do something widely deemed impossible: drive overland from London to Singapore. They left in September 1955 in two 86-inch Series I Land Rovers named <em>Oxford</em> and <em>Cambridge</em>, and arrived six months and six days later, having covered some 18,000 miles across deserts, the plains of India, and the jungles of Burma.</p>
+
+<p class="p">The expedition became famous through Tim Slessor's book <em>First Overland</em>, which lent its name to the whole genre, and through Adrian Cowell, who had helped plan the earlier African trip. Three BBC films, connected to a young David Attenborough, brought remote corners of Asia to British screens for the first time. History is rarely tidy: an Australian novelist, F. J. Thwaites, appears to have driven the same route in an ordinary two-wheel-drive Hillman a few months earlier — and Barbara Toy had been crossing comparable country alone for years — a reminder that the "first" in First Overland was always partly a story well told.</p>
+
+<p class="p">What the Oxbridge expeditions established was a template that still defines the aspirational end of the practice: a long, self-organised, vehicle-based journey across continents, undertaken not for sport or commerce but for the sheer experience of it, and brought home as a book and a film. The journey was the point. So was the telling of it.</p>
+
+<!-- TRAIL & TRUCK ─────────────────────────────────────── -->
+<div class="sec-header" id="trail">
+  <span class="sec-title">The Trail and the Truck</span>
+  <span class="sec-era">1960s – 1979</span>
+</div>
+
+<p class="p">In the 1960s and 1970s the impulse went popular and went east. The "hippie trail" — the overland route from Europe through Istanbul, Tehran, Kabul, and Delhi to Kathmandu and Goa — carried tens of thousands of young travellers in painted vans, buses, and battered cars. It was the first time overland travel became a mass cultural phenomenon rather than an elite expedition.</p>
+
+<p class="p">It also birthed the commercial overland company. In London, operators such as Encounter Overland — run by the ex-army adventurer Tony Jones — converted trucks and carried paying passengers to Kathmandu and across Africa, turning the expedition into a product you could book. Out of the same milieu came Tony and Maureen Wheeler, whose notes from driving the route became Lonely Planet's first guide and, eventually, an empire that shaped how a generation imagined independent travel.</p>
+
+<p class="p">The trail broke apart in 1979, when the Iranian Revolution and the Soviet invasion of Afghanistan slammed the corridor shut almost overnight. The route closed, but the appetite it created did not. Overlanders simply turned elsewhere — and increasingly toward Africa and the deserts, where a more disciplined tradition was taking shape.</p>
+
+<!-- TOM SHEPPARD ──────────────────────────────────────── -->
+<div class="sec-header" id="sheppard">
+  <span class="sec-title">The Craft Tradition: Tom Sheppard</span>
+  <span class="sec-era">1975 –</span>
+</div>
+
+<p class="p">If the hippie trail represents overlanding as freedom, Tom Sheppard represents it as craft. A former RAF test pilot, he accumulated something like 110,000 expedition miles over half a century and was still making solo Saharan crossings well past seventy. His defining feat came in January 1975, when his Joint Services team left London in four Land Rover 101 Forward Controls, shipped them to West Africa, and set out from Dakar carrying around 1,100 gallons of fuel and 410 of water. Over a hundred days they crossed roughly 7,500 miles of the Sahara — west to east, before GPS — fixing their longitude with a sun compass and pausing for more than six hundred gravitational readings in the name of science.</p>
+
+<p class="p">His <em>Vehicle-dependent Expedition Guide</em> — known affectionately as the VDEG — is the genre's reference manual: a 620-page tome that is exhaustive, exacting, and uninterested in fashion. It treats overlanding as a serious discipline in which carelessness is punished, attending to vehicle and team selection, modifications, fuel, water, loading, navigation, and recovery in forensic detail. Sheppard's ethos is captured in advice an Algerian trucker once gave him at the roadside: <em>doucement, doucement</em> — gently, gently. Slow down. Read the ground. Don't cover too many miles in a day. It is, not coincidentally, advice that doubles as a philosophy of living.</p>
+
+<!-- POLES & GAPS ──────────────────────────────────────── -->
+<div class="sec-header" id="poles">
+  <span class="sec-title">To the Poles and Across the Gaps</span>
+  <span class="sec-era">1958 – 2009</span>
+</div>
+
+<p class="p">Running alongside the travellers is a parallel tradition of record-setting — the drive as feat, the map as a list of firsts to be claimed. It is not our tradition, but it is undeniably part of the story, and it produced some genuinely astonishing journeys.</p>
+
+<p class="p">In 1958 Edmund Hillary reached the South Pole overland on modified Ferguson farm tractors, the first to do so by motor vehicle, as part of the Commonwealth Trans-Antarctic Expedition. In 1972 Colonel John Blashford-Snell drove Range Rovers from Alaska to Tierra del Fuego, hacking through the Darién Gap — the first complete vehicular traverse of the Americas, though the oft-repeated claim of the "first crossing of the Darién" itself does not survive scrutiny. Between 1979 and 1982 Sir Ranulph Fiennes completed the Transglobe Expedition, the first pole-to-pole surface circumnavigation of the planet — using Land Rovers across the Sahara, a ship across the oceans, and skidoos at the poles.</p>
+
+<p class="p">The thread runs on. Gary and Monika Wescott's Turtle Expedition made the first complete overland crossing of Eurasia by an American vehicle, including a winter run across the Russian Far East on frozen rivers. In 2009 the Russian engineer Vasily Elagin drove purpose-built amphibious 6×6s all the way to the North Pole, the crew flown out once they arrived. These are feats of preparation and nerve, and we admire them. But they belong to a different impulse from the one we are defending — the impulse to conquer a line on the map rather than to dwell within a place.</p>
+
+<!-- CAMEL TROPHY ──────────────────────────────────────── -->
+<div class="sec-header" id="camel">
+  <span class="sec-title">Spectacle and Sport: The Camel Trophy</span>
+  <span class="sec-era">1980 – 2000</span>
+</div>
+
+<p class="p">The image most people carry of overlanding — mud-caked Land Rovers winching through jungle — comes largely from one source: the Camel Trophy, run annually from 1980 to 2000 and bankrolled by the Camel cigarette brand. It began with German teams crossing the Trans-Amazonian Highway and grew into an international "Olympics of 4×4," sending sand-coloured Land Rovers through Borneo, Zaire, Siberia, Madagascar, and beyond. Land Rover supplied the vehicles from 1981 and withdrew after 1998 to launch its own G4 Challenge, effectively ending the event.</p>
+
+<p class="p">The Camel Trophy mattered because it fixed an aesthetic. It made overlanding look like a contest against terrain — a test of man and machine, won by conquering the impassable. That image still sells vehicles and accessories. But it is worth being clear-eyed about what it did to the idea: it turned a way of travelling into a way of competing, and it framed the land as an obstacle to be defeated rather than a place to be entered. The spectacle was magnificent. The philosophy embedded in it is one we want to argue against.</p>
+
+<!-- AFRICA ────────────────────────────────────────────── -->
+<div class="sec-header" id="africa">
+  <span class="sec-title">The African Lineage</span>
+</div>
+
+<p class="p">Alongside Australia, Africa is the continent that most defines vehicle-based adventure, and Southern Africa has its own towering figure in Kingsley Holgate — the bearded, Zulu-speaking explorer and humanitarian whom <em>Getaway</em> once called the most travelled man in Africa, and who has openly modelled himself on David Livingstone. Over more than forty expeditions, Holgate and his team have traced the outline of Africa through 33 countries in 449 days, driven from Cape Town to Kathmandu, and made the "Hot Cape–Cold Cape" run from Cape Agulhas to the Arctic at Nordkapp. What distinguishes the Holgate model is that the journeys carry purpose beyond the journey — malaria-net distribution, eyesight projects, conservation work woven into the route — so that travel becomes an act of reciprocity rather than mere passage.</p>
+
+<p class="p">Southern Africa also produced the practical and editorial voices that taught a generation how to travel well. Andrew St Pierre White, a South African-British filmmaker and author, wrote <em>The Complete Guide to Four-Wheel Drive</em> in 1993 — partly from a base in the Okavango Delta — and helped build the region's whole culture of 4×4 knowledge; he now reaches a global audience through his 4xOverland films, arguing patiently for self-reliant, well-engineered, comfort-considered travel over bravado. And Paul Marsh, who built expedition vehicles in England for eighteen years before returning to Cape Town in 2014, embodies the bridge between the British Land Rover craft tradition and the modern African scene — preparing famously robust Land Cruisers, helping select Camel Trophy and G4 teams, and supporting continent-crossing expeditions.</p>
+
+<div class="note">
+  <span class="note-label">The African craft tradition</span>
+  <span class="note-line"><b>KINGSLEY HOLGATE</b> — expedition fused with humanitarian purpose; travel as reciprocity</span>
+  <span class="note-line"><b>ANDREW ST PIERRE WHITE</b> — taught a generation to travel self-reliantly, in print and on film</span>
+  <span class="note-line"><b>PAUL MARSH</b> — the bridge from British Land Rover craft to the modern Cape scene</span>
+</div>
+
+<!-- MODERN BOOM ───────────────────────────────────────── -->
+<div class="sec-header" id="modern">
+  <span class="sec-title">The Modern Boom and the Mainstream</span>
+  <span class="sec-era">2000s –</span>
+</div>
+
+<p class="p">The word "overlanding" only became mainstream in North America recently, and one person is most often credited with it: Scott Brady, publisher of <em>Overland Journal</em> and the vast <em>Expedition Portal</em> community. In 2014 his Expeditions 7 project became the first to drive a single vehicle — a Land Cruiser — on all seven continents, and his 2025 field guide <em>Overlanding 101</em> aims to usher a new generation into the practice.</p>
+
+<p class="p">The boom has also widened the cast. The grizzled expedition leader now shares the map with young families, solo travellers, and riders like Lois Pryce, who crossed the length of the Americas and Africa alone on a small motorcycle and later rode through Iran. And the frontier keeps moving: in 2023 Julie and Chris Ramsey drove a modified electric Nissan from the Magnetic North Pole to the Geographic South Pole, the first vehicle of any kind to make the pole-to-pole journey.</p>
+
+<p class="p">The boom has been a mixed blessing. It has democratised access and built a generous community of knowledge. It has also fed a gear arms race and a recurring argument — "that's not overlanding, it's car camping" — that mistakes equipment for essence. The historical record settles that argument quite neatly: overlanding was never about the kit. It was about distance, difficulty, unfamiliarity, and self-reliance, undertaken for the journey's own sake. A modest vehicle on a long, uncertain, attentive journey is more faithful to the tradition than a six-figure rig that never leaves the campsite circuit.</p>
+
+<!-- SCIENCE ───────────────────────────────────────────── -->
+<div class="sec-header" id="science">
+  <span class="sec-title">Overlanders in Support of Science</span>
+</div>
+
+<p class="p">It is easy to forget how often the journey served something beyond itself. Vehicles gave scientific expeditions reach and payload, and two institutions sit behind much of the history above. The Royal Geographical Society, founded in London in 1830, has supported overland exploration for nearly two centuries; its roll includes Livingstone, Stanley, Scott, Shackleton, and Hillary, and it recognised Tom Sheppard's Sahara crossing and elected Barbara Toy a Fellow. Across the Atlantic, the Explorers Club, founded in New York in 1904, has backed expeditions of every discipline, from the summit of Everest to the bottom of the Mariana Trench. The point is not the prestige. It is that, at its best, overlanding has always pointed outward — gathering knowledge, not just mileage.</p>
+
+<!-- CAST ──────────────────────────────────────────────── -->
+<div class="sec-header" id="cast">
+  <span class="sec-title">A Short Cast of Characters</span>
+</div>
+
+<p class="cast-item"><b>The overlanders (1830s–).</b> Australian drovers such as Hawdon and Bonney, who gave the practice its name and its founding sense: long, self-reliant journeys across unmapped country.</p>
+<p class="cast-item"><b>Bertha Benz (1888).</b> The businesswoman whose unauthorised drive made the motor car a vehicle for journeys, not just demonstrations.</p>
+<p class="cast-item"><b>Barbara Toy (1950s–).</b> The solo woman in a Land Rover who was crossing deserts, and writing about it, before the celebrated student expeditions.</p>
+<p class="cast-item"><b>Tim Slessor &amp; Adrian Cowell (1950s).</b> Students whose London-to-Singapore drive and its retelling, <em>First Overland</em>, made the modern expedition legible and aspirational.</p>
+<p class="cast-item"><b>Tony Jones &amp; the Wheelers (1960s–70s).</b> The commercialiser and the guidebook-makers who turned the overland route into something ordinary travellers could attempt.</p>
+<p class="cast-item"><b>Tom Sheppard (1970s–).</b> The desert master who made overlanding a craft and wrote its definitive manual.</p>
+<p class="cast-item"><b>Kingsley Holgate (1990s–).</b> The Southern African explorer who fused expedition with humanitarian purpose and reciprocity.</p>
+<p class="cast-item"><b>Andrew St Pierre White &amp; Paul Marsh.</b> The African craft tradition in print, on film, and under the bonnet — teaching self-reliant travel and building the vehicles to do it.</p>
+<p class="cast-item"><b>Scott Brady (2000s–).</b> The publisher who defined the term for the modern era and popularised the practice in North America.</p>
+
+<!-- OUR ETHOS ─────────────────────────────────────────── -->
+<div class="sec-header plain" id="ethos">
+  <span class="sec-num">§</span>
+  <span class="sec-title">Where We Stand</span>
+</div>
+
+<p class="p">Everything above is history and consensus. Here is where we stand within it. We take the inherited definition as a starting point and then push it somewhere the mainstream usually does not go — out of the language of achievement and into the language of attention, relationship, and change. We don't travel to collect places; we travel to be changed by them.</p>
+
+<p class="p">We call it <strong>going feral</strong> — returning to a wild state after a long and comfortable captivity. The modern world is very good at managing us: it removes friction, smooths every edge, and teaches that the unknown is a threat. The gravel road is our refusal. Out there, attention becomes the first thing we reach for; slowness becomes the instrument that makes depth possible; the land stops being scenery and becomes the thing that holds us; and the vehicle becomes a collaborator we travel alongside rather than a tool we command. We stop and stay, not stop and go — because a place only stops performing once we have been still long enough for it to forget we are there.</p>
+
+<p class="epigraph"><em>The real voyage of discovery consists not in seeking new landscapes, but in having new eyes.</em><cite>Marcel Proust</cite></p>
+
+<p class="p">And the deepest aim is not arrival but becoming. Movement alone changes nothing; you can cross a continent and come home exactly the person who left. Transformation needs duration, attention, and a willingness to be unsettled — to stay long enough to be changed. That is the whole of it, in miniature. The full statement lives in the fourteen commitments of our <a href="LC76_Overlanders_Manifesto.html" style="color:var(--amber);border-bottom:1px dotted var(--amber);text-decoration:none">Manifesto</a>; here it is enough to say that the history we have traced is the body of the practice, and attention, relationship, slowness, and change are its soul.</p>
+
+<!-- WHERE WE PART ─────────────────────────────────────── -->
+<div class="sec-header" id="parting">
+  <span class="sec-title">Where We Part Company</span>
+</div>
+
+<p class="p">It would be wrong to overstate the disagreement. On the fundamentals we are squarely within the tradition: vehicle-based, self-reliant, remote, the journey as the principal goal. Brady's definition and ours share the same spine. The differences are differences of emphasis — but emphasis, in a philosophy, is everything.</p>
+
+<p class="p"><strong>On pace.</strong> Most definitions are neutral about speed; some — and much of the industry — quietly valorise distance and the number of borders crossed. We make slowness a first principle. Dan Grec's emphasis on "an extended amount of time" points the same way, but we would go further: it is not just duration, it is dwelling. Stop and stay, don't just linger.</p>
+
+<p class="p"><strong>On the goal.</strong> The standard definitions say the journey is the principal goal. We agree, and then add: the journey's deepest goal is to change the traveller. Becoming, not arriving — and not even the journey for its own sake, but the journey as a practice that remakes the one who undertakes it.</p>
+
+<p class="p"><strong>On the land.</strong> Mainstream framings, inherited partly from the Camel Trophy and the record-setting tradition, lean toward conquest — remote destinations reached, poles attained, gaps crossed, terrain overcome. We replace conquest with relationship and participation. The land is not an adversary or a backdrop; it is not empty, and it is not ours to discover. It is a partner in the encounter.</p>
+
+<p class="p"><strong>On other people.</strong> Brady's definition mentions interacting with other cultures. We make ethics central rather than incidental: encounter over extraction, reciprocity over consumption, the handshake over the transaction. The Holgate model of travel that gives something back is closer to our view than the self-contained expedition.</p>
+
+<p class="p"><strong>On self-reliance.</strong> Everyone prizes it. We qualify it. Self-reliance is not independence: the fully self-sufficient rig that needs nothing from anywhere has, in an important sense, missed the point of going. True self-reliance acknowledges how much we depend — on the vehicle, the terrain, and the kindness of the people whose home we are passing through.</p>
+
+<p class="p">Put simply: the mainstream defines overlanding by what you do and where you go. We want to define it by how we travel and who we become. The hardware and the history are the body of the practice. Attention, relationship, slowness, and change are its soul — and a soul is the kind of thing you have to choose.</p>
+
+<!-- CLOSING ───────────────────────────────────────────── -->
+<div class="sec-header plain" id="end">
+  <span class="sec-num">§</span>
+  <span class="sec-title">The Long Way Round</span>
+</div>
+
+<p class="p">Overlanding came from work — from drovers walking cattle across a continent because there was no other way — and from a word older than the engine itself. It became the proving ground of the motor age, then expedition, then commerce, then spectacle, then a global hobby with its own magazines and arguments. Through all of it, from Bertha Benz to Barbara Toy to Tom Sheppard to the present, the durable core survived: long, self-reliant, uncertain, vehicle-based journeys undertaken for the sake of the going. That is what the word has always meant, and it is worth defending against the people who would reduce it to a catalogue of accessories.</p>
+
+<p class="p">But a practice with a history this rich deserves more than a definition. It deserves a philosophy — a considered answer to the question of why one would choose the long way round at all, when the world is arranged so efficiently for staying home. Our answer is that the long way round is where life happens at a pace we can actually attend to; where the friction we have engineered out of ordinary existence comes flooding back and wakes us up; where we are obliged to depend on others and to treat them well; and where, if we stay long enough and travel honestly, we come home changed. We camp so that we can travel; we travel so that we can dwell; and we dwell so that we can become.</p>
+
+<p class="p">There are gravel roads out there waiting. The point was never to slay the dragon. The point was to go and meet it slowly, and to let the meeting change us.</p>
+
+<div class="closing-banner">
+  <div class="big-line">Go Well. Go Slow. Stay Long.</div>
+  <div class="sign">Neil &amp; Mary-Ann · Overland's Labs</div>
+</div>
+
+<!-- SOURCES ───────────────────────────────────────────── -->
+<div class="sec-header plain" id="sources">
+  <span class="sec-num">§</span>
+  <span class="sec-title">Sources &amp; Further Reading</span>
+</div>
+
+<p class="p">The footnotes of the working draft are collapsed here into a single grounded reference list. Web sources were consulted in June 2026. Where popular accounts disagree, the note below flags the dispute rather than choosing a side.</p>
+
+<div class="refs-note"><b>On contested "firsts" and the word's origins.</b> The etymology of "overland" is genuinely unsettled — the OED dates the compound to around 1400, etymonline to the 1580s, and <em>Overlanding 101</em> to a Middle English <em>overlond</em> of the 1200s — while the <em>overlander</em> identity is securely an 1830s Australian coinage. Several celebrated "firsts" are also looser than they sound: Aloha Wanderwell is best described as the first woman to <em>drive</em> (not be driven) around the world; Blashford-Snell's defensible first is the complete traverse of the Americas, not the Darién crossing itself; Schuster's 1908 "around the world" included an ocean passage; and Fiennes used skidoos, not Land Rovers, at the poles. The seven-continents milestone belongs to Expeditions 7 (2014).</div>
+
+<div class="refs">
+  <span class="refs-group">Books</span>
+  <p class="ref">Brady, Scott. <em>Overlanding 101: A Field Guide to Vehicle-Based Adventure Travel</em>. Adams Media / Simon &amp; Schuster, 2025.</p>
+  <p class="ref">Sheppard, Tom. <em>Vehicle-dependent Expedition Guide</em>. Desert Winds Publishing (multiple editions).</p>
+  <p class="ref">Slessor, Tim. <em>First Overland: London–Singapore by Land Rover</em>. 1957.</p>
+  <p class="ref">Toy, Barbara. <em>A Fool on Wheels: Tangier to Baghdad by Land-Rover</em>. 1955.</p>
+  <p class="ref">White, Andrew St Pierre. <em>The Complete Guide to Four-Wheel Drive</em>. 1993, and later editions.</p>
+
+  <span class="refs-group">Definition &amp; etymology</span>
+  <p class="ref"><em>Overland Journal</em>, "What Is Overland" (definition by Hanson &amp; Brady, 2007). <a href="https://overlandjournal.com/pages/what-is-overland-podcast">overlandjournal.com</a></p>
+  <p class="ref">Online Etymology Dictionary, "overland." <a href="https://www.etymonline.com/word/overland">etymonline.com</a> · Oxford English Dictionary, "overland."</p>
+  <p class="ref">SA History Hub, "Overlanders"; Wikipedia, "Drover (Australian)," "Overlanding," "Canning Stock Route," "Len Beadell."</p>
+
+  <span class="refs-group">People &amp; expeditions</span>
+  <p class="ref">Wikipedia: "Bertha Benz," "Horatio Nelson Jackson," "George Schuster (driver)," "Aloha Wanderwell," "Barbara Toy," "Oxford and Cambridge Far Eastern Expedition," "Commonwealth Trans-Antarctic Expedition," "Transglobe Expedition," "MLAE-2009," "Camel Trophy," "Kingsley Holgate."</p>
+  <p class="ref">Expedition Portal — profiles &amp; podcasts: Tom Sheppard (ep. 157), Kingsley Holgate, Barbara Toy / <em>Pollyanna</em>. <a href="https://expeditionportal.com/">expeditionportal.com</a></p>
+  <p class="ref">Andrew St Pierre White, 4xOverland. <a href="https://www.4xoverland.com/about/">4xoverland.com</a> · Paul Marsh 4×4. <a href="https://paulmarsh4x4.com/about/">paulmarsh4x4.com</a></p>
+  <p class="ref">Turtle Expedition (Gary &amp; Monika Wescott). <a href="https://www.turtleexpedition.com/">turtleexpedition.com</a> · Expeditions 7. <a href="https://expeditions7.com/">expeditions7.com</a></p>
+  <p class="ref">Pole to Pole EV (Julie &amp; Chris Ramsey): Guinness World Records; Electrek (2023).</p>
+
+  <span class="refs-group">Institutions &amp; periodicals</span>
+  <p class="ref">Royal Geographical Society (rgs.org); The Explorers Club (explorers.org).</p>
+  <p class="ref">Land Rover Monthly, "First and Last Overland"; CNN, "The Hippie Trail"; <em>Nepali Times</em> on Encounter Overland; Diesel World &amp; MotorBiscuit on the Camel Trophy.</p>
+</div>
+
+</div><!-- end .content -->
+
+<div class="xref-bar">
+  <span class="xref-label">Companion</span>
+  <a href="LC76_Overlanders_Manifesto.html" class="xref-pill">📜 The Manifesto · fourteen commitments</a>
+  <a href="LC76_Overlanders_Manifesto_Commentary.html" class="xref-pill">📖 The Commentary · the thinkers</a>
+  <a href="index.html" class="xref-pill">⌂ Library Index</a>
+</div>
+
+<div class="doc-footer">
+  <span>LC76 Overland Reference Library · Philosophy &amp; Ethos</span>
+  <span>The History of Overlanding · Compiled Jun 2026</span>
+</div>
+
+<script>
+// Active TOC state
+const sections = ['intro','def','word','race','toy','first','trail','sheppard','poles','camel','africa','modern','science','cast','ethos','parting','end','sources'];
+const tocLinks = document.querySelectorAll('.toc-link');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      const idx = sections.indexOf(entry.target.id);
+      tocLinks.forEach((l, i) => l.classList.toggle('active', i === idx));
+    }
+  });
+}, {rootMargin: '-30% 0px -60% 0px'});
+sections.forEach(id => {
+  const el = document.getElementById(id);
+  if(el) observer.observe(el);
+});
+
+// Dynamic scroll margin
+function updateScrollMargins(){
+  const navH = document.querySelector('.sticky-nav-unit').offsetHeight;
+  document.querySelectorAll('.sec-header').forEach(el => {
+    el.style.scrollMarginTop = (navH + 4) + 'px';
+  });
+}
+updateScrollMargins();
+window.addEventListener('resize', updateScrollMargins);
+
+// Scroll-triggered reveals (respect reduced-motion)
+const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(!prefersReduced){
+  document.querySelectorAll('.p, .epigraph, .note, .cast-item, .refs, .refs-note, .closing-banner').forEach(el => el.classList.add('reveal'));
+  const revObs = new IntersectionObserver((entries, obs) => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target); } });
+  }, {rootMargin: '0px 0px -8% 0px', threshold: 0.04});
+  document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
+}
+
+// Service worker — domain-guarded
+if('serviceWorker' in navigator && location.hostname !== 'www.claudeusercontent.com'){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('./sw.js')
+      .then(r => console.log('LC76 SW registered'))
+      .catch(e => console.log('SW error:', e));
+  });
+}
+</script>
+</body>
+</html>
