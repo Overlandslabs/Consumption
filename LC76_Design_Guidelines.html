@@ -20,7 +20,7 @@
   --display:'Bebas Neue',sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html{overflow-x:hidden}
+html{overflow-x:hidden;overflow-x:clip;overscroll-behavior-x:none}
 body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.6}
 
 /* ── STICKY NAV ── */
@@ -130,13 +130,13 @@ code{font-family:var(--mono);font-size:.75rem;color:var(--amber);background:var(
 @media(max-width:600px){
   .std-header{padding:14px 16px 12px}
   .std-title{font-size:clamp(1.6rem,6vw,2.4rem)}
-  .toc-bar{padding:5px 12px!important;flex-wrap:nowrap!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch!important;scrollbar-width:none!important}
+  .toc-bar{padding:5px 12px!important;flex-wrap:nowrap!important;overflow-x:auto!important;overscroll-behavior-x:contain!important;-webkit-overflow-scrolling:touch!important;scrollbar-width:none!important}
   .toc-bar::-webkit-scrollbar{display:none}
   .toc-link{font-size:.42rem!important;padding:2px 5px!important}
   .content{padding:14px 4% 60px}
   .dodo{grid-template-columns:1fr}
   .swatch-grid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr))}
-  .spec-table,pre{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .spec-table,pre{display:block;overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
 }
 
 /* ── PRINT ── */
@@ -660,7 +660,7 @@ sections.forEach(id => {
     <tr><td>theme-color</td><td><code>#0d0e12</code> for reference docs / <code>#1C1410</code> for calculators</td></tr>
     <tr><td>Manifest</td><td>Reference docs share <code>manifest-ref.json</code>. Each calculator has its own: <code>manifest-power.json</code>, <code>manifest-water.json</code>, <code>manifest-tyre.json</code>, etc.</td></tr>
     <tr><td>Service worker strategy</td><td>Network-first — always fetch latest; cache as offline fallback only. Never cache-first for HTML files.</td></tr>
-    <tr><td>Horizontal overflow</td><td><code>html{overflow-x:hidden}</code> — use <code>html</code>, NOT <code>body</code>. Body overflow-x:hidden breaks Safari sticky.</td></tr>
+    <tr><td>Horizontal overflow</td><td><code>html{overflow-x:hidden;overflow-x:clip;overscroll-behavior-x:none}</code> — on <code>html</code>, NOT <code>body</code> (body overflow-x:hidden breaks Safari sticky). <code>hidden</code> is the fallback, <code>clip</code> is preferred (no scroll container, no sticky breakage), <code>overscroll-behavior-x:none</code> stops page-level horizontal rubber-banding. Inner horizontal scrollers (toc-bar, wide tables) take <code>overscroll-behavior-x:contain</code> so their scroll doesn’t chain to the page — confirmed on R26/R32/R33.</td></tr>
     <tr><td>Safe area insets</td><td><code>padding-top:env(safe-area-inset-top)</code> on the sticky nav unit, plus <code>background:var(--ink)</code> and a <code>::before</code> slab (<code>bottom:100%;height:100vh</code>) so the inset region stays opaque on mobile PWA — confirmed on R26/R32/R33</td></tr>
     <tr><td>prompt() / alert()</td><td>Both blocked in standalone mode — all interactions must be inline</td></tr>
     <tr><td>After JS changes</td><td>User must delete and re-add the home screen shortcut after any JS change — iOS caches the PWA at install time</td></tr>
@@ -701,7 +701,7 @@ if('serviceWorker' in navigator &amp;&amp; location.hostname !== 'www.claudeuser
   <div class="do-block">
     <div class="do-lbl">✓ Do</div>
     <p>Use <code>&lt;a href="javascript:void(0)" onclick="...scrollIntoView..."&gt;</code> for all TOC links</p>
-    <p>Use <code>html{overflow-x:hidden}</code> — never body</p>
+    <p>Use <code>html{overflow-x:hidden;overflow-x:clip;overscroll-behavior-x:none}</code> — never body; add <code>overscroll-behavior-x:contain</code> to inner scrollers (toc-bar, wide tables)</p>
     <p>Wrap masthead and TOC bar in a single <code>.sticky-nav-unit</code></p>
     <p>Give <code>.sticky-nav-unit</code> a <code>background</code> and a <code>::before</code> slab (<code>bottom:100%;height:100vh</code>) to fill the safe-area inset on mobile PWA</p>
     <p>Set <code>scrollMarginTop</code> dynamically in JS — never hardcode it</p>
