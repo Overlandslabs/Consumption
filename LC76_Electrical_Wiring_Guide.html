@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="LC76 Library">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#0d0e12">
-<title>LC76 · Electrical &amp; Wiring Guide · Interim R26</title>
+<title>LC76 · Electrical &amp; Wiring Guide · R26</title>
 <link rel="manifest" href="manifest-ref.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500;600&family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -25,10 +25,6 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html{overflow-x:hidden;overflow-x:clip;overscroll-behavior-x:none}
 body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.6}
-
-/* ── INTERIM BANNER ── */
-.interim-banner{background:#7c1010;color:#fff;font-family:var(--mono);font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;text-align:center;padding:7px 5%;border-bottom:2px solid #B91C1C}
-.interim-banner strong{color:#ffcccc}
 
 /* ── STICKY NAV ── */
 .sticky-nav-unit{position:sticky;top:0;z-index:100;padding-top:env(safe-area-inset-top);background:#7c1010}
@@ -156,7 +152,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
   .tree-a{border-left:none;border-top:3px solid var(--amber)}
   .diagram-wrap{padding:10px}
   .diagram-wrap svg{min-width:620px}
-  .interim-banner{font-size:.44rem;letter-spacing:.10em;padding:6px 4%}
+  
   .toc-bar,.spec-table,.fill-table,.fault-table,.diagram-wrap{overscroll-behavior-x:contain}
 }
 
@@ -170,8 +166,8 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
     --steellt:#a8b0bc;--red-warn:#B91C1C;--green-ok:#059669;
   }
   body{font-size:7.5pt;background:#fff!important}
-  .interim-banner{background:#7c1010!important;color:#fff!important;border-bottom:2px solid #B91C1C!important}
-  .interim-banner strong{color:#ffcccc!important}
+  
+  
   .lib-home-btn,.toc-bar{display:none!important}
   .sticky-nav-unit{position:static!important}
   .sticky-nav-unit::before{content:none}
@@ -204,13 +200,13 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 <body>
 
 <div class="sticky-nav-unit">
-<div class="interim-banner">⚠ INTERIM — Lead-acid system only · <strong>Superseded at LiFePO4 install (~2027)</strong></div>
+
 <div class="std-header">
   <a href="index.html" class="lib-home-btn">⌂ Index</a>
-  <div class="std-eyebrow">Overland Series · R26 · Interim</div>
+  <div class="std-eyebrow">Overland Series · R26</div>
   <div class="std-title">Electrical &amp; Wiring Guide</div>
-  <div class="std-sub">Dual-Battery System · Topology · Fault Tracing · Field Fixes (Lead-Acid)</div>
-  <div class="std-vehicle">2009 LC76 SW 1HZ · HZJ76R-RKMRS · Lead-acid dual-battery — LiFePO4 upgrade pending ~2027</div>
+  <div class="std-sub">All-Victron LiFePO4 House System · Topology · Fault Tracing · Field Fixes</div>
+  <div class="std-vehicle">2009 LC76 SW 1HZ · HZJ76R-RKMRS · All-Victron LiFePO4 house + lead-acid crank · installed Jul 2026</div>
 </div>
 <div class="toc-bar">
   <span class="toc-label">Sections</span>
@@ -224,7 +220,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
   <a href="javascript:void(0)" onclick="document.getElementById('s8').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">8. Baselines</a>
   <a href="javascript:void(0)" onclick="document.getElementById('s9').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">9. Tools</a>
   <a href="javascript:void(0)" onclick="document.getElementById('s10').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">10. Safety</a>
-  <a href="javascript:void(0)" onclick="document.getElementById('s11').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">11. Supersession</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s11').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">11. Shore &amp; Earth</a>
 </div>
 </div>
 
@@ -234,155 +230,28 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 <div id="s1" class="sec-header">
   <span class="sec-num">§1</span>
   <span class="sec-title">System Overview &amp; Topology</span>
-  <span class="sec-sub">As fitted · June 2026</span>
+  <span class="sec-sub">As fitted · July 2026</span>
 </div>
 
-<p class="lead">The LC76 runs a lead-acid dual-battery system. A Victron Cyrix VSR (voltage-sensitive relay) automatically isolates or combines the two batteries based on measured voltage — protecting the crank battery from discharge by accessories while allowing the alternator to charge both.</p>
+<p class="lead">The LC76 runs a dual-chemistry battery system: a <strong>LiFePO4 house battery</strong> (Enertec Power+ 210Ah) for accessories, and a separate <strong>lead-acid crank battery</strong> (Willard 650) for starting. A <strong>Victron Orion Smart 12/12-50A non-isolated DC-DC charger</strong> charges the house from the alternator — its output capped to ~40A to protect the 1HZ alternator — while a <strong>SmartSolar MPPT</strong> and a <strong>MultiPlus</strong> add solar and mains/shore charging. The house battery’s internal BMS manages cell protection; a <strong>SmartShunt 500A</strong> tracks true state of charge by counting amp-hours.</p>
 
 <div class="subsec"><span class="subsec-title">Installed Components</span></div>
 
 <table class="spec-table">
-  <caption>System inventory — as fitted Jan 2025</caption>
+  <caption>System inventory — as fitted July 2026</caption>
   <thead><tr><th>Component</th><th>Spec</th><th>Fitted</th></tr></thead>
-  <tbody>
-    <tr><td><strong>Crank battery</strong></td><td class="mono">Willard 650 WPL320T · FLA · 12V · 95Ah · 740 CCA</td><td>23 Jan 2025 @ 271,056 km</td></tr>
-    <tr><td><strong>Auxiliary (house) battery</strong></td><td class="mono">Deltec 1250 · sealed LA · 12V · 105Ah</td><td>23 Jan 2025 @ 271,056 km</td></tr>
-    <tr><td><strong>Isolator</strong></td><td class="mono">Victron Cyrix 120A 12/24V VSR</td><td>—</td></tr>
-    <tr><td><strong>Monitor</strong></td><td class="mono">BM2000 dual-battery monitor</td><td>—</td></tr>
-    <tr><td><strong>Inverter</strong></td><td class="mono">Sinetech 1200W / 12V</td><td>—</td></tr>
-    <tr><td><strong>Mains charger</strong></td><td class="mono">DEFA SmartCharge</td><td>—</td></tr>
-    <tr><td><strong>Solar</strong></td><td class="mono">Hardkorr 200W portable</td><td>—</td></tr>
-    <tr><td><strong>Emergency start</strong></td><td class="mono">ARB portable lithium jump pack + HD jumper cables</td><td>—</td></tr>
-  </tbody>
+  <tbody><tr><td><strong>Crank battery</strong></td><td class="mono">Willard 650 WPL320T · FLA · 12V · 95Ah · 740 CCA</td><td>23 Jan 2025 @ 271,056 km</td></tr><tr><td><strong>House battery</strong></td><td class="mono">Enertec Power+ 12.8V 210Ah LiFePO4 · 15BLI-12V210-BLP · 168Ah usable @80% DoD · internal BMS + Bluetooth · IP65 · 20 kg · 105A max discharge</td><td>Jul 2026</td></tr><tr><td><strong>DC-DC charger</strong></td><td class="mono">Victron Orion Smart 12/12-50A Non-isolated · output capped ~40A in VictronConnect</td><td>Jul 2026</td></tr><tr><td><strong>Inverter / charger</strong></td><td class="mono">Victron MultiPlus 12/500/20-16 · ~430W cont · 20A charger · 16A transfer</td><td>Jul 2026</td></tr><tr><td><strong>Solar controller</strong></td><td class="mono">Victron SmartSolar MPPT 100/30</td><td>Jul 2026</td></tr><tr><td><strong>Solar panel</strong></td><td class="mono">Hardkorr 200W portable</td><td>Carried over</td></tr><tr><td><strong>Monitor</strong></td><td class="mono">Victron SmartShunt 500A · VictronConnect · no display</td><td>Jul 2026</td></tr><tr><td><strong>Load protection</strong></td><td class="mono">Victron Smart BatteryProtect 65A</td><td>Jul 2026</td></tr><tr><td><strong>Distribution</strong></td><td class="mono">Fuse Block Safety Hub 150 + 8-circuit blade + M-series battery switch</td><td>Jul 2026</td></tr><tr><td><strong>Shore power</strong></td><td class="mono">16A EZ-Lock SS inlet + 15 m 16A lead → MultiPlus</td><td>Jul 2026</td></tr><tr><td><strong>Emergency start</strong></td><td class="mono">ARB portable lithium jump pack + HD jumper cables</td><td>—</td></tr></tbody>
 </table>
 
 <div class="subsec"><span class="subsec-title">Topology Diagram</span><span class="subsec-tag">Charging flow</span></div>
 
 <div class="diagram-wrap">
-<svg viewBox="0 0 720 420" xmlns="http://www.w3.org/2000/svg" font-family="'IBM Plex Mono',monospace" font-size="11">
-
-  <!-- Background -->
-  <rect width="720" height="420" fill="#2a2f3a" rx="4"/>
-
-  <!-- ── ALTERNATOR ── -->
-  <rect x="20" y="170" width="110" height="56" rx="4" fill="#1c2030" stroke="#6a7080" stroke-width="1.5"/>
-  <text x="75" y="194" text-anchor="middle" fill="#a8b0bc" font-size="9" letter-spacing="1">ALTERNATOR</text>
-  <text x="75" y="208" text-anchor="middle" fill="#e07800" font-size="10" font-weight="600">1HZ</text>
-  <text x="75" y="220" text-anchor="middle" fill="#6a7080" font-size="8">~55–80A output</text>
-
-  <!-- Alternator → Crank arrow -->
-  <line x1="130" y1="198" x2="180" y2="198" stroke="#e07800" stroke-width="2.5"/>
-  <polygon points="180,193 190,198 180,203" fill="#e07800"/>
-  <text x="155" y="192" text-anchor="middle" fill="#6a7080" font-size="8">+ve feed</text>
-
-  <!-- ── CRANK BATTERY ── -->
-  <rect x="190" y="148" width="130" height="100" rx="4" fill="#1c2030" stroke="#e07800" stroke-width="2"/>
-  <text x="255" y="170" text-anchor="middle" fill="#a8b0bc" font-size="9" letter-spacing="1">CRANK</text>
-  <text x="255" y="184" text-anchor="middle" fill="#e07800" font-size="11" font-weight="600">WILLARD 650</text>
-  <text x="255" y="197" text-anchor="middle" fill="#6a7080" font-size="8">FLA · 95Ah · 740 CCA</text>
-  <text x="255" y="210" text-anchor="middle" fill="#6a7080" font-size="8">WPL320T</text>
-  <text x="255" y="236" text-anchor="middle" fill="#059669" font-size="9">12V / Starter motor</text>
-
-  <!-- Crank → Cyrix arrow -->
-  <line x1="320" y1="198" x2="368" y2="198" stroke="#b86800" stroke-width="2"/>
-  <polygon points="368,193 378,198 368,203" fill="#b86800"/>
-  <text x="344" y="192" text-anchor="middle" fill="#6a7080" font-size="8">VSR input</text>
-
-  <!-- ── CYRIX VSR ── -->
-  <rect x="378" y="168" width="100" height="60" rx="4" fill="#1c2030" stroke="#b86800" stroke-width="1.5"/>
-  <text x="428" y="188" text-anchor="middle" fill="#a8b0bc" font-size="9" letter-spacing="1">CYRIX VSR</text>
-  <text x="428" y="202" text-anchor="middle" fill="#e07800" font-size="10" font-weight="600">120A</text>
-  <text x="428" y="217" text-anchor="middle" fill="#6a7080" font-size="8">Victron 12/24V</text>
-
-  <!-- Cyrix → Aux arrow -->
-  <line x1="478" y1="198" x2="526" y2="198" stroke="#b86800" stroke-width="2"/>
-  <polygon points="526,193 536,198 526,203" fill="#b86800"/>
-  <text x="502" y="192" text-anchor="middle" fill="#6a7080" font-size="8">VSR output</text>
-
-  <!-- ── AUX BATTERY ── -->
-  <rect x="536" y="148" width="130" height="100" rx="4" fill="#1c2030" stroke="#b86800" stroke-width="2"/>
-  <text x="601" y="170" text-anchor="middle" fill="#a8b0bc" font-size="9" letter-spacing="1">AUX / HOUSE</text>
-  <text x="601" y="184" text-anchor="middle" fill="#e07800" font-size="11" font-weight="600">DELTEC 1250</text>
-  <text x="601" y="197" text-anchor="middle" fill="#6a7080" font-size="8">Sealed LA · 105Ah</text>
-  <text x="601" y="236" text-anchor="middle" fill="#059669" font-size="9">Accessories / Loads</text>
-
-  <!-- ── LOADS from Aux — bottom row ── -->
-  <!-- Fridge -->
-  <rect x="450" y="300" width="80" height="36" rx="3" fill="#1c2030" stroke="#6a7080" stroke-width="1"/>
-  <text x="490" y="316" text-anchor="middle" fill="#a8b0bc" font-size="9">FRIDGE</text>
-  <text x="490" y="329" text-anchor="middle" fill="#6a7080" font-size="8">12V compressor</text>
-
-  <!-- Inverter -->
-  <rect x="546" y="300" width="80" height="36" rx="3" fill="#1c2030" stroke="#6a7080" stroke-width="1"/>
-  <text x="586" y="316" text-anchor="middle" fill="#a8b0bc" font-size="9">INVERTER</text>
-  <text x="586" y="329" text-anchor="middle" fill="#6a7080" font-size="8">Sinetech 1200W</text>
-
-  <!-- Accessories -->
-  <rect x="354" y="300" width="80" height="36" rx="3" fill="#1c2030" stroke="#6a7080" stroke-width="1"/>
-  <text x="394" y="316" text-anchor="middle" fill="#a8b0bc" font-size="9">ACCESSORIES</text>
-  <text x="394" y="329" text-anchor="middle" fill="#6a7080" font-size="8">Lights · USB · etc</text>
-
-  <!-- Aux → loads vertical line -->
-  <line x1="601" y1="248" x2="601" y2="275" stroke="#6a7080" stroke-width="1.5" stroke-dasharray="4,3"/>
-  <line x1="394" y1="275" x2="636" y2="275" stroke="#6a7080" stroke-width="1.5" stroke-dasharray="4,3"/>
-  <line x1="394" y1="275" x2="394" y2="300" stroke="#6a7080" stroke-width="1.5" stroke-dasharray="4,3"/>
-  <line x1="490" y1="275" x2="490" y2="300" stroke="#6a7080" stroke-width="1.5" stroke-dasharray="4,3"/>
-  <line x1="586" y1="275" x2="586" y2="300" stroke="#6a7080" stroke-width="1.5" stroke-dasharray="4,3"/>
-
-  <!-- ── WINCH from Crank ── -->
-  <rect x="190" y="295" width="80" height="36" rx="3" fill="#1c2030" stroke="#B91C1C" stroke-width="1.5"/>
-  <text x="230" y="311" text-anchor="middle" fill="#a8b0bc" font-size="9">WINCH</text>
-  <text x="230" y="324" text-anchor="middle" fill="#B91C1C" font-size="8">Crank direct</text>
-  <line x1="255" y1="248" x2="255" y2="272" stroke="#B91C1C" stroke-width="1.5" stroke-dasharray="4,3"/>
-  <line x1="230" y1="272" x2="255" y2="272" stroke="#B91C1C" stroke-width="1.5" stroke-dasharray="4,3"/>
-  <line x1="230" y1="272" x2="230" y2="295" stroke="#B91C1C" stroke-width="1.5" stroke-dasharray="4,3"/>
-
-  <!-- ── CHARGING INPUTS — top ── -->
-  <!-- DEFA SmartCharge -->
-  <rect x="378" y="50" width="100" height="40" rx="3" fill="#1c2030" stroke="#059669" stroke-width="1.5"/>
-  <text x="428" y="67" text-anchor="middle" fill="#a8b0bc" font-size="9">DEFA</text>
-  <text x="428" y="80" text-anchor="middle" fill="#059669" font-size="8">SmartCharge (mains)</text>
-  <!-- DEFA → Crank (then through Cyrix) -->
-  <line x1="428" y1="90" x2="428" y2="120" stroke="#059669" stroke-width="1.5" stroke-dasharray="3,3"/>
-  <line x1="255" y1="120" x2="428" y2="120" stroke="#059669" stroke-width="1.5" stroke-dasharray="3,3"/>
-  <line x1="255" y1="120" x2="255" y2="148" stroke="#059669" stroke-width="1.5" stroke-dasharray="3,3"/>
-  <polygon points="251,148 255,138 259,148" fill="#059669"/>
-
-  <!-- Hardkorr Solar -->
-  <rect x="536" y="50" width="130" height="40" rx="3" fill="#1c2030" stroke="#059669" stroke-width="1.5"/>
-  <text x="601" y="67" text-anchor="middle" fill="#a8b0bc" font-size="9">HARDKORR 200W</text>
-  <text x="601" y="80" text-anchor="middle" fill="#059669" font-size="8">Portable solar</text>
-  <!-- Solar → Aux direct -->
-  <line x1="601" y1="90" x2="601" y2="148" stroke="#059669" stroke-width="1.5" stroke-dasharray="3,3"/>
-  <polygon points="597,148 601,138 605,148" fill="#059669"/>
-
-  <!-- BM2000 monitor label -->
-  <rect x="20" y="50" width="100" height="40" rx="3" fill="#1c2030" stroke="#6a7080" stroke-width="1"/>
-  <text x="70" y="67" text-anchor="middle" fill="#a8b0bc" font-size="9">BM2000</text>
-  <text x="70" y="80" text-anchor="middle" fill="#6a7080" font-size="8">Monitor (sense)</text>
-  <line x1="70" y1="90" x2="70" y2="170" stroke="#6a7080" stroke-width="1" stroke-dasharray="2,4"/>
-  <line x1="70" y1="170" x2="190" y2="170" stroke="#6a7080" stroke-width="1" stroke-dasharray="2,4"/>
-
-  <!-- ── EARTH ── -->
-  <text x="360" y="400" text-anchor="middle" fill="#6a7080" font-size="9">EARTH: Crank (−) → chassis · Aux (−) → chassis · All loads earth to chassis</text>
-
-  <!-- ── LEGEND ── -->
-  <line x1="20" y1="376" x2="44" y2="376" stroke="#e07800" stroke-width="2.5"/>
-  <text x="48" y="379" fill="#a8b0bc" font-size="8">Alternator charge path</text>
-  <line x1="140" y1="376" x2="164" y2="376" stroke="#b86800" stroke-width="2"/>
-  <text x="168" y="379" fill="#a8b0bc" font-size="8">VSR / combined path</text>
-  <line x1="255" y1="376" x2="279" y2="376" stroke="#059669" stroke-width="1.5" stroke-dasharray="3,3"/>
-  <text x="283" y="379" fill="#a8b0bc" font-size="8">Mains / solar charge</text>
-  <line x1="390" y1="376" x2="414" y2="376" stroke="#6a7080" stroke-width="1.5" stroke-dasharray="2,4"/>
-  <text x="418" y="379" fill="#a8b0bc" font-size="8">Monitor sense / loads</text>
-  <line x1="510" y1="376" x2="534" y2="376" stroke="#B91C1C" stroke-width="1.5" stroke-dasharray="4,3"/>
-  <text x="538" y="379" fill="#a8b0bc" font-size="8">Winch (crank direct)</text>
-</svg>
+<svg viewBox="0 0 720 430" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="LC76 all-Victron LiFePO4 electrical topology"><rect x="0" y="0" width="720" height="430" fill="#2a2f3a"/><rect x="24" y="44" width="120" height="52" rx="4" fill="#1c2030" stroke="#6a7080"/><text x="84" y="66" text-anchor="middle" fill="#a8b0bc" font-size="10" letter-spacing="1">ALTERNATOR</text><text x="84" y="81" text-anchor="middle" fill="#6a7080" font-size="8">1HZ · ~55–80A</text><rect x="300" y="44" width="130" height="52" rx="4" fill="#1c2030" stroke="#059669"/><text x="365" y="66" text-anchor="middle" fill="#a8b0bc" font-size="10" letter-spacing="1">SOLAR</text><text x="365" y="81" text-anchor="middle" fill="#059669" font-size="8">Hardkorr 200W</text><rect x="560" y="44" width="140" height="52" rx="4" fill="#1c2030" stroke="#059669"/><text x="630" y="66" text-anchor="middle" fill="#a8b0bc" font-size="10" letter-spacing="1">230V SHORE</text><text x="630" y="81" text-anchor="middle" fill="#059669" font-size="8">16A EZ-Lock inlet</text><rect x="24" y="152" width="120" height="64" rx="4" fill="#1c2030" stroke="#6a7080"/><text x="84" y="174" text-anchor="middle" fill="#a8b0bc" font-size="10" letter-spacing="1">CRANK</text><text x="84" y="189" text-anchor="middle" fill="#6a7080" font-size="8">Willard 650 FLA</text><text x="84" y="202" text-anchor="middle" fill="#6a7080" font-size="8">95Ah · 740 CCA</text><rect x="176" y="152" width="132" height="64" rx="4" fill="#1c2030" stroke="#b86800"/><text x="242" y="174" text-anchor="middle" fill="#a8b0bc" font-size="10" letter-spacing="1">ORION DC-DC</text><text x="242" y="189" text-anchor="middle" fill="#6a7080" font-size="8">Smart 12/12-50A</text><text x="242" y="202" text-anchor="middle" fill="#e07800" font-size="8">cap ~40A</text><rect x="336" y="152" width="120" height="64" rx="4" fill="#1c2030" stroke="#b86800"/><text x="396" y="174" text-anchor="middle" fill="#a8b0bc" font-size="10" letter-spacing="1">MPPT</text><text x="396" y="189" text-anchor="middle" fill="#6a7080" font-size="8">SmartSolar</text><text x="396" y="202" text-anchor="middle" fill="#6a7080" font-size="8">100/30</text><rect x="486" y="152" width="132" height="64" rx="4" fill="#1c2030" stroke="#b86800"/><text x="552" y="174" text-anchor="middle" fill="#a8b0bc" font-size="10" letter-spacing="1">MULTIPLUS</text><text x="552" y="189" text-anchor="middle" fill="#6a7080" font-size="8">12/500 · 20A chg</text><text x="552" y="202" text-anchor="middle" fill="#6a7080" font-size="8">inverter/charger</text><rect x="210" y="260" width="300" height="66" rx="5" fill="#1c2030" stroke="#e07800" stroke-width="2"/><text x="360" y="284" text-anchor="middle" fill="#e07800" font-size="12" letter-spacing="1">HOUSE BATTERY</text><text x="360" y="300" text-anchor="middle" fill="#a8b0bc" font-size="9">Enertec Power+ 210Ah LiFePO4 · 168Ah usable</text><text x="360" y="315" text-anchor="middle" fill="#6a7080" font-size="8">internal BMS + Bluetooth · 105A max</text><rect x="222" y="334" width="176" height="20" rx="3" fill="#1c2030" stroke="#6a7080" stroke-dasharray="3,2"/><text x="310" y="348" text-anchor="middle" fill="#6a7080" font-size="8">SmartShunt 500A on house (−)</text><rect x="558" y="260" width="140" height="44" rx="4" fill="#1c2030" stroke="#6a7080"/><text x="628" y="280" text-anchor="middle" fill="#a8b0bc" font-size="9">230V AC OUT</text><text x="628" y="294" text-anchor="middle" fill="#6a7080" font-size="8">~430W continuous</text><rect x="210" y="368" width="140" height="42" rx="4" fill="#1c2030" stroke="#6a7080"/><text x="280" y="386" text-anchor="middle" fill="#a8b0bc" font-size="9">SAFETY HUB 150</text><text x="280" y="400" text-anchor="middle" fill="#6a7080" font-size="8">+ 8-circuit blade</text><rect x="364" y="368" width="120" height="42" rx="4" fill="#1c2030" stroke="#6a7080"/><text x="424" y="386" text-anchor="middle" fill="#a8b0bc" font-size="9">BATTERY-</text><text x="424" y="400" text-anchor="middle" fill="#6a7080" font-size="8">PROTECT 65A</text><rect x="498" y="368" width="150" height="42" rx="4" fill="#1c2030" stroke="#6a7080"/><text x="573" y="386" text-anchor="middle" fill="#a8b0bc" font-size="9">12V LOADS</text><text x="573" y="400" text-anchor="middle" fill="#6a7080" font-size="8">fridge · lights · USB</text><rect x="24" y="368" width="120" height="42" rx="4" fill="#1c2030" stroke="#B91C1C"/><text x="84" y="386" text-anchor="middle" fill="#a8b0bc" font-size="9">WINCH</text><text x="84" y="400" text-anchor="middle" fill="#B91C1C" font-size="8">crank-direct</text><line x1="84" y1="96" x2="84" y2="150" stroke="#e07800" stroke-width="2"/><polygon points="84,152 80,142 88,142" fill="#e07800"/><line x1="144" y1="184" x2="174" y2="184" stroke="#e07800" stroke-width="2"/><polygon points="176,184 166,180 166,188" fill="#e07800"/><line x1="242" y1="216" x2="300" y2="258" stroke="#e07800" stroke-width="2"/><polygon points="302,260 291,256 297,249" fill="#e07800"/><line x1="365" y1="96" x2="392" y2="150" stroke="#e07800" stroke-width="2"/><polygon points="396,152 386,148 393,142" fill="#e07800"/><line x1="396" y1="216" x2="396" y2="258" stroke="#e07800" stroke-width="2"/><polygon points="396,260 392,250 400,250" fill="#e07800"/><line x1="620" y1="96" x2="560" y2="150" stroke="#e07800" stroke-width="2"/><polygon points="556,152 566,148 560,142" fill="#e07800"/><line x1="486" y1="216" x2="440" y2="258" stroke="#e07800" stroke-width="2"/><polygon points="436,260 447,256 442,249" fill="#e07800"/><line x1="600" y1="216" x2="622" y2="258" stroke="#6a7080" stroke-width="1.5"/><polygon points="626,260 616,257 622,251" fill="#6a7080"/><line x1="320" y1="326" x2="290" y2="366" stroke="#6a7080" stroke-width="1.5"/><polygon points="288,368 298,364 293,358" fill="#6a7080"/><line x1="350" y1="389" x2="362" y2="389" stroke="#6a7080" stroke-width="1.5"/><polygon points="364,389 354,385 354,393" fill="#6a7080"/><line x1="484" y1="389" x2="496" y2="389" stroke="#6a7080" stroke-width="1.5"/><polygon points="498,389 488,385 488,393" fill="#6a7080"/><line x1="84" y1="216" x2="84" y2="366" stroke="#B91C1C" stroke-width="1.5" stroke-dasharray="5,3"/><polygon points="84,368 80,358 88,358" fill="#B91C1C"/><text x="250" y="244" fill="#6a7080" font-size="8">DC-DC</text><text x="470" y="244" fill="#6a7080" font-size="8">shore/AC</text><text x="300" y="352" fill="#6a7080" font-size="8">loads</text><text x="360" y="424" text-anchor="middle" fill="#a8b0bc" font-size="8">EARTH: non-isolated common-negative star-earth — crank (−), house (−), all loads to one star point</text></svg>
 </div>
 
 <div class="rule rule-note">
   <span class="rule-hdr">Winch wiring note</span>
-  The T-Max winch draws very high current (100A+) and is typically wired directly to the crank battery with its own heavy-gauge cables and solenoid, bypassing the Cyrix. <strong>Never operate the winch with the engine off for more than brief pulls</strong> — it will flatten the crank battery rapidly. Verify your wiring at the pre-departure electrical audit.
+  The T-Max winch draws very high current (100A+) and is typically wired directly to the crank battery with its own heavy-gauge cables and solenoid, bypassing the DC-DC and house battery. <strong>Never operate the winch with the engine off for more than brief pulls</strong> — it will flatten the crank battery rapidly. Verify your wiring at the pre-departure electrical audit.
 </div>
 
 <!-- ═══ SECTION 2: FUSE & CIRCUIT MAP ═══ -->
@@ -415,14 +284,14 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
   </thead>
   <tbody>
     <tr><td>Main crank battery feed</td><td class="fill-blank">[ A ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ mm² ]</td><td></td></tr>
-    <tr><td>Aux battery feed (Cyrix output)</td><td class="fill-blank">[ A ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ mm² ]</td><td></td></tr>
+    <tr><td>House battery feed (Orion DC-DC output)</td><td class="fill-blank">[ A ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ mm² ]</td><td></td></tr>
     <tr><td>Winch (T-Max)</td><td class="fill-blank">[ A ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ mm² ]</td><td>Likely inline near battery</td></tr>
     <tr><td>Fridge / compressor cooler</td><td class="fill-blank">[ A ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ mm² ]</td><td></td></tr>
-    <tr><td>Sinetech inverter (1200W)</td><td class="fill-blank">[ A ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ mm² ]</td><td>High-current — verify</td></tr>
+    <tr><td>MultiPlus 12/500 (inverter/charger)</td><td class="fill-blank">[ A ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ mm² ]</td><td>High-current — verify</td></tr>
     <tr><td>ARB lights / driving lights</td><td class="fill-blank">[ A ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ mm² ]</td><td></td></tr>
     <tr><td>USB / 12V accessory sockets</td><td class="fill-blank">[ A ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ mm² ]</td><td></td></tr>
-    <tr><td>BM2000 monitor</td><td class="fill-blank">[ A ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ mm² ]</td><td>Low-current sense circuit</td></tr>
-    <tr><td>Hardkorr solar input</td><td class="fill-blank">[ A ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ mm² ]</td><td></td></tr>
+    <tr><td>SmartShunt 500A monitor</td><td class="fill-blank">[ A ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ mm² ]</td><td>Low-current sense circuit</td></tr>
+    <tr><td>Solar input (SmartSolar MPPT 100/30)</td><td class="fill-blank">[ A ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ mm² ]</td><td></td></tr>
     <tr><td><span class="fill-blank">[ circuit ]</span></td><td class="fill-blank">[ A ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ mm² ]</td><td></td></tr>
     <tr><td><span class="fill-blank">[ circuit ]</span></td><td class="fill-blank">[ A ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ ]</td><td class="fill-blank">[ mm² ]</td><td></td></tr>
   </tbody>
@@ -437,89 +306,26 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 <div id="s3" class="sec-header">
   <span class="sec-num">§3</span>
   <span class="sec-title">How the Dual-Battery System Works</span>
-  <span class="sec-sub">Cyrix VSR logic · BM2000 readings</span>
+  <span class="sec-sub">Orion DC-DC logic · SmartShunt readings</span>
 </div>
 
-<div class="subsec"><span class="subsec-title">Cyrix VSR Logic</span><span class="subsec-tag">Voltage-sensitive relay</span></div>
-
-<p class="p">The Victron Cyrix 120A is a voltage-sensitive relay (VSR) — not a simple switch. It monitors the crank battery voltage and automatically combines or separates the two batteries based on that voltage.</p>
-
-<table class="spec-table">
-  <caption>Cyrix operating thresholds</caption>
-  <thead><tr><th>State</th><th>Voltage threshold</th><th>What happens</th></tr></thead>
-  <tbody>
-    <tr><td><span class="v-good">COMBINED</span></td><td class="mono">≥ 13.7V for 30 sec</td><td>Relay closes — both batteries connected. Alternator or mains charger charges both simultaneously.</td></tr>
-    <tr><td><span class="v-good">HOLD COMBINED</span></td><td class="mono">≥ 13.0V</td><td>Relay stays closed while voltage holds above this level.</td></tr>
-    <tr><td><span class="v-warn">SEPARATING</span></td><td class="mono">&lt; 13.0V for 30 sec</td><td>Relay opens — batteries isolated. Crank battery protected from accessory discharge.</td></tr>
-    <tr><td><span class="v-bad">SEPARATED</span></td><td class="mono">&lt; 12.5V</td><td>Batteries fully isolated. Engine must be running (or mains connected) to re-combine.</td></tr>
-  </tbody>
-</table>
-
-<div class="rule rule-note">
-  <span class="rule-hdr">Key implication: the Cyrix does not combine on engine ignition alone</span>
-  The Cyrix triggers on <strong>voltage, not the ignition switch.</strong> The relay will only close once the alternator has raised crank voltage to ~13.7V — typically 30–60 seconds after start-up at idle. Until then, the aux battery is isolated and not receiving charge. This is normal behaviour.
-</div>
-
-<div class="subsec"><span class="subsec-title">Reading the BM2000</span><span class="subsec-tag">Dual-battery monitor</span></div>
-
-<p class="p">The BM2000 displays voltage and/or state-of-charge for both batteries. Use it as your primary in-field electrical status check.</p>
-
-<table class="spec-table">
-  <caption>BM2000 readings — interpretation guide (lead-acid)</caption>
-  <thead><tr><th>Reading</th><th>Crank (Willard 650)</th><th>Aux (Deltec 1250)</th><th>Action</th></tr></thead>
-  <tbody>
-    <tr><td><span class="v-good">Healthy resting</span></td><td class="mono">12.6–12.8V</td><td class="mono">12.6–12.8V</td><td>Normal — record as your baseline.</td></tr>
-    <tr><td><span class="v-good">Charging (alternator)</span></td><td class="mono">13.8–14.4V</td><td class="mono">13.5–14.2V</td><td>Normal. Aux may be slightly lower due to Cyrix voltage drop.</td></tr>
-    <tr><td><span class="v-warn">Low resting</span></td><td class="mono">12.2–12.5V</td><td class="mono">12.2–12.5V</td><td>Partially discharged. Charge before use.</td></tr>
-    <tr><td><span class="v-bad">Flat / discharge</span></td><td class="mono">&lt; 12.0V</td><td class="mono">&lt; 12.0V</td><td>Battery significantly discharged. Do not attempt engine start until charged.</td></tr>
-    <tr><td><span class="v-bad">Critical</span></td><td class="mono">&lt; 11.8V</td><td class="mono">&lt; 11.8V</td><td>Battery deeply discharged — potential damage. Charge immediately, assess condition.</td></tr>
-  </tbody>
-</table>
-
-<div class="rule rule-info">
-  <span class="rule-hdr">Surface charge masking</span>
-  Immediately after charging, a lead-acid battery can show a falsely high voltage (surface charge). For an accurate resting voltage reading, leave the battery at rest with no load or charge for at least <strong>2 hours</strong> after the last charge. Overnight is better.
-</div>
-
-<!-- ═══ SECTION 4: CHARGING PATHS ═══ -->
+<div class="subsec"><span class="subsec-title">DC-DC Charging (Orion Smart)</span><span class="subsec-tag">Alternator → house, current-controlled</span></div><p class="p">The Victron Orion Smart 12/12-50A is a <strong>DC-DC charger</strong>, not a relay. It takes 12V from the crank battery (charged by the alternator) and delivers a proper multi-stage LiFePO4 charge to the house battery. Unlike the old VSR it does not simply parallel the two batteries — it isolates them for charging purposes and controls the current, so the house always receives a correct charge profile regardless of alternator voltage.</p><table class="spec-table"><caption>Orion DC-DC operating behaviour</caption><thead><tr><th>State</th><th>Trigger</th><th>What happens</th></tr></thead><tbody><tr><td><span class="v-good">CHARGING</span></td><td class="mono">Engine running / input ≥ ~13.1V</td><td>Orion detects the alternator running (input voltage rises) and charges the house up to the configured limit.</td></tr><tr><td><span class="v-good">CURRENT-CAPPED</span></td><td class="mono">Output limited to ~40A</td><td>Output is capped in VictronConnect to ~40A to protect the 1HZ alternator, even though unit and battery could accept more.</td></tr><tr><td><span class="v-warn">STANDBY</span></td><td class="mono">Input &lt; ~12.8V (engine off)</td><td>Orion stops drawing from the crank battery, protecting it from discharge by house loads.</td></tr><tr><td><span class="v-bad">BMS CUT</span></td><td class="mono">House BMS signals stop</td><td>If the house BMS blocks charging (cell full, or temperature &lt; 0°C) the Orion pauses until conditions clear.</td></tr></tbody></table><div class="rule rule-note"><span class="rule-hdr">Key implication: the crank is protected, the house always charges correctly</span>
+  The Orion charges on <strong>engine-run detection (input voltage), not the ignition switch.</strong> Because it is a true DC-DC charger, the house receives a full LiFePO4 profile even when the alternator only reaches ~14.0V — something the old VSR could never do. The crank battery is never loaded by house accessories.
+</div><div class="subsec"><span class="subsec-title">Reading the SmartShunt</span><span class="subsec-tag">Battery monitor — coulomb counting</span></div><p class="p">The Victron SmartShunt 500A is fitted on the house battery negative and reports via Bluetooth in VictronConnect (there is no fixed display). It measures every amp in and out and reports <strong>true state of charge by counting amp-hours</strong> — this is the primary house-battery reading and your in-field electrical status check.</p><div class="rule rule-warn"><span class="rule-hdr">On LiFePO4, resting voltage does NOT tell you state of charge</span>
+  A LiFePO4 battery holds almost the same voltage (~13.2–13.4V) from roughly 20% to 90% charge — the discharge curve is nearly flat. You <strong>cannot</strong> read SoC from a voltmeter the way you can with lead-acid. Always use the SmartShunt’s amp-hour count / SoC %. Voltage is only a coarse sanity check at the extremes.
+</div><table class="spec-table"><caption>House battery (LiFePO4) — SmartShunt interpretation</caption><thead><tr><th>SmartShunt reading</th><th>Meaning</th><th>Action</th></tr></thead><tbody><tr><td><span class="v-good">SoC 100% · ~13.6–14.4V</span></td><td class="mono">Full / charging</td><td>Fully charged. 210Ah nominal, ~168Ah usable to 80% DoD.</td></tr><tr><td><span class="v-good">SoC 30–90% · ~13.2–13.4V</span></td><td class="mono">Normal working range</td><td>Flat voltage is normal — trust the SoC %, not the voltage.</td></tr><tr><td><span class="v-warn">SoC 15–20% · ~12.8–13.0V</span></td><td class="mono">Approaching planned floor</td><td>Recharge soon. Staying above ~20% preserves cycle life.</td></tr><tr><td><span class="v-bad">Voltage falling fast / &lt; 12.0V</span></td><td class="mono">Near-empty — BMS cutoff imminent</td><td>The BMS disconnects at ~9.6V to protect the cells. Reduce load and recharge; do not rely on reaching cutoff.</td></tr></tbody></table><div class="rule rule-info"><span class="rule-hdr">The crank battery still reads by voltage</span>
+  The crank battery (Willard 650) is lead-acid — its resting voltage <em>does</em> indicate SoC (12.6–12.8V healthy). Check it at the terminals or in VictronConnect if monitored. Do not apply lead-acid voltage rules to the LiFePO4 house.
+</div><!-- ═══ SECTION 4: CHARGING PATHS ═══ -->
 <div id="s4" class="sec-header">
   <span class="sec-num">§4</span>
   <span class="sec-title">Charging Paths</span>
-  <span class="sec-sub">Alternator · DEFA mains · Hardkorr solar</span>
+  <span class="sec-sub">Alternator/DC-DC · MultiPlus mains · SmartSolar</span>
 </div>
 
-<div class="subsec"><span class="subsec-title">Alternator Charging</span><span class="subsec-tag">Primary source — engine running</span></div>
-
-<p class="p">The 1HZ alternator is the primary charge source on the road. Once the crank battery voltage reaches ~13.7V and the Cyrix combines (after ~30–60 sec at idle), both batteries charge in parallel. The alternator's regulated output (~13.8–14.4V) is sufficient to bring both batteries through bulk charge. It cannot complete the absorption and float stages that a smart charger provides — full charge requires mains or extended driving.</p>
-
-<div class="rule rule-note">
-  <span class="rule-hdr">Alternator charge time — rough guide</span>
-  A 50% discharged 200Ah combined bank (crank + aux) requires approximately 3–4 hours of highway driving to reach ~80% state of charge. The alternator is not efficient at the top 20% — it tapers off as battery voltage rises. Never assume a battery is full after even a long drive. <strong>Verify with the BM2000.</strong>
-</div>
-
-<div class="subsec"><span class="subsec-title">DEFA SmartCharge — Mains Charging</span><span class="subsec-tag">Campsite / home use</span></div>
-
-<p class="p">The DEFA SmartCharge provides multi-stage (bulk / absorption / float) charging from a 220V mains supply. It is connected to the crank battery. When the DEFA raises crank voltage to ~13.7V, the Cyrix combines and the aux battery charges <em>through the relay</em>.</p>
-
-<div class="rule rule-warn">
-  <span class="rule-hdr">Known quirk: aux battery may not reach 100% via DEFA</span>
-  The aux (Deltec 1250) sits below the DEFA's regulation point by the voltage drop across the Cyrix relay and cabling — typically 0.1–0.3V. This means the aux may complete bulk charge but may never fully complete the absorption stage, and can chronically rest at ~90–95% even after an overnight DEFA charge. <strong>Field check:</strong> after a full overnight DEFA charge, read both battery voltages on the BM2000 with engine off. If the aux reads 0.2V or more below the crank, the aux is not reaching full charge via the DEFA path. Record the result here and in Facts.txt §8.
-  <br><br>
-  <strong>DEFA connection point:</strong> <span class="fill-blank">[ verify and record — direct to crank battery or to crank bus bar? ]</span><br>
-  <strong>Field test result:</strong> <span class="fill-blank">[ record after first campsite test ]</span>
-</div>
-
-<div class="subsec"><span class="subsec-title">Hardkorr 200W Portable Solar</span><span class="subsec-tag">Supplementary — stationary use</span></div>
-
-<p class="p">The Hardkorr 200W portable panel provides supplementary charge when stationary. It is typically connected directly to the aux battery (verify your wiring). Solar output is weather and angle dependent — on a clear day in southern Africa, expect 50–80Ah of usable charge over 6–8 hours of good sun. This is adequate to offset moderate fridge and lighting loads but will not recover a significantly discharged bank.</p>
-
-<div class="rule rule-info">
-  <span class="rule-hdr">Solar connection point</span>
-  <strong>Aux battery or crank?</strong> <span class="fill-blank">[ verify and record during pre-departure audit ]</span><br>
-  If solar is connected directly to the aux (bypassing the Cyrix), the crank battery does not benefit from solar charging. This is the recommended configuration — it protects the crank and directs solar energy where it is most useful.
-</div>
-
-<!-- ═══ SECTION 5: FAULT-TRACING ═══ -->
+<div class="subsec"><span class="subsec-title">Alternator → DC-DC Charging</span><span class="subsec-tag">Primary source — engine running</span></div><p class="p">On the road the 1HZ alternator charges the crank battery, and the <strong>Orion Smart DC-DC</strong> charges the house battery from the crank. The Orion delivers a full multi-stage LiFePO4 profile regardless of alternator voltage, so the house reaches a genuine full charge on a long enough drive — unlike a lead-acid aux on a VSR, which could only bulk-charge.</p><div class="rule rule-warn"><span class="rule-hdr">Orion output capped to ~40A — protect the 1HZ alternator</span>
+  The house battery can accept far more than 40A, but the 1HZ alternator is not sized to deliver a continuous 50A to the house on top of the vehicle’s own loads. <strong>The Orion output is capped to ~40A in VictronConnect.</strong> Confirm the cap is set before departure and after any firmware reset. At ~40A a deeply drawn 210Ah house takes roughly 3–4 hours of driving to refill — verify with the SmartShunt, not by voltage.</div><div class="subsec"><span class="subsec-title">MultiPlus — Mains / Shore Charging</span><span class="subsec-tag">Campsite / home use</span></div><p class="p">The Victron MultiPlus 12/500/20-16 is a combined inverter and mains charger. On 230V shore power it charges the house battery (20A charger) with a full LiFePO4 profile and simultaneously passes AC through to the vehicle’s outlets. It replaces both the old mains charger and the inverter. Shore-power hardware and transfer behaviour are detailed in §11.</p><div class="rule rule-info"><span class="rule-hdr">One box does both jobs</span>
+  The MultiPlus charges from mains <em>and</em> inverts to supply 230V from the house battery (~430W continuous). There is no separate mains charger and no separate inverter to fault-find — a single unit, configured in VictronConnect.</div><div class="subsec"><span class="subsec-title">Hardkorr 200W Portable Solar</span><span class="subsec-tag">Supplementary — stationary use</span></div><p class="p">The Hardkorr 200W portable panel feeds the <strong>Victron SmartSolar MPPT 100/30</strong>, which charges the house battery directly with an MPPT LiFePO4 profile. Output is weather and angle dependent — on a clear southern-African day expect roughly 50–80Ah over 6–8 hours of good sun, enough to offset moderate fridge and lighting loads while stationary. Solar runs independently of the engine and the MultiPlus, so it keeps the house topped up in camp.</p><div class="rule rule-info"><span class="rule-hdr">Solar charges the house directly</span>
+  The MPPT connects to the house battery, not the crank — solar energy goes where it is most useful. All three charge sources (alternator/Orion, solar/MPPT, shore/MultiPlus) can run together; each respects the house BMS.</div><!-- ═══ SECTION 5: FAULT-TRACING ═══ -->
 <div id="s5" class="sec-header">
   <span class="sec-num">§5</span>
   <span class="sec-title">Fault-Tracing Method</span>
@@ -547,7 +353,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 <div class="subsec"><span class="subsec-title">Systematic Isolation Method</span><span class="subsec-tag">Always start here</span></div>
 
 <ol class="steps">
-  <li><strong>Confirm the symptom precisely.</strong> "Battery flat" is not enough — is it the crank, the aux, or both? What was the last known state? Does the BM2000 show a voltage?</li>
+  <li><strong>Confirm the symptom precisely.</strong> "Battery flat" is not enough — is it the crank, the aux, or both? What was the last known state? Does the SmartShunt show a voltage and SoC?</li>
   <li><strong>Measure battery voltages first.</strong> Crank and aux — note readings. This tells you immediately whether you have a battery problem or a wiring/supply problem.</li>
   <li><strong>Check the obvious first.</strong> Loose terminal, blown fuse, tripped isolator. These cause most field failures. Do not skip to complex diagnosis.</li>
   <li><strong>Work from the source toward the load.</strong> Battery → fuse → switch → load. Confirm voltage is present at each stage. Where voltage disappears, the fault is between that point and the previous one.</li>
@@ -571,81 +377,14 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
       <th style="width:30%">Field fix / action</th>
     </tr>
   </thead>
-  <tbody>
-    <tr>
-      <td><span class="fault-sym">Aux not charging after long drive</span></td>
-      <td>Cyrix not combining; blown Cyrix fuse; bad connection on Cyrix terminals</td>
-      <td>Is crank voltage ≥13.7V? Check Cyrix fuse (if fitted). Check voltage at Cyrix input and output terminals under load.</td>
-      <td>Clean Cyrix terminals. Replace fuse if blown. If Cyrix faulty, aux will need direct-charge workaround (see §7).</td>
-    </tr>
-    <tr>
-      <td><span class="fault-sym">Cyrix not engaging (engine running)</span></td>
-      <td>Alternator output low; Cyrix fuse blown; Cyrix failed open</td>
-      <td>Measure alternator output voltage at crank battery terminals (engine running). Should be 13.8–14.4V. If low, suspect alternator or charge circuit.</td>
-      <td>If alternator output is good but Cyrix still open: replace Cyrix (carry spare if possible) or bridge with a direct cable for aux charging (supervised only).</td>
-    </tr>
-    <tr>
-      <td><span class="fault-sym">Cyrix stuck closed (aux draining crank)</span></td>
-      <td>Cyrix relay welded; internal fault</td>
-      <td>With engine off and no charger, both batteries should show independent voltages. If crank is draining toward aux level overnight with nothing on, Cyrix may be welded closed.</td>
-      <td>Disconnect the Cyrix cable on the aux side to isolate. Seek replacement at next opportunity.</td>
-    </tr>
-    <tr>
-      <td><span class="fault-sym">Flat crank — won't start</span></td>
-      <td>Battery deeply discharged; poor terminal contact; battery failed</td>
-      <td>BM2000 or multimeter: crank voltage &lt;12V? Check terminal clamps are tight and clean.</td>
-      <td>Jump-start with ARB pack (see §7). Once running, drive to charge. If battery fails to recover, replace at next opportunity.</td>
-    </tr>
-    <tr>
-      <td><span class="fault-sym">Parasitic drain — battery flat with no load</span></td>
-      <td>Accessory left on; faulty switch or relay; wiring fault</td>
-      <td>With everything off, measure current draw in series on the battery cable (mA mode). &gt;100mA sustained = drain. Pull fuses one at a time — when drain drops, that circuit is the culprit.</td>
-      <td>Isolate faulty circuit (pull fuse or disconnect). Do not leave batteries connected if drain is significant and vehicle is parked for days.</td>
-    </tr>
-    <tr>
-      <td><span class="fault-sym">Blown fuse (circuit dead)</span></td>
-      <td>Overload; short circuit; loose fitting causing arc</td>
-      <td>Locate fuse for that circuit (§2 fuse map). Inspect visually — blown fuses show a broken wire or blackening inside.</td>
-      <td>Replace with same-rating fuse (never higher). If new fuse blows immediately, there is a short — do not replace again until fault is found. Isolate circuit.</td>
-    </tr>
-    <tr>
-      <td><span class="fault-sym">Bad earth / intermittent fault</span></td>
-      <td>Corroded earth strap; loose chassis connection</td>
-      <td>Voltage drop test across earth strap under load (&gt;0.2V = high resistance). Inspect earth points — battery negative, chassis straps, body earths.</td>
-      <td>Clean earth connections with terminal brush, tighten. A temporary extra earth strap can confirm the fault.</td>
-    </tr>
-    <tr>
-      <td><span class="fault-sym">Winch no power</span></td>
-      <td>Blown inline fuse; tripped solenoid; poor crank terminal contact</td>
-      <td>Check inline winch fuse first (likely near battery). Check solenoid — does it click when you activate the winch switch? Measure voltage at solenoid input.</td>
-      <td>Replace fuse if blown (verify correct rating — do not oversize). If solenoid fails to click, check winch control circuit fuse and wiring to switch.</td>
-    </tr>
-    <tr>
-      <td><span class="fault-sym">Inverter low-voltage cutout</span></td>
-      <td>Aux battery low; high load exceeds available capacity</td>
-      <td>Check aux voltage on BM2000. Inverter typically cuts out at ~10.5–11V to protect the battery.</td>
-      <td>Reduce load. Allow aux to charge. Do not override the cutout — it protects the battery from deep discharge damage.</td>
-    </tr>
-    <tr>
-      <td><span class="fault-sym">Fridge cutting out</span></td>
-      <td>Aux voltage low; fridge low-voltage protection triggering; blown fridge fuse</td>
-      <td>Check aux voltage — below 11.8V will trigger most compressor fridge protection. Check fridge inline fuse.</td>
-      <td>Allow aux to charge before resuming fridge use. If voltage is adequate but fridge still cuts: check fridge fuse and terminals.</td>
-    </tr>
-    <tr>
-      <td><span class="fault-sym">Solar not charging aux</span></td>
-      <td>Panel disconnected; reverse polarity; blown solar fuse; bad connection</td>
-      <td>Is the panel plugged in and in sun? Measure panel output voltage (open circuit, in sun, should be ~20V+ for a 12V panel). Check inline fuse on solar lead. Measure voltage at battery connection point.</td>
-      <td>Clean and reseat connectors. Replace fuse if blown. If panel output is present at battery but battery is not rising, check polarity and connection integrity.</td>
-    </tr>
-  </tbody>
+  <tbody><tr><td><span class="fault-sym">House not charging while driving</span></td><td>Orion DC-DC not engaging; input voltage low; blown fuse</td><td>In VictronConnect: is the Orion CHARGING? Is input ≥ ~13.1V with the engine running? Check Orion input &amp; output fuses.</td><td>Confirm engine running &amp; input voltage. Reset the Orion; check fuses and terminals. If the Orion is faulty, charge the house via solar/shore until repaired (§7).</td></tr><tr><td><span class="fault-sym">Orion DC-DC not charging (engine running)</span></td><td>Alternator output low; Orion fuse blown; Orion failed</td><td>Measure alternator output at the crank terminals (13.8–14.4V). Check the Orion input/output in VictronConnect.</td><td>If the alternator is good but the Orion is dead, charge the house via solar (MPPT) and shore (MultiPlus). <strong>Do not bridge the crank directly to the LiFePO4 house.</strong></td></tr><tr><td><span class="fault-sym">House has no output (BMS disconnected)</span></td><td>BMS protection tripped — cell over/under-voltage, over-temp, or over-current (&gt;105A)</td><td>Check the BMS/VictronConnect status. Is temperature &lt; 0°C (charge blocked) or a load &gt;105A being drawn?</td><td>Remove the excess load; let temperature/voltage recover. The BMS re-enables automatically once safe. Reduce simultaneous high-draw loads.</td></tr><tr><td><span class="fault-sym">Flat crank — won’t start</span></td><td>Crank deeply discharged; poor terminal contact; crank failed</td><td>SmartShunt/multimeter: crank voltage &lt;12V? Check terminal clamps. Note the LiFePO4 house does not start the engine.</td><td>Jump-start with the ARB pack (§7). Drive to charge the crank. If it will not recover, replace it.</td></tr><tr><td><span class="fault-sym">Parasitic drain — battery flat with no load</span></td><td>Accessory left on; faulty switch/relay; wiring fault</td><td>Everything off, measure current in series (mA). &gt;100mA sustained = drain. Pull fuses one at a time until it drops.</td><td>Isolate the faulty circuit. Note the BatteryProtect 65A sheds house loads at low voltage but does not stop a fault upstream of it.</td></tr><tr><td><span class="fault-sym">Blown fuse (circuit dead)</span></td><td>Overload; short circuit; loose fitting arcing</td><td>Locate the fuse (§2). Inspect for a broken or blackened element.</td><td>Replace with the same rating (never higher). If it blows again there is a short — stop and find the fault.</td></tr><tr><td><span class="fault-sym">Bad earth / intermittent fault</span></td><td>Corroded earth strap; loose chassis connection</td><td>Voltage-drop test across the earth strap under load (&gt;0.2V = high resistance). Check the common-negative star-earth point (§11).</td><td>Clean and tighten earth connections. A temporary extra earth strap can confirm the fault.</td></tr><tr><td><span class="fault-sym">Winch no power</span></td><td>Blown inline fuse; tripped solenoid; poor crank terminal contact</td><td>Check the inline winch fuse (near the battery). Does the solenoid click? Measure voltage at the solenoid input.</td><td>Replace the fuse (correct rating). If the solenoid will not click, check the control-circuit fuse and wiring. The winch runs off the crank, not the house.</td></tr><tr><td><span class="fault-sym">MultiPlus low-voltage / overload</span></td><td>House SoC low; AC load exceeds ~430W; BMS current limit</td><td>Check house SoC in VictronConnect/SmartShunt. Is the AC load within ~430W continuous?</td><td>Reduce the AC load; recharge the house. Do not exceed the MultiPlus continuous rating or the 105A house ceiling.</td></tr><tr><td><span class="fault-sym">Fridge cutting out</span></td><td>House SoC low; fridge low-voltage protection; blown fridge fuse</td><td>Check house SoC on the SmartShunt (not voltage — LiFePO4 is flat). Check the fridge inline fuse and the BatteryProtect state.</td><td>Recharge the house. If SoC is adequate but the fridge still cuts, check the fridge fuse, terminals, and BatteryProtect threshold.</td></tr><tr><td><span class="fault-sym">Solar not charging house</span></td><td>Panel disconnected; reverse polarity; blown solar fuse; MPPT fault</td><td>Panel in sun and plugged in? Panel open-circuit ~20V+? Check the solar fuse. Is the MPPT charging in VictronConnect?</td><td>Clean/reseat connectors, replace the fuse. If the MPPT shows PV volts but no charge, the house may be full or the BMS is blocking (temp/SoC).</td></tr></tbody>
 </table>
 
 <!-- ═══ SECTION 7: FIELD FIXES ═══ -->
 <div id="s7" class="sec-header">
   <span class="sec-num">§7</span>
   <span class="sec-title">Field Fixes &amp; Workarounds</span>
-  <span class="sec-sub">Terminal care · manual combining · jump-start · limp options</span>
+  <span class="sec-sub">Terminal care · DC-DC failure · jump-start · limp options</span>
 </div>
 
 <div class="subsec"><span class="subsec-title">Clean and Tighten Terminals</span><span class="subsec-tag">Most common field fix</span></div>
@@ -674,23 +413,9 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
   </div>
 </div>
 
-<div class="subsec"><span class="subsec-title">Manually Combining to Charge Aux</span><span class="subsec-tag">Cyrix bypass — workaround only</span></div>
-
-<p class="p">If the Cyrix has failed open and the aux battery cannot charge via the normal path, the batteries can be temporarily bridged using heavy-gauge jumper cables to allow the alternator to charge the aux. <strong>This is a workaround, not a permanent solution.</strong></p>
-
-<div class="rule rule-warn">
-  <span class="rule-hdr">Manual combining — safety rules</span>
-  Only do this with the engine running. <strong>Never bridge a fully charged battery to a deeply discharged one with the engine off</strong> — the current surge can damage both batteries or cause a fire. Monitor both batteries continuously while bridged. Remove the bridge cable before switching off the engine.
-</div>
-
-<ol class="steps">
-  <li><strong>Start the engine</strong> and allow it to run at a fast idle (~1500 RPM).</li>
-  <li><strong>Connect a heavy-gauge jumper cable</strong> from the crank battery positive terminal to the aux battery positive terminal. Do not connect negative-to-negative — both are already earthed to chassis.</li>
-  <li><strong>Monitor with the BM2000.</strong> Aux voltage should begin rising. Expect slow recovery — allow 30–60 minutes of driving to bring aux to an acceptable level.</li>
-  <li><strong>Remove the cable before switching off the engine.</strong> Disconnect the aux (+) end first, then the crank (+) end.</li>
-</ol>
-
-<div class="subsec"><span class="subsec-title">Jump-Starting with the ARB Pack</span><span class="subsec-tag">Flat crank battery</span></div>
+<div class="subsec"><span class="subsec-title">If the DC-DC (Orion) Fails</span><span class="subsec-tag">Charging workaround — no direct bridging</span></div><p class="p">If the Orion DC-DC fails, the house battery simply stops charging from the alternator. The other two charge paths still work, so this is rarely a stranding fault.</p><div class="rule rule-warn"><span class="rule-hdr">Never bridge the crank directly to the LiFePO4 house</span>
+  The old lead-acid trick of jumping crank-to-aux does <strong>not</strong> apply here. Directly paralleling the 12V crank to the LiFePO4 house bypasses the DC-DC and the BMS current control — the inrush can trip the BMS, stress the cells, or damage cabling. If the Orion is dead, charge the house through the paths below instead.
+</div><ol class="steps"><li><strong>Use solar.</strong> The SmartSolar MPPT charges the house independently of the Orion — deploy the Hardkorr panel in good sun.</li><li><strong>Use shore/mains.</strong> If a 230V source is available, the MultiPlus charges the house directly.</li><li><strong>Reduce house loads</strong> to stretch capacity until the Orion is repaired or replaced. The crank battery still starts the engine normally.</li><li><strong>Log the fault</strong> and check the Orion’s input/output fuses and VictronConnect status when safe.</li></ol><div class="subsec"><span class="subsec-title">Jump-Starting with the ARB Pack</span><span class="subsec-tag">Flat crank battery</span></div>
 
 <div class="rule rule-warn">
   <span class="rule-hdr">ARB jump pack — mandatory cable order</span>
@@ -710,12 +435,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 
 <table class="spec-table">
   <thead><tr><th>Scenario</th><th>Limp option</th></tr></thead>
-  <tbody>
-    <tr><td>Cyrix failed — aux cannot charge</td><td>Manual bridge (see above) or accept limited aux capacity; prioritise load reduction (no inverter, fridge on minimum).</td></tr>
-    <tr><td>Aux battery failed</td><td>Disconnect aux from Cyrix output to prevent it loading the crank. Run on crank only — no high-draw accessories. Reach next town for replacement.</td></tr>
-    <tr><td>Parasitic drain causing flat crank</td><td>Isolate the drain by pulling fuses selectively. Once identified, leave that circuit's fuse out. Not comfortable but allows the vehicle to remain mobile.</td></tr>
-    <tr><td>Blown inverter fuse</td><td>Replace with correct-rating spare. If it blows again, the inverter or its wiring has a fault — do not continue use.</td></tr>
-  </tbody>
+  <tbody><tr><td>Orion DC-DC failed — house won’t charge from alternator</td><td>Charge the house via solar (MPPT) and/or shore (MultiPlus); reduce loads. Do not bridge crank to house.</td></tr><tr><td>House battery / BMS shut down</td><td>Run on the crank only for starting; shed all house loads; let temperature/voltage recover so the BMS re-enables. Reach a town if the battery is damaged.</td></tr><tr><td>Parasitic drain causing flat crank</td><td>Isolate the drain by pulling fuses selectively; leave the offending fuse out. Uncomfortable but keeps the vehicle mobile.</td></tr><tr><td>Blown MultiPlus / inverter fuse</td><td>Replace with the correct-rating spare. If it blows again, the MultiPlus or its wiring has a fault — stop using AC.</td></tr></tbody>
 </table>
 
 <!-- ═══ SECTION 8: BASELINES ═══ -->
@@ -732,11 +452,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 <table class="fill-table">
   <caption>Battery resting voltages — record once baselines are stable</caption>
   <thead><tr><th>Battery</th><th>Expected range</th><th>Your baseline (100% SoC)</th><th>Date recorded</th><th>Notes</th></tr></thead>
-  <tbody>
-    <tr><td>Crank — Willard 650</td><td class="mono">12.6–12.8V</td><td class="fill-blank">[ V ]</td><td class="fill-blank">[ date ]</td><td></td></tr>
-    <tr><td>Aux — Deltec 1250</td><td class="mono">12.6–12.8V</td><td class="fill-blank">[ V ]</td><td class="fill-blank">[ date ]</td><td></td></tr>
-    <tr><td>Aux after DEFA overnight charge</td><td class="mono">Expect 12.4–12.7V</td><td class="fill-blank">[ V ]</td><td class="fill-blank">[ date ]</td><td>Confirms Cyrix quirk — see §4</td></tr>
-  </tbody>
+  <tbody><tr><td>Crank — Willard 650 (lead-acid)</td><td class="mono">12.6–12.8V</td><td class="fill-blank">[ V ]</td><td class="fill-blank">[ date ]</td><td>Voltage = SoC (lead-acid)</td></tr><tr><td>House — Enertec 210Ah (LiFePO4)</td><td class="mono">SoC 100% via SmartShunt</td><td class="fill-blank">[ SoC % / V ]</td><td class="fill-blank">[ date ]</td><td>Record SoC %, not voltage — flat curve</td></tr><tr><td>House float voltage (fully charged, at rest)</td><td class="mono">~13.3–13.4V</td><td class="fill-blank">[ V ]</td><td class="fill-blank">[ date ]</td><td>Sanity check only</td></tr></tbody>
 </table>
 
 <div class="subsec"><span class="subsec-title">Charging Voltages</span><span class="subsec-tag">Engine running at 2000 RPM</span></div>
@@ -744,11 +460,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 <table class="fill-table">
   <caption>Charging voltages — engine running, 2000 RPM, 10 min after start</caption>
   <thead><tr><th>Measurement point</th><th>Expected range</th><th>Your baseline</th><th>Date</th></tr></thead>
-  <tbody>
-    <tr><td>Crank battery terminals (alternator output)</td><td class="mono">13.8–14.4V</td><td class="fill-blank">[ V ]</td><td class="fill-blank">[ date ]</td></tr>
-    <tr><td>Aux battery terminals (Cyrix combined)</td><td class="mono">13.5–14.2V</td><td class="fill-blank">[ V ]</td><td class="fill-blank">[ date ]</td></tr>
-    <tr><td>Cyrix input vs Cyrix output voltage drop</td><td class="mono">&lt;0.3V normal</td><td class="fill-blank">[ V drop ]</td><td class="fill-blank">[ date ]</td></tr>
-  </tbody>
+  <tbody><tr><td>Crank battery terminals (alternator output)</td><td class="mono">13.8–14.4V</td><td class="fill-blank">[ V ]</td><td class="fill-blank">[ date ]</td></tr><tr><td>House battery terminals (Orion DC-DC output)</td><td class="mono">14.2–14.4V absorption</td><td class="fill-blank">[ V ]</td><td class="fill-blank">[ date ]</td></tr><tr><td>Orion output current (VictronConnect)</td><td class="mono">≤ ~40A (capped)</td><td class="fill-blank">[ A ]</td><td class="fill-blank">[ date ]</td></tr></tbody>
 </table>
 
 <div class="subsec"><span class="subsec-title">Pre-Departure Completion Checklist</span><span class="subsec-tag">Must be done before 2028 departure</span></div>
@@ -764,21 +476,21 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
   <div class="task-box"></div>
   <div class="task-body">
     <div class="task-name">Record all baseline voltages (this section)</div>
-    <div class="task-detail">Resting, charging, and DEFA quirk baseline all documented.</div>
+    <div class="task-detail">Resting SoC, charging voltages, and Orion output current all documented.</div>
   </div>
 </div>
 <div class="task">
   <div class="task-box"></div>
   <div class="task-body">
-    <div class="task-name">Verify DEFA SmartCharge connection point</div>
-    <div class="task-detail">Confirm whether DEFA connects direct to crank battery or to a bus bar. Record in §4 field above and Facts.txt §8.</div>
+    <div class="task-name">Confirm the Orion DC-DC output cap (~40A)</div>
+    <div class="task-detail">In VictronConnect, confirm the Orion output current limit is set to ~40A to protect the 1HZ alternator. Confirm the SmartShunt is configured for a 210Ah battery.</div>
   </div>
 </div>
 <div class="task">
   <div class="task-box"></div>
   <div class="task-body">
-    <div class="task-name">Verify Hardkorr solar connection point</div>
-    <div class="task-detail">Confirm which battery the solar panel connects to. Record in §4 field above.</div>
+    <div class="task-name">Verify SmartSolar MPPT settings &amp; wiring</div>
+    <div class="task-detail">Confirm the MPPT is set to the LiFePO4 profile and is charging the house battery.</div>
   </div>
 </div>
 <div class="task">
@@ -826,7 +538,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 <div id="s10" class="sec-header">
   <span class="sec-num">§10</span>
   <span class="sec-title">Safety</span>
-  <span class="sec-sub">Disconnect order · arc risk · lead-acid hazards</span>
+  <span class="sec-sub">Disconnect order · arc risk · LiFePO4 &amp; lead-acid</span>
 </div>
 
 <div class="rule rule-warn">
@@ -838,7 +550,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 
 <div class="subsec"><span class="subsec-title">Short-Circuit and Arc Risk</span></div>
 
-<p class="p">A 12V lead-acid battery can deliver thousands of amps into a short circuit — enough to instantly vaporise a spanner, ignite fuel or insulation, and cause a severe burn. The risk is low in a well-maintained system but becomes real during any wiring work.</p>
+<p class="p">A 12V battery — lead-acid or LiFePO4 — can deliver very high current into a short circuit, enough to instantly vaporise a spanner, ignite fuel or insulation, and cause a severe burn. The risk is low in a well-maintained system but becomes real during any wiring work.</p>
 
 <div class="task">
   <div class="task-box"></div>
@@ -875,50 +587,20 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
   </ul>
 </div>
 
-<div class="subsec"><span class="subsec-title">Sealed Lead-Acid (SLA) — Aux Battery</span><span class="subsec-tag">Deltec 1250</span></div>
-
-<p class="p">The Deltec 1250 is a sealed (valve-regulated) lead-acid battery. Under normal conditions it does not vent gas. However, overcharging or reverse charging can cause pressure build-up and electrolyte venting. Keep away from open flame and do not overcharge beyond the rated charge voltage. If the battery case is swollen or distorted, do not use it — replace immediately.</p>
+<div class="subsec"><span class="subsec-title">LiFePO4 — House Battery</span><span class="subsec-tag">Enertec Power+ 210Ah</span></div><div class="rule rule-warn"><span class="rule-hdr">LiFePO4 hazards differ from lead-acid</span>
+  The Enertec Power+ house battery is LiFePO4 with an internal BMS. It does not gas hydrogen in normal use and needs no ventilation for charging, but it has its own rules:
+  <ul style="margin-top:8px;padding-left:18px"><li style="margin-bottom:4px">The BMS blocks charging below 0°C — do not force-charge a cold battery; let it warm first. Never charge a frozen battery.</li><li style="margin-bottom:4px">Respect the 105A continuous discharge ceiling; sustained overload trips the BMS and, if abused, stresses the cells.</li><li style="margin-bottom:4px">Do not use a battery that is swollen, pierced, or physically damaged — a damaged cell can vent. Isolate and replace it.</li><li style="margin-bottom:4px">It can deliver very high fault current — the short-circuit and jewellery precautions above apply equally.</li><li>Keep terminals clean and torqued; the case is IP65 but connections still corrode.</li></ul></div>
 
 <!-- ═══ SECTION 11: SUPERSESSION ═══ -->
-<div id="s11" class="sec-header">
-  <span class="sec-num">§11</span>
-  <span class="sec-title">Interim Notice &amp; Supersession</span>
-  <span class="sec-sub">This document's scope and future replacement</span>
-</div>
-
-<div class="rule rule-warn">
-  <span class="rule-hdr">INTERIM DOCUMENT — Lead-Acid System Only</span>
-  This is the interim version of R26. It covers <strong>only the current lead-acid dual-battery system</strong> as fitted January 2025. It does not cover the planned Victron LiFePO4 stack (Orion-Tr DC-DC, SmartSolar MPPT, 200Ah LiFePO4, BMV-712, Smart BMS, Lynx Distributor), which is expected to be procured ~mid-2027.<br><br>
-  <strong>At LiFePO4 installation:</strong> this document is superseded by the full R26 (LC76_Electrical_Wiring_Guide.html), which will be rebuilt to cover the Victron system topology, Orion-Tr DC-DC logic, MPPT charging, BMS operation, and updated fault-tracing. R32 (Crank Battery Care) and R33 (Aux Battery Care) will also be revised at that time.
-</div>
-
-<div class="rule rule-info">
-  <span class="rule-hdr">Companion documents</span>
-  This guide covers system wiring, topology, and fault tracing. It deliberately does not duplicate battery care content:
-  <ul style="margin-top:8px;padding-left:18px">
-    <li style="margin-bottom:4px"><strong>R32 — Crank Battery Care:</strong> Willard 650 care schedule, SoC monitoring, home and short-trip use, trouble signs.</li>
-    <li style="margin-bottom:4px"><strong>R33 — Aux Battery Care:</strong> Deltec 1250 care, golden rule, DEFA/Cyrix field test, sealed specifics, schedule.</li>
-    <li><strong>R5 — Battery Training Guide:</strong> Theory of dual-battery systems, charging chemistry, LiFePO4 background.</li>
-  </ul>
-</div>
-
-<div class="xref-bar">
-  <span class="xref-label">Cross-Reference</span>
-  <a href="LC76_Spares_Tools.html" class="xref-pill">R3 · Spares &amp; Tools</a>
-  <a href="LC76_Battery_Training_Guide.html" class="xref-pill">R5 · Battery Training</a>
-  <a href="LC76_Battery_Longevity_Report.html" class="xref-pill">R6 · Longevity</a>
-  <a href="LC76_Emergency_Procedures_Guide.html" class="xref-pill">R10 · Emergency Procedures</a>
-  <a href="LC76_Upgrade_Assessment.html" class="xref-pill">R31 · Upgrade Assessment</a>
-  <a href="LC76_Crank_Battery_Care.html" class="xref-pill">R32 · Crank Battery Care</a>
-  <a href="LC76_Aux_Battery_Care.html" class="xref-pill">R33 · Aux Battery Care</a>
-  <a href="LC76_LiFePO4_Calculator.html" class="xref-pill">LiFePO4 Calculator</a>
-</div>
-
-<div class="doc-footer">
-  <span>LC76 Overland Reference Library · R26 · Electrical &amp; Wiring Guide (Interim) · v1.0 · June 2026</span>
-  <span>2009 LC76 SW 1HZ · HZJ76R-RKMRS · Lead-acid dual-battery (LiFePO4 pending ~2027)</span>
-  <span>overlandslabs.github.io/Consumption</span>
-</div>
+<div id="s11" class="sec-header"><span class="sec-num">§11</span><span class="sec-title">Shore Power, AC &amp; Earthing</span><span class="sec-sub">MultiPlus mains · EZ-Lock inlet · common-negative earth</span></div><div class="subsec"><span class="subsec-title">Shore Power &amp; AC</span><span class="subsec-tag">MultiPlus 12/500 · 16A EZ-Lock inlet</span></div><p class="p">Mains power enters through a <strong>16A EZ-Lock stainless inlet</strong> via a <strong>15 m 16A lead</strong> to the <strong>Victron MultiPlus 12/500/20-16</strong>. The MultiPlus does two jobs: it charges the house battery (20A charger, full LiFePO4 profile) and it inverts from the house to supply 230V to the vehicle’s AC outlets (~430W continuous).</p><div class="rule rule-note"><span class="rule-hdr">Transfer behaviour — pass-through when on shore</span>
+  When shore power is connected the MultiPlus passes AC straight through to the AC loads <em>and</em> charges the house at the same time (up to a 16A transfer limit). When shore power is removed it seamlessly inverts from the house battery to keep the AC outlets live — UPS-style. Keep continuous AC draw within ~430W; brief peaks are tolerated but sustained overload will fault the unit.
+</div><div class="rule rule-info"><span class="rule-hdr">Before connecting shore power</span>
+  Check the lead and inlet for damage, confirm the site supply is 230V, and seat the EZ-Lock inlet fully. Set the MultiPlus input current limit in VictronConnect to match the campsite breaker.
+</div><div class="subsec"><span class="subsec-title">Earthing</span><span class="subsec-tag">Non-isolated common-negative star-earth</span></div><p class="p">The system uses a <strong>non-isolated, common-negative star-earth</strong>: a single earth reference. The crank negative, the house negative, and all load returns meet at one common star point tied to the chassis. Because the Orion DC-DC is the non-isolated type, it shares battery negative between input and output — input and output grounds are common by design.</p><div class="rule rule-warn"><span class="rule-hdr">One earth reference — avoid earth loops</span>
+  Do not create a second, separate earth path or a long parallel negative run that bypasses the star point — multiple earth references cause circulating currents, false SmartShunt readings, and noise. The SmartShunt 500A sits in the house negative at the star point and must see <strong>all</strong> house current, so nothing may earth downstream of it.
+</div><div class="rule rule-info"><span class="rule-hdr">Companion documents</span>
+  This guide covers system wiring, topology, and fault tracing. Battery care lives elsewhere:
+  <ul style="margin-top:8px;padding-left:18px"><li style="margin-bottom:4px"><strong>R5 — Battery Training Guide:</strong> dual-battery theory, charging chemistry, LiFePO4 background.</li><li style="margin-bottom:4px"><strong>R7 — LiFePO4 System Report:</strong> house-battery system detail, longevity &amp; care.</li><li><strong>R32 — Crank Battery Care:</strong> Willard 650 care schedule, SoC monitoring, trouble signs.</li></ul></div><div class="xref-bar"><span class="xref-label">Cross-Reference</span><a href="LC76_Spares_Tools.html" class="xref-pill">R3 · Spares &amp; Tools</a><a href="LC76_Battery_Training_Guide.html" class="xref-pill">R5 · Battery Training</a><a href="LC76_LiFePO4_System_Report.html" class="xref-pill">R7 · LiFePO4 System Report</a><a href="LC76_Emergency_Procedures_Guide.html" class="xref-pill">R10 · Emergency Procedures</a><a href="LC76_Upgrade_Assessment.html" class="xref-pill">R31 · Upgrade Assessment</a><a href="LC76_Crank_Battery_Care.html" class="xref-pill">R32 · Crank Battery Care</a><a href="LC76_LiFePO4_Calculator.html" class="xref-pill">LiFePO4 Calculator</a></div><div class="doc-footer"><span>LC76 Overland Reference Library · R26 · Electrical &amp; Wiring Guide · v2.0 · July 2026</span><span>2009 LC76 SW 1HZ · HZJ76R-RKMRS · All-Victron LiFePO4 house + lead-acid crank</span><span>overlandslabs.github.io/Consumption</span></div>
 
 </div><!-- /content -->
 
