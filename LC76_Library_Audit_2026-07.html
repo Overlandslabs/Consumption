@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Library Post-Install Audit — Jul 2026 | HZJ76R-RKMRS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=Oswald:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:      #1C1410;
+    --paper:    #F5EDDA;
+    --paper2:   #EDE5D0;
+    --amber:    #b86800;
+    --amber2:   #e07800;
+    --rule:     #d4cfc4;
+    --steeldk:  #2a2f3a;
+    --steelmd:  #6a7080;
+    --red-warn: #B91C1C;
+    --green-ok: #059669;
+    --orange:   #c05a00;
+    --border:   #c8bfad;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { overflow-x: hidden; }
+
+  body {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  /* STICKY WRAP */
+  .sticky-wrap { position: sticky; top: 0; z-index: 100; background: var(--ink); padding-top: env(safe-area-inset-top); }
+.sticky-wrap::before { content:''; position:absolute; left:0; right:0; bottom:100%; height:100vh; background:var(--ink); }
+
+  /* MASTHEAD */
+  .masthead { position: relative; background: var(--ink); color: #fff; padding: 18px 24px 14px; }
+  .lib-home-btn { position:absolute; top:50%; right:16px; transform:translateY(-50%); display:inline-flex; align-items:center; gap:5px; font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; text-decoration:none; color:var(--amber2); background:rgba(232,120,0,.15); border:1px solid var(--amber2); border-radius:20px; padding:6px 12px; min-height:32px; white-space:nowrap; z-index:10; transition:background .2s; }
+  .lib-home-btn:hover, .lib-home-btn:active { background:rgba(232,120,0,.30); }
+
+  @media(max-width:600px){
+    .masthead { padding:14px 16px 12px; }
+    .lib-home-btn { top:14px; transform:none; }
+    .mh-title { font-size:clamp(1.5rem,6vw,2.2rem); }
+    .toc-bar { padding:0 12px; }
+    .toc-btn { font-size:.46rem; padding:8px 9px; }
+    .main { padding:14px 4% 60px; }
+    .finding-grid, .strength-grid { grid-template-columns:1fr; }
+  }
+
+  @media print { .lib-home-btn { display:none !important; } }
+
+  .mh-eyebrow  { font-family:'IBM Plex Mono',monospace; font-size:.5rem; letter-spacing:.28em; text-transform:uppercase; color:var(--steelmd); margin-bottom:6px; }
+  .mh-title    { font-family:'Bebas Neue',sans-serif; font-size:clamp(1.8rem,5vw,2.6rem); letter-spacing:.06em; color:var(--amber2); line-height:1; }
+  .mh-sub      { font-family:'IBM Plex Mono',monospace; font-size:.54rem; letter-spacing:.12em; color:rgba(255,200,100,.65); margin-top:5px; }
+  .mh-vehicle  { font-family:'IBM Plex Mono',monospace; font-size:.48rem; letter-spacing:.08em; color:var(--steelmd); margin-top:8px; }
+
+  /* TOC BAR */
+  .toc-bar {
+    background: var(--steeldk);
+    border-top: 3px solid var(--amber2);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    padding: 0 20px;
+    display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .toc-bar::-webkit-scrollbar { display: none; }
+  .toc-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .52rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--steelmd);
+    background: none;
+    border: none;
+    padding: 10px 12px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color 0.15s;
+  }
+  .toc-btn:hover  { color: #c8bfad; }
+  .toc-btn.active { color: var(--amber2); }
+
+  /* MAIN */
+  .main { padding: 28px 5% 80px; max-width: 100%; }
+
+  /* SECTION HEADINGS */
+  .section-head {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: var(--ink);
+    letter-spacing: 0.04em;
+    border-bottom: 2px solid var(--amber2);
+    padding-bottom: 4px;
+    margin-bottom: 14px;
+    margin-top: 28px;
+  }
+  .section-head:first-child { margin-top: 0; }
+  .section-intro { font-size: 13px; color: var(--steelmd); margin-bottom: 14px; font-style: italic; }
+
+  /* SECTION ANCHOR OFFSET */
+  .sa { scroll-margin-top: 130px; }
+
+  /* SUBSECTION TITLE */
+  .sub-head {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 15px;
+    color: var(--amber2);
+    letter-spacing: 0.04em;
+    background: var(--steeldk);
+    padding: 8px 14px;
+    margin-bottom: 0;
+    margin-top: 16px;
+  }
+
+  p.body { font-size:13px; margin:10px 0; }
+  p.body:first-of-type { margin-top:0; }
+
+  /* SPECS TABLE */
+  .specs-table { width:100%; border-collapse:collapse; font-size:12.5px; margin:14px 0; }
+  .specs-table th { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; background:var(--steeldk); color:#b0bcc8; padding:7px 10px; text-align:left; border:1px solid rgba(255,255,255,.07); }
+  .specs-table td { padding:7px 10px; border:1px solid var(--rule); vertical-align:top; }
+  .specs-table tr:nth-child(even) td { background:var(--paper2); }
+  .specs-table tr:nth-child(odd)  td { background:#fff; }
+  .mono { font-family:'IBM Plex Mono',monospace; font-size:11px; }
+  .st-ok   { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; color:var(--green-ok); }
+  .st-thin { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; color:var(--orange); }
+  .st-gap  { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; color:var(--red-warn); }
+
+  /* FINDING CARDS */
+  .finding-grid { display:grid; grid-template-columns:1fr; gap:10px; margin:12px 0; }
+  .finding-card { border:1px solid var(--border); background:#fff; border-radius:2px; overflow:hidden; }
+  .fc-head { background:var(--steeldk); padding:9px 12px; display:flex; align-items:center; justify-content:space-between; gap:8px; }
+  .fc-ref  { font-family:'Oswald',sans-serif; font-weight:500; font-size:13px; color:#fff; }
+  .fc-ref .fc-id { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; color:var(--amber2); margin-right:8px; }
+  .fc-tag  { font-family:'IBM Plex Mono',monospace; font-size:8px; font-weight:600; letter-spacing:.06em; padding:2px 7px; border-radius:2px; white-space:nowrap; }
+  .tag-high { background:rgba(185,28,28,.3); color:#fca5a5; border:1px solid rgba(185,28,28,.5); }
+  .tag-med  { background:rgba(192,90,0,.25); color:#fdba74; border:1px solid rgba(192,90,0,.5); }
+  .tag-low  { background:rgba(5,150,105,.2); color:#6ee7b7; border:1px solid rgba(5,150,105,.4); }
+  .tag-done { background:rgba(5,150,105,.35); color:#a7f3d0; border:1px solid rgba(5,150,105,.7); }
+  .fc-body { padding:11px 13px; font-size:12.5px; line-height:1.55; color:var(--ink); }
+  .fc-line { margin:6px 0; }
+  .fc-k    { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--steelmd); margin-right:6px; }
+
+  /* STRENGTH GRID */
+  .strength-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:10px; margin:14px 0; }
+  .strength-card { border:1px solid var(--border); border-top:3px solid var(--green-ok); background:#fff; border-radius:2px; padding:12px 13px; }
+  .sg-title { font-family:'Bebas Neue',sans-serif; font-size:16px; color:var(--ink); letter-spacing:.03em; margin-bottom:5px; line-height:1.1; }
+  .sg-body  { font-size:12px; color:var(--ink); line-height:1.5; }
+
+  /* STEP LIST */
+  .check-steps { margin:10px 0; }
+  .check-step  { display:flex; gap:10px; align-items:flex-start; margin-bottom:8px; font-size:13px; }
+  .step-num  { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; color:#fff; background:var(--amber); min-width:44px; height:22px; border-radius:2px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; padding:0 4px; }
+  .step-text { flex:1; }
+  .step-text b { font-weight:600; }
+
+  /* ALERT BOXES */
+  .warn-box { background:#fde8e8; border-left:3px solid var(--red-warn); padding:9px 12px; font-size:12.5px; color:#7a1010; margin:10px 0; }
+  .note-box { background:#fef9e7; border-left:3px solid var(--amber); padding:9px 12px; font-size:12.5px; color:#5a3800; margin:10px 0; }
+  .ok-box   { background:#e8f5e9; border-left:3px solid var(--green-ok); padding:9px 12px; font-size:12.5px; color:#0d4a28; margin:10px 0; }
+  .info-box { background:#e8eef8; border-left:3px solid #3b6abf; padding:9px 12px; font-size:12.5px; color:#1a2f5a; margin:10px 0; }
+
+  /* CROSS-REF BAR */
+  .xref-bar { background:var(--steeldk); border:1px solid rgba(255,255,255,.08); padding:9px 14px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:12px; font-size:12px; }
+  .xref-label { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.08em; color:var(--steelmd); text-transform:uppercase; white-space:nowrap; }
+  .xref-pill  { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; color:var(--amber2); background:rgba(224,120,0,.12); border:1px solid rgba(224,120,0,.3); padding:2px 8px; border-radius:2px; white-space:nowrap; }
+
+  .footer { margin-top:36px; padding-top:14px; border-top:1px solid var(--rule); font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--steelmd); line-height:1.6; }
+
+  /* PRINT */
+  @media print {
+    @page { margin: 7mm; size: A4; }
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    body { font-size: 7.5pt; background: #fff; line-height: 1.35; }
+    .sticky-wrap { position: static; }
+    .toc-bar { display: none; }
+    .masthead { padding: 4mm 8mm; break-after: avoid; background: #1C1410 !important; color: #fff !important; }
+    .mh-eyebrow { font-size: 5pt; color: #6a7080 !important; }
+    .mh-title { font-size: 16pt; color: #e07800 !important; }
+    .mh-sub, .mh-vehicle { font-size: 5pt; }
+    .main { padding: 4mm 0 10mm; }
+    .section-head { font-size: 14pt; margin-top: 8mm; page-break-after: avoid; break-after: avoid; border-bottom: 2pt solid #e07800 !important; }
+    .sub-head { font-size: 11pt; page-break-after: avoid; break-after: avoid; background: #2a2f3a !important; color: #e07800 !important; }
+    .finding-card  { break-inside: avoid; }
+    .strength-card { break-inside: avoid; }
+    .warn-box  { break-inside: avoid; background: #fde8e8 !important; border-left: 3pt solid #B91C1C !important; color: #7a1010 !important; }
+    .note-box  { break-inside: avoid; background: #fef9e7 !important; border-left: 3pt solid #b86800 !important; color: #5a3800 !important; }
+    .ok-box    { break-inside: avoid; background: #e8f5e9 !important; border-left: 3pt solid #059669 !important; color: #0d4a28 !important; }
+    .info-box  { break-inside: avoid; background: #e8eef8 !important; border-left: 3pt solid #3b6abf !important; color: #1a2f5a !important; }
+    .xref-bar  { background: #2a2f3a !important; border: 1px solid rgba(255,255,255,.08) !important; }
+    .xref-pill { background: rgba(224,120,0,.12) !important; color: #e07800 !important; border: 1px solid rgba(224,120,0,.3) !important; }
+    .specs-table thead { display: table-header-group; }
+    .specs-table th { background: #2a2f3a !important; color: #b0bcc8 !important; }
+    .specs-table tr { break-inside: avoid; }
+    .fc-head { background: #2a2f3a !important; }
+    .fc-ref { color:#fff !important; }
+    .fc-ref .fc-id { color:#e07800 !important; }
+    .tag-high { background:rgba(185,28,28,.3) !important; color:#7a1010 !important; }
+    .tag-med  { background:rgba(192,90,0,.25) !important; color:#7c4a00 !important; }
+    .tag-low  { background:rgba(5,150,105,.2) !important; color:#1a6b3a !important; }
+    .tag-done { background:rgba(5,150,105,.35) !important; color:#0d4a28 !important; }
+    .step-num { background:#b86800 !important; color:#fff !important; }
+    .strength-card { border-top:3pt solid #059669 !important; }
+    a { color: var(--ink); text-decoration: none; }
+  }
+</style><body>
+
+<div class="sticky-wrap">
+  <div class="masthead">
+    <a href="index.html" class="lib-home-btn">&#8962; Index</a>
+    <div class="mh-eyebrow">HZJ76R-RKMRS &middot; Overland Reference Library &middot; Internal Audit</div>
+    <div class="mh-title">Post-Install Library Audit</div>
+    <div class="mh-sub">LiFePO4 Propagation &middot; Design Conformance &middot; Structural Integrity &middot; July 2026 &middot; Issued 3 Jul 2026</div>
+    <div class="mh-vehicle">2009 LC76 SW &middot; 1HZ 4.2L Diesel &middot; 2028&ndash;2030 Southern &amp; East Africa Expedition &middot; audited at HEAD 90f846b0 &middot; 54 files &middot; findings F18&ndash;F37</div>
+  </div>
+  <nav class="toc">
+    <button class="toc-btn" data-target="s-scope">Scope &amp; Method</button>
+    <button class="toc-btn" data-target="s-verdict">Verdict</button>
+    <button class="toc-btn" data-target="s-findings">Findings</button>
+    <button class="toc-btn" data-target="s-cleared">Cleared Items</button>
+    <button class="toc-btn" data-target="s-plan">Remediation</button>
+    <button class="toc-btn" data-target="s-gates">Owner Gates</button>
+  </nav>
+</div>
+<main>
+
+<h2 id="s-scope">01 &middot; Scope &amp; Method</h2>
+<p class="section-intro">Full-library audit following the July 2026 all-Victron LiFePO4 install (quote LC76SW004) and the four-session documentation programme (R7 merge &amp; retirements, R5 rebase, R26 rebuild, R30/R1 update). Objective: verify (A) battery-system propagation is complete across every file &mdash; not just the four session targets; (B) design-guideline conformance, audited against the published guidelines plus the owner-validated v1.4 mobile sticky pattern; (C) structural and governance integrity. Findings-only &mdash; no fixes executed in this session.</p>
+<p class="mono">Baseline: HEAD 90f846b0f8eb6b19c280894867dfa9bcd9d4ce63 (3 Jul 2026, 03:14 UTC). All 54 HTML/governance files fetched SHA-pinned from raw.githubusercontent.com. Method: automated term census (14 stale-term patterns, context-classified per hit), positive-presence checks on session deliverables, per-file design matrix (10 conformance dimensions), div-balance and <span class="mono">node --check</span> on every file, index&harr;register reconciliation, sw.js precache reconciliation, payload-framing sweep against the weighbridge-pending policy. Evidence and matrices retained in the Audit Working Papers (TA-037&ndash;038, LX-008&ndash;012).</p>
+
+<h2 id="s-verdict">02 &middot; Verdict</h2>
+<p class="section-intro"><strong>The four-session battery programme delivered what it scoped &mdash; but the scope was too narrow.</strong> R1, R5, R7, R26 and R30 are correctly converted to the fitted spec (positive-presence checks pass on all five; R30 retired-doc purge complete; sw.js v9 precache set correct; Facts.txt and the register are clean, with the old stack properly quarantined in a HISTORICAL block). However, <strong>nine further documents still describe the lead-acid system or the superseded pre-quote Victron plan as current</strong> &mdash; worst of all R32, which presents Cyrix/BM2000/DEFA as the fitted system. Several of these are field-procedure documents where a crew member following the text would be checking equipment that is no longer in the vehicle. Separately, the validated v1.4 mobile pattern has reached only 6 of ~53 files, five documents carry fixed-pixel width caps in breach of the width rule (including one session deliverable), and two files fail div balance. Nothing found threatens data integrity or the service ledger.</p>
+
+<h2 id="s-findings">03 &middot; Findings (F18&ndash;F37)</h2>
+<p class="section-intro">Numbering continues from the June 2026 audit (F1&ndash;F17). Severity: HIGH = wrong equipment presented as fitted in a field document; MED = stale content or systemic design breach; LOW = contained defect; OBS = observation, no defect.</p>
+
+<h3>A &middot; Battery-system propagation</h3>
+<div class="finding-card">
+  <div class="fc-head"><span class="fc-id">F18</span><span class="st-warn">HIGH</span><span class="fc-ref">R32 &middot; LC76_Crank_Battery_Care.html</span> Entire system context stale</div>
+  <div class="fc-body"><div class="fc-line"><span class="fc-k">Evidence</span><span>States &ldquo;current lead-acid dual-battery system as fitted: crank + 105 Ah lead-acid auxiliary, Cyrix 120 A&rdquo;. Cyrix &times;8, BM2000 &times;8, DEFA &times;5, Sinetech &times;1, plus a &ldquo;planned&rdquo; Victron paragraph in the superseded pre-quote spec (Orion-Tr / Smart BMS / BMV-712).</span></div><div class="fc-line"><span class="fc-k">Impact</span><span>R32 is the current crank-battery doc; its charging-path, monitoring and shore-charge guidance all reference removed equipment. DEFA SmartCharge float advice is now wrong (crank charging path changed at install &mdash; confirm as-fitted crank maintenance charging with the installer/quote).</span></div><div class="fc-line"><span class="fc-k">Cause</span><span>Handover pack scoped R32 as &ldquo;untouched&rdquo; because the Willard 650 itself is unchanged &mdash; correct for the battery, wrong for its system context.</span></div><div class="fc-line"><span class="fc-k">Remedy</span><span>RS-1 rebuild of system-context sections; Willard-specific care content retained. 45 KB.</span></div></div>
+</div>
+<div class="finding-card">
+  <div class="fc-head"><span class="fc-id">F19</span><span class="st-warn">HIGH</span><span class="fc-ref">R23 &middot; LC76_Pre_Trip_Prep_Protocol.html</span> Electrical prep section on superseded planned spec</div>
+  <div class="fc-body"><div class="fc-line"><span class="fc-k">Evidence</span><span>Orion-Tr 30 A &times;3, BMV-712 &times;2, BMS 12/200 &times;1, 200 Ah &times;2; live hyperlink to retired LC76_Battery_Longevity_Report.html (R6) &mdash; broken.</span></div><div class="fc-line"><span class="fc-k">Impact</span><span>Pre-trip electrical verification steps name instruments not fitted; the fitted SmartShunt/MultiPlus/BatteryProtect checks are absent.</span></div><div class="fc-line"><span class="fc-k">Remedy</span><span>RS-2 (file is 90 KB &mdash; own session). Re-point R6 &rarr; R7.</span></div></div>
+</div>
+<div class="finding-card">
+  <div class="fc-head"><span class="fc-id">F20</span><span class="st-warn">MED</span><span class="fc-ref">R2 &middot; LC76_Departure_Checklist.html</span> Stale departure check items</div>
+  <div class="fc-body"><div class="fc-line"><span class="fc-k">Evidence</span><span>&ldquo;Victron Cyrix isolator&rdquo; item, &ldquo;Check BM2000 monitor&rdquo; detail, &ldquo;Sinetech inverter&rdquo; item.</span></div><div class="fc-line"><span class="fc-k">Remedy</span><span>RS-4 &mdash; replace with SmartShunt SoC check, BatteryProtect status, MultiPlus check.</span></div></div>
+</div>
+<div class="finding-card">
+  <div class="fc-head"><span class="fc-id">F21</span><span class="st-warn">MED</span><span class="fc-ref">R11 &middot; LC76_Packing_Optimisation_Guide.html</span> Equipment table and SVG stale</div>
+  <div class="fc-body"><div class="fc-line"><span class="fc-k">Evidence</span><span>Cyrix 120A and DEFA SmartCharge rows tagged &ldquo;Current&rdquo;; &ldquo;200Ah LiFePO4&rdquo; label in weight SVG; 200 Ah checklist item; Sinetech &times;1.</span></div><div class="fc-line"><span class="fc-k">Impact</span><span>Also a weights point: Enertec house battery 20 kg vs former Deltec ~30 kg &mdash; net saving feeds TA-002 when weighbridge figures land.</span></div><div class="fc-line"><span class="fc-k">Remedy</span><span>RS-5 (85 KB, surgical &mdash; own session).</span></div></div>
+</div>
+<div class="finding-card">
+  <div class="fc-head"><span class="fc-id">F22</span><span class="st-warn">MED</span><span class="fc-ref">R27 &middot; LC76_Bush_Mechanics_Guide.html</span> Field diagnostics reference removed instruments</div>
+  <div class="fc-body"><div class="fc-line"><span class="fc-k">Evidence</span><span>BMV-712 diagnostic steps &times;2, 200 Ah &times;2, Orion-Tr &times;1 in alternator-failure and battery procedures.</span></div><div class="fc-line"><span class="fc-k">Remedy</span><span>RS-3 (130 KB &mdash; own session). Rewrite to SmartShunt readings.</span></div></div>
+</div>
+<div class="finding-card">
+  <div class="fc-head"><span class="fc-id">F23</span><span class="st-warn">MED</span><span class="fc-ref">R16 &middot; LC76_Comms_Navigation_Guide.html</span> Starlink power advice premised on lead-acid</div>
+  <div class="fc-body"><div class="fc-line"><span class="fc-k">Evidence</span><span>&ldquo;On your current lead-acid system, fit a 12 V &rarr; 30 V step-up converter&rdquo; &mdash; sag rationale is lead-acid-specific (Deltec ref &times;1, Sinetech &times;1).</span></div><div class="fc-line"><span class="fc-k">Impact</span><span>LiFePO4 holds voltage flat under load; the sag/reboot-loop rationale and possibly the recommendation change. Judgment rewrite, not a term swap.</span></div><div class="fc-line"><span class="fc-k">Remedy</span><span>RS-4.</span></div></div>
+</div>
+<div class="finding-card">
+  <div class="fc-head"><span class="fc-id">F24</span><span class="st-ok">LOW</span><span class="fc-ref">R35 &middot; LC76_Security_Fire_Guide.html</span> Electrical-fire step names Sinetech</div>
+  <div class="fc-body"><div class="fc-line"><span class="fc-k">Evidence</span><span>Fire-response step 3 names the Sinetech inverter as the isolation target.</span></div><div class="fc-line"><span class="fc-k">Remedy</span><span>RS-4 &mdash; rename to MultiPlus; verify isolation sequence matches the new M-series battery switch.</span></div></div>
+</div>
+<div class="finding-card">
+  <div class="fc-head"><span class="fc-id">F25</span><span class="st-warn">MED</span><span class="fc-ref">R8 supp &middot; LC76_Service_Checklist.html</span> Battery service check verifies removed equipment</div>
+  <div class="fc-body"><div class="fc-line"><span class="fc-k">Evidence</span><span>battery_chk item: &ldquo;Verify Victron Cyrix 120A isolator and BM2000 dual monitor functioning&rdquo;.</span></div><div class="fc-line"><span class="fc-k">Remedy</span><span>RS-4 &mdash; rewrite to fitted stack. (R8 main doc clear &mdash; its single Cyrix hit is the Jan 2026 service ledger entry: historical, exempt.)</span></div></div>
+</div>
+<div class="finding-card">
+  <div class="fc-head"><span class="fc-id">F26</span><span class="st-ok">LOW</span><span class="fc-ref">R1 &middot; LC76_Reference_Card.html</span> Residual DEFA row (Session 4 miss)</div>
+  <div class="fc-body"><div class="fc-line"><span class="fc-k">Evidence</span><span>&ldquo;Battery Charger: DEFA SmartCharge&rdquo; row survives; rest of R1 electrical line correctly flipped.</span></div><div class="fc-line"><span class="fc-k">Remedy</span><span>RS-1 &mdash; single-row swap to MultiPlus 12/500 / shore inlet.</span></div></div>
+</div>
+<div class="finding-card">
+  <div class="fc-head"><span class="fc-id">F27</span><span class="st-ok">LOW</span><span class="fc-ref">LC76_LiFePO4_Calculator.html</span> Broken retired-doc link; defaults off-spec</div>
+  <div class="fc-body"><div class="fc-line"><span class="fc-k">Evidence</span><span>Live hyperlink to retired LC76_Aux_Battery_Care.html (R33) &mdash; broken. Defaults: capacity 300 Ah, DC-DC 23 A vs fitted 210 Ah / ~40 A cap.</span></div><div class="fc-line"><span class="fc-k">Remedy</span><span>RS-1 &mdash; re-point link to R7 or R26; set defaults to fitted values.</span></div></div>
+</div>
+<h3>B &middot; Design conformance</h3>
+<div class="finding-card">
+  <div class="fc-head"><span class="fc-id">F28</span><span class="st-warn">MED</span><span class="fc-ref">Library-wide + Design Guidelines</span> v1.4 mobile sticky pattern: 6 of ~53 files</div>
+  <div class="fc-body"><div class="fc-line"><span class="fc-k">Evidence</span><span>overflow-x:clip / ::before slab pattern present only in R26, R32, Manifesto, Commentary, History, Design Guidelines. Owner has now validated the fix on-device.</span></div><div class="fc-line"><span class="fc-k">Impact</span><span>Remaining ~47 files lack the validated mobile sticky behaviour. LC76_Design_Guidelines.html itself still (a) carries the known body{overflow-x:hidden} Safari-breaking defect and (b) has not been promoted to v1.4 &mdash; its v1.4 rows also still cite retired R33 as a validation reference &times;2.</span></div><div class="fc-line"><span class="fc-k">Remedy</span><span>RS-8 first (promote Guidelines to v1.4, fix its own defect, swap R33 cites), then tranche rollout RS-9a&ndash;e.</span></div></div>
+</div>
+<div class="finding-card">
+  <div class="fc-head"><span class="fc-id">F29</span><span class="st-warn">MED</span><span class="fc-ref">~22 files</span> html{overflow-x:hidden;overflow-x:clip;overscroll-behavior-x:none} absent</div>
+  <div class="fc-body"><div class="fc-line"><span class="fc-k">Evidence</span><span>Missing from: R18, R19, R34, R27, R22, R30, R28, R24, R29, Karoo, LiFePO4 &amp; Tyre-Pressure &amp; Water-Budget &amp; Trip-Fuel calculators, R20, R35, R8, R25, R21, R31, R12, R36, index. (Only Design Guidelines uses the body variant &mdash; part of F28.)</span></div><div class="fc-line"><span class="fc-k">Remedy</span><span>Fold into the v1.4 tranche rollout &mdash; the pattern includes it.</span></div></div>
+</div>
+<div class="finding-card">
+  <div class="fc-head"><span class="fc-id">F30</span><span class="st-warn">MED</span><span class="fc-ref">R7, R9, R10, Trip Fuel Planner, index</span> Fixed-pixel width caps breach the width rule</div>
+  <div class="fc-body"><div class="fc-line"><span class="fc-k">Evidence</span><span>R7 body max-width:1100px (a Session 1 deliverable), R10 main:1200px, R9 main:1400px, Trip_Fuel_Planner .page:1100px, index main:1200px. Rule: max-width:100% + percentage padding, never a px cap.</span></div><div class="fc-line"><span class="fc-k">Remedy</span><span>RS-6 &mdash; five surgical width-rule conversions.</span></div></div>
+</div>
+<div class="finding-card">
+  <div class="fc-head"><span class="fc-id">F31</span><span class="st-warn">MED</span><span class="fc-ref">R5, R7, Karoo itinerary</span> Off-system typography</div>
+  <div class="fc-body"><div class="fc-line"><span class="fc-k">Evidence</span><span>R5: DM Serif Display + IBM Plex Sans (display/body). R7: Playfair Display &times;7. Karoo: Playfair + Georgia. System mandates Bebas Neue / Oswald / IBM Plex Mono. R5 and R7 are session deliverables &mdash; the sessions were scoped as spec-swaps and inherited pre-system styling.</span></div><div class="fc-line"><span class="fc-k">Remedy</span><span>R5 restyle is a full-file job (126 KB) &mdash; RS-7 own session. R7 + Karoo &mdash; RS-6. Owner may choose to grandfather Karoo as a one-off itinerary; gate G3.</span></div></div>
+</div>
+<div class="finding-card">
+  <div class="fc-head"><span class="fc-id">F32</span><span class="st-ok">LOW</span><span class="fc-ref">4 calculators</span> print-color-adjust absent from print blocks</div>
+  <div class="fc-body"><div class="fc-line"><span class="fc-k">Evidence</span><span>Fuel Range, LiFePO4, Trip Fuel Planner, Water Budget calculators have @media print but no print-color-adjust.</span></div><div class="fc-line"><span class="fc-k">Remedy</span><span>Fold into RS-6.</span></div></div>
+</div>
+<div class="finding-card">
+  <div class="fc-head"><span class="fc-id">F33</span><span class="st-ok">LOW</span><span class="fc-ref">Karoo itinerary</span> safe-area-inset-top absent</div>
+  <div class="fc-body"><div class="fc-line"><span class="fc-k">Evidence</span><span>Only file library-wide without it on the sticky unit.</span></div><div class="fc-line"><span class="fc-k">Remedy</span><span>Fold into RS-6 / v1.4 tranche.</span></div></div>
+</div>
+<div class="finding-card">
+  <div class="fc-head"><span class="fc-id">F34</span><span class="st-ok">OBS</span><span class="fc-ref">~17 files</span> Two compliant JS TOC patterns coexist</div>
+  <div class="fc-body"><div class="fc-line"><span class="fc-k">Evidence</span><span>Newer docs (R34, R35, R36 et al.) use data-target + window.scrollTo with computed sticky offset; older docs use scrollIntoView. Both are JS-driven and offset-aware &mdash; functionally compliant. Guidelines text specifies scrollIntoView only.</span></div><div class="fc-line"><span class="fc-k">Remedy</span><span>No code change. Amend Guidelines wording at v1.4 promotion to bless both patterns (or name scrollTo+offset as the preferred current pattern).</span></div></div>
+</div>
+<h3>C &middot; Structural &amp; governance</h3>
+<div class="finding-card">
+  <div class="fc-head"><span class="fc-id">F35</span><span class="st-warn">MED</span><span class="fc-ref">R4, Zambia profile</span> Div imbalance</div>
+  <div class="fc-body"><div class="fc-line"><span class="fc-k">Evidence</span><span>R4 Engine Training: 939 open / 942 close (&minus;3). Zambia profile: 324/325 (&minus;1). All other 52 files balanced; all inline JS passes node --check library-wide.</span></div><div class="fc-line"><span class="fc-k">Remedy</span><span>RS-10 (R4, 227 KB &mdash; own session) and RS-11 (Zambia, 136 KB &mdash; own session). Locate strays; browsers tolerate but the gate is structural.</span></div></div>
+</div>
+<div class="finding-card">
+  <div class="fc-head"><span class="fc-id">F36</span><span class="st-ok">LOW</span><span class="fc-ref">R1</span> No &ldquo;Last updated&rdquo; date stamp</div>
+  <div class="fc-body"><div class="fc-line"><span class="fc-k">Evidence</span><span>R1 carries no date stamp anywhere (grep for 2026-dated masthead: nil). R5, R26, R30, R7, index all correctly dated Jul 2026.</span></div><div class="fc-line"><span class="fc-k">Remedy</span><span>RS-1 &mdash; add masthead date line per standing rule.</span></div></div>
+</div>
+<div class="finding-card">
+  <div class="fc-head"><span class="fc-id">F37</span><span class="st-ok">LOW</span><span class="fc-ref">R12, R27, R1, R30</span> Payload figures without weighbridge-pending caveat</div>
+  <div class="fc-body"><div class="fc-line"><span class="fc-k">Evidence</span><span>R12 Water Management uses &ldquo;551 kg payload&rdquo; as a fixed base for an 18% calculation, no caveat. R27 specifies jack/stand rating &ldquo;2,160 kg minimum&rdquo; &mdash; derived from the superseded kerb estimate; if kerb is ~2,299 kg the minimum rating spec needs review. R1/R30 quote ~2,299/~551 with tildes but no pending note. R11, R25, R28 carry provisional language &mdash; compliant.</span></div><div class="fc-line"><span class="fc-k">Remedy</span><span>Ties to TA-002 (open, owner-gated). Interim: add one-line caveats RS-4; revise R27 jack minimum &mdash; gate G2.</span></div></div>
+</div>
+
+<h2 id="s-cleared">04 &middot; Cleared Items (context-classified, no defect)</h2>
+<div class="section-intro">
+<div class="fc-line"><span class="fc-k">R8 ledger &ldquo;Cyrix&rdquo;</span><span>Jan 2026 service record (HBC Systems install) &mdash; historical, sacrosanct.</span></div>
+<div class="fc-line"><span class="fc-k">Facts.txt old stack</span><span>Cyrix/BM2000/Sinetech/DEFA/Deltec correctly quarantined under a marked HISTORICAL block.</span></div>
+<div class="fc-line"><span class="fc-k">index.html &ldquo;absorbs former R6&rdquo;</span><span>Legitimate historical framing on the R7 card.</span></div>
+<div class="fc-line"><span class="fc-k">R20 &ldquo;interim measure&rdquo;</span><span>Plain-English usage (top-up as interim measure), not document-status language.</span></div>
+<div class="fc-line"><span class="fc-k">Angola &ldquo;Playfair&rdquo;</span><span>Changelog sentence describing conversion away from Playfair &mdash; exempt.</span></div>
+<div class="fc-line"><span class="fc-k">R32 &ldquo;R6,500&ndash;R7,500&rdquo;</span><span>Rand price range, not document references.</span></div>
+<div class="fc-line"><span class="fc-k">sw.js</span><span>v9; precache = exactly the 51 field docs + index + manifests; R6/R33 absent; governance docs correctly excluded; the second index.html reference is the navigate fallback, not a duplicate.</span></div>
+<div class="fc-line"><span class="fc-k">Index &harr; Register</span><span>Reconciles clean. Retired docs listed only in the RETIRED section, unlinked.</span></div>
+<div class="fc-line"><span class="fc-k">Session targets</span><span>R1/R5/R7/R26/R30 positive-presence checks pass (SmartShunt, Safety Hub 150, MultiPlus, BatteryProtect, 105 A ceiling, ~40 A cap, Enertec 210 Ah) subject to F26/F30/F31 noted above.</span></div>
+</div>
+
+<h2 id="s-plan">05 &middot; Remediation Programme (proposed, not executed)</h2>
+<p class="section-intro">Sequenced by field-safety impact, then design programme. One large file (&gt;80 KB) per session; small files batched. Every session: SHA-pinned fetch, surgical str_replace, full validation gates, date bumps. No sw.js bumps anywhere in this programme (content-only edits).</p>
+<div class="section-intro mono">
+RS-1&nbsp;&nbsp;R32 system-context rebuild + R1 DEFA row &amp; date stamp + LiFePO4 Calculator link/defaults &mdash; F18, F26, F27, F36<br>
+RS-2&nbsp;&nbsp;R23 electrical prep rewrite (90 KB) &mdash; F19<br>
+RS-3&nbsp;&nbsp;R27 field-diagnostics rewrite (130 KB) &mdash; F22 (+F37 jack line if G2 resolved)<br>
+RS-4&nbsp;&nbsp;Small-file sweep: R2, R16, R35, Service Checklist, R12 caveat &mdash; F20, F23, F24, F25, F37<br>
+RS-5&nbsp;&nbsp;R11 surgical (85 KB) &mdash; F21<br>
+RS-6&nbsp;&nbsp;Width-caps &times;5, calculator print-color-adjust &times;4, Karoo safe-area, R7+Karoo fonts &mdash; F30, F32, F33, F31(part)<br>
+RS-7&nbsp;&nbsp;R5 full restyle to system typography (126 KB) &mdash; F31<br>
+RS-8&nbsp;&nbsp;Design Guidelines: v1.4 promotion, own sticky defect, R33 cites, TOC-pattern wording &mdash; F28(part), F34<br>
+RS-9&nbsp;&nbsp;v1.4 rollout tranches a&ndash;e (~47 files, ~10/session) &mdash; F28, F29<br>
+RS-10&nbsp;R4 div repair (227 KB) &mdash; F35<br>
+RS-11&nbsp;Zambia div repair (136 KB) &mdash; F35
+</div>
+
+<h2 id="s-gates">06 &middot; Owner Gates</h2>
+<div class="section-intro">
+<div class="fc-line"><span class="fc-k">G1 &middot; TA-037</span><span>Facts.txt says the LiFePO4 system was &ldquo;Installed: July 2026 @ 311,000 km&rdquo; but &sect;2 current odometer is 310,412 km (19 Jun). If 311,000 km is a real reading taken at install, it is the newest reading and &sect;2 plus every current-odometer citation should be refreshed to it. Confirm: actual reading, or projection?</span></div>
+<div class="fc-line"><span class="fc-k">G2 &middot; TA-038</span><span>R27 jack/stand minimum rating is pegged to the superseded ~2,160 kg kerb. Approve revising the minimum to cover the ~2,299 kg estimate (practically: specify &ge;2.5 t rated equipment) pending weighbridge?</span></div>
+<div class="fc-line"><span class="fc-k">G3</span><span>Karoo itinerary typography: convert to system fonts, or grandfather as a styled one-off?</span></div>
+<div class="fc-line"><span class="fc-k">G4</span><span>R16 Starlink power recommendation: LiFePO4 changes the sag rationale. Approve a judgment rewrite (possibly dropping the step-up converter advice) rather than a term swap?</span></div>
+</div>
+
+<div class="footer">
+  LC76 OVERLAND REFERENCE LIBRARY &middot; INTERNAL POST-INSTALL AUDIT &middot; JULY 2026 (issued 3 Jul 2026)<br>
+  Evidence: 54 files fetched SHA-pinned at HEAD 90f846b0 (3 Jul 2026); term census, design matrix, structural gates &mdash; detail in the Audit Working Papers (TA-037&ndash;038, LX-008&ndash;012).<br>
+  Findings F18&ndash;F37 continue the June 2026 series (F1&ndash;F17). Findings-only &mdash; remediation proposed as RS-1&ndash;RS-11, owner gates G1&ndash;G4 open.<br>
+  Registered Jul 2026 under Audit, Governance &amp; Data. Not precached (internal document).
+</div>
+
+</main>
+
+<script>
+  document.querySelectorAll('.toc-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.getAttribute('data-target');
+      const el = document.getElementById(id);
+      if (!el) return;
+      const stickyH = document.querySelector('.sticky-wrap').offsetHeight;
+      const top = el.getBoundingClientRect().top + window.scrollY - stickyH - 8;
+      window.scrollTo({ top, behavior: 'smooth' });
+    });
+  });
+  const sections = ['s-scope','s-verdict','s-findings','s-cleared','s-plan','s-gates'];
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        document.querySelectorAll('.toc-btn').forEach(b => b.classList.remove('active'));
+        const idx = sections.indexOf(entry.target.id);
+        if (idx >= 0) document.querySelectorAll('.toc-btn')[idx].classList.add('active');
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  sections.forEach(id => { const el = document.getElementById(id); if (el) observer.observe(el); });
+</script>
+</body>
+</html>
