@@ -903,12 +903,12 @@
         </div>
         <div class="diag-body">
           <div class="check-steps">
-            <div class="check-step"><div class="step-num">1</div><div>Diagnosis: BMV-712 showing negative amperage while driving = alternator not charging. Check battery voltage at engine bay with multimeter — should be 13.8–14.4 V at idle with charging. Below 12.8 V = alternator fault or connection loss.</div></div>
+            <div class="check-step"><div class="step-num">1</div><div>Diagnosis: SmartShunt showing negative amperage while driving = alternator not charging. Check battery voltage at engine bay with multimeter — should be 13.8–14.4 V at idle with charging. Below 12.8 V = alternator fault or connection loss.</div></div>
             <div class="check-step"><div class="step-num">2</div><div>Check the alternator belt — if it has snapped or slipped, the alternator is not turning. 1HZ uses a simple V-belt. Replacement: release tensioner, remove old belt, fit spare (carry one). Takes 20 minutes.</div></div>
             <div class="check-step"><div class="step-num">3</div><div>If belt is intact but charging is absent: check alternator output terminal connection (positive post, usually 10 mm bolt). Corrosion here is common in Africa's humidity. Clean with brake cleaner and sandpaper. Reconnect firmly.</div></div>
-            <div class="check-step"><div class="step-num">4</div><div>Orion-Tr Smart DC-DC failure: the LiFePO4 secondary bank will not charge from the alternator, but the vehicle's starter battery is unaffected — the Orion is isolated. Reduce secondary bank loads (fridge, lighting). Solar continues charging. Drive normally.</div></div>
+            <div class="check-step"><div class="step-num">4</div><div>Orion Smart 12/12-50A DC-DC failure (output capped ~40A): the LiFePO4 house bank will not charge from the alternator, but the crank battery is unaffected — the DC-DC only transfers current when active and cannot back-feed. Reduce house bank loads (fridge, lighting). Solar continues charging via the MPPT. Drive normally.</div></div>
           </div>
-          <div class="ok-box">Without alternator: 12V starter battery will drain within 2–4 hours of driving (electrical loads). Reduce all non-essential loads. The 200Ah LiFePO4 bank via Victron BMS is completely isolated — it will not drain the starter battery. Prioritise reaching a workshop with an alternator specialist.</div>
+          <div class="ok-box">Without alternator: 12V starter battery will drain within 2–4 hours of driving (electrical loads). Reduce all non-essential loads. The 210Ah Enertec LiFePO4 house bank will not drain the starter battery — the DC-DC blocks reverse flow. House loads run on the house bank alone (105A total continuous budget); if house voltage falls low, the Smart BatteryProtect 65A sheds its protected loads automatically to save the bank — this is normal, not a second fault. Prioritise reaching a workshop with an alternator specialist.</div>
           <div class="xref-bar" style="margin-top:10px;"><span class="xref-label">See also</span><span class="xref-pill">R5 Battery Training Guide</span><span class="xref-pill">R7 LiFePO4 System Report</span></div>
         </div>
       </div>
@@ -938,7 +938,7 @@
         <div class="diag-body">
           <div class="check-steps">
             <div class="check-step"><div class="step-num">1</div><div>Distinguish: click-click = solenoid engaging but no motor rotation (dead starter or bad earth). Single heavy click = solenoid failing to hold. Silence = solenoid not receiving signal.</div></div>
-            <div class="check-step"><div class="step-num">2</div><div>Check battery voltage first (multimeter). If below 12.2 V, the battery may simply be discharged — charge or jump from the 200Ah LiFePO4 bank via the Orion, or jump from another vehicle.</div></div>
+            <div class="check-step"><div class="step-num">2</div><div>Check battery voltage first (multimeter). If below 12.2 V, the battery may simply be discharged — jump from the 210Ah LiFePO4 house bank with heavy jumper cables direct between batteries (the Orion DC-DC is one-way and cannot back-feed the crank battery), or jump from another vehicle.</div></div>
             <div class="check-step"><div class="step-num">3</div><div>Check all cable connections at the starter motor: positive (heavy cable from battery), earth to block, and the thin solenoid trigger wire. Corrosion on any of these will prevent starting. Clean and reconnect.</div></div>
             <div class="check-step"><div class="step-num">4</div><div>If the R151F is in gear and the clutch is not fully depressed, the starter inhibit switch prevents cranking — check the clutch is fully depressed to the floor.</div></div>
             <div class="check-step"><div class="step-num">5</div><div>Bump/push start: the 1HZ can be compression-started in 2nd gear at walking pace on a slope. With four people pushing or a slight downhill, this is a realistic field option and confirms the engine itself is functional.</div></div>
@@ -1221,7 +1221,7 @@
           <td><strong>No alternator (belt)</strong></td>
           <td class="mono">Normal</td>
           <td class="mono">1 h max</td>
-          <td>Battery voltage (BMV-712). Below 11.5 V = stop.</td>
+          <td>Battery voltage (SmartShunt). Below 11.5 V = stop.</td>
           <td>Battery voltage below 11.5 V</td>
         </tr>
         <tr>
@@ -1377,7 +1377,7 @@
       <li><div class="cl-num">9</div><div class="cl-text"><span class="cl-label">Gun Gum exhaust putty — fresh tube.</span><span class="cl-note">Expires — check date. Carry a 400 g tin. Confirm applicator nozzle is clean and open.</span></div></li>
       <li><div class="cl-num">10</div><div class="cl-text"><span class="cl-label">Electrical repair kit — wire, terminals, fuses, multimeter.</span><span class="cl-note">Multimeter is the single most useful diagnostic tool on the 76. Carry spare AA batteries for it. Confirm multimeter continuity and DC voltage functions are working.</span></div></li>
       <li><div class="cl-num">11</div><div class="cl-text"><span class="cl-label">Torque wrench — 0–150 Nm range, accessible.</span><span class="cl-note">Not at the bottom of the tool bag. Suspension bolts and U-bolts require correct torque. Guessing by feel on a 76 at this mileage is not good enough.</span></div></li>
-      <li><div class="cl-num">12</div><div class="cl-text"><span class="cl-label">Floor jack and axle stands — rated for 2,160 kg minimum, inspected.</span><span class="cl-note">Test the jack on a level surface before departure. Inspect the axle stand locking mechanism. A jack that fails under the vehicle during a field repair creates an emergency from a breakdown.</span></div></li>
+      <li><div class="cl-num">12</div><div class="cl-text"><span class="cl-label">Floor jack and axle stands — rated ≥2.5 t, inspected.</span><span class="cl-note">Kerb weight is provisional (~2,299 kg, weighbridge pending) — the 2.5 t rating margin covers a loaded axle. Test the jack on a level surface before departure. Inspect the axle stand locking mechanism. A jack that fails under the vehicle during a field repair creates an emergency from a breakdown.</span></div></li>
       <li><div class="cl-num">13</div><div class="cl-text"><span class="cl-label">Brake cleaner — at least one full 400 ml aerosol.</span><span class="cl-note">Your primary surface prep tool for any adhesive repair. Without it, no JB Weld, Pratley, or Gun Gum repair will bond correctly to a vehicle surface.</span></div></li>
       <li><div class="cl-num">14</div><div class="cl-text"><span class="cl-label">Fencing wire — 3 m coil, galvanised.</span><span class="cl-note">Carry a fresh coil. Wire fatigues with repeated bending — used wire from the previous trip may snap when you need it most.</span></div></li>
       <li><div class="cl-num">15</div><div class="cl-text"><span class="cl-label">Spare fastener bag — M6/M8/M10/M12 bolts, nuts, and washers.</span><span class="cl-note">Check after each trip that the bag has been restocked. Lost hardware is the most common bush stranding cause after tyre issues.</span></div></li>
