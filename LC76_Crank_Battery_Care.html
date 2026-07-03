@@ -184,7 +184,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
   <div class="std-eyebrow">Overland Series · R32</div>
   <div class="std-title">Crank Battery Care</div>
   <div class="std-sub">Starting Battery · Care, Checks &amp; Field Diagnosis</div>
-  <div class="std-vehicle">2009 LC76 SW 1HZ · HZJ76R-RKMRS · Dual-battery (lead-acid) — LiFePO4 upgrade pending</div>
+  <div class="std-vehicle">2009 LC76 SW 1HZ · HZJ76R-RKMRS · Dual-chemistry: LiFePO4 house + lead-acid crank · Last updated: 3 July 2026</div>
 </div>
 <div class="toc-bar">
   <span class="toc-label">Sections</span>
@@ -202,11 +202,11 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 
 <div class="content">
 
-<p class="lead">The crank (starting) battery has one job: deliver a high-current burst to turn the 1HZ over. On this vehicle it is electrically separate from the auxiliary/house battery, isolated by the Victron Cyrix. The 1HZ runs 22.4:1 compression, so cold-cranking current peaks high — a tired crank battery shows up as a slow, laboured start long before it leaves you stranded. This document covers how to look after it, what to check and when, how to read it with the multimeter you carry, and how to tell when it is in trouble.</p>
+<p class="lead">The crank (starting) battery has one job: deliver a high-current burst to turn the 1HZ over. On this vehicle it is electrically separate from the auxiliary/house battery, fully separate from the LiFePO4 house battery — no relay joins them, and the Orion Smart DC-DC only ever draws from the crank side while the engine runs. The 1HZ runs 22.4:1 compression, so cold-cranking current peaks high — a tired crank battery shows up as a slow, laboured start long before it leaves you stranded. This document covers how to look after it, what to check and when, how to read it with the multimeter you carry, and how to tell when it is in trouble.</p>
 
 <div class="rule rule-note">
   <span class="rule-hdr">⚠ Read this first — current system status</span>
-  This guide describes the <strong>current lead-acid dual-battery system</strong> as fitted: a crank battery plus a 105 Ah lead-acid auxiliary, joined by a Victron Cyrix 120 A voltage-sensitive relay and watched by a BM2000 dual-battery monitor. The all-Victron LiFePO4 upgrade is <strong>imminent but <u>not yet installed</u></strong>. When it is, the auxiliary side changes — the crank battery and everything in this document about it does not. A note in §6 flags what shifts at that point.
+  This guide describes the <strong>dual-chemistry system as fitted (July 2026)</strong>: a lead-acid crank battery plus an Enertec Power+ 210 Ah LiFePO4 house battery on the all-Victron stack (installed by Manjaro Industries, quote LC76SW004 — see R7 and R26). The two batteries are never paralleled: the Victron Orion Smart 12/12-50A Non-isolated DC-DC (capped ~40 A) charges the house bank from the crank/alternator side while the engine runs, and nothing feeds back the other way. The crank battery's job, and every check in this guide, is unchanged by the upgrade.
 </div>
 
 <!-- S1 ──────────────────────────────────────────────── -->
@@ -216,19 +216,19 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
   <span class="sec-sub">Architecture · Role</span>
 </div>
 
-<p class="p">The electrical system is a <strong>two-battery setup with the batteries kept apart</strong>. The crank battery sits under the bonnet and does nothing but start the engine and run the vehicle's own systems. The auxiliary battery runs camp loads — fridge, lights, charging. The Cyrix relay links them only when one side is being charged (engine running or mains/solar in), so a flat fridge can never leave you unable to start.</p>
+<p class="p">The electrical system is a <strong>dual-chemistry setup with the batteries kept apart</strong>. The crank battery sits under the bonnet and does nothing but start the engine and run the vehicle's own systems. The LiFePO4 house battery runs camp loads — fridge, lights, charging, the inverter. The only link between them is the one-way Orion Smart DC-DC, which draws from the crank side while the engine runs — so a flat fridge can never leave you unable to start.</p>
 
 <table class="spec-table">
-  <caption>Current electrical system — as fitted (per R1)</caption>
+  <caption>Current electrical system — as fitted July 2026 (per R7/R26)</caption>
   <thead><tr><th>Component</th><th>Fitment</th><th>Role</th></tr></thead>
   <tbody>
     <tr><td><strong>Crank battery</strong></td><td>Willard 650 (WPL320T) · flooded lead-acid · 12 V · 95 Ah (C20) · 740 CCA (SAE)</td><td>Engine starting + vehicle systems only</td></tr>
-    <tr><td><strong>Auxiliary battery</strong></td><td>Lead-acid 105 Ah</td><td>Fridge, camp lights, accessory loads</td></tr>
-    <tr><td><strong>Isolator</strong></td><td>Victron Cyrix 120 A 12/24 V</td><td>Voltage-sensitive relay — joins batteries only while charging</td></tr>
-    <tr><td><strong>Monitor</strong></td><td>BM2000 dual-battery</td><td>At-a-glance voltage on both batteries</td></tr>
-    <tr><td><strong>Mains charger</strong></td><td>DEFA SmartCharge</td><td>Shore/home charging &amp; maintenance</td></tr>
-    <tr><td><strong>Solar</strong></td><td>Hardkorr 200 W portable</td><td>Auxiliary top-up in camp</td></tr>
-    <tr><td><strong>Inverter</strong></td><td>Sinetech 1200 W / 12 V</td><td>230 V loads off auxiliary</td></tr>
+    <tr><td><strong>House battery</strong></td><td>Enertec Power+ 12.8 V 210 Ah LiFePO4 · internal BMS + Bluetooth</td><td>Fridge, camp lights, inverter, accessory loads</td></tr>
+    <tr><td><strong>DC&ndash;DC charger</strong></td><td>Victron Orion Smart 12/12-50A Non-isolated · capped ~40 A</td><td>One-way charge, crank/alternator side &rarr; house bank, engine running only</td></tr>
+    <tr><td><strong>Monitor</strong></td><td>Victron SmartShunt 500 A (house bank) · multimeter (crank)</td><td>SmartShunt reads the LiFePO4 only — the crank is read with the multimeter</td></tr>
+    <tr><td><strong>Mains charging</strong></td><td>Victron MultiPlus 12/500/20-16 via 16 A shore inlet</td><td>Charges the <em>house</em> bank — no dedicated crank maintainer is fitted</td></tr>
+    <tr><td><strong>Solar</strong></td><td>Hardkorr 200 W portable via SmartSolar MPPT 100/30</td><td>House bank only — the crank battery gets no solar</td></tr>
+    <tr><td><strong>Inverter</strong></td><td>Victron MultiPlus 12/500/20-16 (~430 W continuous)</td><td>230 V loads off the house bank</td></tr>
     <tr><td><strong>Emergency start</strong></td><td>ARB portable lithium jump pack + HD jumper cables</td><td>Self-rescue if crank battery is flat</td></tr>
   </tbody>
 </table>
@@ -312,10 +312,10 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 <div class="sec-header" id="s3">
   <span class="sec-num">S3</span>
   <span class="sec-title">Using the Voltmeter</span>
-  <span class="sec-sub">Multimeter · BM2000 · Readings</span>
+  <span class="sec-sub">Multimeter · Readings</span>
 </div>
 
-<p class="p">You carry a multimeter, and the BM2000 gives an at-a-glance reading on both batteries. The multimeter is the more accurate tool and the one to trust for diagnosis. Voltage is a proxy for state of charge <strong>only when the battery has rested</strong> — measured straight after driving or charging it reads falsely high (surface charge). Let it sit at least 2 hours, ideally overnight, for a true resting reading.</p>
+<p class="p">You carry a multimeter, and it is the only instrument on the crank battery — the SmartShunt and the Enertec Bluetooth app watch the LiFePO4 house bank, not this one. The multimeter is the tool to trust for diagnosis. Voltage is a proxy for state of charge <strong>only when the battery has rested</strong> — measured straight after driving or charging it reads falsely high (surface charge). Let it sit at least 2 hours, ideally overnight, for a true resting reading.</p>
 
 <div class="subsec"><span class="subsec-title">Resting Voltage → State of Charge</span><span class="subsec-tag">Engine off · rested ≥2 hr · ~25°C</span></div>
 
@@ -351,7 +351,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
   <li><strong>Alternator check:</strong> probes still on the terminals, start the engine, hold ~1500 rpm with everything off. Reading should climb to 13.8–14.4 V.</li>
   <li><strong>Cranking (load) test:</strong> probes on terminals, have someone crank the engine while you watch the dip. A healthy battery holds above ~9.6 V through the crank.</li>
   <li><strong>Parasitic draw:</strong> everything off, key out, doors closed, bonnet light disabled. Meter to DC <strong>amps</strong> (10 A jack), disconnect the negative lead, put the meter <strong>in series</strong> between post and lead. Wait 30 min for modules to sleep, then read. Target <strong>&lt; 50 mA</strong>; over 100 mA means chase the drain (Multi Media Unit, alarm, dashcam, tracker).</li>
-  <li><strong>BM2000 cross-check:</strong> note both battery voltages on the monitor for a quick day-to-day view — but verify anything suspicious with the multimeter.</li>
+  <li><strong>House-side cross-check:</strong> the SmartShunt (VictronConnect) and the Enertec app read the LiFePO4 house bank only. If the house bank looks starved despite driving, check the crank/alternator side first — the Orion Smart feeds the house from it.</li>
 </ol>
 
 <div class="rule rule-warn">
@@ -390,7 +390,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
   <div class="task-body">
     <span class="freq">Weekly</span>
     <div class="task-name">Resting voltage</div>
-    <div class="task-detail">Multimeter or BM2000 first thing in the morning before starting. Want ≥ 12.5 V. Below 12.4 V → recharge / drive longer that day.</div>
+    <div class="task-detail">Multimeter first thing in the morning before starting. Want ≥ 12.5 V. Below 12.4 V → recharge / drive longer that day.</div>
     <div class="task-spec">See §3 voltage table.</div>
   </div>
 </div>
@@ -455,14 +455,14 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
   <span class="sec-sub">Drive · Mains · Solar · Maintainer</span>
 </div>
 
-<p class="p">A crank battery wants to live near full charge. It is topped up by the alternator while driving, and by the DEFA SmartCharge at home. The Cyrix relay shares charge to the auxiliary only once the crank side is up to voltage, so the crank battery always gets priority.</p>
+<p class="p">A crank battery wants to live near full charge. Its only charge source as fitted is the <strong>alternator while driving</strong> — the MultiPlus and the solar charge the house bank, not the crank, and no dedicated crank maintainer is installed. The Orion Smart draws for the house bank only while the engine is running, so cranking reserve is never given away at rest.</p>
 
 <table class="spec-table">
   <thead><tr><th>Source</th><th>Use</th><th>Watch for</th></tr></thead>
   <tbody>
     <tr><td>Alternator (driving)</td><td>Primary top-up. Needs ~20 min above 50 km/h to meaningfully recharge — short urban hops undercharge.</td><td>13.8–14.4 V at terminals when running.</td></tr>
-    <tr><td>DEFA SmartCharge (mains)</td><td>Home / shore charging and float maintenance between trips.</td><td>Leave connected when parked long-term.</td></tr>
-    <tr><td>Hardkorr 200 W solar</td><td>Auxiliary side in camp; keeps the house bank up so the Cyrix isn't dragging the crank down.</td><td>Portable — aux-focused, not the crank.</td></tr>
+    <tr><td>Mains maintainer</td><td><strong>None fitted.</strong> The MultiPlus shore charging serves the house bank only. If the vehicle stands for long spells, a small standalone lead-acid maintainer on the crank battery is cheap insurance.</td><td>See §7 for the standing routine without one.</td></tr>
+    <tr><td>Hardkorr 200 W solar (via MPPT)</td><td>House bank in camp — keeps camp loads well away from the crank.</td><td>Portable — house-side only, never the crank.</td></tr>
   </tbody>
 </table>
 
@@ -472,8 +472,8 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 </div>
 
 <div class="rule rule-note">
-  <span class="rule-hdr">When the LiFePO4 upgrade is installed</span>
-  The auxiliary side changes — Cyrix and the lead-acid 105 Ah give way to the Victron stack (Orion-Tr Smart DC-DC, SmartSolar MPPT, Smart BMS, BMV-712). <strong>The crank battery's role and every check in this guide stay the same.</strong> Two practical changes: (1) the DC-DC charger draws from the crank/alternator side only while the engine runs — it does not discharge the crank at rest; (2) the BMV-712 monitors the lithium house bank, not the crank, so keep a simple voltmeter (or the retained BM2000 reading) on the crank for at-a-glance health. AGM-mode charging limits (max ~14.7 V) still apply to an AGM crank battery regardless of the house chemistry.
+  <span class="rule-hdr">What changed at the LiFePO4 install (July 2026)</span>
+  The old Cyrix relay, 105 Ah lead-acid auxiliary, BM2000 monitor and DEFA mains charger are gone — replaced by the all-Victron LiFePO4 stack (see R7/R26). <strong>The crank battery's role and every check in this guide stay the same.</strong> Three practical consequences: (1) the Orion Smart DC-DC draws from the crank/alternator side only while the engine runs — it does not discharge the crank at rest; (2) the SmartShunt monitors the lithium house bank, not the crank, so the multimeter is now the only instrument on the crank battery; (3) there is no longer a mains maintainer on the crank — see §7 for the standing routine. AGM-mode charging limits (max ~14.7 V) still apply to an AGM crank battery regardless of the house chemistry.
 </div>
 
 <!-- S7 ──────────────────────────────────────────────── -->
@@ -486,12 +486,12 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 <p class="p">The vehicle doubles as a home run-around, so the crank battery spends much of its life on short hops and standing spells — which is, paradoxically, harder on it than a long expedition. Short trips never fully recharge; long stands let it self-discharge and sulphate.</p>
 
 <div class="subsec"><span class="subsec-title">Short school-run / town use</span></div>
-<p class="p">Frequent short drives leave the battery chronically part-charged. Roughly once a fortnight, either take one longer run (30+ min at road speed) or put it on the DEFA SmartCharge overnight to bring it back to a true 100%. Check resting voltage monthly — if it is drifting down despite regular use, the alternator may not be keeping up on short trips, or a parasitic drain is at work.</p>
+<p class="p">Frequent short drives leave the battery chronically part-charged. Roughly once a fortnight, take one longer run (30+ min at road speed) to bring it back towards a true 100% — with the DEFA charger gone at the LiFePO4 install there is no fitted mains maintainer, so the drive is the recharge. Check resting voltage monthly — if it is drifting down despite regular use, the alternator may not be keeping up on short trips, or a parasitic drain is at work.</p>
 
 <div class="subsec"><span class="subsec-title">Standing &gt; 2 weeks (between trips)</span></div>
 <ol class="steps">
-  <li><strong>Best:</strong> leave the DEFA SmartCharge connected on float. It holds the battery at 100% indefinitely without overcharging.</li>
-  <li><strong>Alternative:</strong> disconnect the negative terminal to stop all parasitic drain. You lose radio presets and the MMU clock, but the battery holds charge far longer.</li>
+  <li><strong>Best:</strong> put a small standalone lead-acid maintainer on the crank battery and leave it on float — none is currently fitted (the MultiPlus serves the house bank only), so this means buying one.</li>
+  <li><strong>Without a maintainer:</strong> disconnect the negative terminal to stop all parasitic drain. You lose radio presets and the MMU clock, but the battery holds charge far longer.</li>
   <li><strong>Either way:</strong> a lead-acid battery left at part charge in the heat is being slowly ruined. Self-discharge runs ~5%/month for flooded, ~3%/month for AGM at 25°C — and much faster when hot.</li>
   <li><strong>On return:</strong> check resting voltage before the first start. Below 12.2 V means damage has started; recharge fully and watch it over the next few weeks.</li>
 </ol>
@@ -520,7 +520,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
     <tr><td>Persistent terminal corrosion</td><td>Loose connection, overcharge, or venting — clean &amp; investigate</td></tr>
     <tr><td>Rotten-egg (sulphur) smell</td><td>Overcharging or internal fault — stop, diagnose</td></tr>
     <tr><td>Hot case after a short drive</td><td>Overcharge or internal short — serious, check at once</td></tr>
-    <tr><td>Voltage swings on the BM2000 with nothing changed</td><td>Failing cell or bad connection</td></tr>
+    <tr><td>Resting voltage swinging between checks with nothing changed</td><td>Failing cell or bad connection</td></tr>
   </tbody>
 </table>
 
@@ -556,7 +556,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 <ol class="steps">
   <li><strong>ARB lithium jump pack</strong> — primary self-rescue. Follow the pack's polarity and connection sequence; let it start the engine, then drive long enough to recharge (30+ min at road speed).</li>
   <li><strong>HD jumper cables</strong> from another vehicle if no pack — standard sequence, dead battery negative to a chassis earth point, not the battery's own negative post.</li>
-  <li><strong>Do NOT</strong> try to start off the auxiliary battery by bridging the Cyrix. The relay and wiring are not rated for cranking current, and once the LiFePO4 is fitted, the BMS will not permit reverse flow to the crank at all. The jump pack and cables are the only sanctioned methods.</li>
+  <li><strong>Do NOT</strong> try to start off the LiFePO4 house battery. There is no paralleling path — the Orion Smart DC-DC is one-way (crank &rarr; house) and nothing in the house wiring is rated for cranking current, and the battery's BMS will not tolerate a cranking draw. The jump pack and cables are the only sanctioned methods.</li>
   <li>Once running, find the root cause (§8) before the next stop — a flat battery in camp is a warning, not a one-off.</li>
 </ol>
 
@@ -569,13 +569,14 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 
 <div class="xref-bar">
   <span class="xref-label">Cross-Reference</span>
+  <a href="LC76_LiFePO4_System_Report.html" class="xref-pill">R7 · LiFePO4 System Report</a>
   <a href="LC76_Electrical_Wiring_Guide.html" class="xref-pill">R26 · Electrical &amp; Wiring</a>
   <a href="LC76_Reference_Card.html" class="xref-pill">R1 · Reference Card</a>
 </div>
 
 <div class="doc-footer">
-  <span>LC76 Overland Reference Library · R32 · Crank Battery Care · v1.0 · June 2026</span>
-  <span>2009 LC76 SW 1HZ · HZJ76R-RKMRS · System status: lead-acid dual-battery (LiFePO4 pending)</span>
+  <span>LC76 Overland Reference Library · R32 · Crank Battery Care · v2.0 · July 2026</span>
+  <span>2009 LC76 SW 1HZ · HZJ76R-RKMRS · System status: dual-chemistry — LiFePO4 house + lead-acid crank</span>
   <span>overlandslabs.github.io/Consumption</span>
 </div>
 
