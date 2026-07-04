@@ -18,6 +18,7 @@
       --bark:#3D2B1A;--smoke:#6B5B4E;--border:rgba(61,43,26,0.15);
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{overflow-x:hidden;overflow-x:clip;overscroll-behavior-x:none}
 body{font-family:Oswald,sans-serif;background:var(--cream);color:var(--ink);line-height:1.5;-webkit-font-smoothing:antialiased}
 
 /* HEADER */
@@ -29,7 +30,8 @@ header{background:var(--ink);color:#fff;padding:1rem 1.5rem;border-bottom:4px so
 
 /* STICKY NAV */
 .sticky-wrap{position:sticky;top:0;z-index:100;background:var(--ink);padding-top:env(safe-area-inset-top)}
-.tab-bar{display:flex;gap:0;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.sticky-wrap::before{content:"";position:absolute;left:0;right:0;bottom:100%;height:100vh;background:var(--ink)}
+.tab-bar{display:flex;gap:0;overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .tab-bar::-webkit-scrollbar{display:none}
 .tab-btn{font-family:Oswald,sans-serif;font-size:11px;letter-spacing:.1em;text-transform:uppercase;
   padding:12px 20px;border:none;background:transparent;color:rgba(255,255,255,.55);
@@ -149,7 +151,7 @@ input[type=range]::-webkit-slider-runnable-track{height:5px;border-radius:3px}
   letter-spacing:.1em;padding:1px 5px;border-radius:2px;margin-left:5px;vertical-align:middle}
 
 /* PRESSURE COMPARE TABLE */
-.comp-table-wrap{overflow-x:auto;margin-bottom:1rem}
+.comp-table-wrap{overflow-x:auto;overscroll-behavior-x:contain;margin-bottom:1rem}
 .comp-table{width:100%;border-collapse:collapse;font-size:12px}
 .comp-table th{background:var(--bark);color:#fff;font-family:'IBM Plex Mono',monospace;
   font-size:8px;text-transform:uppercase;letter-spacing:.1em;padding:8px 10px;text-align:left;white-space:nowrap}
@@ -220,6 +222,7 @@ footer p{color:var(--ochre)}
   *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   @page{margin:10mm;size:A4}
   .sticky-wrap{position:static;padding-top:0}
+  .sticky-wrap::before{content:none}
   .tab-btn:not(.active){display:none}
   .panel:not(.active){display:block}
   body{font-size:9pt}

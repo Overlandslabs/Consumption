@@ -21,9 +21,10 @@
     --amber:#92400E; --amber2:#e07800; --steeldk:#2a2f3a; --steelmd:#6a7080;
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
-  html{overflow-x:hidden}
+  html{overflow-x:hidden;overflow-x:clip;overscroll-behavior-x:none}
   body{background:var(--white);color:var(--ink);font-family:'Oswald','Arial Narrow',sans-serif;font-size:16px;line-height:1.7}
   .sticky-wrap{position:sticky;top:0;z-index:100;background:var(--ink);padding-top:env(safe-area-inset-top)}
+  .sticky-wrap::before{content:"";position:absolute;left:0;right:0;bottom:100%;height:100vh;background:var(--ink)}
   .calc-masthead{position:relative;background:var(--ink);color:#fff;padding:18px 24px 14px;overflow:hidden}
   .calc-masthead::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--amber),var(--amber2),transparent)}
   .cm-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--steelmd);margin-bottom:8px}
@@ -118,7 +119,7 @@
   .cb strong{color:var(--bark)}
 
   /* Table */
-  .tscroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .tscroll{overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
   .dtable{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:8px;min-width:520px}
   .dtable th{background:var(--ink);color:var(--ochre);font-family:'Oswald','Arial Narrow',sans-serif;font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:8px 12px;text-align:left;font-weight:500}
   .dtable td{padding:7px 12px;border-bottom:1px solid var(--border);vertical-align:top;color:var(--smoke)}
@@ -129,7 +130,7 @@
   footer span{color:var(--ochre)}
 
   /* Wind + hilliness: horizontal scroll strip */
-  .tgrid-scroll{display:flex;flex-wrap:nowrap;overflow-x:auto;gap:6px;margin-bottom:20px;-webkit-overflow-scrolling:touch;padding-bottom:4px}
+  .tgrid-scroll{display:flex;flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;gap:6px;margin-bottom:20px;-webkit-overflow-scrolling:touch;padding-bottom:4px}
   .tgrid-scroll .tbtn{flex:0 0 auto;width:140px;min-height:auto;padding:7px 10px}
   .tgrid-scroll .tbtn .tdesc{display:none}
   .tgrid-scroll .tbtn .tn{font-size:12px}
@@ -157,6 +158,8 @@
     .tscroll{overflow:visible}
     .dtable{min-width:auto;font-size:10px}
     .ab-body{display:block!important}
+    .sticky-wrap{position:static!important;padding-top:0!important}
+    .sticky-wrap::before{content:none!important}
   }
 </style>
 </head>

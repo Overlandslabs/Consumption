@@ -26,10 +26,12 @@
   --green-ok:#059669; --red-warn:#B91C1C;
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
+  html{overflow-x:hidden;overflow-x:clip;overscroll-behavior-x:none}
   body{background:var(--white);color:var(--ink);font-family:'Oswald','Arial Narrow',sans-serif;font-size:16px;line-height:1.7}
 
   /* ── MASTHEAD ── */
   .sticky-wrap{position:sticky;top:0;z-index:100;background:var(--ink);padding-top:env(safe-area-inset-top)}
+  .sticky-wrap::before{content:"";position:absolute;left:0;right:0;bottom:100%;height:100vh;background:var(--ink)}
   .calc-masthead{position:relative;background:var(--ink);color:#fff;padding:18px 24px 14px;overflow:hidden}
   .calc-masthead::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--amber),var(--amber2),transparent)}
   .cm-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--steelmd);margin-bottom:8px}
@@ -90,7 +92,7 @@
   .cb strong{color:var(--bark)}
 
   /* ── LOAD TABLE ── */
-  .tscroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .tscroll{overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
   .dtable{width:100%;border-collapse:collapse;font-size:13px;margin-bottom:8px;min-width:560px}
   .dtable th{background:var(--ink);color:var(--ochre);font-family:'Oswald','Arial Narrow',sans-serif;font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:8px 10px;text-align:left;font-weight:500}
   .dtable tfoot td{background:var(--bark);color:var(--cream);padding:8px 10px}
@@ -158,6 +160,8 @@
     .tscroll{overflow:visible}
     .dtable{min-width:auto;font-size:10px}
     .td-del,.tbtn,.btn-add{display:none}
+    .sticky-wrap{position:static!important;padding-top:0!important}
+    .sticky-wrap::before{content:none!important}
     @page{size:A4;margin:10mm}
   }
 @media print{}
