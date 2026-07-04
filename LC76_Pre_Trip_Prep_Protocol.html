@@ -23,11 +23,12 @@
   --display:'Bebas Neue',sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html{overflow-x:hidden}
+html{overflow-x:hidden;overflow-x:clip;overscroll-behavior-x:none}
 body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55}
 
 /* ── STICKY NAV UNIT ─────────────────────────────────── */
 .sticky-nav-unit{position:sticky;top:0;z-index:100;background:var(--ink);padding-top:env(safe-area-inset-top)}
+.sticky-nav-unit::before{content:"";position:absolute;left:0;right:0;bottom:100%;height:100vh;background:var(--ink)}
 
 /* ── MASTHEAD ─────────────────────────────────────────── */
 .std-header{
@@ -283,13 +284,13 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 @media(max-width:600px){
   .std-header{padding:14px 16px 12px}
   .std-title{font-size:clamp(1.6rem,6vw,2.4rem)}
-  .toc-bar{padding:5px 12px!important;flex-wrap:nowrap!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch!important;scrollbar-width:none!important}
+  .toc-bar{padding:5px 12px!important;flex-wrap:nowrap!important;overflow-x:auto!important;overscroll-behavior-x:contain!important;-webkit-overflow-scrolling:touch!important;scrollbar-width:none!important}
   .toc-bar::-webkit-scrollbar{display:none}
   .toc-link{font-size:.44rem!important;padding:2px 5px!important;white-space:nowrap!important}
   .sec-header{padding:8px 16px;margin:16px 0 0}
   .content{padding:14px 4% 60px}
   .decision-grid{grid-template-columns:1fr}
-  .spec-table,.triage-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .spec-table,.triage-table{display:block;overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -313,6 +314,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 
   /* sticky nav becomes static */
   .sticky-nav-unit{position:static!important}
+.sticky-nav-unit::before{content:none!important}
 
   /* ── MASTHEAD ── */
   .std-header{

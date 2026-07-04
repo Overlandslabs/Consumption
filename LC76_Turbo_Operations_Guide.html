@@ -25,7 +25,7 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { overflow-x: hidden; }
+  html { overflow-x: hidden; overflow-x: clip; overscroll-behavior-x: none; }
 
   body {
     font-family: 'Oswald', sans-serif;
@@ -38,6 +38,7 @@
 
   /* STICKY WRAP */
   .sticky-wrap { position: sticky; top: 0; z-index: 100; background: var(--ink); padding-top: env(safe-area-inset-top); }
+  .sticky-wrap::before { content: ""; position: absolute; left: 0; right: 0; bottom: 100%; height: 100vh; background: var(--ink); }
 
   /* MASTHEAD */
   .masthead { position: relative; background: var(--ink); color: #fff; padding: 18px 24px 14px; }
@@ -57,6 +58,7 @@
     padding: 0 20px;
     display: flex;
     overflow-x: auto;
+    overscroll-behavior-x: contain;
     scrollbar-width: none;
   }
   .toc-bar::-webkit-scrollbar { display: none; }
@@ -95,7 +97,7 @@
   .section-intro { font-size: 13px; color: var(--steelmd); margin-bottom: 14px; font-style: italic; }
 
   /* EGT RANGE TABLE */
-  .matrix-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; width: 100%; margin-bottom: 24px; }
+  .matrix-scroll { overflow-x: auto; overscroll-behavior-x: contain; -webkit-overflow-scrolling: touch; width: 100%; margin-bottom: 24px; }
   .matrix-table { width: 100%; border-collapse: collapse; font-size: 12.5px; table-layout: fixed; min-width: 640px; }
   .matrix-table th {
     font-family: 'IBM Plex Mono', monospace;
@@ -245,6 +247,7 @@
 
     body { font-size: 7pt; background: #fff; line-height: 1.35; }
     .sticky-wrap { position: static; }
+    .sticky-wrap::before { content: none; }
     .toc-bar { display: none; }
 
     /* Masthead — restore dark background + amber title */
@@ -372,7 +375,7 @@
     <div class="mh-eyebrow">Overland Series · R21</div>
     <div class="mh-title">Turbo Operations &amp; Driver Discipline</div>
     <div class="mh-sub">EGT Ranges · Boost &amp; Load Discipline · Altitude Effects · Cool-Down Protocol · Smoke Signals · Intercooler Checks</div>
-    <div class="mh-vehicle">2009 LC76 SW · 1HZ 4.2L Diesel · SAC Low-Boost Turbo + Intercooler · GVM 2,850 kg · Last Updated: 24 June 2026</div>
+    <div class="mh-vehicle">2009 LC76 SW · 1HZ 4.2L Diesel · SAC Low-Boost Turbo + Intercooler · GVM 2,850 kg · Last Updated: 3 July 2026</div>
   </div>
   <nav class="toc-bar">
     <button class="toc-btn" data-target="s-egt">EGT Ranges</button>
