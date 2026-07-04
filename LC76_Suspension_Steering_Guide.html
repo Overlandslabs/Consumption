@@ -25,7 +25,7 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { overflow-x: hidden; }
+  html { overflow-x: hidden; overflow-x: clip; overscroll-behavior-x: none; }
 
   body {
     font-family: 'Oswald', sans-serif;
@@ -38,6 +38,7 @@
 
   /* STICKY WRAP */
   .sticky-wrap { position: sticky; top: 0; z-index: 100; background: var(--ink); padding-top: env(safe-area-inset-top); }
+  .sticky-wrap::before { content: ""; position: absolute; left: 0; right: 0; bottom: 100%; height: 100vh; background: var(--ink); }
 
   /* MASTHEAD */
   .masthead { position: relative; background: var(--ink); color: #fff; padding: 18px 24px 14px; }
@@ -72,6 +73,7 @@
     padding: 0 20px;
     display: flex;
     overflow-x: auto;
+    overscroll-behavior-x: contain;
     scrollbar-width: none;
   }
   .toc-bar::-webkit-scrollbar { display: none; }
@@ -136,7 +138,7 @@
   .tag-planned { background:rgba(59,106,191,.12); color:#3b6abf; border:1px solid rgba(59,106,191,.3); }
 
   /* FLOW DIAGRAM */
-  .flow-wrap { background:var(--steeldk); border:1px solid rgba(255,255,255,.08); padding:16px; margin:14px 0; overflow-x:auto; }
+  .flow-wrap { background:var(--steeldk); border:1px solid rgba(255,255,255,.08); padding:16px; margin:14px 0; overflow-x:auto; overscroll-behavior-x:contain; }
   .flow-title { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--steelmd); margin-bottom:12px; }
   .flow-row { display:flex; align-items:center; flex-wrap:nowrap; gap:0; margin:4px 0; }
   .flow-node { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); padding:5px 10px; border-radius:2px; white-space:nowrap; flex-shrink:0; }
@@ -291,6 +293,7 @@
     * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
     body { font-size: 7.5pt; background: #fff; line-height: 1.35; }
     .sticky-wrap { position: static; }
+    .sticky-wrap::before { content: none; }
     .toc-bar { display: none; }
     .masthead { padding: 4mm 8mm; break-after: avoid; background: #1C1410 !important; color: #fff !important; }
     .mh-eyebrow { font-size: 5pt; color: #6a7080 !important; }

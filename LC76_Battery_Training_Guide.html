@@ -29,7 +29,7 @@
   --dominant:var(--cream);--secondary:var(--ink);--accent:var(--clay);--accent-2:var(--ochre);
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-html{overflow-x:hidden}
+html{overflow-x:hidden;overflow-x:clip;overscroll-behavior-x:none}
 body{background:var(--paper);color:var(--ink);font-family:'Oswald',sans-serif;font-size:13.5px;line-height:1.7;}
 
 /* HEADER */
@@ -306,9 +306,9 @@ body{background:var(--paper);color:var(--ink);font-family:'Oswald',sans-serif;fo
   .cols2{display:block!important}
   .cols2>*{display:block!important;width:100%!important;margin-bottom:12px!important}
   .abox,.ibox,.gbox,.wbox{padding:10px 12px!important}
-  .ltable{display:block!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch!important;font-size:11px!important}
+  .ltable{display:block!important;overflow-x:auto!important;overscroll-behavior-x:contain!important;-webkit-overflow-scrolling:touch!important;font-size:11px!important}
   .ltable th,.ltable td{padding:5px 8px!important;white-space:normal!important}
-  .wiring{padding:10px 12px!important;font-size:10px!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch!important}
+  .wiring{padding:10px 12px!important;font-size:10px!important;overflow-x:auto!important;overscroll-behavior-x:contain!important;-webkit-overflow-scrolling:touch!important}
   .calc-block{padding:10px 12px!important}
   .soc-zone{padding:8px 10px!important}
   .do-item{padding:8px 10px!important}
@@ -331,14 +331,18 @@ body{background:var(--paper);color:var(--ink);font-family:'Oswald',sans-serif;fo
   .soc-zone-row{flex-wrap:wrap!important}
   .row{padding:6px 12px!important}
 
-  .sysdiag{font-size:8px!important;line-height:1.6!important;padding:10px 12px!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch!important;white-space:pre!important;display:block!important}
-  .wiring{font-size:8px!important;line-height:1.6!important;padding:10px 12px!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch!important;white-space:pre!important}
+  .sysdiag{font-size:8px!important;line-height:1.6!important;padding:10px 12px!important;overflow-x:auto!important;overscroll-behavior-x:contain!important;-webkit-overflow-scrolling:touch!important;white-space:pre!important;display:block!important}
+  .wiring{font-size:8px!important;line-height:1.6!important;padding:10px 12px!important;overflow-x:auto!important;overscroll-behavior-x:contain!important;-webkit-overflow-scrolling:touch!important;white-space:pre!important}
 }
 
 @media print{
   @page{margin: 7mm;size:A4 portrait}
   *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
   body{font-size:10px!important;background:white!important}
+
+  /* Live sticky element reset (was missing — print CSS only referenced the retired .hdr class) */
+  .sticky-wrap{position:static!important;padding-top:0!important}
+  .sticky-wrap::before{content:none!important}
 
   /* Header — compact + page break */
   .hdr{padding:10px 16px 8px!important;page-break-after:avoid!important}
@@ -410,6 +414,7 @@ body{background:var(--paper);color:var(--ink);font-family:'Oswald',sans-serif;fo
 
 /* ── STANDARD HEADER ─────────────────────────────────── */
 .sticky-wrap{position:sticky;top:0;z-index:100;background:var(--ink,#0d0e12);padding-top:env(safe-area-inset-top)}
+.sticky-wrap::before{content:"";position:absolute;left:0;right:0;bottom:100%;height:100vh;background:var(--ink,#0d0e12)}
 .std-header{
   background:var(--ink,#0d0e12);
   border-bottom:4px solid var(--amber2,#e07800);

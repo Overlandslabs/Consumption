@@ -31,7 +31,7 @@
   --mono:'IBM Plex Mono',monospace;--sans:'IBM Plex Sans',sans-serif;--display:'Bebas Neue',sans-serif;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{overflow-x:hidden}
+html{overflow-x:hidden;overflow-x:clip;overscroll-behavior-x:none}
 body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.6}
 
 /* COVER */
@@ -122,6 +122,8 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
     .std-title { color: #e07800 !important; font-size: 16pt !important; }
     .toc-bar { display: none !important; }
     .lib-home-btn { display: none !important; }
+    .sticky-nav-unit { position: static !important; }
+    .sticky-nav-unit::before { content: none !important; }
   
   }
 
@@ -133,7 +135,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
   .cover-title{font-size:clamp(18px,5vw,26px)}
   .cover-sub{font-size:.58rem}
   .cover-vin{font-size:.52rem;flex-wrap:wrap;gap:6px}
-  .toc-bar{padding:5px 12px!important;flex-wrap:nowrap!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch!important;scrollbar-width:none!important}
+  .toc-bar{padding:5px 12px!important;flex-wrap:nowrap!important;overflow-x:auto!important;overscroll-behavior-x:contain!important;-webkit-overflow-scrolling:touch!important;scrollbar-width:none!important}
   .toc-bar::-webkit-scrollbar{display:none}
   .toc-link{font-size:.48rem!important;padding:2px 6px!important;white-space:nowrap!important}
   .section-header{padding:5px 12px 6px!important}
@@ -151,7 +153,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
   .comp-body>*{display:block!important;width:100%!important;box-sizing:border-box!important;-webkit-tap-highlight-color:transparent;margin-bottom:6px!important}
   .comp-desc-block,.comp-tip-block,.comp-warn{padding:8px 12px!important}
   .block-label{font-size:.46rem!important}
-  .ref-table,.fluid-table,.spec-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch;-webkit-overflow-scrolling:touch;font-size:10px}
+  .ref-table,.fluid-table,.spec-table{display:block;overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;-webkit-overflow-scrolling:touch;font-size:10px}
   .ref-table th,.ref-table td{padding:5px 7px}
   
   .footer{padding:10px 12px;flex-wrap:wrap;font-size:9px}
@@ -163,6 +165,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 
 /* ── STICKY NAVIGATION UNIT ─────────────────────────────────── */
 .sticky-nav-unit{position:sticky;top:0;z-index:100;background:var(--ink);padding-top:env(safe-area-inset-top)}
+.sticky-nav-unit::before{content:"";position:absolute;left:0;right:0;bottom:100%;height:100vh;background:var(--ink)}
 
 /* ── MASTHEAD ────────────────────────────────────────────── */
 .std-header{position:relative;
@@ -269,7 +272,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
   <div class="std-eyebrow">Overland Series · R3</div>
   <div class="std-title">Bush Spares &amp; Tools</div>
   <div class="std-sub">2009 LC76 SW 1HZ &nbsp;&middot;&nbsp; Field Spares &amp; Tools List</div>
-  <div class="std-vehicle">2009 LC76 SW · 1HZ 4.2L Diesel · GVM 2,850 kg · Last Updated: March 2026</div>
+  <div class="std-vehicle">2009 LC76 SW · 1HZ 4.2L Diesel · GVM 2,850 kg · Last Updated: 3 July 2026</div>
 </div>
 
 <!-- NAV -->
