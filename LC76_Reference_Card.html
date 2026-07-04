@@ -36,7 +36,7 @@
 }
 
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
-html{overflow-x:hidden}
+html{overflow-x:hidden;overflow-x:clip;overscroll-behavior-x:none}
 body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:12px;line-height:1.5}
 
 /* STICKY WRAPPER */
@@ -45,6 +45,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
   background:var(--ink);
   padding-top:env(safe-area-inset-top);
 }
+.sticky-wrap::before{content:"";position:absolute;left:0;right:0;bottom:100%;height:100vh;background:var(--ink)}
 
 /* HEADER */
 .masthead{
@@ -223,7 +224,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
   .warn-note{margin-bottom:6px!important}
 
   /* Tables */
-  table{display:block!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch!important}
+  table{display:block!important;overflow-x:auto!important;overscroll-behavior-x:contain!important;-webkit-overflow-scrolling:touch!important}
   table th,table td{white-space:nowrap!important;padding:4px 8px!important;font-size:10px!important}
 
   /* Footer */
@@ -246,6 +247,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
   *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
   body{font-size:10.5px!important;background:white!important}
   .sticky-wrap{position:static!important;padding-top:0!important}
+  .sticky-wrap::before{content:none!important}
   .masthead{background:var(--ink)!important;padding:4mm 8mm!important;break-after:avoid color: #fff !important; border-bottom: 2pt solid #e07800 !important;}
   .mh-eyebrow{font-size:5pt!important}
   .mh-title{font-size:16pt!important color: #e07800 !important;}

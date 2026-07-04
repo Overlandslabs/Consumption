@@ -25,10 +25,12 @@
   --green-ok:#059669; --red-warn:#B91C1C;
   }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;margin:0;padding:0}
+html{overflow-x:hidden;overflow-x:clip;overscroll-behavior-x:none}
 body{background:var(--white);color:var(--ink);font-family:'Oswald',sans-serif;font-size:15px;line-height:1.5}
 
 /* MASTHEAD */
 .sticky-wrap{position:sticky;top:0;z-index:100;background:var(--ink);padding-top:env(safe-area-inset-top)}
+.sticky-wrap::before{content:"";position:absolute;left:0;right:0;bottom:100%;height:100vh;background:var(--ink)}
 .calc-masthead{position:relative;background:var(--ink);color:#fff;padding:18px 24px 14px;overflow:hidden}
 .calc-masthead::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--amber),var(--amber2),transparent)}
 .cm-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--steelmd);margin-bottom:8px}
@@ -68,7 +70,7 @@ body{background:var(--white);color:var(--ink);font-family:'Oswald',sans-serif;fo
 .tscard input[type=number]:focus{border-color:var(--clay)}
 
 /* LEG TABLE */
-.leg-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;-webkit-overflow-scrolling:touch;margin-bottom:14px}
+.leg-table-wrap{overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;-webkit-overflow-scrolling:touch;margin-bottom:14px}
 .leg-table{width:100%;border-collapse:collapse;min-width:720px}
 .leg-table th{background:var(--ink);color:var(--ochre);font-size:9px;letter-spacing:.12em;text-transform:uppercase;padding:8px 10px;text-align:left;font-weight:500;white-space:nowrap}
 .leg-table td{padding:6px 8px;border-bottom:1px solid var(--border);vertical-align:middle}
@@ -170,6 +172,8 @@ footer span{color:var(--ochre)}
   *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
   footer,.btn-row{display:none}
   .page{padding:0 16px}
+  .sticky-wrap{position:static!important;padding-top:0!important}
+  .sticky-wrap::before{content:none!important}
 }
 
   @media(max-width:768px){

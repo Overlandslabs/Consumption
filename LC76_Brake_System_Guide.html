@@ -24,7 +24,7 @@
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { overflow-x: hidden; }
+  html { overflow-x: hidden; overflow-x: clip; overscroll-behavior-x: none; }
 
   body {
     font-family: 'Oswald', sans-serif;
@@ -37,6 +37,7 @@
 
   /* STICKY WRAP */
   .sticky-wrap { position: sticky; top: 0; z-index: 100; background: var(--ink); padding-top: env(safe-area-inset-top); }
+  .sticky-wrap::before { content: ""; position: absolute; left: 0; right: 0; bottom: 100%; height: 100vh; background: var(--ink); }
 
   /* MASTHEAD */
   .masthead { position: relative; background: var(--ink); color: #fff; padding: 18px 24px 14px; }
@@ -68,6 +69,7 @@
     padding: 0 20px;
     display: flex;
     overflow-x: auto;
+    overscroll-behavior-x: contain;
     scrollbar-width: none;
   }
   .toc-bar::-webkit-scrollbar { display: none; }
@@ -192,6 +194,7 @@
     * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
     body { font-size: 7.5pt; background: #fff; line-height: 1.35; }
     .sticky-wrap { position: static; }
+    .sticky-wrap::before { content: none; }
     .toc-bar { display: none; }
     .masthead { padding: 4mm 8mm; break-after: avoid; background: #1C1410 !important; color: #fff !important; }
     .mh-eyebrow { font-size: 5pt; color: #6a7080 !important; }
