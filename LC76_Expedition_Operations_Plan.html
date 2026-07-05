@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>R38 — Expedition Operations Plan | HZJ76R-RKMRS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=Oswald:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:      #1C1410;
+    --paper:    #F5EDDA;
+    --paper2:   #EDE5D0;
+    --amber:    #b86800;
+    --amber2:   #e07800;
+    --rule:     #d4cfc4;
+    --steeldk:  #2a2f3a;
+    --steelmd:  #6a7080;
+    --red-warn: #B91C1C;
+    --green-ok: #059669;
+    --orange:   #c05a00;
+    --border:   #c8bfad;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { overflow-x: hidden; overflow-x: clip; overscroll-behavior-x: none; }
+
+  body {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  /* STICKY WRAP */
+  .sticky-wrap { position: sticky; top: 0; z-index: 100; background: var(--ink); padding-top: env(safe-area-inset-top); }
+  .sticky-wrap::before { content: ""; position: absolute; left: 0; right: 0; bottom: 100%; height: 100vh; background: var(--ink); }
+
+  /* MASTHEAD */
+  .masthead { position: relative; background: var(--ink); color: #fff; padding: 18px 24px 14px; }
+  .lib-home-btn { position:absolute; top:50%; right:16px; transform:translateY(-50%); display:inline-flex; align-items:center; gap:5px; font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; text-decoration:none; color:var(--amber2); background:rgba(232,120,0,.15); border:1px solid var(--amber2); border-radius:20px; padding:6px 12px; min-height:32px; white-space:nowrap; z-index:10; transition:background .2s; }
+  .lib-home-btn:hover, .lib-home-btn:active { background:rgba(232,120,0,.30); }
+
+  @media(max-width:600px){
+    .masthead { padding:14px 16px 12px; }
+    .lib-home-btn { top:14px; transform:none; }
+    .mh-title { font-size:clamp(1.5rem,6vw,2.2rem); }
+    .toc-bar { padding:0 12px; }
+    .toc-btn { font-size:.46rem; padding:8px 9px; }
+    .main { padding:14px 4% 60px; }
+    .principle-grid { grid-template-columns:1fr; }
+  }
+
+  @media print { .lib-home-btn { display:none !important; } }
+
+  .mh-eyebrow  { font-family:'IBM Plex Mono',monospace; font-size:.5rem; letter-spacing:.28em; text-transform:uppercase; color:var(--steelmd); margin-bottom:6px; }
+  .mh-title    { font-family:'Bebas Neue',sans-serif; font-size:clamp(1.8rem,5vw,2.6rem); letter-spacing:.06em; color:var(--amber2); line-height:1; }
+  .mh-sub      { font-family:'IBM Plex Mono',monospace; font-size:.54rem; letter-spacing:.12em; color:rgba(255,200,100,.65); margin-top:5px; }
+  .mh-vehicle  { font-family:'IBM Plex Mono',monospace; font-size:.48rem; letter-spacing:.08em; color:var(--steelmd); margin-top:8px; }
+
+  /* TOC BAR */
+  .toc-bar {
+    background: var(--steeldk);
+    border-top: 3px solid var(--amber2);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    padding: 0 20px;
+    display: flex;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+  .toc-bar::-webkit-scrollbar { display: none; }
+  .toc-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .52rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--steelmd);
+    background: none;
+    border: none;
+    padding: 10px 12px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color 0.15s;
+  }
+  .toc-btn:hover  { color: #c8bfad; }
+  .toc-btn.active { color: var(--amber2); }
+
+  /* MAIN */
+  .main { padding: 28px 5% 80px; max-width: 100%; }
+
+  /* PART BANNER */
+  .part-banner { font-family:'Bebas Neue',sans-serif; font-size:20px; letter-spacing:.08em; color:#fff; background:var(--ink); border-left:6px solid var(--amber2); padding:10px 16px; margin:30px 0 4px; }
+  .part-banner:first-child { margin-top:0; }
+  .part-banner span { color:var(--amber2); }
+
+  /* SECTION HEADINGS */
+  .section-head {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: var(--ink);
+    letter-spacing: 0.04em;
+    border-bottom: 2px solid var(--amber2);
+    padding-bottom: 4px;
+    margin-bottom: 14px;
+    margin-top: 28px;
+  }
+  .section-intro { font-size: 13px; color: var(--steelmd); margin-bottom: 14px; font-style: italic; }
+
+  /* SECTION ANCHOR OFFSET */
+  .sa { scroll-margin-top: 150px; }
+
+  /* SUBSECTION TITLE */
+  .sub-head {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 15px;
+    color: var(--amber2);
+    letter-spacing: 0.04em;
+    background: var(--steeldk);
+    padding: 8px 14px;
+    margin-bottom: 0;
+    margin-top: 16px;
+  }
+
+  p.body { font-size:13px; margin:10px 0; }
+  p.body:first-of-type { margin-top:0; }
+
+  /* PRINCIPLE CARDS GRID */
+  .principle-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:10px; margin:14px 0; }
+  .principle-card { border:1px solid var(--border); border-top:3px solid var(--amber2); background:#fff; border-radius:2px; padding:13px 14px 11px; }
+  .p-num   { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.12em; color:var(--steelmd); text-transform:uppercase; margin-bottom:4px; }
+  .p-title { font-family:'Bebas Neue',sans-serif; font-size:17px; color:var(--amber2); letter-spacing:.04em; margin-bottom:6px; line-height:1.1; }
+  .p-body  { font-size:12.5px; color:var(--ink); line-height:1.55; }
+
+  /* SPECS TABLE */
+  .specs-table { width:100%; border-collapse:collapse; font-size:12.5px; margin:14px 0; }
+  .specs-table th { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; background:var(--steeldk); color:#b0bcc8; padding:7px 10px; text-align:left; border:1px solid rgba(255,255,255,.07); }
+  .specs-table td { padding:7px 10px; border:1px solid var(--rule); vertical-align:top; }
+  .specs-table tr:nth-child(even) td { background:var(--paper2); }
+  .specs-table tr:nth-child(odd)  td { background:#fff; }
+  .mono { font-family:'IBM Plex Mono',monospace; font-size:11px; }
+
+  /* CHECKLIST */
+  .checklist { list-style:none; margin:10px 0; }
+  .checklist li { display:flex; gap:10px; align-items:flex-start; padding:7px 0; border-bottom:1px solid var(--rule); font-size:13px; }
+  .checklist li:last-child { border-bottom:none; }
+  .cl-num  { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; color:#fff; background:var(--steeldk); min-width:22px; height:22px; border-radius:2px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .cl-text { flex:1; }
+  .cl-label { font-weight:500; color:var(--ink); }
+  .cl-note  { color:var(--steelmd); font-size:12px; display:block; margin-top:2px; font-family:'Oswald',sans-serif; font-weight:300; }
+
+  /* STEP LIST (amber) */
+  .check-steps { margin:10px 0; }
+  .check-step  { display:flex; gap:10px; align-items:flex-start; margin-bottom:8px; font-size:13px; }
+  .step-num  { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; color:#fff; background:var(--amber); min-width:22px; height:22px; border-radius:2px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .step-text { flex:1; }
+  .step-text b { font-weight:600; }
+
+  /* NOT-TO-DO LIST */
+  .notodo-list { list-style:none; margin:10px 0; }
+  .notodo-list li { display:flex; gap:10px; align-items:flex-start; padding:8px 0; border-bottom:1px solid var(--rule); font-size:13px; }
+  .notodo-list li:last-child { border-bottom:none; }
+  .notodo-x     { font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; color:#fff; background:var(--red-warn); min-width:22px; height:22px; border-radius:2px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .notodo-text  { flex:1; }
+  .notodo-label { font-weight:500; color:var(--ink); }
+  .notodo-note  { color:var(--steelmd); font-size:12px; display:block; margin-top:2px; }
+
+  /* SIGNAL CHAIN */
+  .signal-chain { display:flex; align-items:center; flex-wrap:wrap; gap:4px; margin:14px 0; }
+  .sc-stop  { font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; color:#fff; background:var(--red-warn); padding:7px 12px; border-radius:2px; white-space:nowrap; }
+  .sc-key   { font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; color:#fff; background:var(--steeldk); padding:7px 12px; border-radius:2px; border:1px solid var(--amber2); }
+  .sc-ok    { font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; color:#fff; background:var(--green-ok); padding:7px 12px; border-radius:2px; white-space:nowrap; }
+  .sc-arrow { font-size:14px; color:var(--steelmd); }
+
+  /* PLACEHOLDER FIELD — must be completed before departure */
+  .ph { font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; color:var(--red-warn); background:#fde8e8; border:1px dashed var(--red-warn); border-radius:2px; padding:1px 6px; letter-spacing:.02em; white-space:nowrap; }
+
+  /* ALERT BOXES */
+  .warn-box { background:#fde8e8; border-left:3px solid var(--red-warn); padding:9px 12px; font-size:12.5px; color:#7a1010; margin:10px 0; }
+  .note-box { background:#fef9e7; border-left:3px solid var(--amber); padding:9px 12px; font-size:12.5px; color:#5a3800; margin:10px 0; }
+  .ok-box   { background:#e8f5e9; border-left:3px solid var(--green-ok); padding:9px 12px; font-size:12.5px; color:#0d4a28; margin:10px 0; }
+  .info-box { background:#e8eef8; border-left:3px solid #3b6abf; padding:9px 12px; font-size:12.5px; color:#1a2f5a; margin:10px 0; }
+
+  /* CROSS-REF BAR */
+  .xref-bar { background:var(--steeldk); border:1px solid rgba(255,255,255,.08); padding:9px 14px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:12px; font-size:12px; }
+  .xref-label { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.08em; color:var(--steelmd); text-transform:uppercase; white-space:nowrap; }
+  .xref-pill  { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; color:var(--amber2); background:rgba(224,120,0,.12); border:1px solid rgba(224,120,0,.3); padding:2px 8px; border-radius:2px; white-space:nowrap; }
+
+  .footer { margin-top:36px; padding-top:14px; border-top:1px solid var(--rule); font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--steelmd); line-height:1.6; }
+
+  /* PRINT */
+  @media print {
+    @page { margin: 7mm; size: A4; }
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    body { font-size: 7.5pt; background: #fff; line-height: 1.35; }
+    .sticky-wrap { position: static; }
+    .sticky-wrap::before { content: none; }
+    .toc-bar { display: none; }
+    .masthead { padding: 4mm 8mm; break-after: avoid; background: #1C1410 !important; color: #fff !important; }
+    .mh-eyebrow { font-size: 5pt; color: #6a7080 !important; }
+    .mh-title { font-size: 16pt; color: #e07800 !important; }
+    .mh-sub, .mh-vehicle { font-size: 5pt; }
+    .main { padding: 4mm 0 10mm; }
+    .part-banner { font-size: 13pt; background: #1C1410 !important; color: #fff !important; border-left: 4pt solid #e07800 !important; page-break-after: avoid; break-after: avoid; }
+    .part-banner span { color: #e07800 !important; }
+    .section-head { font-size: 14pt; margin-top: 8mm; page-break-after: avoid; break-after: avoid; border-bottom: 2pt solid #e07800 !important; }
+    .sub-head { font-size: 11pt; page-break-after: avoid; break-after: avoid; background: #2a2f3a !important; color: #e07800 !important; }
+    .principle-card { break-inside: avoid; }
+    .warn-box  { break-inside: avoid; background: #fde8e8 !important; border-left: 3pt solid #B91C1C !important; color: #7a1010 !important; }
+    .note-box  { break-inside: avoid; background: #fef9e7 !important; border-left: 3pt solid #b86800 !important; color: #5a3800 !important; }
+    .ok-box    { break-inside: avoid; background: #e8f5e9 !important; border-left: 3pt solid #059669 !important; color: #0d4a28 !important; }
+    .info-box  { break-inside: avoid; background: #e8eef8 !important; border-left: 3pt solid #3b6abf !important; color: #1a2f5a !important; }
+    .ph        { background: #fde8e8 !important; color: #B91C1C !important; border: 1px dashed #B91C1C !important; }
+    .xref-bar  { background: #2a2f3a !important; border: 1px solid rgba(255,255,255,.08) !important; }
+    .xref-pill { background: rgba(224,120,0,.12) !important; color: #e07800 !important; border: 1px solid rgba(224,120,0,.3) !important; }
+    .specs-table thead { display: table-header-group; }
+    .specs-table th { background: #2a2f3a !important; color: #b0bcc8 !important; }
+    .specs-table tr { break-inside: avoid; }
+    .step-num   { background: #b86800 !important; color: #fff !important; }
+    .cl-num     { background: #2a2f3a !important; color: #fff !important; }
+    .notodo-x   { background: #B91C1C !important; color: #fff !important; }
+    .sc-stop    { background: #B91C1C !important; color: #fff !important; }
+    .sc-ok      { background: #059669 !important; color: #fff !important; }
+    .sc-key     { background: #2a2f3a !important; color: #fff !important; border: 1pt solid #e07800 !important; }
+    .checklist li   { break-inside: avoid; }
+    .notodo-list li { break-inside: avoid; }
+    .check-step     { break-inside: avoid; }
+    a { color: var(--ink); text-decoration: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="sticky-wrap">
+  <div class="masthead">
+    <a href="index.html" class="lib-home-btn">⌂ Index</a>
+    <div class="mh-eyebrow">HZJ76R-RKMRS · Overland Reference Library · R38</div>
+    <div class="mh-title">Expedition Operations Plan</div>
+    <div class="mh-sub">Comms &amp; Escalation SOP · Abort / Suspend Criteria · Repatriation · Licence-Break · Crew Governance</div>
+    <div class="mh-vehicle">2009 LC76 SW · Expedition Readiness Programme EX-2 · Southern &amp; East Africa · Registered to M-A West · How the expedition runs — and how it ends · HZJ76R-RKMRS</div>
+  </div>
+  <nav class="toc-bar">
+    <button class="toc-btn" data-target="s-comms">Comms SOP</button>
+    <button class="toc-btn" data-target="s-abort">Abort / Suspend</button>
+    <button class="toc-btn" data-target="s-repat">Repatriation</button>
+    <button class="toc-btn" data-target="s-licence">Licence Break</button>
+    <button class="toc-btn" data-target="s-crew">Crew Governance</button>
+  </nav>
+</div>
+
+<div class="main">
+
+  <div class="info-box">
+    <b>What this plan is.</b> This is the operating spine of the 2028–2030 expedition — <i>how the trip runs day to day, and how it ends if it has to.</i> It owns four things: the <b>communications and escalation SOP</b> (how home knows we are safe, and what happens if we go quiet), the <b>abort / suspend criteria</b> (when to pause and when to end), <b>vehicle repatriation</b> (getting the LC76 home if we stop early), and <b>crew governance</b> (how Neil and Mary-Ann make decisions, rest, and disagree well). It does not restate what other guides own: comms <i>hardware</i> lives in R16, medevac and insurance <i>mechanics</i> in R29, security <i>conduct</i> in R35, crew <i>skills and training</i> in R37, and paperwork &amp; money in R39. This plan points to those and sets the procedure that ties them together.
+  </div>
+
+  <div class="note-box">
+    <b>Placeholder convention.</b> Fields shown like <span class="ph">THIS</span> are personal details still to be filled in before departure — home contact names, numbers, and the check-in clock. They are deliberately flagged in red so nothing ships blank. Complete them, and record the medevac/insurer contact of record in <b>R29</b> rather than duplicating it here.
+  </div>
+
+  <!-- ============ PART A ============ -->
+  <div class="part-banner">PART A · <span>RUNNING THE EXPEDITION</span></div>
+
+  <!-- ============ COMMS SOP ============ -->
+  <div id="s-comms" class="sa"></div>
+  <h2 class="section-head">1 · Communications &amp; Escalation SOP</h2>
+  <p class="section-intro">A written, agreed routine so that home always knows where we are, and so a genuine silence triggers help without us having to ask for it.</p>
+
+  <p class="body">The point of a check-in routine is not to chat — it is to create a <b>known pattern</b>. When the pattern is kept, home does nothing. When the pattern breaks, home acts, on a schedule we agreed in advance, without waiting for a request that a stranded or injured crew may be unable to make. Two people alone in remote country cannot be their own safety net; the anchor at home is the net.</p>
+
+  <div class="sub-head">The Anchor</div>
+  <p class="body">One nominated person at home is the <b>anchor</b> — the single point that holds our plan, our check-in log, and the authority to escalate. A named backup covers the anchor's own travel or illness.</p>
+  <ul class="checklist">
+    <li><span class="cl-num">1</span><span class="cl-text"><span class="cl-label">Primary anchor</span><span class="cl-note">Name: <span class="ph">ANCHOR — NAME</span> · Phone: <span class="ph">ANCHOR PHONE</span> · Email: <span class="ph">ANCHOR EMAIL</span>. Holds the route plan, the check-in log, and this SOP. Reachable at short notice.</span></span></li>
+    <li><span class="cl-num">2</span><span class="cl-text"><span class="cl-label">Backup anchor</span><span class="cl-note">Name: <span class="ph">BACKUP — NAME</span> · Phone: <span class="ph">BACKUP PHONE</span>. Steps in if the primary is unreachable; holds the same documents.</span></span></li>
+    <li><span class="cl-num">3</span><span class="cl-text"><span class="cl-label">What the anchor holds</span><span class="cl-note">A copy of this plan, the current leg's route and intended waypoints, passport / vehicle / insurance copies (per R35 and R39), the medevac &amp; insurer details of record (R29), and the running check-in log.</span></span></li>
+  </ul>
+
+  <div class="sub-head">The Check-In Routine</div>
+  <p class="body">Baseline cadence is a scheduled check-in <b>every three days</b>, sent by the satellite messenger (device and setup in R16). Where phone signal exists it may substitute; the sat device is the primary because it does not depend on coverage. The scheduled clock is <span class="ph">CHECK-IN TIME (LOCAL)</span> — a fixed time makes a missed check-in obvious rather than ambiguous.</p>
+  <p class="body">Every check-in carries four things, kept short: <b>position</b> (the device sends coordinates automatically), <b>status</b> (a preset "all well" or a written note), <b>next intended waypoint</b>, and the <b>next check-in time</b>. If the plan changes — a longer remote leg, a deliberate off-grid stretch — tell the anchor <i>before</i> going quiet, and agree a revised next-contact time. A planned silence is not an emergency; an unplanned one is.</p>
+
+  <div class="ok-box"><b>Two signals, unambiguous.</b> Agree exactly two routine messages so there is never doubt: a preset <b>OK</b> ("all well, on plan") and a preset <b>HELP / SOS</b> (device SOS to the emergency service and the insurer per R29). Nothing in between should be improvised under stress. Anything that is not a clear OK is treated by the anchor as a reason to pay attention.</div>
+
+  <div class="sub-head">Escalation — When We Go Quiet</div>
+  <p class="body">If a scheduled check-in is missed, the clock starts. The anchor works a fixed, pre-agreed ladder — no judgement calls required in the moment, because they were made here, calmly, in advance.</p>
+
+  <div class="signal-chain">
+    <span class="sc-ok">CHECK-IN ON PLAN</span>
+    <span class="sc-arrow">→</span>
+    <span class="sc-key">MISSED +48h · ANCHOR WORKS ALL CHANNELS</span>
+    <span class="sc-arrow">→</span>
+    <span class="sc-stop">SILENT +72h · ANCHOR ACTIVATES MEDEVAC / INSURER</span>
+  </div>
+
+  <div class="check-steps">
+    <div class="check-step"><span class="step-num">0</span><span class="step-text"><b>Scheduled check-in missed.</b> The anchor notes the missed slot and waits, without alarm, for the agreed grace window — a single missed message is often just weather, terrain, or a flat device.</span></div>
+    <div class="check-step"><span class="step-num">1</span><span class="step-text"><b>+48 hours of silence → the anchor acts.</b> Works every channel: sat messenger, both mobile numbers, email, any lodge / camp / contact on the intended route, and other overlanders if known. Records each attempt with a timestamp in the check-in log.</span></div>
+    <div class="check-step"><span class="step-num">2</span><span class="step-text"><b>+72 hours of silence → the anchor escalates formally.</b> Contacts the medevac provider and insurer (details of record in <b>R29</b>) with our <b>last known position</b>, intended route, vehicle description (SA-plated LC76 SW, registered to Mary-Ann West), and the crew and medical picture. From here the response is driven by R29's procedures.</span></div>
+    <div class="check-step"><span class="step-num">3</span><span class="step-text"><b>Contact restored.</b> The crew confirms status and a revised check-in time; the anchor stands the escalation down and logs it. Any real incident feeds the post-trip review (R23).</span></div>
+  </div>
+
+  <div class="note-box"><b>Tune the windows to the leg.</b> 48h / 72h suits normal remote travel. For a known deep-remote stretch with no realistic re-contact for days, agree <i>longer</i> windows with the anchor beforehand so a planned silence never triggers a costly false alarm. For town or coastal legs with reliable signal, they can be tightened. The routine is a default, not a straitjacket — but every change is agreed with the anchor in advance and written in the log.</div>
+
+  <div class="xref-bar">
+    <span class="xref-label">Cross-ref</span>
+    <span class="xref-pill">R16 · Comms hardware &amp; nav</span>
+    <span class="xref-pill">R29 · Insurance &amp; medevac</span>
+    <span class="xref-pill">R37 · Comms training &amp; drills</span>
+    <span class="xref-pill">R10 · Emergency procedures</span>
+    <span class="xref-pill">R23 · Post-trip review</span>
+  </div>
+
+  <!-- ============ PART B ============ -->
+  <div class="part-banner">PART B · <span>ENDING THE EXPEDITION WELL</span></div>
+
+  <!-- ============ ABORT / SUSPEND ============ -->
+  <div id="s-abort" class="sa"></div>
+  <h2 class="section-head">2 · Abort &amp; Suspend Criteria</h2>
+  <p class="section-intro">Deciding <b>before</b> we leave what would make us pause, and what would make us stop — so the decision under pressure is a recognition, not an argument.</p>
+
+  <p class="body">Two distinct actions, deliberately kept separate:</p>
+  <div class="principle-grid">
+    <div class="principle-card">
+      <div class="p-num">Reversible</div>
+      <div class="p-title">Suspend</div>
+      <div class="p-body">A <b>pause</b>. Hold position, retreat to a safe point, or wait out a problem — without ending the expedition. Most situations resolve at this level. A suspend can always be lifted once the trigger clears.</div>
+    </div>
+    <div class="principle-card">
+      <div class="p-num">Terminal for the leg</div>
+      <div class="p-title">Abort</div>
+      <div class="p-body"><b>End</b> the current leg or the expedition — turn for home, or begin vehicle repatriation (§3). A larger decision, reached jointly, and never taken in the heat of a single bad hour.</div>
+    </div>
+  </div>
+
+  <div class="sub-head">Who Decides</div>
+  <p class="body">Authority is deliberately asymmetric, and safety always wins:</p>
+  <ul class="checklist">
+    <li><span class="cl-num">1</span><span class="cl-text"><span class="cl-label">Either crew member may call a SUSPEND — alone, immediately, without debate.</span><span class="cl-note">If one of us judges a situation unsafe, we stop. The other supports the call without argument in the moment; we talk it through once we are safe, not before. There is no override of a safety call. The more cautious judgement carries.</span></span></li>
+    <li><span class="cl-num">2</span><span class="cl-text"><span class="cl-label">ABORT is a joint decision.</span><span class="cl-note">Ending the expedition is made by both of us together, calmly, ideally slept on where circumstances allow. Neither ends it unilaterally.</span></span></li>
+    <li><span class="cl-num">3</span><span class="cl-text"><span class="cl-label">An unresolved suspend escalates to abort.</span><span class="cl-note">If a suspend cannot be safely resolved within a reasonable window — the vehicle cannot be recovered, the medical situation does not stabilise, the region does not settle — it becomes an abort decision. Drifting in a stalled suspend is itself a hazard.</span></span></li>
+  </ul>
+
+  <div class="sub-head">Thresholds By Domain</div>
+  <p class="body">Guidance, not a rigid formula — but agreeing it now removes the "is this bad enough?" argument later. Read <span class="mono">SUSPEND</span> as "pause and reassess" and <span class="mono">ABORT</span> as "this ends the leg unless it clears".</p>
+
+  <table class="specs-table">
+    <thead>
+      <tr><th style="width:14%">Domain</th><th style="width:38%">Suspend — pause &amp; reassess</th><th style="width:38%">Abort — end unless it clears</th><th style="width:10%">Ref</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b>Medical</b></td>
+        <td>Any injury or illness beyond the field kit and our own first-aid; a condition that needs rest, observation, or a clinic visit before continuing.</td>
+        <td>A condition needing evacuation or hospital care beyond field capability, or where a medevac is activated (R29). Both crew are currently first-aid <b>uncertified</b> — hold thresholds conservative until that gap in R37 is closed.</td>
+        <td class="mono">R29 R17 R37</td>
+      </tr>
+      <tr>
+        <td><b>Mechanical</b></td>
+        <td>Any fault making the LC76 unsafe or immobile pending a field or roadside repair; a warning sign that needs diagnosis before pressing on (R18, R27).</td>
+        <td>Damage beyond field or reasonable local repair, or a failure whose parts cannot be sourced or couriered in a workable time (R3, R18). Judged on safety and time, not just cost.</td>
+        <td class="mono">R18 R27 R3</td>
+      </tr>
+      <tr>
+        <td><b>Security</b></td>
+        <td>A credible local threat, a route turned unsafe, an incident at a checkpoint or a robbery — reroute, hold, or retreat to a known-safe point (R35).</td>
+        <td>Sustained regional instability, conflict, or a security picture that makes safe continuation impossible on any available route (R35 and the country profiles).</td>
+        <td class="mono">R35 Prof</td>
+      </tr>
+      <tr>
+        <td><b>Financial</b></td>
+        <td>A temporary loss of access to funds — cards down, an ATM desert, a transfer delayed — pending resolution (R39). Draw on the cash reserve and wait it out.</td>
+        <td>Funds genuinely exhausted or unrecoverable, such that the expedition cannot be safely provisioned, fuelled, or insured to continue (R39).</td>
+        <td class="mono">R39</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="warn-box"><b>The bias is toward stopping.</b> "Eco not ego." No destination, schedule, or sunk cost is worth pushing a genuine threshold. A suspended or aborted trip with both crew and the vehicle safe is a good outcome — it can be resumed. The failure mode to guard against is talking ourselves past a line we already agreed was a line.</div>
+
+  <div class="sub-head">Minute Every Suspend &amp; Abort</div>
+  <p class="body">Keep it simple: a dated line in the expedition journal for every suspend and abort — what triggered it, what we decided, and how it resolved. It removes hindsight argument, and it feeds directly into the post-trip review protocol (R23). This is the same discipline that runs through the rest of the library: decisions on the record.</p>
+
+  <div class="xref-bar">
+    <span class="xref-label">Cross-ref</span>
+    <span class="xref-pill">R29 · Medevac / insurance</span>
+    <span class="xref-pill">R18 · 1HZ troubleshooting</span>
+    <span class="xref-pill">R27 · Bush mechanics</span>
+    <span class="xref-pill">R35 · Security</span>
+    <span class="xref-pill">R39 · Money strategy</span>
+    <span class="xref-pill">R23 · Post-trip review</span>
+  </div>
+
+  <!-- ============ REPATRIATION ============ -->
+  <div id="s-repat" class="sa"></div>
+  <h2 class="section-head">3 · Vehicle Repatriation &amp; Disposal</h2>
+  <p class="section-intro">If we stop early, the LC76 still has to be dealt with — lawfully, and with the Carnet honoured. This section frames the options; the paperwork detail lives in R39.</p>
+
+  <div class="warn-box"><b>Carnet first.</b> A vehicle travelling under a Carnet de Passages must leave the country it entered under, or the temporary-import duties it guarantees fall due. That single fact drives every option below — <b>the vehicle cannot simply be abandoned or casually sold abroad.</b> The Carnet issuer, indemnity, and the duty mechanics are owned by <b>R39</b>; consult it and the issuer before acting. The vehicle is registered to <b>Mary-Ann West</b>, which shapes who can authorise disposal or shipping.</div>
+
+  <p class="body">Four broad routes home, chosen on the situation — crew health, vehicle state, where we are, and cost:</p>
+
+  <table class="specs-table">
+    <thead>
+      <tr><th style="width:22%">Option</th><th style="width:52%">When it fits / what it involves</th><th style="width:26%">Watch-outs</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b>A · Drive it out</b></td>
+        <td>The vehicle is serviceable and the crew able. Drive the shortest safe corridor back toward RSA, or to a port — using the border process in R15. The simplest and usually cheapest option.</td>
+        <td>Depends on a roadworthy vehicle and fit crew. Route and border feasibility per R15 and the profiles.</td>
+      </tr>
+      <tr>
+        <td><b>B · Ship it</b></td>
+        <td>Crew must leave quickly (medical, family) but the vehicle is intact. Drive or transport it to a suitable port, arrange sea freight through a clearing / shipping agent, and fly the crew out. Common East-African exit ports are on the Kenyan and Tanzanian coast.</td>
+        <td>Cost and lead time; agent and paperwork via R39. Carnet must be discharged correctly at export.</td>
+      </tr>
+      <tr>
+        <td><b>C · Secure storage, resume later</b></td>
+        <td>The break is temporary (this is also the licence-break case, §4). Place the vehicle in bonded or secure storage, fly out, and return to continue. Preserves the trip.</td>
+        <td>Storage security, insurance while stored (R29), and Carnet validity window — the Carnet has an expiry.</td>
+      </tr>
+      <tr>
+        <td><b>D · Lawful disposal abroad</b></td>
+        <td>Last resort — the vehicle is a write-off or genuinely cannot be moved. Any sale or disposal must settle the Carnet duty / import position first, or run through the insurer's total-loss process (R29). Never informal.</td>
+        <td>Carnet duties can be substantial. Owner (M-A West) authority and R39 / issuer guidance are mandatory.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note-box"><b>Decide the trigger, not the detail, now.</b> We cannot know in advance which port or agent we would use — that is a decision for the moment, made with the Carnet issuer and R39 in hand. What we <i>can</i> settle now is the principle: crew safety comes first, the Carnet is honoured, and the owner authorises any disposal. The rest is executed against R39 when the time comes.</div>
+
+  <div class="xref-bar">
+    <span class="xref-label">Cross-ref</span>
+    <span class="xref-pill">R39 · Carnet, paperwork &amp; authority</span>
+    <span class="xref-pill">R29 · Insurance / total loss</span>
+    <span class="xref-pill">R15 · Border process</span>
+  </div>
+
+  <!-- ============ LICENCE BREAK ============ -->
+  <div id="s-licence" class="sa"></div>
+  <h2 class="section-head">4 · Licence-Break Logistics <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--steelmd);letter-spacing:.08em;">— SKELETON</span></h2>
+  <p class="section-intro">The expedition may split, returning to RSA to renew the vehicle licence. Where and when that break falls is decided in the EX-9 route workshop; this section is a placeholder that the workshop fills in.</p>
+
+  <div class="note-box"><b>This section is intentionally a skeleton.</b> The route and the timing of the licence-renewal break are not yet decided — they are the output of the <b>EX-9 route &amp; licence-break workshop</b>, which runs once the country profiles (007–010) exist to inform it. The minuted decisions from EX-9 are written back into this section as a content update. Until then, what follows are the questions the workshop will settle, so the shape of the decision is clear.</div>
+
+  <p class="body">The decision variables the workshop will resolve:</p>
+  <ul class="checklist">
+    <li><span class="cl-num">1</span><span class="cl-text"><span class="cl-label">When the break falls</span><span class="cl-note">Where in the northbound / southbound route the RSA vehicle-licence renewal most naturally sits, against seasonal windows (East-African rains run roughly Nov–Apr — to be confirmed in the workshop).</span></span></li>
+    <li><span class="cl-num">2</span><span class="cl-text"><span class="cl-label">Vehicle overwinters abroad, or returns</span><span class="cl-note">Either the LC76 is placed in secure storage abroad while the crew flies home to renew (option C, §3), or it is driven back to RSA for the renewal and then out again — a trade of driving cost against storage cost and Carnet timing.</span></span></li>
+    <li><span class="cl-num">3</span><span class="cl-text"><span class="cl-label">Storage, insurance &amp; Carnet implications</span><span class="cl-note">Where the vehicle would be stored, insured status while stored (R29), and how the break sits inside the Carnet's validity window (R39). A Carnet expiry mid-break is a hard constraint.</span></span></li>
+    <li><span class="cl-num">4</span><span class="cl-text"><span class="cl-label">Renewal mechanics</span><span class="cl-note">The calendar mechanics of the SA vehicle-licence renewal itself, and whether it can be handled remotely or requires presence — feeds R39.</span></span></li>
+  </ul>
+
+  <div class="xref-bar">
+    <span class="xref-label">Cross-ref</span>
+    <span class="xref-pill">EX-9 · Route &amp; licence-break workshop</span>
+    <span class="xref-pill">R39 · Carnet &amp; paperwork</span>
+    <span class="xref-pill">R29 · Insurance while stored</span>
+    <span class="xref-pill">§3 · Repatriation options</span>
+  </div>
+
+  <!-- ============ CREW GOVERNANCE ============ -->
+  <div id="s-crew" class="sa"></div>
+  <h2 class="section-head">5 · Crew Governance</h2>
+  <p class="section-intro">How two people run a long expedition together well — decision rights, rest, and a simple rule for disagreeing about avoidable risk. Kept in the spirit of the Manifesto: partnership, safety, simplicity.</p>
+
+  <div class="sub-head">Decision Rights</div>
+  <ul class="checklist">
+    <li><span class="cl-num">1</span><span class="cl-text"><span class="cl-label">Day-to-day calls</span><span class="cl-note">Pace, camp choice, and driving decisions for a leg sit with whoever is driving or leading that leg, in consultation with the other. Kept light — most of the trip runs on ordinary agreement.</span></span></li>
+    <li><span class="cl-num">2</span><span class="cl-text"><span class="cl-label">Strategic calls</span><span class="cl-note">Route changes, rest-day timing, and any abort (§2) are made jointly. These are the decisions worth slowing down for.</span></span></li>
+    <li><span class="cl-num">3</span><span class="cl-text"><span class="cl-label">Safety calls</span><span class="cl-note">Either of us can call an immediate halt or suspend at any time — see §2. Safety authority is not shared by committee; it belongs to whoever sees the danger.</span></span></li>
+  </ul>
+
+  <div class="sub-head">Disagreement On Discretionary Risk</div>
+  <p class="body">The rule for any <b>avoidable</b> risk — a hard trail we could bypass, a dubious shortcut, a late push into the dark, a river crossing we are unsure of:</p>
+  <div class="ok-box"><b>Either of us can veto. To proceed, we both have to agree.</b> If one says no to an avoidable risk, we take the cautious option — no argument needed in the moment. The more careful call wins by default. We can revisit the decision later, calmly, at a rest stop; but we do not talk each other <i>into</i> a risk one of us has already refused.</div>
+  <p class="body">This applies to <i>discretionary</i> risk — things we choose. It is different from a committed situation already unfolding, where the priority is to get out safely together and second-guessing mid-crossing is its own hazard. The veto is a tool for the decision point, before commitment.</p>
+
+  <div class="sub-head">Rest, Pace &amp; Fatigue</div>
+  <ul class="checklist">
+    <li><span class="cl-num">1</span><span class="cl-text"><span class="cl-label">A rest / admin day roughly every 5–7 travelling days</span><span class="cl-note">Flexible, not rigid — taken when fatigue, the vehicle, laundry, resupply, or a good spot calls for it. Long expeditions are lost to burnout as often as to breakdown. Town days handle resupply, fuel, water, cash (R39), and vehicle checks.</span></span></li>
+    <li><span class="cl-num">2</span><span class="cl-text"><span class="cl-label">No night driving</span><span class="cl-note">Set up before dark. Night driving multiplies every risk — animals, people, road, fatigue — and is a standing owner value, not a case-by-case call (echoes R35, R28).</span></span></li>
+    <li><span class="cl-num">3</span><span class="cl-text"><span class="cl-label">Share the load</span><span class="cl-note">Swap driving; don't push exhausted to make a destination. Tiredness and "get-there-itis" are the quiet cause behind many avoidable decisions — name it and stop.</span></span></li>
+  </ul>
+
+  <div class="sub-head">Redundancy — No Single Point Of Failure</div>
+  <p class="body">The most important governance rule on a two-person trip is that neither of us is indispensable. Both crew must be able to operate the vehicle, the Victron system end-to-end, the comms, and the recovery gear — so a decision is never forced by one person being the only one who <i>can</i>. Closing that gap is the whole purpose of <b>R37</b>; this plan simply depends on it. Where a skill still sits with one crew, that is a governance risk to be scheduled out, not lived with.</p>
+
+  <div class="note-box"><b>Disagreements that don't resolve.</b> If a discretionary-risk disagreement can't be settled, the cautious option stands and we move on — then revisit at the next rest day if it still matters. The goal is not to win; it is to keep both crew and the vehicle safe and the partnership intact for a two-year trip. Minute the significant ones alongside the suspend/abort log (§2) for the post-trip review (R23).</div>
+
+  <div class="xref-bar">
+    <span class="xref-label">Cross-ref</span>
+    <span class="xref-pill">R37 · Crew readiness &amp; redundancy</span>
+    <span class="xref-pill">R28 · Driving conditions</span>
+    <span class="xref-pill">R35 · Security &amp; night-driving</span>
+    <span class="xref-pill">R23 · Post-trip review</span>
+    <span class="xref-pill">Manifesto · Ethos</span>
+  </div>
+
+  <div class="footer">
+    LC76 OVERLAND REFERENCE LIBRARY · R38 · EXPEDITION OPERATIONS PLAN<br>
+    Part A running the expedition (comms &amp; escalation SOP) + Part B ending it well (abort / suspend criteria, vehicle repatriation, licence-break skeleton, crew governance).<br>
+    Expedition Readiness Programme EX-2. Comms hardware owned by R16; medevac &amp; insurance by R29; security conduct by R35; crew skills &amp; training by R37; paperwork &amp; money by R39. §4 licence-break is a skeleton pending the EX-9 workshop. Red dashed fields are placeholders to complete before departure. Built 5 July 2026.
+  </div>
+
+</div>
+
+<script>
+  // TOC scroll
+  document.querySelectorAll('.toc-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.getAttribute('data-target');
+      const el = document.getElementById(id);
+      if (!el) return;
+      const stickyH = document.querySelector('.sticky-wrap').offsetHeight;
+      const top = el.getBoundingClientRect().top + window.scrollY - stickyH - 8;
+      window.scrollTo({ top, behavior: 'smooth' });
+    });
+  });
+
+  // IntersectionObserver for active TOC state
+  const sections = ['s-comms','s-abort','s-repat','s-licence','s-crew'];
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        document.querySelectorAll('.toc-btn').forEach(b => b.classList.remove('active'));
+        const id = entry.target.id;
+        const btn = document.querySelector(`.toc-btn[data-target="${id}"]`);
+        if (btn) btn.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-25% 0px -65% 0px', threshold: 0 });
+
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) observer.observe(el);
+  });
+</script>
+</body>
+</html>
