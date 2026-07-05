@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Crew Readiness &amp; Training Register — LC76</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=Oswald:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0d0e12;--paper:#dad2c0;--paper2:#edeae0;--amber:#b86800;--amber2:#e07800;--rule:#d4cfc4;--steeldk:#2a2f3a;--steelmd:#6a7080;--red-warn:#B91C1C;--green-ok:#059669;--blue:#1d4ed8}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{overflow-x:hidden;overflow-x:clip;overscroll-behavior-x:none}
+body{font-family:Oswald,sans-serif;background:var(--paper);color:var(--steeldk);line-height:1.5;-webkit-font-smoothing:antialiased;min-height:100vh}
+header{background:var(--ink);color:#fff;padding:18px 24px 14px;position:sticky;top:0;z-index:100}
+header::before{content:"";position:absolute;left:0;right:0;bottom:100%;height:100vh;background:var(--ink)}
+.lib-home-btn{position:absolute;top:50%;right:16px;transform:translateY(-50%);display:inline-flex;align-items:center;gap:5px;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--amber2);background:rgba(232,120,0,.15);border:1px solid var(--amber2);border-radius:20px;padding:6px 12px;min-height:32px;white-space:nowrap;transition:background .2s}
+.lib-home-btn:hover{background:rgba(232,120,0,.30)}
+.mh-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--steelmd);margin-bottom:6px}
+.mh-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.6rem,4vw,2.4rem);letter-spacing:.06em;color:var(--amber2);line-height:1}
+.mh-sub{font-family:'IBM Plex Mono',monospace;font-size:.54rem;letter-spacing:.12em;color:rgba(255,200,100,.65);margin-top:4px}
+.filter-bar{background:var(--paper2);border-bottom:2px solid var(--rule);padding:.9rem 1.5rem;display:flex;flex-wrap:wrap;gap:.5rem;align-items:center}
+.filter-bar-label{font-family:'IBM Plex Mono',monospace;font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:var(--steelmd);margin-right:.25rem;white-space:nowrap}
+.filt-btn{font-family:'IBM Plex Mono',monospace;font-size:.72rem;font-weight:600;padding:.45rem .9rem;border:2px solid var(--rule);background:#fff;color:var(--steeldk);cursor:pointer;border-radius:4px;transition:all .15s;min-height:44px;-webkit-tap-highlight-color:transparent}
+.filt-btn:hover{border-color:var(--amber2);color:var(--amber)}
+.filt-btn.active{background:var(--ink);color:var(--amber2);border-color:var(--ink)}
+.filt-btn .n{opacity:.7;margin-left:.35rem}
+.progress-bar-wrap{background:var(--ink);padding:.65rem 1.5rem;display:flex;align-items:center;gap:1rem}
+.progress-track{flex:1;height:8px;background:#333;border-radius:4px;overflow:hidden}
+.progress-fill{height:100%;background:var(--green-ok);border-radius:4px;transition:width .3s}
+.progress-label{font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--amber2);white-space:nowrap;min-width:120px;text-align:right}
+.reset-btn{font-family:'IBM Plex Mono',monospace;font-size:.7rem;font-weight:600;padding:.35rem .8rem;border:1px solid #555;background:0 0;color:#888;cursor:pointer;border-radius:4px;transition:all .2s;min-height:44px}
+.reset-btn:hover{border-color:#fff;color:#fff}
+main{padding:1.25rem 1.5rem 90px;width:100%}
+.scope{background:#fff;border:1.5px solid var(--rule);border-left:4px solid var(--amber2);border-radius:6px;padding:1rem 1.15rem;margin-bottom:1.5rem}
+.scope h2{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:.05em;color:var(--steeldk);margin-bottom:.5rem}
+.scope p{font-size:.92rem;margin-bottom:.6rem;line-height:1.55}
+.scope p:last-child{margin-bottom:0}
+.scope .lead{color:var(--red-warn);font-weight:600}
+.legend{font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--steelmd);background:var(--paper2);border:1px solid var(--rule);border-radius:4px;padding:.55rem .75rem;margin-bottom:1.4rem;line-height:1.9}
+.legend b{color:var(--steeldk)}
+.section{margin-bottom:1.6rem}
+.section-header{font-family:'Bebas Neue',sans-serif;font-size:1.45rem;letter-spacing:.05em;color:var(--steeldk);border-bottom:2px solid var(--rule);padding-bottom:.3rem;margin-bottom:.4rem;display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.section-num{font-family:'IBM Plex Mono',monospace;font-size:.7rem;font-weight:600;color:var(--amber2);letter-spacing:.1em}
+.section-note{font-family:'IBM Plex Mono',monospace;font-size:.66rem;color:var(--steelmd);margin:.15rem 0 .8rem;line-height:1.6}
+.gear{font-family:'IBM Plex Mono',monospace;font-size:.66rem;color:var(--steeldk);background:#fff;border:1.5px solid var(--rule);border-radius:6px;padding:.6rem .8rem;margin-bottom:.85rem;line-height:1.7}
+.gear b{color:var(--amber);letter-spacing:.06em;text-transform:uppercase;font-size:.62rem}
+.checklist{display:flex;flex-direction:column;gap:.4rem}
+.check-item{display:flex;align-items:flex-start;gap:.75rem;background:#fff;border:1.5px solid var(--rule);border-radius:6px;padding:.65rem .85rem;cursor:pointer;transition:all .15s;user-select:none;-webkit-user-select:none;min-height:44px}
+.check-item:hover{border-color:var(--amber2);background:var(--paper2)}
+.check-item.checked{background:#f0faf6;border-color:var(--green-ok)}
+.check-item.critical{border-left:3px solid var(--red-warn)}
+.check-item.warn{border-left:3px solid var(--amber2)}
+.check-item.pend{border-left:3px solid var(--steelmd)}
+.check-box{width:22px;height:22px;min-width:22px;border:2px solid var(--rule);border-radius:4px;display:flex;align-items:center;justify-content:center;transition:all .15s;margin-top:1px;flex-shrink:0}
+.check-item.checked .check-box{background:var(--green-ok);border-color:var(--green-ok)}
+.check-box svg{display:none}
+.check-item.checked .check-box svg{display:block}
+.check-content{flex:1;min-width:0}
+.check-name{font-family:Oswald,sans-serif;font-size:.95rem;font-weight:600;color:var(--steeldk);line-height:1.3;word-wrap:break-word}
+.check-item.checked .check-name{color:var(--green-ok)}
+.check-detail{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--steelmd);margin-top:3px;line-height:1.5;word-wrap:break-word}
+.badge{font-family:'IBM Plex Mono',monospace;font-size:.6rem;font-weight:600;padding:.15rem .45rem;border-radius:3px;margin-left:.4rem;vertical-align:middle;white-space:nowrap;display:inline-block;letter-spacing:.04em}
+.b-demo{background:var(--green-ok);color:#fff}
+.b-out{background:var(--red-warn);color:#fff}
+.b-sched{background:var(--amber);color:#fff}
+.b-refresh{background:var(--amber2);color:#fff}
+.b-pend{background:var(--steelmd);color:#fff}
+.who{font-family:'IBM Plex Mono',monospace;font-size:.58rem;background:var(--paper2);color:var(--steelmd);border:1px solid var(--rule);padding:.1rem .4rem;border-radius:3px;margin-left:.4rem;vertical-align:middle;display:inline-block}
+.signoff{font-family:'IBM Plex Mono',monospace;font-size:.64rem;color:var(--steelmd);margin-top:5px;letter-spacing:.02em}
+.xref{font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--blue)}
+.cal-table{width:100%;border-collapse:collapse;font-family:'IBM Plex Mono',monospace;font-size:.66rem;background:#fff;border:1.5px solid var(--rule);border-radius:6px;overflow:hidden}
+.cal-scroll{overflow-x:auto;overscroll-behavior-x:contain;border-radius:6px}
+.cal-table th{background:var(--ink);color:var(--amber2);text-align:left;padding:.5rem .6rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:.6rem;white-space:nowrap}
+.cal-table td{padding:.5rem .6rem;border-top:1px solid var(--rule);vertical-align:top;color:var(--steeldk);line-height:1.5}
+.cal-table tr:nth-child(even) td{background:var(--paper2)}
+.pri{font-weight:600;padding:.1rem .4rem;border-radius:3px;font-size:.58rem;white-space:nowrap}
+.pri-high{background:var(--red-warn);color:#fff}
+.pri-med{background:var(--amber);color:#fff}
+.pri-low{background:var(--steelmd);color:#fff}
+.predep{background:#fff;border:2px solid var(--amber2);border-radius:6px;padding:.75rem .9rem;margin-top:.85rem;font-size:.9rem;line-height:1.6}
+.predep b{font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:.04em;color:var(--amber);display:block;margin-bottom:.3rem}
+.foot{font-family:'IBM Plex Mono',monospace;font-size:.62rem;color:var(--steelmd);border-top:1px solid var(--rule);margin-top:2rem;padding-top:1rem;line-height:1.8}
+.print-bar{position:fixed;bottom:0;left:0;right:0;background:var(--ink);padding:.75rem 1.5rem;padding-bottom:calc(.75rem + env(safe-area-inset-bottom));display:flex;gap:.75rem;justify-content:flex-end;z-index:50;border-top:2px solid var(--amber)}
+.print-bar button{font-family:'IBM Plex Mono',monospace;font-size:.8rem;font-weight:600;padding:.6rem 1.25rem;border:2px solid;cursor:pointer;border-radius:4px;min-height:44px;transition:all .2s;-webkit-tap-highlight-color:transparent}
+.btn-print{background:var(--amber2);color:#fff;border-color:var(--amber2)}
+.btn-print:hover{background:#c06800}
+.btn-clear-all{background:0 0;color:#888;border-color:#444}
+.btn-clear-all:hover{color:#fff;border-color:#fff}
+/* Custom confirm overlay — replaces confirm() which is blocked in PWA standalone */
+.confirm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:999;display:flex;align-items:center;justify-content:center}
+.confirm-box{background:var(--paper2);border:2px solid var(--rule);border-radius:8px;padding:1.5rem;max-width:340px;width:90%;font-family:Oswald,sans-serif}
+.confirm-msg{font-size:1.05rem;font-weight:600;color:var(--steeldk);margin-bottom:.75rem}
+.confirm-btns{display:flex;gap:.75rem;justify-content:flex-end;margin-top:1rem}
+.confirm-btns button{font-family:'IBM Plex Mono',monospace;font-size:.78rem;font-weight:600;padding:.5rem 1rem;border:2px solid;cursor:pointer;border-radius:4px;min-height:44px}
+.confirm-ok{background:var(--red-warn);color:#fff;border-color:var(--red-warn)}
+.confirm-cancel{background:0 0;color:var(--steeldk);border-color:var(--rule)}
+@media(max-width:600px){
+  header{padding:14px 16px 12px;padding-top:calc(14px + env(safe-area-inset-top))}
+  .mh-sub{display:none}
+  .filter-bar{padding:.75rem 1rem;gap:.4rem}
+  .filt-btn{font-size:.66rem;padding:.4rem .6rem;min-height:44px}
+  .filter-bar-label{width:100%;margin-bottom:.15rem}
+  .progress-label{min-width:96px;font-size:.68rem}
+  main{padding:1rem 1rem 100px}
+  .print-bar{padding:.6rem 1rem;padding-bottom:calc(.6rem + env(safe-area-inset-bottom));gap:.5rem}
+  .print-bar button{font-size:.72rem;padding:.5rem .85rem}
+  .check-item{padding:.6rem .75rem}
+  .check-name{font-size:.88rem}
+  .check-detail{font-size:.64rem}
+  .scope p{font-size:.86rem}
+}
+@media print{
+  @page{size:A4;margin:7mm}
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;color-adjust:exact!important}
+  :root{
+    --ink:#0d0e12;--paper:#dad2c0;--paper2:#edeae0;--amber:#b86800;--amber2:#e07800;
+    --rule:#d4cfc4;--steeldk:#2a2f3a;--steelmd:#6a7080;--red-warn:#B91C1C;--green-ok:#059669;--blue:#1d4ed8
+  }
+  html,body{overflow:visible!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  body{background:#fff;font-size:7.5pt;line-height:1.3}
+  header{position:static!important;padding:3mm 5mm;background:#0d0e12!important;color:#fff!important}
+  header::before{content:none!important}
+  .mh-eyebrow{font-size:5pt;color:#6a7080!important}
+  .mh-title{font-size:14pt;color:#e07800!important}
+  .mh-sub{font-size:5pt;color:rgba(255,200,100,.65)!important;display:block!important}
+  .filter-bar,.progress-bar-wrap,.print-bar,.reset-btn,.confirm-overlay,.lib-home-btn{display:none!important}
+  main{padding:2mm 0 0;width:100%}
+  .scope{padding:1.5mm 2.5mm;margin-bottom:2mm;background:#fff!important;border-color:#d4cfc4!important;border-left-color:#e07800!important}
+  .scope h2{font-size:9pt}
+  .scope p{font-size:6pt;margin-bottom:1mm}
+  .legend{font-size:5pt;padding:1mm 2mm;margin-bottom:2mm;line-height:1.4;background:#edeae0!important;border-color:#d4cfc4!important}
+  .section{margin-bottom:2.5mm;break-inside:auto}
+  .section-header{font-size:8.5pt;padding-bottom:.5mm;margin-bottom:.5mm}
+  .section-num{font-size:5pt;color:#e07800!important}
+  .section-note{font-size:5pt;margin:.5mm 0 1.5mm}
+  .gear{font-size:5pt;padding:1mm 2mm;line-height:1.4;background:#fff!important;border-color:#d4cfc4!important}
+  .checklist{gap:1mm;break-inside:auto}
+  .check-item{padding:1.2mm 2mm;border-radius:3px;break-inside:avoid;page-break-inside:avoid;min-height:auto;background:#fff!important;border-color:#d4cfc4!important;display:flex!important}
+  .check-item.checked{background:#f0faf6!important;border-color:#059669!important}
+  .check-item.critical{border-left:3px solid #B91C1C!important}
+  .check-item.warn{border-left:3px solid #e07800!important}
+  .check-item.pend{border-left:3px solid #6a7080!important}
+  .check-box{width:14px;height:14px;min-width:14px;border-width:1.5px;background:#fff!important;border-color:#d4cfc4!important}
+  .check-item.checked .check-box{background:#059669!important;border-color:#059669!important}
+  .check-box svg{width:8px;height:7px}
+  .check-name{font-size:7pt;line-height:1.25;color:#2a2f3a!important}
+  .check-item.checked .check-name{color:#059669!important}
+  .check-detail{font-size:5.5pt;line-height:1.3;margin-top:1px;color:#6a7080!important}
+  .badge{font-size:5pt;padding:.05rem .2rem}
+  .b-demo{background:#059669!important;color:#fff!important}
+  .b-out{background:#B91C1C!important;color:#fff!important}
+  .b-sched{background:#b86800!important;color:#fff!important}
+  .b-refresh{background:#e07800!important;color:#fff!important}
+  .b-pend{background:#6a7080!important;color:#fff!important}
+  .who{font-size:4.5pt;padding:.05rem .15rem;background:#edeae0!important;color:#6a7080!important}
+  .signoff{font-size:5.5pt;margin-top:1mm;color:#2a2f3a!important}
+  .xref{font-size:5pt;color:#1d4ed8!important}
+  .cal-scroll{overflow:visible!important}
+  .cal-table{font-size:5.5pt;break-inside:auto}
+  .cal-table thead{display:table-header-group}
+  .cal-table th{font-size:5pt;padding:1mm;background:#0d0e12!important;color:#e07800!important}
+  .cal-table td{padding:1mm;border-color:#d4cfc4!important}
+  .cal-table tr:nth-child(even) td{background:#edeae0!important}
+  .pri-high{background:#B91C1C!important;color:#fff!important}
+  .pri-med{background:#b86800!important;color:#fff!important}
+  .pri-low{background:#6a7080!important;color:#fff!important}
+  .predep{padding:1.5mm 2.5mm;font-size:6pt;background:#fff!important;border-color:#e07800!important}
+  .predep b{font-size:8pt;color:#b86800!important}
+  .foot{font-size:5pt;line-height:1.4;margin-top:2mm;padding-top:1mm}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="index.html" class="lib-home-btn" title="Library Index">⌂ Index</a>
+  <div class="mh-eyebrow">Overland Series · R37 · Expedition Readiness Programme EX-1</div>
+  <div class="mh-title">Crew Readiness &amp; Training Register</div>
+  <div class="mh-sub">HZJ76R-RKMRS · Crew: Neil + Mary-Ann West · Evidence-based skills &amp; training log · 2028–2030 expedition · Last updated: 4 July 2026</div>
+</header>
+
+<div class="filter-bar" id="filterBar">
+  <span class="filter-bar-label">Show:</span>
+  <button class="filt-btn active" data-filter="all"          onclick="applyFilter('all',this)">All<span class="n" id="n-all"></span></button>
+  <button class="filt-btn"        data-filter="outstanding"  onclick="applyFilter('outstanding',this)">Outstanding<span class="n" id="n-out"></span></button>
+  <button class="filt-btn"        data-filter="scheduled"    onclick="applyFilter('scheduled',this)">Scheduled<span class="n" id="n-sched"></span></button>
+  <button class="filt-btn"        data-filter="demonstrated" onclick="applyFilter('demonstrated',this)">Demonstrated<span class="n" id="n-demo"></span></button>
+</div>
+
+<div class="progress-bar-wrap">
+  <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div class="progress-label" id="progressLabel">0 / 0 signed off</div>
+  <button class="reset-btn" onclick="resetChecks()">Reset</button>
+</div>
+
+<main>
+
+  <div class="scope">
+    <h2>§1 · Register Scope &amp; Method</h2>
+    <p>This is the evidence-based record of demonstrated crew capability for the planned 2028–2030 Southern &amp; East Africa expedition. Every skill carries a <b>status</b>, the <b>evidence</b> that supports it, a sign-off line, and — where it lapses (first-aid, recovery currency) — a renewal trigger. Skills that need crew redundancy are assessed for <b>both</b> crew independently.</p>
+    <p class="lead">The honest picture: the crew is experienced. Mary-Ann has travelled solo to Tanzania and back; both hold recovery, sand and obstacle course training (~2024); terrain skill is a demonstrated strength. So this register does not drill competencies already proven.</p>
+    <p>The genuine redundancy gaps are narrow and shared by both: the <b>newly-installed Victron LiFePO4 system</b> (limited operating hours for either crew), the <b>comms / escalation protocol</b> (new — the escalation tree is defined in R38 / EX-2, not yet built), and <b>lapsed first-aid certification</b>. This register targets those, plus a winch-focused refresh of the ageing recovery training. Status is baked into each row and revised as items complete; the checkbox layer is a working sign-off overlay for planning and drill days.</p>
+  </div>
+
+  <div class="legend">
+    <b>Status:</b> <span class="badge b-demo">DEMONSTRATED</span> proven, evidenced, no action &nbsp;·&nbsp; <span class="badge b-refresh">REFRESH DUE</span> currently competent, renewal scheduled &nbsp;·&nbsp; <span class="badge b-sched">SCHEDULED</span> planned, not yet done &nbsp;·&nbsp; <span class="badge b-out">OUTSTANDING</span> gap — must schedule &nbsp;·&nbsp; <span class="badge b-pend">PENDING · R38</span> blocked on another document<br>
+    <b>Crew:</b> <span class="who">Both</span> each crew signs off independently (redundancy) &nbsp;·&nbsp; a green tick = confirmed / signed off. Tap a row to toggle. The readiness gauge counts signed-off rows.
+  </div>
+
+  <!-- ══════════════ §2 RECOVERY ══════════════ -->
+  <div class="section" data-section>
+    <div class="section-header"><span class="section-num">§2</span> Recovery Skills</div>
+    <div class="section-note">Recovery training was completed ~2024; the crew asked to <b>update the recovery course</b>. Rows below are currently competent but a winch-focused refresh is scheduled (§7). No hi-lift is carried — a deliberate choice given the winch + MaxTrax.</div>
+    <div class="gear"><b>Gear carried:</b> Electric winch · bow shackles · soft shackles · tree-trunk protector · kinetic recovery rope · snatch strap · recovery damper · 2× MaxTrax · hydraulic jack · bottle jack · shovel · machete · air compressor · tyre deflators · tyre-pressure gauge · tyre repair (plug) kit · ground sheet · PPE (work gloves + safety glasses).</div>
+    <div class="checklist">
+
+      <div class="check-item checked warn" data-status="refresh" data-baked="1" onclick="toggleItem(this)">
+        <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="check-content">
+          <div class="check-name">Winch operation &amp; rigging <span class="badge b-refresh">REFRESH DUE</span><span class="who">Both</span></div>
+          <div class="check-detail">Anchor selection, snatch-block redirect, damper on every loaded line, hand signals, load-path no-go zones, controlled single-operator recovery. Evidence: recovery course ~2024 — winch-specific refresh scheduled §7. <span class="xref">→ R9</span></div>
+          <div class="signoff">Refresh — Neil: ____________  Mary-Ann: ____________  Date: __________</div>
+        </div>
+      </div>
+
+      <div class="check-item checked warn" data-status="refresh" data-baked="1" onclick="toggleItem(this)">
+        <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="check-content">
+          <div class="check-name">Kinetic recovery — rope &amp; snatch strap <span class="badge b-refresh">REFRESH DUE</span><span class="who">Both</span></div>
+          <div class="check-detail">Correct attachment (rated points only — never a tow ball), damper placement, bystander stand-off distance, single controlled attempt then reassess. Evidence: recovery course ~2024. <span class="xref">→ R9</span></div>
+          <div class="signoff">Refresh — Neil: ____________  Mary-Ann: ____________  Date: __________</div>
+        </div>
+      </div>
+
+      <div class="check-item checked" data-status="demonstrated" data-baked="1" onclick="toggleItem(this)">
+        <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="check-content">
+          <div class="check-name">MaxTrax self-recovery <span class="badge b-demo">DEMONSTRATED</span><span class="who">Both</span></div>
+          <div class="check-detail">Board placement under drive wheels, gentle throttle, avoid spin-melt, retrieve &amp; re-set. Evidence: sand course ~2024 + field use. <span class="xref">→ R9, R28</span></div>
+        </div>
+      </div>
+
+      <div class="check-item checked" data-status="demonstrated" data-baked="1" onclick="toggleItem(this)">
+        <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="check-content">
+          <div class="check-name">Jacking on soft / uneven ground <span class="badge b-demo">DEMONSTRATED</span><span class="who">Both</span></div>
+          <div class="check-detail">Hydraulic + bottle jack on a base board, wheel chocked, never work under a vehicle held on a jack alone. Evidence: field practice. <span class="xref">→ R9, §4 wheel change</span></div>
+        </div>
+      </div>
+
+      <div class="check-item warn" data-status="scheduled" data-baked="0" onclick="toggleItem(this)">
+        <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="check-content">
+          <div class="check-name">Tyre plug &amp; bead reseat <span class="badge b-sched">SCHEDULED</span><span class="who">Both</span></div>
+          <div class="check-detail">Plug a tread puncture with the repair kit, deflate/reinflate with the compressor, verify with the gauge. Confirm both crew can complete solo — dated drill. <span class="xref">→ R14</span></div>
+          <div class="signoff">Neil: ____________  Mary-Ann: ____________  Date: __________</div>
+        </div>
+      </div>
+
+      <div class="check-item checked" data-status="demonstrated" data-baked="1" onclick="toggleItem(this)">
+        <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="check-content">
+          <div class="check-name">Recovery-gear inspection &amp; care <span class="badge b-demo">DEMONSTRATED</span><span class="who">Standing</span></div>
+          <div class="check-detail">Winch line / shackle / strap condition check for wear, UV, abrasion, fraying; retire damaged gear. Standing pre-trip item. <span class="xref">→ R9, R23</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════ §3 MEDICAL ══════════════ -->
+  <div class="section" data-section>
+    <div class="section-header"><span class="section-num">§3</span> Medical &amp; First-Aid</div>
+    <div class="section-note">Neither crew currently holds a first-aid certification — the highest-consequence gap for a remote expedition. Certification is the top §7 calendar item. Clinical detail stays in R17 / R29; this register records only capability sign-off.</div>
+    <div class="checklist">
+
+      <div class="check-item critical" data-status="outstanding" data-baked="0" onclick="toggleItem(this)">
+        <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="check-content">
+          <div class="check-name">Wilderness / remote first-aid certification <span class="badge b-out">OUTSTANDING</span><span class="who">Both</span></div>
+          <div class="check-detail">Neither certified. Book an accredited remote / wilderness first-aid course — both crew. Time certification so it is current across the 2028–2030 window (typical 2–3 yr validity → certify ~2027, refresh pre-departure if lapsing). Record cert &amp; expiry here on completion. <span class="xref">→ R17, R29</span></div>
+          <div class="signoff">Cert — Neil: __________ exp: ______   Mary-Ann: __________ exp: ______</div>
+        </div>
+      </div>
+
+      <div class="check-item warn" data-status="scheduled" data-baked="0" onclick="toggleItem(this)">
+        <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="check-content">
+          <div class="check-name">Medical kit familiarity <span class="badge b-sched">SCHEDULED</span><span class="who">Both</span></div>
+          <div class="check-detail">Both crew know the kit contents, where each item lives, and its use — walk-through against the R17 / R29 kit list. Pair with the first-aid course. <span class="xref">→ R17, R29</span></div>
+          <div class="signoff">Neil: ____________  Mary-Ann: ____________  Date: __________</div>
+        </div>
+      </div>
+
+      <div class="check-item warn" data-status="scheduled" data-baked="0" onclick="toggleItem(this)">
+        <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="check-content">
+          <div class="check-name">Snakebite protocol walk-through <span class="badge b-sched">SCHEDULED</span><span class="who">Both</span></div>
+          <div class="check-detail">Immobilise-and-evacuate doctrine, what not to do, evacuation trigger. Follow the protocol in R10 / R17 — do not improvise. <span class="xref">→ R10, R17</span></div>
+          <div class="signoff">Neil: ____________  Mary-Ann: ____________  Date: __________</div>
+        </div>
+      </div>
+
+      <div class="check-item warn" data-status="scheduled" data-baked="0" onclick="toggleItem(this)">
+        <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="check-content">
+          <div class="check-name">Medevac / evacuation activation <span class="badge b-sched">SCHEDULED</span><span class="who">Both</span></div>
+          <div class="check-detail">Both crew can trigger the sat SOS, reach the medevac / assistance provider, and follow the R29 field-claim &amp; evacuation procedure. Ties to §6 comms and R38. <span class="xref">→ R29, R16, R38</span></div>
+          <div class="signoff">Neil: ____________  Mary-Ann: ____________  Date: __________</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════ §4 VEHICLE SYSTEMS ══════════════ -->
+  <div class="section" data-section>
+    <div class="section-header"><span class="section-num">§4</span> Vehicle Systems</div>
+    <div class="section-note">The priority redundancy gap. The all-Victron LiFePO4 system was installed July 2026 — neither crew has long operating hours on it. Goal: <b>Mary-Ann (and Neil) each operate the electrical system end-to-end without the other.</b> Reference R5 / R7 / R26 / R32.</div>
+    <div class="checklist">
+
+      <div class="check-item critical" data-status="outstanding" data-baked="0" onclick="toggleItem(this)">
+        <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="check-content">
+          <div class="check-name">Read system state — VictronConnect / SmartShunt <span class="badge b-out">OUTSTANDING</span><span class="who">Both</span></div>
+          <div class="check-detail">Read house SOC, voltage, current &amp; consumed Ah on the SmartShunt (no display — via app); know healthy vs low. <span class="xref">→ R5, R7, R26</span></div>
+          <div class="signoff">Neil: ____________  Mary-Ann: ____________  Date: __________</div>
+        </div>
+      </div>
+
+      <div class="check-item critical" data-status="outstanding" data-baked="0" onclick="toggleItem(this)">
+        <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="check-content">
+          <div class="check-name">Charge sources &amp; behaviour <span class="badge b-out">OUTSTANDING</span><span class="who">Both</span></div>
+          <div class="check-detail">Three sources: alternator via the Orion Smart DC-DC (capped ~40 A), solar via the SmartSolar MPPT, shore power via the MultiPlus (16 A). Know which is active, expected currents, and that driving/sun/shore each charge the house bank. <span class="xref">→ R7, R26</span></div>
+          <div class="signoff">Neil: ____________  Mary-Ann: ____________  Date: __________</div>
+        </div>
+      </div>
+
+      <div class="check-item critical" data-status="outstanding" data-baked="0" onclick="toggleItem(this)">
+        <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="check-content">
+          <div class="check-name">Shore-power connect &amp; charge <span class="badge b-out">OUTSTANDING</span><span class="who">Both</span></div>
+          <div class="check-detail">Connect the 16 A inlet + lead, confirm the MultiPlus charges (LiFePO4 preset), and understand the ~20 A charge / 16 A transfer limits. <span class="xref">→ R7, R26</span></div>
+          <div class="signoff">Neil: ____________  Mary-Ann: ____________  Date: __________</div>
+        </div>
+      </div>
+
+      <div class="check-item critical" data-status="outstanding" data-baked="0" onclick="toggleItem(this)">
+        <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="check-content">
+          <div class="check-name">Protection behaviour &amp; BMS app <span class="badge b-out">OUTSTANDING</span><span class="who">Both</span></div>
+          <div class="check-detail">Recognise a BatteryProtect 65 A low-voltage load-shed as normal (not a fault); check the Enertec BMS in its Bluetooth app; know the 105 A total-load ceiling. <span class="xref">→ R5, R7, R32</span></div>
+          <div class="signoff">Neil: ____________  Mary-Ann: ____________  Date: __________</div>
+        </div>
+      </div>
+
+      <div class="check-item critical" data-status="outstanding" data-baked="0" onclick="toggleItem(this)">
+        <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="check-content">
+          <div class="check-name">Crank / house separation &amp; emergency start <span class="badge b-out">OUTSTANDING</span><span class="who">Both</span></div>
+          <div class="check-detail">House and crank are separate chemistries; the Orion is one-way (no paralleling). Emergency start uses the lithium jump pack + heavy cables direct to the crank battery — not "via the Orion". <span class="xref">→ R27, R32</span></div>
+          <div class="signoff">Neil: ____________  Mary-Ann: ____________  Date: __________</div>
+        </div>
+      </div>
+
+      <div class="check-item checked" data-status="demonstrated" data-baked="1" onclick="toggleItem(this)">
+        <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="check-content">
+          <div class="check-name">Wheel change — full procedure <span class="badge b-demo">DEMONSTRATED</span><span class="who">Both</span></div>
+          <div class="check-detail">Locate &amp; lower the spare, chock, loosen before lifting, torque the nuts, stow. Evidence: field experience. <span class="xref">→ §2 jacking, R14</span></div>
+        </div>
+      </div>
+
+      <div class="check-item checked" data-status="demonstrated" data-baked="1" onclick="toggleItem(this)">
+        <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="check-content">
+          <div class="check-name">Basic 1HZ daily / weekly checks <span class="badge b-demo">DEMONSTRATED</span><span class="who">Both</span></div>
+          <div class="check-detail">Oil &amp; coolant level, belt condition, fuel/water separator drain, visual leak &amp; hose check. Evidence: experienced crew. Confirm both current on the post-overhaul engine. <span class="xref">→ R4, R18</span></div>
+        </div>
+      </div>
+
+      <div class="check-item warn" data-status="scheduled" data-baked="0" onclick="toggleItem(this)">
+        <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="check-content">
+          <div class="check-name">R18 troubleshooting walk-through <span class="badge b-sched">SCHEDULED</span><span class="who">Both</span></div>
+          <div class="check-detail">First-response logic for smoke colour, no-start, and overheating — enough to triage and decide stop / limp / call. Familiarisation, not memorisation. <span class="xref">→ R18</span></div>
+          <div class="signoff">Neil: ____________  Mary-Ann: ____________  Date: __________</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════ §5 DRIVING ══════════════ -->
+  <div class="section" data-section>
+    <div class="section-header"><span class="section-num">§5</span> Driving &amp; Terrain</div>
+    <div class="section-note">A demonstrated strength — both crew hold sand &amp; obstacle training (~2024) and Mary-Ann drove solo to Tanzania and back. Recorded as current; keep sharp through practice. No booked course needed.</div>
+    <div class="checklist">
+
+      <div class="check-item checked" data-status="demonstrated" data-baked="1" onclick="toggleItem(this)">
+        <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="check-content">
+          <div class="check-name">4WD engagement &amp; diff locks <span class="badge b-demo">DEMONSTRATED</span><span class="who">Both</span></div>
+          <div class="check-detail">Part-time 4WD selection, front &amp; rear diff-lock use and the correct engage / disengage sequence and conditions. <span class="xref">→ R13, R28</span></div>
+        </div>
+      </div>
+
+      <div class="check-item checked" data-status="demonstrated" data-baked="1" onclick="toggleItem(this)">
+        <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="check-content">
+          <div class="check-name">Sand technique <span class="badge b-demo">DEMONSTRATED</span><span class="who">Both</span></div>
+          <div class="check-detail">Deflation strategy, momentum, gear/line choice, self-recovery. Evidence: sand course ~2024 + field experience. <span class="xref">→ R14, R28</span></div>
+        </div>
+      </div>
+
+      <div class="check-item checked" data-status="demonstrated" data-baked="1" onclick="toggleItem(this)">
+        <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="check-content">
+          <div class="check-name">Mud &amp; water crossings <span class="badge b-demo">DEMONSTRATED</span><span class="who">Both</span></div>
+          <div class="check-detail">Walk the crossing first, judge depth against wading limit, steady controlled line, grease the propshaft UJs afterwards. <span class="xref">→ R28</span></div>
+        </div>
+      </div>
+
+      <div class="check-item checked" data-status="demonstrated" data-baked="1" onclick="toggleItem(this)">
+        <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="check-content">
+          <div class="check-name">Obstacle, rock &amp; side-slope <span class="badge b-demo">DEMONSTRATED</span><span class="who">Both</span></div>
+          <div class="check-detail">Line selection, spotting, wheel placement, side-slope judgement. Evidence: obstacle course ~2024. <span class="xref">→ R28</span></div>
+        </div>
+      </div>
+
+      <div class="check-item checked" data-status="demonstrated" data-baked="1" onclick="toggleItem(this)">
+        <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="check-content">
+          <div class="check-name">Corrugation &amp; long-distance dirt <span class="badge b-demo">DEMONSTRATED</span><span class="who">Both</span></div>
+          <div class="check-detail">Speed/pressure trade-off on corrugations, load &amp; fatigue management over long gravel days. Evidence: Mary-Ann's Tanzania return. <span class="xref">→ R14, R28</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════ §6 COMMS ══════════════ -->
+  <div class="section" data-section>
+    <div class="section-header"><span class="section-num">§6</span> Comms &amp; Navigation</div>
+    <div class="section-note">Sat comms and the escalation tree are gaps for both crew. The escalation tree itself is defined in <b>R38 (EX-2)</b>, not yet built — so it is recorded here as <b>pending R38</b> and cannot be signed off until that document exists.</div>
+    <div class="checklist">
+
+      <div class="check-item critical" data-status="outstanding" data-baked="0" onclick="toggleItem(this)">
+        <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="check-content">
+          <div class="check-name">Sat-comms activation &amp; use <span class="badge b-out">OUTSTANDING</span><span class="who">Both</span></div>
+          <div class="check-detail">Both crew can power up the sat device, send a check-in message, and trigger an SOS — a concrete, dated drill once the hardware/plan is settled in R16. <span class="xref">→ R16, R29</span></div>
+          <div class="signoff">Neil: ____________  Mary-Ann: ____________  Date: __________</div>
+        </div>
+      </div>
+
+      <div class="check-item pend" data-status="pending" data-baked="0" onclick="toggleItem(this)">
+        <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="check-content">
+          <div class="check-name">Escalation-tree execution <span class="badge b-pend">PENDING · R38</span><span class="who">Both</span></div>
+          <div class="check-detail">Both crew can execute the no-contact escalation tree (home contact, check-in cadence, medevac trigger). Blocked until R38 (EX-2) defines the tree; then run as a walk-through drill. <span class="xref">→ R38, R29, R16</span></div>
+          <div class="signoff">Drill after R38 — Neil: __________  Mary-Ann: __________  Date: ______</div>
+        </div>
+      </div>
+
+      <div class="check-item checked" data-status="demonstrated" data-baked="1" onclick="toggleItem(this)">
+        <div class="check-box"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="check-content">
+          <div class="check-name">GPS / navigation redundancy <span class="badge b-demo">DEMONSTRATED</span><span class="who">Both</span></div>
+          <div class="check-detail">Primary + backup navigation, offline maps loaded, paper fallback. Experienced navigators; confirm the redundancy set is current for the planned route. <span class="xref">→ R16</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════ §7 CALENDAR ══════════════ -->
+  <div class="section" data-section data-nofilter>
+    <div class="section-header"><span class="section-num">§7</span> Two-Year Training Calendar</div>
+    <div class="section-note">Built from a standing start (no courses currently booked). Runway: now → 2028 departure. Suppliers left generic — nominate providers when booking.</div>
+    <div class="cal-scroll">
+      <table class="cal-table">
+        <thead>
+          <tr><th>Priority</th><th>Item</th><th>Crew</th><th>Target window</th><th>Provider / method</th><th>Depends on</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><span class="pri pri-high">HIGH</span></td><td>Remote / wilderness first-aid certification</td><td>Both</td><td>2027 (refresh pre-departure if lapsing)</td><td>Accredited first-aid provider</td><td>—</td></tr>
+          <tr><td><span class="pri pri-high">HIGH</span></td><td>Recovery-course refresh (winch-focused)</td><td>Both</td><td>2026–2027</td><td>A recovery-training provider</td><td>—</td></tr>
+          <tr><td><span class="pri pri-high">HIGH</span></td><td>Victron LiFePO4 system familiarisation — operate end-to-end</td><td>Both</td><td>Near-term (self-directed)</td><td>Hands-on drills vs R5 / R7 / R26 / R32</td><td>—</td></tr>
+          <tr><td><span class="pri pri-med">MED</span></td><td>Sat-comms activation &amp; SOS drill</td><td>Both</td><td>Once hardware settled</td><td>Hands-on drill vs R16</td><td>R16 comms plan</td></tr>
+          <tr><td><span class="pri pri-med">MED</span></td><td>Escalation-tree walk-through</td><td>Both</td><td>After R38 built</td><td>Tabletop + field drill</td><td>R38 (EX-2)</td></tr>
+          <tr><td><span class="pri pri-med">MED</span></td><td>Snakebite + medical-kit walk-through</td><td>Both</td><td>With first-aid course</td><td>Vs R10 / R17 / R29</td><td>—</td></tr>
+          <tr><td><span class="pri pri-low">LOW</span></td><td>Sand / obstacle / terrain refresher (skills current)</td><td>Both</td><td>Optional, ongoing</td><td>Practice outings</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="predep">
+      <b>Pre-departure currency check (2028)</b>
+      Before departure, confirm: first-aid certifications current for the whole expedition window · a recovery drill completed within the preceding 12 months · both crew operate the Victron system end-to-end unaided · sat-comms and the escalation tree tested and signed off · the first Post-Trip Review (R23, from the Karoo Winter Loop) captured and its lessons folded in.
+    </div>
+  </div>
+
+  <div class="foot">
+    R37 · Crew Readiness &amp; Training Register · Expedition Readiness Programme EX-1 · living document — revise each row's status as items complete.<br>
+    Cross-references: R5, R7, R9, R10, R13, R14, R16, R17, R18, R23, R26, R27, R28, R29, R32, R38 (pending). Escalation SOP &amp; abort criteria: R38 · Documentation &amp; money: R39 (both pending, EX-2 / EX-3).<br>
+    Last updated: 4 July 2026.
+  </div>
+
+</main>
+
+<div class="print-bar">
+  <button class="btn-clear-all" onclick="clearAll()">Clear All</button>
+  <button class="btn-print" onclick="window.print()">Print / PDF</button>
+</div>
+
+<!-- Custom confirm overlay — replaces confirm() blocked in PWA standalone mode -->
+<div class="confirm-overlay" id="confirmOverlay" style="display:none">
+  <div class="confirm-box">
+    <div class="confirm-msg" id="confirmMsg">Are you sure?</div>
+    <div class="confirm-btns">
+      <button class="confirm-cancel" onclick="hideConfirm()">Cancel</button>
+      <button class="confirm-ok" id="confirmOkBtn">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<script>
+var FILTER_MAP = {
+  all: null,
+  demonstrated: ['demonstrated'],
+  scheduled: ['scheduled', 'refresh', 'pending'],
+  outstanding: ['outstanding']
+};
+
+function items(){ return Array.prototype.slice.call(document.querySelectorAll('.check-item')); }
+
+function toggleItem(el){
+  el.classList.toggle('checked');
+  updateProgress();
+}
+
+function updateProgress(){
+  var all = items();
+  var total = all.length;
+  var done = all.filter(function(i){ return i.classList.contains('checked'); }).length;
+  var pct = total ? Math.round(done / total * 100) : 0;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = done + ' / ' + total + ' signed off';
+}
+
+function countByStatus(){
+  var c = { all: 0, outstanding: 0, scheduled: 0, demonstrated: 0 };
+  items().forEach(function(i){
+    var s = i.getAttribute('data-status');
+    c.all++;
+    if (s === 'outstanding') c.outstanding++;
+    else if (s === 'demonstrated') c.demonstrated++;
+    else c.scheduled++; // scheduled + refresh + pending
+  });
+  document.getElementById('n-all').textContent   = '(' + c.all + ')';
+  document.getElementById('n-out').textContent   = '(' + c.outstanding + ')';
+  document.getElementById('n-sched').textContent = '(' + c.scheduled + ')';
+  document.getElementById('n-demo').textContent  = '(' + c.demonstrated + ')';
+}
+
+function applyFilter(filter, btn){
+  var btns = document.querySelectorAll('.filt-btn');
+  for (var b = 0; b < btns.length; b++){ btns[b].classList.remove('active'); }
+  if (btn){ btn.classList.add('active'); }
+
+  var allowed = FILTER_MAP[filter];
+  items().forEach(function(i){
+    var show = !allowed || allowed.indexOf(i.getAttribute('data-status')) !== -1;
+    i.style.display = show ? '' : 'none';
+  });
+
+  // Hide a filterable section whose rows are all hidden; the calendar section is never filtered out.
+  var secs = document.querySelectorAll('[data-section]');
+  for (var s = 0; s < secs.length; s++){
+    var sec = secs[s];
+    if (sec.hasAttribute('data-nofilter')){
+      sec.style.display = (filter === 'all') ? '' : 'none';
+      continue;
+    }
+    var rows = sec.querySelectorAll('.check-item');
+    var anyVisible = false;
+    for (var r = 0; r < rows.length; r++){
+      if (rows[r].style.display !== 'none'){ anyVisible = true; break; }
+    }
+    sec.style.display = anyVisible ? '' : 'none';
+  }
+}
+
+function resetToBaked(){
+  items().forEach(function(i){
+    if (i.getAttribute('data-baked') === '1'){ i.classList.add('checked'); }
+    else { i.classList.remove('checked'); }
+  });
+  updateProgress();
+}
+
+var pendingAction = null;
+function showConfirm(msg, action){
+  document.getElementById('confirmMsg').textContent = msg;
+  pendingAction = action;
+  document.getElementById('confirmOverlay').style.display = 'flex';
+}
+function hideConfirm(){
+  document.getElementById('confirmOverlay').style.display = 'none';
+  pendingAction = null;
+}
+document.getElementById('confirmOkBtn').addEventListener('click', function(){
+  var a = pendingAction;
+  hideConfirm();
+  if (a){ a(); }
+});
+
+function resetChecks(){
+  showConfirm('Reset all rows to the recorded status? (Demonstrated rows re-ticked, gaps cleared.)', resetToBaked);
+}
+function clearAll(){
+  showConfirm('Clear every tick for a fresh field sign-off pass?', function(){
+    items().forEach(function(i){ i.classList.remove('checked'); });
+    updateProgress();
+  });
+}
+
+// Init
+countByStatus();
+updateProgress();
+</script>
+</body>
+</html>

@@ -4,7 +4,7 @@
 // falls back to the library index, never to an unrelated page.
 // Bump CACHE (v1 -> v2 ...) whenever library files change to force refresh.
 
-const CACHE = 'lc76-library-v9';
+const CACHE = 'lc76-library-v10';
 
 const PRECACHE = [
   './',
@@ -23,6 +23,7 @@ const PRECACHE = [
   './LC76_Comms_Navigation_Guide.html',
   './LC76_Cooling_System_Guide.html',
   './LC76_Crank_Battery_Care.html',
+  './LC76_Crew_Readiness_Training_Register.html',
   './LC76_Cross_Reference_Index.html',
   './LC76_Departure_Checklist.html',
   './LC76_Drivetrain_Training_Guide.html',
