@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>R39 — Expedition Documentation &amp; Money Guide | HZJ76R-RKMRS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=Oswald:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:      #1C1410;
+    --paper:    #F5EDDA;
+    --paper2:   #EDE5D0;
+    --amber:    #b86800;
+    --amber2:   #e07800;
+    --rule:     #d4cfc4;
+    --steeldk:  #2a2f3a;
+    --steelmd:  #6a7080;
+    --red-warn: #B91C1C;
+    --green-ok: #059669;
+    --orange:   #c05a00;
+    --border:   #c8bfad;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { overflow-x: hidden; overflow-x: clip; overscroll-behavior-x: none; }
+
+  body {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  /* STICKY WRAP */
+  .sticky-wrap { position: sticky; top: 0; z-index: 100; background: var(--ink); padding-top: env(safe-area-inset-top); }
+  .sticky-wrap::before { content: ""; position: absolute; left: 0; right: 0; bottom: 100%; height: 100vh; background: var(--ink); }
+
+  /* MASTHEAD */
+  .masthead { position: relative; background: var(--ink); color: #fff; padding: 18px 24px 14px; }
+  .lib-home-btn { position:absolute; top:50%; right:16px; transform:translateY(-50%); display:inline-flex; align-items:center; gap:5px; font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; text-decoration:none; color:var(--amber2); background:rgba(232,120,0,.15); border:1px solid var(--amber2); border-radius:20px; padding:6px 12px; min-height:32px; white-space:nowrap; z-index:10; transition:background .2s; }
+  .lib-home-btn:hover, .lib-home-btn:active { background:rgba(232,120,0,.30); }
+
+  @media(max-width:600px){
+    .masthead { padding:14px 16px 12px; }
+    .lib-home-btn { top:14px; transform:none; }
+    .mh-title { font-size:clamp(1.5rem,6vw,2.2rem); }
+    .toc-bar { padding:0 12px; }
+    .toc-btn { font-size:.46rem; padding:8px 9px; }
+    .main { padding:14px 4% 60px; }
+    .principle-grid { grid-template-columns:1fr; }
+  }
+
+  @media print { .lib-home-btn { display:none !important; } }
+
+  .mh-eyebrow  { font-family:'IBM Plex Mono',monospace; font-size:.5rem; letter-spacing:.28em; text-transform:uppercase; color:var(--steelmd); margin-bottom:6px; }
+  .mh-title    { font-family:'Bebas Neue',sans-serif; font-size:clamp(1.8rem,5vw,2.6rem); letter-spacing:.06em; color:var(--amber2); line-height:1; }
+  .mh-sub      { font-family:'IBM Plex Mono',monospace; font-size:.54rem; letter-spacing:.12em; color:rgba(255,200,100,.65); margin-top:5px; }
+  .mh-vehicle  { font-family:'IBM Plex Mono',monospace; font-size:.48rem; letter-spacing:.08em; color:var(--steelmd); margin-top:8px; }
+
+  /* TOC BAR */
+  .toc-bar {
+    background: var(--steeldk);
+    border-top: 3px solid var(--amber2);
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    padding: 0 20px;
+    display: flex;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+  .toc-bar::-webkit-scrollbar { display: none; }
+  .toc-btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: .52rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--steelmd);
+    background: none;
+    border: none;
+    padding: 10px 12px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color 0.15s;
+  }
+  .toc-btn:hover  { color: #c8bfad; }
+  .toc-btn.active { color: var(--amber2); }
+
+  /* MAIN */
+  .main { padding: 28px 5% 80px; max-width: 100%; }
+
+  /* PART BANNER */
+  .part-banner { font-family:'Bebas Neue',sans-serif; font-size:20px; letter-spacing:.08em; color:#fff; background:var(--ink); border-left:6px solid var(--amber2); padding:10px 16px; margin:30px 0 4px; }
+  .part-banner:first-child { margin-top:0; }
+  .part-banner span { color:var(--amber2); }
+
+  /* SECTION HEADINGS */
+  .section-head {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    color: var(--ink);
+    letter-spacing: 0.04em;
+    border-bottom: 2px solid var(--amber2);
+    padding-bottom: 4px;
+    margin-bottom: 14px;
+    margin-top: 28px;
+  }
+  .section-intro { font-size: 13px; color: var(--steelmd); margin-bottom: 14px; font-style: italic; }
+
+  /* SECTION ANCHOR OFFSET */
+  .sa { scroll-margin-top: 150px; }
+
+  /* SUBSECTION TITLE */
+  .sub-head {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 15px;
+    color: var(--amber2);
+    letter-spacing: 0.04em;
+    background: var(--steeldk);
+    padding: 8px 14px;
+    margin-bottom: 0;
+    margin-top: 16px;
+  }
+
+  p.body { font-size:13px; margin:10px 0; }
+  p.body:first-of-type { margin-top:0; }
+
+  /* PRINCIPLE CARDS GRID */
+  .principle-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:10px; margin:14px 0; }
+  .principle-card { border:1px solid var(--border); border-top:3px solid var(--amber2); background:#fff; border-radius:2px; padding:13px 14px 11px; }
+  .p-num   { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.12em; color:var(--steelmd); text-transform:uppercase; margin-bottom:4px; }
+  .p-title { font-family:'Bebas Neue',sans-serif; font-size:17px; color:var(--amber2); letter-spacing:.04em; margin-bottom:6px; line-height:1.1; }
+  .p-body  { font-size:12.5px; color:var(--ink); line-height:1.55; }
+
+  /* SPECS TABLE */
+  .specs-table { width:100%; border-collapse:collapse; font-size:12.5px; margin:14px 0; }
+  .specs-table th { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; background:var(--steeldk); color:#b0bcc8; padding:7px 10px; text-align:left; border:1px solid rgba(255,255,255,.07); }
+  .specs-table td { padding:7px 10px; border:1px solid var(--rule); vertical-align:top; }
+  .specs-table tr:nth-child(even) td { background:var(--paper2); }
+  .specs-table tr:nth-child(odd)  td { background:#fff; }
+  .mono { font-family:'IBM Plex Mono',monospace; font-size:11px; }
+
+  /* CHECKLIST */
+  .checklist { list-style:none; margin:10px 0; }
+  .checklist li { display:flex; gap:10px; align-items:flex-start; padding:7px 0; border-bottom:1px solid var(--rule); font-size:13px; }
+  .checklist li:last-child { border-bottom:none; }
+  .cl-num  { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; color:#fff; background:var(--steeldk); min-width:22px; height:22px; border-radius:2px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .cl-text { flex:1; }
+  .cl-label { font-weight:500; color:var(--ink); }
+  .cl-note  { color:var(--steelmd); font-size:12px; display:block; margin-top:2px; font-family:'Oswald',sans-serif; font-weight:300; }
+
+  /* STEP LIST (amber) */
+  .check-steps { margin:10px 0; }
+  .check-step  { display:flex; gap:10px; align-items:flex-start; margin-bottom:8px; font-size:13px; }
+  .step-num  { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; color:#fff; background:var(--amber); min-width:22px; height:22px; border-radius:2px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .step-text { flex:1; }
+  .step-text b { font-weight:600; }
+
+  /* NOT-TO-DO LIST */
+  .notodo-list { list-style:none; margin:10px 0; }
+  .notodo-list li { display:flex; gap:10px; align-items:flex-start; padding:8px 0; border-bottom:1px solid var(--rule); font-size:13px; }
+  .notodo-list li:last-child { border-bottom:none; }
+  .notodo-x     { font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; color:#fff; background:var(--red-warn); min-width:22px; height:22px; border-radius:2px; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:1px; }
+  .notodo-text  { flex:1; }
+  .notodo-label { font-weight:500; color:var(--ink); }
+  .notodo-note  { color:var(--steelmd); font-size:12px; display:block; margin-top:2px; }
+
+  /* SIGNAL CHAIN */
+  .signal-chain { display:flex; align-items:center; flex-wrap:wrap; gap:4px; margin:14px 0; }
+  .sc-stop  { font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; color:#fff; background:var(--red-warn); padding:7px 12px; border-radius:2px; white-space:nowrap; }
+  .sc-key   { font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; color:#fff; background:var(--steeldk); padding:7px 12px; border-radius:2px; border:1px solid var(--amber2); }
+  .sc-ok    { font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; color:#fff; background:var(--green-ok); padding:7px 12px; border-radius:2px; white-space:nowrap; }
+  .sc-arrow { font-size:14px; color:var(--steelmd); }
+
+  /* PLACEHOLDER FIELD — must be completed before departure */
+  .ph { font-family:'IBM Plex Mono',monospace; font-size:11px; font-weight:600; color:var(--red-warn); background:#fde8e8; border:1px dashed var(--red-warn); border-radius:2px; padding:1px 6px; letter-spacing:.02em; white-space:nowrap; }
+
+  /* ALERT BOXES */
+  .warn-box { background:#fde8e8; border-left:3px solid var(--red-warn); padding:9px 12px; font-size:12.5px; color:#7a1010; margin:10px 0; }
+  .note-box { background:#fef9e7; border-left:3px solid var(--amber); padding:9px 12px; font-size:12.5px; color:#5a3800; margin:10px 0; }
+  .ok-box   { background:#e8f5e9; border-left:3px solid var(--green-ok); padding:9px 12px; font-size:12.5px; color:#0d4a28; margin:10px 0; }
+  .info-box { background:#e8eef8; border-left:3px solid #3b6abf; padding:9px 12px; font-size:12.5px; color:#1a2f5a; margin:10px 0; }
+
+  /* CROSS-REF BAR */
+  .xref-bar { background:var(--steeldk); border:1px solid rgba(255,255,255,.08); padding:9px 14px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-top:12px; font-size:12px; }
+  .xref-label { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.08em; color:var(--steelmd); text-transform:uppercase; white-space:nowrap; }
+  .xref-pill  { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; color:var(--amber2); background:rgba(224,120,0,.12); border:1px solid rgba(224,120,0,.3); padding:2px 8px; border-radius:2px; white-space:nowrap; }
+
+  .footer { margin-top:36px; padding-top:14px; border-top:1px solid var(--rule); font-family:'IBM Plex Mono',monospace; font-size:10px; color:var(--steelmd); line-height:1.6; }
+
+  /* PRINT */
+  @media print {
+    @page { margin: 7mm; size: A4; }
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    body { font-size: 7.5pt; background: #fff; line-height: 1.35; }
+    .sticky-wrap { position: static; }
+    .sticky-wrap::before { content: none; }
+    .toc-bar { display: none; }
+    .masthead { padding: 4mm 8mm; break-after: avoid; background: #1C1410 !important; color: #fff !important; }
+    .mh-eyebrow { font-size: 5pt; color: #6a7080 !important; }
+    .mh-title { font-size: 16pt; color: #e07800 !important; }
+    .mh-sub, .mh-vehicle { font-size: 5pt; }
+    .main { padding: 4mm 0 10mm; }
+    .part-banner { font-size: 13pt; background: #1C1410 !important; color: #fff !important; border-left: 4pt solid #e07800 !important; page-break-after: avoid; break-after: avoid; }
+    .part-banner span { color: #e07800 !important; }
+    .section-head { font-size: 14pt; margin-top: 8mm; page-break-after: avoid; break-after: avoid; border-bottom: 2pt solid #e07800 !important; }
+    .sub-head { font-size: 11pt; page-break-after: avoid; break-after: avoid; background: #2a2f3a !important; color: #e07800 !important; }
+    .principle-card { break-inside: avoid; }
+    .warn-box  { break-inside: avoid; background: #fde8e8 !important; border-left: 3pt solid #B91C1C !important; color: #7a1010 !important; }
+    .note-box  { break-inside: avoid; background: #fef9e7 !important; border-left: 3pt solid #b86800 !important; color: #5a3800 !important; }
+    .ok-box    { break-inside: avoid; background: #e8f5e9 !important; border-left: 3pt solid #059669 !important; color: #0d4a28 !important; }
+    .info-box  { break-inside: avoid; background: #e8eef8 !important; border-left: 3pt solid #3b6abf !important; color: #1a2f5a !important; }
+    .ph        { background: #fde8e8 !important; color: #B91C1C !important; border: 1px dashed #B91C1C !important; }
+    .xref-bar  { background: #2a2f3a !important; border: 1px solid rgba(255,255,255,.08) !important; }
+    .xref-pill { background: rgba(224,120,0,.12) !important; color: #e07800 !important; border: 1px solid rgba(224,120,0,.3) !important; }
+    .specs-table thead { display: table-header-group; }
+    .specs-table th { background: #2a2f3a !important; color: #b0bcc8 !important; }
+    .specs-table tr { break-inside: avoid; }
+    .step-num   { background: #b86800 !important; color: #fff !important; }
+    .cl-num     { background: #2a2f3a !important; color: #fff !important; }
+    .notodo-x   { background: #B91C1C !important; color: #fff !important; }
+    .sc-stop    { background: #B91C1C !important; color: #fff !important; }
+    .sc-ok      { background: #059669 !important; color: #fff !important; }
+    .sc-key     { background: #2a2f3a !important; color: #fff !important; border: 1pt solid #e07800 !important; }
+    .checklist li   { break-inside: avoid; }
+    .notodo-list li { break-inside: avoid; }
+    .check-step     { break-inside: avoid; }
+    a { color: var(--ink); text-decoration: none; }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="sticky-wrap">
+  <div class="masthead">
+    <a href="index.html" class="lib-home-btn">⌂ Index</a>
+    <div class="mh-eyebrow">HZJ76R-RKMRS · Overland Reference Library · R39</div>
+    <div class="mh-title">Expedition Documentation &amp; Money Guide</div>
+    <div class="mh-sub">Carnet de Passages · Cross-Border Insurance · Vehicle Authority · Personal Docs · Redundancy · Forex &amp; Cash Strategy</div>
+    <div class="mh-vehicle">2009 LC76 SW · Expedition Readiness Programme EX-3 · Southern &amp; East Africa · Registered to M-A West · The admin that stops the trip — before it stops the trip · HZJ76R-RKMRS</div>
+  </div>
+  <nav class="toc-bar">
+    <button class="toc-btn" data-target="s-carnet">Carnet</button>
+    <button class="toc-btn" data-target="s-insurance">Insurance</button>
+    <button class="toc-btn" data-target="s-authority">Vehicle Authority</button>
+    <button class="toc-btn" data-target="s-personal">Personal Docs</button>
+    <button class="toc-btn" data-target="s-redundancy">Redundancy</button>
+    <button class="toc-btn" data-target="s-money">Money</button>
+  </nav>
+</div>
+
+<div class="main">
+
+  <div class="info-box">
+    <b>What this guide is.</b> This is the <i>administrative</i> spine of the 2028–2030 expedition — the paperwork and the money that, if wrong, stop the trip at a border or a broken-down ATM long before anything mechanical does. It owns two things: the <b>document inventory</b> (Carnet, cross-border insurance, the authority to drive a vehicle registered to someone else, and the personal papers) and the <b>money strategy</b> (forex, cash-versus-card, and planning for the stretches where neither works). It does not restate what other guides own: border <i>technique and queue-craft</i> lives in <b>R15</b>, the insurance &amp; medevac <i>policies of record</i> in <b>R29</b>, checkpoint conduct, bribery and theft prevention in <b>R35</b>, health &amp; vaccination <i>medicine</i> in <b>R17</b>, and per-country visa detail in the <b>country profiles (007–010)</b>. This guide is the <i>inventory and strategy</i>; those guides are the <i>process</i>.
+  </div>
+
+  <div class="note-box">
+    <b>Placeholder convention.</b> Fields shown like <span class="ph">THIS</span> are personal specifics still to be filled in before departure — document numbers, issue and expiry dates, declared values, and cash floats. They are flagged in red so nothing ships blank. Record the medevac/insurer <b>contact</b> of record in <b>R29</b> rather than duplicating it here — R29 remains the master policy record.
+  </div>
+
+  <!-- ============ PART A ============ -->
+  <div class="part-banner">PART A · <span>THE PAPER THAT CROSSES BORDERS</span></div>
+
+  <!-- ============ CARNET ============ -->
+  <div id="s-carnet" class="sa"></div>
+  <h2 class="section-head">1 · Carnet de Passages en Douane</h2>
+  <p class="section-intro">The vehicle's passport — the single document that lets the LC76 cross a border without leaving a cash bond at each one, and the one with the longest lead time and the sharpest teeth if mishandled.</p>
+
+  <p class="body">A Carnet de Passages en Douane (CPD) is an internationally recognised customs document that <b>guarantees</b> the import duties on the vehicle: the issuing body stands surety that the vehicle will be re-exported, so foreign customs let it in without you paying — or risking — a cash deposit at every frontier. In practice it also speeds crossings, because it is a document officials recognise on sight.</p>
+
+  <div class="sub-head">Is it required for our route?</div>
+  <p class="body">The honest answer is <i>partly, and the practice shifts</i>. <b>Kenya</b> — the northern terminus — is where a Carnet is effectively expected; <b>Tanzania</b> too. Across the SADC leg (<b>Mozambique, Malawi, Zimbabwe, Zambia</b>) vehicles registered in the region have long crossed on border-issued <b>Temporary Import Permits (TIPs)</b> without a Carnet. Reports conflict and rules change year to year. The clean decision for an expedition that <i>reaches Kenya</i> is to <b>carry a Carnet for the whole route</b>: it covers every country, removes the cash-bond risk everywhere, and smooths the crossings — then verify each country's current entry rule close to travel via R15 and the profiles.</p>
+
+  <div class="sub-head">Issuer, deposit &amp; value</div>
+  <ul class="checklist">
+    <li><span class="cl-num">1</span><span class="cl-text"><span class="cl-label">Issuer — AASA</span><span class="cl-note">The Automobile Association of South Africa is the only authorised FIA Carnet issuer for South African citizens and residents. Apply well ahead — allow several weeks; this is the longest-lead document of the trip.</span></span></li>
+    <li><span class="cl-num">2</span><span class="cl-text"><span class="cl-label">Refundable deposit / bank guarantee</span><span class="cl-note">A refundable cash deposit (or bank guarantee) is lodged with the issuer, scaled to the <b>declared value</b> of the vehicle and the countries on the itinerary. It is held in a non-interest-bearing account until the Carnet is discharged. Declared value: <span class="ph">R VALUE</span> · Deposit lodged: <span class="ph">R DEPOSIT</span>.</span></span></li>
+    <li><span class="cl-num">3</span><span class="cl-text"><span class="cl-label">Declare a realistic value</span><span class="cl-note">The deposit tracks the vehicle's declared value — a well-used 2009 vehicle sits in the lowest bracket. Declare an honest, defensible value; do not inflate it (it only raises your deposit) and do not understate it (the value must be justifiable).</span></span></li>
+    <li><span class="cl-num">4</span><span class="cl-text"><span class="cl-label">Documents for the application</span><span class="cl-note">ID/passport copy, the vehicle registration papers, and an itinerary of countries to be visited. One Carnet per vehicle — no trailer is carried, so one booklet. Because the vehicle is registered to Mary-Ann West, the application and the owner-authority interlock (§3).</span></span></li>
+  </ul>
+
+  <div class="sub-head">Using it — and the trap</div>
+  <p class="body">At <b>every</b> border the customs officer stamps the <b>entry (importation)</b> voucher on arrival and the <b>exit (re-exportation)</b> voucher on departure. Before you drive away from any post, physically confirm the exit stamp is in the booklet.</p>
+  <div class="warn-box"><b>A missed exit stamp is the classic Carnet disaster.</b> If a country has no re-export stamp, the vehicle looks as though it was never taken out — and the issuer (and ultimately <i>you</i>) can be billed the full import duties for that country. The holder is always the party finally liable if the vehicle is not properly re-exported — through a missed stamp, theft, or a write-off. Guard the booklet like the vehicle's passport, and check every stamp.</div>
+
+  <div class="sub-head">Validity, renewal &amp; the split-trip constraint</div>
+  <p class="body">A Carnet is valid for a <b>maximum of 12 months</b> from date of issue, typically renewable <b>once</b> for a further year (not guaranteed — arrange before it expires). For a 2028–2030 expedition that may be split around the SA vehicle-licence renewal, this 12-month life is a hard planning constraint.</p>
+  <div class="note-box"><b>This drives an EX-9 decision.</b> Whether the vehicle <i>overwinters abroad</i> (Carnet renewed on the road, or transferred to a fresh Carnet at a crossing) or <i>returns to RSA</i> (discharge and re-issue a fresh Carnet for the second leg) has to reconcile with the 12-month Carnet clock. Carry this into the route &amp; licence-break workshop — see R38 §4.</div>
+
+  <div class="sub-head">Discharge on return</div>
+  <p class="body">On returning the vehicle to South Africa, have the <b>Certificate of Location</b> (the last page of the booklet) endorsed by SA Customs — or a police station — as proof the vehicle is home. Return the discharged Carnet to the issuer; the deposit is then refunded or the bank guarantee released. Do not lose the booklet on the way home: no endorsement, no refund.</p>
+
+  <div class="ok-box"><b>Status:</b> Carnet <b>NOT YET STARTED</b> — this is a pre-departure action, longest lead of all the paperwork. Carnet No.: <span class="ph">CARNET No.</span> · Issued: <span class="ph">ISSUE DATE</span> · Expires: <span class="ph">EXPIRY DATE</span>.</div>
+
+  <div class="xref-bar">
+    <span class="xref-label">Cross-ref</span>
+    <span class="xref-pill">R15 · Border process &amp; technique</span>
+    <span class="xref-pill">R38 · §4 licence-break / overwinter</span>
+    <span class="xref-pill">R39 · §3 vehicle authority</span>
+    <span class="xref-pill">Profiles 007–010 · Per-country rules</span>
+  </div>
+
+  <!-- ============ INSURANCE ============ -->
+  <div id="s-insurance" class="sa"></div>
+  <h2 class="section-head">2 · Cross-Border Vehicle Insurance</h2>
+  <p class="section-intro">Third-party motor cover is compulsory in every country you enter. You either show valid cover at the border or buy it on the spot — this section is the inventory of which instrument covers where.</p>
+
+  <div class="sub-head">The COMESA Yellow Card — five of our six countries</div>
+  <p class="body">The <b>COMESA Yellow Card</b> is a regional third-party motor-insurance card recognised across thirteen Eastern and Southern African states. For this route it covers <b>Malawi, Zambia, Zimbabwe, Tanzania and Kenya</b> in one document. It provides the minimum compulsory <b>third-party liability</b> cover, plus a limited <b>third-party property-damage</b> benefit and an <b>emergency medical expenses</b> benefit. It can be <b>issued in South Africa before departure</b> (via a participating insurer's business-to-business arrangement) or bought at the first COMESA border. One card, five countries — the efficient instrument for the East African leg.</p>
+
+  <div class="warn-box"><b>Mozambique is the exception.</b> Mozambique is <b>not</b> a COMESA Yellow Card territory. On entry you buy Mozambican compulsory third-party insurance (<i>seguro obrigatório</i>) at the border — a cheap, short-term certificate issued on the spot. Budget for it and do not assume the Yellow Card covers you there.</div>
+
+  <p class="body">Any Botswana or Namibia transit on a return leg (if EX-9 routes that way) is a separate SADC arrangement — buy border third-party as applicable; resolve with the route.</p>
+
+  <div class="info-box"><b>Third-party only.</b> The Yellow Card and border certificates protect <i>other people</i> — they do not cover your own vehicle for damage or theft. Own-damage, theft and comprehensive cover, travel/medical insurance, and medevac are the <b>policies of record in R29</b>. This section owns only the cross-border third-party inventory; it does not duplicate R29.</div>
+
+  <ul class="checklist">
+    <li><span class="cl-num">1</span><span class="cl-text"><span class="cl-label">Confirm the home policy's reach</span><span class="cl-note">Check whether the SA comprehensive policy extends any cover cross-border, or arrange a rider — this is an R29 action. Own-damage abroad is the gap the Yellow Card does not fill.</span></span></li>
+    <li><span class="cl-num">2</span><span class="cl-text"><span class="cl-label">COMESA Yellow Card before departure</span><span class="cl-note">Arrange it in SA to cover Malawi, Zambia, Zimbabwe, Tanzania, Kenya. Policy No.: <span class="ph">COMESA POLICY No.</span> · Issued: <span class="ph">ISSUE</span> · Expires: <span class="ph">EXPIRY</span>.</span></span></li>
+    <li><span class="cl-num">3</span><span class="cl-text"><span class="cl-label">Budget the Mozambique border seguro</span><span class="cl-note">Bought on entry; carry local currency or small USD for it. Keep the certificate with the vehicle papers.</span></span></li>
+    <li><span class="cl-num">4</span><span class="cl-text"><span class="cl-label">Carry proof</span><span class="cl-note">Paper original plus a certified copy of every cover document, in the vehicle-papers wallet (see §5 redundancy).</span></span></li>
+  </ul>
+
+  <div class="xref-bar">
+    <span class="xref-label">Cross-ref</span>
+    <span class="xref-pill">R29 · Insurance &amp; medevac (master)</span>
+    <span class="xref-pill">R15 · Border process</span>
+    <span class="xref-pill">R39 · §1 Carnet</span>
+    <span class="xref-pill">R38 · Escalation uses R29</span>
+  </div>
+
+  <!-- ============ VEHICLE AUTHORITY ============ -->
+  <div id="s-authority" class="sa"></div>
+  <h2 class="section-head">3 · Authority to Drive a Vehicle Not in Your Name</h2>
+  <p class="section-intro">The LC76 is registered to Mary-Ann West. When Neil drives — a vehicle not in his name, across borders — officials need proof of authority, or a routine stop becomes a suspected-theft problem.</p>
+
+  <p class="body">The requirement is concrete and well established. A driver who is <b>not the registered owner</b> of a vehicle taken across an international border should carry a <b>police-certified affidavit from the registered owner</b> authorising them to take the vehicle abroad, together with the vehicle registration papers. A certified copy of the registration is accepted at most border posts; keep the original secure and carry certified copies.</p>
+
+  <ul class="checklist">
+    <li><span class="cl-num">1</span><span class="cl-text"><span class="cl-label">Owner's affidavit / letter of authority</span><span class="cl-note">From Mary-Ann West (registered owner), authorising Neil to drive and take the vehicle across borders. Commissioned at a police station (SAPS commissioner of oaths). It should name <b>both crew</b>, identify the <b>vehicle</b> (make, model, VIN, engine number, registration), and state the <b>travel dates and countries</b>. Affidavit dated: <span class="ph">AFFIDAVIT DATE</span>.</span></span></li>
+    <li><span class="cl-num">2</span><span class="cl-text"><span class="cl-label">Vehicle registration certificate</span><span class="cl-note">Original kept secure; carry several certified copies for the border wallet and the redundancy stash (§5).</span></span></li>
+    <li><span class="cl-num">3</span><span class="cl-text"><span class="cl-label">Both crew named</span><span class="cl-note">So either Neil or Mary-Ann may drive lawfully at any point — consistent with the no-single-point-of-failure crew doctrine in R37/R38.</span></span></li>
+    <li><span class="cl-num">4</span><span class="cl-text"><span class="cl-label">Finance check</span><span class="cl-note">If the vehicle were financed, a lienholder letter of authority would also be required. Confirm the vehicle is owned outright so this is not needed — record the confirmation.</span></span></li>
+  </ul>
+
+  <div class="note-box"><b>Keep the affidavit current.</b> The authority should cover the <i>actual</i> travel window. If dates slip, or a split expedition returns to RSA and departs again, commission a <b>fresh affidavit</b> for the second leg so the authorised dates always bracket the travel.</div>
+
+  <div class="warn-box"><b>The registration disk must be valid the whole time abroad.</b> An expired SA vehicle licence while the vehicle is out of the country is a genuine problem at borders and on discharge. This is the licence-renewal driver behind the EX-9 licence-break question — see R38 §4. Do not let the disk lapse mid-expedition.</div>
+
+  <div class="xref-bar">
+    <span class="xref-label">Cross-ref</span>
+    <span class="xref-pill">R15 · Border process</span>
+    <span class="xref-pill">R38 · §4 licence break</span>
+    <span class="xref-pill">R39 · §1 Carnet interlock</span>
+    <span class="xref-pill">R37 · Both crew drive</span>
+  </div>
+
+  <!-- ============ PERSONAL DOCS ============ -->
+  <div id="s-personal" class="sa"></div>
+  <h2 class="section-head">4 · Personal Documents</h2>
+  <p class="section-intro">The people-paperwork. Per-country visa detail lives in the profiles (007–010); this is the cross-cutting inventory that applies whatever the exact route.</p>
+
+  <div class="sub-head">Passports</div>
+  <p class="body">Both crew: machine-readable passports, valid for at least <b>six months beyond</b> the intended end of travel, with <b>two to three blank pages per country</b> — a multi-country trip eats passport pages in stamps faster than people expect. For a trip that may run to 2030, check that expiry covers the whole window and renew early if it is tight. Neil — No.: <span class="ph">PASSPORT No.</span> · Expires: <span class="ph">EXPIRY</span>. Mary-Ann — No.: <span class="ph">PASSPORT No.</span> · Expires: <span class="ph">EXPIRY</span>.</p>
+
+  <div class="sub-head">Visas — overview only</div>
+  <p class="body">SA passport holders are visa-free or visa-on-arrival for some of the route and need advance visas for others; regional instruments such as the KAZA UniVisa (Zimbabwe/Zambia) and East African arrangements may apply. The <b>per-country visa requirements, fees and application timing are owned by the country profiles (007–010)</b> and verified close to travel — they are deliberately not duplicated here. This guide simply flags that visas are part of the pre-departure document set.</p>
+
+  <div class="sub-head">Yellow fever certificate (ICVP)</div>
+  <p class="body">Get the yellow-fever vaccine and the <b>International Certificate of Vaccination or Prophylaxis</b> ("yellow card") <b>before departure</b>. The reason is specific to this route: the itinerary <b>includes Kenya</b>, which is on the WHO yellow-fever-risk list. That means once the crew has been in Kenya, the certificate is triggered for onward crossings and — importantly — for <b>re-entry to South Africa</b>. Tanzania and Zambia are not themselves risk-listed, but the Kenya leg makes carrying the certificate effectively mandatory for the whole trip. One dose gives lifetime protection; have it administered at an approved centre at least <b>10 days</b> before it is needed, and carry the <b>original</b> — photocopies and phone images are not accepted at most borders. Neil dated: <span class="ph">YF DATE</span> · Mary-Ann dated: <span class="ph">YF DATE</span>.</p>
+  <div class="note-box"><b>Vaccination <i>medicine</i> is R17's.</b> Malaria prophylaxis, hepatitis A, typhoid and the rest of the health picture are owned by R17 — this section records only the yellow-fever <i>certificate</i>, because it is a border document, not just a health measure.</div>
+
+  <div class="sub-head">Driving — International Driving Permit</div>
+  <p class="body">Each driver carries an <b>International Driving Permit (IDP)</b> — the AASA-issued translation of the SA licence, valid <b>12 months</b>. The IDP is only valid <b>alongside the original SA driving licence</b>; on its own it is worthless, so carry both. Both crew hold one. As with the Carnet, the 12-month life means timing the issue to the departure — a split trip may need a re-issue for the second leg. Neil IDP: <span class="ph">IDP No.</span> · Mary-Ann IDP: <span class="ph">IDP No.</span>.</p>
+
+  <div class="xref-bar">
+    <span class="xref-label">Cross-ref</span>
+    <span class="xref-pill">R17 · Health &amp; vaccination medicine</span>
+    <span class="xref-pill">R29 · Travel / medical insurance</span>
+    <span class="xref-pill">Profiles 007–010 · Visas &amp; fees</span>
+    <span class="xref-pill">R38 · Anchor holds copies</span>
+  </div>
+
+  <!-- ============ REDUNDANCY ============ -->
+  <div id="s-redundancy" class="sa"></div>
+  <h2 class="section-head">5 · Document Redundancy</h2>
+  <p class="section-intro">The same no-single-point-of-failure doctrine R38 applies to crew, applied to paper: losing or having a document wallet stolen must not end the expedition.</p>
+
+  <p class="body">Every critical document exists in three layers, in three places, so no single loss or theft is fatal:</p>
+  <div class="principle-grid">
+    <div class="principle-card">
+      <div class="p-num">Layer 1</div>
+      <div class="p-title">Originals</div>
+      <div class="p-body">Carried securely, and shown at borders only where a certified copy will not do. Split the critical originals between <b>two locations</b> in the vehicle/on the crew so a single theft never takes the whole set at once.</div>
+    </div>
+    <div class="principle-card">
+      <div class="p-num">Layer 2</div>
+      <div class="p-title">Certified copies</div>
+      <div class="p-body">A full certified-copy set — passports, registration, Carnet ID page, licences &amp; IDPs, yellow-fever certificate, insurance — stashed <b>separately</b> in the vehicle, away from the originals (per R11 packing and R35 concealment). A second full set held by the home anchor (R38).</div>
+    </div>
+    <div class="principle-card">
+      <div class="p-num">Layer 3</div>
+      <div class="p-title">Encrypted digital</div>
+      <div class="p-body">Scans of everything in <b>encrypted cloud</b> storage plus an <b>offline encrypted</b> copy on a device or USB. Access details known to <b>both crew</b> and lodged with the anchor. Retrieval depends on connectivity — see R16.</div>
+    </div>
+  </div>
+
+  <ul class="checklist">
+    <li><span class="cl-num">1</span><span class="cl-text"><span class="cl-label">Two certified-copy sets</span><span class="cl-note">One in the vehicle (separate from originals), one with the anchor at home (R38).</span></span></li>
+    <li><span class="cl-num">2</span><span class="cl-text"><span class="cl-label">Encrypted cloud + offline copy</span><span class="cl-note">Both crew know the access; the anchor holds the master reference.</span></span></li>
+    <li><span class="cl-num">3</span><span class="cl-text"><span class="cl-label">Photograph stamps on arrival</span><span class="cl-note">Photograph each country's entry stamp and Carnet vouchers as you go — a dated record that resolves later disputes.</span></span></li>
+  </ul>
+
+  <div class="note-box"><b>Certify before you leave.</b> Certified copies are made and certified <i>before departure</i> (SAPS or a commissioner of oaths) — you cannot easily certify documents on the road. Do it once, thoroughly, and make spares.</div>
+
+  <div class="xref-bar">
+    <span class="xref-label">Cross-ref</span>
+    <span class="xref-pill">R35 · Concealment &amp; theft prevention</span>
+    <span class="xref-pill">R38 · Anchor holds master set</span>
+    <span class="xref-pill">R11 · Stash locations</span>
+    <span class="xref-pill">R16 · Cloud / offline access</span>
+  </div>
+
+  <!-- ============ PART B ============ -->
+  <div class="part-banner">PART B · <span>THE MONEY THAT KEEPS YOU MOVING</span></div>
+
+  <!-- ============ MONEY ============ -->
+  <div id="s-money" class="sa"></div>
+  <h2 class="section-head">6 · Money &amp; Forex Strategy</h2>
+  <p class="section-intro">Upgrading the &ldquo;thin&rdquo; grading from the June 2026 audit. A multi-country expedition crosses several currencies, patchy card acceptance, and long stretches with no ATM. The whole strategy is one word: <b>redundancy</b> — never a single point of failure for access to money.</p>
+
+  <div class="sub-head">Currencies on the route</div>
+  <p class="body">Rand at home, then Mozambican metical, Malawian kwacha, Zimbabwe (US dollars are widely used there), Zambian kwacha, Tanzanian shilling and Kenyan shilling. Across the whole region <b>US dollars are the universal fallback</b> — but carry <b>clean, newer-series</b> notes: worn, marked, or older-series US bills are frequently refused at banks and bureaux.</p>
+
+  <div class="sub-head">The three money instruments</div>
+  <div class="principle-grid">
+    <div class="principle-card">
+      <div class="p-num">Instrument 1</div>
+      <div class="p-title">Cards</div>
+      <div class="p-body">At least <b>two cards on different networks</b> (a Visa and a Mastercard), ideally from <b>different accounts/banks</b>, so one block or fraud-freeze cannot strand you. Notify both banks of the travel dates and countries. Cards work in towns, fuel stations and lodges — and are useless in the bush.</div>
+    </div>
+    <div class="principle-card">
+      <div class="p-num">Instrument 2</div>
+      <div class="p-title">USD cash</div>
+      <div class="p-body">The primary fallback and the currency for borders, informal fuel, and anywhere cards fail. Carry a mix of denominations — <b>small notes</b> for borders, tips and the Mozambique seguro; <b>larger notes</b> for fuel and lodging. Clean, newer series only.</div>
+    </div>
+    <div class="principle-card">
+      <div class="p-num">Instrument 3</div>
+      <div class="p-title">Local currency</div>
+      <div class="p-body">Draw <b>modest</b> amounts at each country's ATMs or bureaux for daily spend. Don't over-convert — you lose on the exchange out again. Keep small local notes for markets, tips and informal purchases.</div>
+    </div>
+  </div>
+
+  <div class="sub-head">Card-failure fallback</div>
+  <p class="body">Assume a card will fail somewhere — a block, a dead network, a swallowed card, a village with no machine. The rule: <b>carry enough USD cash to complete any leg with no working card at all</b>. Keep a backup card physically <b>separate</b> from the everyday wallet. Know the banks' emergency and fraud numbers, and lodge them with the anchor (R38) alongside the R29 policy details. Emergency USD float carried: <span class="ph">USD FLOAT</span> · Banks notified: <span class="ph">DATE NOTIFIED</span>.</p>
+
+  <div class="sub-head">Cash concealment &amp; the split</div>
+  <p class="body">Never keep all the cash in one place. Split it: a <b>day-wallet</b> with modest cash for checkpoints and daily spend; <b>separate concealed stashes</b> distributed in the vehicle (per the R35 security doctrine); and a small <b>body-carried reserve</b>. Both crew know every location. At a checkpoint you show a modest wallet, never a full one — how to <i>conduct</i> yourself with solicited &ldquo;fees&rdquo; and bribes is owned by R35; this section owns only the money you carry and where.</p>
+
+  <div class="sub-head">ATM-desert planning</div>
+  <p class="body">Long remote legs have no ATM for days, and the one machine in a small town is often out of cash or offline. Before any remote stretch: <b>top up</b> local currency and USD to cover the whole leg plus a margin, and note the <b>last reliable bank/ATM town</b> on the route — a datum that feeds directly into the country profiles' serviceability notes. Never rely on a single town's single ATM working on the day you arrive.</p>
+
+  <div class="ok-box"><b>Keep a running cash log.</b> A simple ledger of what was spent, where, and in what currency — it costs nothing on the road and feeds the <b>post-trip review (R23)</b>: actual spend versus plan, and a real forex budget for the next leg.</div>
+
+  <div class="xref-bar">
+    <span class="xref-label">Cross-ref</span>
+    <span class="xref-pill">R35 · Bribery, theft &amp; concealment</span>
+    <span class="xref-pill">R23 · Post-trip cash actuals</span>
+    <span class="xref-pill">R29 · Bank emergency numbers</span>
+    <span class="xref-pill">R38 · Anchor holds numbers</span>
+    <span class="xref-pill">Profiles · ATM / bank towns</span>
+  </div>
+
+  <div class="footer">
+    LC76 OVERLAND REFERENCE LIBRARY · R39 · EXPEDITION DOCUMENTATION &amp; MONEY GUIDE<br>
+    Part A the paper that crosses borders (Carnet de Passages, cross-border insurance, authority to drive a vehicle registered to M-A West, personal documents, document redundancy) + Part B the money that keeps you moving (forex, cash-versus-card mix, concealment &amp; split, ATM-desert planning).<br>
+    Expedition Readiness Programme EX-3. Border <i>process</i> owned by R15; insurance &amp; medevac <i>policies of record</i> by R29; checkpoint, bribery &amp; theft <i>conduct</i> by R35; health &amp; vaccination <i>medicine</i> by R17; per-country visas by profiles 007–010; crew knowledge by R37. Red dashed fields are placeholders to complete before departure. Built 5 July 2026.
+  </div>
+
+</div>
+
+<script>
+  // TOC scroll
+  document.querySelectorAll('.toc-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.getAttribute('data-target');
+      const el = document.getElementById(id);
+      if (!el) return;
+      const stickyH = document.querySelector('.sticky-wrap').offsetHeight;
+      const top = el.getBoundingClientRect().top + window.scrollY - stickyH - 8;
+      window.scrollTo({ top, behavior: 'smooth' });
+    });
+  });
+
+  // IntersectionObserver for active TOC state
+  const sections = ['s-carnet','s-insurance','s-authority','s-personal','s-redundancy','s-money'];
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        document.querySelectorAll('.toc-btn').forEach(b => b.classList.remove('active'));
+        const id = entry.target.id;
+        const btn = document.querySelector(`.toc-btn[data-target="${id}"]`);
+        if (btn) btn.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-25% 0px -65% 0px', threshold: 0 });
+
+  sections.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) observer.observe(el);
+  });
+</script>
+</body>
+</html>
