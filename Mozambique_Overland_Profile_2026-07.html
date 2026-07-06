@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<!-- ════════════════════════════════════════════════════════════
+  LC76 OVERLAND REFERENCE LIBRARY · COUNTRY PROFILE 007
+  Southern Mozambique (southern focus — Maputo corridor to Beira/Sofala)
+  Built off LC76_Profile_TEMPLATE.html · v1.5 design system + mobile pattern
+  Web-researched for currency: 06 Jul 2026. Verify all fees/visa/security
+  before travel. No sensitive-site GPS published (public towns/borders/parks
+  only). Northbound Moz→Malawi leg = forward cross-reference note (EX-5/EX-9).
+  ════════════════════════════════════════════════════════════ -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LC76 Library">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0d0e12">
+<title>Southern Mozambique Overland Profile &middot; LC76</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500;600&family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+:root{
+  --ink:#0d0e12;--paper:#dad2c0;--paper2:#edeae0;--rule:#d4cfc4;
+  --amber:#b86800;--amber2:#e07800;
+  --steeldk:#2a2f3a;--steelmd:#6a7080;--steellt:#a8b0bc;
+  --red-warn:#B91C1C;--green-ok:#059669;
+  --mono:'IBM Plex Mono',monospace;
+  --sans:'Oswald',sans-serif;
+  --display:'Bebas Neue',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{overflow-x:hidden;overflow-x:clip;overscroll-behavior-x:none}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55}
+.sticky-nav-unit{position:sticky;top:0;z-index:100;background:var(--ink);padding-top:env(safe-area-inset-top)}
+.sticky-nav-unit::before{content:"";position:absolute;left:0;right:0;bottom:100%;height:100vh;background:var(--ink)}
+.std-header{background:var(--ink);padding:18px 24px 14px;position:relative;border-bottom:3px solid var(--amber);}
+.std-eyebrow{font-family:var(--mono);font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--steelmd);margin-bottom:8px;display:flex;align-items:center;gap:10px;}
+.masthead-flag{display:inline-flex;width:44px;height:28px;border:2px solid rgba(255,255,255,.30);overflow:hidden;flex-shrink:0;box-shadow:0 1px 4px rgba(0,0,0,.4);}
+.std-title{font-family:var(--display);font-size:clamp(2.1rem,6vw,3.4rem);letter-spacing:.06em;color:var(--amber2);line-height:1;}
+.std-local{font-family:var(--mono);font-size:.62rem;letter-spacing:.10em;color:rgba(255,200,100,.65);margin-top:7px;font-style:italic;}
+.std-sub{font-family:var(--sans);font-size:.92rem;font-style:italic;color:rgba(232,213,163,.85);margin-top:8px;line-height:1.4;}
+.std-vehicle{font-family:var(--mono);font-size:.50rem;letter-spacing:.08em;color:var(--steelmd);margin-top:10px;line-height:1.55;}
+.lib-home-btn{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--amber2);background:rgba(232,120,0,.15);border:1px solid var(--amber2);border-radius:20px;padding:6px 12px;min-height:32px;white-space:nowrap;position:absolute;top:50%;right:16px;transform:translateY(-50%);transition:background .2s;}
+.lib-home-btn:hover,.lib-home-btn:active{background:rgba(232,120,0,.30);}
+.alert-strip{background:#fff4f0;padding:14px 5%;display:flex;flex-direction:column;gap:10px;border-left:5px solid var(--red-warn);}
+.alert-strip .alert-main{font-family:var(--display);font-size:1.5rem;letter-spacing:.04em;line-height:1.1;color:#7a1010;}
+.alert-strip .alert-main .warn-icon{font-size:1.1rem;margin-right:6px;color:var(--red-warn);}
+.alert-pills{display:flex;flex-wrap:wrap;gap:8px;}
+.alert-strip .pill{background:#fff;padding:5px 12px;font-family:var(--sans);font-size:.84rem;font-weight:400;line-height:1.4;color:#5a1010;border-left:3px solid var(--red-warn);border:1px solid #fecaca;}
+.alert-strip .pill.warn{background:#fee2e2;color:#7a1010;border-color:#fca5a5;font-weight:600;}
+.alert-strip .pill strong{font-weight:600;color:#7a1010;}
+.toc-bar{background:var(--steeldk);padding:7px 24px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;border-bottom:2px solid var(--amber);}
+.toc-label{font-family:var(--mono);font-size:.48rem;letter-spacing:.18em;color:var(--steellt);text-transform:uppercase;margin-right:4px;flex-shrink:0}
+.toc-link{font-family:var(--mono);font-size:.48rem;color:rgba(255,255,255,.55);text-decoration:none;padding:2px 6px;border:1px solid transparent;transition:all .12s;white-space:nowrap;cursor:pointer;}
+.toc-link:hover{color:var(--amber2);border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.06)}
+.toc-link.active{color:var(--amber2);border-color:var(--amber2);background:rgba(232,120,0,.1)}
+.updated-banner{background:var(--ink);color:var(--steellt);font-family:var(--mono);font-size:.54rem;letter-spacing:.08em;padding:8px 5%;display:flex;flex-wrap:wrap;align-items:center;gap:14px;border-bottom:1px solid var(--steeldk);}
+.updated-banner strong{color:var(--amber2);font-weight:600}
+.updated-banner a{color:var(--amber2)}
+.content{padding:20px 5% 80px;max-width:100%}
+.sec-header{display:flex;align-items:center;gap:12px;padding:10px 5%;background:var(--steeldk);border-left:5px solid var(--amber2);margin:28px 0 0;}
+.sec-num{font-family:var(--mono);font-size:.58rem;font-weight:600;color:#fff;background:var(--amber);padding:3px 8px;letter-spacing:.12em;flex-shrink:0;}
+.sec-title{font-family:var(--display);font-size:1.7rem;letter-spacing:.10em;color:#fff;line-height:1;}
+.sec-sub{font-family:var(--mono);font-size:.46rem;letter-spacing:.10em;color:var(--steellt);margin-left:auto;flex-shrink:0;text-align:right}
+.subsec{background:var(--paper2);border-left:3px solid var(--amber);padding:6px 16px 6px 14px;margin:20px 0 10px;display:flex;align-items:center;gap:10px;}
+.subsec-title{font-family:var(--display);font-size:1.1rem;letter-spacing:.12em;color:var(--ink);}
+.subsec-tag{font-family:var(--mono);font-size:.44rem;letter-spacing:.12em;color:var(--steelmd);text-transform:uppercase;margin-left:auto;}
+.prose{font-family:var(--sans);font-size:.92rem;line-height:1.65;color:var(--ink);margin:8px 0 12px;}
+.prose strong{font-weight:600;color:var(--ink)}
+.prose em{color:var(--amber);font-style:italic}
+.data-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:12px 0;}
+.data-card{background:var(--paper2);border:1px solid var(--rule);border-left:3px solid var(--amber);padding:11px 14px;}
+.data-card.warn{border-left-color:var(--red-warn);background:#fff4f0}
+.data-card.note{border-left-color:var(--amber2);background:#fffbe8}
+.data-card.ok{border-left-color:var(--green-ok);background:#f0fff8}
+.data-card.dark{border-left-color:var(--amber2);background:var(--ink);color:var(--steellt)}
+.data-card-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.14em;text-transform:uppercase;color:var(--steelmd);margin-bottom:5px;}
+.data-card.warn .data-card-label{color:var(--red-warn)}
+.data-card.note .data-card-label{color:var(--amber)}
+.data-card.ok .data-card-label{color:var(--green-ok)}
+.data-card.dark .data-card-label{color:var(--amber2)}
+.data-card-value{font-family:var(--display);font-size:1.5rem;letter-spacing:.04em;color:var(--ink);line-height:1;margin-bottom:3px;}
+.data-card.warn .data-card-value{color:#7a1010}
+.data-card.ok .data-card-value{color:#0a3a20}
+.data-card.dark .data-card-value{color:#fff}
+.data-card-sub{font-family:var(--sans);font-size:.78rem;color:var(--steelmd);line-height:1.5;}
+.data-card.dark .data-card-sub{color:var(--steellt)}
+.alert{border-left:4px solid;padding:10px 14px;margin:12px 0;font-family:var(--sans);font-size:.84rem;line-height:1.55;}
+.alert strong{font-weight:600;display:block;margin-bottom:3px;font-family:var(--mono);font-size:.54rem;letter-spacing:.10em;text-transform:uppercase}
+.alert-warn{background:#fff4f0;border-color:#B91C1C;color:#5a1010}
+.alert-warn strong{color:#B91C1C}
+.alert-note{background:#fffbe8;border-color:var(--amber2);color:#4a3000}
+.alert-note strong{color:var(--amber)}
+.alert-ok{background:#f0fff8;border-color:var(--green-ok);color:#0a3a20}
+.alert-ok strong{color:var(--green-ok)}
+.alert-info{background:var(--paper2);border-color:var(--steelmd);color:var(--steeldk)}
+.alert-info strong{color:var(--steelmd)}
+.spec-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.82rem}
+.spec-table th{background:var(--steeldk);color:#fff;font-family:var(--mono);font-size:.46rem;letter-spacing:.12em;text-transform:uppercase;padding:7px 10px;text-align:left;}
+.spec-table td{padding:6px 10px;border-bottom:1px solid var(--rule);vertical-align:top;font-family:var(--sans)}
+.spec-table tr:nth-child(even) td{background:var(--paper2)}
+.spec-table .mono{font-family:var(--mono);font-size:.72rem;color:var(--amber)}
+.spec-table .warn{color:var(--red-warn);font-weight:600}
+.spec-table .ok{color:var(--green-ok);font-weight:600}
+.spec-table .num{font-family:var(--mono);font-size:.78rem;text-align:right;white-space:nowrap}
+.table-scroll{overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;max-width:100%}
+.route-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin:12px 0;}
+.route-card{background:var(--paper2);border:1px solid var(--rule);border-left:4px solid var(--amber2);padding:12px 16px;}
+.route-card.secondary{border-left-color:var(--steelmd)}
+.route-badge{font-family:var(--mono);font-size:.44rem;letter-spacing:.16em;text-transform:uppercase;color:#fff;background:var(--amber);padding:2px 8px;display:inline-block;margin-bottom:6px;}
+.route-card.secondary .route-badge{background:var(--steelmd)}
+.route-card h3{font-family:var(--display);font-size:1.25rem;letter-spacing:.06em;color:var(--ink);line-height:1.05;margin-bottom:8px;}
+.route-card ul{list-style:none;padding:0}
+.route-card li{font-family:var(--sans);font-size:.82rem;line-height:1.55;padding:4px 0;border-bottom:1px solid var(--rule);}
+.route-card li:last-child{border-bottom:none}
+.route-card li::before{content:"▸ ";color:var(--amber2);font-weight:600}
+.route-card li strong{font-weight:600;color:var(--ink)}
+.scenario{background:var(--paper2);border:1px solid var(--rule);border-top:3px solid var(--amber2);padding:12px 16px;margin:12px 0;}
+.scenario h4{font-family:var(--display);font-size:1.2rem;letter-spacing:.06em;color:var(--ink);margin-bottom:4px;line-height:1.05;}
+.scenario .scenario-meta{font-family:var(--mono);font-size:.50rem;letter-spacing:.10em;color:var(--steelmd);text-transform:uppercase;margin-bottom:8px;}
+.scenario p{font-family:var(--sans);font-size:.84rem;line-height:1.6;margin-bottom:6px;}
+.scenario ul{list-style:none;padding:0;margin-top:6px}
+.scenario li{font-family:var(--sans);font-size:.82rem;line-height:1.55;padding:3px 0;}
+.scenario li::before{content:"→ ";color:var(--amber2);font-weight:600}
+.verdict{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--rule);margin:14px 0;}
+.verdict-col{padding:11px 14px;background:var(--paper2)}
+.verdict-col:first-child{border-right:1px solid var(--rule)}
+.verdict-col h4{font-family:var(--mono);font-size:.50rem;letter-spacing:.16em;text-transform:uppercase;margin-bottom:8px;}
+.verdict-col.pros h4{color:var(--green-ok)}
+.verdict-col.cons h4{color:var(--red-warn)}
+.verdict-col ul{list-style:none;padding:0}
+.verdict-col li{font-family:var(--sans);font-size:.82rem;line-height:1.55;padding:3px 0}
+.verdict-col.pros li::before{content:"+ ";color:var(--green-ok);font-weight:700}
+.verdict-col.cons li::before{content:"− ";color:var(--red-warn);font-weight:700}
+.fuel-band{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:0;margin:12px 0;border:1px solid var(--rule);}
+.fuel-cell{padding:11px 14px;background:var(--paper2);border-right:1px solid var(--rule);}
+.fuel-cell:last-child{border-right:none}
+.fuel-cell-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.14em;text-transform:uppercase;color:var(--steelmd);margin-bottom:4px;}
+.fuel-cell-value{font-family:var(--display);font-size:1.4rem;letter-spacing:.04em;color:var(--amber);line-height:1;}
+.fuel-cell-sub{font-family:var(--mono);font-size:.62rem;color:var(--steelmd);margin-top:3px;}
+.data-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:12px 0;}
+.callout{background:var(--ink);color:var(--paper);border-left:4px solid var(--amber2);padding:12px 16px;margin:14px 0;font-family:var(--sans);font-size:.86rem;line-height:1.6;}
+.callout strong{color:var(--amber2);font-weight:600}
+.xref-bar{background:var(--steeldk);padding:8px 14px;display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:18px 0 4px;}
+.xref-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.18em;color:var(--steellt);text-transform:uppercase;flex-shrink:0;margin-right:4px}
+.xref-pill{font-family:var(--mono);font-size:.46rem;letter-spacing:.10em;color:var(--amber2);background:rgba(232,120,0,.12);border:1px solid rgba(232,120,0,.4);padding:2px 8px;text-decoration:none;white-space:nowrap;}
+.map-tabs{display:flex;border-bottom:0;margin:12px 0 0}
+.map-tab{font-family:var(--mono);font-size:.50rem;letter-spacing:.12em;text-transform:uppercase;background:var(--steeldk);color:var(--steellt);border:1px solid var(--ink);border-bottom:none;padding:9px 12px;cursor:pointer;flex:1;transition:all .12s;}
+.map-tab.active,.map-tab:hover{background:var(--amber);color:#fff;border-color:var(--amber)}
+#country-map{height:480px;border:1px solid var(--rule);background:var(--paper2);}
+.map-attrib{font-family:var(--mono);font-size:.48rem;letter-spacing:.06em;color:var(--steelmd);margin-top:6px;line-height:1.5;}
+.changelog-entry{display:grid;grid-template-columns:90px 70px 1fr;gap:12px;padding:10px 0;border-bottom:1px solid var(--rule);align-items:start;}
+.cl-date{font-family:var(--mono);font-size:.62rem;color:var(--steelmd);letter-spacing:.04em;line-height:1.4;}
+.cl-tag{font-family:var(--mono);font-size:.46rem;letter-spacing:.14em;text-transform:uppercase;padding:2px 7px;display:inline-block;font-weight:600;}
+.cl-tag.new{background:#dcfce7;color:#166534;border:1px solid #bbf7d0}
+.cl-tag.update{background:#dbeafe;color:#1e40af;border:1px solid #bfdbfe}
+.cl-tag.warn{background:#fee2e2;color:#991b1b;border:1px solid #fecaca}
+.cl-note{font-family:var(--sans);font-size:.84rem;line-height:1.55;color:var(--ink)}
+.cl-note strong{font-weight:600}
+#export-bar{background:var(--steeldk);padding:11px 5%;display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:0;font-family:var(--mono);font-size:.54rem;letter-spacing:.10em;color:var(--steellt);text-transform:uppercase;border-top:2px solid var(--amber);}
+.export-btn-inline{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:.54rem;letter-spacing:.10em;text-transform:uppercase;color:var(--amber2);background:rgba(232,120,0,.10);border:1px solid var(--amber2);padding:6px 12px;cursor:pointer;}
+.export-btn-inline:hover{background:rgba(232,120,0,.25)}
+.doc-footer{background:var(--ink);color:var(--steellt);font-family:var(--mono);font-size:.48rem;letter-spacing:.08em;padding:14px 5%;line-height:1.7;display:flex;flex-direction:column;gap:3px;}
+.doc-footer strong{color:var(--amber2);font-weight:600}
+@media(max-width:600px){
+  .std-header{padding:14px 16px 12px}
+  .std-title{font-size:clamp(1.7rem,7vw,2.6rem)}
+  .toc-bar{padding:5px 12px!important;flex-wrap:nowrap!important;overflow-x:auto!important;overscroll-behavior-x:contain!important;-webkit-overflow-scrolling:touch!important;scrollbar-width:none!important}
+  .toc-bar::-webkit-scrollbar{display:none}
+  .toc-link{font-size:.44rem!important;padding:2px 5px!important;white-space:nowrap!important}
+  .alert-strip{padding:12px 16px!important;gap:8px!important;}
+  .updated-banner{padding:7px 16px;font-size:.50rem}
+  .sec-header{padding:8px 16px;margin:18px 0 0}
+  .sec-title{font-size:1.4rem}
+  .content{padding:14px 4% 60px}
+  .data-grid,.route-grid,.data-cards{grid-template-columns:1fr}
+  .verdict{grid-template-columns:1fr}
+  .verdict-col:first-child{border-right:none;border-bottom:1px solid var(--rule)}
+  .fuel-band{grid-template-columns:repeat(2,1fr)}
+  .fuel-cell{border-right:none;border-bottom:1px solid var(--rule)}
+  .spec-table{display:block;overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
+  #country-map{height:340px}
+  .changelog-entry{grid-template-columns:1fr;gap:4px}
+  #export-bar{padding:10px 16px}
+}
+@media print{
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;color-adjust:exact!important}
+  @page{margin:7mm;size:A4}
+  :root{--ink:#0d0e12;--paper:#dad2c0;--paper2:#edeae0;--amber:#b86800;--amber2:#e07800;--steeldk:#2a2f3a;--steelmd:#6a7080;--red-warn:#B91C1C;--green-ok:#059669}
+  html,body{overflow:visible!important}
+  body{font-size:7.5pt;background:#dad2c0}
+  .sticky-nav-unit{position:static!important}
+  .sticky-nav-unit::before{content:none!important}
+  .std-header{background:#0d0e12!important;padding:6px 10px!important;border-bottom:2px solid #e07800!important}
+  .std-title{color:#e07800!important;font-size:1.6rem!important}
+  .toc-bar{display:none!important}
+  .alert-strip{break-inside:avoid}
+  .sec-header{background:#2a2f3a!important;margin:8px 0 0!important;padding:5px 10px!important;break-after:avoid}
+  .sec-num{background:#b86800!important}
+  .content{padding:0 8px 10px!important}
+  .data-card,.route-card,.alert,.callout{break-inside:avoid}
+  .scenario{break-inside:auto}
+  .scenario h4,.scenario .scenario-meta{break-after:avoid}
+  .spec-table{break-inside:auto}
+  .spec-table thead{display:table-header-group}
+  .data-card.dark{background:#0d0e12!important}
+  .data-card.dark .data-card-value{color:#fff!important}
+  .spec-table th{background:#2a2f3a!important;color:#fff!important}
+  .spec-table tr:nth-child(even) td{background:#edeae0!important}
+  #country-map{display:none!important}
+  .map-tabs{display:none!important}
+  .map-attrib{display:none!important}
+  #export-bar{display:none!important}
+  .doc-footer{background:#0d0e12!important;padding:6px 10px!important}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ STICKY NAV UNIT ════════════════════════════════════ -->
+<div class="sticky-nav-unit">
+
+<header class="std-header">
+  <a href="index.html" class="lib-home-btn" title="Library Index">⌂ Index</a>
+  <div class="std-eyebrow">
+    <span class="masthead-flag"><svg viewBox="0 0 44 28" style="width:44px;height:28px;display:block" xmlns="http://www.w3.org/2000/svg"><rect width="44" height="9.33" y="0" fill="#009639"/><rect width="44" height="1.4" y="9.33" fill="#fff"/><rect width="44" height="6.53" y="10.73" fill="#000"/><rect width="44" height="1.4" y="17.26" fill="#fff"/><rect width="44" height="9.34" y="18.66" fill="#ffce00"/><polygon points="0,0 20,14 0,28" fill="#d21034"/><polygon points="5,10 6.2,13.6 10,13.6 6.9,15.8 8.1,19.4 5,17.2 1.9,19.4 3.1,15.8 0,13.6 3.8,13.6" fill="#ffce00"/></svg></span>
+    <span style="margin-left:auto;white-space:nowrap">Overland Series · Country Profile 007</span>
+  </div>
+  <h1 class="std-title">Southern Mozambique</h1>
+  <div class="std-local">República de Moçambique · southern focus: Maputo corridor to Beira / Sofala</div>
+  <div class="std-sub">First country north of home — the coastal shakedown leg. Easy on paper, disciplined in practice: documents, insurance, fuel reserves and daylight driving.</div>
+  <div class="std-vehicle">
+LC76 SW 1HZ &middot; SA-plated / RHD &middot; Entry: Lebombo/Ressano Garcia (N4) or Kosi Bay/Ponta do Ouro &middot; SA passport visa-free 30 days (verify ETA) &middot; Compiled 06 Jul 2026
+</div>
+</header>
+
+<nav class="toc-bar">
+  <span class="toc-label">Sections</span>
+  <a href="javascript:void(0)" onclick="document.getElementById('alerts').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">! Alerts</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s01').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">01. Entry</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s02').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">02. Borders</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s03').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">03. Vehicle</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s04').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">04. Season</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s05').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">05. Fuel</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s06').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">06. Parts &amp; Service</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s07').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">07. Roads</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s08').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">08. Security</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s09').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">09. Health</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s10').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">10. Camp Safety</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s11').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">11. Comms</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s12').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">12. Money</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s13').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">13. Parks &amp; Camping</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s14').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">14. Maputo &amp; Far South</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s15').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">15. Inhambane &amp; Bazaruto</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s16').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">16. Maps</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s17').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">17. Far South Route</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s18').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">18. Coastal Route</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s19').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">19. Phrases</a>
+</nav>
+
+</div><!-- end sticky-nav-unit -->
+
+<div class="updated-banner">
+  <span>🗓 <strong>Last updated:</strong> 06 July 2026</span>
+  <span>· USD 1 ≈ MZN 64 · ZAR 1 ≈ MZN 3.5 <em style="color:var(--steelmd)">(indicative)</em></span>
+  <span>· <a href="javascript:void(0)" onclick="document.getElementById('changelog').scrollIntoView({behavior:'smooth'});return false;">View changelog ↓</a></span>
+</div>
+
+<main class="content">
+
+<!-- ══ CRITICAL FIELD NOTICES ══════════════════════════════ -->
+<div class="sec-header" id="alerts" style="background:#fff4f0;border-left-color:var(--red-warn);">
+  <span class="sec-num" style="background:var(--red-warn);color:#fff;">!</span>
+  <span class="sec-title" style="color:#7a1010;">Critical Field Notices — Southern Mozambique</span>
+  <span class="sec-sub" style="color:#B91C1C;">Read Before Entering</span>
+</div>
+
+<div class="alert-strip">
+  <div class="alert-main"><span class="warn-icon">▲</span>Five things that stop or endanger this leg</div>
+  <div class="alert-pills">
+    <span class="pill warn"><strong>SORCA third-party insurance is compulsory</strong> for the vehicle before you cross — no cover, no entry. Buy online in advance or at the post.</span>
+    <span class="pill warn"><strong>EN1 banditry corridor north of the Save River</strong> (Save→Muxungue, Gorongosa→Caia) and EN6 Beira–Chimoio: armed attacks on vehicles; military convoys on some stretches. This gates any push toward Beira.</span>
+    <span class="pill"><strong>Diesel is dear and can be scarce</strong> — 2026 supply disruptions brought closed pumps, queues and purchase limits. Fill at every branded station; run the aux cells full.</span>
+    <span class="pill"><strong>Never drive after dark</strong> — unlit vehicles, livestock, potholes, and higher banditry/robbery risk. Plan to be camped by late afternoon.</span>
+    <span class="pill"><strong>Carry ORIGINAL documents</strong> — passport, licence, vehicle registration, SORCA, TIP. Notarised copies are not accepted at checkpoints. Two red triangles + reflective vests are mandatory.</span>
+  </div>
+</div>
+
+<div class="alert alert-note">
+  <strong>Scope of this profile</strong>
+  Profile 007 covers <strong>southern Mozambique with a coastal focus, extended north to Beira / Sofala</strong> — Maputo, Gaza and Inhambane provinces (the classic self-drive belt from Ponta do Ouro to the Bazaruto coast) plus the Sofala approach to Beira. The <strong>northbound leg to Malawi</strong> (inland via the Tete corridor, central Mozambique) is deliberately <em>out of scope here</em> and is carried as a forward cross-reference — see the callout in §18 and the Malawi profile (008 / EX-5) and the route workshop (EX-9).
+</div>
+
+<!-- ══ 01 ENTRY & VISAS ════════════════════════════════════ -->
+<div class="sec-header" id="s01">
+  <span class="sec-num">01</span>
+  <span class="sec-title">Entry &amp; Visas</span>
+  <span class="sec-sub">SA passport · SADC visa-free · ETA in flux</span>
+</div>
+
+<p class="prose">For a <strong>South African passport holder</strong>, Mozambique is visa-free for tourism under the SADC bilateral arrangement — the standard grant is <strong>30 days</strong> (some sources cite up to 90; the reliable working figure for a land crossing is 30 days, extendable in-country at a provincial migration office). This is one reason Mozambique is the natural first leg: minimal paperwork friction on the personal-entry side.</p>
+
+<div class="alert alert-warn">
+  <strong>2026 change — verify before every crossing</strong>
+  Mozambique launched a new digital entry platform (<em>evisa.gov.mz</em>) on 11 Feb 2026 and is phasing in an <strong>Electronic Travel Authorisation (ETA)</strong> plus a small entry tax (reported around 650 MZN / ~USD 10) that, in principle, applies even to visa-exempt travellers. Enforcement in early 2026 was inconsistent (land arrivals from SA have largely continued visa-free), but this is exactly the kind of rule that hardens without notice. <strong>Check evisa.gov.mz within a week of travel</strong> and complete any ETA at least 48 h ahead. If the expedition is split (a licence-break return to RSA and re-entry), plan for the multi-entry implications — a single-entry authorisation will not cover re-entry.</div>
+
+<div class="data-grid">
+  <div class="data-card ok">
+    <div class="data-card-label">SA Passport · Tourism</div>
+    <div class="data-card-value">Visa-free</div>
+    <div class="data-card-sub">30 days standard (SADC). Passport valid 6 months, 2–3 blank pages, onward/return intent.</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-card-label">ETA / Entry Tax</div>
+    <div class="data-card-value">Emerging</div>
+    <div class="data-card-sub">2026 rollout ~650 MZN. Verify at evisa.gov.mz; complete 48 h before travel if required.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Extension</div>
+    <div class="data-card-value">In-country</div>
+    <div class="data-card-sub">Provincial Direcção Nacional de Migração; administrative fee. Do it before overstay.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">Split-trip / Re-entry</div>
+    <div class="data-card-value">Plan ahead</div>
+    <div class="data-card-sub">Single-entry authorisation won't cover a licence-break return. Resolve in EX-9.</div>
+  </div>
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">See also</span>
+  <a href="LC76_Expedition_Documentation_Money_Guide.html" class="xref-pill">R39 · Docs &amp; Money</a>
+  <a href="LC76_Border_Crossings_Guide.html" class="xref-pill">R15 · Border Process</a>
+</div>
+
+<!-- ══ 02 BORDER CROSSINGS ═════════════════════════════════ -->
+<div class="sec-header" id="s02">
+  <span class="sec-num">02</span>
+  <span class="sec-title">Border Crossings</span>
+  <span class="sec-sub">Lebombo main · Kosi Bay coastal · Giriyondo park</span>
+</div>
+
+<p class="prose">Three crossings serve southern Mozambique from South Africa. <strong>Lebombo / Ressano Garcia</strong> is the workhorse — busy, truck-heavy, but tarred all the way and 90-odd km from Maputo. <strong>Kosi Bay / Ponta do Ouro</strong> is the coastal option into the far south (sand roads, 4×4 needed). <strong>Giriyondo</strong> links Kruger to Limpopo National Park inside the Great Limpopo TFCA (seasonal hours, 4×4, park fees both sides).</p>
+
+<div class="table-scroll">
+<table class="spec-table">
+  <thead><tr><th>Crossing</th><th>Character</th><th>Hours (verify)</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Lebombo / Ressano Garcia</strong><br><span class="mono">N4 · Komatipoort</span></td><td>Main artery; tar; trucks &amp; runners</td><td class="num">06:00–24:00*</td><td>~92 km to Maputo on the EN4 (toll road). Gate-pass system; keep it stamped. Ignore "runners" — no official fee to complete documents.</td></tr>
+    <tr><td><strong>Kosi Bay / Ponta do Ouro</strong><br><span class="mono">KZN coast</span></td><td>Coastal; sand; 4×4 only</td><td class="num">08:00–17:00*</td><td>Deflate for deep sand into Ponta. Fuel <span class="warn">not always available</span> at Ponta do Ouro — arrive with a full tank + reserves.</td></tr>
+    <tr><td><strong>Giriyondo</strong><br><span class="mono">Kruger → Limpopo NP</span></td><td>Park-to-park TFCA; gravel; 4×4</td><td class="num">08:00–16:00*</td><td>Seasonal / shorter winter hours. Park entry fees both sides; you exit into Limpopo NP, not open road.</td></tr>
+  </tbody>
+</table>
+</div>
+<p class="prose" style="font-size:.78rem;color:var(--steelmd)">*Hours drift with season, staffing and holidays — confirm on the day. Lebombo often runs 24 h over the December peak.</p>
+
+<div class="alert alert-note">
+  <strong>Crossing drill (both crew rehearse)</strong>
+  Passports stamped → vehicle gate-pass issued → customs (declare valuables: cameras, laptops, drone) → Temporary Import Permit (TIP) for the vehicle → present SORCA certificate → exit gate checks the stamped pass. Keep the SA customs export slip for re-entry. Because the vehicle is registered to <strong>Mary-Ann West</strong>, carry the owner-authority affidavit (R39 §3) whenever Neil drives without her.</div>
+
+<div class="xref-bar">
+  <span class="xref-label">See also</span>
+  <a href="LC76_Border_Crossings_Guide.html" class="xref-pill">R15 · Border Technique</a>
+  <a href="LC76_Security_Fire_Guide.html" class="xref-pill">R35 · Checkpoints &amp; Bribery</a>
+</div>
+
+<!-- ══ 03 VEHICLE DOCUMENTS ════════════════════════════════ -->
+<div class="sec-header" id="s03">
+  <span class="sec-num">03</span>
+  <span class="sec-title">Vehicle Documents</span>
+  <span class="sec-sub">SORCA · TIP · originals · triangles</span>
+</div>
+
+<p class="prose">Mozambique has no equivalent of the SA Road Accident Fund, so it insists foreign vehicles carry local third-party cover. Get the paperwork exactly right — this is where an easy country becomes an expensive one.</p>
+
+<div class="data-grid">
+  <div class="data-card warn">
+    <div class="data-card-label">SORCA — compulsory</div>
+    <div class="data-card-value">3rd-party</div>
+    <div class="data-card-sub"><em>Seguro Obrigatório de Responsabilidade Civil Automóvel</em>. Valid 30 days from entry; extend for longer stays. Buy online (SORCA Online / Hollard / Global Alliance) or at the border. This is liability only — own-damage &amp; medevac stay with R29.</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-card-label">TIP</div>
+    <div class="data-card-value">At border</div>
+    <div class="data-card-sub">Temporary Import Permit for the vehicle, issued at the post. Keep it with the registration.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Carry — originals</div>
+    <div class="data-card-value">On person</div>
+    <div class="data-card-sub">Passport, driving licence (+ IDP), original vehicle registration, SORCA certificate, TIP. Notarised copies are <span style="color:var(--red-warn)">not</span> accepted at checkpoints.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Mandatory kit</div>
+    <div class="data-card-value">2 triangles</div>
+    <div class="data-card-sub">Two red warning triangles + reflective vests. Seatbelts always. No phone in hand while driving. Do not photograph police, officials or government buildings.</div>
+  </div>
+</div>
+
+<div class="callout">
+  <strong>Owner-authority note.</strong> The LC76 is registered to Mary-Ann West. When Neil drives — especially if crossing or being checked without her present — a police-certified <strong>letter of authority / owner affidavit</strong> plus a certified copy of the registration prevents a "whose vehicle is this?" problem at a checkpoint. The master copy and strategy live in <strong>R39 §3</strong>; carry a certified set in the vehicle.
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">See also</span>
+  <a href="LC76_Expedition_Documentation_Money_Guide.html" class="xref-pill">R39 · Docs INVENTORY</a>
+  <a href="LC76_Insurance_Medevac.html" class="xref-pill">R29 · Insurance &amp; Medevac</a>
+</div>
+
+<!-- ══ 04 BEST SEASON & TIMING ═════════════════════════════ -->
+<div class="sec-header" id="s04">
+  <span class="sec-num">04</span>
+  <span class="sec-title">Best Season &amp; Timing</span>
+  <span class="sec-sub">Dry May–Oct · cyclones Nov–Apr</span>
+</div>
+
+<p class="prose">Southern Mozambique runs on two seasons. The <strong>dry, cooler winter (May–October)</strong> is the driving season: firmer sand tracks, clearer coastal water, fewer mosquitoes, and it dovetails with a Karoo-style RSA departure. The <strong>wet summer (November–April)</strong> is hot and humid and is <strong>cyclone season</strong> — the Mozambique Channel regularly spins up systems that flood the coastal plain and cut the EN1 (Cyclone Gezani, Feb 2026, is the recent example).</p>
+
+<div class="fuel-band">
+  <div class="fuel-cell"><div class="fuel-cell-label">Prime window</div><div class="fuel-cell-value">May–Oct</div><div class="fuel-cell-sub">Dry, cooler, best tracks</div></div>
+  <div class="fuel-cell"><div class="fuel-cell-label">Whale / marine</div><div class="fuel-cell-value">Jun–Oct</div><div class="fuel-cell-sub">Humpbacks, whale sharks</div></div>
+  <div class="fuel-cell"><div class="fuel-cell-label">Turtle nesting</div><div class="fuel-cell-value">Oct–Mar</div><div class="fuel-cell-sub">Maputo NP / Bazaruto beaches</div></div>
+  <div class="fuel-cell"><div class="fuel-cell-label">Avoid</div><div class="fuel-cell-value">Jan–Mar</div><div class="fuel-cell-sub">Cyclone peak; EN1 flooding</div></div>
+</div>
+
+<div class="alert alert-note">
+  <strong>Timing against the expedition</strong>
+  A dry-season entry aligns with the East-Africa seasonal pattern the whole route depends on (rains roughly Nov–Apr — verify in EX-9). It also keeps the coastal sand firm and the malaria load lower. If a licence-break return lands you re-entering in mid-summer, treat cyclone tracking as a daily task and keep the coastal EN1 escape-north/south options in mind.</div>
+
+<!-- ══ 05 FUEL ═════════════════════════════════════════════ -->
+<div class="sec-header" id="s05">
+  <span class="sec-num">05</span>
+  <span class="sec-title">Fuel</span>
+  <span class="sec-sub">50 ppm nationwide · dear · can be scarce</span>
+</div>
+
+<p class="prose">Mozambique moved its whole market to <strong>50 ppm low-sulphur diesel in 2017</strong>, so the grade is fine for the 1HZ (which is in any case tolerant of higher sulphur — one of the reasons this engine was chosen). The live issues are <strong>price</strong>, <strong>supply reliability</strong>, and <strong>on-the-ground quality</strong> in smaller towns, not the sulphur spec.</p>
+
+<div class="data-grid">
+  <div class="data-card warn">
+    <div class="data-card-label">Diesel price (Jul 2026)</div>
+    <div class="data-card-value">~MZN 116/L</div>
+    <div class="data-card-sub">≈ USD 1.8/L after a ~45% May-2026 hike. Materially dearer than RSA — budget the coastal legs on this, not on home prices. Volatile; re-check ARENE before travel.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">Supply (2026)</div>
+    <div class="data-card-value">Disrupted</div>
+    <div class="data-card-sub">Closed pumps, queues and purchase limits reported through 2026 (import-route pressure). Never run below half a tank; top up at every branded station.</div>
+  </div>
+  <div class="data-card ok">
+    <div class="data-card-label">Grade</div>
+    <div class="data-card-value">50 ppm</div>
+    <div class="data-card-sub">Nationwide since 2017. Fine for the 1HZ. Contamination (water/dirt), not sulphur, is the real risk.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Onboard range</div>
+    <div class="data-card-value">145 + 40 L</div>
+    <div class="data-card-sub">Main tank + 2×20 L Desert Fox cells. Keep the cells full leaving Maputo and Vilanculos.</div>
+  </div>
+</div>
+
+<p class="prose"><strong>Reliable fill points on the coastal spine:</strong> Maputo/Matola, Macia, Xai-Xai, Quissico, Maxixe, Inhambane, Massinga, Vilanculos and Inhassoro all have stations. Prefer the busy branded forecourts (Galp, Puma, Total, Engen) in the larger towns; be wary of low-volume rural pumps where old or watered stock sits. <strong>Use the water-separating pre-filter, drain it, and treat any suspect fill with caution</strong> — the 1HZ will run on poor diesel but the injection system (freshly overhauled Jun 2026) is worth protecting.</p>
+
+<div class="alert alert-warn">
+  <strong>Ponta do Ouro fuel trap</strong>
+  Fuel is frequently unavailable at Ponta do Ouro. If entering via Kosi Bay, cross with a full main tank and both cells full; don't rely on buying diesel until Maputo or a main-road town.</div>
+
+<div class="xref-bar">
+  <span class="xref-label">See also</span>
+  <a href="LC76_Fuel_System_Guide.html" class="xref-pill">R24 · Fuel &amp; Diesel Quality</a>
+  <a href="LC76_Fuel_Range_Calculator.html" class="xref-pill">Fuel Range Calc</a>
+  <a href="LC76_Trip_Fuel_Planner.html" class="xref-pill">Trip Fuel Planner</a>
+</div>
+
+<!-- ══ 06 PARTS & SERVICEABILITY (NEW) ═════════════════════ -->
+<div class="sec-header" id="s06">
+  <span class="sec-num">06</span>
+  <span class="sec-title">Parts &amp; Serviceability</span>
+  <span class="sec-sub">1HZ · tyres · Victron · fuel quality</span>
+</div>
+
+<p class="prose">This section is the expedition-readiness view: what can be sourced or serviced in-country, and what must be carried or deferred to South Africa. It feeds the R3 consumables ledger (EX-8). The short version for Mozambique: <strong>good general Toyota presence and strong 70-Series familiarity, but treat South Africa — one border away — as the real support base for anything specialist.</strong></p>
+
+<div class="subsec"><span class="subsec-title">1HZ / Toyota parts &amp; workshops</span><span class="subsec-tag">CFAO Mobility network</span></div>
+<p class="prose">Toyota is represented by <strong>CFAO Mobility (Toyota Moçambique)</strong>, with sales-and-service branches in <strong>Maputo</strong> (Toyota Gallery, Av. 25 de Setembro), <strong>Matola</strong> (parts shop + workshop), <strong>Beira</strong> (Entreposto Auto), and an expedition-oriented agent, <strong>VES — Vehicle Expedition Services, in Vilanculos</strong> (handy on the coastal route). The 70-Series is a regional workhorse, so mechanical familiarity and common consumables are widely available; genuine <strong>1HZ-specific injection parts</strong> (VE-pump internals, injectors, nozzles) are <em>not</em> reliably stocked — carry those per R3.</p>
+
+<div class="table-scroll">
+<table class="spec-table">
+  <thead><tr><th>Item</th><th>In southern Moz?</th><th>Posture</th></tr></thead>
+  <tbody>
+    <tr><td>Engine oil, common filters (oil/air/fuel)</td><td class="ok">Usually</td><td>Buy in Maputo/Beira; still carry one full service set (R3).</td></tr>
+    <tr><td>Belts, hoses, general wear items</td><td class="ok">Often</td><td>Toyota/aftermarket in main towns; carry the critical belt set (interference engine).</td></tr>
+    <tr><td>1HZ injection parts (pump, injectors, nozzles)</td><td class="warn">Rarely</td><td>Carry; or source from RSA. Freshly overhauled Jun 2026 — protect it.</td></tr>
+    <tr><td>Suspension (OME-spec), diff/clutch parts</td><td class="warn">No</td><td>Carry consumables; specialist work → RSA.</td></tr>
+    <tr><td>Diesel/turbo workshop (specialist)</td><td class="warn">Limited</td><td>General workshops in Maputo/Beira; for pump/injection work, plan RSA.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="subsec"><span class="subsec-title">Tyres — 265/70R16 (and planned 265/75R16)</span><span class="subsec-tag">buy quality in RSA</span></div>
+<p class="prose"><strong>265/70R16</strong> is a common fitment (Hilux/Fortuner/Land Cruiser), so tyre fitment and basic stock exist in Maputo and Beira. But do not expect a matched <strong>Maxxis AT811</strong> or a quality all-terrain in your size on demand — an emergency buy is likely to be whatever brand is on the shelf. The disciplined posture: <strong>enter on good rubber bought in RSA, carry a sound full-size spare, and carry the plug/repair kit + compressor.</strong> The future <strong>265/75R16</strong> upgrade should likewise be fitted in South Africa, not sourced on the road.</p>
+
+<div class="subsec"><span class="subsec-title">Victron / LiFePO4 support</span><span class="subsec-tag">RSA is the base</span></div>
+<p class="prose">Victron components are sold and installed by <strong>solar-trade dealers in Maputo</strong> (e.g. SwissSolar, SOLMOZ and other off-grid installers) and carry Victron's global warranty, so a replacement MPPT, SmartShunt or fuse can in principle be obtained in the capital. There is, however, <strong>no 4×4-specific Victron fitment expertise on the road</strong>, and the system was installed near home by Manjaro Industries. Practical posture: the LiFePO4 house system is largely self-monitoring via VictronConnect Bluetooth; <strong>carry spare fuses and a VE.Direct cable, know the R26/R7 fault trees, and treat South Africa as the repair base.</strong> Because Mozambique is the first, closest country north of home, a serious electrical fault is often best resolved by returning to RSA or having parts shipped.</p>
+
+<div class="subsec"><span class="subsec-title">Fuel quality &amp; 50 ppm</span><span class="subsec-tag">see also §05</span></div>
+<p class="prose">50 ppm nationwide (2017); the 1HZ is untroubled by the grade. Water and particulate contamination in low-volume rural pumps is the real serviceability concern — run the pre-filter/water separator, drain it regularly, and favour high-turnover branded stations. Halve the effective oil-change confidence if you're forced onto suspect stock, and log every fill for the R3 ledger and post-trip review (R23).</p>
+
+<div class="callout">
+  <strong>Serviceability verdict — southern Mozambique.</strong> Green for consumables and general Toyota help; amber for anything 1HZ-specific, suspension/driveline, tyres-by-brand, or Victron. Net: <strong>self-sufficient to R3 spec, with RSA as a one-border fallback.</strong> This is the easiest country on the route to recover from — use it to shake down the spares list before the harder legs north.
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">See also</span>
+  <a href="LC76_Spares_Tools.html" class="xref-pill">R3 · Spares &amp; Tools</a>
+  <a href="LC76_Electrical_Wiring_Guide.html" class="xref-pill">R26 · Electrical</a>
+  <a href="LC76_LiFePO4_System_Report.html" class="xref-pill">R7 · LiFePO4</a>
+  <a href="LC76_Tyre_Management_Guide.html" class="xref-pill">R14 · Tyres</a>
+</div>
+
+<!-- ══ 07 ROADS ════════════════════════════════════════════ -->
+<div class="sec-header" id="s07">
+  <span class="sec-num">07</span>
+  <span class="sec-title">Roads</span>
+  <span class="sec-sub">EN1 spine · coastal sand · potholes</span>
+</div>
+
+<p class="prose">The <strong>EN1</strong> is the national artery running north up the coastal plain — mostly tar, but with pothole stretches, patchy edges and long gaps between towns. The <strong>EN4</strong> from Ressano Garcia to Maputo is a good toll road. Off the EN1, the coastal access tracks to the beaches (Tofo, Barra, Vilanculos backroads, Ponta) are <strong>deep sand</strong> — deflate and engage 4×4.</p>
+
+<div class="data-grid">
+  <div class="data-card">
+    <div class="data-card-label">EN4 (border → Maputo)</div>
+    <div class="data-card-value">Good tar</div>
+    <div class="data-card-sub">Toll road, ~92 km. Tolls payable both SA (N4) and Moz (EN4) sides.</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-card-label">EN1 spine</div>
+    <div class="data-card-value">Variable tar</div>
+    <div class="data-card-sub">Mostly sealed; potholes, soft edges, livestock. Slow, defensive driving; daylight only.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Coastal tracks</div>
+    <div class="data-card-value">Deep sand</div>
+    <div class="data-card-sub">Deflate to ~1.0–1.2 bar; 4×4; carry MaxTrax + compressor. Maputo NP posts 1 bar at the gate.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">EN1 north of Save</div>
+    <div class="data-card-value">See §08</div>
+    <div class="data-card-sub">Security, not surface, is the constraint toward Beira — convoys on some stretches.</div>
+  </div>
+</div>
+
+<div class="alert alert-note">
+  <strong>Driving discipline</strong>
+  Speed limits are enforced with radar and manned checkpoints — <strong>keep to limits, especially through towns</strong>, where speed traps are a known revenue point (see R35 on checkpoints and bribery). Overtake only with clear sight; heavy truck traffic on the EN1 and EN4. Livestock and pedestrians on the road edge at all hours. No night driving.</div>
+
+<div class="xref-bar">
+  <span class="xref-label">See also</span>
+  <a href="LC76_Driving_Conditions_Guide.html" class="xref-pill">R28 · Driving Conditions</a>
+  <a href="LC76_Tyre_Pressure_Calculator.html" class="xref-pill">Tyre Pressure Calc</a>
+</div>
+
+<!-- ══ 08 SECURITY ═════════════════════════════════════════ -->
+<div class="sec-header" id="s08">
+  <span class="sec-num">08</span>
+  <span class="sec-title">Security</span>
+  <span class="sec-sub">South stable · EN1/Sofala corridor · protests</span>
+</div>
+
+<p class="prose">The security picture is <strong>two countries in one</strong>. The coastal south — Maputo, Gaza, Inhambane, down to the Bazaruto coast — is <strong>relatively stable</strong>, with ordinary crime (petty theft, opportunistic robbery, carjacking risk in Maputo peaking Nov–Mar) as the main concern. The <strong>far north (Cabo Delgado, Niassa Special Reserve, northern Nampula)</strong> is an active insurgency zone — <strong>Level 4 / Do Not Travel</strong> — but it is well outside this profile's scope. The pinch point for <em>this</em> route is the <strong>central corridor toward Beira</strong>.</p>
+
+<div class="alert alert-warn">
+  <strong>EN1 / EN6 banditry corridor — central Mozambique</strong>
+  Government travel advisories flag armed attacks on vehicles on the <strong>EN1 between the Save River and Muxungue, and Gorongosa to Caia</strong>, and on the <strong>EN6 between Beira and Chimoio</strong> (also EN7 Nova Vanduzi–Luenha). Mozambican forces have run <strong>military convoys</strong> on some stretches. This is the residual of the Renamo-era tension in Sofala/Manica, distinct from the northern insurgency. If the itinerary pushes to Beira, <strong>get current local advice, travel only in daylight, and use any organised convoy</strong> — or reconsider the inland push and keep to the coast.</div>
+
+<div class="data-grid">
+  <div class="data-card ok">
+    <div class="data-card-label">Coastal south</div>
+    <div class="data-card-value">Stable</div>
+    <div class="data-card-sub">Maputo–Inhambane–Bazaruto belt. Normal urban crime precautions.</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-card-label">Post-election unrest</div>
+    <div class="data-card-value">Sporadic</div>
+    <div class="data-card-sub">After Oct-2024 elections; eased since early 2025 but protests can block roads/tolls/borders at short notice. Local elections Oct 2026 a possible trigger.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">Maputo crime</div>
+    <div class="data-card-value">Petty→armed</div>
+    <div class="data-card-sub">Bag-snatching at lights (windows up, doors locked); watch Costa do Sol / Polana after dark. Carjacking risk higher Nov–Mar.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">Far north</div>
+    <div class="data-card-value">Do Not Travel</div>
+    <div class="data-card-sub">Cabo Delgado / Niassa SR / N Nampula — out of scope; never divert there.</div>
+  </div>
+</div>
+
+<div class="callout">
+  <strong>Checkpoints.</strong> Uniformed police checkpoints are routine. Keep documents to hand, be courteous, insist on being shown the alleged offence, and do not initiate a bribe. Full technique — including the "fine payable at the station" line and how to hold ground calmly — is in <strong>R35</strong>. Escalation and no-contact protocol is in <strong>R38</strong>.
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">See also</span>
+  <a href="LC76_Security_Fire_Guide.html" class="xref-pill">R35 · Security &amp; Checkpoints</a>
+  <a href="LC76_Expedition_Operations_Plan.html" class="xref-pill">R38 · Ops &amp; Escalation</a>
+</div>
+
+<!-- ══ 09 HEALTH ═══════════════════════════════════════════ -->
+<div class="sec-header" id="s09">
+  <span class="sec-num">09</span>
+  <span class="sec-title">Health</span>
+  <span class="sec-sub">Malaria holoendemic · thin facilities</span>
+</div>
+
+<p class="prose">Southern Mozambique is a <strong>year-round malaria area</strong> — this is the single biggest health consideration. Prophylaxis is strongly advised, worst risk in the wet season and at the coast. Public medical facilities are weak and often short of supplies; serious care means <strong>evacuation, in practice back to South Africa</strong>, which puts the R29 medevac cover front and centre on the very first leg.</p>
+
+<div class="data-grid">
+  <div class="data-card warn">
+    <div class="data-card-label">Malaria</div>
+    <div class="data-card-value">Holoendemic</div>
+    <div class="data-card-sub">Prophylaxis + bite avoidance (DEET, long sleeves dusk-dawn, treated net). Carry a rapid test + standby treatment; know the symptoms.</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-card-label">Yellow fever</div>
+    <div class="data-card-value">If arriving from risk</div>
+    <div class="data-card-sub">Certificate required only if coming from a YF country. The route's Kenya leg makes the ICVP effectively mandatory overall — see R39 §4.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Water / food</div>
+    <div class="data-card-value">Treat it</div>
+    <div class="data-card-sub">Filter/treat all water (R12). Cholera outbreaks occur post-cyclone. Bilharzia in fresh water — avoid still lakes/streams.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">Facilities / evac</div>
+    <div class="data-card-value">RSA fallback</div>
+    <div class="data-card-sub">Best private care via Maputo, then evac to South Africa. Confirm medevac cover &amp; contacts before entry (R29).</div>
+  </div>
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">See also</span>
+  <a href="LC76_Health_Hygiene_Guide.html" class="xref-pill">R17 · Health &amp; Hygiene</a>
+  <a href="LC76_Water_Management_Guide.html" class="xref-pill">R12 · Water</a>
+  <a href="LC76_Insurance_Medevac.html" class="xref-pill">R29 · Medevac</a>
+</div>
+
+<!-- ══ 10 CAMP SAFETY & WILDLIFE ═══════════════════════════ -->
+<div class="sec-header" id="s10">
+  <span class="sec-num">10</span>
+  <span class="sec-title">Camp Safety &amp; Wildlife</span>
+  <span class="sec-sub">Coastal camps · elephants in parks</span>
+</div>
+
+<p class="prose">Most of the coastal south is <strong>settled and farmed</strong> rather than big-game wilderness, so camping is generally in established beach camps and lodges rather than wild bush. The main wildlife hazards are concentrated in the parks: <strong>elephants</strong> (Maputo NP has a substantial coastal population), hippos and crocodiles at lakes and rivers, and marine hazards on the coast.</p>
+
+<div class="data-grid">
+  <div class="data-card">
+    <div class="data-card-label">Coastal camps</div>
+    <div class="data-card-value">Established</div>
+    <div class="data-card-sub">Tofo, Barra, Vilanculos, Ponta — secure, fee-based camps. OzTent ground setup fine; standard theft precautions.</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-card-label">Elephants</div>
+    <div class="data-card-value">Maputo NP</div>
+    <div class="data-card-sub">Give wide berth on park tracks; obey gate rules. Human-wildlife teams operate on standby.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">Water hazards</div>
+    <div class="data-card-value">Croc / hippo</div>
+    <div class="data-card-sub">Lakes (Piti, Xinguti) and river mouths. Keep clear of water edges at dawn/dusk.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Marine</div>
+    <div class="data-card-value">Tides / currents</div>
+    <div class="data-card-sub">Strong currents; watch tides when driving beaches (below high-water mark = recovery risk).</div>
+  </div>
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">See also</span>
+  <a href="LC76_Wildlife_Camp_Safety_Guide.html" class="xref-pill">R36 · Wildlife &amp; Camp Safety</a>
+</div>
+
+<!-- ══ 11 COMMUNICATIONS ═══════════════════════════════════ -->
+<div class="sec-header" id="s11">
+  <span class="sec-num">11</span>
+  <span class="sec-title">Communications</span>
+  <span class="sec-sub">Vodacom/Tmcel · sat for gaps</span>
+</div>
+
+<p class="prose">Mobile coverage is good along the EN1 corridor and in towns, patchy off the tar and in the parks. A local <strong>SIM (Vodacom Moçambique, Tmcel or Movitel)</strong> with a data bundle is cheap and worth buying in Maputo (bring passport for registration). For the coastal gaps and any push toward the central corridor, the <strong>satellite messenger / phone is the primary safety link</strong> and the anchor for the R38 check-in schedule.</p>
+
+<div class="data-grid">
+  <div class="data-card ok">
+    <div class="data-card-label">Mobile</div>
+    <div class="data-card-value">Good on EN1</div>
+    <div class="data-card-sub">Vodacom widest; buy + register SIM in Maputo. Data cheap. Coverage thins off-tar.</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-card-label">Satellite</div>
+    <div class="data-card-value">Primary link</div>
+    <div class="data-card-sub">Sat messenger for check-ins per R38. Both crew rehearse activation (R37 gap).</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Navigation</div>
+    <div class="data-card-value">Offline maps</div>
+    <div class="data-card-sub">Download Tracks4Africa / OSM offline; don't rely on live data. GPS + paper backup.</div>
+  </div>
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">See also</span>
+  <a href="LC76_Comms_Navigation_Guide.html" class="xref-pill">R16 · Comms &amp; Nav</a>
+  <a href="LC76_Crew_Readiness_Training_Register.html" class="xref-pill">R37 · Crew Readiness</a>
+</div>
+
+<!-- ══ 12 MONEY & CURRENCY ═════════════════════════════════ -->
+<div class="sec-header" id="s12">
+  <span class="sec-num">12</span>
+  <span class="sec-title">Money &amp; Currency</span>
+  <span class="sec-sub">Metical · cash country · ATMs in towns</span>
+</div>
+
+<p class="prose">The currency is the <strong>Mozambican metical (MZN / MT)</strong>. Cards work in Maputo hotels, larger supermarkets and some coastal lodges, but Mozambique is fundamentally a <strong>cash economy</strong> once off the main tourist track — carry meticais for fuel (often), tolls, market food, camp fees and checkpoints. ATMs (Visa/Mastercard/Maestro) are in the towns along the EN1; some cap withdrawal amounts per transaction.</p>
+
+<div class="data-grid">
+  <div class="data-card">
+    <div class="data-card-label">Currency</div>
+    <div class="data-card-value">Metical</div>
+    <div class="data-card-sub">USD 1 ≈ MZN 64 · ZAR 1 ≈ MZN 3.5 (indicative — verify).</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-card-label">Cash vs card</div>
+    <div class="data-card-value">Cash-first</div>
+    <div class="data-card-sub">Cards in cities only. Draw meticais at town ATMs; keep a USD/ZAR reserve. Two-network cards (R39 §6).</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">At the border</div>
+    <div class="data-card-value">Small float</div>
+    <div class="data-card-sub">A modest metical float on entry (bank/ATM, not runners). Avoid changing large sums with border touts.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">Tolls / fees</div>
+    <div class="data-card-value">Keep coins</div>
+    <div class="data-card-sub">EN4/EN1 tolls, park gates and camp fees often cash. Keep small denominations handy.</div>
+  </div>
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">See also</span>
+  <a href="LC76_Expedition_Documentation_Money_Guide.html" class="xref-pill">R39 · Money Strategy</a>
+</div>
+
+<!-- ══ 13 NATIONAL PARKS & CAMPING ═════════════════════════ -->
+<div class="sec-header" id="s13">
+  <span class="sec-num">13</span>
+  <span class="sec-title">National Parks &amp; Camping</span>
+  <span class="sec-sub">Maputo NP · Limpopo NP · Bazaruto · Gorongosa</span>
+</div>
+
+<p class="prose">Southern Mozambique's protected areas are a mix of <strong>rewilded terrestrial parks</strong> and <strong>marine sanctuaries</strong>. Fees are modest and generally paid in cash at the gate; confirm current rates on the managing body's site before travel rather than trusting a figure that dates quickly.</p>
+
+<div class="route-grid">
+  <div class="route-card">
+    <span class="route-badge">Terrestrial · self-drive</span>
+    <h3>Maputo National Park</h3>
+    <ul>
+      <li><strong>~1 hr south of Maputo</strong> via the Katembe bridge + EN200 to Futi Gate.</li>
+      <li>Merged 2021 (Special Reserve + Ponta do Ouro Marine). Peace Parks–managed.</li>
+      <li>Elephants, zebra, giraffe, hippo; turtle nesting Oct–Mar. <strong>Sandy tracks — 4×4, deflate to ~1 bar</strong> (posted at gate).</li>
+      <li>Day &amp; overnight; community lodge + camping. Easy, rewarding first park.</li>
+    </ul>
+  </div>
+  <div class="route-card">
+    <span class="route-badge">Terrestrial · TFCA</span>
+    <h3>Limpopo National Park</h3>
+    <ul>
+      <li>Entered via <strong>Giriyondo</strong> (from Kruger) or Massingir. Part of Great Limpopo TFCA.</li>
+      <li>Wilder, rougher tracks; fuel/supplies limited — self-sufficient.</li>
+      <li>Corridor between Kruger and the Mozambican interior.</li>
+    </ul>
+  </div>
+  <div class="route-card">
+    <span class="route-badge">Marine · boat access</span>
+    <h3>Bazaruto Archipelago NP</h3>
+    <ul>
+      <li>Off <strong>Vilanculos / Inhassoro</strong> (EN1 turnoff at Pambara). African Parks–managed.</li>
+      <li>Dugong, whale sharks, turtles, reefs. <strong>Access by boat/dhow only — no camping on the islands</strong>; base in Vilanculos.</li>
+      <li>The vehicle stays mainland; this is a boat day, not a drive.</li>
+    </ul>
+  </div>
+  <div class="route-card secondary">
+    <span class="route-badge">Terrestrial · Sofala</span>
+    <h3>Gorongosa NP</h3>
+    <ul>
+      <li>Flagship rewilding park in Sofala — but the <strong>EN1 approach runs through the banditry corridor (§08)</strong>.</li>
+      <li>Only with current security advice and daylight/convoy discipline.</li>
+      <li>Also nearby: Pomene Reserve (coastal, Inhambane) and Zinave NP (inland rewilding).</li>
+    </ul>
+  </div>
+</div>
+
+<div class="alert alert-note">
+  <strong>Fees &amp; booking</strong>
+  Park entry + vehicle fees are payable at the gate (cash); Maputo NP publishes rates at <em>parquemaputo.gov.mz</em>. Island access to Bazaruto is via licensed operators from Vilanculos. Verify current fees and gate hours close to travel.</div>
+
+<div class="xref-bar">
+  <span class="xref-label">See also</span>
+  <a href="LC76_Wildlife_Camp_Safety_Guide.html" class="xref-pill">R36 · Camp Safety</a>
+  <a href="LC76_Packing_Optimisation_Guide.html" class="xref-pill">R11 · Packing</a>
+</div>
+
+<!-- ══ 14 MAPUTO & THE FAR SOUTH ═══════════════════════════ -->
+<div class="sec-header" id="s14">
+  <span class="sec-num">14</span>
+  <span class="sec-title">Maputo &amp; the Far South — Highlights</span>
+  <span class="sec-sub">Ponta · Maputo NP · the capital</span>
+</div>
+
+<p class="prose">The far south is the gentlest introduction to the country: the capital's restaurants and provisioning, the wild coast at Ponta do Ouro and Ponta Malongane, and Maputo National Park's elephants an hour away.</p>
+
+<div class="data-grid">
+  <div class="data-card">
+    <div class="data-card-label">Maputo</div>
+    <div class="data-card-value">Provision here</div>
+    <div class="data-card-sub">Best supermarkets, ATMs, SIMs, Toyota, fuel. Grand old avenues; prawns &amp; seafood. Re-stock before heading north.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Ponta do Ouro / Malongane</div>
+    <div class="data-card-value">Wild coast</div>
+    <div class="data-card-sub">Diving, dolphins; deep-sand access via Kosi Bay. Fuel unreliable — arrive full.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Maputo NP</div>
+    <div class="data-card-value">Elephants + beach</div>
+    <div class="data-card-sub">Safari + coastline in one; turtle nesting Oct–Mar. Futi Gate off the EN200.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Inhaca Island</div>
+    <div class="data-card-value">Day / boat</div>
+    <div class="data-card-sub">Across Maputo Bay; marine reserve, snorkelling. Vehicle stays mainland.</div>
+  </div>
+</div>
+
+<!-- ══ 15 INHAMBANE & BAZARUTO COAST ═══════════════════════ -->
+<div class="sec-header" id="s15">
+  <span class="sec-num">15</span>
+  <span class="sec-title">Inhambane &amp; the Bazaruto Coast — Highlights</span>
+  <span class="sec-sub">Tofo · Barra · Vilanculos · Bazaruto</span>
+</div>
+
+<p class="prose">The heart of the coastal self-drive belt. Inhambane's old dhow port, the dive beaches at Tofo and Barra, and — the northern anchor of this profile — Vilanculos as the gateway to the Bazaruto Archipelago.</p>
+
+<div class="data-grid">
+  <div class="data-card">
+    <div class="data-card-label">Tofo / Barra</div>
+    <div class="data-card-value">Dive coast</div>
+    <div class="data-card-sub">Whale sharks &amp; mantas (esp. Jun–Oct); relaxed beach camps. Deep-sand access — deflate.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Inhambane / Maxixe</div>
+    <div class="data-card-value">Old port</div>
+    <div class="data-card-sub">Historic dhow harbour; ferry across the bay. Fuel, provisions, ATMs.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Vilanculos</div>
+    <div class="data-card-value">Bazaruto gateway</div>
+    <div class="data-card-sub">Base for island trips; Toyota/VES service point; fuel + supplies. Northern edge of this profile's comfort zone.</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-card-label">Bazaruto Archipelago</div>
+    <div class="data-card-value">Boat day</div>
+    <div class="data-card-sub">Dugong, whale sharks, dunes, reefs. Boat/dhow from Vilanculos; no island camping.</div>
+  </div>
+</div>
+
+<div class="callout">
+  <strong>Northern anchor.</strong> Inhassoro / Vilanculos is where the easy coastal south ends. Beyond, the EN1 heads toward the <strong>Save River and the §08 security corridor</strong> before Beira. Treat everything past the Save as a security decision, not a sightseeing one.
+</div>
+
+<!-- ══ 16 INTERACTIVE MAPS ═════════════════════════════════ -->
+<div class="sec-header" id="s16">
+  <span class="sec-num">16</span>
+  <span class="sec-title">Southern Mozambique — Interactive Maps</span>
+  <span class="sec-sub">Towns · borders · parks · corridor</span>
+</div>
+
+<div class="alert alert-info">
+  <strong>Map notes</strong>
+  Markers are indicative and use public town / border / park-gateway locations only — no sensitive-site coordinates. Verify routing offline (Tracks4Africa / OSM) before travel.</div>
+
+<div class="map-tabs">
+  <button class="map-tab active" onclick="setMapView('overview')">Overview</button>
+  <button class="map-tab" onclick="setMapView('north')">Coast &amp; North</button>
+  <button class="map-tab" onclick="setMapView('south')">Far South</button>
+</div>
+<div id="country-map"></div>
+<div class="map-attrib">Base map © OpenStreetMap contributors. Markers indicative only; confirm all routing, fees and access on the ground.</div>
+
+<!-- ══ 17 FAR SOUTH ROUTE GUIDE ════════════════════════════ -->
+<div class="sec-header" id="s17">
+  <span class="sec-num">17</span>
+  <span class="sec-title">Far South Route Guide</span>
+  <span class="sec-sub">Border → Maputo → Maputo NP → Ponta</span>
+</div>
+
+<div class="scenario">
+  <h4>Entry &amp; the far south</h4>
+  <div class="scenario-meta">Lebombo / Kosi Bay · 3–5 days · easy shakedown</div>
+  <p>A relaxed opening leg that doubles as the vehicle's shakedown: cross, sort documents and SORCA, provision in Maputo, then sample the far-south coast and the elephants of Maputo NP before committing north.</p>
+  <ul>
+    <li>Cross at <strong>Lebombo/Ressano Garcia</strong> (tar, fast) or <strong>Kosi Bay/Ponta</strong> (sand, scenic) — SORCA + TIP + gate pass.</li>
+    <li><strong>Maputo</strong>: SIM, meticais, fuel, provisions, Toyota check if wanted. Shake down the fresh LiFePO4 + injection work on shore power.</li>
+    <li><strong>Maputo NP</strong> (Futi Gate): deflate to ~1 bar, elephants + coast, overnight camp/lodge.</li>
+    <li><strong>Ponta do Ouro / Malongane</strong>: diving, dolphins; refuel discipline (arrive full).</li>
+    <li>Debrief the shakedown against R23 before heading up the EN1.</li>
+  </ul>
+</div>
+
+<!-- ══ 18 COASTAL ROUTE GUIDE ══════════════════════════════ -->
+<div class="sec-header" id="s18">
+  <span class="sec-num">18</span>
+  <span class="sec-title">Coastal Route Guide — Maputo to the Bazaruto Coast</span>
+  <span class="sec-sub">EN1 spine · Xai-Xai → Inhambane → Vilanculos</span>
+</div>
+
+<div class="scenario">
+  <h4>Up the EN1 coastal spine</h4>
+  <div class="scenario-meta">Maputo → Vilanculos · ~700 km · 5–8 days at coast pace</div>
+  <p>The core of the profile: the coastal belt, hopping between beach camps with the EN1 as the spine and sand tracks out to the sea.</p>
+  <ul>
+    <li><strong>Maputo → Xai-Xai</strong> (~220 km): EN1; fuel at Macia/Xai-Xai; first coastal camps.</li>
+    <li><strong>Xai-Xai → Inhambane/Tofo</strong> (~300 km): via Quissico &amp; Maxixe; deflate for Tofo/Barra sand.</li>
+    <li><strong>Inhambane → Vilanculos</strong> (~250 km): via Massinga; Bazaruto boat day from Vilanculos; Toyota/VES on hand.</li>
+    <li>Keep both aux cells full leaving Maputo and Vilanculos; camp by mid-afternoon.</li>
+  </ul>
+</div>
+
+<div class="callout">
+  <strong>Northbound to Malawi — forward note (out of scope here).</strong> Beyond Inhassoro the EN1 runs to the <strong>Save River and the §08 banditry corridor</strong> toward Beira, and the practical route to Malawi turns <strong>inland via the Tete corridor</strong> (central Mozambique) — terrain deliberately not covered in profile 007. That leg, and the choice of corridor and licence-break timing, are carried forward to the <strong>Malawi profile (008 / EX-5)</strong> and the <strong>route &amp; licence-break workshop (EX-9)</strong>. Do not treat the Beira/Sofala push as routine: it is a security decision taken on current advice.
+</div>
+
+<!-- ══ 19 ESSENTIAL PHRASES ════════════════════════════════ -->
+<div class="sec-header" id="s19">
+  <span class="sec-num">19</span>
+  <span class="sec-title">Essential Phrases — Portuguese</span>
+  <span class="sec-sub">Moz Portuguese · a little goes far</span>
+</div>
+
+<p class="prose">Mozambique is <strong>Lusophone</strong> — English is thin outside tourist lodges and the capital. A handful of Portuguese phrases smooths markets, checkpoints and fuel stops enormously.</p>
+
+<div class="table-scroll">
+<table class="spec-table">
+  <thead><tr><th>English</th><th>Portuguese</th><th>Rough say-it</th></tr></thead>
+  <tbody>
+    <tr><td>Good morning / afternoon</td><td>Bom dia / Boa tarde</td><td class="mono">bong DEE-a / BOH-a TAR-de</td></tr>
+    <tr><td>Please / Thank you</td><td>Por favor / Obrigado(-a)</td><td class="mono">por fa-VOR / o-bree-GAH-do</td></tr>
+    <tr><td>Yes / No</td><td>Sim / Não</td><td class="mono">seeng / nowng</td></tr>
+    <tr><td>Diesel, please</td><td>Gasóleo, por favor</td><td class="mono">ga-ZO-lee-oo</td></tr>
+    <tr><td>Fill it up</td><td>Encha o depósito</td><td class="mono">EN-sha oo de-PO-zee-too</td></tr>
+    <tr><td>How much?</td><td>Quanto custa?</td><td class="mono">KWAN-too KOOSH-ta</td></tr>
+    <tr><td>Where is…?</td><td>Onde fica…?</td><td class="mono">ON-de FEE-ka</td></tr>
+    <tr><td>Police / checkpoint</td><td>Polícia / controlo</td><td class="mono">po-LEE-sya / kon-TRO-lo</td></tr>
+    <tr><td>Documents</td><td>Documentos</td><td class="mono">do-koo-MEN-toosh</td></tr>
+    <tr><td>Insurance</td><td>Seguro</td><td class="mono">se-GOO-ro</td></tr>
+    <tr><td>Water / campsite</td><td>Água / acampamento</td><td class="mono">AH-gwa / a-kam-pa-MEN-too</td></tr>
+    <tr><td>Help / thank you very much</td><td>Ajuda / muito obrigado</td><td class="mono">a-ZHOO-da / MOOY-too o-bree-GAH-do</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">Route neighbours</span>
+  <a href="Zambia_Overland_Profile_2026-04.html" class="xref-pill">004 · Zambia</a>
+  <a href="Tanzania_Overland_Profile_2026-05.html" class="xref-pill">006 · Tanzania</a>
+</div>
+
+<!-- ══ CHANGELOG ═══════════════════════════════════════════ -->
+<div class="sec-header" id="changelog">
+  <span class="sec-num">✎</span>
+  <span class="sec-title">Changelog</span>
+  <span class="sec-sub">Revision history</span>
+</div>
+
+<div style="margin:14px 0">
+  <div class="changelog-entry">
+    <div class="cl-date">06 Jul 2026</div>
+    <div><span class="cl-tag new">New</span></div>
+    <div class="cl-note"><strong>Profile 007 created (EX-4).</strong> Southern Mozambique, coastal focus extended to Beira/Sofala. Includes the new <strong>Parts &amp; Serviceability</strong> section (§06). Web-researched for currency: 2026 ETA rollout, ~MZN 116/L diesel + supply disruptions, compulsory SORCA, EN1/EN6 banditry corridor, CFAO Toyota network, Maputo NP / Bazaruto. Northbound Moz→Malawi leg carried as a forward note (§18) to EX-5 / EX-9.</div>
+  </div>
+</div>
+
+</main>
+
+<!-- ── EXPORT BAR ──────────────────────────────────────────── -->
+<div id="export-bar">
+  Export:
+  <button class="export-btn-inline" onclick="window.print()">⎙ Print / Save PDF</button>
+  <button class="export-btn-inline" id="copy-btn" onclick="navigator.clipboard.writeText(document.body.innerText).then(()=>{this.textContent='✓ Copied';setTimeout(()=>this.textContent='⧉ Copy text',2000)})">⧉ Copy text</button>
+</div>
+
+<!-- ── FOOTER ─────────────────────────────────────────────── -->
+<div class="doc-footer">
+  <div><strong>Southern Mozambique Overland Profile · 007</strong> · LC76 Overland Reference Library</div>
+  <div>Vehicle: LC76 SW 1HZ · HZJ76R · SA-plated · RHD</div>
+  <div>Compiled: 06 Jul 2026 · Sources: Moz eVisa portal, SORCA/ISSM, ARENE fuel, ANAC / Peace Parks / African Parks, gov travel advisories, CFAO Toyota Moçambique</div>
+  <div>Verify all fees, visa/ETA requirements, fuel supply and security conditions before travel — changes frequently</div>
+  <div><strong>overlandslabs.github.io/Consumption</strong></div>
+</div>
+
+<script>
+var map, currentView = 'overview';
+
+var views = {
+  overview: { center: [-23.2, 34.2], zoom: 6 },
+  north:    { center: [-21.0, 35.0], zoom: 6 },
+  south:    { center: [-25.9, 32.7], zoom: 7 }
+};
+
+function setMapView(v) {
+  currentView = v;
+  document.querySelectorAll('.map-tab').forEach(function(t,i){
+    t.classList.toggle('active', ['overview','north','south'][i]===v);
+  });
+  map.flyTo(views[v].center, views[v].zoom, {duration:1});
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  map = L.map('country-map', { zoomControl: true, scrollWheelZoom: false })
+         .setView(views.overview.center, views.overview.zoom);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors', maxZoom: 18
+  }).addTo(map);
+
+  var C = {
+    amber:'#e07800', red:'#7a1010', green:'#1A5C2E',
+    blue:'#1A4A6B', teal:'#0D6B6B'
+  };
+
+  function mkIcon(color, size) {
+    size = size || 12;
+    return L.divIcon({
+      html: '<div style="width:'+size+'px;height:'+size+'px;border-radius:50%;background:'+color+';border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.5)"></div>',
+      iconSize: [size+4,size+4], iconAnchor: [(size+4)/2,(size+4)/2], className:''
+    });
+  }
+
+  // Cities / service points (public town locations)
+  var cities = [
+    { ll:[-25.966, 32.567], name:'Maputo', note:'Capital · provisions, ATMs, Toyota, fuel' },
+    { ll:[-25.052, 33.644], name:'Xai-Xai', note:'Gaza · EN1 fuel &amp; supplies' },
+    { ll:[-23.865, 35.383], name:'Inhambane / Tofo', note:'Dhow port · dive coast' },
+    { ll:[-22.007, 35.317], name:'Vilanculos', note:'Bazaruto gateway · Toyota/VES · northern anchor' },
+    { ll:[-19.843, 34.839], name:'Beira', note:'Sofala · Toyota (Entreposto) · reached via §08 corridor' }
+  ];
+  cities.forEach(function(c){
+    L.marker(c.ll, {icon: mkIcon(C.blue, 10)}).addTo(map)
+     .bindPopup('<strong>'+c.name+'</strong><br>'+c.note);
+  });
+
+  // Border crossings
+  var borders = [
+    { ll:[-25.44, 31.98], name:'Lebombo / Ressano Garcia', note:'Main · N4 tar · ~92 km to Maputo' },
+    { ll:[-26.85, 32.89], name:'Kosi Bay / Ponta do Ouro', note:'Coastal · sand · 4×4 · fuel unreliable' },
+    { ll:[-23.75, 31.53], name:'Giriyondo', note:'Kruger → Limpopo NP · TFCA · seasonal' }
+  ];
+  borders.forEach(function(b){
+    L.marker(b.ll, {icon: mkIcon(C.red, 9)}).addTo(map)
+     .bindPopup('<strong>'+b.name+'</strong><br>'+b.note);
+  });
+
+  // National parks (gateway / HQ locations)
+  var parks = [
+    { ll:[-26.45, 32.75], name:'Maputo National Park', note:'Elephants + coast · Futi Gate · 4×4 sand' },
+    { ll:[-23.83, 32.15], name:'Limpopo NP (Massingir)', note:'Great Limpopo TFCA · self-sufficient' },
+    { ll:[-21.70, 35.45], name:'Bazaruto Archipelago NP', note:'Marine · boat access from Vilanculos' },
+    { ll:[-18.97, 34.35], name:'Gorongosa NP', note:'Sofala · EN1 approach = §08 corridor caution' }
+  ];
+  parks.forEach(function(p){
+    L.marker(p.ll, {icon: mkIcon(C.green, 13)}).addTo(map)
+     .bindPopup('<strong>'+p.name+'</strong><br>'+p.note);
+  });
+
+  // Security corridor waypoint (advisory)
+  var camps = [
+    { ll:[-21.00, 34.60], name:'Save River — corridor start', note:'EN1 banditry advisory begins northward (§08)' }
+  ];
+  camps.forEach(function(c){
+    L.marker(c.ll, {icon: mkIcon(C.amber, 9)}).addTo(map)
+     .bindPopup('<strong>'+c.name+'</strong><br>'+c.note);
+  });
+
+  // Indicative coastal spine (EN1)
+  var en1 = [[-25.966,32.567],[-25.052,33.644],[-23.865,35.383],[-22.007,35.317],[-21.533,35.200],[-19.843,34.839]];
+  L.polyline(en1, {color:'#e07800', weight:3, opacity:.7, dashArray:'6,6'}).addTo(map);
+
+  // Legend
+  var legend = L.control({position:'bottomright'});
+  legend.onAdd = function(){
+    var d = L.DomUtil.create('div');
+    d.style.cssText='background:rgba(13,14,18,.88);padding:8px 12px;font-family:IBM Plex Mono,monospace;font-size:10px;color:#a8b0bc;line-height:2;border:1px solid #2a2f3a';
+    d.innerHTML='<div style="color:#e07800;letter-spacing:.1em;margin-bottom:3px">LEGEND</div>'+
+      '<span style="color:#1A4A6B">●</span> City / service point<br>'+
+      '<span style="color:#7a1010">●</span> Border crossing<br>'+
+      '<span style="color:#1A5C2E">●</span> National park<br>'+
+      '<span style="color:#e07800">●</span> EN1 spine / advisory';
+    return d;
+  };
+  legend.addTo(map);
+
+  // IntersectionObserver for TOC active state
+  var sectionIds = ['s01','s02','s03','s04','s05','s06','s07','s08','s09','s10','s11','s12','s13','s14','s15','s16','s17','s18','s19'];
+  var tocLinks = document.querySelectorAll('.toc-link');
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        var idx = sectionIds.indexOf(e.target.id);
+        tocLinks.forEach(function(l,i){ l.classList.toggle('active', (i-1)===idx); });
+      }
+    });
+  }, { rootMargin:'-20% 0px -70% 0px' });
+  sectionIds.forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) observer.observe(el);
+  });
+});
+</script>
+</body>
+</html>
