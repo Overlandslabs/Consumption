@@ -22,7 +22,7 @@
 // but any tiles fetched successfully while online are cached opportunistically
 // for later offline reuse via the same runtime fetch handler.
 
-const CACHE = 'lc76-library-v16';
+const CACHE = 'lc76-library-v17';
 
 const CDN_HOSTS = [
   'cdnjs.cloudflare.com',
@@ -92,6 +92,7 @@ const PRECACHE = [
   './Mozambique_Overland_Profile_2026-07.html',
   './Malawi_Overland_Profile_2026-07.html',
   './Zimbabwe_Overland_Profile_2026-07.html',
+  './Kenya_Overland_Profile_2026-07.html',
   './Zambia_Overland_Profile_2026-04.html',
   // ── Cross-origin map assets (Leaflet lib + default-view tile grids) ──
   'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css',
@@ -136,6 +137,16 @@ const PRECACHE = [
   'https://c.tile.openstreetmap.org/7/76/73.png',
   'https://c.tile.openstreetmap.org/7/77/66.png',
   'https://c.tile.openstreetmap.org/7/77/69.png',
+  // Kenya 010 map (z6, -0.5/37.5) 3x3 OSM grid
+  'https://c.tile.openstreetmap.org/6/37/31.png',
+  'https://a.tile.openstreetmap.org/6/37/32.png',
+  'https://b.tile.openstreetmap.org/6/37/33.png',
+  'https://a.tile.openstreetmap.org/6/38/31.png',
+  'https://b.tile.openstreetmap.org/6/38/32.png',
+  'https://c.tile.openstreetmap.org/6/38/33.png',
+  'https://b.tile.openstreetmap.org/6/39/31.png',
+  'https://c.tile.openstreetmap.org/6/39/32.png',
+  'https://a.tile.openstreetmap.org/6/39/33.png',
   // CartoDB dark basemap tiles — Profile 009 (Zimbabwe) default view
   'https://a.basemaps.cartocdn.com/dark_all/6/36/33.png',
   'https://a.basemaps.cartocdn.com/dark_all/6/37/35.png',

@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<!-- ════════════════════════════════════════════════════════════
+  LC76 OVERLAND REFERENCE LIBRARY · COUNTRY PROFILE 010
+  Kenya — whole country (Nairobi, Masai Mara, Amboseli, Tsavo,
+  Samburu, Laikipia, coast, northern regions). Northern TERMINUS
+  of the 2028–2030 expedition.
+  Built off the Profile 009 v1.5 scaffold (carries the §06 Parts &
+  Serviceability section). Web-researched for currency: 07 Jul 2026.
+  Verify all fees/visa/security/fuel before travel. No sensitive-site
+  GPS (public towns/borders/parks only). Entry Namanga or Isebania
+  (from Tanzania). Terminus — no onward exit.
+  ════════════════════════════════════════════════════════════ -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LC76 Library">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0d0e12">
+<title>Kenya Overland Profile &middot; LC76</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500;600&family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+:root{
+  --ink:#0d0e12;--paper:#dad2c0;--paper2:#edeae0;--rule:#d4cfc4;
+  --amber:#b86800;--amber2:#e07800;
+  --steeldk:#2a2f3a;--steelmd:#6a7080;--steellt:#a8b0bc;
+  --red-warn:#B91C1C;--green-ok:#059669;
+  --mono:'IBM Plex Mono',monospace;
+  --sans:'Oswald',sans-serif;
+  --display:'Bebas Neue',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{overflow-x:hidden;overflow-x:clip;overscroll-behavior-x:none}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55}
+.sticky-nav-unit{position:sticky;top:0;z-index:100;background:var(--ink);padding-top:env(safe-area-inset-top)}
+.sticky-nav-unit::before{content:"";position:absolute;left:0;right:0;bottom:100%;height:100vh;background:var(--ink)}
+.std-header{background:var(--ink);padding:18px 24px 14px;position:relative;border-bottom:3px solid var(--amber);}
+.std-eyebrow{font-family:var(--mono);font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--steelmd);margin-bottom:8px;display:flex;align-items:center;gap:10px;}
+.masthead-flag{display:inline-flex;width:44px;height:28px;border:2px solid rgba(255,255,255,.30);overflow:hidden;flex-shrink:0;box-shadow:0 1px 4px rgba(0,0,0,.4);}
+.std-title{font-family:var(--display);font-size:clamp(2.1rem,6vw,3.4rem);letter-spacing:.06em;color:var(--amber2);line-height:1;}
+.std-local{font-family:var(--mono);font-size:.62rem;letter-spacing:.10em;color:rgba(255,200,100,.65);margin-top:7px;font-style:italic;}
+.std-sub{font-family:var(--sans);font-size:.92rem;font-style:italic;color:rgba(232,213,163,.85);margin-top:8px;line-height:1.4;}
+.std-vehicle{font-family:var(--mono);font-size:.50rem;letter-spacing:.08em;color:var(--steelmd);margin-top:10px;line-height:1.55;}
+.lib-home-btn{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--amber2);background:rgba(232,120,0,.15);border:1px solid var(--amber2);border-radius:20px;padding:6px 12px;min-height:32px;white-space:nowrap;position:absolute;top:50%;right:16px;transform:translateY(-50%);transition:background .2s;}
+.lib-home-btn:hover,.lib-home-btn:active{background:rgba(232,120,0,.30);}
+.alert-strip{background:#fff4f0;padding:14px 5%;display:flex;flex-direction:column;gap:10px;border-left:5px solid var(--red-warn);}
+.alert-strip .alert-main{font-family:var(--display);font-size:1.5rem;letter-spacing:.04em;line-height:1.1;color:#7a1010;}
+.alert-strip .alert-main .warn-icon{font-size:1.1rem;margin-right:6px;color:var(--red-warn);}
+.alert-pills{display:flex;flex-wrap:wrap;gap:8px;}
+.alert-strip .pill{background:#fff;padding:5px 12px;font-family:var(--sans);font-size:.84rem;font-weight:400;line-height:1.4;color:#5a1010;border-left:3px solid var(--red-warn);border:1px solid #fecaca;}
+.alert-strip .pill.warn{background:#fee2e2;color:#7a1010;border-color:#fca5a5;font-weight:600;}
+.alert-strip .pill strong{font-weight:600;color:#7a1010;}
+.toc-bar{background:var(--steeldk);padding:7px 24px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;border-bottom:2px solid var(--amber);}
+.toc-label{font-family:var(--mono);font-size:.48rem;letter-spacing:.18em;color:var(--steellt);text-transform:uppercase;margin-right:4px;flex-shrink:0}
+.toc-link{font-family:var(--mono);font-size:.48rem;color:rgba(255,255,255,.55);text-decoration:none;padding:2px 6px;border:1px solid transparent;transition:all .12s;white-space:nowrap;cursor:pointer;}
+.toc-link:hover{color:var(--amber2);border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.06)}
+.toc-link.active{color:var(--amber2);border-color:var(--amber2);background:rgba(232,120,0,.1)}
+.updated-banner{background:var(--ink);color:var(--steellt);font-family:var(--mono);font-size:.54rem;letter-spacing:.08em;padding:8px 5%;display:flex;flex-wrap:wrap;align-items:center;gap:14px;border-bottom:1px solid var(--steeldk);}
+.updated-banner strong{color:var(--amber2);font-weight:600}
+.updated-banner a{color:var(--amber2)}
+.content{padding:20px 5% 80px;max-width:100%}
+.sec-header{display:flex;align-items:center;gap:12px;padding:10px 5%;background:var(--steeldk);border-left:5px solid var(--amber2);margin:28px 0 0;}
+.sec-num{font-family:var(--mono);font-size:.58rem;font-weight:600;color:#fff;background:var(--amber);padding:3px 8px;letter-spacing:.12em;flex-shrink:0;}
+.sec-title{font-family:var(--display);font-size:1.7rem;letter-spacing:.10em;color:#fff;line-height:1;}
+.sec-sub{font-family:var(--mono);font-size:.46rem;letter-spacing:.10em;color:var(--steellt);margin-left:auto;flex-shrink:0;text-align:right}
+.subsec{background:var(--paper2);border-left:3px solid var(--amber);padding:6px 16px 6px 14px;margin:20px 0 10px;display:flex;align-items:center;gap:10px;}
+.subsec-title{font-family:var(--display);font-size:1.1rem;letter-spacing:.12em;color:var(--ink);}
+.subsec-tag{font-family:var(--mono);font-size:.44rem;letter-spacing:.12em;color:var(--steelmd);text-transform:uppercase;margin-left:auto;}
+.prose{font-family:var(--sans);font-size:.92rem;line-height:1.65;color:var(--ink);margin:8px 0 12px;}
+.prose strong{font-weight:600;color:var(--ink)}
+.prose em{color:var(--amber);font-style:italic}
+.data-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:12px 0;}
+.data-card{background:var(--paper2);border:1px solid var(--rule);border-left:3px solid var(--amber);padding:11px 14px;}
+.data-card.warn{border-left-color:var(--red-warn);background:#fff4f0}
+.data-card.note{border-left-color:var(--amber2);background:#fffbe8}
+.data-card.ok{border-left-color:var(--green-ok);background:#f0fff8}
+.data-card.dark{border-left-color:var(--amber2);background:var(--ink);color:var(--steellt)}
+.data-label{font-family:var(--mono);font-size:.48rem;letter-spacing:.14em;text-transform:uppercase;color:var(--steelmd);margin-bottom:3px;}
+.data-value{font-family:var(--sans);font-size:.95rem;font-weight:600;color:var(--ink);}
+.data-card.dark .data-value{color:var(--amber2)}
+.data-card.dark .data-label{color:var(--steelmd)}
+.data-note{font-family:var(--mono);font-size:.48rem;color:var(--steelmd);margin-top:3px;}
+.xref-bar{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:12px 0;padding:8px 12px;background:var(--ink);border-left:3px solid var(--amber2);}
+.xref-label{font-family:var(--mono);font-size:.44rem;letter-spacing:.14em;color:var(--steelmd);text-transform:uppercase;margin-right:4px;}
+.xref-pill{font-family:var(--mono);font-size:.44rem;color:var(--amber2);background:rgba(232,120,0,.1);border:1px solid rgba(232,120,0,.3);padding:2px 8px;white-space:nowrap;}
+.table-scroll{overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;margin:12px 0;}
+.table-scroll table{border-collapse:collapse;width:100%;min-width:360px;font-family:var(--sans);font-size:.84rem;}
+.table-scroll th{background:var(--steeldk);color:#fff;font-family:var(--mono);font-size:.46rem;letter-spacing:.12em;text-transform:uppercase;padding:8px 10px;text-align:left;position:sticky;top:0;}
+.table-scroll td{padding:7px 10px;border-bottom:1px solid var(--rule);vertical-align:top;}
+.table-scroll tr:nth-child(even){background:var(--paper2)}
+.fuel-band{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px;margin:12px 0;}
+.fuel-card{background:var(--ink);border:1px solid var(--steeldk);border-left:4px solid var(--amber2);padding:12px 16px;color:var(--steellt);}
+.fuel-card .fuel-price{font-family:var(--display);font-size:2rem;color:var(--amber2);letter-spacing:.04em;}
+.fuel-card .fuel-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.12em;color:var(--steelmd);text-transform:uppercase;}
+.fuel-card .fuel-note{font-family:var(--mono);font-size:.48rem;color:var(--steellt);margin-top:4px;}
+.route-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px;margin:12px 0;}
+.route-card{background:var(--paper2);border:1px solid var(--rule);border-left:4px solid var(--amber);padding:14px 16px;}
+.route-card.secondary{border-left-color:var(--steelmd);background:#f0efe8}
+.route-badge{display:inline-block;font-family:var(--mono);font-size:.46rem;letter-spacing:.12em;color:#fff;background:var(--amber);padding:2px 8px;margin-bottom:6px;text-transform:uppercase;}
+.route-card.secondary .route-badge{background:var(--steelmd)}
+.route-card h3{font-family:var(--display);font-size:1.15rem;letter-spacing:.08em;color:var(--ink);margin-bottom:6px;}
+.route-card ul{list-style:none;padding:0;margin:0;}
+.route-card li{font-family:var(--sans);font-size:.82rem;line-height:1.5;padding:2px 0 2px 14px;position:relative;}
+.route-card li::before{content:"›";position:absolute;left:0;color:var(--amber2);font-weight:700;}
+.alert{background:var(--paper2);border-left:4px solid var(--amber);padding:12px 16px;margin:12px 0;font-family:var(--sans);font-size:.88rem;line-height:1.55;}
+.alert strong{color:var(--ink);font-weight:600}
+.alert.alert-warn{border-left-color:var(--red-warn);background:#fff4f0}
+.alert.alert-note{border-left-color:var(--amber2);background:#fffbe8}
+.alert.alert-ok{border-left-color:var(--green-ok);background:#f0fff8}
+.callout{background:var(--ink);border-left:4px solid var(--amber2);padding:14px 18px;margin:12px 0;color:var(--steellt);font-family:var(--sans);font-size:.88rem;line-height:1.55;}
+.callout strong{color:var(--amber2)}
+
+@media(max-width:600px){
+  .std-header{padding:14px 16px 12px}
+  .std-title{font-size:clamp(1.6rem,8vw,2.4rem)}
+  .toc-bar{padding:6px 12px;gap:3px}
+  .sec-header{padding:8px 16px;margin:18px 0 0}
+  .sec-title{font-size:1.4rem}
+  .data-grid{grid-template-columns:1fr}
+  .fuel-band{grid-template-columns:1fr}
+  .route-grid{grid-template-columns:1fr}
+  .content{padding:16px 4% 60px}
+}
+</style>
+</head>
+<body>
+<div class="sticky-nav-unit">
+  <header class="std-header">
+    <a href="index.html" class="lib-home-btn" aria-label="Library home">&#9664; Library</a>
+    <div class="std-eyebrow">
+      <span class="masthead-flag"><svg viewBox="0 0 44 28" xmlns="http://www.w3.org/2000/svg">
+        <rect width="44" height="9.33" fill="#000"/>
+        <rect y="9.33" width="44" height="2" fill="#fff"/>
+        <rect y="11.33" width="44" height="5.34" fill="#BB1600"/>
+        <rect y="16.67" width="44" height="2" fill="#fff"/>
+        <rect y="18.67" width="44" height="9.33" fill="#006600"/>
+        <circle cx="22" cy="14" r="5" fill="#fff"/>
+        <ellipse cx="23" cy="14" rx="4" ry="4.5" fill="#000"/>
+        <ellipse cx="24.5" cy="14" rx="3.5" ry="4" fill="#BB1600"/>
+      </svg></span>
+      LC76 Overland Reference Library · Profile 010
+    </div>
+    <h1 class="std-title">Kenya</h1>
+    <p class="std-local">Jamhuri ya Kenya · "Harambee"</p>
+    <p class="std-sub">Whole-country overland profile — northern terminus of the 2028–2030 expedition. Nairobi, Masai Mara, Amboseli, Tsavo, Samburu, Laikipia, the coast &amp; northern safari circuit.</p>
+    <p class="std-vehicle">2009 LC76 SW · HZJ76R-RKMRS · 1HZ 4.2L turbo-diesel · 311,000 km<br>
+    Enertec 210Ah LiFePO4 · Victron MPPT/MultiPlus/SmartShunt · 265/70R16 Maxxis AT811<br>
+    Vehicle registered to Mary-Ann West · SA-plated RHD</p>
+  </header>
+  <nav class="toc-bar">
+    <span class="toc-label">Contents</span>
+    <a class="toc-link" onclick="document.getElementById('s01').scrollIntoView({behavior:'smooth',block:'start'})">§01 Entry</a>
+    <a class="toc-link" onclick="document.getElementById('s02').scrollIntoView({behavior:'smooth',block:'start'})">§02 Borders</a>
+    <a class="toc-link" onclick="document.getElementById('s03').scrollIntoView({behavior:'smooth',block:'start'})">§03 Vehicle</a>
+    <a class="toc-link" onclick="document.getElementById('s04').scrollIntoView({behavior:'smooth',block:'start'})">§04 Season</a>
+    <a class="toc-link" onclick="document.getElementById('s05').scrollIntoView({behavior:'smooth',block:'start'})">§05 Fuel</a>
+    <a class="toc-link" onclick="document.getElementById('s06').scrollIntoView({behavior:'smooth',block:'start'})">§06 Parts</a>
+    <a class="toc-link" onclick="document.getElementById('s07').scrollIntoView({behavior:'smooth',block:'start'})">§07 Roads</a>
+    <a class="toc-link" onclick="document.getElementById('s08').scrollIntoView({behavior:'smooth',block:'start'})">§08 Security</a>
+    <a class="toc-link" onclick="document.getElementById('s09').scrollIntoView({behavior:'smooth',block:'start'})">§09 Health</a>
+    <a class="toc-link" onclick="document.getElementById('s10').scrollIntoView({behavior:'smooth',block:'start'})">§10 Camp</a>
+    <a class="toc-link" onclick="document.getElementById('s11').scrollIntoView({behavior:'smooth',block:'start'})">§11 Comms</a>
+    <a class="toc-link" onclick="document.getElementById('s12').scrollIntoView({behavior:'smooth',block:'start'})">§12 Money</a>
+    <a class="toc-link" onclick="document.getElementById('s13').scrollIntoView({behavior:'smooth',block:'start'})">§13 Parks</a>
+    <a class="toc-link" onclick="document.getElementById('s14').scrollIntoView({behavior:'smooth',block:'start'})">§14 Southern</a>
+    <a class="toc-link" onclick="document.getElementById('s15').scrollIntoView({behavior:'smooth',block:'start'})">§15 Northern</a>
+    <a class="toc-link" onclick="document.getElementById('s16').scrollIntoView({behavior:'smooth',block:'start'})">§16 Coast</a>
+    <a class="toc-link" onclick="document.getElementById('s17').scrollIntoView({behavior:'smooth',block:'start'})">§17 Map</a>
+    <a class="toc-link" onclick="document.getElementById('s18').scrollIntoView({behavior:'smooth',block:'start'})">§18 Route</a>
+    <a class="toc-link" onclick="document.getElementById('s19').scrollIntoView({behavior:'smooth',block:'start'})">§19 Swahili</a>
+    <a class="toc-link" onclick="document.getElementById('s20').scrollIntoView({behavior:'smooth',block:'start'})">§20 Log</a>
+  </nav>
+</div>
+
+<div class="updated-banner">
+  <span><strong>Last updated:</strong> 7 July 2026</span>
+  <span><strong>Version:</strong> 1.0</span>
+  <span><strong>Status:</strong> EX-7 initial build</span>
+</div>
+
+<div class="alert-strip">
+  <div class="alert-main"><span class="warn-icon">⚠</span> Verify Before Travel</div>
+  <div class="alert-pills">
+    <span class="pill warn"><strong>eTA exemption confirmed May 2025</strong> — verify at etakenya.go.ke before travel</span>
+    <span class="pill warn"><strong>Diesel crisis:</strong> record prices, temporary 50 ppm sulphur waiver (Apr–Oct 2026)</span>
+    <span class="pill"><strong>US Level 2</strong> — do not travel to border counties (Garissa/Wajir/Mandera/Lamu)</span>
+    <span class="pill"><strong>Northern Kenya banditry:</strong> Turkana, Marsabit, West Pokot — avoid or convoy</span>
+    <span class="pill"><strong>Malaria:</strong> year-round in lowlands, coast, and safari areas — prophylaxis required</span>
+    <span class="pill"><strong>Yellow fever ICVP mandatory</strong> if arriving from Tanzania (endemic country)</span>
+    <span class="pill"><strong>Park fees:</strong> Masai Mara USD 100–200/day, KWS parks USD 80–90/day — cashless payment only</span>
+  </div>
+</div>
+
+<div class="content">
+
+<div class="sec-header" id="s01">
+  <span class="sec-num">§01</span>
+  <span class="sec-title">Entry &amp; Visas</span>
+  <span class="sec-sub">SA passport holders</span>
+</div>
+
+<div class="data-grid">
+  <div class="data-card ok">
+    <div class="data-label">Visa requirement</div>
+    <div class="data-value">eTA EXEMPT — 90 days</div>
+    <div class="data-note">Since May 2025 (Legal Notice 93). SA citizens enter with valid passport only.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-label">Passport validity</div>
+    <div class="data-value">6 months beyond arrival + 1 blank page</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-label">Previous regime</div>
+    <div class="data-value">eTA replaced visas Jan 2024 — SA now exempt</div>
+    <div class="data-note">Kenya dropped the eTA for most African nationals from 30 May 2025. Verify at etakenya.go.ke before departure — policy can change.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-label">Stay limit</div>
+    <div class="data-value">90 days per entry</div>
+    <div class="data-note">Extension possible at Immigration Dept, Nyayo House, Nairobi — max 180 days total.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-label">Yellow fever ICVP</div>
+    <div class="data-value">MANDATORY — arriving from Tanzania</div>
+    <div class="data-note">Kenya requires the ICVP for travellers arriving from yellow-fever-endemic countries. Tanzania is endemic. Get vaccinated before departure from SA. Certificate valid 10 years.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-label">IDP</div>
+    <div class="data-value">International Driving Permit — carry alongside SA licence</div>
+    <div class="data-note">Required for driving in Kenya. Obtain from AA South Africa before departure.</div>
+  </div>
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">Cross-ref</span>
+  <span class="xref-pill">R39 Documentation &amp; Money Guide</span>
+  <span class="xref-pill">R15 Border Crossings</span>
+</div>
+
+<div class="sec-header" id="s02">
+  <span class="sec-num">§02</span>
+  <span class="sec-title">Border Crossings</span>
+  <span class="sec-sub">Entry from Tanzania</span>
+</div>
+
+<div class="data-grid">
+  <div class="data-card">
+    <div class="data-label">Primary entry — Namanga OSBP</div>
+    <div class="data-value">Tanzania → Kenya</div>
+    <div class="data-note">One-Stop Border Post on the Arusha–Nairobi corridor. ~160 km SE of Nairobi, ~100 km N of Arusha. Private vehicles use a separate lane. Busy — 150+ trucks daily. Allow 1–3 hours. Arrive early.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-label">Secondary entry — Isebania/Sirari</div>
+    <div class="data-value">Tanzania → Kenya (western route)</div>
+    <div class="data-note">Western crossing near Lake Victoria. Connects Serengeti/Mara Triangle. Less traffic than Namanga but smaller facilities. Useful if routing via western Tanzania.</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-label">Exit — Terminus</div>
+    <div class="data-value">Kenya is the northern terminus</div>
+    <div class="data-note">No onward overland exit planned. Vehicle return routing to SA to be resolved in EX-9 (licence-break workshop). Options include retracing through Tanzania or shipping from Mombasa.</div>
+  </div>
+</div>
+
+<p class="prose"><strong>Border procedure:</strong> Clear Tanzanian exit (passport stamp + TIP discharge) at the shared OSBP facility, then proceed to Kenyan immigration. Present passport (eTA-exempt, no form needed), vehicle registration, owner authority (police-certified affidavit — registered to Mary-Ann West), and COMESA Yellow Card or border third-party insurance. Vehicle receives a Temporary Import Permit (Form C32) — free for 14 days, extendable up to 90 days at KRA Customs offices. Alternatively, present the Carnet de Passages, which triggers a paid-up foreign permit valid for one month. <em>No vehicle may leave the border station without a Form C32 or Carnet and a Foreign Permit.</em></p>
+
+<div class="xref-bar">
+  <span class="xref-label">Cross-ref</span>
+  <span class="xref-pill">R15 Border Crossings</span>
+  <span class="xref-pill">R39 §1 Carnet</span>
+  <span class="xref-pill">Profile 006 Tanzania</span>
+</div>
+
+<div class="sec-header" id="s03">
+  <span class="sec-num">§03</span>
+  <span class="sec-title">Vehicle Documents</span>
+  <span class="sec-sub">TIP · Carnet · insurance</span>
+</div>
+
+<div class="data-grid">
+  <div class="data-card">
+    <div class="data-label">Temporary Import — Form C32</div>
+    <div class="data-value">Free 14-day permit at border</div>
+    <div class="data-note">Issued to vehicles with COMESA/EAC registration or Form C32. Extendable to 90 days at KRA Enforcement offices. Physical vehicle verification required for extension.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-label">Carnet de Passages</div>
+    <div class="data-value">Accepted — triggers paid foreign permit</div>
+    <div class="data-note">Effectively required for the Kenya terminus per R39. Carnet entry stamped at border; discharge on exit. AASA is sole RSA issuer — apply well ahead. 12-month validity.</div>
+  </div>
+  <div class="data-card ok">
+    <div class="data-label">Insurance — COMESA Yellow Card</div>
+    <div class="data-value">Valid in Kenya</div>
+    <div class="data-note">Kenya is a COMESA signatory. The same Yellow Card covering Zambia/Zimbabwe/Malawi/Tanzania extends to Kenya. Third-party liability only — own-damage and medevac via R29.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-label">Vehicle registration</div>
+    <div class="data-value">SA registration book in owner's name</div>
+    <div class="data-note">Registered to Mary-Ann West. Neil carries a police-certified owner affidavit authorising him to operate the vehicle. Certified copies of the registration.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-label">Foreign Vehicle Permit</div>
+    <div class="data-value">Required alongside TIP/Carnet</div>
+    <div class="data-note">Applied for at the border via eCitizen. No vehicle may operate in Kenya without both a TIP/Carnet AND a Foreign Permit. Carry both at all times.</div>
+  </div>
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">Cross-ref</span>
+  <span class="xref-pill">R39 §1 Carnet · §2 COMESA</span>
+  <span class="xref-pill">R29 Insurance &amp; Medevac</span>
+</div>
+
+<div class="sec-header" id="s04">
+  <span class="sec-num">§04</span>
+  <span class="sec-title">Best Season &amp; Timing</span>
+  <span class="sec-sub">Dry seasons · migration · park fees</span>
+</div>
+
+<div class="data-grid">
+  <div class="data-card ok">
+    <div class="data-label">Peak dry — best overland</div>
+    <div class="data-value">Jul–Oct &amp; Jan–Feb</div>
+    <div class="data-note">Jul–Oct: Great Migration in the Mara (river crossings Aug–Sep). Jan–Feb: warm, dry, lowest park fees (Mara USD 100 vs USD 200). Good tracks.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-label">Long rains — avoid</div>
+    <div class="data-value">Mar–May</div>
+    <div class="data-note">Heavy rainfall across most of the country. Unpaved roads become impassable. Parks difficult. Masai Mara's black-cotton soil is notorious.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-label">Short rains</div>
+    <div class="data-value">Oct–Dec</div>
+    <div class="data-note">Less predictable. Manageable for overlanders but tracks can be muddy. Good for photography — green landscapes, dramatic skies. Calving season in Amboseli.</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-label">Cost note</div>
+    <div class="data-value">Mara fees double Jul–Dec</div>
+    <div class="data-note">Masai Mara: USD 100/day low season (Jan–Jun) vs USD 200/day peak (Jul–Dec). KWS parks (Amboseli, Tsavo, Nakuru) are flat year-round at USD 80–90/day.</div>
+  </div>
+</div>
+
+<p class="prose"><strong>Expedition timing note:</strong> If arriving from Tanzania during the dry season (Jul–Oct), the Mara migration will be at its peak but park fees are highest. A Jan–Mar arrival catches the dry season at lower cost and avoids the long rains. Seasonal routing will be resolved in EX-9.</p>
+
+<div class="sec-header" id="s05">
+  <span class="sec-num">§05</span>
+  <span class="sec-title">Fuel</span>
+  <span class="sec-sub">Diesel availability · pricing · quality</span>
+</div>
+
+<div class="fuel-band">
+  <div class="fuel-card">
+    <div class="fuel-label">Diesel — Nairobi (Jul 2026)</div>
+    <div class="fuel-price">~KSh 222/L</div>
+    <div class="fuel-note">≈ USD 1.71/L · EPRA-regulated monthly pricing</div>
+  </div>
+  <div class="fuel-card">
+    <div class="fuel-label">Diesel — remote / northern</div>
+    <div class="fuel-price">KSh 230–250/L</div>
+    <div class="fuel-note">Higher in Isiolo, Marsabit, and Samburu corridor</div>
+  </div>
+  <div class="fuel-card">
+    <div class="fuel-label">Range at 145 L main + 40 L aux</div>
+    <div class="fuel-price">~1,295 km</div>
+    <div class="fuel-note">At 14.3 L/100 km (unladen). Plan conservatively — fill at every opportunity north of Nairobi.</div>
+  </div>
+</div>
+
+<div class="alert alert-warn">
+  <strong>2026 diesel crisis.</strong> Kenya hit record diesel prices in May 2026 (KSh 242.92/L in Nairobi) driven by Middle East supply disruptions via the Strait of Hormuz. EPRA revises monthly. Fuel prices volatile. Budget generously.
+</div>
+
+<div class="data-grid">
+  <div class="data-card warn">
+    <div class="data-label">Fuel quality — temporary waiver</div>
+    <div class="data-value">50 ppm sulphur ceiling (Apr–Oct 2026)</div>
+    <div class="data-note">Kenya had adopted 10 ppm (KS EAS 177:2025) but issued a 6-month emergency waiver on 30 Apr 2026, reverting to 50 ppm due to supply disruption. The 1HZ is unaffected (pre-emissions engine), but the temporary waiver signals quality variability. Standard is 50 ppm for the 1HZ — perfectly acceptable.</div>
+  </div>
+  <div class="data-card ok">
+    <div class="data-label">1HZ compatibility</div>
+    <div class="data-value">No concerns at 50 ppm</div>
+    <div class="data-note">The 1HZ is a pre-emissions mechanical-injection diesel with no DPF, catalytic converter, or common-rail system. 50 ppm diesel is clean fuel by its standards.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-label">Station network</div>
+    <div class="data-value">Good along tarmac routes</div>
+    <div class="data-note">Shell, TotalEnergies, Rubis, and local brands. Sparse north of Isiolo — the Isiolo–Marsabit–Moyale road has long gaps. Fill at every opportunity in northern Kenya.</div>
+  </div>
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">Cross-ref</span>
+  <span class="xref-pill">R24 Fuel System &amp; Diesel Quality</span>
+  <span class="xref-pill">Fuel Range Calculator</span>
+</div>
+
+<div class="sec-header" id="s06">
+  <span class="sec-num">§06</span>
+  <span class="sec-title">Parts &amp; Serviceability</span>
+  <span class="sec-sub">1HZ · tyres · Victron · fuel quality</span>
+</div>
+
+<div class="subsec">
+  <span class="subsec-title">Toyota / 1HZ Network</span>
+  <span class="subsec-tag">CFAO Motors Kenya</span>
+</div>
+<p class="prose"><strong>Verdict: Excellent — the best network on the expedition route alongside South Africa.</strong> Toyota Kenya (CFAO Motors) operates 8 dealerships: Nairobi (Uhuru Highway, Ngong Road, Westlands), Mombasa, Eldoret, Kisumu, Nanyuki, and Nyeri. In addition, an extensive network of authorised service centres covers smaller towns including Narok, Kisii, Voi, Malindi, Marsabit, and Garissa. The Land Cruiser 70-Series has a massive installed base in Kenya — widely used by NGOs, safari operators, ranchers, and security services. 1HZ parts are widely available through both the official CFAO network and the aftermarket. Specialist 4x4 outfitters such as Robs Magic (Nairobi and Mombasa) stock suspension, recovery gear, and accessories for the 70-Series. Kenya is the strongest Toyota country on the expedition route.</p>
+
+<div class="subsec">
+  <span class="subsec-title">Tyres</span>
+  <span class="subsec-tag">265/70R16 &amp; 265/75R16</span>
+</div>
+<p class="prose"><strong>Buy in RSA</strong> — preferred strategy. 265/70R16 and 265/75R16 are available in Kenya through tyre dealers and 4x4 outfitters in Nairobi and Mombasa, though the specific Maxxis AT811 pattern may not be stocked. Major tyre brands (BFGoodrich, Cooper, General Grabber) are represented. In an emergency, Kenya's tyre market is workable but expect higher prices than RSA. <em>The planned 265/75R16 upgrade will be done in RSA before departure — carry a full matching spare.</em></p>
+
+<div class="subsec">
+  <span class="subsec-title">Victron Support</span>
+  <span class="subsec-tag">Strong presence</span>
+</div>
+<p class="prose"><strong>Kenya has multiple Victron distributors and installers.</strong> Center for Alternative Technologies (CAT, Nairobi) is a major Victron distributor and installer with years of experience in off-grid and commercial systems. Firstsun Technologies and SolarShop Africa are further authorised Victron dealers in Nairobi. Additional solar suppliers stocking Victron include TDK Solutions and Solar Store East Africa. Nairobi has a robust solar industry — replacement MPPT controllers, SmartShunts, or cable accessories are obtainable. For the MultiPlus or Orion Smart units, availability may require ordering through CAT. The RSA support base (Manjaro Industries / direct Victron SA) remains the primary technical resource.</p>
+
+<div class="subsec">
+  <span class="subsec-title">Fuel Quality</span>
+  <span class="subsec-tag">50 ppm (waiver) / 10 ppm (standard)</span>
+</div>
+<p class="prose">Kenya adopted 10 ppm sulphur diesel (KS EAS 177:2025) in 2025, putting it at Euro 5/6 equivalent — the cleanest in East Africa. The temporary 50 ppm waiver (Apr–Oct 2026) reverts to the earlier EAC standard. Even at 50 ppm, this is better than most African countries. The 1HZ runs comfortably on 50 ppm diesel without any fuel-system concerns. Stick to branded stations (Shell, TotalEnergies, Rubis) and avoid jerry-can fuel in remote areas if possible.</p>
+
+<div class="xref-bar">
+  <span class="xref-label">Cross-ref</span>
+  <span class="xref-pill">R3 Spares &amp; Tools</span>
+  <span class="xref-pill">R26 Electrical &amp; Wiring</span>
+  <span class="xref-pill">R24 Fuel System</span>
+</div>
+
+<div class="sec-header" id="s07">
+  <span class="sec-num">§07</span>
+  <span class="sec-title">Roads</span>
+  <span class="sec-sub">Tarmac · murram · 4x4 tracks</span>
+</div>
+
+<div class="data-grid">
+  <div class="data-card ok">
+    <div class="data-label">Nairobi – Mombasa (A109/SGR)</div>
+    <div class="data-value">~480 km · Good tarmac</div>
+    <div class="data-note">Upgraded dual carriageway for much of the route. Heavy truck traffic. Alternative: the scenic A8 via Taveta.</div>
+  </div>
+  <div class="data-card ok">
+    <div class="data-label">Nairobi – Namanga (A104)</div>
+    <div class="data-value">~160 km · Good tarmac</div>
+    <div class="data-note">Main Kenya-Tanzania road. Well maintained. Moderate traffic.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-label">Nairobi – Narok – Masai Mara</div>
+    <div class="data-value">~270 km · Tarmac to Narok, murram beyond</div>
+    <div class="data-note">The Narok–Sekenani road is graded murram, corrugated in dry season, impassable black-cotton mud in rains. 4x4 essential beyond Narok.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-label">Nairobi – Nanyuki – Samburu</div>
+    <div class="data-value">~300 km · Tarmac to Nanyuki, tracks beyond</div>
+    <div class="data-note">Good tarmac through the highlands to Nanyuki. Samburu access roads are murram/4x4 track. Scenic route via Mt Kenya.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-label">Isiolo – Marsabit – Moyale</div>
+    <div class="data-value">~530 km · Now tarmac but remote</div>
+    <div class="data-note">The "northern highway" — recently upgraded to tarmac but passes through banditry-prone and arid terrain. Travel in convoy recommended. Very long fuel gaps. Security escort may be required for some sections.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-label">Inside national parks</div>
+    <div class="data-value">Murram / 4x4 tracks</div>
+    <div class="data-note">Park roads range from well-graded murram (Amboseli) to rough 4x4 tracks (Mana Pools equivalent — Meru, northern Tsavo). Black-cotton soil in the Mara becomes impassable in rain. Tyre pressures: drop to 1.8–2.0 bar on soft surfaces.</div>
+  </div>
+</div>
+
+<p class="prose"><strong>Drive-left (LHD traffic).</strong> Kenya drives on the left — same side as SA. The LC76 is RHD, so no visibility disadvantage. Speed limits: 110 km/h highways, 50 km/h urban. Enforcement by speed cameras on major roads and KWS rangers inside parks. <em>Avoid all night driving</em> — poor lighting, pedestrians, livestock on roads, and elevated crime risk.</p>
+
+<div class="xref-bar">
+  <span class="xref-label">Cross-ref</span>
+  <span class="xref-pill">R28 Driving Conditions</span>
+  <span class="xref-pill">R14 Tyre Management</span>
+</div>
+
+<div class="sec-header" id="s08">
+  <span class="sec-num">§08</span>
+  <span class="sec-title">Security</span>
+  <span class="sec-sub">Advisories · crime · no-go zones</span>
+</div>
+
+<div class="data-grid">
+  <div class="data-card">
+    <div class="data-label">US State Dept</div>
+    <div class="data-value">Level 2 — Exercise Increased Caution</div>
+    <div class="data-note">Due to crime, terrorism, civil unrest, kidnapping. Level 4 (Do Not Travel) for specific border zones.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-label">Do Not Travel zones</div>
+    <div class="data-value">Somalia border counties</div>
+    <div class="data-note">Garissa, Wajir, Mandera, Tana River, Lamu (county), coast north of Malindi — al-Shabaab terrorism and kidnapping. Nowhere near standard safari routes.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-label">Northern banditry</div>
+    <div class="data-value">Turkana, West Pokot, Marsabit, Baringo</div>
+    <div class="data-note">Armed banditry, cattle rustling, cross-border incursions near the Ethiopian and South Sudanese borders. If routing through northern Kenya, travel in convoy, avoid night movement, check local security.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-label">Nairobi</div>
+    <div class="data-value">Petty crime — normal precautions</div>
+    <div class="data-note">Avoid Eastleigh and Kibera. Armed carjacking occurs but is declining (127 cases in 2025 vs prior years). Use secure parking. Don't display valuables. Avoid walking after dark in unfamiliar areas.</div>
+  </div>
+</div>
+
+<p class="prose"><strong>Core safari areas (Masai Mara, Amboseli, Tsavo, Samburu, Laikipia, coast south of Malindi) are safe for tourists.</strong> Dedicated ranger posts at all park entry points. Over 2 million international visitors in 2025. Tourist-related incidents in designated safari areas are statistically negligible. The no-go zones are hundreds of kilometres from standard tourist routes. Protests in Nairobi can flare — check for planned demonstration dates before scheduling city time. <em>Register with the SA High Commission in Nairobi on arrival.</em></p>
+
+<div class="xref-bar">
+  <span class="xref-label">Cross-ref</span>
+  <span class="xref-pill">R35 Security &amp; Fire Safety</span>
+  <span class="xref-pill">R38 §2 Abort/Suspend Criteria</span>
+</div>
+
+<div class="sec-header" id="s09">
+  <span class="sec-num">§09</span>
+  <span class="sec-title">Health</span>
+  <span class="sec-sub">Malaria · vaccinations · medical</span>
+</div>
+
+<div class="data-grid">
+  <div class="data-card warn">
+    <div class="data-label">Malaria</div>
+    <div class="data-value">HIGH — year-round in lowlands &amp; coast</div>
+    <div class="data-note">P. falciparum dominant. High-risk zones: Lake Victoria basin, coast (Mombasa–Diani–Watamu), lowland safari areas. Low risk: Nairobi (altitude ~1,700 m), central highlands above 2,500 m. Prophylaxis essential for coast and safari legs.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-label">Yellow fever</div>
+    <div class="data-value">ICVP MANDATORY — arriving from Tanzania</div>
+    <div class="data-note">Vaccinate before leaving SA. Certificate valid 10 years. Enforcement at border.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-label">Other vaccinations</div>
+    <div class="data-value">Hep A, Hep B, Typhoid, Tetanus</div>
+    <div class="data-note">Routine for East Africa travel. Cholera vaccine recommended if visiting Lake Victoria shore. Rabies pre-exposure if camping in wildlife areas.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-label">Medical facilities</div>
+    <div class="data-value">Good in Nairobi, limited elsewhere</div>
+    <div class="data-note">Nairobi: Nairobi Hospital, Aga Khan University Hospital, MP Shah — high-quality private care. Mombasa: reasonable. Safari areas and rural Kenya: limited — medevac insurance essential (R29). Hospitals require upfront payment.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-label">Water</div>
+    <div class="data-value">Treat or use bottled</div>
+    <div class="data-note">Tap water is not reliably potable outside Nairobi's better hotels. Use the LC76's water system (R12) and purification.</div>
+  </div>
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">Cross-ref</span>
+  <span class="xref-pill">R17 Health &amp; Hygiene</span>
+  <span class="xref-pill">R29 Insurance &amp; Medevac</span>
+  <span class="xref-pill">R12 Water Management</span>
+</div>
+
+<div class="sec-header" id="s10">
+  <span class="sec-num">§10</span>
+  <span class="sec-title">Camp Safety &amp; Wildlife</span>
+  <span class="sec-sub">Big Five · hippo · camp protocols</span>
+</div>
+
+<p class="prose"><strong>Kenya is a Big Five country</strong> with large, free-roaming populations of lion, leopard, elephant, buffalo, and both black and white rhino. Hippo and crocodile are present in rivers and lake margins throughout. The primary camping threat is nocturnal wildlife — elephant, hippo, and buffalo moving through camp at night. The Masai Mara, Amboseli, and Samburu all have high densities of large predators and herbivores.</p>
+
+<div class="data-grid">
+  <div class="data-card warn">
+    <div class="data-label">Elephant</div>
+    <div class="data-value">Very high density — Amboseli, Tsavo, Samburu</div>
+    <div class="data-note">Amboseli's elephants are habituated but not tame. Tsavo's "red elephants" can be aggressive. Never camp between elephants and water. Stand-off distance R36.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-label">Hippo</div>
+    <div class="data-value">Rivers, lakes, Mara River</div>
+    <div class="data-note">Africa's most dangerous large animal. Never camp within 100 m of hippo water. Night grazing routes are invisible — use designated campsites only in hippo territory.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-label">Lion &amp; leopard</div>
+    <div class="data-value">Present in all major parks</div>
+    <div class="data-note">The Mara has one of the highest lion densities in Africa. Leopard present but secretive. Food must be stored in the vehicle. Camp in designated sites. Follow R36 after-dark protocols.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-label">Mandatory ranger — Masai Mara</div>
+    <div class="data-value">All campers must hire 2 rangers for overnight</div>
+    <div class="data-note">Masai Mara requires two armed rangers for all overnight campers at private campsites. Arranged at the gate. Additional USD cost per night.</div>
+  </div>
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">Cross-ref</span>
+  <span class="xref-pill">R36 Wildlife &amp; Camp Safety</span>
+  <span class="xref-pill">R10 Emergency Procedures</span>
+</div>
+
+<div class="sec-header" id="s11">
+  <span class="sec-num">§11</span>
+  <span class="sec-title">Communications</span>
+  <span class="sec-sub">Mobile · data · M-Pesa</span>
+</div>
+
+<div class="data-grid">
+  <div class="data-card ok">
+    <div class="data-label">Primary network</div>
+    <div class="data-value">Safaricom</div>
+    <div class="data-note">Dominant carrier. Best coverage nationwide including many safari areas. 4G/LTE in cities, 3G along major roads. Buy a prepaid SIM at the border or Nairobi. Registration requires passport.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-label">Secondary</div>
+    <div class="data-value">Airtel Kenya / Telkom Kenya</div>
+    <div class="data-note">Airtel has coverage gaps at key safari gates (Talek, Kimana). Telkom limited outside cities. Safaricom is the reliable choice for overlanders.</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-label">M-Pesa</div>
+    <div class="data-value">Essential — not optional</div>
+    <div class="data-note">Kenya's mobile money system. Used for park fees, fuel, shopping, tips. Register your Safaricom SIM for M-Pesa. Load via agents (Safaricom shops, corner stores, border dukas). International cards can fail on park payment portals — M-Pesa is the fallback.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-label">Dead zones</div>
+    <div class="data-value">Northern Kenya, deep bush</div>
+    <div class="data-note">No coverage: Marsabit–Moyale corridor sections, deep Tsavo interior, remote Samburu areas. Satellite communicator (inReach / Garmin) essential — per R16 and R38 comms SOP.</div>
+  </div>
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">Cross-ref</span>
+  <span class="xref-pill">R16 Comms &amp; Navigation</span>
+  <span class="xref-pill">R38 §1 Comms SOP</span>
+</div>
+
+<div class="sec-header" id="s12">
+  <span class="sec-num">§12</span>
+  <span class="sec-title">Money &amp; Currency</span>
+  <span class="sec-sub">KSh · USD · M-Pesa · ATMs</span>
+</div>
+
+<div class="data-grid">
+  <div class="data-card">
+    <div class="data-label">Currency</div>
+    <div class="data-value">Kenyan Shilling (KSh / KES)</div>
+    <div class="data-note">~KSh 129 = USD 1 (Jul 2026). Relatively stable. Notes: 50, 100, 200, 500, 1000. Coins: 1, 5, 10, 20, 40.</div>
+  </div>
+  <div class="data-card ok">
+    <div class="data-label">ATMs</div>
+    <div class="data-value">Widely available in towns</div>
+    <div class="data-note">Equity, KCB, NCBA, Stanbic ATMs in all major towns. Visa and Mastercard accepted. Withdraw in KSh. ATMs dispense up to ~KSh 40,000 per transaction. Reliable in Nairobi and Mombasa; patchy in small towns.</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-label">USD cash</div>
+    <div class="data-value">Carry — park fees quoted in USD</div>
+    <div class="data-note">KWS and Mara park fees are quoted in USD but payable in KSh at the prevailing rate via eCitizen/M-Pesa. Some lodges and tour operators quote in USD. Carry some USD cash as backup — crisp, post-2006 notes.</div>
+  </div>
+  <div class="data-card ok">
+    <div class="data-label">M-Pesa</div>
+    <div class="data-value">Primary payment method</div>
+    <div class="data-note">Load at agents, pay everywhere. Park fees, fuel, supermarkets, restaurants, tips. Kenya is the most cashless economy on the expedition route. Register M-Pesa on your Safaricom SIM immediately.</div>
+  </div>
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">Cross-ref</span>
+  <span class="xref-pill">R39 §6 Forex Strategy</span>
+</div>
+
+<div class="sec-header" id="s13">
+  <span class="sec-num">§13</span>
+  <span class="sec-title">National Parks &amp; Camping</span>
+  <span class="sec-sub">Fees · booking · camping options</span>
+</div>
+
+<p class="prose">Kenya has 23 national parks, 28 national reserves, and over 140 private conservancies. Most national parks are managed by the Kenya Wildlife Service (KWS). The Masai Mara and Samburu are managed by their respective county governments with separate fee structures and payment systems.</p>
+
+<div class="table-scroll">
+<table>
+  <thead>
+    <tr><th>Park / Reserve</th><th>Non-Resident Adult</th><th>System</th><th>Note</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Masai Mara (peak Jul–Dec)</td><td>USD 200/day</td><td>Narok County</td><td>12-hour window (6am–6pm). 2 rangers mandatory for camping.</td></tr>
+    <tr><td>Masai Mara (low Jan–Jun)</td><td>USD 100/day</td><td>Narok County</td><td>Half the peak fee. Same wildlife.</td></tr>
+    <tr><td>Amboseli</td><td>USD 90/day</td><td>KWS (eCitizen)</td><td>Flat rate. Premium park. Kilimanjaro views.</td></tr>
+    <tr><td>Lake Nakuru</td><td>USD 90/day</td><td>KWS (eCitizen)</td><td>Premium park. Rhino sanctuary.</td></tr>
+    <tr><td>Tsavo East &amp; West</td><td>USD 80/day</td><td>KWS (eCitizen)</td><td>Separate tickets per park. Largest park system.</td></tr>
+    <tr><td>Nairobi NP</td><td>USD 80/day</td><td>KWS (eCitizen)</td><td>Urban park. Rhino, lion, giraffe against city skyline.</td></tr>
+    <tr><td>Samburu</td><td>USD 85/day</td><td>Samburu County</td><td>Pay at gate. Visa/Mastercard/M-Pesa/cash.</td></tr>
+    <tr><td>Mt Kenya NP</td><td>USD 90/day</td><td>KWS (eCitizen)</td><td>Mountain park. Cool highlands.</td></tr>
+    <tr><td>Hell's Gate</td><td>USD 50/day</td><td>KWS (eCitizen)</td><td>Self-drive cycling/walking allowed.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="alert alert-note">
+  <strong>Payment is cashless.</strong> KWS parks use the eCitizen portal (kwspay.ecitizen.go.ke). Register an account before arriving. International cards can fail — have M-Pesa loaded as backup. The Masai Mara uses a separate Narok County payment system. Samburu accepts card, M-Pesa, or cash at the gate.
+</div>
+
+<p class="prose"><strong>Camping:</strong> KWS operates public campsites inside parks at budget-friendly rates (typically KSh 3,000–5,000/night for non-residents). Facilities are basic — no power, pit latrines, sometimes a cold shower. Private campsites in the Mara require booking via marabookings.co.ke and mandatory ranger hire. Outside parks, campsites are available at lodges, conservancies, and purpose-built overland sites. The OzTent RV4 ground-tent setup works well at all Kenyan camping sites.</p>
+
+<div class="sec-header" id="s14">
+  <span class="sec-num">§14</span>
+  <span class="sec-title">Southern Circuit — Highlights</span>
+  <span class="sec-sub">Amboseli · Tsavo · Masai Mara</span>
+</div>
+
+<p class="prose"><strong>Amboseli National Park:</strong> Iconic views of Kilimanjaro towering over elephant herds. 392 km² of savannah, wetland, and dry lakebed. Known for large-tusked elephants and excellent predator sightings. The Amboseli elephants are among the most studied in the world. Camping at designated KWS sites. Access via Meshanani or Kimana gates from the Nairobi–Namanga road.</p>
+
+<p class="prose"><strong>Tsavo East &amp; Tsavo West:</strong> Combined 22,000 km² — the largest protected area in Kenya. Tsavo East is open savannah with "red elephants" (dust-bathed in the red laterite soil), the Galana River, and the Yatta Plateau (world's longest lava flow). Tsavo West is more scenic: Mzima Springs (underwater hippo viewing), Shetani lava flows, and a rhino sanctuary. The Nairobi–Mombasa road bisects the two parks. Self-drive friendly with reasonable tracks.</p>
+
+<p class="prose"><strong>Masai Mara National Reserve:</strong> Kenya's premier safari destination and the northern end of the Serengeti ecosystem. The Great Migration (Jul–Oct) brings ~1.5 million wildebeest and hundreds of thousands of zebra. The Mara River crossings (Aug–Sep) are the iconic spectacle. Outside migration, the Mara has year-round resident wildlife including big cats at extraordinary density. <em>Self-driving now requires a mandatory park ranger escort</em> — arranged at the gate, ~USD 40/day. Black-cotton soil makes the reserve impassable in heavy rain.</p>
+
+<div class="xref-bar">
+  <span class="xref-label">Cross-ref</span>
+  <span class="xref-pill">R36 Wildlife &amp; Camp Safety</span>
+  <span class="xref-pill">R14 Tyre Management</span>
+</div>
+
+<div class="sec-header" id="s15">
+  <span class="sec-num">§15</span>
+  <span class="sec-title">Northern Circuit — Highlights</span>
+  <span class="sec-sub">Samburu · Laikipia · Mt Kenya</span>
+</div>
+
+<p class="prose"><strong>Samburu National Reserve:</strong> Semi-arid landscape along the Ewaso Ng'iro River in the northern Rift. Home to the "Samburu Special Five" — reticulated giraffe, Grevy's zebra, Beisa oryx, Somali ostrich, and gerenuk — species not found in southern Kenya. Leopard and lion sightings excellent. Self-drive friendly but roads are sandy and rocky. 165 km² — compact and wildlife-dense. Managed by Samburu County (separate fee system from KWS). Access from Isiolo (~30 km south).</p>
+
+<p class="prose"><strong>Laikipia Plateau:</strong> A private-conservancy model — over 50 ranches and conservancies between Mt Kenya and the northern deserts. Some of Kenya's highest wildlife densities per unit area. Ol Pejeta Conservancy (home to the last two northern white rhinos). Lewa Wildlife Conservancy (black rhino stronghold). Laikipia is a pioneer in community conservation and pays its way through tourism. Some conservancies allow self-drive; others are guided only — check in advance.</p>
+
+<p class="prose"><strong>Mount Kenya National Park:</strong> Africa's second-highest peak (5,199 m). The montane forest and moorland zones are spectacularly beautiful. Point Lenana (4,985 m) is a non-technical trek. The park surrounds the mountain at elevations above 3,200 m. Access from Nanyuki (north) or Chogoria (east). Cool climate — welcome relief from the lowland heat. KWS managed.</p>
+
+<div class="sec-header" id="s16">
+  <span class="sec-num">§16</span>
+  <span class="sec-title">Coast — Highlights</span>
+  <span class="sec-sub">Mombasa · Diani · Watamu · marine parks</span>
+</div>
+
+<p class="prose"><strong>Mombasa:</strong> Kenya's second city and main port. Fort Jesus (UNESCO World Heritage), Old Town with Swahili architecture, and a working harbor. Vehicle access to Mombasa Island is via causeway. Traffic is congested. Good services — fuel, ATMs, Toyota dealer (CFAO Mombasa), parts, tyres.</p>
+
+<p class="prose"><strong>Diani Beach &amp; the south coast:</strong> Kenya's premier beach destination, south of Mombasa via the Likoni ferry (avoid — safety concerns flagged by multiple advisories) or the new Dongo Kundu bypass road. White sand, warm Indian Ocean. Marine parks at Kisite-Mpunguti (snorkelling with dolphins). Camping options at backpacker-oriented sites. <em>Malaria risk — coast is high-transmission year-round.</em></p>
+
+<p class="prose"><strong>Watamu &amp; Malindi:</strong> North coast. Watamu Marine National Park for snorkelling and turtle conservation. Malindi has a more local feel. <em>Do not travel north of Malindi</em> — the coastline from Malindi northward into Lamu County is under the Level 4 advisory. Lamu Island itself is accessible but the surrounding county is high-risk.</p>
+
+<div class="sec-header" id="s17">
+  <span class="sec-num">§17</span>
+  <span class="sec-title">Kenya — Interactive Map</span>
+  <span class="sec-sub">Key waypoints · borders · parks</span>
+</div>
+
+<div id="map-container" style="height:420px;border:2px solid var(--steeldk);margin:12px 0;background:var(--ink)"></div>
+
+<div class="sec-header" id="s18">
+  <span class="sec-num">§18</span>
+  <span class="sec-title">Route Guide — Namanga to Terminus</span>
+  <span class="sec-sub">Indicative routing through Kenya</span>
+</div>
+
+<div class="route-grid">
+  <div class="route-card">
+    <span class="route-badge">Leg 1</span>
+    <h3>Namanga → Nairobi</h3>
+    <ul>
+      <li><strong>Distance:</strong> ~160 km via A104</li>
+      <li><strong>Surface:</strong> Good tarmac</li>
+      <li><strong>Time:</strong> 2–3 hours (traffic near Nairobi)</li>
+      <li>Fuel at Namanga or Kajiado en route</li>
+      <li>Nairobi: resupply, vehicle service if needed (CFAO Toyota), SIM card, M-Pesa registration</li>
+    </ul>
+  </div>
+  <div class="route-card">
+    <span class="route-badge">Leg 2</span>
+    <h3>Nairobi → Amboseli</h3>
+    <ul>
+      <li><strong>Distance:</strong> ~240 km via Emali</li>
+      <li><strong>Surface:</strong> Tarmac to Emali, murram approach</li>
+      <li><strong>Time:</strong> 4–5 hours</li>
+      <li>Kilimanjaro views on clear mornings</li>
+      <li>2–3 nights for elephants and game drives</li>
+    </ul>
+  </div>
+  <div class="route-card">
+    <span class="route-badge">Leg 3</span>
+    <h3>Amboseli → Tsavo</h3>
+    <ul>
+      <li><strong>Distance:</strong> ~200 km to Tsavo West (Chyulu gate)</li>
+      <li><strong>Surface:</strong> Mix of tarmac and murram</li>
+      <li><strong>Time:</strong> 4–5 hours</li>
+      <li>Mzima Springs, Shetani lava, red elephants</li>
+      <li>Cross into Tsavo East via internal road</li>
+    </ul>
+  </div>
+  <div class="route-card">
+    <span class="route-badge">Leg 4</span>
+    <h3>Nairobi → Masai Mara</h3>
+    <ul>
+      <li><strong>Distance:</strong> ~270 km via Narok</li>
+      <li><strong>Surface:</strong> Tarmac to Narok, murram beyond</li>
+      <li><strong>Time:</strong> 5–6 hours (road conditions variable)</li>
+      <li>Fuel and last resupply at Narok</li>
+      <li>Entry via Sekenani or Talek gate</li>
+      <li>3–4 nights — more for migration season</li>
+    </ul>
+  </div>
+  <div class="route-card">
+    <span class="route-badge">Leg 5</span>
+    <h3>Nairobi → Samburu / Laikipia</h3>
+    <ul>
+      <li><strong>Distance:</strong> ~350 km to Samburu via Nanyuki</li>
+      <li><strong>Surface:</strong> Good tarmac highlands, murram to reserve</li>
+      <li><strong>Time:</strong> 5–6 hours</li>
+      <li>Mt Kenya views. Nanyuki for resupply</li>
+      <li>Ol Pejeta / Lewa en route (booking required)</li>
+    </ul>
+  </div>
+  <div class="route-card secondary">
+    <span class="route-badge">Extension</span>
+    <h3>Nairobi → Mombasa / Coast</h3>
+    <ul>
+      <li><strong>Distance:</strong> ~480 km via A109</li>
+      <li><strong>Surface:</strong> Good tarmac (upgraded dual carriageway)</li>
+      <li><strong>Time:</strong> 6–7 hours</li>
+      <li>Passes through Tsavo — combine with Leg 3</li>
+      <li>Diani via Dongo Kundu bypass (avoid Likoni ferry)</li>
+      <li>Watamu/Malindi for marine parks — do not go north of Malindi</li>
+    </ul>
+  </div>
+</div>
+
+<div class="alert alert-note">
+  <strong>Routing Decision — EX-9</strong>
+  The optimal sequence — whether to prioritise coast, northern circuit, or both — depends on the expedition's seasonal window, the Mara migration timing, and the licence-break decision. This will be resolved in the EX-9 route workshop. This profile provides the reference data for that decision.
+</div>
+
+<div class="sec-header" id="s19">
+  <span class="sec-num">§19</span>
+  <span class="sec-title">Essential Phrases — Swahili</span>
+  <span class="sec-sub">Basic greetings &amp; useful expressions</span>
+</div>
+
+<div class="table-scroll">
+<table>
+  <thead>
+    <tr><th>English</th><th>Swahili</th><th>Pronunciation</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Hello</td><td>Jambo / Habari</td><td>JAM-bo / ha-BAR-ee</td></tr>
+    <tr><td>How are you?</td><td>Habari yako?</td><td>ha-BAR-ee YA-ko</td></tr>
+    <tr><td>I'm fine</td><td>Nzuri / Poa</td><td>n-ZOO-ree / POH-ah</td></tr>
+    <tr><td>Thank you</td><td>Asante (sana)</td><td>ah-SAN-teh (SA-na)</td></tr>
+    <tr><td>Please</td><td>Tafadhali</td><td>ta-fa-DA-lee</td></tr>
+    <tr><td>Yes / No</td><td>Ndiyo / Hapana</td><td>n-DEE-yo / ha-PA-na</td></tr>
+    <tr><td>Excuse me</td><td>Samahani</td><td>sa-ma-HA-nee</td></tr>
+    <tr><td>Where is…?</td><td>…iko wapi?</td><td>EE-ko WA-pee</td></tr>
+    <tr><td>How much?</td><td>Bei gani?</td><td>BAY GA-nee</td></tr>
+    <tr><td>Diesel</td><td>Dizeli</td><td>dee-ZEH-lee</td></tr>
+    <tr><td>Water</td><td>Maji</td><td>MA-jee</td></tr>
+    <tr><td>Help!</td><td>Msaada!</td><td>m-SAH-da</td></tr>
+    <tr><td>Police</td><td>Polisi</td><td>po-LEE-see</td></tr>
+    <tr><td>Hospital</td><td>Hospitali</td><td>ho-spi-TA-lee</td></tr>
+    <tr><td>No problem</td><td>Hakuna matata</td><td>ha-KOO-na ma-TA-ta</td></tr>
+    <tr><td>Goodbye</td><td>Kwaheri</td><td>kwa-HER-ee</td></tr>
+    <tr><td>Let's go!</td><td>Twende!</td><td>TWEN-deh</td></tr>
+    <tr><td>Slowly</td><td>Pole pole</td><td>PO-leh PO-leh</td></tr>
+    <tr><td>Welcome</td><td>Karibu</td><td>ka-REE-boo</td></tr>
+    <tr><td>Friend</td><td>Rafiki</td><td>ra-FEE-kee</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p class="prose"><strong>Language note:</strong> Swahili (Kiswahili) and English are Kenya's two official languages. English is widely spoken in tourism, business, and government. Swahili is the lingua franca across East Africa. Basic Swahili greetings go a long way — Kenyans appreciate the effort. In rural and northern areas, indigenous languages (Kikuyu, Maasai, Samburu, Turkana) are spoken alongside Swahili. English will get you through any practical situation.</p>
+
+<div class="sec-header" id="s20">
+  <span class="sec-num">§20</span>
+  <span class="sec-title">Changelog</span>
+  <span class="sec-sub">Version history</span>
+</div>
+
+<div class="table-scroll">
+<table>
+  <thead>
+    <tr><th>Date</th><th>Version</th><th>Change</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>7 Jul 2026</td><td>1.0</td><td>Initial build (EX-7). Whole country scope. 20 sections. Web-researched for currency. eTA exemption (May 2025), 2026 diesel crisis, 50 ppm sulphur waiver, COMESA valid, KSh 222/L diesel (Jun 2026), M-Pesa essential, park fees to USD 200 (Mara peak). Parts & Serviceability §06: CFAO Toyota 8-branch network (best on route alongside SA), CAT/Firstsun/SolarShop Victron distributors, 50 ppm diesel 1HZ-compatible.</td></tr>
+  </tbody>
+</table>
+</div>
+
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  var C = {blue:'#1A4A6B', red:'#7a1010', green:'#1A5C2E'};
+  function mkIcon(color,size){
+    return L.divIcon({className:'',html:'<div style="width:'+size+'px;height:'+size+'px;background:'+color+';border:2px solid #fff;border-radius:50%;box-shadow:0 1px 4px rgba(0,0,0,.5)"></div>',iconSize:[size,size],iconAnchor:[size/2,size/2]});
+  }
+
+  var map = L.map('map-container',{scrollWheelZoom:false,attributionControl:false}).setView([-0.5, 37.5], 6);
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:12}).addTo(map);
+
+  // Towns / service points
+  var towns = [
+    {ll:[-1.286,36.817], name:'Nairobi', note:'Capital. CFAO Toyota, Victron (CAT), resupply hub'},
+    {ll:[-4.043,39.669], name:'Mombasa', note:'Port city. CFAO Toyota, coast base'},
+    {ll:[-2.270,36.808], name:'Namanga', note:'Tanzania border crossing (OSBP)'},
+    {ll:[-1.046,37.074], name:'Nanyuki', note:'CFAO dealer. Mt Kenya & Laikipia gateway'},
+    {ll:[0.348,37.585], name:'Isiolo', note:'Gateway to Samburu & northern Kenya'},
+    {ll:[-1.091,35.870], name:'Narok', note:'Last resupply before Masai Mara'},
+    {ll:[-0.283,36.065], name:'Nakuru', note:'Lake Nakuru NP gateway'},
+    {ll:[0.512,35.270], name:'Eldoret', note:'CFAO dealer. Highlands'},
+    {ll:[-0.090,34.762], name:'Kisumu', note:'CFAO dealer. Lake Victoria'},
+    {ll:[-3.397,38.556], name:'Voi', note:'Tsavo gateway. Basic services'},
+    {ll:[-3.224,40.117], name:'Malindi', note:'North coast. DO NOT go north'},
+    {ll:[2.338,37.990], name:'Marsabit', note:'Remote. Limited fuel. Banditry area'}
+  ];
+  towns.forEach(function(t){
+    L.marker(t.ll, {icon: mkIcon(C.blue, 11)}).addTo(map)
+     .bindPopup('<strong>'+t.name+'</strong><br>'+t.note);
+  });
+
+  // Borders
+  var borders = [
+    {ll:[-2.270,36.808], name:'Namanga OSBP', note:'Primary entry from Tanzania'},
+    {ll:[-1.240,34.450], name:'Isebania/Sirari', note:'Western Tanzania entry'}
+  ];
+  borders.forEach(function(b){
+    L.marker(b.ll, {icon: mkIcon(C.red, 13)}).addTo(map)
+     .bindPopup('<strong>'+b.name+'</strong><br>'+b.note);
+  });
+
+  // Parks
+  var parks = [
+    {ll:[-2.652,37.260], name:'Amboseli NP', note:'Elephants & Kilimanjaro views'},
+    {ll:[-2.985,38.450], name:'Tsavo East NP', note:'Red elephants, Yatta Plateau'},
+    {ll:[-3.000,38.200], name:'Tsavo West NP', note:'Mzima Springs, Shetani lava'},
+    {ll:[-1.500,35.100], name:'Masai Mara NR', note:'Great Migration. USD 100-200/day'},
+    {ll:[0.570,37.530], name:'Samburu NR', note:'Special Five. Reticulated giraffe'},
+    {ll:[0.000,37.200], name:'Ol Pejeta', note:'Last 2 northern white rhinos'},
+    {ll:[-0.200,37.300], name:'Mt Kenya NP', note:'Africa second peak. Cool highlands'},
+    {ll:[-0.360,36.100], name:'Lake Nakuru NP', note:'Rhinos, flamingos'},
+    {ll:[-1.360,36.840], name:'Nairobi NP', note:'Urban park. Lion vs skyline'},
+    {ll:[-4.670,39.390], name:'Kisite-Mpunguti', note:'Marine park. Dolphins'}
+  ];
+  parks.forEach(function(p){
+    L.marker(p.ll, {icon: mkIcon(C.green, 13)}).addTo(map)
+     .bindPopup('<strong>'+p.name+'</strong><br>'+p.note);
+  });
+
+  // Indicative route (Namanga → Nairobi → Amboseli → Tsavo → Mombasa)
+  var route = [[-2.27,36.81],[-1.29,36.82],[-2.65,37.26],[-3.00,38.20],[-3.00,38.45],[-4.04,39.67]];
+  L.polyline(route, {color:'#e07800', weight:3, opacity:.7, dashArray:'6,6'}).addTo(map);
+
+  // Northern circuit
+  var north = [[-1.29,36.82],[-0.28,36.07],[0.00,37.20],[0.35,37.59],[0.57,37.53]];
+  L.polyline(north, {color:'#e07800', weight:2, opacity:.5, dashArray:'6,6'}).addTo(map);
+
+  // Mara route
+  var mara = [[-1.29,36.82],[-1.09,35.87],[-1.50,35.10]];
+  L.polyline(mara, {color:'#e07800', weight:2, opacity:.5, dashArray:'6,6'}).addTo(map);
+
+  var legend = L.control({position:'bottomright'});
+  legend.onAdd = function(){
+    var d = L.DomUtil.create('div');
+    d.style.cssText='background:rgba(13,14,18,.88);padding:8px 12px;font-family:IBM Plex Mono,monospace;font-size:10px;color:#a8b0bc;line-height:2;border:1px solid #2a2f3a';
+    d.innerHTML='<div style="color:#e07800;letter-spacing:.1em;margin-bottom:3px">LEGEND</div>'+
+      '<span style="color:#1A4A6B">&#9679;</span> Town / service point<br>'+
+      '<span style="color:#7a1010">&#9679;</span> Border crossing<br>'+
+      '<span style="color:#1A5C2E">&#9679;</span> National park<br>'+
+      '<span style="color:#e07800">- -</span> Indicative route';
+    return d;
+  };
+  legend.addTo(map);
+
+  var sectionIds = ['s01','s02','s03','s04','s05','s06','s07','s08','s09','s10','s11','s12','s13','s14','s15','s16','s17','s18','s19','s20'];
+  var tocLinks = document.querySelectorAll('.toc-link');
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        var idx = sectionIds.indexOf(e.target.id);
+        tocLinks.forEach(function(l,i){ l.classList.toggle('active', (i-1)===idx); });
+      }
+    });
+  }, { rootMargin:'-20% 0px -70% 0px' });
+  sectionIds.forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) observer.observe(el);
+  });
+});
+</script>
+
+<style>
+@media print{
+  html{overflow-x:visible !important}
+  .sticky-nav-unit{position:static !important}
+  .sticky-nav-unit::before{display:none !important}
+  .toc-bar,.lib-home-btn,.alert-strip{display:none}
+  body{font-size:7.5pt}
+  .content{padding:0 7mm}
+  @page{margin:7mm}
+  .sec-header{break-inside:avoid}
+  .data-grid,.data-cards,.fuel-band,.route-grid{break-inside:auto}
+  .data-card,.route-card,.scenario,.alert,.callout{break-inside:avoid}
+  :root{--ink:#000 !important;--paper:#fff !important;--paper2:#f5f5f5 !important;--amber:#b86800 !important;--amber2:#e07800 !important;--rule:#ccc !important;--steeldk:#333 !important;--steelmd:#666 !important;--steellt:#999 !important;--red-warn:#B91C1C !important;--green-ok:#059669 !important}
+  #map-container{display:none}
+}
+</style>
+</body>
+</html>
