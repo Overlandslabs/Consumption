@@ -3,8 +3,32 @@
 // background revalidation (stale-while-revalidate). Offline navigation
 // falls back to the library index, never to an unrelated page.
 // Bump CACHE (v1 -> v2 ...) whenever library files change to force refresh.
+//
+// CROSS-ORIGIN MAP ASSETS (added 7 Jul 2026): the interactive Leaflet maps
+// in Profiles 007/008/009 depend on the Leaflet library (cdnjs.cloudflare.com)
+// and raster basemap tiles (tile.openstreetmap.org for 007/008, CartoDB dark
+// basemap for 009). These are cross-origin and were previously invisible to
+// this worker (see the old same-origin-only guard below), so the map showed
+// solid black offline. CDN_HOSTS below allowlists exactly those hosts for
+// cache-first-with-revalidate treatment, same as same-origin files. Tile/CDN
+// responses from these hosts are typically OPAQUE (status 0, unreadable body)
+// because the browser fetches <img>/<script>/<link> cross-origin subresources
+// in no-cors mode by default — opaque responses can still be cached and
+// replayed correctly, they just can't be inspected for a true/false success
+// code. This is an accepted, standard trade-off for offline tile caching.
+// PRECACHE below includes the Leaflet library files plus a fixed 3×3 tile
+// grid around each map's DEFAULT view (computed via the standard slippy-map
+// tile formula) — panning/zooming beyond that grid still needs connectivity,
+// but any tiles fetched successfully while online are cached opportunistically
+// for later offline reuse via the same runtime fetch handler.
 
-const CACHE = 'lc76-library-v15';
+const CACHE = 'lc76-library-v16';
+
+const CDN_HOSTS = [
+  'cdnjs.cloudflare.com',
+  'a.tile.openstreetmap.org', 'b.tile.openstreetmap.org', 'c.tile.openstreetmap.org',
+  'a.basemaps.cartocdn.com', 'b.basemaps.cartocdn.com', 'c.basemaps.cartocdn.com'
+];
 
 const PRECACHE = [
   './',
@@ -69,6 +93,59 @@ const PRECACHE = [
   './Malawi_Overland_Profile_2026-07.html',
   './Zimbabwe_Overland_Profile_2026-07.html',
   './Zambia_Overland_Profile_2026-04.html',
+  // ── Cross-origin map assets (Leaflet lib + default-view tile grids) ──
+  'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css',
+  'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js',
+  // OSM tiles — Profile 007 (Mozambique) + Profile 008 (Malawi) default views
+  'https://a.tile.openstreetmap.org/6/37/35.png',
+  'https://a.tile.openstreetmap.org/6/38/34.png',
+  'https://a.tile.openstreetmap.org/6/38/37.png',
+  'https://a.tile.openstreetmap.org/6/39/33.png',
+  'https://a.tile.openstreetmap.org/6/39/36.png',
+  'https://a.tile.openstreetmap.org/7/74/73.png',
+  'https://a.tile.openstreetmap.org/7/75/66.png',
+  'https://a.tile.openstreetmap.org/7/75/69.png',
+  'https://a.tile.openstreetmap.org/7/75/72.png',
+  'https://a.tile.openstreetmap.org/7/76/68.png',
+  'https://a.tile.openstreetmap.org/7/76/74.png',
+  'https://a.tile.openstreetmap.org/7/77/67.png',
+  'https://a.tile.openstreetmap.org/7/77/70.png',
+  'https://b.tile.openstreetmap.org/6/37/33.png',
+  'https://b.tile.openstreetmap.org/6/37/36.png',
+  'https://b.tile.openstreetmap.org/6/38/35.png',
+  'https://b.tile.openstreetmap.org/6/39/34.png',
+  'https://b.tile.openstreetmap.org/6/39/37.png',
+  'https://b.tile.openstreetmap.org/7/74/74.png',
+  'https://b.tile.openstreetmap.org/7/75/67.png',
+  'https://b.tile.openstreetmap.org/7/75/70.png',
+  'https://b.tile.openstreetmap.org/7/75/73.png',
+  'https://b.tile.openstreetmap.org/7/76/66.png',
+  'https://b.tile.openstreetmap.org/7/76/69.png',
+  'https://b.tile.openstreetmap.org/7/76/72.png',
+  'https://b.tile.openstreetmap.org/7/77/68.png',
+  'https://c.tile.openstreetmap.org/6/37/34.png',
+  'https://c.tile.openstreetmap.org/6/37/37.png',
+  'https://c.tile.openstreetmap.org/6/38/33.png',
+  'https://c.tile.openstreetmap.org/6/38/36.png',
+  'https://c.tile.openstreetmap.org/6/39/35.png',
+  'https://c.tile.openstreetmap.org/7/74/72.png',
+  'https://c.tile.openstreetmap.org/7/75/68.png',
+  'https://c.tile.openstreetmap.org/7/75/74.png',
+  'https://c.tile.openstreetmap.org/7/76/67.png',
+  'https://c.tile.openstreetmap.org/7/76/70.png',
+  'https://c.tile.openstreetmap.org/7/76/73.png',
+  'https://c.tile.openstreetmap.org/7/77/66.png',
+  'https://c.tile.openstreetmap.org/7/77/69.png',
+  // CartoDB dark basemap tiles — Profile 009 (Zimbabwe) default view
+  'https://a.basemaps.cartocdn.com/dark_all/6/36/33.png',
+  'https://a.basemaps.cartocdn.com/dark_all/6/37/35.png',
+  'https://a.basemaps.cartocdn.com/dark_all/6/38/34.png',
+  'https://b.basemaps.cartocdn.com/dark_all/6/36/34.png',
+  'https://b.basemaps.cartocdn.com/dark_all/6/37/33.png',
+  'https://b.basemaps.cartocdn.com/dark_all/6/38/35.png',
+  'https://c.basemaps.cartocdn.com/dark_all/6/36/35.png',
+  'https://c.basemaps.cartocdn.com/dark_all/6/37/34.png',
+  'https://c.basemaps.cartocdn.com/dark_all/6/38/33.png',
 ];
 
 // Install: precache every file individually so one missing/renamed file
@@ -78,7 +155,17 @@ self.addEventListener('install', function (e) {
     caches.open(CACHE).then(function (cache) {
       return Promise.allSettled(
         PRECACHE.map(function (url) {
-          return cache.add(new Request(url, { cache: 'reload' })).catch(function (err) {
+          // Cross-origin CDN assets (Leaflet lib, map tiles) must be requested
+          // in no-cors mode — a plain cache.add() defaults to 'cors' mode for
+          // absolute URLs, which fails outright against servers (tile CDNs)
+          // that don't send CORS headers. no-cors yields a cacheable opaque
+          // response instead, which is what the browser needs to replay an
+          // <img>/<script>/<link> tag from cache.
+          var isCrossOrigin = /^https?:\/\//i.test(url);
+          var reqInit = isCrossOrigin
+            ? { mode: 'no-cors', cache: 'reload' }
+            : { cache: 'reload' };
+          return cache.add(new Request(url, reqInit)).catch(function (err) {
             console.warn('[sw] precache miss:', url, err && err.message);
           });
         })
@@ -100,20 +187,31 @@ self.addEventListener('activate', function (e) {
   );
 });
 
-// Fetch: same-origin GET only. Cache-first for instant offline load, with a
-// background network refresh. If both cache and network fail on a navigation,
-// fall back to the library index.
+// Fetch: same-origin GET, PLUS the allowlisted cross-origin CDN hosts (map
+// library + tiles) via CDN_HOSTS above. Everything else cross-origin is left
+// alone (this worker never touches it). Cache-first for instant offline load,
+// with a background network refresh. If both cache and network fail on a
+// navigation, fall back to the library index.
 self.addEventListener('fetch', function (e) {
   var req = e.request;
   if (req.method !== 'GET') return;
   var url = new URL(req.url);
-  if (url.origin !== self.location.origin) return;
+  var sameOrigin = (url.origin === self.location.origin);
+  var isAllowedCdn = CDN_HOSTS.indexOf(url.hostname) !== -1;
+  if (!sameOrigin && !isAllowedCdn) return;
 
   e.respondWith(
     caches.open(CACHE).then(function (cache) {
       return cache.match(req).then(function (cached) {
         var network = fetch(req).then(function (resp) {
-          if (resp && resp.status === 200 && resp.type === 'basic') {
+          // Same-origin: only cache clean 200/basic responses (unchanged
+          // behaviour). Cross-origin CDN: these arrive opaque (status 0,
+          // unreadable) because the browser fetches them in no-cors mode —
+          // opaque responses are still valid to cache and replay, we just
+          // can't verify their status code, so accept type 'opaque' too.
+          var cacheable = (resp && resp.status === 200 && resp.type === 'basic')
+                        || (resp && resp.type === 'opaque');
+          if (cacheable) {
             cache.put(req, resp.clone());
           }
           return resp;

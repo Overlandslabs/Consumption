@@ -9,7 +9,8 @@ typography set. Expedition Readiness Programme EX-1–EX-9 charter approved
 EX-2 (R38 Expedition Operations Plan) BUILT 5 Jul 2026; EX-3 (R39 Expedition
 Documentation & Money Guide) BUILT 5 Jul 2026; EX-4 (Profile 007 Southern
 Mozambique) BUILT 6 Jul 2026; EX-5 (Profile 008 Malawi) BUILT 6 Jul 2026;
-EX-6 (Profile 009 Northern Zimbabwe) BUILT 7 Jul 2026.
+EX-6 (Profile 009 Northern Zimbabwe) BUILT 7 Jul 2026; post-EX-6 defect fix
+7 Jul 2026 — offline map tiles (sw.js only, CACHE v15->v16, see below).
 Status tracked in the working-papers EX_Register
 sheet. Sole open item: TA-002 weighbridge.)
 Maintained by: Neil / Mary-Ann West
@@ -326,6 +327,42 @@ map: index.html + LC76_Library_Register.txt + sw.js precache bump +
 working-papers EX row. EX-8 R3/R23 edits and the 001–006 retrofit are
 content-only (no sw.js bump).
 
+DEFECT FIX — OFFLINE MAP TILES (7 Jul 2026, post-EX-6, sw.js only)
+The interactive Leaflet maps in Profiles 007/008/009 depend on cross-origin
+CDN assets (Leaflet library on cdnjs.cloudflare.com; raster basemap tiles on
+tile.openstreetmap.org for 007/008, CartoDB dark basemap on basemaps.cartocdn.com
+for 009). sw.js previously ignored all cross-origin requests
+(`if (url.origin !== self.location.origin) return;`), so these assets were
+never cached — the map rendered solid black offline, which is exactly the
+scenario (no signal in the Zambezi valley, etc.) this library exists for.
+Fixed by: (1) a CDN_HOSTS allowlist naming the exact seven hosts involved;
+(2) the fetch handler now cache-first-serves + background-revalidates those
+hosts the same way it does same-origin files, accepting opaque responses
+(status 0, unreadable body — the normal result of a no-cors cross-origin
+fetch) as cacheable, since opaque responses can still be correctly replayed
+for <img>/<script>/<link> tags even though their status can't be inspected;
+(3) the install-time precache step requests cross-origin URLs with
+`{mode:'no-cors'}` (a plain cache.add() defaults to 'cors' mode for absolute
+URLs, which fails outright against tile servers with no CORS headers);
+(4) PRECACHE gained the 2 Leaflet library files plus a fixed 3×3 tile grid
+(computed via the standard slippy-map tile formula, including Leaflet's
+default 'abc' subdomain round-robin) around each map's DEFAULT view — 39 OSM
+tiles across 007's 3 views + 008's 3 views, 9 CartoDB tiles for 009's single
+view, 50 cross-origin entries total. Known limitation: only the default,
+un-panned/un-zoomed view of each map works fully offline from a cold install;
+panning or zooming beyond the precached grid still needs connectivity, though
+any tiles fetched successfully while online are cached opportunistically for
+later offline reuse via the same runtime fetch handler. CACHE bumped v15->v16
+(precache contents changed substantively; a version bump is required for
+already-installed clients to re-run the install step and pick up the new
+entries — this falls outside the letter of the ADDED/REMOVED/RENAMED bump
+rule above but clearly within its spirit). NOT a new EX session; sw.js only,
+no HTML files touched, no register/index changes.
+ASIDE — flagged, not yet actioned: 007/008 use OpenStreetMap tiles while 009
+uses a CartoDB dark basemap. This inconsistency was introduced in the EX-6
+build and should be reconciled (pick one tile source) in a future session —
+does not block anything today since both are now offline-capable.
+
 DESIGN SYSTEM (mandatory — full spec in LC76_Design_Guidelines.html, now v1.5)
 - Fonts: Bebas Neue (display), Oswald / 'Oswald','Arial Narrow',sans-serif
   (body), IBM Plex Mono (labels/mono). The whole library is now on this single
@@ -405,7 +442,8 @@ WORKING CONVENTIONS
   bump. Neil simply commits sw.js alongside the changed files — no decision
   needed. (Note: this convention only fires for changes made through Claude;
   files hand-edited and pushed to GitHub directly will not trigger it.)
-  Current CACHE constant: lc76-library-v15 (bumped from v14 at EX-6).
+  Current CACHE constant: lc76-library-v16 (bumped from v15 — offline map-tile
+  fix, see below).
 - Automatic date bumps: on every edited document that carries a masthead
   "Last updated" line, bump it to the session date (files without such a line
   get nothing added — do not fabricate one). Bump index.html's header-meta
