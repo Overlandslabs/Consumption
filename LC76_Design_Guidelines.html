@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0d0e12">
-<title>LC76 Design Guidelines v1.5</title>
+<title>LC76 Design Guidelines v1.6</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500;600&family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -165,7 +165,7 @@ code{font-family:var(--mono);font-size:.75rem;color:var(--amber);background:var(
   <a href="index.html" class="lib-home-btn">⌂ Index</a>
   <div class="std-eyebrow">LC76 Overland Library</div>
   <div class="std-title">Design Guidelines</div>
-  <div class="std-sub">Reference Standard &nbsp;·&nbsp; v1.5 &nbsp;·&nbsp; 3 July 2026</div>
+  <div class="std-sub">Reference Standard &nbsp;·&nbsp; v1.6 &nbsp;·&nbsp; 7 July 2026</div>
   <div class="std-vehicle">HZJ76R-RKMRS · Two design systems · Reference docs R1–R36 + 6 Calculators</div>
 </div>
 <div class="toc-bar">
@@ -179,6 +179,7 @@ code{font-family:var(--mono);font-size:.75rem;color:var(--amber);background:var(
   <a href="javascript:void(0)" onclick="document.getElementById('s7').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">7. Print</a>
   <a href="javascript:void(0)" onclick="document.getElementById('s8').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">8. PWA</a>
   <a href="javascript:void(0)" onclick="document.getElementById('s9').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">9. Do / Don't</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s10').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">10. Masthead</a>
 </div>
 </div>
 
@@ -798,17 +799,87 @@ pre{
 </div>
 </div>
 
+
+
+<!-- S10 ─────────────────────────────────────────────────── -->
+<div class="sec-header" id="s10">
+  <span class="sec-num">S10</span>
+  <span class="sec-title">Masthead Standard</span>
+  <span class="sec-sub">Six slots · fixed order</span>
+</div>
+
+<div style="padding-top:12px">
+<p style="font-size:.88rem;color:var(--steeldk);margin-bottom:14px;line-height:1.6">Adopted at v1.6 (7 July 2026). The masthead <strong>identifies the document; it does not re-specify the vehicle</strong>. Every field-facing reference document and country/terrain profile carries the same six slots, in fixed order. Anything that is a fact about the truck lives once in <code>LC76_Facts.txt</code> and R1 — never restated in a masthead.</p>
+
+<table class="spec-table">
+  <thead><tr><th>Slot</th><th>Element</th><th>Rule</th></tr></thead>
+  <tbody>
+    <tr><td><strong>1</strong></td><td>Back-link</td><td><code>⌂ Index</code> — single glyph + word, on every document except the exemptions below. No <code>◄ Library</code> / <code>⬅ Library</code> variants.</td></tr>
+    <tr><td><strong>2</strong></td><td>Eyebrow</td><td><code>{Collection} · {ID}</code> — the collection word plus its ID, nothing else. <strong>No vehicle code, no EX-programme tag, no "Series/Library" name.</strong></td></tr>
+    <tr><td><strong>3</strong></td><td>Title (H1)</td><td>Document name, Title Case in source; the display font handles capitalisation.</td></tr>
+    <tr><td><strong>4</strong></td><td>Subtitle</td><td>One scope line, ≤ ~12 words. Section/contents lists belong to the TOC, not here.</td></tr>
+    <tr><td><strong>5</strong></td><td>Identity line</td><td>The invariant vehicle stamp (below). Identical on every file.</td></tr>
+    <tr><td><strong>6</strong></td><td>Date</td><td><code>Last updated: D Month YYYY</code> — lowercase "updated", full month, no zero-pad. Replaces "Last Updated" / "Compiled".</td></tr>
+  </tbody>
+</table>
+
+<pre>⌂ Index
+Reference · R24
+Fuel System &amp; Diesel Quality Guide
+Architecture, diesel quality, filtration &amp; bad-fuel protocol
+2009 LC76 SW · 1HZ 4.2L Diesel · low-boost turbo (0.6 bar) · intercooler
+Last updated: 7 July 2026</pre>
+
+<div class="rule rule-ok">
+  <strong>Slot 5 — invariant identity line</strong>
+  The same tokens on every file: <span class="mono">2009 LC76 SW · 1HZ 4.2L Diesel · low-boost turbo (0.6 bar) · intercooler</span>. It is a fixed identity stamp, not per-document spec.
+</div>
+
+<div class="rule rule-warn">
+  <strong>Never appears in a masthead</strong>
+  Odometer · GVM · per-document component specs · the EX-programme tag · a vehicle code in the eyebrow. These drift or duplicate canonical data. Varying spec paragraphs (e.g. brake, suspension, injection detail) live in the document body; the odometer lives in Facts §2 and R1.
+</div>
+
+<p style="font-size:.82rem;color:var(--steeldk);margin:16px 0 6px;font-family:var(--sans);font-weight:600">Slot 2 — collection vocabulary (closed set of six)</p>
+<table class="spec-table">
+  <thead><tr><th>Collection</th><th>ID</th><th>Applies to</th><th>Eyebrow reads</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Reference</strong></td><td><code>· R##</code></td><td>R1–R39 (R-series docs + the R8 supplement)</td><td><code>Reference · R24</code></td></tr>
+    <tr><td><strong>Country Profile</strong></td><td><code>· 0##</code></td><td>Profiles 001–004, 006–010</td><td><code>Country Profile · 007</code></td></tr>
+    <tr><td><strong>Terrain Profile</strong></td><td><code>· 0##</code></td><td>Kalahari (005)</td><td><code>Terrain Profile · 005</code></td></tr>
+    <tr><td><strong>Field Tool</strong></td><td>—</td><td>The 6 calculators</td><td><code>Field Tool</code></td></tr>
+    <tr><td><strong>Philosophy</strong></td><td><code>· Manifesto | Commentary | History</code></td><td>The 3 philosophy docs</td><td><code>Philosophy · Commentary</code></td></tr>
+    <tr><td><strong>Itinerary</strong></td><td>—</td><td>Trip itineraries</td><td><code>Itinerary</code></td></tr>
+  </tbody>
+</table>
+
+<div class="rule rule-note">
+  <strong>Profiles — one extra element</strong>
+  Country/terrain profiles carry the native official name (e.g. <em>República de Moçambique</em>) as a de-emphasised line directly under the title — title-level identity, not a content strip. The entry / visa / plating logistics older profiles kept in the masthead move into the profile body (§Entry/Border). Otherwise a profile masthead is identical to a reference doc.
+</div>
+
+<div class="rule rule-info">
+  <strong>Exemptions</strong>
+  <span style="display:block;margin-top:4px"><strong>Field Tools (calculators):</strong> no back-link (standalone-shareable), no identity line, no date line — they keep their live-stats strip; eyebrow is just <code>Field Tool</code>. <strong>Governance / infrastructure</strong> — <code>index.html</code>, this Design Guidelines doc, <code>LC76_Profile_TEMPLATE.html</code>, and the audit HTML — are not in the index or precache and keep their own headers; the six-slot standard does not apply to them.</span>
+</div>
+
+<div class="rule rule-note">
+  <strong>Migration status</strong>
+  Standard adopted v1.6 (7 Jul 2026). Field files migrate by family batch — reference, then profiles, then philosophy + itinerary, then tools. Until a file's batch runs it may still show a legacy masthead; the register and this document are the authority, not any single unmigrated file. Content-only migration — no CACHE bump; each migrated file's "Last updated" bumps to its session date.
+</div>
+</div>
+
 </div><!-- end .content -->
 
 <div class="doc-footer">
-  <span>LC76 Design Guidelines v1.5 · 3 July 2026</span>
+  <span>LC76 Design Guidelines v1.6 · 7 July 2026</span>
   <span>Reference Docs R1–R36 + 6 Calculators · Two design systems</span>
   <span>overlandslabs.github.io/Consumption</span>
 </div>
 
 <script>
 // Active TOC state
-const sections = ['s1','s2','s3','s4','s5','s6','s7','s8','s9'];
+const sections = ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10'];
 const tocLinks = document.querySelectorAll('.toc-link');
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {

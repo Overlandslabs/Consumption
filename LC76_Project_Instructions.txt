@@ -15,7 +15,10 @@ tiles (sw.js only, CACHE v15->v16, see below; Kenya build bumped v16->v17);
 post-EX-7 defect fix 7 Jul 2026 — tile-source reconciliation (009 CartoDB
 dark basemap → OSM, matching 007/008; sw.js + Zimbabwe profile, CACHE
 v17->v18, see below). Status tracked in the working-papers EX_Register
-sheet. Sole open item: TA-002 weighbridge.)
+sheet. DESIGN SYSTEM advanced to v1.6 7 Jul 2026 — masthead standard
+adopted (DG new section S10); field-file migration to it PENDING by family
+batch (DG edit only — not precached/indexed, no CACHE/index change). Sole
+open item: TA-002 weighbridge.)
 Maintained by: Neil / Mary-Ann West
 ═══════════════════════════════════════════════════════════════════════
 
@@ -399,7 +402,7 @@ required (no file added, removed, or renamed). Known limitation carried over
 unchanged: only each map's default, un-panned/un-zoomed view is guaranteed
 offline from a cold install.
 
-DESIGN SYSTEM (mandatory — full spec in LC76_Design_Guidelines.html, now v1.5)
+DESIGN SYSTEM (mandatory — full spec in LC76_Design_Guidelines.html, now v1.6)
 - Fonts: Bebas Neue (display), Oswald / 'Oswald','Arial Narrow',sans-serif
   (body), IBM Plex Mono (labels/mono). The whole library is now on this single
   on-system set — no off-system faces anywhere.
@@ -409,6 +412,20 @@ DESIGN SYSTEM (mandatory — full spec in LC76_Design_Guidelines.html, now v1.5)
 - Calculator tokens (warm palette): --clay, --ochre, --sand, --cream, --ink,
   --bark, --smoke
 - Dark masthead + light content area pattern
+- Masthead standard (DG v1.6, section S10) — six slots, fixed order:
+  back-link (⌂ Index) · eyebrow (Collection · ID) · title (Title Case) ·
+  one-line subtitle (≤~12 words) · invariant identity line · Last-updated date.
+  Identity line, identical on every file: "2009 LC76 SW · 1HZ 4.2L Diesel ·
+  low-boost turbo (0.6 bar) · intercooler". NEVER in a masthead: odometer, GVM,
+  per-document component specs, the EX-programme tag, or a vehicle code in the
+  eyebrow (those live in Facts §2 / R1 / the body). Closed collection vocabulary
+  (six): Reference · Country Profile · Terrain Profile · Field Tool · Philosophy ·
+  Itinerary. Profiles carry ONE extra element — native official name as a
+  de-emphasised line under the title; their entry/visa/plating strip moves to the
+  body (§Entry/Border). Exempt: calculators (no back-link/identity/date, eyebrow
+  "Field Tool") and governance/infrastructure (index.html, Design Guidelines,
+  Profile Template, audit HTML). Date form: "Last updated: D Month YYYY"
+  (lowercase, full month, no zero-pad) — replaces "Last Updated"/"Compiled".
 - Sticky nav: masthead and TOC MUST be wrapped together in a single sticky
   container (position:sticky; top:0; z-index:100). Never separate.
 - Content width: max-width:100% with percentage padding
@@ -444,6 +461,13 @@ OWNER VALUES
 - Vehicle also used as daily run-around at home.
 
 WORKING CONVENTIONS
+- Masthead conformance (DG v1.6 §S10): new reference docs and profiles are
+  born on the masthead standard. Existing files are brought to it by FAMILY
+  BATCH (reference -> profiles -> philosophy + itinerary -> tools), not
+  opportunistically, so each batch stays auditable. Migration is content-only
+  (no CACHE bump); each migrated file's "Last updated" bumps to session date,
+  and index.html header-meta bumps once per batch. Do not silently reshape a
+  masthead outside its scheduled batch.
 - File naming: LC76_Title_Case.html. No legacy patterns (hzj76r-, 1hz-,
   service-history-).
 - Bar is the primary pressure unit on all displays; PSI is derived/secondary.
