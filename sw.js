@@ -4,7 +4,7 @@
 // falls back to the library index, never to an unrelated page.
 // Bump CACHE (v1 -> v2 ...) whenever library files change to force refresh.
 
-const CACHE = 'lc76-library-v13';
+const CACHE = 'lc76-library-v14';
 
 const PRECACHE = [
   './',
@@ -66,6 +66,7 @@ const PRECACHE = [
   './Namibia_Overland_Profile_2026-04.html',
   './Tanzania_Overland_Profile_2026-05.html',
   './Mozambique_Overland_Profile_2026-07.html',
+  './Malawi_Overland_Profile_2026-07.html',
   './Zambia_Overland_Profile_2026-04.html',
 ];
 

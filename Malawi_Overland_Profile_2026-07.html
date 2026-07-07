@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<!-- ════════════════════════════════════════════════════════════
+  LC76 OVERLAND REFERENCE LIBRARY · COUNTRY PROFILE 008
+  Malawi (whole country — Lake Malawi shore as the spine, North/Central/South)
+  Built off the Profile 007 v1.5 scaffold (carries the §06 Parts & Serviceability
+  section). Web-researched for currency: 06 Jul 2026. Verify all fees/visa/
+  security/fuel before travel. No sensitive-site GPS (public towns/borders/parks
+  only). Both Moz entries covered evenly (Tete-corridor south/central + northern
+  lakeshore). Onward exits (Tanzania/Zambia) as forward cross-references.
+  ════════════════════════════════════════════════════════════ -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LC76 Library">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0d0e12">
+<title>Malawi Overland Profile &middot; LC76</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500;600&family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+:root{
+  --ink:#0d0e12;--paper:#dad2c0;--paper2:#edeae0;--rule:#d4cfc4;
+  --amber:#b86800;--amber2:#e07800;
+  --steeldk:#2a2f3a;--steelmd:#6a7080;--steellt:#a8b0bc;
+  --red-warn:#B91C1C;--green-ok:#059669;
+  --mono:'IBM Plex Mono',monospace;
+  --sans:'Oswald',sans-serif;
+  --display:'Bebas Neue',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{overflow-x:hidden;overflow-x:clip;overscroll-behavior-x:none}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55}
+.sticky-nav-unit{position:sticky;top:0;z-index:100;background:var(--ink);padding-top:env(safe-area-inset-top)}
+.sticky-nav-unit::before{content:"";position:absolute;left:0;right:0;bottom:100%;height:100vh;background:var(--ink)}
+.std-header{background:var(--ink);padding:18px 24px 14px;position:relative;border-bottom:3px solid var(--amber);}
+.std-eyebrow{font-family:var(--mono);font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--steelmd);margin-bottom:8px;display:flex;align-items:center;gap:10px;}
+.masthead-flag{display:inline-flex;width:44px;height:28px;border:2px solid rgba(255,255,255,.30);overflow:hidden;flex-shrink:0;box-shadow:0 1px 4px rgba(0,0,0,.4);}
+.std-title{font-family:var(--display);font-size:clamp(2.1rem,6vw,3.4rem);letter-spacing:.06em;color:var(--amber2);line-height:1;}
+.std-local{font-family:var(--mono);font-size:.62rem;letter-spacing:.10em;color:rgba(255,200,100,.65);margin-top:7px;font-style:italic;}
+.std-sub{font-family:var(--sans);font-size:.92rem;font-style:italic;color:rgba(232,213,163,.85);margin-top:8px;line-height:1.4;}
+.std-vehicle{font-family:var(--mono);font-size:.50rem;letter-spacing:.08em;color:var(--steelmd);margin-top:10px;line-height:1.55;}
+.lib-home-btn{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--amber2);background:rgba(232,120,0,.15);border:1px solid var(--amber2);border-radius:20px;padding:6px 12px;min-height:32px;white-space:nowrap;position:absolute;top:50%;right:16px;transform:translateY(-50%);transition:background .2s;}
+.lib-home-btn:hover,.lib-home-btn:active{background:rgba(232,120,0,.30);}
+.alert-strip{background:#fff4f0;padding:14px 5%;display:flex;flex-direction:column;gap:10px;border-left:5px solid var(--red-warn);}
+.alert-strip .alert-main{font-family:var(--display);font-size:1.5rem;letter-spacing:.04em;line-height:1.1;color:#7a1010;}
+.alert-strip .alert-main .warn-icon{font-size:1.1rem;margin-right:6px;color:var(--red-warn);}
+.alert-pills{display:flex;flex-wrap:wrap;gap:8px;}
+.alert-strip .pill{background:#fff;padding:5px 12px;font-family:var(--sans);font-size:.84rem;font-weight:400;line-height:1.4;color:#5a1010;border-left:3px solid var(--red-warn);border:1px solid #fecaca;}
+.alert-strip .pill.warn{background:#fee2e2;color:#7a1010;border-color:#fca5a5;font-weight:600;}
+.alert-strip .pill strong{font-weight:600;color:#7a1010;}
+.toc-bar{background:var(--steeldk);padding:7px 24px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;border-bottom:2px solid var(--amber);}
+.toc-label{font-family:var(--mono);font-size:.48rem;letter-spacing:.18em;color:var(--steellt);text-transform:uppercase;margin-right:4px;flex-shrink:0}
+.toc-link{font-family:var(--mono);font-size:.48rem;color:rgba(255,255,255,.55);text-decoration:none;padding:2px 6px;border:1px solid transparent;transition:all .12s;white-space:nowrap;cursor:pointer;}
+.toc-link:hover{color:var(--amber2);border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.06)}
+.toc-link.active{color:var(--amber2);border-color:var(--amber2);background:rgba(232,120,0,.1)}
+.updated-banner{background:var(--ink);color:var(--steellt);font-family:var(--mono);font-size:.54rem;letter-spacing:.08em;padding:8px 5%;display:flex;flex-wrap:wrap;align-items:center;gap:14px;border-bottom:1px solid var(--steeldk);}
+.updated-banner strong{color:var(--amber2);font-weight:600}
+.updated-banner a{color:var(--amber2)}
+.content{padding:20px 5% 80px;max-width:100%}
+.sec-header{display:flex;align-items:center;gap:12px;padding:10px 5%;background:var(--steeldk);border-left:5px solid var(--amber2);margin:28px 0 0;}
+.sec-num{font-family:var(--mono);font-size:.58rem;font-weight:600;color:#fff;background:var(--amber);padding:3px 8px;letter-spacing:.12em;flex-shrink:0;}
+.sec-title{font-family:var(--display);font-size:1.7rem;letter-spacing:.10em;color:#fff;line-height:1;}
+.sec-sub{font-family:var(--mono);font-size:.46rem;letter-spacing:.10em;color:var(--steellt);margin-left:auto;flex-shrink:0;text-align:right}
+.subsec{background:var(--paper2);border-left:3px solid var(--amber);padding:6px 16px 6px 14px;margin:20px 0 10px;display:flex;align-items:center;gap:10px;}
+.subsec-title{font-family:var(--display);font-size:1.1rem;letter-spacing:.12em;color:var(--ink);}
+.subsec-tag{font-family:var(--mono);font-size:.44rem;letter-spacing:.12em;color:var(--steelmd);text-transform:uppercase;margin-left:auto;}
+.prose{font-family:var(--sans);font-size:.92rem;line-height:1.65;color:var(--ink);margin:8px 0 12px;}
+.prose strong{font-weight:600;color:var(--ink)}
+.prose em{color:var(--amber);font-style:italic}
+.data-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:12px 0;}
+.data-card{background:var(--paper2);border:1px solid var(--rule);border-left:3px solid var(--amber);padding:11px 14px;}
+.data-card.warn{border-left-color:var(--red-warn);background:#fff4f0}
+.data-card.note{border-left-color:var(--amber2);background:#fffbe8}
+.data-card.ok{border-left-color:var(--green-ok);background:#f0fff8}
+.data-card.dark{border-left-color:var(--amber2);background:var(--ink);color:var(--steellt)}
+.data-card-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.14em;text-transform:uppercase;color:var(--steelmd);margin-bottom:5px;}
+.data-card.warn .data-card-label{color:var(--red-warn)}
+.data-card.note .data-card-label{color:var(--amber)}
+.data-card.ok .data-card-label{color:var(--green-ok)}
+.data-card.dark .data-card-label{color:var(--amber2)}
+.data-card-value{font-family:var(--display);font-size:1.5rem;letter-spacing:.04em;color:var(--ink);line-height:1;margin-bottom:3px;}
+.data-card.warn .data-card-value{color:#7a1010}
+.data-card.ok .data-card-value{color:#0a3a20}
+.data-card.dark .data-card-value{color:#fff}
+.data-card-sub{font-family:var(--sans);font-size:.78rem;color:var(--steelmd);line-height:1.5;}
+.data-card.dark .data-card-sub{color:var(--steellt)}
+.alert{border-left:4px solid;padding:10px 14px;margin:12px 0;font-family:var(--sans);font-size:.84rem;line-height:1.55;}
+.alert strong{font-weight:600;display:block;margin-bottom:3px;font-family:var(--mono);font-size:.54rem;letter-spacing:.10em;text-transform:uppercase}
+.alert-warn{background:#fff4f0;border-color:#B91C1C;color:#5a1010}
+.alert-warn strong{color:#B91C1C}
+.alert-note{background:#fffbe8;border-color:var(--amber2);color:#4a3000}
+.alert-note strong{color:var(--amber)}
+.alert-ok{background:#f0fff8;border-color:var(--green-ok);color:#0a3a20}
+.alert-ok strong{color:var(--green-ok)}
+.alert-info{background:var(--paper2);border-color:var(--steelmd);color:var(--steeldk)}
+.alert-info strong{color:var(--steelmd)}
+.spec-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.82rem}
+.spec-table th{background:var(--steeldk);color:#fff;font-family:var(--mono);font-size:.46rem;letter-spacing:.12em;text-transform:uppercase;padding:7px 10px;text-align:left;}
+.spec-table td{padding:6px 10px;border-bottom:1px solid var(--rule);vertical-align:top;font-family:var(--sans)}
+.spec-table tr:nth-child(even) td{background:var(--paper2)}
+.spec-table .mono{font-family:var(--mono);font-size:.72rem;color:var(--amber)}
+.spec-table .warn{color:var(--red-warn);font-weight:600}
+.spec-table .ok{color:var(--green-ok);font-weight:600}
+.spec-table .num{font-family:var(--mono);font-size:.78rem;text-align:right;white-space:nowrap}
+.table-scroll{overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;max-width:100%}
+.route-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin:12px 0;}
+.route-card{background:var(--paper2);border:1px solid var(--rule);border-left:4px solid var(--amber2);padding:12px 16px;}
+.route-card.secondary{border-left-color:var(--steelmd)}
+.route-badge{font-family:var(--mono);font-size:.44rem;letter-spacing:.16em;text-transform:uppercase;color:#fff;background:var(--amber);padding:2px 8px;display:inline-block;margin-bottom:6px;}
+.route-card.secondary .route-badge{background:var(--steelmd)}
+.route-card h3{font-family:var(--display);font-size:1.25rem;letter-spacing:.06em;color:var(--ink);line-height:1.05;margin-bottom:8px;}
+.route-card ul{list-style:none;padding:0}
+.route-card li{font-family:var(--sans);font-size:.82rem;line-height:1.55;padding:4px 0;border-bottom:1px solid var(--rule);}
+.route-card li:last-child{border-bottom:none}
+.route-card li::before{content:"▸ ";color:var(--amber2);font-weight:600}
+.route-card li strong{font-weight:600;color:var(--ink)}
+.scenario{background:var(--paper2);border:1px solid var(--rule);border-top:3px solid var(--amber2);padding:12px 16px;margin:12px 0;}
+.scenario h4{font-family:var(--display);font-size:1.2rem;letter-spacing:.06em;color:var(--ink);margin-bottom:4px;line-height:1.05;}
+.scenario .scenario-meta{font-family:var(--mono);font-size:.50rem;letter-spacing:.10em;color:var(--steelmd);text-transform:uppercase;margin-bottom:8px;}
+.scenario p{font-family:var(--sans);font-size:.84rem;line-height:1.6;margin-bottom:6px;}
+.scenario ul{list-style:none;padding:0;margin-top:6px}
+.scenario li{font-family:var(--sans);font-size:.82rem;line-height:1.55;padding:3px 0;}
+.scenario li::before{content:"→ ";color:var(--amber2);font-weight:600}
+.verdict{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--rule);margin:14px 0;}
+.verdict-col{padding:11px 14px;background:var(--paper2)}
+.verdict-col:first-child{border-right:1px solid var(--rule)}
+.verdict-col h4{font-family:var(--mono);font-size:.50rem;letter-spacing:.16em;text-transform:uppercase;margin-bottom:8px;}
+.verdict-col.pros h4{color:var(--green-ok)}
+.verdict-col.cons h4{color:var(--red-warn)}
+.verdict-col ul{list-style:none;padding:0}
+.verdict-col li{font-family:var(--sans);font-size:.82rem;line-height:1.55;padding:3px 0}
+.verdict-col.pros li::before{content:"+ ";color:var(--green-ok);font-weight:700}
+.verdict-col.cons li::before{content:"− ";color:var(--red-warn);font-weight:700}
+.fuel-band{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:0;margin:12px 0;border:1px solid var(--rule);}
+.fuel-cell{padding:11px 14px;background:var(--paper2);border-right:1px solid var(--rule);}
+.fuel-cell:last-child{border-right:none}
+.fuel-cell-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.14em;text-transform:uppercase;color:var(--steelmd);margin-bottom:4px;}
+.fuel-cell-value{font-family:var(--display);font-size:1.4rem;letter-spacing:.04em;color:var(--amber);line-height:1;}
+.fuel-cell-sub{font-family:var(--mono);font-size:.62rem;color:var(--steelmd);margin-top:3px;}
+.data-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:12px 0;}
+.callout{background:var(--ink);color:var(--paper);border-left:4px solid var(--amber2);padding:12px 16px;margin:14px 0;font-family:var(--sans);font-size:.86rem;line-height:1.6;}
+.callout strong{color:var(--amber2);font-weight:600}
+.xref-bar{background:var(--steeldk);padding:8px 14px;display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:18px 0 4px;}
+.xref-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.18em;color:var(--steellt);text-transform:uppercase;flex-shrink:0;margin-right:4px}
+.xref-pill{font-family:var(--mono);font-size:.46rem;letter-spacing:.10em;color:var(--amber2);background:rgba(232,120,0,.12);border:1px solid rgba(232,120,0,.4);padding:2px 8px;text-decoration:none;white-space:nowrap;}
+.map-tabs{display:flex;border-bottom:0;margin:12px 0 0}
+.map-tab{font-family:var(--mono);font-size:.50rem;letter-spacing:.12em;text-transform:uppercase;background:var(--steeldk);color:var(--steellt);border:1px solid var(--ink);border-bottom:none;padding:9px 12px;cursor:pointer;flex:1;transition:all .12s;}
+.map-tab.active,.map-tab:hover{background:var(--amber);color:#fff;border-color:var(--amber)}
+#country-map{height:480px;border:1px solid var(--rule);background:var(--paper2);}
+.map-attrib{font-family:var(--mono);font-size:.48rem;letter-spacing:.06em;color:var(--steelmd);margin-top:6px;line-height:1.5;}
+.changelog-entry{display:grid;grid-template-columns:90px 70px 1fr;gap:12px;padding:10px 0;border-bottom:1px solid var(--rule);align-items:start;}
+.cl-date{font-family:var(--mono);font-size:.62rem;color:var(--steelmd);letter-spacing:.04em;line-height:1.4;}
+.cl-tag{font-family:var(--mono);font-size:.46rem;letter-spacing:.14em;text-transform:uppercase;padding:2px 7px;display:inline-block;font-weight:600;}
+.cl-tag.new{background:#dcfce7;color:#166534;border:1px solid #bbf7d0}
+.cl-tag.update{background:#dbeafe;color:#1e40af;border:1px solid #bfdbfe}
+.cl-tag.warn{background:#fee2e2;color:#991b1b;border:1px solid #fecaca}
+.cl-note{font-family:var(--sans);font-size:.84rem;line-height:1.55;color:var(--ink)}
+.cl-note strong{font-weight:600}
+#export-bar{background:var(--steeldk);padding:11px 5%;display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:0;font-family:var(--mono);font-size:.54rem;letter-spacing:.10em;color:var(--steellt);text-transform:uppercase;border-top:2px solid var(--amber);}
+.export-btn-inline{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:.54rem;letter-spacing:.10em;text-transform:uppercase;color:var(--amber2);background:rgba(232,120,0,.10);border:1px solid var(--amber2);padding:6px 12px;cursor:pointer;}
+.export-btn-inline:hover{background:rgba(232,120,0,.25)}
+.doc-footer{background:var(--ink);color:var(--steellt);font-family:var(--mono);font-size:.48rem;letter-spacing:.08em;padding:14px 5%;line-height:1.7;display:flex;flex-direction:column;gap:3px;}
+.doc-footer strong{color:var(--amber2);font-weight:600}
+@media(max-width:600px){
+  .std-header{padding:14px 16px 12px}
+  .std-title{font-size:clamp(1.7rem,7vw,2.6rem)}
+  .toc-bar{padding:5px 12px!important;flex-wrap:nowrap!important;overflow-x:auto!important;overscroll-behavior-x:contain!important;-webkit-overflow-scrolling:touch!important;scrollbar-width:none!important}
+  .toc-bar::-webkit-scrollbar{display:none}
+  .toc-link{font-size:.44rem!important;padding:2px 5px!important;white-space:nowrap!important}
+  .alert-strip{padding:12px 16px!important;gap:8px!important;}
+  .updated-banner{padding:7px 16px;font-size:.50rem}
+  .sec-header{padding:8px 16px;margin:18px 0 0}
+  .sec-title{font-size:1.4rem}
+  .content{padding:14px 4% 60px}
+  .data-grid,.route-grid,.data-cards{grid-template-columns:1fr}
+  .verdict{grid-template-columns:1fr}
+  .verdict-col:first-child{border-right:none;border-bottom:1px solid var(--rule)}
+  .fuel-band{grid-template-columns:repeat(2,1fr)}
+  .fuel-cell{border-right:none;border-bottom:1px solid var(--rule)}
+  .spec-table{display:block;overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
+  #country-map{height:340px}
+  .changelog-entry{grid-template-columns:1fr;gap:4px}
+  #export-bar{padding:10px 16px}
+}
+@media print{
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;color-adjust:exact!important}
+  @page{margin:7mm;size:A4}
+  :root{--ink:#0d0e12;--paper:#dad2c0;--paper2:#edeae0;--amber:#b86800;--amber2:#e07800;--steeldk:#2a2f3a;--steelmd:#6a7080;--red-warn:#B91C1C;--green-ok:#059669}
+  html,body{overflow:visible!important}
+  body{font-size:7.5pt;background:#dad2c0}
+  .sticky-nav-unit{position:static!important}
+  .sticky-nav-unit::before{content:none!important}
+  .std-header{background:#0d0e12!important;padding:6px 10px!important;border-bottom:2px solid #e07800!important}
+  .std-title{color:#e07800!important;font-size:1.6rem!important}
+  .toc-bar{display:none!important}
+  .alert-strip{break-inside:avoid}
+  .sec-header{background:#2a2f3a!important;margin:8px 0 0!important;padding:5px 10px!important;break-after:avoid}
+  .sec-num{background:#b86800!important}
+  .content{padding:0 8px 10px!important}
+  .data-card,.route-card,.alert,.callout{break-inside:avoid}
+  .scenario{break-inside:auto}
+  .scenario h4,.scenario .scenario-meta{break-after:avoid}
+  .spec-table{break-inside:auto}
+  .spec-table thead{display:table-header-group}
+  .data-card.dark{background:#0d0e12!important}
+  .data-card.dark .data-card-value{color:#fff!important}
+  .spec-table th{background:#2a2f3a!important;color:#fff!important}
+  .spec-table tr:nth-child(even) td{background:#edeae0!important}
+  #country-map{display:none!important}
+  .map-tabs{display:none!important}
+  .map-attrib{display:none!important}
+  #export-bar{display:none!important}
+  .doc-footer{background:#0d0e12!important;padding:6px 10px!important}
+}
+</style>
+</head>
+<body>
+
+<div class="sticky-nav-unit">
+
+<header class="std-header">
+  <a href="index.html" class="lib-home-btn" title="Library Index">⌂ Index</a>
+  <div class="std-eyebrow">
+    <span class="masthead-flag"><svg viewBox="0 0 44 28" style="width:44px;height:28px;display:block" xmlns="http://www.w3.org/2000/svg"><rect width="44" height="9.33" y="0" fill="#000"/><rect width="44" height="9.34" y="9.33" fill="#ce1126"/><rect width="44" height="9.33" y="18.67" fill="#339e35"/><circle cx="22" cy="9.33" r="4.6" fill="none" stroke="#ce1126" stroke-width="1.1"/><g fill="#ce1126"><polygon points="22,5.6 22.5,7 24,7 22.8,7.9 23.3,9.3 22,8.4 20.7,9.3 21.2,7.9 20,7 21.5,7"/></g></svg></span>
+    <span style="margin-left:auto;white-space:nowrap">Overland Series · Country Profile 008</span>
+  </div>
+  <h1 class="std-title">Malawi</h1>
+  <div class="std-local">Dziko la Malaŵi · the warm heart of Africa · lakeshore spine, North to South</div>
+  <div class="std-sub">Friendly, compact and beautiful — and, in 2026, defined by a fuel and forex crisis. The plan lives or dies on diesel discipline: enter full, carry reserves, fuel at the borders.</div>
+  <div class="std-vehicle">
+LC76 SW 1HZ &middot; SA-plated / RHD &middot; Entry from Moz: Dedza / Mwanza (Tete corridor) or Chiponde (north) &middot; SA passport visa-free 90 days (verify reciprocity) &middot; COMESA covers insurance &middot; Compiled 06 Jul 2026
+</div>
+</header>
+
+<nav class="toc-bar">
+  <span class="toc-label">Sections</span>
+  <a href="javascript:void(0)" onclick="document.getElementById('alerts').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">! Alerts</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s01').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">01. Entry</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s02').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">02. Borders</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s03').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">03. Vehicle</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s04').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">04. Season</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s05').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">05. Fuel</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s06').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">06. Parts &amp; Service</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s07').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">07. Roads</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s08').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">08. Security</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s09').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">09. Health</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s10').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">10. Camp Safety</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s11').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">11. Comms</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s12').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">12. Money</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s13').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">13. Parks &amp; Camping</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s14').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">14. South &amp; Shire</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s15').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">15. Lakeshore &amp; North</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s16').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">16. Maps</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s17').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">17. South Route</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s18').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">18. Lakeshore Route</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s19').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">19. Phrases</a>
+</nav>
+
+</div><!-- end sticky-nav-unit -->
+
+<div class="updated-banner">
+  <span>🗓 <strong>Last updated:</strong> 06 July 2026</span>
+  <span>· USD 1 ≈ MWK 1,740 official <em style="color:var(--steelmd)">(parallel higher)</em> · ZAR 1 ≈ MWK 95 <em style="color:var(--steelmd)">(indicative)</em></span>
+  <span>· <a href="javascript:void(0)" onclick="document.getElementById('changelog').scrollIntoView({behavior:'smooth'});return false;">View changelog ↓</a></span>
+</div>
+
+<main class="content">
+
+<!-- ══ CRITICAL FIELD NOTICES ══════════════════════════════ -->
+<div class="sec-header" id="alerts" style="background:#fff4f0;border-left-color:var(--red-warn);">
+  <span class="sec-num" style="background:var(--red-warn);color:#fff;">!</span>
+  <span class="sec-title" style="color:#7a1010;">Critical Field Notices — Malawi</span>
+  <span class="sec-sub" style="color:#B91C1C;">Read Before Entering</span>
+</div>
+
+<div class="alert-strip">
+  <div class="alert-main"><span class="warn-icon">▲</span>Five things that shape — or wreck — this leg</div>
+  <div class="alert-pills">
+    <span class="pill warn"><strong>Fuel crisis is the defining problem.</strong> In 2026 Malawi has among the world's most expensive diesel (~MWK 6,700/L) and chronic shortages — dry pumps, queues for hours to days. <strong>Do not rely on Malawi for diesel.</strong> Enter with a full tank + both cells full and refuel at the borders (Moz/Zambia/Tanzania).</span>
+    <span class="pill warn"><strong>Forex crisis.</strong> Severe USD scarcity; the kwacha is stronger at the official rate than the street. Carry clean USD; expect cash-only realities and ATM caps.</span>
+    <span class="pill warn"><strong>Lake Malawi = bilharzia.</strong> The lakeshore is the whole trip's highlight and a schistosomiasis hotspot. Treat ALL lake freshwater contact as a risk; distrust "it's safe here" claims. Test on return.</span>
+    <span class="pill"><strong>COMESA covers you.</strong> Unlike Mozambique, the R39 COMESA Yellow Card is valid third-party cover in Malawi — but a road-access tax (historically ~US$51/30 days) still applies on entry.</span>
+    <span class="pill"><strong>Never drive after dark; mind the radar.</strong> Livestock, pedestrians, unlit vehicles, rainy-season washouts. Police run radar speed traps nationwide — pay any fine on the spot and <em>get a receipt</em>.</span>
+  </div>
+</div>
+
+<div class="alert alert-note">
+  <strong>Scope of this profile</strong>
+  Profile 008 covers <strong>the whole of Malawi with Lake Malawi as the organising spine</strong> — South, Central and North. It completes the EX-4 §18 handoff by covering <strong>both Mozambique entries evenly</strong>: the Tete-corridor crossings into the south/centre (Mwanza/Zóbuè, Dedza) and the northern lakeshore entry (Chiponde/Mandimba). Onward exits — north to Tanzania and west to Zambia — are carried as forward cross-references (§18) to the existing Tanzania (006) and Zambia (004) profiles and the route workshop (EX-9).
+</div>
+
+<!-- ══ 01 ENTRY & VISAS ════════════════════════════════════ -->
+<div class="sec-header" id="s01">
+  <span class="sec-num">01</span>
+  <span class="sec-title">Entry &amp; Visas</span>
+  <span class="sec-sub">SA visa-free 90 days · reciprocity regime</span>
+</div>
+
+<p class="prose">For a <strong>South African passport holder</strong>, Malawi is visa-free for tourism — historically up to <strong>90 days</strong> under the SADC exemption. Because South Africa admits Malawians without a visa, SA nationals remain exempt under Malawi's <strong>new reciprocity-based regime (in force 3 January 2026)</strong>, which ties exemptions to how each country treats Malawians. Regional-bloc membership alone is no longer a guarantee, so the standing advice is: <em>verify your status close to travel.</em></p>
+
+<div class="alert alert-warn">
+  <strong>2026 change — verify before travelling</strong>
+  On 3 Jan 2026 Malawi revoked the 2024 blanket waiver and moved to reciprocity, with an <strong>eVisa system (evisa.gov.mw)</strong> as the default route for non-exempt nationalities (most non-SADC travellers now need a visa or visa-on-arrival). SADC nationals who remain exempt are not required to use the eVisa for short stays, but exemptions "may change without notice." Confirm at evisa.gov.mw or the Malawi High Commission before each entry — and re-check if the trip is split around a licence-break re-entry.</div>
+
+<div class="data-grid">
+  <div class="data-card ok">
+    <div class="data-card-label">SA Passport · Tourism</div>
+    <div class="data-card-value">Visa-free</div>
+    <div class="data-card-sub">Up to 90 days (SADC + reciprocity). Passport valid 6 months, blank pages.</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-card-label">Regime</div>
+    <div class="data-card-value">Reciprocity</div>
+    <div class="data-card-sub">In force 3 Jan 2026. Exempt because SA admits Malawians visa-free. Verify — status can change.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">eVisa</div>
+    <div class="data-card-value">evisa.gov.mw</div>
+    <div class="data-card-sub">For non-exempt nationalities only. SADC not required to use it for short stays.</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-card-label">Yellow fever</div>
+    <div class="data-card-value">Carry ICVP</div>
+    <div class="data-card-sub">Required if arriving from a YF-risk country; the Kenya leg makes the certificate effectively mandatory (R39 §4).</div>
+  </div>
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">See also</span>
+  <a href="LC76_Expedition_Documentation_Money_Guide.html" class="xref-pill">R39 · Docs &amp; Money</a>
+  <a href="Mozambique_Overland_Profile_2026-07.html" class="xref-pill">007 · Mozambique (entry from)</a>
+</div>
+
+<!-- ══ 02 BORDER CROSSINGS ═════════════════════════════════ -->
+<div class="sec-header" id="s02">
+  <span class="sec-num">02</span>
+  <span class="sec-title">Border Crossings</span>
+  <span class="sec-sub">From Moz: south/central + north · exits N &amp; W</span>
+</div>
+
+<p class="prose">Coming from Mozambique there are two natural gateways, and this profile treats them evenly. <strong>South/central (Tete corridor):</strong> Mwanza/Zóbuè (the busy main road to Blantyre) and Dedza/Calomué (a modern one-stop post, 100 km from Lilongwe). <strong>North:</strong> Chiponde/Mandimba into the Mangochi lakeshore. Onward, Malawi exits north to Tanzania (Songwe) and west to Zambia (Mchinji) — both handed to existing profiles.</p>
+
+<div class="table-scroll">
+<table class="spec-table">
+  <thead><tr><th>Crossing (MW / MZ)</th><th>Into</th><th>Character</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Mwanza / Zóbuè</strong><br><span class="mono">Tete corridor</span></td><td>Blantyre (95 km)</td><td>Main, busy, truck-heavy</td><td>The principal Moz–Malawi gateway; chaotic transport hub. Historic RENAMO-era ambush road — check current Tete-corridor security (§08 in 007).</td></tr>
+    <tr><td><strong>Dedza / Calomué</strong><br><span class="mono">One-Stop Border</span></td><td>Lilongwe (100 km)</td><td>Modern OSBP (2023)</td><td>Cleaner, calmer, good facilities. TIP often free here. Best central entry.</td></tr>
+    <tr><td><strong>Mulanje / Milange</strong><br><span class="mono">southern</span></td><td>Blantyre (95 km SE)</td><td>Paved/gravel mix</td><td>Near Mt Mulanje; commercial + local. Mulanje district flagged for crime (§08).</td></tr>
+    <tr><td><strong>Chiponde / Mandimba</strong><br><span class="mono">northern lakeshore</span></td><td>Mangochi</td><td>Rough, scenic</td><td>Into the south-lake / Mangochi area. ATMs at Mangochi. Quieter, more remote.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="alert alert-info">
+  <strong>Onward exits (forward cross-reference)</strong>
+  <strong>North → Tanzania</strong> at Songwe (into the Tanzania profile's Tunduma/Songwe region — see 006). <strong>West → Zambia</strong> at Mchinji (into Chipata, see 004). Corridor choice and licence-break timing are resolved in EX-9.</div>
+
+<div class="alert alert-note">
+  <strong>Crossing drill</strong>
+  Passport stamp → vehicle Temporary Import Permit → present COMESA Yellow Card (or buy local third-party) → pay the road-access tax → keep every receipt. Carry the R39 §3 owner-authority affidavit (vehicle registered to Mary-Ann West) and certified registration copies; some posts keep a copy, and the SADC "logbook" plate-mismatch trap means you want the licence-disc papers to hand.</div>
+
+<div class="xref-bar">
+  <span class="xref-label">See also</span>
+  <a href="LC76_Border_Crossings_Guide.html" class="xref-pill">R15 · Border Technique</a>
+  <a href="Tanzania_Overland_Profile_2026-05.html" class="xref-pill">006 · Tanzania (exit)</a>
+  <a href="Zambia_Overland_Profile_2026-04.html" class="xref-pill">004 · Zambia (exit)</a>
+</div>
+
+<!-- ══ 03 VEHICLE DOCUMENTS ════════════════════════════════ -->
+<div class="sec-header" id="s03">
+  <span class="sec-num">03</span>
+  <span class="sec-title">Vehicle Documents</span>
+  <span class="sec-sub">COMESA valid · road tax · TIP · triangles</span>
+</div>
+
+<p class="prose">The good news after Mozambique: <strong>Malawi is a COMESA member, so the Yellow Card is valid third-party cover</strong> — no need to buy local insurance at the border if you're carrying it (obtain it in RSA pre-departure or in a COMESA country; see R39 §2). A separate <strong>road-access / toll tax</strong> still applies on entry, and the vehicle needs a TIP.</p>
+
+<div class="data-grid">
+  <div class="data-card ok">
+    <div class="data-card-label">Insurance</div>
+    <div class="data-card-value">COMESA OK</div>
+    <div class="data-card-sub">Yellow Card valid in Malawi (unlike Moz). Carry it; otherwise buy local third-party at the border. Own-damage &amp; medevac stay with R29.</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-card-label">Road-access tax</div>
+    <div class="data-card-value">~US$51/30d</div>
+    <div class="data-card-sub">Charged on entry (historically ~US$51, often USD-payable). Amounts change — verify; keep the receipt, it's checked on exit.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">TIP</div>
+    <div class="data-card-value">At border</div>
+    <div class="data-card-sub">Temporary Import Permit for the vehicle; free at some posts (e.g. Dedza). Keep with the registration.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Carry / kit</div>
+    <div class="data-card-value">Originals</div>
+    <div class="data-card-sub">Passport, licence (+IDP), original registration + certified copies, COMESA card, TIP. Two warning triangles, reflective vests, seatbelts.</div>
+  </div>
+</div>
+
+<div class="callout">
+  <strong>Speed traps.</strong> Malawian police run radar speed traps countrywide and expect on-the-spot fines — <strong>always insist on a receipt</strong>. Keep to town limits. Owner-authority (vehicle reg. Mary-Ann West): carry the R39 §3 police-certified affidavit whenever Neil drives without her. Technique for checkpoints and any bribe pressure: R35.
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">See also</span>
+  <a href="LC76_Expedition_Documentation_Money_Guide.html" class="xref-pill">R39 · Docs / COMESA</a>
+  <a href="LC76_Security_Fire_Guide.html" class="xref-pill">R35 · Checkpoints</a>
+  <a href="LC76_Insurance_Medevac.html" class="xref-pill">R29 · Insurance</a>
+</div>
+
+<!-- ══ 04 BEST SEASON & TIMING ═════════════════════════════ -->
+<div class="sec-header" id="s04">
+  <span class="sec-num">04</span>
+  <span class="sec-title">Best Season &amp; Timing</span>
+  <span class="sec-sub">Dry May–Oct · wet/floods Nov–Apr</span>
+</div>
+
+<p class="prose">The <strong>cool dry season (May–October)</strong> is the driving season: firm roads, clear lake water, big skies on the plateaus, and the lowest mosquito load. The <strong>wet season (November–April)</strong> is hot and humid, with heavy rains that flood the lakeshore plain, wash out secondary roads and trigger landslides on the escarpments; cyclones spilling in from the Mozambique Channel reach southern Malawi.</p>
+
+<div class="fuel-band">
+  <div class="fuel-cell"><div class="fuel-cell-label">Prime window</div><div class="fuel-cell-value">May–Oct</div><div class="fuel-cell-sub">Dry, firm, clear lake</div></div>
+  <div class="fuel-cell"><div class="fuel-cell-label">Plateau best</div><div class="fuel-cell-value">May–Sep</div><div class="fuel-cell-sub">Nyika / Zomba / Mulanje</div></div>
+  <div class="fuel-cell"><div class="fuel-cell-label">Green &amp; birds</div><div class="fuel-cell-value">Nov–Mar</div><div class="fuel-cell-sub">Lush but wet; road risk</div></div>
+  <div class="fuel-cell"><div class="fuel-cell-label">Avoid</div><div class="fuel-cell-value">Jan–Mar</div><div class="fuel-cell-sub">Peak floods/cyclones</div></div>
+</div>
+
+<div class="alert alert-note">
+  <strong>Timing against the expedition</strong>
+  A dry-season traverse dovetails with the whole route's seasonal pattern (verify rains in EX-9) and keeps the escarpment roads (Nyika, Livingstonia, Zomba) drivable. It also means firmer lakeshore tracks and a lower malaria load. Given the fuel situation, a shorter, well-planned traverse beats a long lingering one.</div>
+
+<!-- ══ 05 FUEL ═════════════════════════════════════════════ -->
+<div class="sec-header" id="s05">
+  <span class="sec-num">05</span>
+  <span class="sec-title">Fuel</span>
+  <span class="sec-sub">Crisis: dear &amp; scarce · don't rely on Malawi</span>
+</div>
+
+<p class="prose">This is the section that governs the whole leg. In 2026 Malawi has been at or near the <strong>top of Africa's fuel-price table</strong> — a MERA adjustment on 1 April 2026 put diesel around <strong>MWK 6,687/L (~USD 3.9 at the official rate)</strong> — combined with a <strong>chronic forex-driven supply crisis</strong>: most filling stations dry, queues of hours to days, and government selling gold reserves to pay suppliers. Plan the traverse as if Malawi has <em>no</em> reliable diesel.</p>
+
+<div class="data-grid">
+  <div class="data-card warn">
+    <div class="data-card-label">Diesel price (Apr 2026)</div>
+    <div class="data-card-value">~MWK 6,687/L</div>
+    <div class="data-card-sub">≈ USD 3.9/L official — among the most expensive on the continent. Volatile; re-check MERA before travel.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">Supply</div>
+    <div class="data-card-value">Scarce</div>
+    <div class="data-card-sub">Stations frequently dry; long queues; forex shortage throttles imports. Availability &gt; price as the planning driver.</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-card-label">Strategy</div>
+    <div class="data-card-value">Fill at borders</div>
+    <div class="data-card-sub">Enter with a full main tank + both cells full. Refuel in Moz/Zambia/Tanzania. Top up opportunistically wherever a Malawi pump has stock.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Onboard range</div>
+    <div class="data-card-value">145 + 40 L</div>
+    <div class="data-card-sub">Main tank + 2×20 L Desert Fox cells — the buffer that makes a Malawi traverse feasible. Use the fuel-range planner.</div>
+  </div>
+</div>
+
+<p class="prose"><strong>Quality:</strong> Malawi's imported diesel is broadly low-sulphur and fine for the 1HZ, but during shortages you may be pushed onto old, low-turnover or informally-sourced stock — the classic contamination (water/dirt) risk. Run the water-separating pre-filter, drain it, and treat suspect fills with caution to protect the freshly-overhauled injection system (Jun 2026).</p>
+
+<div class="alert alert-warn">
+  <strong>Do not gamble the tank</strong>
+  Treat "half a tank" as empty in Malawi. If you pass a station with diesel and reasonable queue, take it. Never commit to a remote leg (Nyika, northern lakeshore) without the range to exit the country on what you're carrying.</div>
+
+<div class="xref-bar">
+  <span class="xref-label">See also</span>
+  <a href="LC76_Fuel_System_Guide.html" class="xref-pill">R24 · Fuel &amp; Quality</a>
+  <a href="LC76_Fuel_Range_Calculator.html" class="xref-pill">Fuel Range Calc</a>
+  <a href="LC76_Trip_Fuel_Planner.html" class="xref-pill">Trip Fuel Planner</a>
+</div>
+
+<!-- ══ 06 PARTS & SERVICEABILITY (NEW) ═════════════════════ -->
+<div class="sec-header" id="s06">
+  <span class="sec-num">06</span>
+  <span class="sec-title">Parts &amp; Serviceability</span>
+  <span class="sec-sub">1HZ · tyres · Victron · self-reliance</span>
+</div>
+
+<p class="prose">The expedition-readiness view. Malawi has a solid official Toyota presence and deep 70-Series familiarity, but it is <strong>landlocked, second on the route, and import-starved by the forex crisis</strong> — so stock of anything specialist is thin and slow, and the South-African support base is now a genuine haul away (back through Mozambique or Zambia, not a quick border hop). Net posture: <strong>carry more, rely less</strong>. This feeds the R3 consumables ledger (EX-8).</p>
+
+<div class="subsec"><span class="subsec-title">1HZ / Toyota parts &amp; workshops</span><span class="subsec-tag">CFAO Mobility Malawi</span></div>
+<p class="prose">Toyota is <strong>CFAO Mobility Malawi (formerly Toyota Malawi Ltd)</strong> — market leader, the official Toyota/Hino distributor, with full <strong>Sales-Parts-Service (3S) branches in Blantyre and Lilongwe</strong>, a <strong>Parts-Service (2S) branch in Mzuzu</strong>, parts outlets at Dwangwa and Nchalo, and a mobile service van in some districts (central line +265 891 002 444). Toyota is the most common marque in the country and the 70-Series is everywhere, so general mechanical help and common consumables are realistic in the main centres. Genuine <strong>1HZ injection parts</strong> (VE-pump internals, injectors, nozzles) are <em>not</em> to be expected — carry them (R3).</p>
+
+<div class="table-scroll">
+<table class="spec-table">
+  <thead><tr><th>Item</th><th>In Malawi?</th><th>Posture</th></tr></thead>
+  <tbody>
+    <tr><td>Oil, common filters, belts, hoses</td><td class="ok">Main centres</td><td>Blantyre/Lilongwe/Mzuzu (CFAO + aftermarket wholesalers). Still carry a full service set (R3); shortages thin stock.</td></tr>
+    <tr><td>General wear items, batteries</td><td class="ok">Often</td><td>Toyota is the dominant marque; 70-Series common. Carry the critical belt set (interference engine).</td></tr>
+    <tr><td>1HZ injection parts</td><td class="warn">No</td><td>Carry, or accept a long wait / RSA sourcing. Protect the Jun-2026 overhaul.</td></tr>
+    <tr><td>Suspension (OME), diff/clutch specialist</td><td class="warn">No</td><td>Carry consumables; specialist work → RSA (via Moz/Zambia).</td></tr>
+    <tr><td>Import lead time (crisis)</td><td class="warn">Slow</td><td>Forex shortage throttles imports generally — don't plan on ordering-in.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="subsec"><span class="subsec-title">Tyres — 265/70R16 (and planned 265/75R16)</span><span class="subsec-tag">buy quality in RSA</span></div>
+<p class="prose">265/70R16 fitment and basic stock exist in Blantyre and Lilongwe, but a matched <strong>Maxxis AT811</strong> or a quality all-terrain in your size on demand is unlikely — an emergency buy is whatever's on the shelf. Enter on good RSA rubber, carry a sound full-size spare plus the plug/repair kit and compressor. Fit the future <strong>265/75R16</strong> upgrade in South Africa, not on the road.</p>
+
+<div class="subsec"><span class="subsec-title">Victron / LiFePO4 support</span><span class="subsec-tag">thin — self-monitor</span></div>
+<p class="prose">Malawi has a small solar/off-grid trade in Lilongwe and Blantyre through which Victron parts <em>may</em> be obtained, but there is <strong>no 4×4-specific Victron expertise</strong>, and the import squeeze makes electronics stock unreliable. Practical posture: the LiFePO4 house system is self-monitoring over VictronConnect Bluetooth; <strong>carry spare fuses and a VE.Direct cable, know the R26/R7 fault trees</strong>, and treat a serious electrical fault as an RSA-recovery event. Because Malawi is deep in the route, plan around the system rather than around local repair.</p>
+
+<div class="subsec"><span class="subsec-title">Fuel quality</span><span class="subsec-tag">see also §05</span></div>
+<p class="prose">Broadly low-sulphur, fine for the 1HZ; the shortage-driven risk is old or informally-sourced stock. Pre-filter/water-separator discipline, and log every fill for the R3 ledger and post-trip review (R23).</p>
+
+<div class="callout">
+  <strong>Serviceability verdict — Malawi.</strong> Green for general Toyota help and consumables in the three main centres; amber-to-red for anything 1HZ-specific, specialist, tyre-by-brand, or Victron — worsened by the import squeeze and the long road back to RSA. Net: <strong>the most self-reliant leg so far — carry the full R3 spares set and treat Malawi as a place to conserve, not to resupply.</strong>
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">See also</span>
+  <a href="LC76_Spares_Tools.html" class="xref-pill">R3 · Spares &amp; Tools</a>
+  <a href="LC76_Electrical_Wiring_Guide.html" class="xref-pill">R26 · Electrical</a>
+  <a href="LC76_LiFePO4_System_Report.html" class="xref-pill">R7 · LiFePO4</a>
+  <a href="LC76_Tyre_Management_Guide.html" class="xref-pill">R14 · Tyres</a>
+</div>
+
+<!-- ══ 07 ROADS ════════════════════════════════════════════ -->
+<div class="sec-header" id="s07">
+  <span class="sec-num">07</span>
+  <span class="sec-title">Roads</span>
+  <span class="sec-sub">M1 spine · lakeshore M5 · escarpments</span>
+</div>
+
+<p class="prose">The <strong>M1</strong> is the tarred national spine running the length of the country (Blantyre–Lilongwe–Mzuzu–Karonga). The <strong>M5 lakeshore road</strong> hugs the lake through the central and northern shore. Both carry pothole stretches and heavy trucks. The character-defining drives are the <strong>escarpment climbs</strong> — Zomba Plateau, the Livingstonia hairpins, and the road up to Nyika — which are steep, narrow and treacherous when wet.</p>
+
+<div class="data-grid">
+  <div class="data-card">
+    <div class="data-card-label">M1 spine</div>
+    <div class="data-card-value">Tar, variable</div>
+    <div class="data-card-sub">Blantyre–Lilongwe–Mzuzu–Karonga. Potholes, trucks, livestock. Daylight only.</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-card-label">M5 lakeshore</div>
+    <div class="data-card-value">Scenic, mixed</div>
+    <div class="data-card-sub">Central/north lake. Tar + rougher sections; sandy spurs to beaches (deflate).</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">Escarpments</div>
+    <div class="data-card-value">4×4, low range</div>
+    <div class="data-card-sub">Livingstonia hairpins, Nyika climb, Zomba — steep, narrow; dangerous wet. Dry-season only for the worst.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">Wet season</div>
+    <div class="data-card-value">Washouts</div>
+    <div class="data-card-sub">Nov–Apr floods/landslides cut secondary roads; bridges damaged. Check locally before committing.</div>
+  </div>
+</div>
+
+<div class="alert alert-note">
+  <strong>Driving discipline</strong>
+  Radar speed traps (§03) are a revenue point through towns — keep to limits. Heavy pedestrian, cyclist and livestock traffic on the road edge at all hours; bicycle-taxis wobble into the lane. No night driving. On the escarpments, use low range on descents and yield to trucks.</div>
+
+<div class="xref-bar">
+  <span class="xref-label">See also</span>
+  <a href="LC76_Driving_Conditions_Guide.html" class="xref-pill">R28 · Driving Conditions</a>
+  <a href="LC76_Tyre_Pressure_Calculator.html" class="xref-pill">Tyre Pressure Calc</a>
+</div>
+
+<!-- ══ 08 SECURITY ═════════════════════════════════════════ -->
+<div class="sec-header" id="s08">
+  <span class="sec-num">08</span>
+  <span class="sec-title">Security</span>
+  <span class="sec-sub">Peaceful · petty crime · protest volatility</span>
+</div>
+
+<p class="prose">Malawi is one of the <strong>more peaceful, welcoming countries in the region</strong> — the "warm heart of Africa" is more than a slogan, and violent crime against travellers is comparatively rare. The realistic risks are <strong>petty theft, opportunistic and occasionally armed residential/vehicle crime in the cities, and the volatility of protests</strong> — the last sharpened by economic hardship and the fuel/forex crisis. Government advisories sit at a <strong>US Level 2 (increased caution)</strong>.</p>
+
+<div class="data-grid">
+  <div class="data-card ok">
+    <div class="data-card-label">Overall</div>
+    <div class="data-card-value">Level 2</div>
+    <div class="data-card-sub">Comparatively low violent-crime environment; risk is more rural/logistical (roads, medevac distance) than criminal.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">Urban crime</div>
+    <div class="data-card-value">Watch cities</div>
+    <div class="data-card-sub">Petty theft (bus/ferry terminals, Lilongwe Old Town↔City walk); residential burglary; carjacking in Lilongwe/Blantyre (rear-block at gates). Don't display wealth.</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-card-label">Protests</div>
+    <div class="data-card-value">Volatile</div>
+    <div class="data-card-sub">Economic/political demonstrations can turn violent fast — tear gas, roadblocks. Fuel-queue tension. Avoid crowds; monitor local media.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">Mulanje district</div>
+    <div class="data-card-value">Higher risk</div>
+    <div class="data-card-sub">Flagged for crime; guides recommended on the massif. Zomba has had isolated kidnapping reports (older). Care at night everywhere.</div>
+  </div>
+</div>
+
+<div class="callout">
+  <strong>Checkpoints &amp; conduct.</strong> Police checkpoints and radar traps are routine and generally low-drama. Be courteous, produce documents, insist on a receipt for any fine, and never initiate a bribe. Escalation and no-contact protocol: R38. Full checkpoint technique: R35.
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">See also</span>
+  <a href="LC76_Security_Fire_Guide.html" class="xref-pill">R35 · Security</a>
+  <a href="LC76_Expedition_Operations_Plan.html" class="xref-pill">R38 · Ops &amp; Escalation</a>
+</div>
+
+<!-- ══ 09 HEALTH ═══════════════════════════════════════════ -->
+<div class="sec-header" id="s09">
+  <span class="sec-num">09</span>
+  <span class="sec-title">Health</span>
+  <span class="sec-sub">Malaria · LAKE BILHARZIA · thin facilities</span>
+</div>
+
+<p class="prose">Two things dominate. Malawi is a <strong>year-round malaria country</strong> — prophylaxis and bite avoidance are essential. And <strong>Lake Malawi is one of the world's best-documented bilharzia (schistosomiasis) hotspots</strong> — the very water that is the trip's highlight. Medical facilities are weak outside the main cities, and evacuation means South Africa, which from Malawi is a long haul — R29 medevac cover is not optional.</p>
+
+<div class="alert alert-warn">
+  <strong>Lake Malawi &amp; bilharzia — the honest position</strong>
+  Schistosomiasis is present throughout the lake; Malawi is historically the single most common source of traveller schistosomiasis, and health authorities (CDC/WHO) advise treating <strong>all</strong> lake freshwater contact — swimming, wading, watersports, even washing — as a risk, and to <strong>distrust local or lodge claims that a spot is "bilharzia-free."</strong> There's no preventive drug or vaccine. If you do enter the water, know you're accepting the risk: praziquantel treatment is given ~6–8 weeks post-exposure, and testing on return home is sensible even without symptoms.</div>
+
+<div class="data-grid">
+  <div class="data-card warn">
+    <div class="data-card-label">Malaria</div>
+    <div class="data-card-value">Year-round</div>
+    <div class="data-card-sub">Prophylaxis + DEET, long sleeves dusk–dawn, treated net. Carry a rapid test + standby treatment.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">Bilharzia</div>
+    <div class="data-card-value">Lake-wide</div>
+    <div class="data-card-sub">Treat all lake contact as risk. Rinse/dry doesn't reliably prevent it. Praziquantel post-exposure; test on return.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Water / food</div>
+    <div class="data-card-value">Treat it</div>
+    <div class="data-card-sub">Filter/treat all water (R12). Cholera outbreaks occur, worse post-flood. Don't drink tap or use lake water untreated.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">Facilities / evac</div>
+    <div class="data-card-value">RSA (far)</div>
+    <div class="data-card-sub">Best private care in Lilongwe/Blantyre; serious cases evac to South Africa — a long way from Malawi. Confirm R29 cover before entry.</div>
+  </div>
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">See also</span>
+  <a href="LC76_Health_Hygiene_Guide.html" class="xref-pill">R17 · Health</a>
+  <a href="LC76_Water_Management_Guide.html" class="xref-pill">R12 · Water</a>
+  <a href="LC76_Insurance_Medevac.html" class="xref-pill">R29 · Medevac</a>
+</div>
+
+<!-- ══ 10 CAMP SAFETY & WILDLIFE ═══════════════════════════ -->
+<div class="sec-header" id="s10">
+  <span class="sec-num">10</span>
+  <span class="sec-title">Camp Safety &amp; Wildlife</span>
+  <span class="sec-sub">Lake camps · hippo/croc · park game</span>
+</div>
+
+<p class="prose">Most camping is in <strong>established lakeshore and park camps</strong> rather than open wilderness. The wildlife hazards concentrate in the water and the parks: <strong>hippos and crocodiles</strong> along the Shire River and quieter lake shores, and reintroduced <strong>elephant, buffalo, lion and rhino</strong> in the African Parks reserves (Liwonde, Majete, Nkhotakota).</p>
+
+<div class="data-grid">
+  <div class="data-card">
+    <div class="data-card-label">Lakeshore camps</div>
+    <div class="data-card-value">Established</div>
+    <div class="data-card-sub">Cape Maclear, Senga Bay, Nkhata Bay, Chintheche — secure fee camps. Standard theft precautions; watch valuables on the beach.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">Hippo / croc</div>
+    <div class="data-card-value">Water edges</div>
+    <div class="data-card-sub">Shire River (Liwonde) and quiet shores. Keep clear of the water at dawn/dusk; don't camp on hippo paths.</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-card-label">Big game</div>
+    <div class="data-card-value">In reserves</div>
+    <div class="data-card-sub">Majete (Big Five), Liwonde (elephant, rhino, lion), Nkhotakota. Obey park rules; ranger escort where required.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Water safety</div>
+    <div class="data-card-value">Sudden storms</div>
+    <div class="data-card-sub">The lake can whip up fast; strong winds (mwera). Mind boat standards and weather; bilharzia (§09) always.</div>
+  </div>
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">See also</span>
+  <a href="LC76_Wildlife_Camp_Safety_Guide.html" class="xref-pill">R36 · Wildlife &amp; Camp Safety</a>
+</div>
+
+<!-- ══ 11 COMMUNICATIONS ═══════════════════════════════════ -->
+<div class="sec-header" id="s11">
+  <span class="sec-num">11</span>
+  <span class="sec-title">Communications</span>
+  <span class="sec-sub">TNM/Airtel · sat for gaps</span>
+</div>
+
+<p class="prose">Mobile coverage is decent along the M1 and in towns, and thin in the parks, on the plateaus and along stretches of the northern shore. A local <strong>SIM (TNM or Airtel)</strong> with data is cheap — buy in Lilongwe or Blantyre with your passport. For the remote north, Nyika and the escarpments the <strong>satellite messenger is the primary safety link</strong> and the anchor for the R38 check-in schedule.</p>
+
+<div class="data-grid">
+  <div class="data-card ok">
+    <div class="data-card-label">Mobile</div>
+    <div class="data-card-value">OK on M1</div>
+    <div class="data-card-sub">TNM &amp; Airtel; buy + register SIM in a city. Thin in parks/plateaus/north shore.</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-card-label">Satellite</div>
+    <div class="data-card-value">Primary link</div>
+    <div class="data-card-sub">Sat messenger for check-ins per R38; essential for Nyika, Vwaza, northern lakeshore. Both crew rehearse (R37).</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Navigation</div>
+    <div class="data-card-value">Offline maps</div>
+    <div class="data-card-sub">Tracks4Africa / OSM offline; GPS + paper backup. Don't rely on live data off the M1.</div>
+  </div>
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">See also</span>
+  <a href="LC76_Comms_Navigation_Guide.html" class="xref-pill">R16 · Comms &amp; Nav</a>
+  <a href="LC76_Crew_Readiness_Training_Register.html" class="xref-pill">R37 · Crew Readiness</a>
+</div>
+
+<!-- ══ 12 MONEY & CURRENCY ═════════════════════════════════ -->
+<div class="sec-header" id="s12">
+  <span class="sec-num">12</span>
+  <span class="sec-title">Money &amp; Currency</span>
+  <span class="sec-sub">Kwacha · forex crisis · carry USD</span>
+</div>
+
+<p class="prose">The currency is the <strong>Malawian kwacha (MWK / K)</strong>. The <strong>forex crisis is central</strong>: hard currency is scarce and highly valued, the official rate is stronger than the street, and the kwacha's real purchasing power is uncertain. Cards work in city hotels and larger supermarkets, but Malawi is otherwise a <strong>cash economy</strong>; ATMs exist in the towns but can cap withdrawals and run dry. <strong>Carry clean USD</strong> — some fees (road tax, COMESA) are USD-denominated, and USD is your reliable fallback.</p>
+
+<div class="data-grid">
+  <div class="data-card">
+    <div class="data-card-label">Currency</div>
+    <div class="data-card-value">Kwacha</div>
+    <div class="data-card-sub">USD 1 ≈ MWK 1,740 official; the parallel rate is weaker for the kwacha. Verify before travel.</div>
+  </div>
+  <div class="data-card warn">
+    <div class="data-card-label">Forex</div>
+    <div class="data-card-value">Scarce</div>
+    <div class="data-card-sub">USD hard to obtain locally and prized. Bring enough clean, newer USD notes; keep a concealed reserve (R35).</div>
+  </div>
+  <div class="data-card note">
+    <div class="data-card-label">Cash vs card</div>
+    <div class="data-card-value">Cash-first</div>
+    <div class="data-card-sub">Cards city-only. Draw kwacha at town ATMs early in the day; expect caps. Two-network cards (R39 §6).</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Fees</div>
+    <div class="data-card-value">USD often</div>
+    <div class="data-card-sub">Road-access tax and COMESA frequently USD. Park gates + camps usually cash (kwacha). Keep small notes.</div>
+  </div>
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">See also</span>
+  <a href="LC76_Expedition_Documentation_Money_Guide.html" class="xref-pill">R39 · Money Strategy</a>
+</div>
+
+<!-- ══ 13 NATIONAL PARKS & CAMPING ═════════════════════════ -->
+<div class="sec-header" id="s13">
+  <span class="sec-num">13</span>
+  <span class="sec-title">National Parks &amp; Camping</span>
+  <span class="sec-sub">African Parks reserves · lake · plateaus</span>
+</div>
+
+<p class="prose">Malawi punches above its size: three reserves are run by <strong>African Parks</strong> to a high standard (Majete, Liwonde, Nkhotakota), the lake has a <strong>UNESCO-listed national park</strong>, and the north holds two wild montane parks. Fees are modest and generally paid at the gate; confirm current rates with the managing body (DNPW or African Parks) rather than trusting a figure that dates quickly.</p>
+
+<div class="route-grid">
+  <div class="route-card">
+    <span class="route-badge">Big Five · African Parks</span>
+    <h3>Majete Wildlife Reserve</h3>
+    <ul>
+      <li>Southern, Lower Shire; the flagship rewilding success — <strong>Big Five</strong>.</li>
+      <li>Well-run gate, roads and camps; good self-drive + community lodge.</li>
+      <li>Malaria area; low, hot. Dry-season game viewing best.</li>
+    </ul>
+  </div>
+  <div class="route-card">
+    <span class="route-badge">River · African Parks</span>
+    <h3>Liwonde National Park</h3>
+    <ul>
+      <li>Along the <strong>Shire River</strong> — elephant, hippo, croc, rhino, reintroduced lion/cheetah.</li>
+      <li>Boat safaris; excellent birding. Easy add-on to the south/central route.</li>
+      <li>Gateway near Liwonde town off the M1.</li>
+    </ul>
+  </div>
+  <div class="route-card">
+    <span class="route-badge">Lake · UNESCO</span>
+    <h3>Lake Malawi National Park</h3>
+    <ul>
+      <li>At <strong>Cape Maclear</strong> (Chembe), Nankumba Peninsula — world's first freshwater-fish-diversity World Heritage site.</li>
+      <li>Snorkelling among cichlids — but <strong>bilharzia applies (§09)</strong>. Beach camps.</li>
+      <li>Access via Monkey Bay off the M5.</li>
+    </ul>
+  </div>
+  <div class="route-card secondary">
+    <span class="route-badge">Montane · DNPW</span>
+    <h3>Nyika &amp; the North</h3>
+    <ul>
+      <li><strong>Nyika NP</strong> — high rolling montane grassland, roan/eland/leopard, cool climate; the standout northern drive.</li>
+      <li><strong>Vwaza Marsh</strong> (elephant, hippo) and <strong>Nkhotakota WR</strong> (African Parks). <strong>Kasungu NP</strong> in the centre.</li>
+      <li>Remote — self-sufficient on fuel/supplies (§05). Escarpment access.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="alert alert-note">
+  <strong>Fees &amp; booking</strong>
+  African Parks reserves (Majete/Liwonde/Nkhotakota) and DNPW parks charge entry + vehicle fees at the gate; verify current rates and any pre-booking (some camps book out). Lake Malawi NP fees at Cape Maclear. Confirm close to travel.</div>
+
+<div class="xref-bar">
+  <span class="xref-label">See also</span>
+  <a href="LC76_Wildlife_Camp_Safety_Guide.html" class="xref-pill">R36 · Camp Safety</a>
+  <a href="LC76_Packing_Optimisation_Guide.html" class="xref-pill">R11 · Packing</a>
+</div>
+
+<!-- ══ 14 SOUTH & THE SHIRE ════════════════════════════════ -->
+<div class="sec-header" id="s14">
+  <span class="sec-num">14</span>
+  <span class="sec-title">The South &amp; the Shire — Highlights</span>
+  <span class="sec-sub">Blantyre · Zomba · Mulanje · Liwonde · Majete</span>
+</div>
+
+<p class="prose">The southern region packs in the commercial capital, two plateaus, the Mulanje massif and the best of the wildlife — a natural first act if entering via Mwanza or Dedza.</p>
+
+<div class="data-grid">
+  <div class="data-card">
+    <div class="data-card-label">Blantyre</div>
+    <div class="data-card-value">Provision hub</div>
+    <div class="data-card-sub">Commercial capital; supermarkets, ATMs, SIMs, CFAO Toyota. Re-stock and (try to) fuel before heading out.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Zomba Plateau</div>
+    <div class="data-card-value">Cool climb</div>
+    <div class="data-card-sub">Old colonial capital + forested plateau, viewpoints, trout streams. 4×4 up the escarpment.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Mt Mulanje</div>
+    <div class="data-card-value">Massif</div>
+    <div class="data-card-sub">Dramatic granite inselberg; hiking with guides. District flagged for crime (§08) — use registered guides.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Liwonde + Majete</div>
+    <div class="data-card-value">Wildlife</div>
+    <div class="data-card-sub">Shire-river safaris + Big Five rewilding within easy reach of the M1.</div>
+  </div>
+</div>
+
+<!-- ══ 15 LAKESHORE & THE NORTH ════════════════════════════ -->
+<div class="sec-header" id="s15">
+  <span class="sec-num">15</span>
+  <span class="sec-title">The Lakeshore &amp; the North — Highlights</span>
+  <span class="sec-sub">Cape Maclear · Nkhata Bay · Nyika · Livingstonia</span>
+</div>
+
+<p class="prose">The lakeshore is the spine and the soul of the trip — beach camps, cichlids and dhow-quiet mornings — rising in the north to the Nyika plateau and the mission hairpins of Livingstonia.</p>
+
+<div class="data-grid">
+  <div class="data-card">
+    <div class="data-card-label">Cape Maclear / Senga Bay</div>
+    <div class="data-card-value">South lake</div>
+    <div class="data-card-sub">Classic beach bases; snorkelling (bilharzia caveat §09), island trips, sundowners. Easy off the M5.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Nkhotakota / Chintheche</div>
+    <div class="data-card-value">Central shore</div>
+    <div class="data-card-sub">Quiet beaches + African Parks reserve behind. Lodge camping.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Nkhata Bay / Likoma</div>
+    <div class="data-card-value">North lake</div>
+    <div class="data-card-sub">Lush bay town; MV Ilala lake ferry to Likoma Island (St Peter's Cathedral). Boat, not vehicle.</div>
+  </div>
+  <div class="data-card">
+    <div class="data-card-label">Nyika / Livingstonia</div>
+    <div class="data-card-value">The far north</div>
+    <div class="data-card-sub">Nyika's montane grassland + the Livingstonia hairpins and Manchewe Falls. Remote — fuel discipline (§05).</div>
+  </div>
+</div>
+
+<div class="callout">
+  <strong>Northern terminus of this leg.</strong> Beyond Karonga the M1 runs to the <strong>Songwe border into Tanzania</strong>; westward from the centre, Mchinji leads into <strong>Zambia</strong>. Both are handed to their own profiles (006, 004) and the corridor choice to EX-9 — see §18.
+</div>
+
+<!-- ══ 16 INTERACTIVE MAPS ═════════════════════════════════ -->
+<div class="sec-header" id="s16">
+  <span class="sec-num">16</span>
+  <span class="sec-title">Malawi — Interactive Maps</span>
+  <span class="sec-sub">Towns · borders · parks · lakeshore spine</span>
+</div>
+
+<div class="alert alert-info">
+  <strong>Map notes</strong>
+  Markers are indicative and use public town / border / park-gateway locations only — no sensitive-site coordinates. Verify routing offline (Tracks4Africa / OSM) before travel.</div>
+
+<div class="map-tabs">
+  <button class="map-tab active" onclick="setMapView('overview')">Overview</button>
+  <button class="map-tab" onclick="setMapView('north')">The North</button>
+  <button class="map-tab" onclick="setMapView('south')">South &amp; Centre</button>
+</div>
+<div id="country-map"></div>
+<div class="map-attrib">Base map © OpenStreetMap contributors. Markers indicative only; confirm all routing, fees and access on the ground.</div>
+
+<!-- ══ 17 SOUTH & CENTRAL ROUTE GUIDE ══════════════════════ -->
+<div class="sec-header" id="s17">
+  <span class="sec-num">17</span>
+  <span class="sec-title">South &amp; Central Route Guide</span>
+  <span class="sec-sub">Entry → Blantyre/Lilongwe → Liwonde → Cape Maclear</span>
+</div>
+
+<div class="scenario">
+  <h4>In from the Tete corridor</h4>
+  <div class="scenario-meta">Mwanza or Dedza · 5–8 days · fuel in hand</div>
+  <p>Enter on a full tank, sort documents and the road tax, then work the southern highlights and drop to the lake at Cape Maclear — all while guarding the fuel margin.</p>
+  <ul>
+    <li>Cross at <strong>Mwanza/Zóbuè</strong> (→ Blantyre) or <strong>Dedza/Calomué</strong> (→ Lilongwe) — COMESA card, TIP, road tax, receipts.</li>
+    <li><strong>Blantyre / Lilongwe</strong>: SIM, kwacha + USD discipline, provisions; try to fuel but assume scarcity.</li>
+    <li><strong>Liwonde NP</strong>: Shire-river safari; optional <strong>Majete</strong> (Big Five) to the south.</li>
+    <li><strong>Zomba Plateau</strong> for a cool night; <strong>Mulanje</strong> with registered guides if wanted.</li>
+    <li>Drop to <strong>Cape Maclear</strong> (Lake Malawi NP) via Monkey Bay — beach camp, snorkel with the bilharzia caveat (§09).</li>
+  </ul>
+</div>
+
+<!-- ══ 18 LAKESHORE NORTH ROUTE GUIDE ══════════════════════ -->
+<div class="sec-header" id="s18">
+  <span class="sec-num">18</span>
+  <span class="sec-title">Lakeshore North Route Guide</span>
+  <span class="sec-sub">M5 up the lake · Nkhata Bay · Nyika · Karonga</span>
+</div>
+
+<div class="scenario">
+  <h4>Up the lakeshore to the north</h4>
+  <div class="scenario-meta">Cape Maclear → Karonga · ~700 km · 6–9 days</div>
+  <p>The lakeshore spine north, hopping beach camps, with the Nyika plateau as the wild high point before the country's northern exits.</p>
+  <ul>
+    <li><strong>Cape Maclear → Senga Bay → Nkhotakota</strong>: central-shore beaches; African Parks reserve behind Nkhotakota.</li>
+    <li><strong>Nkhata Bay</strong>: lush bay; optional MV Ilala to <strong>Likoma Island</strong> (boat, vehicle stays).</li>
+    <li><strong>Mzuzu</strong> (CFAO 2S; provisions/fuel attempt) → <strong>Livingstonia</strong> hairpins → <strong>Nyika NP</strong> (fuel discipline — remote).</li>
+    <li><strong>Karonga</strong> on the far north lake — last major town before the exits.</li>
+  </ul>
+</div>
+
+<div class="callout">
+  <strong>Onward — forward note (out of scope here).</strong> From the north, Malawi exits to <strong>Tanzania at Songwe</strong> (into the Tanzania profile's Tunduma/Songwe region — <strong>006</strong>); from the centre, to <strong>Zambia at Mchinji</strong> (→ Chipata, <strong>004</strong>). This profile also completes the EX-4 §18 handoff on the inbound side (Mwanza/Zóbuè + Dedza). The choice of onward corridor and where the RSA licence-break falls are resolved in the <strong>route &amp; licence-break workshop (EX-9)</strong>.
+</div>
+
+<!-- ══ 19 ESSENTIAL PHRASES ════════════════════════════════ -->
+<div class="sec-header" id="s19">
+  <span class="sec-num">19</span>
+  <span class="sec-title">Essential Phrases — Chichewa</span>
+  <span class="sec-sub">English widely understood · Chichewa opens doors</span>
+</div>
+
+<p class="prose">English is an official language and widely understood, which makes Malawi easy — but a little <strong>Chichewa</strong> is warmly received and smooths markets and checkpoints. (In the north, Chitumbuka is also common.)</p>
+
+<div class="table-scroll">
+<table class="spec-table">
+  <thead><tr><th>English</th><th>Chichewa</th><th>Rough say-it</th></tr></thead>
+  <tbody>
+    <tr><td>Hello</td><td>Moni</td><td class="mono">MOH-nee</td></tr>
+    <tr><td>How are you?</td><td>Muli bwanji?</td><td class="mono">MOO-lee BWAN-jee</td></tr>
+    <tr><td>I'm fine</td><td>Ndili bwino</td><td class="mono">n-DEE-lee BWEE-no</td></tr>
+    <tr><td>Thank you</td><td>Zikomo</td><td class="mono">zee-KOH-mo</td></tr>
+    <tr><td>Please</td><td>Chonde</td><td class="mono">CHON-deh</td></tr>
+    <tr><td>Yes / No</td><td>Inde / Ayi</td><td class="mono">EEN-deh / AH-yee</td></tr>
+    <tr><td>Diesel / fuel</td><td>Dizilo / mafuta</td><td class="mono">dee-ZEE-lo / ma-FOO-ta</td></tr>
+    <tr><td>How much?</td><td>Ndi zingati?</td><td class="mono">n-dee zin-GAH-tee</td></tr>
+    <tr><td>Water</td><td>Madzi</td><td class="mono">MAH-dzee</td></tr>
+    <tr><td>Where is…?</td><td>…kuli kuti?</td><td class="mono">KOO-lee KOO-tee</td></tr>
+    <tr><td>Police / checkpoint</td><td>Apolisi</td><td class="mono">a-po-LEE-see</td></tr>
+    <tr><td>Sorry / excuse me</td><td>Pepani</td><td class="mono">peh-PAH-nee</td></tr>
+    <tr><td>Go well (goodbye)</td><td>Pitani bwino</td><td class="mono">pee-TAH-nee BWEE-no</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">Route neighbours</span>
+  <a href="Mozambique_Overland_Profile_2026-07.html" class="xref-pill">007 · Mozambique</a>
+  <a href="Zambia_Overland_Profile_2026-04.html" class="xref-pill">004 · Zambia</a>
+  <a href="Tanzania_Overland_Profile_2026-05.html" class="xref-pill">006 · Tanzania</a>
+</div>
+
+<!-- ══ CHANGELOG ═══════════════════════════════════════════ -->
+<div class="sec-header" id="changelog">
+  <span class="sec-num">✎</span>
+  <span class="sec-title">Changelog</span>
+  <span class="sec-sub">Revision history</span>
+</div>
+
+<div style="margin:14px 0">
+  <div class="changelog-entry">
+    <div class="cl-date">06 Jul 2026</div>
+    <div><span class="cl-tag new">New</span></div>
+    <div class="cl-note"><strong>Profile 008 created (EX-5).</strong> Whole-country Malawi, Lake Malawi shore as the spine (N/C/S), built on the 007 v1.5 scaffold with the §06 Parts &amp; Serviceability section. Web-researched for currency: 2026 fuel/forex crisis (~MWK 6,687/L diesel, chronic shortages), 3 Jan 2026 reciprocity visa regime, COMESA-valid insurance + road-access tax, Lake Malawi bilharzia, CFAO Toyota network, African Parks reserves. Both Moz entries covered evenly (Mwanza/Zóbuè + Dedza, and Chiponde/Mandimba); onward Tanzania/Zambia exits as forward notes (§18) to 006 / 004 / EX-9.</div>
+  </div>
+</div>
+
+</main>
+
+<div id="export-bar">
+  Export:
+  <button class="export-btn-inline" onclick="window.print()">⎙ Print / Save PDF</button>
+  <button class="export-btn-inline" id="copy-btn" onclick="navigator.clipboard.writeText(document.body.innerText).then(()=>{this.textContent='✓ Copied';setTimeout(()=>this.textContent='⧉ Copy text',2000)})">⧉ Copy text</button>
+</div>
+
+<div class="doc-footer">
+  <div><strong>Malawi Overland Profile · 008</strong> · LC76 Overland Reference Library</div>
+  <div>Vehicle: LC76 SW 1HZ · HZJ76R · SA-plated · RHD</div>
+  <div>Compiled: 06 Jul 2026 · Sources: Malawi eVisa/Immigration, MERA fuel, RBM/forex reporting, DNPW / African Parks, gov travel advisories, CDC/WHO (bilharzia), CFAO Toyota Malawi</div>
+  <div>Verify all fees, visa/reciprocity requirements, fuel availability and security conditions before travel — changes frequently</div>
+  <div><strong>overlandslabs.github.io/Consumption</strong></div>
+</div>
+
+<script>
+var map, currentView = 'overview';
+
+var views = {
+  overview: { center: [-13.2, 34.3], zoom: 6 },
+  north:    { center: [-10.8, 33.9], zoom: 7 },
+  south:    { center: [-15.4, 34.9], zoom: 7 }
+};
+
+function setMapView(v) {
+  currentView = v;
+  document.querySelectorAll('.map-tab').forEach(function(t,i){
+    t.classList.toggle('active', ['overview','north','south'][i]===v);
+  });
+  map.flyTo(views[v].center, views[v].zoom, {duration:1});
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  map = L.map('country-map', { zoomControl: true, scrollWheelZoom: false })
+         .setView(views.overview.center, views.overview.zoom);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors', maxZoom: 18
+  }).addTo(map);
+
+  var C = { amber:'#e07800', red:'#7a1010', green:'#1A5C2E', blue:'#1A4A6B' };
+
+  function mkIcon(color, size) {
+    size = size || 12;
+    return L.divIcon({
+      html: '<div style="width:'+size+'px;height:'+size+'px;border-radius:50%;background:'+color+';border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.5)"></div>',
+      iconSize: [size+4,size+4], iconAnchor: [(size+4)/2,(size+4)/2], className:''
+    });
+  }
+
+  var cities = [
+    { ll:[-15.786, 35.006], name:'Blantyre', note:'Commercial capital · CFAO Toyota 3S · provisions' },
+    { ll:[-13.983, 33.783], name:'Lilongwe', note:'Capital · CFAO Toyota 3S · ATMs, SIMs' },
+    { ll:[-11.458, 34.020], name:'Mzuzu', note:'North hub · CFAO 2S (parts/service)' },
+    { ll:[-14.478, 35.264], name:'Mangochi', note:'South-lake town · ATMs · Chiponde entry' },
+    { ll:[-9.933, 33.933], name:'Karonga', note:'Far north lake · last town before Songwe/Tanzania' }
+  ];
+  cities.forEach(function(c){
+    L.marker(c.ll, {icon: mkIcon(C.blue, 10)}).addTo(map)
+     .bindPopup('<strong>'+c.name+'</strong><br>'+c.note);
+  });
+
+  var borders = [
+    { ll:[-15.61, 34.52], name:'Mwanza / Zóbuè', note:'Main Moz entry · Tete corridor · → Blantyre' },
+    { ll:[-14.34, 34.33], name:'Dedza / Calomué', note:'One-Stop Border (2023) · → Lilongwe' },
+    { ll:[-16.06, 35.66], name:'Mulanje / Milange', note:'Southern · near Mt Mulanje' },
+    { ll:[-14.57, 35.51], name:'Chiponde / Mandimba', note:'Northern lakeshore entry · → Mangochi' },
+    { ll:[-9.42, 33.53], name:'Songwe → Tanzania', note:'Exit north → profile 006' },
+    { ll:[-13.80, 32.88], name:'Mchinji → Zambia', note:'Exit west → profile 004' }
+  ];
+  borders.forEach(function(b){
+    L.marker(b.ll, {icon: mkIcon(C.red, 9)}).addTo(map)
+     .bindPopup('<strong>'+b.name+'</strong><br>'+b.note);
+  });
+
+  var parks = [
+    { ll:[-15.93, 34.75], name:'Majete WR', note:'Big Five · African Parks (Lower Shire)' },
+    { ll:[-14.83, 35.32], name:'Liwonde NP', note:'Shire River · elephant/rhino/lion · African Parks' },
+    { ll:[-14.02, 34.83], name:'Lake Malawi NP (Cape Maclear)', note:'UNESCO · cichlids · bilharzia caveat' },
+    { ll:[-12.90, 34.28], name:'Nkhotakota WR', note:'African Parks · central lakeshore' },
+    { ll:[-10.62, 33.80], name:'Nyika NP', note:'Montane grassland · the northern high point' },
+    { ll:[-10.93, 33.55], name:'Vwaza Marsh WR', note:'Elephant, hippo · far north' }
+  ];
+  parks.forEach(function(p){
+    L.marker(p.ll, {icon: mkIcon(C.green, 13)}).addTo(map)
+     .bindPopup('<strong>'+p.name+'</strong><br>'+p.note);
+  });
+
+  // Indicative lakeshore + M1 spine (S→N)
+  var spine = [[-15.786,35.006],[-15.385,35.319],[-14.478,35.264],[-14.02,34.83],[-13.78,34.62],[-12.90,34.28],[-11.606,34.296],[-11.458,34.020],[-9.933,33.933]];
+  L.polyline(spine, {color:'#e07800', weight:3, opacity:.7, dashArray:'6,6'}).addTo(map);
+
+  var legend = L.control({position:'bottomright'});
+  legend.onAdd = function(){
+    var d = L.DomUtil.create('div');
+    d.style.cssText='background:rgba(13,14,18,.88);padding:8px 12px;font-family:IBM Plex Mono,monospace;font-size:10px;color:#a8b0bc;line-height:2;border:1px solid #2a2f3a';
+    d.innerHTML='<div style="color:#e07800;letter-spacing:.1em;margin-bottom:3px">LEGEND</div>'+
+      '<span style="color:#1A4A6B">●</span> City / service point<br>'+
+      '<span style="color:#7a1010">●</span> Border crossing<br>'+
+      '<span style="color:#1A5C2E">●</span> National park<br>'+
+      '<span style="color:#e07800">●</span> Lakeshore / M1 spine';
+    return d;
+  };
+  legend.addTo(map);
+
+  var sectionIds = ['s01','s02','s03','s04','s05','s06','s07','s08','s09','s10','s11','s12','s13','s14','s15','s16','s17','s18','s19'];
+  var tocLinks = document.querySelectorAll('.toc-link');
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){
+        var idx = sectionIds.indexOf(e.target.id);
+        tocLinks.forEach(function(l,i){ l.classList.toggle('active', (i-1)===idx); });
+      }
+    });
+  }, { rootMargin:'-20% 0px -70% 0px' });
+  sectionIds.forEach(function(id){
+    var el = document.getElementById(id);
+    if(el) observer.observe(el);
+  });
+});
+</script>
+</body>
+</html>
