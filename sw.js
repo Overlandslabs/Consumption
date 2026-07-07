@@ -6,8 +6,8 @@
 //
 // CROSS-ORIGIN MAP ASSETS (added 7 Jul 2026): the interactive Leaflet maps
 // in Profiles 007/008/009 depend on the Leaflet library (cdnjs.cloudflare.com)
-// and raster basemap tiles (tile.openstreetmap.org for 007/008, CartoDB dark
-// basemap for 009). These are cross-origin and were previously invisible to
+// and raster basemap tiles (tile.openstreetmap.org for 007/008/009)
+// (CartoDB dark basemap removed — all profiles now use OSM). These are cross-origin and were previously invisible to
 // this worker (see the old same-origin-only guard below), so the map showed
 // solid black offline. CDN_HOSTS below allowlists exactly those hosts for
 // cache-first-with-revalidate treatment, same as same-origin files. Tile/CDN
@@ -22,12 +22,11 @@
 // but any tiles fetched successfully while online are cached opportunistically
 // for later offline reuse via the same runtime fetch handler.
 
-const CACHE = 'lc76-library-v17';
+const CACHE = 'lc76-library-v18';
 
 const CDN_HOSTS = [
   'cdnjs.cloudflare.com',
-  'a.tile.openstreetmap.org', 'b.tile.openstreetmap.org', 'c.tile.openstreetmap.org',
-  'a.basemaps.cartocdn.com', 'b.basemaps.cartocdn.com', 'c.basemaps.cartocdn.com'
+  'a.tile.openstreetmap.org', 'b.tile.openstreetmap.org', 'c.tile.openstreetmap.org'
 ];
 
 const PRECACHE = [
@@ -147,16 +146,11 @@ const PRECACHE = [
   'https://b.tile.openstreetmap.org/6/39/31.png',
   'https://c.tile.openstreetmap.org/6/39/32.png',
   'https://a.tile.openstreetmap.org/6/39/33.png',
-  // CartoDB dark basemap tiles — Profile 009 (Zimbabwe) default view
-  'https://a.basemaps.cartocdn.com/dark_all/6/36/33.png',
-  'https://a.basemaps.cartocdn.com/dark_all/6/37/35.png',
-  'https://a.basemaps.cartocdn.com/dark_all/6/38/34.png',
-  'https://b.basemaps.cartocdn.com/dark_all/6/36/34.png',
-  'https://b.basemaps.cartocdn.com/dark_all/6/37/33.png',
-  'https://b.basemaps.cartocdn.com/dark_all/6/38/35.png',
-  'https://c.basemaps.cartocdn.com/dark_all/6/36/35.png',
-  'https://c.basemaps.cartocdn.com/dark_all/6/37/34.png',
-  'https://c.basemaps.cartocdn.com/dark_all/6/38/33.png',
+  // OSM tiles — Profile 009 (Zimbabwe) default view (x=36 column only;
+  // the remaining 6 tiles at x=37/38 already appear in the 007/008 grids above)
+  'https://a.tile.openstreetmap.org/6/36/33.png',
+  'https://b.tile.openstreetmap.org/6/36/34.png',
+  'https://c.tile.openstreetmap.org/6/36/35.png',
 ];
 
 // Install: precache every file individually so one missing/renamed file
