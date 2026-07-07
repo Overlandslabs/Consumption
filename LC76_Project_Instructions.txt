@@ -11,8 +11,10 @@ Documentation & Money Guide) BUILT 5 Jul 2026; EX-4 (Profile 007 Southern
 Mozambique) BUILT 6 Jul 2026; EX-5 (Profile 008 Malawi) BUILT 6 Jul 2026;
 EX-6 (Profile 009 Northern Zimbabwe) BUILT 7 Jul 2026; EX-7 (Profile 010
 Kenya) BUILT 7 Jul 2026; post-EX-6 defect fix 7 Jul 2026 — offline map
-tiles (sw.js only, CACHE v15->v16, see below; Kenya build bumped v16->v17).
-Status tracked in the working-papers EX_Register
+tiles (sw.js only, CACHE v15->v16, see below; Kenya build bumped v16->v17);
+post-EX-7 defect fix 7 Jul 2026 — tile-source reconciliation (009 CartoDB
+dark basemap → OSM, matching 007/008; sw.js + Zimbabwe profile, CACHE
+v17->v18, see below). Status tracked in the working-papers EX_Register
 sheet. Sole open item: TA-002 weighbridge.)
 Maintained by: Neil / Mary-Ann West
 ═══════════════════════════════════════════════════════════════════════
@@ -215,7 +217,8 @@ Country & terrain profiles (001–010):
        1.98/L (ZERA Jun 2026). Most serviceable country after RSA (Toyota
        CFAO/Croco, Madison Solar Victron distributor, 50 ppm diesel).
        Mana Pools 2025/26 flood damage flagged. Parts & Serviceability §06.
-
+       Basemap: OpenStreetMap (reconciled from CartoDB 7 Jul 2026 — see
+       DEFECT FIX below; now matches 007/008).
   010  Kenya_Overland_Profile_2026-07.html  Kenya — whole country (northern
        TERMINUS of the expedition). EX-7, built 7 Jul 2026. Nairobi, Masai
        Mara, Amboseli, Tsavo, Samburu, Laikipia, coast. eTA-exempt for SA
@@ -319,7 +322,9 @@ Sessions (one fresh chat per session; Opus-routed; EX-9 is interactive):
         2026, 39% hike Mar 2026); USD cash economy (ZiG ~27/USD, ATMs
         unreliable); US Level 2; malaria HIGH year-round in Zambezi valley;
         Mana Pools 2025/26 flood damage (Ruchomeshi bridge) flagged. Built on
-        the 008 v1.5 scaffold. 19 sections. EX_Register: DONE.
+        the 008 v1.5 scaffold. 19 sections. Basemap originally built on
+        CartoDB dark; reconciled to OSM 7 Jul 2026 (see DEFECT FIX below).
+        EX_Register: DONE.
   EX-7  Profile 010 Kenya (terminus) — BUILT 7 Jul 2026. Whole country scope
         (owner gate: whole country, not southern-only). Entry Namanga or
         Isebania (from Tanzania); exit = terminus (no onward). OSM basemap
@@ -344,10 +349,9 @@ Sessions (one fresh chat per session; Opus-routed; EX-9 is interactive):
         windows. Output minuted → R38 §4; a formalised route itinerary may
         follow if wanted.
 
-New files (profile 010, any EX-9 itinerary) trigger the full propagation
-map: index.html + LC76_Library_Register.txt + sw.js precache bump +
-working-papers EX row. EX-8 R3/R23 edits and the 001–006 retrofit are
-content-only (no sw.js bump).
+New files (any EX-9 itinerary) trigger the full propagation map: index.html +
+LC76_Library_Register.txt + sw.js precache bump + working-papers EX row.
+EX-8 R3/R23 edits and the 001–006 retrofit are content-only (no sw.js bump).
 
 DEFECT FIX — OFFLINE MAP TILES (7 Jul 2026, post-EX-6, sw.js only)
 The interactive Leaflet maps in Profiles 007/008/009 depend on cross-origin
@@ -370,20 +374,30 @@ URLs, which fails outright against tile servers with no CORS headers);
 (computed via the standard slippy-map tile formula, including Leaflet's
 default 'abc' subdomain round-robin) around each map's DEFAULT view — 39 OSM
 tiles across 007's 3 views + 008's 3 views, 9 CartoDB tiles for 009's single
-view, 50 cross-origin entries total. Known limitation: only the default,
-un-panned/un-zoomed view of each map works fully offline from a cold install;
-panning or zooming beyond the precached grid still needs connectivity, though
-any tiles fetched successfully while online are cached opportunistically for
-later offline reuse via the same runtime fetch handler. CACHE bumped v15->v16
-(precache contents changed substantively; a version bump is required for
-already-installed clients to re-run the install step and pick up the new
-entries — this falls outside the letter of the ADDED/REMOVED/RENAMED bump
-rule above but clearly within its spirit). NOT a new EX session; sw.js only,
-no HTML files touched, no register/index changes.
-ASIDE — flagged, not yet actioned: 007/008 use OpenStreetMap tiles while 009
-uses a CartoDB dark basemap. This inconsistency was introduced in the EX-6
-build and should be reconciled (pick one tile source) in a future session —
-does not block anything today since both are now offline-capable.
+view, 50 cross-origin entries total. CACHE bumped v15->v16 (precache contents
+changed substantively; a version bump is required for already-installed
+clients to re-run the install step and pick up the new entries). NOT a new
+EX session; sw.js only, no HTML files touched, no register/index changes.
+Superseded in part by the tile-source reconciliation below (the 9 CartoDB
+entries were replaced with 3 OSM entries for 009).
+
+DEFECT FIX — TILE-SOURCE RECONCILIATION (7 Jul 2026, post-EX-7)
+The ASIDE flagged at the previous fix (007/008 on OpenStreetMap, 009 on a
+CartoDB dark basemap — inconsistent, introduced during the EX-6 build) has
+been resolved: Profile 009's Leaflet layer now points at
+tile.openstreetmap.org, matching 007/008. Changed: Zimbabwe_Overland_
+Profile_2026-07.html (tileLayer URL + attribution string, one call site);
+sw.js CDN_HOSTS (the three basemaps.cartocdn.com subdomains removed —
+CartoDB is no longer referenced anywhere in the library); sw.js PRECACHE
+(the 9 CartoDB tiles for 009's default view replaced with 3 new OSM tiles at
+column x=36 — the other 6 tiles of the 3×3 grid, at x=37/38, were already
+present from the 007/008 precache and are shared). Net precache count: 50 →
+47 cross-origin entries (net −3; one host family removed entirely). CACHE
+bumped v17->v18. Content-only relative to the profile HTML (single tag,
+masthead date unchanged — same-day fix); no register/index/R30 change
+required (no file added, removed, or renamed). Known limitation carried over
+unchanged: only each map's default, un-panned/un-zoomed view is guaranteed
+offline from a cold install.
 
 DESIGN SYSTEM (mandatory — full spec in LC76_Design_Guidelines.html, now v1.5)
 - Fonts: Bebas Neue (display), Oswald / 'Oswald','Arial Narrow',sans-serif
@@ -463,9 +477,11 @@ WORKING CONVENTIONS
   self-refresh via the worker's background revalidation and do NOT require a
   bump. Neil simply commits sw.js alongside the changed files — no decision
   needed. (Note: this convention only fires for changes made through Claude;
-  files hand-edited and pushed to GitHub directly will not trigger it.)
-  Current CACHE constant: lc76-library-v17 (bumped from v15 — offline map-tile
-  fix, see below).
+  files hand-edited and pushed to GitHub directly will not trigger it — a
+  live-HEAD reconciliation at each session start is what catches those, as
+  happened with the v17->v18 bump above.)
+  Current CACHE constant: lc76-library-v18 (bumped from v17 — tile-source
+  reconciliation, see DEFECT FIX above).
 - Automatic date bumps: on every edited document that carries a masthead
   "Last updated" line, bump it to the session date (files without such a line
   get nothing added — do not fabricate one). Bump index.html's header-meta
@@ -510,6 +526,11 @@ SESSION EXECUTION & VALIDATION (every HTML session)
   has zero horizontal scrollers → vacuously compliant on the overscroll check;
   R5 carries two dead sticky selectors (.hdr and .masthead,.hero) from an
   earlier style swap — only the live .sticky-wrap is patched.
+- Reconciliation discipline: sw.js / HTML fixes can land on GitHub outside a
+  Claude session (Neil hand-editing, or a prior session's uncommitted tail).
+  Session start must diff live HEAD against this file's DEFECT FIX log and
+  the CACHE version line, not just against the working-papers EX_Register —
+  the CartoDB/OSM reconciliation (v17->v18) was exactly this kind of gap.
 
 MODEL ROUTING
 - Opus 4.8 for: new document builds, structural or cross-file changes,
