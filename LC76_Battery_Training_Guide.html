@@ -2,533 +2,377 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="LC76 Library">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="theme-color" content="#1C1410">
+<meta name="theme-color" content="#0d0e12">
+<title>LC76 · Battery &amp; Electrical Training · R5</title>
 <link rel="manifest" href="manifest-ref.json">
-<link rel="apple-touch-icon" href="icon-ref-192.svg">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Lithium Battery Systems — Training Guide · LC76 SW 1HZ</title>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500;600&family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --ink:#1A1208;--paper:#F7F2E8;--rule:#D4C8A8;
-  --amber:#5C3A0A;--green:#1A4A3C;--blue:#1A3A5C;--purple:#3A1A5C;
-  --red:#8B1A1A;--teal:#1A4A4A;--orange:#7A3A00;
-  --heat:#C84B0A;--sun:#B87800;--muted:#8A7E68;
-  --bg-amber:#FDF0DC;--bg-green:#E8F2EE;--bg-blue:#E3EAF4;
-  --bg-purple:#EEE3F4;--bg-red:#F4E3E3;--bg-teal:#E3F4F0;--bg-orange:#FBF0E0;
-
-  /* LC76 Design System tokens */
-  --clay:#C4572A;--ochre:#D4963A;--sand:#E8D5A3;--cream:#F5EDDA;
-  --ink:#1C1410;--bark:#3D2B1A;--smoke:#6B5B4E;--white:#FDFAF4;
-  --green-ok:#1A4731;--red-warn:#B91C1C;--amber:#92400E;
-  --dominant:var(--cream);--secondary:var(--ink);--accent:var(--clay);--accent-2:var(--ochre);
+  --ink:#0d0e12;--paper:#dad2c0;--paper2:#edeae0;--rule:#d4cfc4;
+  --amber:#b86800;--amber2:#e07800;
+  --steeldk:#2a2f3a;--steelmd:#6a7080;--steellt:#a8b0bc;
+  --red-warn:#B91C1C;--green-ok:#059669;
+  --mono:'IBM Plex Mono',monospace;
+  --sans:'Oswald',sans-serif;
+  --display:'Bebas Neue',sans-serif;
 }
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html{overflow-x:hidden;overflow-x:clip;overscroll-behavior-x:none}
-body{background:var(--paper);color:var(--ink);font-family:'Oswald',sans-serif;font-size:13.5px;line-height:1.7;}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.6}
 
-/* HEADER */
-.hdr{background:var(--ink);padding:38px 50px 30px;position:sticky;top:0;z-index:100;overflow:hidden;}
-.hdr::before{content:'';position:absolute;top:-80px;right:-80px;width:360px;height:360px;border:55px solid rgba(232,146,10,.07);border-radius:50%;}
-.hdr::after{content:'';position:absolute;bottom:-55px;left:260px;width:200px;height:200px;border:32px solid rgba(26,74,60,.12);border-radius:50%;}
-.hdr-eye{font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.28em;color:#E8920A;text-transform:uppercase;margin-bottom:10px;}
-.hdr-title{font-family:'Bebas Neue',sans-serif;font-size:33px;line-height:1.12;color:#fff;margin-bottom:7px;}
-.hdr-title em{font-style:italic;color:#F4BF60;}
-.hdr-sub{font-size:11.5px;color:#8A8070;font-family:'IBM Plex Mono',monospace;margin-bottom:18px;}
-.hdr-chips{display:flex;gap:8px;flex-wrap:wrap;}
-.chip{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:3px;padding:3px 10px;font-size:10px;font-family:'IBM Plex Mono',monospace;color:#ccc;}
-.chip span{color:#F4BF60;font-weight:600;}
-
-/* TOC */
-.toc{background:#141008;border-top:1px solid rgba(255,255,255,.07);padding:18px 50px 22px;}
-.toc-title{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:#E8920A;margin-bottom:12px;}
-.toc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;}
-.toc-item{display:flex;align-items:flex-start;gap:8px;text-decoration:none;color:#bbb;font-size:10.5px;font-family:'IBM Plex Mono',monospace;padding:5px 7px;border-radius:3px;transition:background .15s,color .15s;}
-.toc-item:hover{background:rgba(255,255,255,.07);color:#F4BF60;}
-.toc-num{font-size:9px;color:#E8920A;font-weight:600;flex:0 0 auto;margin-top:1px;}
-
-/* EXPORT BAR */
-
-
-
-
-
-
-/* BODY */
-.body{padding:28px 50px 56px;}
-
-/* CHAPTER */
-.chapter{margin-bottom:32px;}
-.ch-label{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;}
-.ch-title{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--ink);margin-bottom:2px;}
-.ch-title em{font-style:italic;}
-.ch-rule{border:none;border-top:2px solid var(--rule);margin-bottom:20px;}
-.ch-intro{font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:16px;max-width:860px;}
-
-/* SECTION LABELS */
-.slbl{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:7px;margin-top:28px;}
-.srule{border:none;border-top:1px solid var(--rule);margin-bottom:16px;}
-
-/* SYMBOL GRID */
-.sym-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin-bottom:22px;}
-.sym-cell{background:var(--paper);padding:16px 18px;}
-.sym-cell.amber{background:var(--bg-amber);}
-.sym-cell.green{background:var(--bg-green);}
-.sym-cell.blue{background:var(--bg-blue);}
-.sym-cell.purple{background:var(--bg-purple);}
-.sym-cell.red{background:var(--bg-red);}
-.sym-cell.teal{background:var(--bg-teal);}
-.sym-cell.orange{background:var(--bg-orange);}
-.sym-symbol{font-family:'IBM Plex Mono',monospace;font-size:36px;line-height:1;margin-bottom:4px;}
-.sym-name{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
-.sym-full{font-weight:600;font-size:13px;color:var(--ink);margin-bottom:4px;}
-.sym-desc{font-size:11px;color:var(--muted);line-height:1.55;}
-.sym-formula{font-family:'IBM Plex Mono',monospace;font-size:10.5px;background:rgba(0,0,0,.06);padding:2px 7px;border-radius:2px;display:inline-block;margin-top:4px;color:var(--ink);}
-
-/* INFO / WARN / TIP BOXES */
-.ibox{border-left:4px solid var(--blue);background:var(--bg-blue);padding:14px 20px;border-radius:0 3px 3px 0;margin-bottom:18px;}
-.ibox-t{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--blue);margin-bottom:5px;}
-.ibox-b{font-size:12.5px;line-height:1.78;color:var(--ink);}
-.ibox-b strong{color:var(--blue);}
-
-.wbox{border-left:4px solid var(--heat);background:var(--bg-red);padding:14px 20px;border-radius:0 3px 3px 0;margin-bottom:18px;}
-.wbox-t{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--heat);margin-bottom:5px;}
-.wbox-b{font-size:12.5px;line-height:1.78;color:var(--ink);}
-.wbox-b strong{color:var(--heat);}
-
-.gbox{border-left:4px solid var(--green);background:var(--bg-green);padding:14px 20px;border-radius:0 3px 3px 0;margin-bottom:18px;}
-.gbox-t{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--green);margin-bottom:5px;}
-.gbox-b{font-size:12.5px;line-height:1.78;color:var(--ink);}
-.gbox-b strong{color:var(--green);}
-
-.abox{border-left:4px solid var(--amber);background:var(--bg-amber);padding:14px 20px;border-radius:0 3px 3px 0;margin-bottom:18px;}
-.abox-t{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--amber);margin-bottom:5px;}
-.abox-b{font-size:12.5px;line-height:1.78;color:var(--ink);}
-.abox-b strong{color:var(--amber);}
-
-.pbox{border-left:4px solid var(--purple);background:var(--bg-purple);padding:14px 20px;border-radius:0 3px 3px 0;margin-bottom:18px;}
-.pbox-t{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--purple);margin-bottom:5px;}
-.pbox-b{font-size:12.5px;line-height:1.78;color:var(--ink);}
-.pbox-b strong{color:var(--purple);}
-
-/* FORMULA DISPLAY */
-.formula-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin-bottom:22px;}
-.fc{padding:18px 20px;}
-.fc.fa{background:var(--bg-amber);}
-.fc.fg{background:var(--bg-green);}
-.fc.fb{background:var(--bg-blue);}
-.fc.fp{background:var(--bg-purple);}
-.fc.ft{background:var(--bg-teal);}
-.fc.fr{background:var(--bg-red);}
-.f-name{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
-.f-eq{font-family:'IBM Plex Mono',monospace;font-size:22px;color:var(--ink);line-height:1;margin-bottom:6px;}
-.f-exp{font-size:11px;color:var(--muted);line-height:1.55;}
-.f-ex{font-family:'IBM Plex Mono',monospace;font-size:10.5px;background:rgba(0,0,0,.07);padding:3px 8px;border-radius:2px;display:inline-block;margin-top:5px;color:var(--ink);}
-
-/* OHMS TRIANGLE */
-.ohm-tri{display:flex;align-items:center;gap:28px;margin-bottom:22px;flex-wrap:wrap;}
-.ohm-box{background:var(--ink);color:#fff;padding:22px 28px;border-radius:4px;text-align:center;font-family:'IBM Plex Mono',monospace;min-width:200px;}
-.ohm-title{font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:#E8920A;margin-bottom:12px;}
-.ohm-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:2px;}
-.ohm-top{grid-column:1/-1;background:#F4BF60;color:var(--ink);padding:10px;text-align:center;font-size:20px;font-weight:600;border-radius:2px 2px 0 0;}
-.ohm-bl{background:rgba(255,255,255,.12);padding:10px;text-align:center;font-size:20px;border-radius:0 0 0 2px;}
-.ohm-br{background:rgba(255,255,255,.08);padding:10px;text-align:center;font-size:20px;border-radius:0 0 2px 0;}
-.ohm-sub{font-size:9px;display:block;margin-top:2px;opacity:.65;}
-.ohm-desc{flex:1;min-width:280px;}
-.ohm-rule{font-size:12.5px;line-height:1.8;color:var(--ink);}
-.ohm-rule li{margin-left:18px;margin-bottom:4px;}
-
-/* LOAD TABLE */
-.ltable{width:100%;border-collapse:collapse;font-size:12.5px;border:1px solid var(--rule);margin-bottom:22px;}
-.ltable th{padding:9px 12px;text-align:left;font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.07em;border-right:1px solid rgba(255,255,255,.08);}
-.ltable th.hk{background:var(--ink);color:#fff;}
-.ltable th.ha{background:var(--amber);color:#fff;}
-.ltable th.hg{background:var(--green);color:#fff;}
-.ltable th.hb{background:var(--blue);color:#fff;}
-.ltable th.ht{background:var(--teal);color:#fff;}
-.ltable td{padding:8px 12px;border-bottom:1px solid var(--rule);border-right:1px solid var(--rule);font-size:12px;}
-.ltable tr:nth-child(even) td{background:rgba(0,0,0,.02);}
-.ltable tr:last-child td{border-bottom:none;}
-.ltable td.item{font-weight:500;}
-.ltable td.m{font-family:'IBM Plex Mono',monospace;}
-.ltable .sr td{background:var(--bg-amber);font-weight:600;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--amber);}
-.ltable .gr td{background:var(--ink);color:#F4BF60;font-family:'IBM Plex Mono',monospace;font-weight:700;}
-.ltable td.tot{color:var(--amber);font-weight:700;font-family:'IBM Plex Mono',monospace;}
-.ltable td.ag{color:#1A7A40;font-weight:600;font-family:'IBM Plex Mono',monospace;}
-.ltable td.ah{color:var(--heat);font-weight:600;font-family:'IBM Plex Mono',monospace;}
-
-/* DO / DON'T GRIDS */
-.dodont{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:22px;}
-.do-card{border:1px solid #4A9A6A;border-radius:3px;overflow:hidden;}
-.dont-card{border:1px solid #C84B0A;border-radius:3px;overflow:hidden;}
-.do-head{background:#1A4A3C;color:#fff;padding:10px 16px;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;display:flex;align-items:center;gap:8px;}
-.dont-head{background:var(--heat);color:#fff;padding:10px 16px;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;display:flex;align-items:center;gap:8px;}
-.do-body{padding:0;}
-.do-item{display:flex;gap:10px;align-items:flex-start;padding:9px 16px;border-bottom:1px solid rgba(74,154,106,.2);font-size:12px;line-height:1.55;}
-.dont-item{display:flex;gap:10px;align-items:flex-start;padding:9px 16px;border-bottom:1px solid rgba(200,75,10,.15);font-size:12px;line-height:1.55;}
-.do-item:last-child,.dont-item:last-child{border-bottom:none;}
-.do-icon{color:#1A7A40;font-size:14px;flex:0 0 auto;margin-top:1px;}
-.dont-icon{color:var(--heat);font-size:14px;flex:0 0 auto;margin-top:1px;}
-.di-label{font-weight:600;font-size:12px;}
-.di-note{font-size:11px;color:var(--muted);margin-top:2px;line-height:1.5;}
-
-/* SoC METER */
-.soc-container{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:22px;}
-.soc-card{border:1px solid var(--rule);border-radius:3px;overflow:hidden;}
-.soc-head{padding:11px 16px;font-family:'IBM Plex Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:#fff;}
-.soc-head.ha{background:var(--amber);}
-.soc-head.hg{background:var(--green);}
-.soc-body{padding:14px 16px;}
-.soc-bar-wrap{margin-bottom:14px;}
-.soc-bar-label{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:5px;font-family:'IBM Plex Mono',monospace;}
-.soc-bar-track{height:22px;background:rgba(0,0,0,.07);border-radius:3px;overflow:hidden;position:relative;}
-.soc-segment{height:100%;display:inline-flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:9px;color:#fff;font-weight:600;float:left;}
-.seg-red{background:#B00000;}
-.seg-orange{background:#C84B0A;}
-.seg-yellow{background:#B87800;}
-.seg-lime{background:#4A8A1A;}
-.seg-green{background:#1A6A3C;}
-.soc-zones{margin-top:10px;}
-.soc-zone-row{display:flex;align-items:flex-start;gap:10px;padding:6px 0;border-bottom:1px solid var(--rule);font-size:12px;}
-.soc-zone-row:last-child{border-bottom:none;}
-.soc-dot{width:12px;height:12px;border-radius:50%;flex:0 0 auto;margin-top:2px;}
-.soc-zone-label{font-weight:600;font-size:11.5px;}
-.soc-zone-desc{font-size:11px;color:var(--muted);line-height:1.5;}
-
-/* STATS */
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin-bottom:22px;}
-.sc{background:var(--paper);padding:15px 18px;position:relative;}
-.sc.a{background:var(--bg-amber);}
-.sc.g{background:var(--bg-green);}
-.sc.b{background:var(--bg-blue);}
-.sc.p{background:var(--bg-purple);}
-.sc.r{background:var(--bg-red);}
-.sc.t{background:var(--bg-teal);}
-.sv{font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--ink);line-height:1;}
-.sv .u{font-size:11px;font-family:'IBM Plex Mono',monospace;color:var(--muted);margin-left:2px;}
-.sl{font-size:10.5px;color:var(--muted);margin-top:3px;}
-.sbadge{position:absolute;top:9px;right:11px;font-size:8.5px;font-family:'IBM Plex Mono',monospace;letter-spacing:.07em;padding:2px 6px;border-radius:2px;text-transform:uppercase;color:#fff;}
-.ba{background:var(--amber);}
-.bg{background:var(--green);}
-.bb{background:var(--blue);}
-.bp{background:var(--purple);}
-.br{background:var(--red);}
-.bh{background:var(--heat);}
-
-/* TWO COLUMNS */
-.cols2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:22px;}
-.card{border:1px solid var(--rule);border-radius:2px;overflow:hidden;}
-.card-hd{padding:12px 17px;display:flex;align-items:center;justify-content:space-between;}
-.card-hd.ha{background:var(--amber);}
-.card-hd.hg{background:var(--green);}
-.card-hd.hb{background:var(--blue);}
-.card-hd.hp{background:var(--purple);}
-.card-hd.ht{background:var(--teal);}
-.card-hn{font-family:'Bebas Neue',sans-serif;font-size:15px;color:#fff;}
-.card-hs{font-size:9px;color:rgba(255,255,255,.55);font-family:'IBM Plex Mono',monospace;margin-top:1px;letter-spacing:.07em;text-transform:uppercase;}
-.card-ic{font-size:22px;}
-.row{display:flex;justify-content:flex-start;align-items:flex-start;padding:8px 17px;border-bottom:1px solid var(--rule);font-size:12px;}
-.row:last-child{border-bottom:none;}
-.row:nth-child(even){background:rgba(0,0,0,.02);}
-.rl{color:var(--muted);font-size:11px;flex:0 0 44%;}
-.rv{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:11.5px;color:var(--ink);flex:1;}
-.rv.a{color:var(--amber);}
-.rv.g{color:#1A7A40;}
-.rv.b{color:var(--blue);}
-.rv.h{color:var(--heat);}
-.rv.p{color:var(--purple);}
-
-/* SYSTEM DIAGRAM */
-.sysdiag{background:var(--ink);color:#ccc;font-family:'IBM Plex Mono',monospace;font-size:11.5px;line-height:2;padding:20px 26px;border-radius:3px;margin-bottom:22px;}
-.sysdiag .dt{color:#F4BF60;font-size:9px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:12px;}
-.sysdiag .dc{color:#8FBD9E;}
-.sysdiag .da{color:#F4BF60;}
-.sysdiag .dr{color:#FF9A7A;}
-.sysdiag .db{color:#9AB8E0;}
-.sysdiag .dp{color:#D0A0FF;}
-
-/* CALC WORKED EXAMPLE */
-.calc-box{background:var(--ink);border-radius:3px;padding:20px 24px;margin-bottom:22px;}
-.calc-title{font-family:'IBM Plex Mono',monospace;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:#E8920A;margin-bottom:14px;}
-.calc-step{display:flex;gap:14px;margin-bottom:12px;align-items:flex-start;}
-.calc-step:last-child{margin-bottom:0;}
-.calc-num{background:#E8920A;color:var(--ink);width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;flex:0 0 auto;}
-.calc-body{font-size:12px;color:#ccc;line-height:1.65;}
-.calc-body strong{color:#F4BF60;}
-.calc-body .eq{font-family:'IBM Plex Mono',monospace;background:rgba(255,255,255,.08);padding:2px 8px;border-radius:2px;color:#fff;display:inline-block;margin:2px 0;}
-
-/* COMPONENT COMPARISON */
-.chem-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin-bottom:22px;}
-.chem-cell{padding:14px 16px;}
-.chem-cell.best{background:var(--bg-green);}
-.chem-cell.ok{background:var(--bg-amber);}
-.chem-cell.avoid{background:var(--bg-red);}
-.chem-name{font-weight:600;font-size:13px;margin-bottom:3px;}
-.chem-badge{display:inline-block;font-size:8.5px;font-family:'IBM Plex Mono',monospace;padding:1px 6px;border-radius:2px;color:#fff;margin-left:6px;vertical-align:middle;}
-.chem-badge.gb{background:#1A7A40;}
-.chem-badge.ab{background:var(--amber);}
-.chem-badge.rb{background:#B00000;}
-.chem-prop{font-size:11px;color:var(--muted);line-height:1.6;margin-top:4px;}.footer{border-top:1px solid var(--rule);padding:14px 50px;display:flex;justify-content:space-between;font-family:'IBM Plex Mono',monospace;font-size:9.5px;color:var(--muted);background:rgba(0,0,0,.02);}
-
-/* Responsive */
-
-
-@media(max-width:600px){
-  .hdr{padding:18px 14px 14px!important}
-  .hdr-title{font-size:20px!important}
-  .hdr-sub{font-size:9px!important}
-  .hdr-chips{gap:4px!important;flex-wrap:wrap!important}
-  .toc{padding:12px 14px!important}
-  .toc-grid{display:block!important}
-  .toc-item{display:block!important;width:100%!important;box-sizing:border-box!important;margin-bottom:4px!important}
-  
-  .body{padding:14px 14px 32px!important}
-  .chapter{margin-bottom:22px!important}
-  .ch-title{font-size:20px!important}
-  .ch-intro{font-size:12px!important}
-  .sym-grid{display:block!important}
-  .sym-cell{display:block!important;width:100%!important;margin-bottom:8px!important}
-  .formula-strip{display:block!important}
-  .formula-card{display:block!important;width:100%!important;margin-bottom:8px!important}
-  .ohm-grid{display:block!important}
-  .soc-container{display:block!important}
-  .dodont{display:block!important}
-  .dodont>*{display:block!important;width:100%!important;margin-bottom:8px!important}
-  .stats{display:grid!important;grid-template-columns:1fr 1fr!important}
-  .cols2{display:block!important}
-  .cols2>*{display:block!important;width:100%!important;margin-bottom:12px!important}
-  .abox,.ibox,.gbox,.wbox{padding:10px 12px!important}
-  .ltable{display:block!important;overflow-x:auto!important;overscroll-behavior-x:contain!important;-webkit-overflow-scrolling:touch!important;font-size:11px!important}
-  .ltable th,.ltable td{padding:5px 8px!important;white-space:normal!important}
-  .wiring{padding:10px 12px!important;font-size:10px!important;overflow-x:auto!important;overscroll-behavior-x:contain!important;-webkit-overflow-scrolling:touch!important}
-  .calc-block{padding:10px 12px!important}
-  .soc-zone{padding:8px 10px!important}
-  .do-item{padding:8px 10px!important}
-  .cheat-grid{display:block!important}
-  .cheat-grid>*{display:block!important;width:100%!important;margin-bottom:8px!important}
-
-  .ohm-box{min-width:0!important;width:100%!important;padding:10px 12px!important}
-  .ohm-desc{min-width:0!important;width:100%!important}
-  .ohm-grid{display:block!important}
-  .ohm-tri{flex-direction:column!important;align-items:center!important}
-  .sym-symbol{font-size:24px!important}
-  .f-eq{font-size:16px!important}
-  .sv{font-size:20px!important}
-  .card-ic{font-size:16px!important}
-
-  .chem-grid{display:grid!important;grid-template-columns:1fr!important}
-  .stats{display:grid!important;grid-template-columns:1fr 1fr!important}
-  .card-hd{flex-wrap:wrap!important;gap:4px!important;padding:8px 10px!important}
-  .soc-zone-row{flex-wrap:wrap!important}
-  .row{padding:6px 12px!important}
-
-  .sysdiag{font-size:8px!important;line-height:1.6!important;padding:10px 12px!important;overflow-x:auto!important;overscroll-behavior-x:contain!important;-webkit-overflow-scrolling:touch!important;white-space:pre!important;display:block!important}
-  .wiring{font-size:8px!important;line-height:1.6!important;padding:10px 12px!important;overflow-x:auto!important;overscroll-behavior-x:contain!important;-webkit-overflow-scrolling:touch!important;white-space:pre!important}
-}
-
-@media print{
-  @page{margin: 7mm;size:A4 portrait}
-  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
-  body{font-size:10px!important;background:white!important}
-
-  /* Live sticky element reset (was missing — print CSS only referenced the retired .hdr class) */
-  .sticky-wrap{position:static!important;padding-top:0!important}
-  .sticky-wrap::before{content:none!important}
-
-  /* Header — compact + page break */
-  .hdr{padding:10px 16px 8px!important;page-break-after:avoid!important}
-  .hdr-title{font-size:20px!important}
-  .hdr-sub{font-size:9px!important;margin-bottom:4px!important}
-  .hdr-chips{gap:3px!important;margin-top:4px!important}
-  .hdr-chip{font-size:7.5px!important;padding:1px 5px!important}
-
-  /* TOC — compact, 4 columns */
-  .toc{padding:6px 16px 8px!important;page-break-after:avoid!important}
-  .toc-grid{display:grid!important;grid-template-columns:repeat(4,1fr)!important;gap:3px!important}
-
-  /* Section labels — prevent orphans, reduce spacing */
-  .slbl{margin-top:4px!important;margin-bottom:2px!important;page-break-after:avoid!important;page-break-inside:avoid!important}
-  .srule{margin-bottom:2px!important;margin-top:0!important;page-break-after:avoid!important}
-  hr.srule{margin:2px 0!important;page-break-after:avoid!important}
-
-  /* Chapters — prevent orphan headings, reduce spacing */
-  .chapter{margin-bottom:6px!important;page-break-inside:auto!important}
-  .ch-title{font-size:14px!important;margin-bottom:2px!important;page-break-after:avoid!important;page-break-inside:avoid!important}
-  .ch-rule{margin-bottom:4px!important;page-break-after:avoid!important}
-  .ch-intro{font-size:9px!important;line-height:1.5!important;margin-bottom:4px!important;orphans:3;widows:3}
-
-  /* Grids — restore for print, tight margins */
-  .sym-grid{display:grid!important;grid-template-columns:1fr 1fr 1fr!important;margin-bottom:4px!important}
-  .formula-strip{display:grid!important;grid-template-columns:1fr 1fr 1fr!important;margin-bottom:4px!important}
-  .soc-container{display:grid!important;grid-template-columns:1fr 1fr!important;margin-bottom:4px!important}
-  .dodont{display:grid!important;grid-template-columns:1fr 1fr!important;margin-bottom:4px!important}
-  .stats{display:grid!important;grid-template-columns:1fr 1fr 1fr!important;margin-bottom:4px!important}
-  .cols2{display:grid!important;grid-template-columns:1fr 1fr!important;margin-bottom:4px!important}
-  .cheat-grid{display:grid!important;grid-template-columns:1fr 1fr 1fr!important;margin-bottom:4px!important}
-  .chem-grid{display:grid!important;margin-bottom:4px!important}
-  .ohm-grid{display:grid!important;margin-bottom:4px!important}
-
-  /* Grid cells — reduce padding */
-  .sym-cell{padding:6px 8px!important}
-  .sc{padding:7px 9px!important}
-  .do-item,.dont-item{padding:5px 8px!important}
-  .do-head,.dont-head{padding:5px 8px!important}
-  .soc-body{margin-bottom:6px!important;page-break-inside:auto!important}
-  .pbox{padding:6px 8px!important;margin-bottom:6px!important;page-break-inside:auto!important}
-
-  /* Table — allow breaking */
-  .ltable{font-size:9px!important;page-break-inside:auto!important;margin-bottom:8px!important}
-  .ltable th,.ltable td{padding:3px 5px!important}
-
-  /* Special blocks — allow breaking */
-  .wiring{padding:6px 8px!important;font-size:9px!important;margin-bottom:6px!important;page-break-inside:auto!important}
-  .sysdiag{padding:8px 10px!important;margin-bottom:8px!important;page-break-inside:auto!important}
-  .calc-box{padding:8px 10px!important;margin-bottom:8px!important;page-break-inside:auto!important}
-  .pbox{padding:6px 8px!important;margin-bottom:6px!important;page-break-inside:auto!important}
-  .fc{padding:8px 10px!important;page-break-inside:auto!important}
-
-  /* Footer */
-
-  /* Field Fixes — page break before */
-  /* Field Fixes — no forced break */
-
-  .calc-title{margin-bottom:5px!important}
-  .card-hd{padding:5px 8px!important}
-  .row{padding:3px 6px!important}
-  .soc-bar-wrap{margin-bottom:5px!important}
-
-    .std-header { background: #2a2f3a !important; color: #fff !important; border-bottom: 2pt solid #e07800 !important; break-after: avoid; }
-    .std-title { color: #e07800 !important; font-size: 16pt !important; }
-  
-  }
-
-/* ── STANDARD HEADER ─────────────────────────────────── */
-.sticky-wrap{position:sticky;top:0;z-index:100;background:var(--ink,#0d0e12);padding-top:env(safe-area-inset-top)}
-.sticky-wrap::before{content:"";position:absolute;left:0;right:0;bottom:100%;height:100vh;background:var(--ink,#0d0e12)}
-.std-header{
-  background:var(--ink,#0d0e12);
-  border-bottom:4px solid var(--amber2,#e07800);
-  padding:14px 20px 12px;
-  position:relative;
-}
-.std-eyebrow{
-  font-family:'IBM Plex Mono',monospace;
-  font-size:.48rem;
-  letter-spacing:.28em;
-  text-transform:uppercase;
-  color:var(--steellt,#9aa0ae);
-  margin-bottom:6px;
-}
-.std-title{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:2.4rem;
-  letter-spacing:.06em;
-  color:#e07800;
-  line-height:1;
-}
-.std-sub{
-  font-family:'IBM Plex Mono',monospace;
-  font-size:.54rem;
-  letter-spacing:.12em;
-  color:rgba(255,200,100,.65);
-  margin-top:5px;
-}
-@media(max-width:600px){
-  .sticky-wrap{position:static;padding-top:0}
-  .std-header{padding:12px 14px 10px}
-  .std-title{font-size:clamp(1.6rem,6vw,2.4rem)}
-  .std-sub{font-size:.46rem;letter-spacing:.08em}
+/* ── STICKY NAV ── */
+.sticky-nav-unit{position:sticky;top:0;z-index:100;padding-top:env(safe-area-inset-top);background:var(--ink)}
+.sticky-nav-unit::before{content:"";position:absolute;left:0;right:0;bottom:100%;height:100vh;background:var(--ink)}
+.std-header{background:var(--ink);padding:18px 24px 14px;position:relative;border-bottom:3px solid var(--amber)}
+.std-eyebrow{font-family:var(--mono);font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--steelmd);margin-bottom:6px}
+.std-title{font-family:var(--display);font-size:clamp(1.9rem,5vw,2.8rem);letter-spacing:.06em;color:var(--amber2);line-height:1}
+.std-sub{font-family:var(--mono);font-size:.54rem;letter-spacing:.12em;color:rgba(255,200,100,.65);margin-top:5px}
 .std-vehicle{font-family:var(--mono);font-size:.48rem;letter-spacing:.08em;color:var(--steelmd);margin-top:8px}
-  .std-eyebrow{font-size:.42rem}
+.lib-home-btn{position:absolute;top:14px;right:16px;display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--amber2);background:rgba(232,120,0,.15);border:1px solid var(--amber2);border-radius:20px;padding:6px 12px;min-height:32px;white-space:nowrap;transition:background .2s}
+.lib-home-btn:hover{background:rgba(232,120,0,.30)}
+.toc-bar{background:var(--steeldk);padding:7px 24px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;border-bottom:2px solid var(--amber)}
+.toc-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.18em;color:var(--steellt);text-transform:uppercase;margin-right:4px;flex-shrink:0}
+.toc-link{font-family:var(--mono);font-size:.46rem;color:rgba(255,255,255,.45);text-decoration:none;padding:2px 6px;border:1px solid transparent;transition:all .12s;white-space:nowrap;cursor:pointer}
+.toc-link:hover,.toc-link.active{color:var(--amber2);border-color:var(--amber2);background:rgba(232,120,0,.1)}
+
+/* ── CONTENT ── */
+.content{padding:24px 5% 80px;max-width:100%}
+.lead{font-size:.92rem;color:var(--steeldk);line-height:1.7;margin:6px 0 16px;max-width:900px}
+.p{font-size:.86rem;color:var(--steeldk);line-height:1.65;margin:10px 0}
+.p strong{color:var(--ink);font-weight:600}
+
+/* ── SECTION HEADERS ── */
+.sec-header{display:flex;align-items:center;gap:12px;padding:10px 5%;background:var(--steeldk);border-left:5px solid var(--amber2);margin:34px 0 0;margin-left:-5%;margin-right:-5%}
+.sec-header:first-child{margin-top:0}
+.sec-num{font-family:var(--mono);font-size:.58rem;font-weight:600;color:#fff;background:var(--amber);padding:3px 8px;letter-spacing:.12em;flex-shrink:0}
+.sec-title{font-family:var(--display);font-size:1.7rem;letter-spacing:.10em;color:#fff;line-height:1}
+.sec-sub{font-family:var(--mono);font-size:.44rem;letter-spacing:.10em;color:var(--steellt);margin-left:auto;flex-shrink:0;text-align:right}
+
+/* ── SUBSECTIONS ── */
+.subsec{background:var(--paper2);border-left:3px solid var(--amber);padding:6px 16px 6px 14px;margin:22px 0 10px;display:flex;align-items:center;gap:10px}
+.subsec-title{font-family:var(--display);font-size:1.1rem;letter-spacing:.12em;color:var(--ink)}
+.subsec-tag{font-family:var(--mono);font-size:.44rem;letter-spacing:.12em;color:var(--steelmd);text-transform:uppercase;margin-left:auto}
+
+/* ── RULE BOXES ── */
+.rule{border-left:4px solid;padding:11px 15px;margin:12px 0;font-family:var(--sans);font-size:.86rem;line-height:1.65}
+.rule .rule-hdr{font-weight:700;display:block;margin-bottom:5px;font-family:var(--sans);font-size:.92rem;letter-spacing:.01em}
+.rule .rule-body{font-size:.86rem;line-height:1.65}
+.rule strong{font-weight:700;color:inherit}
+.rule-warn{background:#fff4f0;border-color:var(--red-warn);color:#5a1010}
+.rule-warn .rule-hdr{color:var(--red-warn)}
+.rule-note{background:#fffbe8;border-color:var(--amber2);color:#4a3000}
+.rule-note .rule-hdr{color:var(--amber)}
+.rule-ok{background:#f0fff8;border-color:var(--green-ok);color:#0a3a20}
+.rule-ok .rule-hdr{color:var(--green-ok)}
+.rule-info{background:var(--paper2);border-color:var(--steelmd);color:var(--steeldk)}
+.rule-info .rule-hdr{color:var(--steelmd)}
+
+/* ── SPEC TABLES ── */
+.spec-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.82rem}
+.spec-table caption{font-family:var(--mono);font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;color:var(--steelmd);text-align:left;padding-bottom:6px}
+.spec-table th{background:var(--steeldk);color:#fff;font-family:var(--mono);font-size:.44rem;letter-spacing:.12em;text-transform:uppercase;padding:7px 10px;text-align:left}
+.spec-table th.th-std{background:var(--steeldk)}
+.spec-table th.th-amber{background:var(--amber)}
+.spec-table th.th-green{background:var(--green-ok)}
+.spec-table th.th-blue{background:#1A3A5C}
+.spec-table th.th-teal{background:#1A4A4A}
+.spec-table td{padding:6px 10px;border-bottom:1px solid var(--rule);vertical-align:top;font-family:var(--sans)}
+.spec-table tr:nth-child(even) td{background:var(--paper2)}
+.spec-table .tr-section td{background:var(--paper2);font-weight:600;font-family:var(--mono);font-size:.42rem;letter-spacing:.08em;text-transform:uppercase;color:var(--steelmd)}
+.spec-table .tr-total td{background:var(--steeldk);color:var(--amber2);font-family:var(--mono);font-weight:700}
+.spec-table .td-label{font-weight:500}
+.mono{font-family:var(--mono);font-size:.72rem;color:var(--amber)}
+.v-good{color:var(--green-ok);font-weight:600}
+.v-warn{color:var(--amber);font-weight:600}
+.v-bad{color:var(--red-warn);font-weight:600}
+
+/* ── SYMBOL GRID ── */
+.sym-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin-bottom:22px}
+.sym-cell{background:var(--paper);padding:16px 18px}
+.sym-cell.amber,.sym-cell.green,.sym-cell.blue,.sym-cell.purple,.sym-cell.red,.sym-cell.teal,.sym-cell.orange{background:var(--paper2)}
+.sym-symbol{font-family:var(--mono);font-size:36px;line-height:1;margin-bottom:4px;color:var(--amber2)}
+.sym-name{font-family:var(--mono);font-size:.44rem;letter-spacing:.08em;text-transform:uppercase;color:var(--steelmd);margin-bottom:3px}
+.sym-full{font-weight:600;font-size:.86rem;color:var(--ink);margin-bottom:4px}
+.sym-desc{font-size:.78rem;color:var(--steeldk);line-height:1.55}
+.sym-formula{font-family:var(--mono);font-size:.68rem;background:rgba(0,0,0,.06);padding:2px 7px;border-radius:2px;display:inline-block;margin-top:4px;color:var(--ink)}
+
+/* ── FORMULA STRIP ── */
+.formula-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin-bottom:22px}
+.fc{padding:18px 20px;background:var(--paper2)}
+.fc.fa,.fc.fg,.fc.fb,.fc.fp,.fc.ft,.fc.fr{background:var(--paper2)}
+.f-name{font-family:var(--mono);font-size:.42rem;letter-spacing:.15em;text-transform:uppercase;color:var(--steelmd);margin-bottom:6px}
+.f-eq{font-family:var(--mono);font-size:1.4rem;color:var(--ink);line-height:1;margin-bottom:6px}
+.f-exp{font-size:.78rem;color:var(--steeldk);line-height:1.55}
+.f-ex{font-family:var(--mono);font-size:.68rem;background:rgba(0,0,0,.07);padding:3px 8px;border-radius:2px;display:inline-block;margin-top:5px;color:var(--ink)}
+
+/* ── OHM'S LAW ── */
+.ohm-tri{display:flex;align-items:center;gap:28px;margin-bottom:22px;flex-wrap:wrap}
+.ohm-box{background:var(--steeldk);color:#fff;padding:22px 28px;border-radius:4px;text-align:center;font-family:var(--mono);min-width:200px}
+.ohm-title{font-size:.42rem;letter-spacing:.18em;text-transform:uppercase;color:var(--amber2);margin-bottom:12px}
+.ohm-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:2px}
+.ohm-top{grid-column:1/-1;background:var(--amber2);color:var(--ink);padding:10px;text-align:center;font-size:20px;font-weight:600;border-radius:2px 2px 0 0}
+.ohm-bl{background:rgba(255,255,255,.12);padding:10px;text-align:center;font-size:20px;border-radius:0 0 0 2px}
+.ohm-br{background:rgba(255,255,255,.08);padding:10px;text-align:center;font-size:20px;border-radius:0 0 2px 0}
+.ohm-sub{font-size:9px;display:block;margin-top:2px;opacity:.65}
+.ohm-desc{flex:1;min-width:280px}
+.ohm-rule{font-size:.86rem;line-height:1.8;color:var(--ink)}
+.ohm-rule li{margin-left:18px;margin-bottom:4px}
+
+/* ── DIAGRAM ── */
+.diagram-wrap{background:var(--steeldk);border-radius:4px;padding:18px;margin:18px 0;overflow-x:auto;overscroll-behavior-x:contain;color:#ccc;font-family:var(--mono);font-size:.78rem;line-height:2}
+.diagram-wrap pre{font-family:var(--mono);font-size:.7rem;color:var(--steellt);line-height:1.9;white-space:pre-wrap;word-break:break-word}
+.diagram-title{color:var(--amber2);font-size:.42rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:12px}
+.diagram-wrap .dc{color:var(--green-ok)}
+.diagram-wrap .da{color:var(--amber2)}
+.diagram-wrap .dr{color:#FF9A7A}
+.diagram-wrap .db{color:var(--steellt)}
+.diagram-wrap .dp{color:#D0A0FF}
+
+/* ── CALC BLOCKS ── */
+.calc-block{background:var(--steeldk);border-radius:4px;padding:20px 24px;margin-bottom:22px}
+.calc-title{font-family:var(--mono);font-size:.42rem;letter-spacing:.22em;text-transform:uppercase;color:var(--amber2);margin-bottom:14px}
+.calc-step{display:flex;gap:14px;margin-bottom:12px;align-items:flex-start}
+.calc-step:last-child{margin-bottom:0}
+.calc-num{background:var(--amber2);color:var(--ink);width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:600;flex:0 0 auto}
+.calc-body{font-size:.82rem;color:#ccc;line-height:1.65}
+.calc-body strong{color:var(--amber2)}
+.eq{font-family:var(--mono);background:rgba(255,255,255,.08);padding:2px 8px;border-radius:2px;color:#fff;display:inline-block;margin:2px 0}
+
+/* ── CHEMISTRY GRID ── */
+.chem-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin-bottom:22px}
+.chem-cell{padding:14px 16px;background:var(--paper2)}
+.chem-cell.best{background:#f0fff8}
+.chem-cell.ok{background:#fffbe8}
+.chem-cell.avoid{background:#fff4f0}
+.chem-name{font-weight:600;font-size:.86rem;margin-bottom:3px}
+.chem-badge{display:inline-block;font-size:.42rem;font-family:var(--mono);padding:1px 6px;border-radius:2px;color:#fff;margin-left:6px;vertical-align:middle;letter-spacing:.06em}
+.chem-badge.gb{background:var(--green-ok)}
+.chem-badge.ab{background:var(--amber)}
+.chem-badge.rb{background:var(--red-warn)}
+.chem-prop{font-size:.78rem;color:var(--steeldk);line-height:1.6;margin-top:4px}
+
+/* ── DO/DON'T GRIDS ── */
+.dodont{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:22px}
+.do-card{border:1px solid var(--green-ok);border-radius:3px;overflow:hidden}
+.dont-card{border:1px solid var(--red-warn);border-radius:3px;overflow:hidden}
+.do-head{background:var(--green-ok);color:#fff;padding:10px 16px;font-family:var(--mono);font-size:.42rem;letter-spacing:.1em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+.dont-head{background:var(--red-warn);color:#fff;padding:10px 16px;font-family:var(--mono);font-size:.42rem;letter-spacing:.1em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+.do-body{padding:0}
+.do-item{display:flex;gap:10px;align-items:flex-start;padding:9px 16px;border-bottom:1px solid var(--rule);font-size:.82rem;line-height:1.55}
+.dont-item{display:flex;gap:10px;align-items:flex-start;padding:9px 16px;border-bottom:1px solid var(--rule);font-size:.82rem;line-height:1.55}
+.do-item:last-child,.dont-item:last-child{border-bottom:none}
+.do-icon{color:var(--green-ok);font-size:14px;flex:0 0 auto;margin-top:1px}
+.dont-icon{color:var(--red-warn);font-size:14px;flex:0 0 auto;margin-top:1px}
+.di-label{font-weight:600;font-size:.82rem}
+.di-note{font-size:.78rem;color:var(--steeldk);margin-top:2px;line-height:1.5}
+
+/* ── SOC METER ── */
+.soc-container{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:22px}
+.soc-card{border:1px solid var(--rule);border-radius:3px;overflow:hidden}
+.soc-head{padding:11px 16px;font-family:var(--mono);font-size:.42rem;letter-spacing:.1em;text-transform:uppercase;color:#fff}
+.soc-head.ha{background:var(--amber)}
+.soc-head.hg{background:var(--green-ok)}
+.soc-body{padding:14px 16px}
+.soc-bar-wrap{margin-bottom:14px}
+.soc-bar-label{display:flex;justify-content:space-between;font-size:.68rem;color:var(--steelmd);margin-bottom:5px;font-family:var(--mono)}
+.soc-bar-track{height:22px;background:rgba(0,0,0,.07);border-radius:3px;overflow:hidden;position:relative}
+.soc-segment{height:100%;display:inline-flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9px;color:#fff;font-weight:600;float:left}
+.seg-red{background:var(--red-warn)}
+.seg-yellow{background:var(--amber)}
+.seg-lime{background:#4A8A1A}
+.seg-green{background:var(--green-ok)}
+.soc-zones{margin-top:10px}
+.soc-zone-row{display:flex;align-items:flex-start;gap:10px;padding:6px 0;border-bottom:1px solid var(--rule);font-size:.82rem}
+.soc-zone-row:last-child{border-bottom:none}
+.soc-dot{width:12px;height:12px;border-radius:50%;flex:0 0 auto;margin-top:2px}
+.soc-zone-label{font-weight:600;font-size:.78rem}
+.soc-zone-desc{font-size:.75rem;color:var(--steeldk);line-height:1.5}
+
+/* ── STATS ── */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin-bottom:22px;align-items:start}
+.sc{background:var(--paper);padding:15px 18px;position:relative}
+.sc.a,.sc.g,.sc.b,.sc.p,.sc.r,.sc.t{background:var(--paper2)}
+.sv{font-family:var(--display);font-size:1.6rem;color:var(--ink);line-height:1}
+.sv .u{font-size:.68rem;font-family:var(--mono);color:var(--steelmd);margin-left:2px}
+.sl{font-size:.68rem;color:var(--steeldk);margin-top:3px;line-height:1.45}
+.sbadge{position:absolute;top:9px;right:11px;font-size:.42rem;font-family:var(--mono);letter-spacing:.07em;padding:2px 6px;border-radius:2px;text-transform:uppercase;color:#fff;background:var(--steelmd)}
+.ba,.bp{background:var(--amber)}
+.bg{background:var(--green-ok)}
+.bb{background:#1A3A5C}
+.br,.bh{background:var(--red-warn)}
+
+/* ── CARD GRID ── */
+.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:22px;align-items:start}
+.card-block{border:1px solid var(--rule);border-radius:2px;overflow:hidden}
+.card-hd{padding:12px 17px;display:flex;align-items:center;justify-content:space-between}
+.card-hd.amber{background:var(--amber)}
+.card-hd.green{background:var(--green-ok)}
+.card-hd.blue{background:#1A3A5C}
+.card-hd.purple{background:#3A1A5C}
+.card-hd.teal{background:#1A4A4A}
+.card-name{font-family:var(--display);font-size:1rem;color:#fff}
+.card-sub{font-size:.42rem;color:rgba(255,255,255,.55);font-family:var(--mono);margin-top:1px;letter-spacing:.07em;text-transform:uppercase}
+.card-icon{font-size:22px}
+.row{display:flex;justify-content:flex-start;align-items:flex-start;padding:8px 17px;border-bottom:1px solid var(--rule);font-size:.82rem}
+.row:last-child{border-bottom:none}
+.row:nth-child(even){background:rgba(0,0,0,.02)}
+.row-label{color:var(--steelmd);font-size:.75rem;flex:0 0 44%}
+.row-value{font-family:var(--mono);font-weight:600;font-size:.75rem;color:var(--ink);flex:1}
+
+/* ── XREF ── */
+.xref-bar{background:var(--steeldk);padding:9px 5%;display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:32px -5% 0}
+.xref-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.16em;color:var(--steellt);text-transform:uppercase;margin-right:6px}
+.xref-pill{font-family:var(--mono);font-size:.46rem;letter-spacing:.08em;color:var(--amber2);background:rgba(232,120,0,.12);border:1px solid rgba(232,120,0,.4);padding:3px 9px;text-decoration:none;white-space:nowrap}
+.xref-pill:hover{background:rgba(232,120,0,.25)}
+
+/* ── MOBILE ── */
+@media(max-width:600px){
+  .std-header{padding:10px 16px 8px}
+  .std-title{font-size:clamp(1.5rem,6vw,2.2rem)}
+  .std-sub,.std-vehicle{display:none}
+  .lib-home-btn{top:10px;right:12px;font-size:8px;padding:5px 10px}
+  .toc-bar{padding:5px 12px!important;flex-wrap:nowrap!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch!important;scrollbar-width:none!important}
+  .toc-bar::-webkit-scrollbar{display:none}
+  .toc-link{font-size:.42rem!important;padding:2px 5px!important}
+  .content{padding:14px 4% 60px}
+  .sec-header{margin-left:-4%;margin-right:-4%;padding:10px 4%;flex-wrap:wrap;gap:6px}
+  .sec-sub{display:none}
+  .subsec{flex-wrap:wrap;gap:4px}
+  .subsec-tag{margin-left:0;max-width:100%;white-space:normal}
+  .xref-bar{margin-left:-4%;margin-right:-4%;padding:9px 4%}
+  .sym-grid{display:block}
+  .sym-cell{display:block;width:100%;margin-bottom:8px}
+  .formula-strip{display:block}
+  .fc{display:block;width:100%;margin-bottom:8px}
+  .chem-grid{grid-template-columns:1fr}
+  .dodont{display:block}
+  .dodont>*{display:block;width:100%;margin-bottom:8px}
+  .soc-container{display:block}
+  .soc-card{margin-bottom:8px}
+  .card-grid{display:block}
+  .card-block{margin-bottom:12px}
+  .stats{grid-template-columns:1fr 1fr}
+  .ohm-tri{flex-direction:column;align-items:center}
+  .ohm-box{min-width:0;width:100%;padding:10px 12px}
+  .ohm-desc{min-width:0;width:100%}
+  .spec-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .diagram-wrap{font-size:.68rem;line-height:1.6;padding:10px 12px;white-space:pre}
+  .calc-block{padding:10px 12px}
+  .sv{font-size:1.3rem}
+  .f-eq{font-size:1.1rem}
+  .sym-symbol{font-size:24px}
+
+  .toc-bar,.spec-table,.diagram-wrap{overscroll-behavior-x:contain}
 }
 
-
-  @media(max-width:768px){
-    body{font-size:14px;padding:0.5rem;}
-    .masthead,.hero{padding:1.5rem 1rem 1rem;position:sticky;top:0;z-index:100;}
-    h1{font-size:1.8rem;}
-    h2{font-size:1.5rem;}
-    h3{font-size:1.2rem;}
-    .page,main{padding:1rem;}
-    .grid{grid-template-columns:1fr;gap:1rem;}
-    table{font-size:0.85rem;}
-    th,td{padding:0.5rem 0.3rem;}
-    .cap-grid,.tgrid,.rgrid{grid-template-columns:repeat(2,1fr);}
+/* ── PRINT ── */
+@media print{
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;color-adjust:exact!important}
+  @page{margin:7mm;size:A4}
+  :root{
+    --ink:#0d0e12;--paper:#ffffff;--paper2:#edeae0;--rule:#d4cfc4;
+    --amber:#b86800;--amber2:#e07800;--steeldk:#2a2f3a;--steelmd:#6a7080;
+    --steellt:#a8b0bc;--red-warn:#B91C1C;--green-ok:#059669;
   }
-  @media(max-width:480px){
-    body{font-size:13px;}
-    h1{font-size:1.5rem;}
-    h2{font-size:1.3rem;}
-    .masthead,.hero{padding:1rem 0.75rem 0.75rem;}
-    .page,main{padding:0.75rem;}
-    .cap-grid,.tgrid,.rgrid{grid-template-columns:1fr;}
-  }
-
-/* Library home pill */
-.lib-home-btn{
-  display:inline-flex;align-items:center;gap:5px;
-  font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;
-  letter-spacing:.14em;text-transform:uppercase;text-decoration:none;
-  color:var(--amber2,#e07800);background:rgba(232,120,0,.15);
-  border:1px solid var(--amber2,#e07800);border-radius:20px;
-  padding:6px 12px;min-height:32px;white-space:nowrap;
-  position:absolute;top:50%;right:16px;transform:translateY(-50%);
-  -webkit-tap-highlight-color:transparent;transition:background .2s;
+  body{font-size:7.5pt;background:#fff!important}
+  .lib-home-btn,.toc-bar{display:none!important}
+  .sticky-nav-unit{position:static!important}
+  .sticky-nav-unit::before{content:none}
+  .std-header{background:#0d0e12!important;padding:8px 14px 6px!important;border-bottom:2px solid #e07800!important}
+  .std-title{color:#e07800!important;font-size:1.5rem!important}
+  .std-eyebrow,.std-vehicle{color:#9aa0ae!important}
+  .std-sub{color:#e8c864!important}
+  .sec-header{background:#2a2f3a!important;border-left:4px solid #e07800!important;padding:6px 14px!important;page-break-after:avoid;margin-left:0!important;margin-right:0!important}
+  .sec-num{background:#b86800!important;color:#fff!important}
+  .sec-title{color:#fff!important}
+  .sec-sub{color:#a8b0bc!important}
+  .subsec{background:#edeae0!important;page-break-after:avoid}
+  .spec-table{break-inside:auto}
+  .spec-table thead{display:table-header-group}
+  .spec-table th{background:#2a2f3a!important;color:#fff!important}
+  .spec-table th.th-amber{background:#b86800!important}
+  .spec-table th.th-green{background:#059669!important}
+  .spec-table th.th-blue{background:#1A3A5C!important}
+  .spec-table th.th-teal{background:#1A4A4A!important}
+  .spec-table tr:nth-child(even) td{background:#edeae0!important}
+  .spec-table .tr-total td{background:#2a2f3a!important;color:#e07800!important}
+  .rule{break-inside:avoid}
+  .rule-warn{background:#fff4f0!important}
+  .rule-note{background:#fffbe8!important}
+  .rule-ok{background:#f0fff8!important}
+  .rule-info{background:#edeae0!important}
+  .xref-bar{background:#2a2f3a!important;margin-left:0!important;margin-right:0!important}
+  .xref-pill{color:#e07800!important;background:#fff!important}
+  .diagram-wrap,.calc-block{background:#2a2f3a!important}
+  .sym-grid{display:grid!important;grid-template-columns:1fr 1fr 1fr 1fr!important;margin-bottom:4px!important}
+  .formula-strip{display:grid!important;grid-template-columns:1fr 1fr 1fr!important;margin-bottom:4px!important}
+  .dodont{display:grid!important;grid-template-columns:1fr 1fr!important;margin-bottom:4px!important}
+  .soc-container{display:grid!important;grid-template-columns:1fr 1fr!important;margin-bottom:4px!important}
+  .stats{display:grid!important;grid-template-columns:1fr 1fr 1fr!important;margin-bottom:4px!important}
+  .card-grid{display:grid!important;grid-template-columns:1fr 1fr!important;margin-bottom:4px!important}
+  .chem-grid{display:grid!important;margin-bottom:4px!important}
+  .do-head,.dont-head{background:#2a2f3a!important;color:#fff!important}
+  .soc-head.ha{background:#b86800!important}
+  .soc-head.hg{background:#059669!important}
+  .card-hd.amber{background:#b86800!important}
+  .card-hd.green{background:#059669!important}
+  .card-hd.blue{background:#1A3A5C!important}
+  .card-hd.purple{background:#3A1A5C!important}
+  .card-hd.teal{background:#1A4A4A!important}
 }
-.lib-home-btn:hover,.lib-home-btn:active{background:rgba(232,120,0,.30);}
-@media print{.lib-home-btn{display:none!important}}
 </style>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 </head>
 <body>
 
-<!-- ══════════════════ HEADER ══════════════════ -->
-<div class="sticky-wrap"><div class="std-header">
-  <a href="index.html" class="lib-home-btn" title="Library Index">⌂ Index</a>
-  <div class="std-eyebrow">Reference · R5</div>
-  <div class="std-title">LiFePO4 Battery Training</div>
-  <div class="std-sub">Victron &amp; LiFePO4 house-system training manual</div>
-  <div class="std-vehicle">2009 LC76 SW · 1HZ 4.2L Diesel · low-boost turbo (0.6 bar) · intercooler<br>Last updated: 8 July 2026</div>
-</div></div><!-- end sticky-wrap -->
 
-<!-- ══════════════════ TOC ══════════════════ -->
-<div class="toc">
-  <div class="toc-title">Table of Contents</div>
-  <div class="toc-grid">
-    <a class="toc-item" href="#ch1"><span class="toc-num">01</span>Electricity Fundamentals &amp; Symbols</a>
-    <a class="toc-item" href="#ch2"><span class="toc-num">02</span>The Key Formulas You Need</a>
-    <a class="toc-item" href="#ch3"><span class="toc-num">03</span>Battery Types &amp; Why LiFePO4</a>
-    <a class="toc-item" href="#ch4"><span class="toc-num">04</span>How a 12V System Is Wired</a>
-    <a class="toc-item" href="#ch5"><span class="toc-num">05</span>Understanding Load &amp; Daily Draw</a>
-    <a class="toc-item" href="#ch6"><span class="toc-num">06</span>State of Charge — What's Left in the Tank</a>
-    <a class="toc-item" href="#ch7"><span class="toc-num">07</span>Charging Sources Explained</a>
-    <a class="toc-item" href="#ch8"><span class="toc-num">08</span>The Do's &amp; Don'ts — Full Guide</a>
-    <a class="toc-item" href="#ch9"><span class="toc-num">09</span>SA Overland: Heat, Dust &amp; Vibration</a>
-    <a class="toc-item" href="#ch11"><span class="toc-num">11</span>Wild Camp Energy Planning</a>
-    <a class="toc-item" href="#ch10"><span class="toc-num">10</span>Quick Reference &amp; Cheat Sheet</a>
-    <a class="toc-item" href="#ch12" style="color:#B91C1C"><span class="toc-num" style="background:#B91C1C">⚠</span>Field Fixes — Electrical &amp; Battery</a>
-  </div>
+<div class="sticky-nav-unit">
+
+<div class="std-header">
+  <a href="index.html" class="lib-home-btn">⌂ Index</a>
+  <div class="std-eyebrow">Reference · R5</div>
+  <div class="std-title">Battery &amp; Electrical Training</div>
+  <div class="std-sub">Victron &amp; LiFePO4 house-system training manual</div>
+  <div class="std-vehicle">2009 LC76 SW · 1HZ 4.2L Diesel · low-boost turbo (0.6 bar) · intercooler<br>Last updated: 9 July 2026</div>
+</div>
+
+<div class="toc-bar">
+  <span class="toc-label">Chapters</span>
+  <a href="javascript:void(0)" onclick="document.getElementById('ch1').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">1. Fundamentals</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('ch2').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">2. Formulas</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('ch3').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">3. Battery Types</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('ch4').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">4. System Wiring</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('ch5').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">5. Load &amp; Draw</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('ch6').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">6. State of Charge</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('ch7').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">7. Charging</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('ch8').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">8. Do's &amp; Don'ts</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('ch9').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">9. SA Overland</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('ch11').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">11. Wild Camp</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('ch10').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">10. Cheat Sheet</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('ch12').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">12. Field Fixes</a>
+</div>
 </div>
 
 
-<div class="body">
+<div class="content">
 
 <!-- ══════════════════════════════════════════════════
      CHAPTER 1 — ELECTRICITY FUNDAMENTALS
 ══════════════════════════════════════════════════ -->
-<div class="chapter" id="ch1">
-  <div class="ch-label">Chapter 01</div>
-  <div class="ch-title">Electricity Fundamentals <em>&amp; Symbols</em></div>
-  <hr class="ch-rule">
-  <p class="ch-intro">Before you can understand a battery system, you need to understand the language of electricity. These six concepts — and their symbols — are everything. If you understand Volts, Amps, Watts, Watt-hours, Amp-hours, and Ohms, you can work out almost any electrical problem your overland build will ever throw at you.</p>
+<div id="ch1" class="sec-header">
+  <span class="sec-num">§1</span>
+  <span class="sec-title">Electricity Fundamentals &amp; Symbols</span>
+  <span class="sec-sub">Symbols &amp; units</span>
+</div>
 
-  <div class="slbl">The Six Core Electrical Symbols</div>
-  <hr class="srule">
+<p class="lead">Before you can understand a battery system, you need to understand the language of electricity. These six concepts — and their symbols — are everything. If you understand Volts, Amps, Watts, Watt-hours, Amp-hours, and Ohms, you can work out almost any electrical problem your overland build will ever throw at you.</p>
+
+  <div class="subsec"><span class="subsec-title">The Six Core Electrical Symbols</span></div>
   <div class="sym-grid">
     <div class="sym-cell amber">
       <div class="sym-symbol" style="color:var(--amber)">V</div>
@@ -538,7 +382,7 @@ body{background:var(--paper);color:var(--ink);font-family:'Oswald',sans-serif;fo
       <div class="sym-formula">12V system = 12.8V battery</div>
     </div>
     <div class="sym-cell green">
-      <div class="sym-symbol" style="color:var(--green)">A</div>
+      <div class="sym-symbol" style="color:var(--green-ok)">A</div>
       <div class="sym-name">Symbol: A (or I)</div>
       <div class="sym-full">Amps — Electrical Flow Rate</div>
       <div class="sym-desc">Amperage is the rate at which electricity flows. Like the volume of water flowing through a pipe per second. Your fridge might draw 3–4A continuously. Your winch might draw 300A briefly.</div>
@@ -588,24 +432,24 @@ body{background:var(--paper);color:var(--ink);font-family:'Oswald',sans-serif;fo
     </div>
   </div>
 
-  <div class="abox">
-    <div class="abox-t">Real-world analogy — Water in a Tank</div>
-    <div class="abox-b">Think of your battery as a water tank. <strong>Volts = water pressure</strong> (how hard the water pushes). <strong>Amps = flow rate</strong> (how fast water pours). <strong>Watts = power</strong> (pressure × flow). <strong>Amp-hours = tank size</strong> (how much water is stored). <strong>SoC = how full the tank is</strong>. The SmartShunt — read on your phone via VictronConnect — is the gauge that tells you exactly how much water is left.</div>
+  <div class="rule rule-note">
+    <div class="rule-hdr">Real-world analogy — Water in a Tank</div>
+    <div class="rule-body">Think of your battery as a water tank. <strong>Volts = water pressure</strong> (how hard the water pushes). <strong>Amps = flow rate</strong> (how fast water pours). <strong>Watts = power</strong> (pressure × flow). <strong>Amp-hours = tank size</strong> (how much water is stored). <strong>SoC = how full the tank is</strong>. The SmartShunt — read on your phone via VictronConnect — is the gauge that tells you exactly how much water is left.</div>
   </div>
-</div>
 
 <!-- ══════════════════════════════════════════════════
      CHAPTER 2 — KEY FORMULAS
 ══════════════════════════════════════════════════ -->
-<div class="chapter" id="ch2">
-  <div class="ch-label">Chapter 02</div>
-  <div class="ch-title">The Key Formulas <em>You Need</em></div>
-  <hr class="ch-rule">
-  <p class="ch-intro">You only need to remember four formulas to work out any calculation in your 12V system. These let you convert between Watts, Amps, Volts, and hours — which means you can work out the draw of any appliance, how long your battery will last, and how many solar panels you need.</p>
+<div id="ch2" class="sec-header">
+  <span class="sec-num">§2</span>
+  <span class="sec-title">The Key Formulas You Need</span>
+  <span class="sec-sub">Ohm's law &amp; energy</span>
+</div>
+
+<p class="lead">You only need to remember four formulas to work out any calculation in your 12V system. These let you convert between Watts, Amps, Volts, and hours — which means you can work out the draw of any appliance, how long your battery will last, and how many solar panels you need.</p>
 
   <!-- Ohm's Law triangle -->
-  <div class="slbl">Ohm's Law — The Master Triangle</div>
-  <hr class="srule">
+  <div class="subsec"><span class="subsec-title">Ohm's Law — The Master Triangle</span></div>
   <div class="ohm-tri">
     <div class="ohm-box">
       <div class="ohm-title">Ohm's Law Triangle</div>
@@ -630,8 +474,7 @@ body{background:var(--paper);color:var(--ink);font-family:'Oswald',sans-serif;fo
   </div>
 
   <!-- Power & Energy formulas -->
-  <div class="slbl">Power &amp; Energy Formulas</div>
-  <hr class="srule">
+  <div class="subsec"><span class="subsec-title">Power &amp; Energy Formulas</span></div>
   <div class="formula-strip">
     <div class="fc fa">
       <div class="f-name">Watts from Volts &amp; Amps</div>
@@ -672,9 +515,8 @@ body{background:var(--paper);color:var(--ink);font-family:'Oswald',sans-serif;fo
   </div>
 
   <!-- Worked example -->
-  <div class="slbl">Worked Example — Calculating Your Fridge's Daily Draw</div>
-  <hr class="srule">
-  <div class="calc-box">
+  <div class="subsec"><span class="subsec-title">Worked Example — Calculating Your Fridge's Daily Draw</span></div>
+  <div class="calc-block">
     <div class="calc-title">Step-by-step: National Luna 52L Weekender in SA heat (38°C ambient)</div>
     <div class="calc-step">
       <div class="calc-num">1</div>
@@ -697,19 +539,19 @@ body{background:var(--paper);color:var(--ink);font-family:'Oswald',sans-serif;fo
       <div class="calc-body"><strong>Check against battery capacity:</strong> 210Ah battery, usable 80% = <span class="eq">168 Ah usable.</span> The fridge alone uses <span class="eq">45.0 ÷ 168 = 27%</span> of usable capacity per day. Manageable — leaving 73% for everything else.</div>
     </div>
   </div>
-</div>
 
 <!-- ══════════════════════════════════════════════════
      CHAPTER 3 — BATTERY TYPES
 ══════════════════════════════════════════════════ -->
-<div class="chapter" id="ch3">
-  <div class="ch-label">Chapter 03</div>
-  <div class="ch-title">Battery Types <em>&amp; Why LiFePO4</em></div>
-  <hr class="ch-rule">
-  <p class="ch-intro">Not all batteries are equal. There are three main types used in overland and off-grid applications. Understanding their differences explains why LiFePO4 is the right chemistry for overland use in SA heat — the chemistry now fitted to the LC76.</p>
+<div id="ch3" class="sec-header">
+  <span class="sec-num">§3</span>
+  <span class="sec-title">Battery Types &amp; Why LiFePO4</span>
+  <span class="sec-sub">Chemistry comparison</span>
+</div>
 
-  <div class="slbl">Chemistry Comparison</div>
-  <hr class="srule">
+<p class="lead">Not all batteries are equal. There are three main types used in overland and off-grid applications. Understanding their differences explains why LiFePO4 is the right chemistry for overland use in SA heat — the chemistry now fitted to the LC76.</p>
+
+  <div class="subsec"><span class="subsec-title">Chemistry Comparison</span></div>
   <div class="chem-grid">
     <div class="chem-cell best">
       <div class="chem-name">LiFePO4 (Lithium Iron Phosphate) <span class="chem-badge gb">RECOMMENDED</span></div>
@@ -725,8 +567,7 @@ body{background:var(--paper);color:var(--ink);font-family:'Oswald',sans-serif;fo
     </div>
   </div>
 
-  <div class="slbl">LiFePO4 Voltage Chart — What the Numbers Mean</div>
-  <hr class="srule">
+  <div class="subsec"><span class="subsec-title">LiFePO4 Voltage Chart — What the Numbers Mean</span></div>
   <div class="stats">
     <div class="sc a"><div class="sbadge ba">100% SoC</div><div class="sv">14.4<span class="u">V</span></div><div class="sl">Fully charged (absorption/charge voltage — Enertec 14.4V cut-off). Never leave at this voltage — float to 13.5V after.</div></div>
     <div class="sc g"><div class="sbadge bg">Resting</div><div class="sv">13.3<span class="u">V</span></div><div class="sl">~100% SoC at rest (30 min after charging stops). This is the healthy resting voltage.</div></div>
@@ -735,25 +576,25 @@ body{background:var(--paper);color:var(--ink);font-family:'Oswald',sans-serif;fo
     <div class="sc" style="background:#FFF0EC;"><div class="sbadge bh">Cutoff</div><div class="sv">10.0–10.5<span class="u">V</span></div><div class="sl">BMS hard cutoff. Battery disconnects to protect cells. You've gone too far — recharge immediately.</div></div>
   </div>
 
-  <div class="wbox">
-    <div class="wbox-t">⚠ The Flat Voltage Problem</div>
-    <div class="wbox-b">Unlike lead-acid batteries, LiFePO4 voltage barely changes as it discharges — it stays around 13.0–13.2V from 80% SoC all the way down to 20% SoC. This means <strong>you cannot use a voltage meter alone to tell how full your battery is.</strong> You must use a coulomb-counting battery monitor like the Victron SmartShunt. This is why the SmartShunt is not optional — it's essential.</div>
+  <div class="rule rule-warn">
+    <div class="rule-hdr">⚠ The Flat Voltage Problem</div>
+    <div class="rule-body">Unlike lead-acid batteries, LiFePO4 voltage barely changes as it discharges — it stays around 13.0–13.2V from 80% SoC all the way down to 20% SoC. This means <strong>you cannot use a voltage meter alone to tell how full your battery is.</strong> You must use a coulomb-counting battery monitor like the Victron SmartShunt. This is why the SmartShunt is not optional — it's essential.</div>
   </div>
-</div>
 
 <!-- ══════════════════════════════════════════════════
      CHAPTER 4 — HOW THE SYSTEM IS WIRED
 ══════════════════════════════════════════════════ -->
-<div class="chapter" id="ch4">
-  <div class="ch-label">Chapter 04</div>
-  <div class="ch-title">How a 12V System <em>Is Wired</em></div>
-  <hr class="ch-rule">
-  <p class="ch-intro">A complete overland 12V lithium system has six layers, each with a specific job. Understanding what each component does — and where it sits in the circuit — lets you troubleshoot problems and make sure your installation is safe.</p>
+<div id="ch4" class="sec-header">
+  <span class="sec-num">§4</span>
+  <span class="sec-title">How a 12V System Is Wired</span>
+  <span class="sec-sub">Components &amp; flow</span>
+</div>
 
-  <div class="slbl">System Flow Diagram</div>
-  <hr class="srule">
-  <div class="sysdiag">
-    <div class="dt">LC76 Secondary Battery System — Charging Flow</div>
+<p class="lead">A complete overland 12V lithium system has six layers, each with a specific job. Understanding what each component does — and where it sits in the circuit — lets you troubleshoot problems and make sure your installation is safe.</p>
+
+  <div class="subsec"><span class="subsec-title">System Flow Diagram</span></div>
+  <div class="diagram-wrap">
+    <div class="diagram-title">LC76 Secondary Battery System — Charging Flow</div>
     <span class="db">[ SOLAR BLANKET 200W ]</span> ──Anderson SB50──────────────►<span class="dc"> Victron SmartSolar MPPT 100/30 </span>(solar input)
     <br>
     <span class="dr">[ LC76 STARTER BATTERY 12V ]</span> ──6mm² cable + 30A fuse──────►<span class="dc"> Victron Orion Smart 12/12-50A </span>(DC-DC input)
@@ -776,125 +617,124 @@ body{background:var(--paper);color:var(--ink);font-family:'Oswald',sans-serif;fo
     <br>
     &nbsp;&nbsp;&nbsp;&nbsp;├──<span class="da"> USB-C PD 65W port </span>(MacBook Air M1 + 2× iPhones)
     <br>
-    &nbsp;&nbsp;&nbsp;&nbsp;├──<span class="da"> USB-A × 2 (2× iPhones + Garmin Nüvi) Nüvi)
+    &nbsp;&nbsp;&nbsp;&nbsp;├──<span class="da"> USB-A × 2 (2× iPhones + Garmin Nüvi)</span>
     <br>
     &nbsp;&nbsp;&nbsp;&nbsp;└──<span class="da"> 12V cig socket </span>(general backup)
   </div>
 
-  <div class="slbl">What Each Component Does</div>
-  <hr class="srule">
-  <div class="cols2">
-    <div class="card">
-      <div class="card-hd hg"><div><div class="card-hn">Battery + BMS</div><div class="card-hs">The heart of the system</div></div><div class="card-ic">🔋</div></div>
-      <div class="row"><span class="rl">What it does</span><span class="rv">Stores all the electrical energy for your camp and devices — Enertec Power+ 12.8V 210Ah LiFePO4 (168 Ah usable at 80% DoD), internal BMS with Bluetooth</span></div>
-      <div class="row"><span class="rl">BMS stands for</span><span class="rv">Battery Management System</span></div>
-      <div class="row"><span class="rl">BMS job</span><span class="rv g">Protects cells from overcharge, over-discharge, over-current, and temperature extremes</span></div>
-      <div class="row"><span class="rl">BMS triggers</span><span class="rv h">Disconnects if V too high, V too low, current too high, or temp out of range</span></div>
-      <div class="row"><span class="rl">Where faults appear</span><span class="rv">Battery suddenly cuts out — BMS has tripped. Usually resets on its own once conditions normalise.</span></div>
-      <div class="row"><span class="rl">Enertec 210Ah internal BMS</span><span class="rv a">105A max continuous charge &amp; discharge — this 105A is your hard 12V load ceiling</span></div>
+  <div class="subsec"><span class="subsec-title">What Each Component Does</span></div>
+  <div class="card-grid">
+    <div class="card-block">
+      <div class="card-hd green"><div><div class="card-name">Battery + BMS</div><div class="card-sub">The heart of the system</div></div><div class="card-icon">🔋</div></div>
+      <div class="row"><span class="row-label">What it does</span><span class="row-value">Stores all the electrical energy for your camp and devices — Enertec Power+ 12.8V 210Ah LiFePO4 (168 Ah usable at 80% DoD), internal BMS with Bluetooth</span></div>
+      <div class="row"><span class="row-label">BMS stands for</span><span class="row-value">Battery Management System</span></div>
+      <div class="row"><span class="row-label">BMS job</span><span class="row-value v-good">Protects cells from overcharge, over-discharge, over-current, and temperature extremes</span></div>
+      <div class="row"><span class="row-label">BMS triggers</span><span class="row-value v-bad">Disconnects if V too high, V too low, current too high, or temp out of range</span></div>
+      <div class="row"><span class="row-label">Where faults appear</span><span class="row-value">Battery suddenly cuts out — BMS has tripped. Usually resets on its own once conditions normalise.</span></div>
+      <div class="row"><span class="row-label">Enertec 210Ah internal BMS</span><span class="row-value v-warn">105A max continuous charge &amp; discharge — this 105A is your hard 12V load ceiling</span></div>
     </div>
-    <div class="card">
-      <div class="card-hd ha"><div><div class="card-hn">DC-DC Charger</div><div class="card-hs">Alternator (non-isolated) DC-DC charger</div></div><div class="card-ic">⚡</div></div>
-      <div class="row"><span class="rl">What it does</span><span class="rv">Charges auxiliary battery safely from vehicle alternator while driving</span></div>
-      <div class="row"><span class="rl">Why not just a relay?</span><span class="rv h">A relay (VSR) can't provide the correct LiFePO4 charge profile. Leaves battery undercharged.</span></div>
-      <div class="row"><span class="rl">Why DC-DC?</span><span class="rv g">Regulates voltage and current precisely. Provides correct 14.2–14.4V LiFePO4 absorption (14.4V Enertec cut-off).</span></div>
-      <div class="row"><span class="rl">Victron Orion Smart 12/12-50A</span><span class="rv g">Non-isolated (common-negative) DC-DC charger, capped ~40A in VictronConnect to protect the 1HZ 80A alternator — handles alternator charging while driving. Victron SmartSolar MPPT 100/30 handles the solar blanket separately. Both charge the same battery independently.</span></div>
-      <div class="row"><span class="rl">Output per 2hr drive</span><span class="rv a">~55 Ah into battery</span></div>
-      <div class="row"><span class="rl">Starter battery protection</span><span class="rv g">Yes — DC-DC won't flatten your starter battery</span></div>
+    <div class="card-block">
+      <div class="card-hd amber"><div><div class="card-name">DC-DC Charger</div><div class="card-sub">Alternator (non-isolated) DC-DC charger</div></div><div class="card-icon">⚡</div></div>
+      <div class="row"><span class="row-label">What it does</span><span class="row-value">Charges auxiliary battery safely from vehicle alternator while driving</span></div>
+      <div class="row"><span class="row-label">Why not just a relay?</span><span class="row-value v-bad">A relay (VSR) can't provide the correct LiFePO4 charge profile. Leaves battery undercharged.</span></div>
+      <div class="row"><span class="row-label">Why DC-DC?</span><span class="row-value v-good">Regulates voltage and current precisely. Provides correct 14.2–14.4V LiFePO4 absorption (14.4V Enertec cut-off).</span></div>
+      <div class="row"><span class="row-label">Victron Orion Smart 12/12-50A</span><span class="row-value v-good">Non-isolated (common-negative) DC-DC charger, capped ~40A in VictronConnect to protect the 1HZ 80A alternator — handles alternator charging while driving. Victron SmartSolar MPPT 100/30 handles the solar blanket separately. Both charge the same battery independently.</span></div>
+      <div class="row"><span class="row-label">Output per 2hr drive</span><span class="row-value v-warn">~55 Ah into battery</span></div>
+      <div class="row"><span class="row-label">Starter battery protection</span><span class="row-value v-good">Yes — DC-DC won't flatten your starter battery</span></div>
     </div>
-    <div class="card">
-      <div class="card-hd hb"><div><div class="card-hn">Battery Monitor (SmartShunt 500A)</div><div class="card-hs">The fuel gauge for your battery</div></div><div class="card-ic">📊</div></div>
-      <div class="row"><span class="rl">What it does</span><span class="rv">Counts Ah in and Ah out to tell you exactly how full your battery is</span></div>
-      <div class="row"><span class="rl">Why voltage alone fails</span><span class="rv h">LiFePO4 flat voltage curve makes voltage-based SoC unreliable (see Chapter 3)</span></div>
-      <div class="row"><span class="rl">Method used</span><span class="rv g">Coulomb counting — counts every Amp-hour in and out</span></div>
-      <div class="row"><span class="rl">Read on phone</span><span class="rv">SoC %, Voltage, Current (A), Ah consumed, Time remaining, Power (W) — via VictronConnect (Bluetooth; no on-unit screen)</span></div>
-      <div class="row"><span class="rl">Critical for</span><span class="rv g">Knowing how much capacity you have before a 2–3 day wild camp with no shore power</span></div>
-      <div class="row"><span class="rl">Shunt rating</span><span class="rv a">500A — handles compressor + fridge simultaneous draw</span></div>
+    <div class="card-block">
+      <div class="card-hd blue"><div><div class="card-name">Battery Monitor (SmartShunt 500A)</div><div class="card-sub">The fuel gauge for your battery</div></div><div class="card-icon">📊</div></div>
+      <div class="row"><span class="row-label">What it does</span><span class="row-value">Counts Ah in and Ah out to tell you exactly how full your battery is</span></div>
+      <div class="row"><span class="row-label">Why voltage alone fails</span><span class="row-value v-bad">LiFePO4 flat voltage curve makes voltage-based SoC unreliable (see Chapter 3)</span></div>
+      <div class="row"><span class="row-label">Method used</span><span class="row-value v-good">Coulomb counting — counts every Amp-hour in and out</span></div>
+      <div class="row"><span class="row-label">Read on phone</span><span class="row-value">SoC %, Voltage, Current (A), Ah consumed, Time remaining, Power (W) — via VictronConnect (Bluetooth; no on-unit screen)</span></div>
+      <div class="row"><span class="row-label">Critical for</span><span class="row-value v-good">Knowing how much capacity you have before a 2–3 day wild camp with no shore power</span></div>
+      <div class="row"><span class="row-label">Shunt rating</span><span class="row-value v-warn">500A — handles compressor + fridge simultaneous draw</span></div>
     </div>
-    <div class="card">
-      <div class="card-hd hp"><div><div class="card-hn">Shore Power Charger</div><div class="card-hs">AC mains charging at campsites</div></div><div class="card-ic">🔌</div></div>
-      <div class="row"><span class="rl">What it does</span><span class="rv">Converts 230V AC from campsite power to 12V DC to charge your battery</span></div>
-      <div class="row"><span class="rl">Victron MultiPlus 12/500</span><span class="rv g">20A charger + 16A transfer; also inverts to ~430W AC. Input 187–265V (SA campsite swings safe)</span></div>
-      <div class="row"><span class="rl">Charge time (210Ah from 50%)</span><span class="rv a">~5–6 hours overnight</span></div>
-      <div class="row"><span class="rl">LiFePO4 profile</span><span class="rv g">Correct — 14.2V absorption then 13.5V float. Will not overcharge.</span></div>
-      <div class="row"><span class="rl">SA tip</span><span class="rv h">Always use a surge-protected extension lead at SA campsites — power quality varies</span></div>
-      <div class="row"><span class="rl">When to use</span><span class="rv">Every time shore power is available — top up to 100% to start wild camps fully charged</span></div>
+    <div class="card-block">
+      <div class="card-hd purple"><div><div class="card-name">Shore Power Charger</div><div class="card-sub">AC mains charging at campsites</div></div><div class="card-icon">🔌</div></div>
+      <div class="row"><span class="row-label">What it does</span><span class="row-value">Converts 230V AC from campsite power to 12V DC to charge your battery</span></div>
+      <div class="row"><span class="row-label">Victron MultiPlus 12/500</span><span class="row-value v-good">20A charger + 16A transfer; also inverts to ~430W AC. Input 187–265V (SA campsite swings safe)</span></div>
+      <div class="row"><span class="row-label">Charge time (210Ah from 50%)</span><span class="row-value v-warn">~5–6 hours overnight</span></div>
+      <div class="row"><span class="row-label">LiFePO4 profile</span><span class="row-value v-good">Correct — 14.2V absorption then 13.5V float. Will not overcharge.</span></div>
+      <div class="row"><span class="row-label">SA tip</span><span class="row-value v-bad">Always use a surge-protected extension lead at SA campsites — power quality varies</span></div>
+      <div class="row"><span class="row-label">When to use</span><span class="row-value">Every time shore power is available — top up to 100% to start wild camps fully charged</span></div>
     </div>
   </div>
 
-  <div class="ibox">
-    <div class="ibox-t">Why the shunt must be in series with ALL loads</div>
-    <div class="ibox-b">The SmartShunt is a precision shunt (resistor) that measures all current flowing in and out of the battery. <strong>Every single load — fridge, fans, USB chargers, lights — must wire through the negative side of this shunt.</strong> If any load bypasses the shunt, the SmartShunt will give incorrect SoC readings. When installing, the rule is: only ONE wire goes from the battery negative terminal — to the shunt. Everything else connects to the other side of the shunt.</div>
+  <div class="rule rule-info">
+    <div class="rule-hdr">Why the shunt must be in series with ALL loads</div>
+    <div class="rule-body">The SmartShunt is a precision shunt (resistor) that measures all current flowing in and out of the battery. <strong>Every single load — fridge, fans, USB chargers, lights — must wire through the negative side of this shunt.</strong> If any load bypasses the shunt, the SmartShunt will give incorrect SoC readings. When installing, the rule is: only ONE wire goes from the battery negative terminal — to the shunt. Everything else connects to the other side of the shunt.</div>
   </div>
-</div>
 
 <!-- ══════════════════════════════════════════════════
      CHAPTER 5 — UNDERSTANDING LOAD & DAILY DRAW
 ══════════════════════════════════════════════════ -->
-<div class="chapter" id="ch5">
-  <div class="ch-label">Chapter 05</div>
-  <div class="ch-title">Understanding Load <em>&amp; Daily Draw</em></div>
-  <hr class="ch-rule">
-  <p class="ch-intro">Your "load" is the total demand all your appliances and devices place on the battery per day. Getting this number right is the single most important step in sizing a battery system correctly. Most first-time buyers underestimate their load — which is why undersized batteries are so common.</p>
+<div id="ch5" class="sec-header">
+  <span class="sec-num">§5</span>
+  <span class="sec-title">Understanding Load &amp; Daily Draw</span>
+  <span class="sec-sub">LC76 accessory breakdown</span>
+</div>
 
-  <div class="slbl">Your Actual Daily Load — LC76 Accessory Breakdown</div>
-  <hr class="srule">
-  <table class="ltable">
+<p class="lead">Your "load" is the total demand all your appliances and devices place on the battery per day. Getting this number right is the single most important step in sizing a battery system correctly. Most first-time buyers underestimate their load — which is why undersized batteries are so common.</p>
+
+  <div class="subsec"><span class="subsec-title">Your Actual Daily Load — LC76 Accessory Breakdown</span></div>
+  <table class="spec-table">
     <thead>
       <tr>
-        <th class="hk">Accessory</th>
-        <th class="hk">Watts</th>
-        <th class="hk">Hours/day (SA)</th>
-        <th class="ha">Daily Ah Draw</th>
-        <th class="hk">% of Total Load</th>
-        <th class="hk">How to calculate</th>
+        <th class="th-std">Accessory</th>
+        <th class="th-std">Watts</th>
+        <th class="th-std">Hours/day (SA)</th>
+        <th class="th-amber">Daily Ah Draw</th>
+        <th class="th-std">% of Total Load</th>
+        <th class="th-std">How to calculate</th>
       </tr>
     </thead>
     <tbody>
-      <tr class="sr"><td colspan="6">COOLING (largest load — SA heat amplifies this)</td></tr>
+      <tr class="tr-section"><td colspan="6">COOLING (largest load — SA heat amplifies this)</td></tr>
       <tr>
-        <td class="item">National Luna 52L Weekender (Danfoss BD35F)</td>
-        <td class="m">~33W avg (BD35F: 1.2–2.8A)</td>
-        <td class="m">~16.4h (55% duty @ 38°C)</td>
-        <td class="tot">45.0 Ah</td>
-        <td class="ah">55%</td>
+        <td class="td-label">National Luna 52L Weekender (Danfoss BD35F)</td>
+        <td class="mono">~33W avg (BD35F: 1.2–2.8A)</td>
+        <td class="mono">~16.4h (55% duty @ 38°C)</td>
+        <td class="mono v-warn">45.0 Ah</td>
+        <td class="v-bad">55%</td>
         <td>BD35F nameplate:: 1.2A low / 2.8A high. At 38°C SA, mid-speed ~55% duty. Pre-cool to 4°C on shore power before camp to save 10–15 Ah on Day 1.</td>
       </tr>
-      <tr class="sr"><td colspan="6">PHONES &amp; NAVIGATION</td></tr>
+      <tr class="tr-section"><td colspan="6">PHONES &amp; NAVIGATION</td></tr>
       <tr>
-        <td class="item">iPhone 1 (USB-C)</td><td class="m">20W</td><td class="m">1.5h</td><td class="tot">2.5 Ah</td><td>2%</td><td>20W ÷ 12V = 1.67A × 1.5h = 2.5 Ah</td>
+        <td class="td-label">iPhone 1 (USB-C)</td><td class="mono">20W</td><td class="mono">1.5h</td><td class="mono v-warn">2.5 Ah</td><td>2%</td><td>20W ÷ 12V = 1.67A × 1.5h = 2.5 Ah</td>
       </tr>
       <tr>
-        <td class="item">iPhone 2 (USB-C)</td><td class="m">20W</td><td class="m">1.5h</td><td class="tot">2.5 Ah</td><td>2%</td><td>Same as above</td>
+        <td class="td-label">iPhone 2 (USB-C)</td><td class="mono">20W</td><td class="mono">1.5h</td><td class="mono v-warn">2.5 Ah</td><td>2%</td><td>Same as above</td>
       </tr>
       <tr>
-        <td class="item">Garmin Nüvi (cig lighter)</td><td class="m">5W</td><td class="m">6h</td><td class="tot">2.5 Ah</td><td>2%</td><td>5W ÷ 12V = 0.42A × 6h = 2.5 Ah</td>
+        <td class="td-label">Garmin Nüvi (cig lighter)</td><td class="mono">5W</td><td class="mono">6h</td><td class="mono v-warn">2.5 Ah</td><td>2%</td><td>5W ÷ 12V = 0.42A × 6h = 2.5 Ah</td>
       </tr>
-      <tr class="sr"><td colspan="6">COMPUTING &amp; PHOTOGRAPHY</td></tr>
+      <tr class="tr-section"><td colspan="6">COMPUTING &amp; PHOTOGRAPHY</td></tr>
       <tr>
-        <td class="item">MacBook Air M1</td><td class="m">30W charge + 8W use</td><td class="m">2h charge + 2h active</td><td class="tot">6.7 Ah</td><td>6%</td><td>(30W × 2h + 8W × 2h) ÷ 12V = (60+16) ÷ 12 = 6.3 Ah</td>
-      </tr>
-      <tr>
-        <td class="item">Camera batteries (dual charger)</td><td class="m">16W</td><td class="m">2h</td><td class="tot">2.7 Ah</td><td>2%</td><td>16W ÷ 12V = 1.33A × 2h = 2.67 Ah</td>
-      </tr>
-      <tr class="sr"><td colspan="6">COMFORT &amp; LIGHTING</td></tr>
-      <tr>
-        <td class="item">Interior LED lighting</td><td class="m">15W</td><td class="m">4h</td><td class="tot">5.0 Ah</td><td>4%</td><td>15W ÷ 12V = 1.25A × 4h = 5 Ah</td>
+        <td class="td-label">MacBook Air M1</td><td class="mono">30W charge + 8W use</td><td class="mono">2h charge + 2h active</td><td class="mono v-warn">6.7 Ah</td><td>6%</td><td>(30W × 2h + 8W × 2h) ÷ 12V = (60+16) ÷ 12 = 6.3 Ah</td>
       </tr>
       <tr>
-        <td class="item">Portable fan 1 (12V brushless, internal battery)</td><td class="m">4.5W</td><td class="m">~2h daytime charge</td><td class="tot">0.75 Ah</td><td>1%</td><td>Fans run overnight on their own internal battery — not wired to aux battery during use. Topped up from aux battery during the day: 4.5W ÷ 12V = 0.375A × 2h = 0.75 Ah/day.</td>
+        <td class="td-label">Camera batteries (dual charger)</td><td class="mono">16W</td><td class="mono">2h</td><td class="mono v-warn">2.7 Ah</td><td>2%</td><td>16W ÷ 12V = 1.33A × 2h = 2.67 Ah</td>
+      </tr>
+      <tr class="tr-section"><td colspan="6">COMFORT &amp; LIGHTING</td></tr>
+      <tr>
+        <td class="td-label">Interior LED lighting</td><td class="mono">15W</td><td class="mono">4h</td><td class="mono v-warn">5.0 Ah</td><td>4%</td><td>15W ÷ 12V = 1.25A × 4h = 5 Ah</td>
       </tr>
       <tr>
-        <td class="item">Portable fan 2 (12V brushless, internal battery)</td><td class="m">4.5W</td><td class="m">~2h daytime charge</td><td class="tot">0.75 Ah</td><td>1%</td><td>Same as above. Combined daily charge draw: 1.5 Ah for both fans.</td>
+        <td class="td-label">Portable fan 1 (12V brushless, internal battery)</td><td class="mono">4.5W</td><td class="mono">~2h daytime charge</td><td class="mono v-warn">0.75 Ah</td><td>1%</td><td>Fans run overnight on their own internal battery — not wired to aux battery during use. Topped up from aux battery during the day: 4.5W ÷ 12V = 0.375A × 2h = 0.75 Ah/day.</td>
       </tr>
       <tr>
-        <td class="item">Misc accessories</td><td class="m">10W avg</td><td class="m">3h</td><td class="tot">2.5 Ah</td><td>2%</td><td>10W ÷ 12V = 0.83A × 3h = 2.5 Ah</td>
+        <td class="td-label">Portable fan 2 (12V brushless, internal battery)</td><td class="mono">4.5W</td><td class="mono">~2h daytime charge</td><td class="mono v-warn">0.75 Ah</td><td>1%</td><td>Same as above. Combined daily charge draw: 1.5 Ah for both fans.</td>
       </tr>
-      <tr class="sr"><td colspan="6">VEHICLE SYSTEMS</td></tr>
       <tr>
-        <td class="item">Built-in compressor (tyre inflation)</td><td class="m">216W peak</td><td class="m">20 min/day</td><td class="tot">6.0 Ah</td><td>5%</td><td>18A × 0.33h = 6 Ah (burst load)</td>
+        <td class="td-label">Misc accessories</td><td class="mono">10W avg</td><td class="mono">3h</td><td class="mono v-warn">2.5 Ah</td><td>2%</td><td>10W ÷ 12V = 0.83A × 3h = 2.5 Ah</td>
       </tr>
-      <tr class="gr">
+      <tr class="tr-section"><td colspan="6">VEHICLE SYSTEMS</td></tr>
+      <tr>
+        <td class="td-label">Built-in compressor (tyre inflation)</td><td class="mono">216W peak</td><td class="mono">20 min/day</td><td class="mono v-warn">6.0 Ah</td><td>5%</td><td>18A × 0.33h = 6 Ah (burst load)</td>
+      </tr>
+      <tr class="tr-total">
         <td colspan="3">TOTAL DAILY DRAW</td>
         <td>~77 Ah/day</td>
         <td>100%</td>
@@ -903,9 +743,9 @@ body{background:var(--paper);color:var(--ink);font-family:'Oswald',sans-serif;fo
     </tbody>
   </table>
 
-  <div class="abox">
-    <div class="abox-t">How to calculate ANY appliance's daily Ah draw — 3 steps</div>
-    <div class="abox-b">
+  <div class="rule rule-note">
+    <div class="rule-hdr">How to calculate ANY appliance's daily Ah draw — 3 steps</div>
+    <div class="rule-body">
       <strong>Step 1:</strong> Find the wattage (on the label, spec sheet, or search online). If only amps are listed: W = A × 12.<br>
       <strong>Step 2:</strong> Convert to amps: A = W ÷ 12<br>
       <strong>Step 3:</strong> Multiply by hours used per day: Ah = A × hours<br><br>
@@ -913,47 +753,46 @@ body{background:var(--paper);color:var(--ink);font-family:'Oswald',sans-serif;fo
     </div>
   </div>
 
-  <div class="wbox">
-    <div class="wbox-t">⚠ The SA Heat Multiplier — Fridge Warning</div>
-    <div class="wbox-b">At 25°C, most compressor fridges run at 35–45% duty cycle (on 35–45% of the time). At 38°C SA ambient, this rises to 60–70%. At 42°C Kalahari heat, up to 75%. <strong>This means your fridge uses nearly double the power in summer SA heat vs European-rated specs.</strong> Always use the SA summer duty cycle when calculating your load. Pre-cooling the fridge to 4°C on shore power the night before can save 10–15 Ah on day one.</div>
+  <div class="rule rule-warn">
+    <div class="rule-hdr">⚠ The SA Heat Multiplier — Fridge Warning</div>
+    <div class="rule-body">At 25°C, most compressor fridges run at 35–45% duty cycle (on 35–45% of the time). At 38°C SA ambient, this rises to 60–70%. At 42°C Kalahari heat, up to 75%. <strong>This means your fridge uses nearly double the power in summer SA heat vs European-rated specs.</strong> Always use the SA summer duty cycle when calculating your load. Pre-cooling the fridge to 4°C on shore power the night before can save 10–15 Ah on day one.</div>
   </div>
-</div>
 
 <!-- ══════════════════════════════════════════════════
      CHAPTER 6 — STATE OF CHARGE
 ══════════════════════════════════════════════════ -->
-<div class="chapter" id="ch6">
-  <div class="ch-label">Chapter 06</div>
-  <div class="ch-title">State of Charge — <em>What's Left in the Tank</em></div>
-  <hr class="ch-rule">
-  <p class="ch-intro">Knowing how much charge remains in your battery is critical — especially when you're 3 days into a wild camp with no shore power. There are three ways to measure SoC, with very different levels of accuracy. Understanding each one helps you use the SmartShunt correctly and avoid nasty surprises.</p>
+<div id="ch6" class="sec-header">
+  <span class="sec-num">§6</span>
+  <span class="sec-title">State of Charge — What's Left in the Tank</span>
+  <span class="sec-sub">SoC measurement</span>
+</div>
 
-  <div class="slbl">Three Ways to Measure State of Charge</div>
-  <hr class="srule">
-  <div class="cols2">
-    <div class="card">
-      <div class="card-hd hb"><div><div class="card-hn">Method 1: Voltage</div><div class="card-hs">UNRELIABLE for LiFePO4 — use only as backup</div></div><div class="card-ic">⚡</div></div>
-      <div class="row"><span class="rl">How it works</span><span class="rv">Measure battery voltage with a multimeter, or read it in VictronConnect (SmartShunt)</span></div>
-      <div class="row"><span class="rl">The problem</span><span class="rv h">LiFePO4 voltage barely changes from 20% to 90% SoC (stays 13.0–13.2V)</span></div>
-      <div class="row"><span class="rl">When it works</span><span class="rv a">At the top (above 13.3V) and bottom (below 12.8V) — not in between</span></div>
-      <div class="row"><span class="rl">Accuracy</span><span class="rv h">±30% SoC error is common in the 20–90% range</span></div>
-      <div class="row"><span class="rl">When to use it</span><span class="rv">Only when the SmartShunt reading is unavailable. Always rest battery 30+ min before reading.</span></div>
-      <div class="row"><span class="rl">Verdict</span><span class="rv h">Not reliable for daily camp use. Use as a sanity check only.</span></div>
+<p class="lead">Knowing how much charge remains in your battery is critical — especially when you're 3 days into a wild camp with no shore power. There are three ways to measure SoC, with very different levels of accuracy. Understanding each one helps you use the SmartShunt correctly and avoid nasty surprises.</p>
+
+  <div class="subsec"><span class="subsec-title">Three Ways to Measure State of Charge</span></div>
+  <div class="card-grid">
+    <div class="card-block">
+      <div class="card-hd blue"><div><div class="card-name">Method 1: Voltage</div><div class="card-sub">UNRELIABLE for LiFePO4 — use only as backup</div></div><div class="card-icon">⚡</div></div>
+      <div class="row"><span class="row-label">How it works</span><span class="row-value">Measure battery voltage with a multimeter, or read it in VictronConnect (SmartShunt)</span></div>
+      <div class="row"><span class="row-label">The problem</span><span class="row-value v-bad">LiFePO4 voltage barely changes from 20% to 90% SoC (stays 13.0–13.2V)</span></div>
+      <div class="row"><span class="row-label">When it works</span><span class="row-value v-warn">At the top (above 13.3V) and bottom (below 12.8V) — not in between</span></div>
+      <div class="row"><span class="row-label">Accuracy</span><span class="row-value v-bad">±30% SoC error is common in the 20–90% range</span></div>
+      <div class="row"><span class="row-label">When to use it</span><span class="row-value">Only when the SmartShunt reading is unavailable. Always rest battery 30+ min before reading.</span></div>
+      <div class="row"><span class="row-label">Verdict</span><span class="row-value v-bad">Not reliable for daily camp use. Use as a sanity check only.</span></div>
     </div>
-    <div class="card">
-      <div class="card-hd hg"><div><div class="card-hn">Method 2: Coulomb Counting</div><div class="card-hs">BEST METHOD — the SmartShunt uses this</div></div><div class="card-ic">📊</div></div>
-      <div class="row"><span class="rl">How it works</span><span class="rv g">Counts every Amp-hour in and out via the 500A shunt — like a fuel counter</span></div>
-      <div class="row"><span class="rl">Accuracy</span><span class="rv g">±2–3% — highly accurate for daily use</span></div>
-      <div class="row"><span class="rl">Shown in VictronConnect</span><span class="rv g">SoC %, Ah remaining, Time to empty, Current (A), Voltage (V)</span></div>
-      <div class="row"><span class="rl">Limitation</span><span class="rv a">Needs calibration after full charge — the SmartShunt auto-calibrates when battery reaches 100%</span></div>
-      <div class="row"><span class="rl">Best practice</span><span class="rv g">Fully charge battery (shore power or long drive) every 7–10 days to recalibrate the SmartShunt</span></div>
-      <div class="row"><span class="rl">Verdict</span><span class="rv g">This is what you use daily. Trust the SmartShunt number.</span></div>
+    <div class="card-block">
+      <div class="card-hd green"><div><div class="card-name">Method 2: Coulomb Counting</div><div class="card-sub">BEST METHOD — the SmartShunt uses this</div></div><div class="card-icon">📊</div></div>
+      <div class="row"><span class="row-label">How it works</span><span class="row-value v-good">Counts every Amp-hour in and out via the 500A shunt — like a fuel counter</span></div>
+      <div class="row"><span class="row-label">Accuracy</span><span class="row-value v-good">±2–3% — highly accurate for daily use</span></div>
+      <div class="row"><span class="row-label">Shown in VictronConnect</span><span class="row-value v-good">SoC %, Ah remaining, Time to empty, Current (A), Voltage (V)</span></div>
+      <div class="row"><span class="row-label">Limitation</span><span class="row-value v-warn">Needs calibration after full charge — the SmartShunt auto-calibrates when battery reaches 100%</span></div>
+      <div class="row"><span class="row-label">Best practice</span><span class="row-value v-good">Fully charge battery (shore power or long drive) every 7–10 days to recalibrate the SmartShunt</span></div>
+      <div class="row"><span class="row-label">Verdict</span><span class="row-value v-good">This is what you use daily. Trust the SmartShunt number.</span></div>
     </div>
   </div>
 
   <!-- SoC zones -->
-  <div class="slbl">LiFePO4 SoC Zones — What to Do at Each Level</div>
-  <hr class="srule">
+  <div class="subsec"><span class="subsec-title">LiFePO4 SoC Zones — What to Do at Each Level</span></div>
   <div class="soc-container">
     <div class="soc-card">
       <div class="soc-head ha">210Ah Battery — Ah Remaining vs SoC</div>
@@ -989,7 +828,7 @@ body{background:var(--paper);color:var(--ink);font-family:'Oswald',sans-serif;fo
     </div>
   </div>
 
-  <div class="calc-box">
+  <div class="calc-block">
     <div class="calc-title">Worked example — How to calculate time remaining manually</div>
     <div class="calc-step">
       <div class="calc-num">1</div>
@@ -1008,67 +847,67 @@ body{background:var(--paper);color:var(--ink);font-family:'Oswald',sans-serif;fo
       <div class="calc-body"><strong>Check solar contribution:</strong> Solar adding 6A (daytime), net draw = <span class="eq">9.5 − 6 = 3.5A net</span>. New time to 30% alarm: <span class="eq">67 ÷ 3.5 = 19.1 hours</span>. Solar makes a huge difference to how long your battery lasts!</div>
     </div>
   </div>
-</div>
 
 <!-- ══════════════════════════════════════════════════
      CHAPTER 7 — CHARGING SOURCES
 ══════════════════════════════════════════════════ -->
-<div class="chapter" id="ch7">
-  <div class="ch-label">Chapter 07</div>
-  <div class="ch-title">Charging Sources <em>Explained</em></div>
-  <hr class="ch-rule">
-  <p class="ch-intro">Your battery can be recharged from three sources: the vehicle alternator (via Victron Orion Smart DC-DC), the solar blanket (via Victron SmartSolar MPPT), and shore power (via the Victron MultiPlus charger). Understanding what each source can and cannot do is key to managing your energy budget over a multi-day wild camp. All three charge sources operate identically; the battery's capacity only affects how long a full recharge takes.</p>
+<div id="ch7" class="sec-header">
+  <span class="sec-num">§7</span>
+  <span class="sec-title">Charging Sources Explained</span>
+  <span class="sec-sub">Solar · DC-DC · shore</span>
+</div>
 
-  <div class="slbl">Recharge Source Comparison</div>
-  <hr class="srule">
-  <table class="ltable">
+<p class="lead">Your battery can be recharged from three sources: the vehicle alternator (via Victron Orion Smart DC-DC), the solar blanket (via Victron SmartSolar MPPT), and shore power (via the Victron MultiPlus charger). Understanding what each source can and cannot do is key to managing your energy budget over a multi-day wild camp. All three charge sources operate identically; the battery's capacity only affects how long a full recharge takes.</p>
+
+  <div class="subsec"><span class="subsec-title">Recharge Source Comparison</span></div>
+  <table class="spec-table">
     <thead>
       <tr>
-        <th class="hk">Source</th>
-        <th class="ha">Charge Rate</th>
-        <th class="hg">Ah/Day (typical)</th>
-        <th class="hb">SA Availability</th>
-        <th class="ht">Best Use Case</th>
-        <th class="hk">Limitations</th>
+        <th class="th-std">Source</th>
+        <th class="th-amber">Charge Rate</th>
+        <th class="th-green">Ah/Day (typical)</th>
+        <th class="th-blue">SA Availability</th>
+        <th class="th-teal">Best Use Case</th>
+        <th class="th-std">Limitations</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td class="item">Hardkorr 200W Solar Blanket + MPPT</td>
-        <td class="m">~12–14A (peak)</td>
-        <td class="ag">60–72 Ah/day</td>
+        <td class="td-label">Hardkorr 200W Solar Blanket + MPPT</td>
+        <td class="mono">~12–14A (peak)</td>
+        <td class="v-good">60–72 Ah/day</td>
         <td>Excellent — 5.5–6.5 peak sun hrs SA avg</td>
         <td>Primary daily top-up at camp. Runs silently all day.</td>
         <td>75% efficiency of rigid panel. Partial shade drops output dramatically. Zero output at night.</td>
       </tr>
       <tr>
-        <td class="item">Victron Orion Smart 12/12-50A (alternator)</td>
-        <td class="m">up to 40A (capped)</td>
-        <td class="ag">~55 Ah per 2hr drive</td>
+        <td class="td-label">Victron Orion Smart 12/12-50A (alternator)</td>
+        <td class="mono">up to 40A (capped)</td>
+        <td class="v-good">~55 Ah per 2hr drive</td>
         <td>Available any time vehicle is running</td>
         <td>Driving days — game drives, daily transits. Quick top-up before wild camp period.</td>
         <td>Only charges while engine is on. LC76 1HZ 80A alternator. 40A DC-DC (capped) = 50% alt load — protects the alternator. Drive at 1,500+ RPM for full output.</td>
       </tr>
       <tr>
-        <td class="item">Best day: DC-DC drive (2hr) then deploy blanket (4h sun)</td>
-        <td class="m">~89 Ah total</td>
-        <td class="ag">+12 Ah net</td>
+        <td class="td-label">Best day: DC-DC drive (2hr) then deploy blanket (4h sun)</td>
+        <td class="mono">~89 Ah total</td>
+        <td class="v-good">+12 Ah net</td>
         <td>Blanket stationary only — packed while driving</td>
         <td>Solar and DC-DC are mutually exclusive. Deploy blanket immediately on arrival at camp to maximise stationary charging hours. Best realistic daily input = ~89 Ah.</td>
         <td>Solar CANNOT run while vehicle is moving. Blanket must be packed and stowed during all drive time. Connect blanket via Anderson SB50 when parked.</td>
       </tr>
       <tr>
-        <td class="item">Victron MultiPlus 12/500 (shore power)</td>
-        <td class="m">20A charger</td>
-        <td class="ag">Full charge overnight</td>
+        <td class="td-label">Victron MultiPlus 12/500 (shore power)</td>
+        <td class="mono">20A charger</td>
+        <td class="v-good">Full charge overnight</td>
         <td>Variable — many remote SA camps lack power</td>
         <td>Always use when available. 210Ah from 50%: ~5.3 hrs.</td>
         <td>SA campsite power unreliable — always use with surge-protected extension lead.</td>
       </tr>
       <tr>
-        <td class="item">Solar only — overcast/Drakensberg</td>
-        <td class="m">~3–6A</td>
-        <td class="ah">20–35 Ah/day</td>
+        <td class="td-label">Solar only — overcast/Drakensberg</td>
+        <td class="mono">~3–6A</td>
+        <td class="v-bad">20–35 Ah/day</td>
         <td>Winter Western Cape, mist belt, overcast days</td>
         <td>Covers 84% of the 77 Ah daily draw. Stationary-only drain is just 12 Ah/day — excellent for fixed-base camps.</td>
         <td>Cloud cover can drop Hardkorr blanket output to 20% of rated capacity.</td>
@@ -1076,49 +915,48 @@ body{background:var(--paper);color:var(--ink);font-family:'Oswald',sans-serif;fo
     </tbody>
   </table>
 
-  <div class="gbox">
-    <div class="gbox-t">✓ Charge-source behaviour is independent of battery capacity — only recharge time scales with it</div>
-    <div class="gbox-b">The Victron Orion Smart 12/12-50A, Victron MultiPlus 12/500, and SmartSolar MPPT all deliver the same current and use the same LiFePO4 charge profile. The fitted capacity (210Ah) is programmed once into the <strong>Victron SmartShunt</strong> — a one-time setting in the VictronConnect app.<br><br>
+  <div class="rule rule-ok">
+    <div class="rule-hdr">✓ Charge-source behaviour is independent of battery capacity — only recharge time scales with it</div>
+    <div class="rule-body">The Victron Orion Smart 12/12-50A, Victron MultiPlus 12/500, and SmartSolar MPPT all deliver the same current and use the same LiFePO4 charge profile. The fitted capacity (210Ah) is programmed once into the <strong>Victron SmartShunt</strong> — a one-time setting in the VictronConnect app.<br><br>
     <strong>Charge time from 50% SoC:</strong>
-    <table class="ltable" style="margin-top:8px;">
-      <thead><tr><th class="hk">Source</th><th class="ha">210Ah (105 Ah deficit from 50%)</th></tr></thead>
+    <table class="spec-table" style="margin-top:8px;">
+      <thead><tr><th class="th-std">Source</th><th class="th-amber">210Ah (105 Ah deficit from 50%)</th></tr></thead>
       <tbody>
-        <tr><td class="item">Shore power — Victron MultiPlus 12/500 (20A)</td><td class="m">~5.3 hrs</td></tr>
-        <tr><td class="item">DC-DC — driving (Orion capped ~40A)</td><td class="m">~3 hrs driving</td></tr>
-        <tr><td class="item">Solar only (65 Ah/day stationary)</td><td class="m">~1.6 days</td></tr>
+        <tr><td class="td-label">Shore power — Victron MultiPlus 12/500 (20A)</td><td class="mono">~5.3 hrs</td></tr>
+        <tr><td class="td-label">DC-DC — driving (Orion capped ~40A)</td><td class="mono">~3 hrs driving</td></tr>
+        <tr><td class="td-label">Solar only (65 Ah/day stationary)</td><td class="mono">~1.6 days</td></tr>
       </tbody>
     </table>
     </div>
   </div>
 
-  <div class="gbox">
-    <div class="gbox-t">Solar Tip — The Hardkorr 200W Blanket</div>
-    <div class="gbox-b">The Hardkorr solar blanket is flexible and rolls up — perfect for overlanding. But unlike rigid panels on a roof rack, it must be laid flat on a surface in full sun for maximum output. Even partial shading — from an antenna, roof rack bar, or tree shadow — can reduce output by 40–70% depending on the cell design. When camping: <strong>lay the blanket fully unfolded on a flat surface or vehicle roof with no shade crossing it</strong>. In summer, angle it slightly toward the north (SA is southern hemisphere) for the morning hours when the sun is still low.</div>
+  <div class="rule rule-ok">
+    <div class="rule-hdr">Solar Tip — The Hardkorr 200W Blanket</div>
+    <div class="rule-body">The Hardkorr solar blanket is flexible and rolls up — perfect for overlanding. But unlike rigid panels on a roof rack, it must be laid flat on a surface in full sun for maximum output. Even partial shading — from an antenna, roof rack bar, or tree shadow — can reduce output by 40–70% depending on the cell design. When camping: <strong>lay the blanket fully unfolded on a flat surface or vehicle roof with no shade crossing it</strong>. In summer, angle it slightly toward the north (SA is southern hemisphere) for the morning hours when the sun is still low.</div>
   </div>
 
-  <div class="slbl">Understanding the LiFePO4 Charge Profile</div>
-  <hr class="srule">
-  <div class="ibox">
-    <div class="ibox-t">Three Charging Stages — Bulk, Absorption, Float</div>
-    <div class="ibox-b">
+  <div class="subsec"><span class="subsec-title">Understanding the LiFePO4 Charge Profile</span></div>
+  <div class="rule rule-info">
+    <div class="rule-hdr">Three Charging Stages — Bulk, Absorption, Float</div>
+    <div class="rule-body">
       <strong>Stage 1 — Bulk (0–80% SoC):</strong> Charger delivers maximum current. Orion Smart pushes up to 40A (capped), solar pushes up to 14A. Battery voltage rises slowly. This is the fastest charging phase — you're "filling the tank quickly at the bottom."<br><br>
       <strong>Stage 2 — Absorption (80–100% SoC):</strong> Voltage has reached 14.2V (LiFePO4 target). Charger holds voltage constant and current tapers down automatically. Filling the "top of the tank" slowly. This is why the last 20% takes longer to charge than the first 80%.<br><br>
       <strong>Stage 3 — Float (100% SoC):</strong> Charger drops to 13.5V to maintain charge without overcharging. LiFePO4 batteries don't actually need float — many experts recommend removing charge entirely at 100% rather than floating. Victron's LiFePO4 preset handles this correctly.
     </div>
   </div>
-</div>
 
 <!-- ══════════════════════════════════════════════════
      CHAPTER 8 — DO'S AND DON'TS
 ══════════════════════════════════════════════════ -->
-<div class="chapter" id="ch8">
-  <div class="ch-label">Chapter 08</div>
-  <div class="ch-title">The Do's <em>&amp; Don'ts — Full Guide</em></div>
-  <hr class="ch-rule">
-  <p class="ch-intro">Most battery system problems come from a small set of mistakes. These rules cover every critical scenario — from installation to daily operation to long-term care. Follow the Do's and avoid the Don'ts and your Enertec Power+ 210Ah will deliver its full rated life — Enertec rates it at more than 3,000 cycles (80% DoD), well over 8 years at daily expedition use and longer at the shallower depths you'll actually run in SA conditions.</p>
+<div id="ch8" class="sec-header">
+  <span class="sec-num">§8</span>
+  <span class="sec-title">The Do's &amp; Don'ts — Full Guide</span>
+  <span class="sec-sub">Installation &amp; operation</span>
+</div>
 
-  <div class="slbl">Installation Do's &amp; Don'ts</div>
-  <hr class="srule">
+<p class="lead">Most battery system problems come from a small set of mistakes. These rules cover every critical scenario — from installation to daily operation to long-term care. Follow the Do's and avoid the Don'ts and your Enertec Power+ 210Ah will deliver its full rated life — Enertec rates it at more than 3,000 cycles (80% DoD), well over 8 years at daily expedition use and longer at the shallower depths you'll actually run in SA conditions.</p>
+
+  <div class="subsec"><span class="subsec-title">Installation Do's &amp; Don'ts</span></div>
   <div class="dodont">
     <div class="do-card">
       <div class="do-head"><span class="do-icon">✓</span> INSTALLATION DO'S</div>
@@ -1146,8 +984,7 @@ body{background:var(--paper);color:var(--ink);font-family:'Oswald',sans-serif;fo
     </div>
   </div>
 
-  <div class="slbl">Daily Operation Do's &amp; Don'ts</div>
-  <hr class="srule">
+  <div class="subsec"><span class="subsec-title">Daily Operation Do's &amp; Don'ts</span></div>
   <div class="dodont">
     <div class="do-card">
       <div class="do-head"><span class="do-icon">✓</span> DAILY OPERATION DO'S</div>
@@ -1173,8 +1010,7 @@ body{background:var(--paper);color:var(--ink);font-family:'Oswald',sans-serif;fo
     </div>
   </div>
 
-  <div class="slbl">Temperature &amp; SA-Specific Do's &amp; Don'ts</div>
-  <hr class="srule">
+  <div class="subsec"><span class="subsec-title">Temperature &amp; SA-Specific Do's &amp; Don'ts</span></div>
   <div class="dodont">
     <div class="do-card">
       <div class="do-head"><span class="do-icon">✓</span> TEMPERATURE DO'S</div>
@@ -1196,105 +1032,105 @@ body{background:var(--paper);color:var(--ink);font-family:'Oswald',sans-serif;fo
       </div>
     </div>
   </div>
-</div>
 
 <!-- ══════════════════════════════════════════════════
      CHAPTER 9 — SA OVERLAND CONTEXT
 ══════════════════════════════════════════════════ -->
-<div class="chapter" id="ch9">
-  <div class="ch-label">Chapter 09</div>
-  <div class="ch-title">SA Overland: <em>Heat, Dust &amp; Vibration</em></div>
-  <hr class="ch-rule">
-  <p class="ch-intro">Southern Africa presents a unique set of challenges for battery systems that don't exist in European or temperate-climate overland builds. The combination of sustained extreme heat, corrugated roads, dust, humidity in coastal regions, and remote off-grid operation demands a higher standard of installation and maintenance.</p>
+<div id="ch9" class="sec-header">
+  <span class="sec-num">§9</span>
+  <span class="sec-title">SA Overland: Heat, Dust &amp; Vibration</span>
+  <span class="sec-sub">Environmental challenges</span>
+</div>
 
-  <div class="slbl">SA-Specific Challenges &amp; Mitigations</div>
-  <hr class="srule">
-  <table class="ltable">
+<p class="lead">Southern Africa presents a unique set of challenges for battery systems that don't exist in European or temperate-climate overland builds. The combination of sustained extreme heat, corrugated roads, dust, humidity in coastal regions, and remote off-grid operation demands a higher standard of installation and maintenance.</p>
+
+  <div class="subsec"><span class="subsec-title">SA-Specific Challenges &amp; Mitigations</span></div>
+  <table class="spec-table">
     <thead>
       <tr>
-        <th class="hk">Challenge</th>
-        <th class="hk">Where It Occurs</th>
-        <th class="ha">Impact on Battery System</th>
-        <th class="hg">Mitigation</th>
+        <th class="th-std">Challenge</th>
+        <th class="th-std">Where It Occurs</th>
+        <th class="th-amber">Impact on Battery System</th>
+        <th class="th-green">Mitigation</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td class="item">Sustained ambient heat 38–45°C</td>
+        <td class="td-label">Sustained ambient heat 38–45°C</td>
         <td>Kalahari, Namibia, Lowveld, Richtersveld</td>
-        <td class="ah">−20 to −25% cycle life. Fridge duty cycle +25–35%. Battery bay can reach 50–55°C.</td>
-        <td class="ag">Ventilated bay. Evening/AM charging. Pre-cool fridge. Park in shade. Low DoD operating strategy.</td>
+        <td class="v-bad">−20 to −25% cycle life. Fridge duty cycle +25–35%. Battery bay can reach 50–55°C.</td>
+        <td class="v-good">Ventilated bay. Evening/AM charging. Pre-cool fridge. Park in shade. Low DoD operating strategy.</td>
       </tr>
       <tr>
-        <td class="item">Corrugated gravel roads</td>
+        <td class="td-label">Corrugated gravel roads</td>
         <td>Botswana D-roads, Caprivi Strip, KAZA circuit</td>
-        <td class="ah">Cell compression fatigue −5 to −8% cumulative. Cable joint failure. BMS PCB vibration damage.</td>
-        <td class="ag">20mm anti-vibe foam all faces. Rigid battery box. Crimped marine lugs. Re-torque bolts every 2,000 km on gravel.</td>
+        <td class="v-bad">Cell compression fatigue −5 to −8% cumulative. Cable joint failure. BMS PCB vibration damage.</td>
+        <td class="v-good">20mm anti-vibe foam all faces. Rigid battery box. Crimped marine lugs. Re-torque bolts every 2,000 km on gravel.</td>
       </tr>
       <tr>
-        <td class="item">Coastal salt air humidity 80–95% RH</td>
+        <td class="td-label">Coastal salt air humidity 80–95% RH</td>
         <td>Mozambique, Namibia coast, Maputaland</td>
-        <td class="ah">Terminal corrosion. BMS PCB failure. Cable insulation degradation.</td>
-        <td class="ag">Marine-grade tinned copper lugs. Conformal coat BMS PCB. Dielectric grease all terminals. Sealed terminal cover.</td>
+        <td class="v-bad">Terminal corrosion. BMS PCB failure. Cable insulation degradation.</td>
+        <td class="v-good">Marine-grade tinned copper lugs. Conformal coat BMS PCB. Dielectric grease all terminals. Sealed terminal cover.</td>
       </tr>
       <tr>
-        <td class="item">Dust ingress into electronics</td>
+        <td class="td-label">Dust ingress into electronics</td>
         <td>All gravel/sand routes</td>
-        <td class="ah">SmartShunt, BMS, and Orion Smart PCB contamination. The Orion has no fan vents — passive-cooled and sealed.</td>
-        <td class="ag">IP43-rated Orion Smart — mount in protected location (under seat or battery box). SmartShunt — mount in a dry, protected location. Sealed battery enclosure.</td>
+        <td class="v-bad">SmartShunt, BMS, and Orion Smart PCB contamination. The Orion has no fan vents — passive-cooled and sealed.</td>
+        <td class="v-good">IP43-rated Orion Smart — mount in protected location (under seat or battery box). SmartShunt — mount in a dry, protected location. Sealed battery enclosure.</td>
       </tr>
       <tr>
-        <td class="item">Extreme thermal cycling (hot day, cold night)</td>
+        <td class="td-label">Extreme thermal cycling (hot day, cold night)</td>
         <td>Namib desert, Richtersveld, Northern Namibia</td>
-        <td class="ah">Repeated expansion/contraction accelerates cell SEI layer growth. Cable joint fatigue.</td>
-        <td class="ag">Insulate battery bay sides. Marine-grade flexible cable. Avoid charging at peak mid-day heat.</td>
+        <td class="v-bad">Repeated expansion/contraction accelerates cell SEI layer growth. Cable joint fatigue.</td>
+        <td class="v-good">Insulate battery bay sides. Marine-grade flexible cable. Avoid charging at peak mid-day heat.</td>
       </tr>
       <tr>
-        <td class="item">Cold charging risk (winter highlands)</td>
+        <td class="td-label">Cold charging risk (winter highlands)</td>
         <td>Lesotho highlands, Drakensberg, high Namibia</td>
-        <td class="ah">Charging below 0°C causes lithium plating — permanent cell damage and fire risk.</td>
-        <td class="ag">Enertec internal BMS blocks charging below 0°C automatically. Warm engine before DC-DC engages. Avoid charging until the battery is above 0°C (no low-temp heating fitted).</td>
+        <td class="v-bad">Charging below 0°C causes lithium plating — permanent cell damage and fire risk.</td>
+        <td class="v-good">Enertec internal BMS blocks charging below 0°C automatically. Warm engine before DC-DC engages. Avoid charging until the battery is above 0°C (no low-temp heating fitted).</td>
       </tr>
       <tr>
-        <td class="item">3–5 day fully off-grid wild camps</td>
+        <td class="td-label">3–5 day fully off-grid wild camps</td>
         <td>Fish River, Mana Pools, remote Botswana</td>
-        <td class="ah">Battery depth of discharge compounds daily. No recovery charge available.</td>
-        <td class="ag">SmartShunt daily monitoring. 2hr daily drive minimum. Reduce load to fridge + essentials only if SoC below 40%.</td>
+        <td class="v-bad">Battery depth of discharge compounds daily. No recovery charge available.</td>
+        <td class="v-good">SmartShunt daily monitoring. 2hr daily drive minimum. Reduce load to fridge + essentials only if SoC below 40%.</td>
       </tr>
       <tr>
-        <td class="item">Unstable campsite power (SA grid)</td>
+        <td class="td-label">Unstable campsite power (SA grid)</td>
         <td>Many SA public campsites</td>
-        <td class="ah">Voltage spikes can damage charger. Poor earthing causes noise on SmartShunt readings.</td>
-        <td class="ag">The Victron MultiPlus tolerates SA grid voltage swings (187–265V input). Use surge-protected extension lead. Check earth pin continuity before connecting.</td>
+        <td class="v-bad">Voltage spikes can damage charger. Poor earthing causes noise on SmartShunt readings.</td>
+        <td class="v-good">The Victron MultiPlus tolerates SA grid voltage swings (187–265V input). Use surge-protected extension lead. Check earth pin continuity before connecting.</td>
       </tr>
     </tbody>
   </table>
 
-  <div class="pbox">
-    <div class="pbox-t">Maintenance Schedule — SA Overland</div>
-    <div class="pbox-b">
+  <div class="rule rule-info">
+    <div class="rule-hdr">Maintenance Schedule — SA Overland</div>
+    <div class="rule-body">
       <strong>Before every trip:</strong> Check SmartShunt SoC and voltage at rest. Inspect all visible cable connections for corrosion or chafing. Verify battery is secure in its mount (vibration can loosen bolts). Check solar blanket connector pins for corrosion. Apply dielectric grease to terminals if going coastal.<br><br>
       <strong>Every 2,000 km on corrugated roads:</strong> Re-torque all battery terminal bolts and cable connections. Inspect cables for chafing against bodywork. Check that anti-vibration foam is intact.<br><br>
       <strong>Every 6 months / start of season:</strong> Perform a full charge to 100% (recalibrates the SmartShunt). Inspect all terminals. Check SmartShunt settings — verify SoC alarm at 30% is active. Verify Orion Smart LiFePO4 charge profile via VictronConnect app (firmware updates can reset settings). Check SmartSolar MPPT settings likewise.<br><br>
       <strong>After every coastal trip (Mozambique / Namibia coast):</strong> Wipe all terminals with a dry cloth. Re-apply dielectric grease. Inspect for any white corrosion build-up. Check Anderson connector pins on solar blanket cable.
     </div>
   </div>
-</div>
 
 <!-- ══════════════════════════════════════════════════
      CHAPTER 11 — WILD CAMP ENERGY PLANNING
 ══════════════════════════════════════════════════ -->
-<div class="chapter" id="ch11">
-  <div class="ch-label">Chapter 11</div>
-  <div class="ch-title">Wild Camp <em>Energy Planning</em></div>
-  <hr class="ch-rule">
-  <p class="ch-intro">Remote SA wild camps have no shore power. Everything depends on solar (stationary) and DC-DC (driving). This chapter gives you the exact numbers to answer three questions every day: How long can we stay? How much must we drive? How long is the transit drive home?</p>
+<div id="ch11" class="sec-header">
+  <span class="sec-num">§11</span>
+  <span class="sec-title">Wild Camp Energy Planning</span>
+  <span class="sec-sub">Autonomy &amp; recharge</span>
+</div>
 
-  <div class="slbl">The Three Wild Camp Questions</div>
-  <hr class="srule">
+<p class="lead">Remote SA wild camps have no shore power. Everything depends on solar (stationary) and DC-DC (driving). This chapter gives you the exact numbers to answer three questions every day: How long can we stay? How much must we drive? How long is the transit drive home?</p>
 
-  <div class="do-dont" style="display:grid;grid-template-columns:1fr;gap:0;">
-    <div class="do-item" style="background:rgba(26,106,60,.08);border-left:3px solid var(--grn);padding:12px 16px;margin-bottom:2px;">
+  <div class="subsec"><span class="subsec-title">The Three Wild Camp Questions</span></div>
+
+  <div class="dodont" style="display:grid;grid-template-columns:1fr;gap:0;">
+    <div class="do-item" style="background:rgba(26,106,60,.08);border-left:3px solid var(--green-ok);padding:12px 16px;margin-bottom:2px;">
       <span class="do-icon">①</span>
       <div>
         <div class="di-label">How many days can we stay on solar alone (no driving)?</div>
@@ -1302,7 +1138,7 @@ body{background:var(--paper);color:var(--ink);font-family:'Oswald',sans-serif;fo
         <em>Best-case solar deficit (full sun): −12 Ah/day (77 Ah load − 65 Ah solar). The day-by-day tables below use a conservative real-camp figure (~41 Ah/day net) that allows for shade, dust on the blanket and reduced winter sun — the same conservative basis as the original planning model.</em></div>
       </div>
     </div>
-    <div class="do-item" style="background:rgba(26,106,60,.08);border-left:3px solid var(--grn);padding:12px 16px;margin-bottom:2px;">
+    <div class="do-item" style="background:rgba(26,106,60,.08);border-left:3px solid var(--green-ok);padding:12px 16px;margin-bottom:2px;">
       <span class="do-icon">②</span>
       <div>
         <div class="di-label">How much must we drive each day to stay sustainable?</div>
@@ -1310,7 +1146,7 @@ body{background:var(--paper);color:var(--ink);font-family:'Oswald',sans-serif;fo
           <strong>Net gain per drive hour vs stationary: +14.2 Ah</strong> (≈25A effective DC-DC delivery minus 10.8 Ah solar lost per hour).<br>
           <strong>Break-even:</strong> ~3 hours/day — battery neither gains nor loses across the day.<br>
           <strong>Recommended discipline: 2 hours/day</strong> — keeps the 210Ah above ~64% SoC for up to 6 days with no shore power.<br><br>
-          <table class="dtable" style="font-size:11px;">
+          <table class="spec-table" style="font-size:11px;">
             <thead><tr><th>Daily drive</th><th>3-day result</th><th>4-day result</th><th>5-day result</th><th>6-day result</th></tr></thead>
             <tbody>
               <tr><td>No driving</td><td class="h" style="color:#B87800;">41% ⚠</td><td class="h" style="color:#B00000;">21% 🔴</td><td class="h" style="color:#B00000;">3% 🔴</td><td class="h" style="color:#B00000;">flat 🔴</td></tr>
@@ -1322,15 +1158,15 @@ body{background:var(--paper);color:var(--ink);font-family:'Oswald',sans-serif;fo
         </div>
       </div>
     </div>
-    <div class="do-item" style="background:rgba(26,106,60,.08);border-left:3px solid var(--grn);padding:12px 16px;">
+    <div class="do-item" style="background:rgba(26,106,60,.08);border-left:3px solid var(--green-ok);padding:12px 16px;">
       <span class="do-icon">③</span>
       <div>
         <div class="di-label">How long must we drive on transit day to recover to 100%?</div>
         <div class="di-note">Net charge rate while driving: <strong>~20.6A</strong> (≈25A effective DC-DC delivery − 4.4A average load draw).<br>Deploying the solar blanket at the new camp for 3h of remaining sun adds ~32 Ah and cuts transit drive time.<br><br>
-          <table class="dtable" style="font-size:11px;">
+          <table class="spec-table" style="font-size:11px;">
             <thead><tr><th>Departure SoC</th><th>Driving only</th><th>Drive + 3h solar at new camp</th></tr></thead>
             <tbody>
-              <tr><td style="color:var(--grn);">80%</td><td class="g">2.0 hrs</td><td class="g">0.9 hrs + solar</td></tr>
+              <tr><td style="color:var(--green-ok);">80%</td><td class="g">2.0 hrs</td><td class="g">0.9 hrs + solar</td></tr>
               <tr><td>70%</td><td class="g">2.7 hrs</td><td class="g">1.8 hrs + solar</td></tr>
               <tr><td>60%</td><td class="h" style="color:#B87800;">4.1 hrs</td><td class="h" style="color:#B87800;">3.0 hrs + solar</td></tr>
               <tr><td>50%</td><td class="h" style="color:#B87800;">5.1 hrs</td><td class="h" style="color:#B87800;">4.0 hrs + solar</td></tr>
@@ -1343,11 +1179,10 @@ body{background:var(--paper);color:var(--ink);font-family:'Oswald',sans-serif;fo
     </div>
   </div>
 
-  <div class="slbl" style="margin-top:24px;">Optional Enhancement — Terrain Tamer 110A Alternator (1HZ Engine)</div>
-  <hr class="srule">
-  <div class="wbox">
-    <div class="wbox-t">LC76 1HZ Stock: 80A Alternator · Optional Upgrade: Terrain Tamer 110A (Part 27060-17250TT)</div>
-    <div class="wbox-b">
+  <div class="subsec"><span class="subsec-title">Optional Enhancement — Terrain Tamer 110A Alternator (1HZ Engine)</span></div>
+  <div class="rule rule-warn">
+    <div class="rule-hdr">LC76 1HZ Stock: 80A Alternator · Optional Upgrade: Terrain Tamer 110A (Part 27060-17250TT)</div>
+    <div class="rule-body">
       <strong>Stock config (80A + Victron Orion Smart 12/12-50A):</strong> 52A combined draw = 65% of alternator — within limits. Break-even ~2h 25min/day. Transit from 50% takes ~6.1 hrs.<br><br>
       <strong>Upgraded config (Terrain Tamer 110A + Victron Orion Smart 12/12-50A):</strong> 52A = 47% of alternator — very comfortable headroom. Break-even drops to ~2.1hrs/day. 58A free headroom for winch + spotlights + A/C.<br><br>
       <strong>SA availability:</strong> TTG Offroad 4x4 (Pretoria, official distributor) · Terrain Tamer Bellville (Cape Town warehouse).<br>
@@ -1356,61 +1191,59 @@ body{background:var(--paper);color:var(--ink);font-family:'Oswald',sans-serif;fo
       <em>Recommended for fixed-base camps of 4+ days or vehicles running heavy auxiliary loads. Not essential for rolling camp travel style with regular 2hr+ daily drives.</em>
     </div>
   </div>
-</div>
 
 <!-- ══════════════════════════════════════════════════
      CHAPTER 10 — QUICK REFERENCE CHEAT SHEET
 ══════════════════════════════════════════════════ -->
-<div class="chapter" id="ch10">
-  <div class="ch-label">Chapter 10</div>
-  <div class="ch-title">Quick Reference <em>Cheat Sheet</em></div>
-  <hr class="ch-rule">
-  <p class="ch-intro">Everything you need on one page for daily use in the field. Bookmark this chapter. Print it and put it in your vehicle's document pouch.</p>
+<div id="ch10" class="sec-header">
+  <span class="sec-num">§10</span>
+  <span class="sec-title">Quick Reference Cheat Sheet</span>
+  <span class="sec-sub">Field reference</span>
+</div>
 
-  <div class="slbl">Electrical Symbols at a Glance</div>
-  <hr class="srule">
-  <table class="ltable">
-    <thead><tr><th class="hk">Symbol</th><th class="hk">Name</th><th class="ha">Unit</th><th class="hg">Formula</th><th class="hb">Overland Example</th></tr></thead>
+<p class="lead">Everything you need on one page for daily use in the field. Bookmark this chapter. Print it and put it in your vehicle's document pouch.</p>
+
+  <div class="subsec"><span class="subsec-title">Electrical Symbols at a Glance</span></div>
+  <table class="spec-table">
+    <thead><tr><th class="th-std">Symbol</th><th class="th-std">Name</th><th class="th-amber">Unit</th><th class="th-green">Formula</th><th class="th-blue">Overland Example</th></tr></thead>
     <tbody>
-      <tr><td class="m" style="font-size:16px;font-weight:700;">V</td><td class="item">Volt</td><td class="m">V</td><td class="m">V = A × Ω</td><td>Battery resting at 13.2V = ~50% SoC on LiFePO4</td></tr>
-      <tr><td class="m" style="font-size:16px;font-weight:700;">A (or I)</td><td class="item">Ampere (Amp)</td><td class="m">A</td><td class="m">A = W ÷ V</td><td>Fridge draws 3.75A. Winch draws 300A peak.</td></tr>
-      <tr><td class="m" style="font-size:16px;font-weight:700;">W</td><td class="item">Watt</td><td class="m">W</td><td class="m">W = V × A</td><td>45W fridge. 200W solar blanket. 30W MacBook charger.</td></tr>
-      <tr><td class="m" style="font-size:16px;font-weight:700;">Wh</td><td class="item">Watt-hour</td><td class="m">Wh</td><td class="m">Wh = W × h</td><td>210Ah battery = 2,688 Wh total stored energy</td></tr>
-      <tr><td class="m" style="font-size:16px;font-weight:700;">Ah</td><td class="item">Amp-hour</td><td class="m">Ah</td><td class="m">Ah = A × h</td><td>210Ah battery. Daily draw of 77 Ah. Usable: 168 Ah (80% DoD).</td></tr>
-      <tr><td class="m" style="font-size:16px;font-weight:700;">Ω (R)</td><td class="item">Ohm</td><td class="m">Ω</td><td class="m">R = V ÷ A</td><td>Corroded terminal has high Ω → voltage drop → heat → fire risk.</td></tr>
-      <tr><td class="m" style="font-size:16px;font-weight:700;">SoC %</td><td class="item">State of Charge</td><td class="m">%</td><td class="m">SoC = Ah left ÷ Ah total × 100</td><td>SmartShunt shows 62% SoC = 130 Ah remaining in the 210Ah battery.</td></tr>
-      <tr><td class="m" style="font-size:16px;font-weight:700;">DoD %</td><td class="item">Depth of Discharge</td><td class="m">%</td><td class="m">DoD = 100 − SoC</td><td>62% SoC = 38% DoD. Aim for max 80% DoD (20% SoC) on LiFePO4.</td></tr>
-      <tr><td class="m" style="font-size:16px;font-weight:700;">C rate</td><td class="item">Charge/discharge rate</td><td class="m">C</td><td class="m">C = A ÷ Ah</td><td>40A DC-DC on 210Ah = 0.19C (gentle). The 105A discharge ceiling = 0.5C — the battery's hard continuous limit.</td></tr>
+      <tr><td class="mono" style="font-size:16px;font-weight:700;">V</td><td class="td-label">Volt</td><td class="mono">V</td><td class="mono">V = A × Ω</td><td>Battery resting at 13.2V = ~50% SoC on LiFePO4</td></tr>
+      <tr><td class="mono" style="font-size:16px;font-weight:700;">A (or I)</td><td class="td-label">Ampere (Amp)</td><td class="mono">A</td><td class="mono">A = W ÷ V</td><td>Fridge draws 3.75A. Winch draws 300A peak.</td></tr>
+      <tr><td class="mono" style="font-size:16px;font-weight:700;">W</td><td class="td-label">Watt</td><td class="mono">W</td><td class="mono">W = V × A</td><td>45W fridge. 200W solar blanket. 30W MacBook charger.</td></tr>
+      <tr><td class="mono" style="font-size:16px;font-weight:700;">Wh</td><td class="td-label">Watt-hour</td><td class="mono">Wh</td><td class="mono">Wh = W × h</td><td>210Ah battery = 2,688 Wh total stored energy</td></tr>
+      <tr><td class="mono" style="font-size:16px;font-weight:700;">Ah</td><td class="td-label">Amp-hour</td><td class="mono">Ah</td><td class="mono">Ah = A × h</td><td>210Ah battery. Daily draw of 77 Ah. Usable: 168 Ah (80% DoD).</td></tr>
+      <tr><td class="mono" style="font-size:16px;font-weight:700;">Ω (R)</td><td class="td-label">Ohm</td><td class="mono">Ω</td><td class="mono">R = V ÷ A</td><td>Corroded terminal has high Ω → voltage drop → heat → fire risk.</td></tr>
+      <tr><td class="mono" style="font-size:16px;font-weight:700;">SoC %</td><td class="td-label">State of Charge</td><td class="mono">%</td><td class="mono">SoC = Ah left ÷ Ah total × 100</td><td>SmartShunt shows 62% SoC = 130 Ah remaining in the 210Ah battery.</td></tr>
+      <tr><td class="mono" style="font-size:16px;font-weight:700;">DoD %</td><td class="td-label">Depth of Discharge</td><td class="mono">%</td><td class="mono">DoD = 100 − SoC</td><td>62% SoC = 38% DoD. Aim for max 80% DoD (20% SoC) on LiFePO4.</td></tr>
+      <tr><td class="mono" style="font-size:16px;font-weight:700;">C rate</td><td class="td-label">Charge/discharge rate</td><td class="mono">C</td><td class="mono">C = A ÷ Ah</td><td>40A DC-DC on 210Ah = 0.19C (gentle). The 105A discharge ceiling = 0.5C — the battery's hard continuous limit.</td></tr>
     </tbody>
   </table>
 
-  <div class="slbl">The 5 Most Important Numbers for Your System</div>
-  <hr class="srule">
+  <div class="subsec"><span class="subsec-title">The 5 Most Important Numbers for Your System</span></div>
   <div class="stats">
     <div class="sc a"><div class="sbadge ba">Battery</div><div class="sv">210<span class="u">Ah</span></div><div class="sl">Total nominal capacity. Usable = 168 Ah (80% DoD). Never go below 42 Ah (20% SoC).</div></div>
     <div class="sc g"><div class="sbadge bg">Daily load</div><div class="sv">77<span class="u">Ah/day</span></div><div class="sl">Your actual daily draw in SA conditions. ~2.2 days autonomy on 168 Ah usable.</div></div>
     <div class="sc b"><div class="sbadge bb">Solar yield</div><div class="sv">65<span class="u">Ah/day</span></div><div class="sl">Hardkorr 200W blanket at 6hr SA peak sun. 84% of daily load offset by solar alone.</div></div>
     <div class="sc p"><div class="sbadge bp">DC-DC yield</div><div class="sv">55<span class="u">Ah/2hr</span></div><div class="sl">Victron Orion Smart at ~40A (capped) × 2hr drive — conservative real-world net. Solar blanket packed while driving — cannot run simultaneously. Deploy blanket on arrival at camp for additional 65 Ah stationary.</div></div>
-    <div class="sc t" style="background:var(--bg-teal);"><div class="sbadge" style="background:var(--teal);">Alarm</div><div class="sv">30<span class="u">% SoC</span></div><div class="sl">Set SmartShunt alarm here = 63 Ah remaining. Time to drive or reduce load.</div></div>
+    <div class="sc t" style="background:var(--paper2);"><div class="sbadge" style="background:var(--steeldk);">Alarm</div><div class="sv">30<span class="u">% SoC</span></div><div class="sl">Set SmartShunt alarm here = 63 Ah remaining. Time to drive or reduce load.</div></div>
   </div>
 
-  <div class="slbl">Instant Diagnostic — When Something Goes Wrong</div>
-  <hr class="srule">
-  <table class="ltable">
-    <thead><tr><th class="hk">Symptom</th><th class="ha">Likely Cause</th><th class="hg">What to Do</th></tr></thead>
+  <div class="subsec"><span class="subsec-title">Instant Diagnostic — When Something Goes Wrong</span></div>
+  <table class="spec-table">
+    <thead><tr><th class="th-std">Symptom</th><th class="th-amber">Likely Cause</th><th class="th-green">What to Do</th></tr></thead>
     <tbody>
-      <tr><td class="item">Battery suddenly cuts out (BMS trip)</td><td>Over-discharge, over-current, or over-temperature triggered BMS cutoff</td><td class="ag">Disconnect all loads. Check SmartShunt voltage. If above 12.8V, BMS may auto-reset. If below 12V, connect shore power or drive immediately. If over-temp, allow battery to cool 30 min.</td></tr>
-      <tr><td class="item">SmartShunt shows SoC dropping faster than expected</td><td>SmartShunt not calibrated, load higher than expected, or a load is bypassing the shunt</td><td class="ag">Verify all negative wires run through shunt. Do a full charge to recalibrate the SmartShunt. Check if any new load was added that isn't going through shunt.</td></tr>
-      <tr><td class="item">Solar not charging (SmartSolar MPPT shows no input)</td><td>Anderson connector not plugged in, partial shading, cable fault, or blown solar fuse</td><td class="ag">Check Anderson connector. Confirm blanket is in full sun. Check 20A solar fuse. Measure voltage at blanket output with a multimeter — should be 18–24V in sun.</td></tr>
-      <tr><td class="item">DC-DC not charging while driving</td><td>Orion Smart not receiving starter battery voltage, fuse blown, or charge inhibit from BMS (battery full)</td><td class="ag">Check 30A fuse on alternator cable. Confirm ignition wire connected to the Orion Smart. If battery is above 13.8V, charger correctly not charging (battery full — normal behaviour).</td></tr>
-      <tr><td class="item">Fridge not running in morning (unexpected)</td><td>Battery depleted overnight to BMS cutoff, or fridge connection fault</td><td class="ag">Check SmartShunt SoC. If below 15%, BMS tripped — connect charger urgently. Restock fridge and run engine immediately. If the SmartShunt shows 50%+ SoC, check fridge fuse and cable connection.</td></tr>
-      <tr><td class="item">Voltage drop (devices cutting out at low load)</td><td>Undersized cable, corroded terminal, or loose connection causing high resistance</td><td class="ag">Check all terminal connections for heat or corrosion. Measure voltage at battery vs at the device — difference greater than 0.3V indicates a resistance problem in the cables or connections.</td></tr>
+      <tr><td class="td-label">Battery suddenly cuts out (BMS trip)</td><td>Over-discharge, over-current, or over-temperature triggered BMS cutoff</td><td class="v-good">Disconnect all loads. Check SmartShunt voltage. If above 12.8V, BMS may auto-reset. If below 12V, connect shore power or drive immediately. If over-temp, allow battery to cool 30 min.</td></tr>
+      <tr><td class="td-label">SmartShunt shows SoC dropping faster than expected</td><td>SmartShunt not calibrated, load higher than expected, or a load is bypassing the shunt</td><td class="v-good">Verify all negative wires run through shunt. Do a full charge to recalibrate the SmartShunt. Check if any new load was added that isn't going through shunt.</td></tr>
+      <tr><td class="td-label">Solar not charging (SmartSolar MPPT shows no input)</td><td>Anderson connector not plugged in, partial shading, cable fault, or blown solar fuse</td><td class="v-good">Check Anderson connector. Confirm blanket is in full sun. Check 20A solar fuse. Measure voltage at blanket output with a multimeter — should be 18–24V in sun.</td></tr>
+      <tr><td class="td-label">DC-DC not charging while driving</td><td>Orion Smart not receiving starter battery voltage, fuse blown, or charge inhibit from BMS (battery full)</td><td class="v-good">Check 30A fuse on alternator cable. Confirm ignition wire connected to the Orion Smart. If battery is above 13.8V, charger correctly not charging (battery full — normal behaviour).</td></tr>
+      <tr><td class="td-label">Fridge not running in morning (unexpected)</td><td>Battery depleted overnight to BMS cutoff, or fridge connection fault</td><td class="v-good">Check SmartShunt SoC. If below 15%, BMS tripped — connect charger urgently. Restock fridge and run engine immediately. If the SmartShunt shows 50%+ SoC, check fridge fuse and cable connection.</td></tr>
+      <tr><td class="td-label">Voltage drop (devices cutting out at low load)</td><td>Undersized cable, corroded terminal, or loose connection causing high resistance</td><td class="v-good">Check all terminal connections for heat or corrosion. Measure voltage at battery vs at the device — difference greater than 0.3V indicates a resistance problem in the cables or connections.</td></tr>
     </tbody>
   </table>
 
-  <div class="gbox">
-    <div class="gbox-t">The Golden Rule of LiFePO4 Overland Operation</div>
-    <div class="gbox-b">
+  <div class="rule rule-ok">
+    <div class="rule-hdr">The Golden Rule of LiFePO4 Overland Operation</div>
+    <div class="rule-body">
       <strong>Check the SmartShunt every morning. Know your number. Plan your day.</strong><br><br>
       If SoC is above 70% → You're in great shape. Solar (stationary) gives 65 Ah; DC-DC (driving) gives 48 Ah — not both at once. Best day: 91 Ah in.<br>
       If SoC is 50–70% → Normal. Check tomorrow's plan. Is a drive available to top up?<br>
@@ -1420,25 +1253,25 @@ body{background:var(--paper);color:var(--ink);font-family:'Oswald',sans-serif;fo
     </div>
   </div>
 
-  <div class="fnote">
+  <div class="p" style="font-size:.78rem;color:var(--steelmd);">
     <strong>Document Notes:</strong> All values are practical estimates for Southern African overland conditions. Fridge duty cycle figures based on National Luna 52L Weekender specifications at 38°C ambient. Solar yield based on Hardkorr 200W flexible blanket at 75% efficiency of rated wattage, 6h peak sun hours (SA average). LiFePO4 cycle-life figure per the Enertec Power+ manual (&gt;3,000 cycles at 80% DoD, 0.5C, 25°C). Fitted components: Enertec Power+ 210Ah LiFePO4 (internal BMS), Victron Orion Smart 12/12-50A Non-isolated (capped ~40A), Victron SmartSolar MPPT 100/30, Victron SmartShunt 500A, Victron MultiPlus 12/500, and Victron Smart BatteryProtect 65A are the referenced products. This document is for educational purposes — consult a qualified auto-electrician for installation.
   </div>
-</div><!-- end chapter 10 -->
 
 <!-- ══════════════════════════════════════════════════
      CHAPTER 12 — FIELD FIXES
 ══════════════════════════════════════════════════ -->
-<div class="chapter" id="ch12">
-  <div class="ch-label">Chapter 12</div>
-  <div class="ch-title">Field Fixes <em>— Electrical &amp; Battery</em></div>
-  <hr class="ch-rule">
-  <p class="ch-intro">Hands-on procedures for the most common electrical and battery problems you may encounter in the field. These are temporary fixes to get you moving — follow up with a qualified auto-electrician at the next service point. Cross-reference R3 (Bush Spares &amp; Tools) for parts to carry.</p>
+<div id="ch12" class="sec-header">
+  <span class="sec-num">§12</span>
+  <span class="sec-title">Field Fixes — Electrical &amp; Battery</span>
+  <span class="sec-sub">Emergency procedures</span>
+</div>
 
-  <div class="slbl">Jump-Starting from Another Vehicle (LiFePO4 System)</div>
-  <hr class="srule">
-  <div class="wbox">
-    <div class="wbox-t">Critical — LiFePO4 Jump-Start Procedure</div>
-    <div class="wbox-b">
+<p class="lead">Hands-on procedures for the most common electrical and battery problems you may encounter in the field. These are temporary fixes to get you moving — follow up with a qualified auto-electrician at the next service point. Cross-reference R3 (Bush Spares &amp; Tools) for parts to carry.</p>
+
+  <div class="subsec"><span class="subsec-title">Jump-Starting from Another Vehicle (LiFePO4 System)</span></div>
+  <div class="rule rule-warn">
+    <div class="rule-hdr">Critical — LiFePO4 Jump-Start Procedure</div>
+    <div class="rule-body">
       <strong>LiFePO4 batteries require a different approach to jump-starting than lead-acid.</strong> The BMS (Battery Management System) may be in a lockout state, and connecting another vehicle's alternator directly can damage the BMS if done incorrectly.<br><br>
       <strong>If the starter battery (lead-acid) is flat but the LiFePO4 auxiliary is fine:</strong><br>
       1. Connect the donor vehicle's positive (+) jumper cable to your starter battery positive terminal.<br>
@@ -1451,11 +1284,10 @@ body{background:var(--paper);color:var(--ink);font-family:'Oswald',sans-serif;fo
     </div>
   </div>
 
-  <div class="slbl">BMS Lockout Reset</div>
-  <hr class="srule">
-  <div class="abox">
-    <div class="abox-t">When the BMS Trips — No Power from Auxiliary Battery</div>
-    <div class="abox-b">
+  <div class="subsec"><span class="subsec-title">BMS Lockout Reset</span></div>
+  <div class="rule rule-note">
+    <div class="rule-hdr">When the BMS Trips — No Power from Auxiliary Battery</div>
+    <div class="rule-body">
       <strong>Symptoms:</strong> Fridge off, no 12V accessories, SmartShunt not reporting (or showing very low voltage) in VictronConnect despite the battery not being heavily used.<br><br>
       <strong>Step 1 — Check the SmartShunt.</strong> If it shows voltage above 12.8V but no load is running, the BMS has tripped on over-current or over-temperature, not over-discharge. Disconnect all loads. Wait 30 minutes (especially if over-temperature was the trigger). The BMS should auto-reset once the fault condition clears.<br><br>
       <strong>Step 2 — If the SmartShunt shows below 11V:</strong> The battery has been deeply discharged. The BMS has tripped to protect the cells. You need an external charge source to bring the battery above the BMS reset threshold (typically ~11.5V). Options: start the engine and drive (the DC-DC charger will slowly bring the battery up), or connect shore power if available, or connect the Victron MultiPlus charger to a generator.<br><br>
@@ -1464,11 +1296,10 @@ body{background:var(--paper);color:var(--ink);font-family:'Oswald',sans-serif;fo
     </div>
   </div>
 
-  <div class="slbl">Emergency Charging — DC-DC Charger Failure</div>
-  <hr class="srule">
-  <div class="abox">
-    <div class="abox-t">When the Victron Orion Smart Stops Charging</div>
-    <div class="abox-b">
+  <div class="subsec"><span class="subsec-title">Emergency Charging — DC-DC Charger Failure</span></div>
+  <div class="rule rule-note">
+    <div class="rule-hdr">When the Victron Orion Smart Stops Charging</div>
+    <div class="rule-body">
       <strong>Symptoms:</strong> Auxiliary battery not charging while driving. SmartShunt shows no current flowing in. The Orion Smart shows no LED activity or a fault pattern in VictronConnect app.<br><br>
       <strong>Step 1 — Check the basics.</strong> Confirm the 30A fuse on the alternator-to-Orion cable. Check the ignition sense wire is connected (the Orion Smart needs to see ignition-on voltage to activate). Check all Anderson connectors and wiring terminals for corrosion or looseness.<br><br>
       <strong>Step 2 — If the fuse is blown:</strong> Replace with the correct 30A fuse. If it blows again immediately, there is a short in the wiring — do not keep replacing fuses. Isolate the DC-DC charger circuit and rely on solar charging until you reach a workshop.<br><br>
@@ -1477,11 +1308,10 @@ body{background:var(--paper);color:var(--ink);font-family:'Oswald',sans-serif;fo
     </div>
   </div>
 
-  <div class="slbl">Fuse and Relay Diagnosis</div>
-  <hr class="srule">
-  <div class="gbox">
-    <div class="gbox-t">Systematic Approach to Electrical Faults</div>
-    <div class="gbox-b">
+  <div class="subsec"><span class="subsec-title">Fuse and Relay Diagnosis</span></div>
+  <div class="rule rule-ok">
+    <div class="rule-hdr">Systematic Approach to Electrical Faults</div>
+    <div class="rule-body">
       Most electrical failures in the field are caused by blown fuses, corroded connections, or loose terminals — not component failure. Before assuming a device has died, check the simple things first.<br><br>
       <strong>Fuse check:</strong> Locate the relevant fuse (refer to the fuse box diagram on the lid, or R1 Reference Card). Pull the fuse and inspect visually — a blown fuse has a broken wire element visible through the clear housing. If visual inspection is inconclusive, use a multimeter set to continuity and test across the fuse terminals.<br><br>
       <strong>Relay check:</strong> Relays click when activated. Turn the ignition on and listen/feel for the click when you activate the relevant circuit. No click = relay not receiving power (check the fuse feeding it) or relay has failed. Swap the suspect relay with an identical one from a non-critical circuit (e.g. swap the horn relay with the suspected faulty relay) to confirm.<br><br>
@@ -1490,11 +1320,10 @@ body{background:var(--paper);color:var(--ink);font-family:'Oswald',sans-serif;fo
     </div>
   </div>
 
-  <div class="slbl">Isolating a Failed Auxiliary Battery</div>
-  <hr class="srule">
-  <div class="abox">
-    <div class="abox-t">Keeping the Starter Circuit Alive</div>
-    <div class="abox-b">
+  <div class="subsec"><span class="subsec-title">Isolating a Failed Auxiliary Battery</span></div>
+  <div class="rule rule-note">
+    <div class="rule-hdr">Keeping the Starter Circuit Alive</div>
+    <div class="rule-body">
       <strong>When:</strong> The LiFePO4 auxiliary battery has a fault that cannot be resolved in the field (cell failure, BMS permanent fault, physical damage). You need to isolate it to protect the rest of the electrical system while keeping the engine and starter battery functional.<br><br>
       <strong>Step 1 — Disconnect the auxiliary battery.</strong> Turn off the battery isolator switch (if fitted). If no isolator, disconnect the positive cable from the auxiliary battery. Tape the exposed terminal to prevent accidental contact.<br><br>
       <strong>Step 2 — Disconnect the Orion Smart DC-DC charger</strong> from both the alternator side and the auxiliary side. The charger should not be powered with no battery connected on its output — it may fault.<br><br>
@@ -1504,30 +1333,27 @@ body{background:var(--paper);color:var(--ink);font-family:'Oswald',sans-serif;fo
     </div>
   </div>
 
-  <div class="slbl">Anderson Connector Failure</div>
-  <hr class="srule">
-  <div class="gbox">
-    <div class="gbox-t">Cleaning and Emergency Wiring</div>
-    <div class="gbox-b">
+  <div class="subsec"><span class="subsec-title">Anderson Connector Failure</span></div>
+  <div class="rule rule-ok">
+    <div class="rule-hdr">Cleaning and Emergency Wiring</div>
+    <div class="rule-body">
       Anderson connectors are used throughout the LC76's auxiliary electrical system — solar blanket input, inter-battery connections, and distribution. Dust, vibration, and heat cause intermittent contact or complete failure.<br><br>
       <strong>Intermittent connection (power cuts in and out):</strong> Disconnect the Anderson plug. Clean both the male and female contacts with fine sandpaper or a small wire brush. Blow out dust. Check that the spring-loaded contacts have tension — if they feel loose, the connector is worn and should be replaced. Reconnect firmly until it clicks.<br><br>
       <strong>Melted or burnt connector:</strong> This indicates the connector was under-rated for the current draw, or a loose connection caused resistive heating. Cut the damaged connector off. Strip the wires 15 mm. If you carry a spare Anderson connector and crimping tool, fit a new one. If not, a temporary direct wire splice (twist, solder if possible, wrap with electrical tape and heat-shrink) will get you through until you can fit a proper connector.<br><br>
       <strong>Carry:</strong> 2× spare 50A Anderson connectors (red — match your system), crimping tool, spare 6 AWG wire (1 m), electrical tape, heat-shrink tubing, fine sandpaper.
-    </div>
-  </div>
 
-</div><!-- end chapter 12 -->
 
-</div><!-- end body -->
 
-<div style="background:#2a2f3a;padding:9px 5%;display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin-top:32px">
-  <span style="font-family:'IBM Plex Mono',monospace;font-size:.46rem;letter-spacing:.16em;color:#a8b0bc;text-transform:uppercase;margin-right:6px">Cross-Reference</span>
-  <a href="LC76_Electrical_Wiring_Guide.html" style="font-family:'IBM Plex Mono',monospace;font-size:.46rem;letter-spacing:.08em;color:#e07800;background:rgba(232,120,0,.12);border:1px solid rgba(232,120,0,.4);padding:3px 9px;text-decoration:none;white-space:nowrap">R26 · Electrical &amp; Wiring</a>
-  <a href="LC76_LiFePO4_System_Report.html" style="font-family:'IBM Plex Mono',monospace;font-size:.46rem;letter-spacing:.08em;color:#e07800;background:rgba(232,120,0,.12);border:1px solid rgba(232,120,0,.4);padding:3px 9px;text-decoration:none;white-space:nowrap">R7 · LiFePO4 Report</a>
-  <a href="LC76_Crank_Battery_Care.html" style="font-family:'IBM Plex Mono',monospace;font-size:.46rem;letter-spacing:.08em;color:#e07800;background:rgba(232,120,0,.12);border:1px solid rgba(232,120,0,.4);padding:3px 9px;text-decoration:none;white-space:nowrap">R32 · Crank Battery Care</a>
 </div>
-<script>
-</script>
+</div>
+</div>
+
+<div class="xref-bar">
+  <span class="xref-label">Related</span>
+  <a href="LC76_Electrical_Wiring_Guide.html" class="xref-pill">R26 Electrical &amp; Wiring</a>
+  <a href="LC76_LiFePO4_System_Report.html" class="xref-pill">R7 LiFePO4 System</a>
+  <a href="LC76_Crank_Battery_Care.html" class="xref-pill">R32 Crank Battery Care</a>
+</div>
 <script>
 if('serviceWorker' in navigator && location.hostname !== 'www.claudeusercontent.com'){
   window.addEventListener('load',function(){
@@ -1537,5 +1363,6 @@ if('serviceWorker' in navigator && location.hostname !== 'www.claudeusercontent.
   });
 }
 </script>
+
 </body>
 </html>
