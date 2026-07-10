@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LC76 Library">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0d0e12">
+<title>LC76 · Wheel &amp; Tyre Field Procedures</title>
+<link rel="manifest" href="manifest-ref.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500;600&family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0d0e12;--paper:#dad2c0;--paper2:#edeae0;--rule:#d4cfc4;
+  --amber:#b86800;--amber2:#e07800;
+  --steeldk:#2a2f3a;--steelmd:#6a7080;--steellt:#a8b0bc;
+  --red-warn:#B91C1C;--green-ok:#059669;
+  --mono:'IBM Plex Mono',monospace;
+  --sans:'Oswald',sans-serif;
+  --display:'Bebas Neue',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{overflow-x:hidden;overflow-x:clip;overscroll-behavior-x:none}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.6}
+
+/* ── STICKY NAV ── */
+.sticky-nav-unit{position:sticky;top:0;z-index:100;padding-top:env(safe-area-inset-top);background:var(--ink)}
+.sticky-nav-unit::before{content:"";position:absolute;left:0;right:0;bottom:100%;height:100vh;background:var(--ink)}
+.std-header{background:var(--ink);padding:18px 24px 14px;position:relative;border-bottom:3px solid var(--amber)}
+.std-eyebrow{font-family:var(--mono);font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--steelmd);margin-bottom:6px}
+.std-title{font-family:var(--display);font-size:clamp(1.9rem,5vw,2.8rem);letter-spacing:.06em;color:var(--amber2);line-height:1}
+.std-sub{font-family:var(--mono);font-size:.54rem;letter-spacing:.12em;color:rgba(255,200,100,.65);margin-top:5px}
+.std-vehicle{font-family:var(--mono);font-size:.48rem;letter-spacing:.08em;color:var(--steelmd);margin-top:8px}
+.lib-home-btn{position:absolute;top:14px;right:16px;display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--amber2);background:rgba(232,120,0,.15);border:1px solid var(--amber2);border-radius:20px;padding:6px 12px;min-height:32px;white-space:nowrap;transition:background .2s}
+.lib-home-btn:hover{background:rgba(232,120,0,.30)}
+.toc-bar{background:var(--steeldk);padding:7px 24px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;border-bottom:2px solid var(--amber)}
+.toc-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.18em;color:var(--steellt);text-transform:uppercase;margin-right:4px;flex-shrink:0}
+.toc-link{font-family:var(--mono);font-size:.46rem;color:rgba(255,255,255,.45);text-decoration:none;padding:2px 6px;border:1px solid transparent;transition:all .12s;white-space:nowrap;cursor:pointer}
+.toc-link:hover,.toc-link.active{color:var(--amber2);border-color:var(--amber2);background:rgba(232,120,0,.1)}
+
+/* ── CONTENT ── */
+.content{padding:24px 5% 80px;max-width:100%}
+.lead{font-size:.92rem;color:var(--steeldk);line-height:1.7;margin:6px 0 4px}
+.p{font-size:.86rem;color:var(--steeldk);line-height:1.65;margin:10px 0}
+.p strong{color:var(--ink);font-weight:600}
+
+/* ── SECTION HEADERS ── */
+.sec-header{display:flex;align-items:center;gap:12px;padding:10px 5%;background:var(--steeldk);border-left:5px solid var(--amber2);margin:34px 0 0;margin-left:-5%;margin-right:-5%}
+.sec-num{font-family:var(--mono);font-size:.58rem;font-weight:600;color:#fff;background:var(--amber);padding:3px 8px;letter-spacing:.12em;flex-shrink:0}
+.sec-title{font-family:var(--display);font-size:1.7rem;letter-spacing:.10em;color:#fff;line-height:1}
+.sec-sub{font-family:var(--mono);font-size:.44rem;letter-spacing:.10em;color:var(--steellt);margin-left:auto;flex-shrink:0;text-align:right}
+
+/* ── SUBSECTIONS ── */
+.subsec{background:var(--paper2);border-left:3px solid var(--amber);padding:6px 16px 6px 14px;margin:22px 0 10px;display:flex;align-items:center;gap:10px}
+.subsec-title{font-family:var(--display);font-size:1.1rem;letter-spacing:.12em;color:var(--ink)}
+.subsec-tag{font-family:var(--mono);font-size:.44rem;letter-spacing:.12em;color:var(--steelmd);text-transform:uppercase;margin-left:auto}
+
+/* ── RULE BOXES ── */
+.rule{border-left:4px solid;padding:11px 15px;margin:12px 0;font-family:var(--sans);font-size:.86rem;line-height:1.65}
+.rule .rule-hdr{font-weight:700;display:block;margin-bottom:5px;font-family:var(--sans);font-size:.92rem;letter-spacing:.01em}
+.rule strong{font-weight:700;color:inherit}
+.rule-warn{background:#fff4f0;border-color:var(--red-warn);color:#5a1010}
+.rule-warn .rule-hdr{color:var(--red-warn)}
+.rule-note{background:#fffbe8;border-color:var(--amber2);color:#4a3000}
+.rule-note .rule-hdr{color:var(--amber)}
+.rule-ok{background:#f0fff8;border-color:var(--green-ok);color:#0a3a20}
+.rule-ok .rule-hdr{color:var(--green-ok)}
+.rule-info{background:var(--paper2);border-color:var(--steelmd);color:var(--steeldk)}
+.rule-info .rule-hdr{color:var(--steelmd)}
+
+/* ── SPEC TABLES ── */
+.spec-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.82rem}
+.spec-table caption{font-family:var(--mono);font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;color:var(--steelmd);text-align:left;padding-bottom:6px}
+.spec-table th{background:var(--steeldk);color:#fff;font-family:var(--mono);font-size:.44rem;letter-spacing:.12em;text-transform:uppercase;padding:7px 10px;text-align:left}
+.spec-table td{padding:6px 10px;border-bottom:1px solid var(--rule);vertical-align:top;font-family:var(--sans)}
+.spec-table tr:nth-child(even) td{background:var(--paper2)}
+.mono{font-family:var(--mono);font-size:.72rem;color:var(--amber)}
+.v-good{color:var(--green-ok);font-weight:600}
+.v-warn{color:var(--amber);font-weight:600}
+.v-bad{color:var(--red-warn);font-weight:600}
+
+/* ── STEP LIST ── */
+.steps{counter-reset:step;margin:12px 0;padding:0;list-style:none}
+.steps li{counter-increment:step;position:relative;padding:8px 0 8px 38px;border-bottom:1px solid var(--rule);font-size:.84rem;color:var(--steeldk);line-height:1.55}
+.steps li::before{content:counter(step);position:absolute;left:0;top:8px;width:24px;height:24px;background:var(--amber);color:#fff;font-family:var(--mono);font-size:.7rem;font-weight:600;display:flex;align-items:center;justify-content:center;border-radius:50%}
+.steps li strong{color:var(--ink);font-weight:600}
+
+/* ── DECISION TREE ── */
+.tree{margin:14px 0}
+.tree-row{display:flex;gap:0;border:1px solid var(--rule);margin-bottom:-1px;background:var(--paper2)}
+.tree-q{flex:1;padding:9px 12px;font-size:.82rem;color:var(--ink);font-weight:600}
+.tree-a{flex:1.4;padding:9px 12px;font-size:.8rem;color:var(--steeldk);border-left:3px solid var(--amber);background:#fff}
+
+/* ── CARDS ── */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+.data-card{background:var(--paper2);border:1px solid var(--rule);border-top:3px solid var(--amber);padding:12px 14px}
+.data-card h4{font-family:var(--display);font-size:1.05rem;letter-spacing:.08em;color:var(--ink);margin-bottom:6px}
+.data-card p{font-size:.8rem;color:var(--steeldk);line-height:1.55}
+
+/* ── XREF ── */
+.xref-bar{background:var(--steeldk);padding:9px 5%;display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:32px -5% 0}
+.xref-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.16em;color:var(--steellt);text-transform:uppercase;margin-right:6px}
+.xref-pill{font-family:var(--mono);font-size:.46rem;letter-spacing:.08em;color:var(--amber2);background:rgba(232,120,0,.12);border:1px solid rgba(232,120,0,.4);padding:3px 9px;text-decoration:none;white-space:nowrap}
+.xref-pill:hover{background:rgba(232,120,0,.25)}
+
+/* ── MOBILE ── */
+@media(max-width:600px){
+  .std-header{padding:14px 16px 12px}
+  .std-title{font-size:clamp(1.6rem,6vw,2.4rem)}
+  .lib-home-btn{top:12px;right:12px}
+  .toc-bar{padding:5px 12px!important;flex-wrap:nowrap!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch!important;scrollbar-width:none!important}
+  .toc-bar::-webkit-scrollbar{display:none}
+  .toc-link{font-size:.42rem!important;padding:2px 5px!important}
+  .content{padding:14px 4% 60px}
+  .sec-header{margin-left:-4%;margin-right:-4%;padding:10px 4%}
+  .xref-bar{margin-left:-4%;margin-right:-4%;padding:9px 4%}
+  .grid2{grid-template-columns:1fr}
+  .spec-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .tree-row{flex-direction:column}
+  .tree-a{border-left:none;border-top:3px solid var(--amber)}
+  .toc-bar,.spec-table{overscroll-behavior-x:contain}
+}
+
+/* ── PRINT ── */
+@media print{
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;color-adjust:exact!important}
+  @page{margin:7mm;size:A4}
+  :root{
+    --ink:#0d0e12;--paper:#ffffff;--paper2:#edeae0;--rule:#d4cfc4;
+    --amber:#b86800;--amber2:#e07800;--steeldk:#2a2f3a;--steelmd:#6a7080;
+    --steellt:#a8b0bc;--red-warn:#B91C1C;--green-ok:#059669;
+  }
+  body{font-size:7.5pt;background:#fff!important}
+  .lib-home-btn,.toc-bar{display:none!important}
+  .sticky-nav-unit{position:static!important}
+  .sticky-nav-unit::before{content:none}
+  .std-header{background:#0d0e12!important;padding:8px 14px 6px!important;border-bottom:2px solid #e07800!important}
+  .std-title{color:#e07800!important;font-size:1.5rem!important}
+  .std-eyebrow,.std-vehicle{color:#9aa0ae!important}
+  .std-sub{color:#e8c864!important}
+  .sec-header{background:#2a2f3a!important;border-left:4px solid #e07800!important;padding:6px 14px!important;page-break-after:avoid;margin-left:0!important;margin-right:0!important}
+  .sec-num{background:#b86800!important;color:#fff!important}
+  .sec-title{color:#fff!important}
+  .sec-sub{color:#a8b0bc!important}
+  .subsec{background:#edeae0!important;page-break-after:avoid}
+  .spec-table{break-inside:auto}
+  .spec-table thead{display:table-header-group}
+  .spec-table th{background:#2a2f3a!important;color:#fff!important}
+  .spec-table tr:nth-child(even) td{background:#edeae0!important}
+  .rule,.data-card,.tree-row{break-inside:avoid}
+  .rule-warn{background:#fff4f0!important}
+  .rule-note{background:#fffbe8!important}
+  .rule-ok{background:#f0fff8!important}
+  .rule-info,.data-card{background:#edeae0!important}
+  .xref-bar{background:#2a2f3a!important;margin-left:0!important;margin-right:0!important}
+  .xref-pill{color:#e07800!important;background:#fff!important}
+  .steps li::before{background:#b86800!important;color:#fff!important}
+}
+</style>
+</head>
+<body>
+
+<div class="sticky-nav-unit">
+<div class="std-header">
+  <a href="index.html" class="lib-home-btn">⌂ Index</a>
+  <div class="std-eyebrow">Reference · R40</div>
+  <div class="std-title">Wheel &amp; Tyre Field Procedures</div>
+  <div class="std-sub">Wheel change, bead breaking, manual carcass swap &amp; re-seat</div>
+  <div class="std-vehicle">2009 LC76 SW · 1HZ 4.2L Diesel · low-boost turbo (0.6 bar) · intercooler<br>Last updated: 10 July 2026</div>
+</div>
+<div class="toc-bar">
+  <span class="toc-label">Sections</span>
+  <a href="javascript:void(0)" onclick="document.getElementById('s1').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">1. Doctrine</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s2').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">2. Wheel Change</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s3').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">3. Bead Breaking</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s4').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">4. Demount / Mount</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s5').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">5. Bead Seat &amp; Inflate</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s6').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">6. Torque &amp; Log</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s7').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">7. Kit List</a>
+</div>
+</div>
+
+<div class="content">
+
+<p class="lead">This is the hands-on companion to R14 (tyre strategy) and R27 (field-repair doctrine). It covers the three physical jobs in escalating order: <strong>changing a wheel</strong>, <strong>breaking a bead and swapping a carcass onto the rim by hand</strong>, and <strong>re-seating and inflating</strong> the result. Everything here assumes the LC76's actual kit — bottle jack, hydraulic trolley jack, ratchet straps, compressor, valve tools — and its actual rims: <strong>16" steel</strong>, tubeless, <strong>no tubes carried</strong>, no hi-lift. Written to be workable in sand, heat and fading light.</p>
+
+<!-- ============ S1 ============ -->
+<div class="sec-header" id="s1">
+  <span class="sec-num">§1</span>
+  <span class="sec-title">Doctrine &amp; Decision Tree</span>
+  <span class="sec-sub">Plug first · swap second · rebuild last</span>
+</div>
+
+<p class="p"><strong>Order of escalation.</strong> A puncture is not a wheel change, and a wheel change is not a carcass swap. Each step up costs more time, more sweat and more risk of collateral damage to the rim or bead. Take the cheapest exit available.</p>
+
+<div class="tree">
+  <div class="tree-row"><div class="tree-q">Tread puncture, tyre holding shape?</div><div class="tree-a"><strong>Plug it on the vehicle.</strong> Deflate partially if needed, plug, re-inflate, drive. Known skill — no jack required. (R14)</div></div>
+  <div class="tree-row"><div class="tree-q">Plug won't hold, sidewall cut, or tyre off the bead?</div><div class="tree-a"><strong>Wheel change (§2).</strong> Fit the spare. Casualty goes on the rack for assessment at camp — never fight a tyre at the roadside if the spare will get you moving.</div></div>
+  <div class="tree-row"><div class="tree-q">Spare already in use and a second tyre destroyed?</div><div class="tree-a"><strong>Carcass swap (§3–§5).</strong> The carried carcass goes onto the damaged wheel's rim by hand. This is a camp job: shade, flat ground, water, no time pressure.</div></div>
+  <div class="tree-row"><div class="tree-q">Carcass swap fails — bead damaged, rim bent?</div><div class="tree-a"><strong>Mobility emergency.</strong> Options: run the best partially-holding tyre at reduced pressure and speed to the nearest town; or hold position and use the comms tree (R38 §1). Do not destroy the last good casing trying to limp.</div></div>
+</div>
+
+<div class="rule-info rule"><span class="rule-hdr">Why we carry a carcass, not a second complete spare</span>A mounted second spare costs ~35 kg and a rack position. A bare carcass costs ~20 kg and straps flat, and is carried on the expedition only — domestic trips run on the single spare plus plug kit. The trade is that <strong>we must be able to mount it by hand in the field</strong> — that capability is the entire point of this document, and it must be drilled before departure (§7, R37).</div>
+
+<div class="rule-warn rule"><span class="rule-hdr">No hi-lift — and that's deliberate</span>The classic bush bead-breaker is a hi-lift jack. We don't carry one (crush/slip risk, per R9 doctrine). §3 therefore gives bead-breaking methods built on the kit we do carry. Do not borrow a hi-lift technique from a video and improvise it with a bottle jack balanced on the sidewall — the jack must always be braced against the vehicle, never free-standing on the tyre.</div>
+
+<!-- ============ S2 ============ -->
+<div class="sec-header" id="s2">
+  <span class="sec-num">§2</span>
+  <span class="sec-title">Wheel Change — Field Standard</span>
+  <span class="sec-sub">Solid axles F&amp;R · steel rims</span>
+</div>
+
+<p class="p">The LC76 has solid axles front and rear, which makes jacking simple and safe if done at the right points: <strong>under the axle itself</strong>, as close to the wheel being lifted as practical. Jacking the axle means minimal lift height — the suspension doesn't droop, so the wheel clears the ground almost immediately.</p>
+
+<div class="subsec"><span class="subsec-title">Jacking Points</span><span class="subsec-tag">know before you need them</span></div>
+
+<table class="spec-table">
+  <caption>LC76 field jacking points</caption>
+  <thead><tr><th>Position</th><th>Point</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Front</strong></td><td>Axle housing / axle tube, inboard of the coil spring seat</td><td>Flat cast section. Keep clear of brake lines, breather hose and the diff housing ribs.</td></tr>
+    <tr><td><strong>Rear</strong></td><td>Axle tube, between spring perch and diff housing</td><td>Never on the diff cover plate. Keep clear of the brake line running along the tube.</td></tr>
+    <tr><td><strong>Backup stand</strong></td><td>Bottle jack (unloaded, snugged) under the same axle, other side of the contact patch</td><td>The second jack is the safety stand — we don't carry axle stands, so it earns its keep here.</td></tr>
+  </tbody>
+</table>
+
+<div class="rule-warn rule"><span class="rule-hdr">Soft-ground rule</span>On sand, mud or gravel the jack <strong>will</strong> sink or tilt. Always put the base plate (or the shovel blade, or a MaxTrax laid flat) under the jack. If the jack starts leaning as the load comes on, lower and re-set — never chase a leaning jack upward.</div>
+
+<div class="subsec"><span class="subsec-title">Procedure</span><span class="subsec-tag">both crew signed off — R37 §4</span></div>
+
+<ol class="steps">
+  <li><strong>Position and secure.</strong> Flattest ground available, handbrake hard on, transmission in gear (or P-equivalent: 1st, transfer in low). Chock the wheel diagonally opposite with rocks or MaxTrax. Hazards on if near a road.</li>
+  <li><strong>Stage everything first.</strong> Spare off the carrier, wheel spanner, both jacks, base plate, gloves — all laid out before the vehicle goes up. Nothing worse than hunting for the spanner with the truck on a jack.</li>
+  <li><strong>Crack the nuts on the ground.</strong> All six, half a turn each, star pattern, while the tyre still grips the ground. Steel-rim nuts that have been torqued hot can be brutal — use body weight on the spanner, never a pipe extension so long you risk snapping a stud.</li>
+  <li><strong>Jack under the axle.</strong> Hydraulic jack on its plate, lift until the tyre is 2–3 cm clear. Snug the bottle jack under the axle nearby as the backup stand.</li>
+  <li><strong>Swap the wheel.</strong> Nuts off into a container (not the sand), wheel off, spare on. Lift the spare onto the studs with your knee or the shovel handle as a lever — save your back. Hand-tighten all six.</li>
+  <li><strong>Down and torque.</strong> Lower until the tyre just grips, torque in star pattern (§6), then fully lower and remove both jacks.</li>
+  <li><strong>Stow and check.</strong> Casualty wheel onto the carrier (it's heavier than the spare felt — mind the swing-arm latch), pressure-check the fitted spare against R14 targets for the terrain, log it (§6).</li>
+</ol>
+
+<div class="rule-warn rule"><span class="rule-hdr">Absolute rule — no body parts under the vehicle</span>Never put any part of yourself under a vehicle supported only by a jack. The backup bottle jack reduces the consequence of a slip; it does not license working underneath. Everything in this procedure is done from outside the wheel arch.</div>
+
+<!-- ============ S3 ============ -->
+<div class="sec-header" id="s3">
+  <span class="sec-num">§3</span>
+  <span class="sec-title">Bead Breaking Without a Hi-Lift</span>
+  <span class="sec-sub">Steel rim · LT casing · both beads</span>
+</div>
+
+<p class="p">The bead is the steel-reinforced hoop that locks the tyre onto the rim's bead seat. On an LT-construction tyre like the AT811 that lock is <em>tight</em> — it will not push off by standing on it. You need concentrated force close to the rim edge, worked around the circumference. Both beads must be broken (outer and inner) before the carcass will come off.</p>
+
+<div class="subsec"><span class="subsec-title">Method A — Bottle Jack Against the Chassis</span><span class="subsec-tag">primary method</span></div>
+
+<ol class="steps">
+  <li><strong>Deflate completely.</strong> Valve core out (valve tool). A bead will not break against internal pressure.</li>
+  <li><strong>Lay the wheel flat</strong> under the vehicle, valve side up first, tucked under a solid chassis member — chassis rail, bumper mount, or the GobiX bumper structure. Ground must be firm; use the base plate under the wheel on sand.</li>
+  <li><strong>Set the bottle jack upside-down-load:</strong> base on the tyre sidewall as close to the rim edge as possible (2–3 cm out), ram head against the chassis member. Put a wooden block or MaxTrax offcut between ram and chassis to spread the load and protect the vehicle.</li>
+  <li><strong>Pump.</strong> The jack pushes the bead down off its seat. You'll hear it let go with a crack. Work around the circumference — break, reposition a quarter turn, break again — until the whole bead is free of the seat and sits in the rim's drop centre.</li>
+  <li><strong>Flip and repeat</strong> for the inner bead.</li>
+</ol>
+
+<div class="rule-note rule"><span class="rule-hdr">Keep the jack off the rim and away from the valve</span>Force on the rim edge dents steel rims (repairable) and destroys the bead seat's seal surface (not field-repairable). Start the break on the far side of the wheel from the valve — the internal TPMS sensor (TP-V31) lives at the valve stem and does not enjoy being jacked on.</div>
+
+<div class="subsec"><span class="subsec-title">Method B — Drive-Over</span><span class="subsec-tag">crude fallback</span></div>
+
+<p class="p">Lay the deflated wheel flat, place a sturdy plank (or MaxTrax) across the sidewall close to the rim so no vehicle weight lands on the rim itself, and drive one front wheel slowly onto the plank. The vehicle's weight pushes the bead off. Effective on steel rims; requires a second person spotting and a driver with fine clutch control. <strong>Never drive directly on the rim or sidewall without the plank</strong> — a bent steel rim in the bush is a worse problem than the one you started with.</p>
+
+<div class="subsec"><span class="subsec-title">Method C — Clamp-Type Bead Breaker</span><span class="subsec-tag">recommended purchase — see §7</span></div>
+
+<p class="p">A dedicated screw-clamp bead breaker (Bushranger/T-Max pattern, ~1.5 kg) hooks over the rim edge and presses the bead off with a threaded ram. It turns bead breaking from a 20-minute improvisation into a 3-minute certainty, works at any wheel orientation, and carries no risk to vehicle or rim. On the "good quality, cost-effective, appropriate" test it passes easily. Once carried, it becomes Method A and the bottle jack drops to backup.</p>
+
+<!-- ============ S4 ============ -->
+<div class="sec-header" id="s4">
+  <span class="sec-num">§4</span>
+  <span class="sec-title">Demount &amp; Mount by Hand</span>
+  <span class="sec-sub">Levers · lube · rim protectors · TPMS care</span>
+</div>
+
+<p class="p">With both beads broken, the tyre comes off — and the carcass goes on — with long tyre levers, generous lubrication, and patience. The single principle that governs every lever stroke: <strong>the bead opposite your levers must be pushed down into the drop centre</strong> (the recessed channel in the middle of the rim). The bead is inextensible steel; it only clears the rim edge because the drop centre gives it slack. Kneel on the far side of the tyre while levering — that's not resting, that's the technique.</p>
+
+<div class="subsec"><span class="subsec-title">Demount — Casualty Off the Rim</span><span class="subsec-tag">valve side up</span></div>
+
+<ol class="steps">
+  <li><strong>Lube both beads</strong> — proper bead lube, or soap bar (R3 §7.9) worked into a slurry with water. Dry lever work tears beads and bends levers.</li>
+  <li><strong>Note the TPMS sensor position</strong> (at the valve). Start levering <strong>90° or more away from the valve</strong> so lever tips never reach the sensor.</li>
+  <li><strong>First lever in:</strong> tip under the bead, rim protector on the rim edge, lever back over the rim to lift a section of bead over the edge. Hold it. Second lever 15–20 cm along, repeat. Knee pressure keeps the opposite bead in the drop centre.</li>
+  <li><strong>Walk the bead off</strong> in small bites. Once about a third is over the edge, the rest usually pulls over by hand.</li>
+  <li><strong>Second bead:</strong> stand the wheel up or keep it flat, lever the lower bead over the same (upper) rim edge — same drop-centre principle — and the carcass comes free.</li>
+</ol>
+
+<div class="subsec"><span class="subsec-title">While the Rim is Bare</span><span class="subsec-tag">cheap insurance</span></div>
+
+<div class="rule-ok rule"><span class="rule-hdr">Do these three things every time the tyre is off</span><strong>1. Fit a new valve stem or inspect the TPMS valve assembly and its grommet seal</strong> — a perished valve seal is the most common slow leak, and this is the only time it's accessible. <strong>2. Wire-brush and inspect both bead seats</strong> — rust or crust on a steel rim's bead seat is a guaranteed slow leak; brush to clean metal. <strong>3. Look inside the casualty carcass</strong> — run a hand around the inner liner for nails, cord damage or the ridge of a broken belt before deciding it's still worth carrying.</div>
+
+<div class="subsec"><span class="subsec-title">Mount — Carcass Onto the Rim</span><span class="subsec-tag">the reverse, easier</span></div>
+
+<ol class="steps">
+  <li><strong>Check rotation direction.</strong> If the carcass is directional or has a marked outboard sidewall, orient it before you start — discovering it backwards after seating the beads doubles the job.</li>
+  <li><strong>Lube heavily</strong> — both beads of the carcass, both bead seats of the rim.</li>
+  <li><strong>First bead on:</strong> lay the rim flat (valve up), angle the carcass and push the lower bead over the rim edge — most of it goes by standing on it; finish the last section with a lever and rim protector.</li>
+  <li><strong>Second bead:</strong> start opposite the valve, work toward it. Knee the already-mounted section into the drop centre, lever the rest over in small bites. The last 20 cm is the fight — more lube, smaller bites, keep the far side deep in the drop centre.</li>
+  <li><strong>Confirm nothing is trapped</strong> — levers out, valve stem clear, beads sitting loose but inside both rim edges. Ready for §5.</li>
+</ol>
+
+<div class="rule-warn rule"><span class="rule-hdr">Lever discipline</span>Small bites, always a rim protector between lever and rim, and never hammer a lever that's stopped moving — that's the bead telling you the opposite side has climbed out of the drop centre. Reset the knee pressure and go again. A torn bead on the last carried carcass ends the expedition's tyre redundancy.</div>
+
+<!-- ============ S5 ============ -->
+<div class="sec-header" id="s5">
+  <span class="sec-num">§5</span>
+  <span class="sec-title">Bead Seating &amp; Inflation</span>
+  <span class="sec-sub">Ratchet strap · core out · 2.75 bar ceiling</span>
+</div>
+
+<p class="p">A freshly mounted tubeless tyre sits loose on the rim — air blows straight past the beads. The trick is to force both beads against the seats just long enough for pressure to build, then let pressure do the rest. This is the job the ratchet straps already carry for (R27 doctrine — the same reason they replaced the hi-lift in R3 §9.1).</p>
+
+<ol class="steps">
+  <li><strong>Valve core out.</strong> Maximum airflow through the stem — the core chokes the compressor's delivery exactly when volume matters most.</li>
+  <li><strong>Ratchet strap around the circumference</strong> of the tread, centred. Tighten firmly: squeezing the tread bulges both sidewalls outward, pressing the beads toward their seats.</li>
+  <li><strong>Wheel flat or upright, compressor on.</strong> Air in through the coreless stem. As pressure builds the beads walk outward; you'll hear one or two sharp <em>pops</em> as each bead snaps over the safety hump onto its seat.</li>
+  <li><strong>Release the strap the moment the beads pop</strong> — a strap trapped under building pressure is hard to release and can be over-stressed.</li>
+  <li><strong>Core back in, inflate to seating pressure, check the lines.</strong> Both moulded bead-check rings (the fine ridge just above the rim edge) must sit concentric and even all the way round, both sides. An uneven ring means an unseated section — deflate, re-lube that section, seat again.</li>
+  <li><strong>Set running pressure</strong> per R14 / Tyre Pressure Calculator for the terrain, soap-check the valve and bead line for leaks, and confirm the TPMS sensor is reporting.</li>
+</ol>
+
+<div class="rule-warn rule"><span class="rule-hdr">2.75 bar (40 psi) absolute seating ceiling</span>If the beads have not seated by <strong>2.75 bar</strong>, STOP. Deflate, break the vacuum, re-lube, re-strap, try again. Never chase a stubborn bead with more pressure — a bead that lets go at high pressure releases explosive force. And never lean over the tyre during seating: work from the tread side, face and body out of the plane of the sidewalls.</div>
+
+<div class="rule-note rule"><span class="rule-hdr">No tubes — by design</span>We run tubeless-only, no tubes carried (owner decision, Jul 2026). A tube in a tubeless LT casing on an unknown-condition bush rim invites chafe failures and hides slow leaks from the TPMS. The redundancy strategy is the carried carcass plus the plug kit — if a bead or rim is too damaged to seal, the answer is §1's mobility-emergency row, not an improvised tube.</div>
+
+<!-- ============ S6 ============ -->
+<div class="sec-header" id="s6">
+  <span class="sec-num">§6</span>
+  <span class="sec-title">Torque, Re-check &amp; Log</span>
+  <span class="sec-sub">Star pattern · 50 km re-torque</span>
+</div>
+
+<table class="spec-table">
+  <caption>Wheel fastening — LC76 steel rims</caption>
+  <thead><tr><th>Item</th><th>Value</th><th>Notes</th></tr></thead>
+  <tbody>
+    <tr><td>Wheel nut torque</td><td class="mono">131 Nm (97 lb-ft)</td><td>Standard 70-Series steel-rim spec. <span class="v-warn">Verify against the vehicle handbook at the next service and correct here if it differs.</span></td></tr>
+    <tr><td>Pattern</td><td>Star (1-4-2-5-3-6)</td><td>Two passes: snug pass, then full-torque pass.</td></tr>
+    <tr><td>Re-torque</td><td class="mono">After 50 km</td><td>Non-negotiable after any wheel-off event. Steel rims settle on the hub face; nuts loosen. Set a nav waypoint or phone alarm at fitment.</td></tr>
+    <tr><td>Thread care</td><td>Clean &amp; dry</td><td>Wire-brush gritty studs. No grease or anti-seize on wheel studs — it falsifies torque readings and invites over-clamp.</td></tr>
+  </tbody>
+</table>
+
+<div class="rule-info rule"><span class="rule-hdr">Log every event</span>Every plug, wheel change and carcass swap goes into the trip log with odometer, cause and tyre position — it feeds the R23 post-trip review and the R14 wear picture. A pattern of one corner eating tyres is diagnostic data (alignment, shock, bearing), not bad luck.</div>
+
+<!-- ============ S7 ============ -->
+<div class="sec-header" id="s7">
+  <span class="sec-num">§7</span>
+  <span class="sec-title">Kit List — Have / Gap</span>
+  <span class="sec-sub">Gaps feed R3 ledger (EX-8)</span>
+</div>
+
+<table class="spec-table">
+  <caption>Tyre-work kit against this document's procedures</caption>
+  <thead><tr><th>Item</th><th>Status</th><th>Role here</th></tr></thead>
+  <tbody>
+    <tr><td>Hydraulic trolley jack</td><td class="v-good">HAVE</td><td>Primary lift (§2)</td></tr>
+    <tr><td>Bottle jack + base plate</td><td class="v-good">HAVE</td><td>Backup stand (§2); bead breaker Method A (§3)</td></tr>
+    <tr><td>Ratchet straps 2× HD</td><td class="v-good">HAVE</td><td>Bead seating squeeze (§5) — R3 §9.1</td></tr>
+    <tr><td>Air compressor</td><td class="v-good">HAVE</td><td>Seating &amp; inflation (§5)</td></tr>
+    <tr><td>Valve tools, cores, caps</td><td class="v-good">HAVE</td><td>Core-out seating (§5); valve service (§4)</td></tr>
+    <tr><td>Plug kit + pressure gauge + deflators</td><td class="v-good">HAVE</td><td>First-line repair (§1) — R14</td></tr>
+    <tr><td>Wheel spanner + torque wrench</td><td class="v-good">HAVE</td><td>§2, §6 — confirm the torque wrench spans 131 Nm</td></tr>
+    <tr><td>Long tyre levers ×3 (≥450 mm)</td><td class="v-bad">GAP</td><td>§4 is impossible without them. LT beads defeat short irons — buy 500–600 mm, forged, flat-spoon tips.</td></tr>
+    <tr><td>Rim protectors ×3 (nylon clip-on)</td><td class="v-bad">GAP</td><td>Bead-seat protection during lever work (§4). Trivial cost and weight.</td></tr>
+    <tr><td>Bead lube (small bottle) </td><td class="v-warn">GAP — soap bar covers it</td><td>§4/§5. Soap bar (R3 §7.9) is the doctrine fallback; a 250 ml bottle of proper bead lube is better and lasts the expedition.</td></tr>
+    <tr><td>Spare valve stems ×4 + TPMS grommet/seal kit</td><td class="v-bad">GAP</td><td>§4 valve service — match the TP-V31 internal-sensor valve fitment.</td></tr>
+    <tr><td>Clamp-type bead breaker</td><td class="v-warn">DECISION — recommended buy</td><td>Converts §3 from improvisation to certainty (~1.5 kg, ~R600–900). Recommended buy — in the kit and drilled before expedition departure.</td></tr>
+  </tbody>
+</table>
+
+<div class="grid2">
+  <div class="data-card"><h4>Kit Closure</h4><p>Close the lever / protector / valve-stem gaps and decide the bead breaker in good time — these feed the R3 expedition consumables ledger (EX-8). No carcass is carried on domestic trips; the carcass joins the load list for the expedition only.</p></div>
+  <div class="data-card"><h4>Pre-Departure Drill</h4><p>Run at least one full carcass-swap drill before expedition departure — bead break, demount, mount, strap re-seat — both crew, on the 265/75R16 expedition set once fitted (~2027, RA-9). Sign off in R37. The carried carcass should match the fitted model so pressures, wear and behaviour stay predictable. The driveway is where you find out the levers are too short, not the Zambezi valley.</p></div>
+</div>
+
+</div><!-- /content -->
+
+<div class="xref-bar">
+  <span class="xref-label">Cross-Reference</span>
+  <a href="LC76_Tyre_Management_Guide.html" class="xref-pill">R14 · Tyre Management</a>
+  <a href="LC76_Bush_Mechanics_Guide.html" class="xref-pill">R27 · Bush Mechanics</a>
+  <a href="LC76_Vehicle_Recovery_Guide.html" class="xref-pill">R9 · Vehicle Recovery</a>
+  <a href="LC76_Spares_Tools.html" class="xref-pill">R3 · Bush Spares &amp; Tools</a>
+  <a href="LC76_Crew_Readiness_Training_Register.html" class="xref-pill">R37 · Crew Readiness</a>
+  <a href="LC76_Tyre_Pressure_Calculator.html" class="xref-pill">Tyre Pressure Calculator</a>
+</div>
+
+<script>
+// Active TOC state
+const sections = ['s1','s2','s3','s4','s5','s6','s7'];
+const tocLinks = document.querySelectorAll('.toc-link');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      const idx = sections.indexOf(entry.target.id);
+      tocLinks.forEach((l, i) => l.classList.toggle('active', i === idx));
+    }
+  });
+}, {rootMargin: '-30% 0px -60% 0px'});
+sections.forEach(id => {
+  const el = document.getElementById(id);
+  if(el) observer.observe(el);
+});
+
+// Dynamic scroll margin
+function updateScrollMargins(){
+  const navH = document.querySelector('.sticky-nav-unit').offsetHeight;
+  document.querySelectorAll('.sec-header').forEach(el => {
+    el.style.scrollMarginTop = (navH + 4) + 'px';
+  });
+}
+updateScrollMargins();
+window.addEventListener('resize', updateScrollMargins);
+
+// Service worker — domain-guarded
+if('serviceWorker' in navigator && location.hostname !== 'www.claudeusercontent.com'){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('./sw.js')
+      .then(r => console.log('LC76 SW registered'))
+      .catch(e => console.log('SW error:', e));
+  });
+}
+</script>
+</body>
+</html>
