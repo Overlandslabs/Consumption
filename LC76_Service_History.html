@@ -91,7 +91,8 @@ th,td{font-size:.75rem;padding:.5rem .4rem}
 .ig[style*="1fr 1fr 1fr"]{grid-template-columns:1fr 1fr!important}
 }
 /* == TOC BAR (R26/R32 standard) == */
-.toc-bar{background:var(--steeldk);padding:7px 24px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;border-bottom:2px solid var(--amber)}
+.toc-bar{background:var(--steeldk);padding:7px 24px;display:flex;align-items:center;gap:5px;flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none;border-bottom:2px solid var(--amber)}
+.toc-bar::-webkit-scrollbar{display:none}
 .toc-label{font-family:'IBM Plex Mono',monospace;font-size:.46rem;letter-spacing:.18em;color:#a8b0bc;text-transform:uppercase;margin-right:4px;flex-shrink:0}
 .toc-link{font-family:'IBM Plex Mono',monospace;font-size:.46rem;color:rgba(255,255,255,.45);text-decoration:none;padding:2px 6px;border:1px solid transparent;transition:all .12s;white-space:nowrap;cursor:pointer}
 .toc-link:hover,.toc-link.active{color:var(--amber2);border-color:var(--amber2);background:rgba(232,120,0,.1)}
@@ -109,6 +110,10 @@ th,td{font-size:.75rem;padding:.5rem .4rem}
 .chart-title{font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:.08em;color:var(--steeldk)}
 .chart-note{font-family:'IBM Plex Mono',monospace;font-size:.52rem;letter-spacing:.06em;color:var(--steelmd);margin:2px 0 8px;line-height:1.5}
 .chart-svg{width:100%;height:auto;display:block}
+.v1-legend{display:flex;flex-wrap:wrap;gap:4px 14px;margin:8px 0 6px}
+.v1-leg-item{font-family:'IBM Plex Mono',monospace;font-size:.54rem;letter-spacing:.04em;color:var(--steeldk);display:inline-flex;align-items:center;gap:5px;white-space:nowrap}
+.v1-leg-num{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;background:var(--red-warn);color:#fff;font-size:.5rem;font-weight:600;flex-shrink:0}
+.mw-table td:first-child,.mw-table th:first-child,.mw-table td:last-child,.mw-table th:last-child{white-space:nowrap}
 .supp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:14px 0}
 .supp-card{background:var(--paper2);border:1px solid var(--rule);border-left:4px solid var(--amber);padding:14px}
 .supp-name{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.08em;color:var(--steeldk)}
@@ -248,7 +253,7 @@ tbody tr:first-child{page-break-before:avoid}
 
 <div class="chart-card"><div class="chart-title">V1 · Cumulative Cost vs Odometer</div>
 <div class="chart-note">MAJOR RENEWAL EVENTS ANNOTATED · THE KNEE AT ~212,000 KM MARKS THE START OF THE RENEWAL ERA</div>
-<div id="v1"></div></div>
+<div id="v1"></div><div class="v1-legend" id="v1legend"></div></div>
 
 <div class="chart-card"><div class="chart-title">V2 · Annual Spend — Scheduled vs Unscheduled / Renewal</div>
 <div class="chart-note">CLASSIFICATION RULE-BASED: "MANUFACTURERS SERVICE" + "IN BETWEEN SERVICE" = SCHEDULED · ALL ELSE = UNSCHEDULED/RENEWAL</div>
@@ -264,7 +269,7 @@ tbody tr:first-child{page-break-before:avoid}
 
 <div class="chart-card"><div class="chart-title">Major-Works Event Register</div>
 <div class="chart-note">RENEWAL &amp; MAJOR EVENTS ≥ R20,000 EQUIVALENT · GROUPED BY INVOICE · FULL LINE DETAIL IN THE LEDGER SUPPLEMENTS</div>
-<table style="width:100%;border-collapse:collapse;font-size:.78rem">
+<div class="table-wrapper"><table class="mw-table" style="width:100%;min-width:660px;border-collapse:collapse;font-size:.78rem">
 <thead><tr><th style="text-align:left">Date</th><th style="text-align:right">Odometer</th><th style="text-align:left">Event</th><th style="text-align:left">Workshop</th><th style="text-align:right">Cost</th></tr></thead>
 <tbody>
 <tr><td>2022-04</td><td style="text-align:right">212,330</td><td>Transfer shaft &amp; gearbox work</td><td>Toyota Vredendal</td><td style="text-align:right;font-weight:600">R 38,754</td></tr>
@@ -277,7 +282,7 @@ tbody tr:first-child{page-break-before:avoid}
 <tr><td>2026-01</td><td style="text-align:right">294,500</td><td>OME rear leaf springs + shocks</td><td>4X4 Megaworld</td><td style="text-align:right;font-weight:600">R 38,903</td></tr>
 <tr><td>2026-02</td><td style="text-align:right">296,500</td><td>Clutch 4 — TT 4WD HD</td><td>Cape Transmissions</td><td style="text-align:right;font-weight:600">R 21,239</td></tr>
 <tr><td>2026-06</td><td style="text-align:right">310,412</td><td>Fuel-injection overhaul — VE pump rebuild, 6 injectors, valve set</td><td>Udel Stellenbosch</td><td style="text-align:right;font-weight:600">R 36,729</td></tr>
-</tbody></table>
+</tbody></table></div>
 <p class="chart-note" style="margin-top:8px">DATA SOURCE: LC_Service_history_FINAL.xlsx (LEDGER OF RECORD, 315 ROWS, HYGIENE APPLIED 10 JUL 2026). COST-0 CONVENTION: A ZERO-COST ROW IS A LINE ITEM OF THE PARENT INVOICE ROW ABOVE. LiFePO4 INSTALL (JUL 2026) EXCLUDED PENDING INVOICE.</p>
 </div>
 
@@ -1192,13 +1197,17 @@ function renderV1(){
   for(let g=0;g<=6;g++){const k=g*50000;s+=axisTxt(X(k),H-14,(k/1000)+'k','middle',9);}
   let d='M';AGG.cum.forEach((p,i)=>{d+=(i?'L':'')+X(p[0]).toFixed(1)+' '+Yy(p[1]).toFixed(1);});
   s+='<path d="'+d+'" fill="none" stroke="'+C.amber2+'" stroke-width="2.5"/>';
+  let leg='';
   AGG.ann.forEach((a,i)=>{
     const pt=AGG.cum.reduce((b,p)=>p[0]<=a[0]?p:b,AGG.cum[0]);
-    const x=X(a[0]),y=Yy(pt[1]);const up=(i%2===0);const ly=up?y-26-(i%4)*11:y+30+(i%4)*11;
-    s+='<line x1="'+x+'" y1="'+y+'" x2="'+x+'" y2="'+ly+'" stroke="'+C.mid+'" stroke-width="1" stroke-dasharray="2,2"/>';
-    s+='<circle cx="'+x+'" cy="'+y+'" r="3.5" fill="'+C.red+'"/>';
-    s+=axisTxt(x,ly+(up?-3:9),a[2],x>560?'end':'middle',8.5);
+    const x=X(a[0]),y=Yy(pt[1]);const my=y-18-(i%2)*16;
+    s+='<line x1="'+x+'" y1="'+y+'" x2="'+x+'" y2="'+(my+7)+'" stroke="'+C.mid+'" stroke-width="1" stroke-dasharray="2,2"/>';
+    s+='<circle cx="'+x+'" cy="'+y+'" r="3" fill="'+C.red+'"/>';
+    s+='<circle cx="'+x+'" cy="'+my+'" r="7.5" fill="'+C.red+'"/>';
+    s+='<text x="'+x+'" y="'+(my+3)+'" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="8.5" font-weight="600" fill="#fff">'+(i+1)+'</text>';
+    leg+='<span class="v1-leg-item"><span class="v1-leg-num">'+(i+1)+'</span>'+a[2]+' · '+a[0].toLocaleString('en-ZA')+' km · R '+Math.round(a[1]/1000)+'k</span>';
   });
+  const lg=document.getElementById('v1legend');if(lg)lg.innerHTML=leg;
   s+=axisTxt(L-46,T-16,'CUMULATIVE SPEND','start',8);s+=axisTxt(W-R,H-2,'ODOMETER (KM)','end',8);
   document.getElementById('v1').innerHTML=s+'</svg>';
 }
