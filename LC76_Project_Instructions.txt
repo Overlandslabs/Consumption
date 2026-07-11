@@ -1,8 +1,31 @@
 LC76 OVERLAND REFERENCE LIBRARY — PROJECT INSTRUCTIONS
 ═══════════════════════════════════════════════════════════════════════
-Last updated: 11 July 2026 (MOBILE PATTERN v1.7 PROPAGATION — SESSION 1
+Last updated: 11 July 2026 (MOBILE PATTERN v1.7 PROPAGATION — SESSION 2
 EXECUTED. 11 Jul 2026 (continued, same day, own session per the workstream
-charter): SESSION 1 of the Mobile Pattern v1.7 propagation executed — 39
+charter): SESSION 2 of the Mobile Pattern v1.7 propagation executed — 10
+country/terrain profile files patched (Angola, Namibia, Botswana, Zambia,
+Kalahari, Tanzania, Mozambique, Malawi, Zimbabwe, Kenya). Live fetch SHA
+a6408f8b; pre-audit clean start (0/10 conforming to v1.7, 0/10 carrying
+the prohibited overflow-x:hidden on body). Uniform anchored patch — same
+technique as S1: insert overflow-x:clip;overscroll-behavior-x:none into
+the FIRST CSS body{} block only; per-file `assert count==1` guard; 10/10
+patched with size delta exactly 43 bytes per file (matches the CSS
+insertion length, proving CSS-only change). Validation: body-rule
+presence 10/10; node --check on every inline script block, zero errors.
+Masthead dates bumped to 11 Jul 2026 (10/10). PRE-EXISTING SCAN ANOMALY
+found (not caused by this session): naive div/span depth walk returns
+-1/-1 with 95 neg events on Angola and 111 neg events on Namibia. Verified
+against re-fetched originals — identical depth stats before and after
+edit, confirming zero DOM modification. Root cause: JS template strings
+containing </div> fragments in map renderers, not fully stripped by the
+regex heuristic. Files render correctly on GitHub Pages. Logged as OPEN
+FOLLOW-UP (validator refinement) — should NOT block propagation. Working
+papers: row MOB-v1.7-S2 appended to EX_Register (style-cloned from the
+S1 row); COUNTIF audit unchanged (formulas 9, substrings 13); testzip
+None. Content-only across the board — CACHE stays v20. Session 3 (3
+philosophy + 1 itinerary + 6 calculators) remains chartered.
+PRIOR (same day): MOBILE PATTERN v1.7 PROPAGATION — SESSION 1 EXECUTED.
+SESSION 1 of the Mobile Pattern v1.7 propagation executed — 39
 files patched (Reference family R1–R28 excl. R29, R30–R32, R34–R39 = 36
 files + 3 R8 supplements Service_Checklist / Service_Ledger_Archive /
 Service_Ledger_Current). Live fetch SHA f970204c; pre-audit clean start
@@ -801,7 +824,14 @@ MOBILE PATTERN v1.7 PROPAGATION (chartered 11 Jul 2026 — dedicated
     R9, R10, R11, R12, R13, R14, R15, R16, R17, R18, R19, R20, R21, R22,
     R23, R24, R25, R26, R27, R28, R30, R31, R32, R34, R35, R36, R37, R38,
     R39. (R29, R40 already done — excluded.)
-  SESSION 2 — Country/terrain profiles (10 files):
+  SESSION 2 — Country/terrain profiles (10 files) — DONE 11 Jul 2026
+  (live fetch SHA a6408f8b; pre-audit clean start 0/10 conforming, 0/10
+  with prohibited hidden-on-body; 10/10 patched with anchored insertion
+  of body{overflow-x:clip;overscroll-behavior-x:none}; size delta 43
+  bytes per file; node --check clean on inline scripts; body-rule presence
+  10/10; masthead dates bumped to 11 Jul 2026; working-papers row
+  MOB-v1.7-S2 appended; content-only, CACHE stays v20). Pre-existing
+  scan anomaly logged (see OPEN FOLLOW-UP below):
     001 Angola, 002 Namibia, 003 Botswana, 004 Zambia, 005 Kalahari,
     006 Tanzania, 007 Mozambique, 008 Malawi, 009 Zimbabwe, 010 Kenya.
   SESSION 3 — Philosophy + Itinerary + Calculators (10 files):
@@ -812,7 +842,18 @@ MOBILE PATTERN v1.7 PROPAGATION (chartered 11 Jul 2026 — dedicated
     LC76_Water_Budget_Calculator.html, LC76_LiFePO4_Calculator.html,
     LC76_Tyre_Pressure_Calculator.html. (index.html already done —
     excluded; header-meta gets a final bump at session close instead.)
-  Status: SESSION 1 DONE (11 Jul 2026); Sessions 2 & 3 chartered.
+  Status: SESSIONS 1 & 2 DONE (11 Jul 2026); Session 3 chartered.
+
+OPEN FOLLOW-UP — VALIDATOR REFINEMENT (flagged 11 Jul 2026, Mobile v1.7 S2)
+  Angola (001) and Namibia (002) profiles fail the naive div/span depth
+  walk with -1/-1 stats and 95/111 negative events respectively. Verified
+  as PRE-EXISTING scan artefact, not a rendering defect: `</div>` fragments
+  inside JS template strings in the map renderers are counted as real
+  tags by the current regex heuristic. Files render correctly on GitHub
+  Pages; identical depth stats before/after S2 edit prove zero DOM change.
+  Fix: improve the depth-walk to skip content inside JS template literals
+  and data-* attributes, or add a per-file allowlist for map-renderer
+  false positives. Non-urgent — pure tooling improvement.
 
 OPEN FOLLOW-UP — R30 R8 ENTRY STALE (flagged 10 Jul 2026, EX-12 S3)
   The R30 searchable-index entry for R8 predates the S2 rebuild: its desc
@@ -902,7 +943,7 @@ DESIGN SYSTEM (mandatory — full spec in LC76_Design_Guidelines.html, now v1.7)
   HIDDEN (hidden on body breaks Safari sticky; clip creates no scroll
   container so sticky is unaffected). The body line was added at v1.7
   (11 Jul 2026) after html-only proved insufficient to stop mobile
-  horizontal sway on some devices. CONFORMS: R29, R40, index.html + Reference family & R8 supplements (39 files, Session 1 done 11 Jul 2026).
+  horizontal sway on some devices. CONFORMS: R29, R40, index.html + Reference family & R8 supplements (39 files, Session 1) + Country/terrain profiles (10 files, Session 2), all 11 Jul 2026.
   PROPAGATION IN PROGRESS to the rest of the library — see MOBILE PATTERN
   v1.7 PROPAGATION below; do not assume other files carry the body line
   until their batch runs. Also: a ::before slab on the sticky-nav unit
