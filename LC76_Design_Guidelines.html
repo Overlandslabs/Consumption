@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0d0e12">
-<title>LC76 Design Guidelines v1.6</title>
+<title>LC76 Design Guidelines v1.7</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500;600&family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -165,7 +165,7 @@ code{font-family:var(--mono);font-size:.75rem;color:var(--amber);background:var(
   <a href="index.html" class="lib-home-btn">⌂ Index</a>
   <div class="std-eyebrow">LC76 Overland Library</div>
   <div class="std-title">Design Guidelines</div>
-  <div class="std-sub">Reference Standard &nbsp;·&nbsp; v1.6 &nbsp;·&nbsp; 7 July 2026</div>
+  <div class="std-sub">Reference Standard &nbsp;·&nbsp; v1.7 &nbsp;·&nbsp; 11 July 2026</div>
   <div class="std-vehicle">HZJ76R-RKMRS · Two design systems · Reference docs R1–R36 + 6 Calculators</div>
 </div>
 <div class="toc-bar">
@@ -674,7 +674,7 @@ sections.forEach(id => {
     <tr><td>theme-color</td><td><code>#0d0e12</code> for reference docs / <code>#1C1410</code> for calculators</td></tr>
     <tr><td>Manifest</td><td>Reference docs share <code>manifest-ref.json</code>. Each calculator has its own: <code>manifest-power.json</code>, <code>manifest-water.json</code>, <code>manifest-tyre.json</code>, etc.</td></tr>
     <tr><td>Service worker strategy</td><td>Network-first — always fetch latest; cache as offline fallback only. Never cache-first for HTML files.</td></tr>
-    <tr><td>Horizontal overflow</td><td><code>html{overflow-x:hidden;overflow-x:clip;overscroll-behavior-x:none}</code> — on <code>html</code>, NOT <code>body</code> (body overflow-x:hidden breaks Safari sticky). <code>hidden</code> is the fallback, <code>clip</code> is preferred (no scroll container, no sticky breakage), <code>overscroll-behavior-x:none</code> stops page-level horizontal rubber-banding. Inner horizontal scrollers (toc-bar, wide tables) take <code>overscroll-behavior-x:contain</code> so their scroll doesn’t chain to the page — confirmed on R26/R32 + Manifesto/Commentary/History.</td></tr>
+    <tr><td>Horizontal overflow</td><td><code>html{overflow-x:hidden;overflow-x:clip;overscroll-behavior-x:none}</code> AND <code>body{overflow-x:clip;overscroll-behavior-x:none}</code> (v1.7). Body must use <code>clip</code>, never <code>hidden</code> — <code>hidden</code> on body breaks Safari sticky, <code>clip</code> creates no scroll container so sticky is unaffected. html-only was found insufficient to stop mobile horizontal sway on some devices (R40/index.html/R29). Inner horizontal scrollers (toc-bar, wide tables) take <code>overscroll-behavior-x:contain</code> so their scroll doesn’t chain to the page — confirmed on R26/R32 + Manifesto/Commentary/History.</td></tr>
     <tr><td>Safe area insets</td><td><code>padding-top:env(safe-area-inset-top)</code> on the sticky nav unit, plus <code>background:var(--ink)</code> and a <code>::before</code> slab (<code>bottom:100%;height:100vh</code>) so the inset region stays opaque on mobile PWA — confirmed on R26/R32 + Manifesto/Commentary/History</td></tr>
     <tr><td>prompt() / alert()</td><td>Both blocked in standalone mode — all interactions must be inline</td></tr>
     <tr><td>After JS changes</td><td>User must delete and re-add the home screen shortcut after any JS change — iOS caches the PWA at install time</td></tr>
@@ -701,16 +701,19 @@ if('serviceWorker' in navigator &amp;&amp; location.hostname !== 'www.claudeuser
 }
 &lt;/script&gt;</pre>
 
-<div class="subsec" style="margin-top:20px"><span class="subsec-title">v1.5 Mobile PWA Pattern &mdash; Mandatory</span><span class="subsec-tag">Apply to every reference doc and calculator</span></div>
+<div class="subsec" style="margin-top:20px"><span class="subsec-title">v1.7 Mobile PWA Pattern &mdash; Mandatory</span><span class="subsec-tag">Apply to every reference doc and calculator</span></div>
 
 <div class="rule rule-warn">
   <strong>&#9888; This pattern is mandatory, not aspirational.</strong>
   Every reference document and calculator must ship the full pattern below. The individual pieces are already listed in the S8 spec table; this section collects them as a single non&#8209;optional block for build&#8209;time reference. Confirmed working across browser and iOS standalone PWA on R26 and R32.
+  <br><br><strong>Amended v1.7 (11 Jul 2026):</strong> <code>html</code>-level <code>overflow-x</code> alone did not stop horizontal sway/rubber-band on scroll on some devices (owner-reported on R40, index.html, R29). Rule 1 below now also carries <code>body{overflow-x:clip;overscroll-behavior-x:none}</code>. This is <strong>clip, not hidden</strong> &mdash; <code>overflow-x:hidden</code> on body still breaks Safari sticky (unchanged prohibition); <code>overflow-x:clip</code> creates no scroll container so sticky is unaffected. Confirmed on R40/index.html/R29.
 </div>
 
-<pre>/* 1. Horizontal overflow — on html, NEVER body.
-      body{overflow-x:hidden} breaks Safari sticky. */
+<pre>/* 1. Horizontal overflow — html always; body ALSO carries
+      overflow-x:clip (not hidden — hidden on body breaks Safari
+      sticky; clip creates no scroll container so sticky is fine). */
 html{overflow-x:hidden;overflow-x:clip;overscroll-behavior-x:none}
+body{overflow-x:clip;overscroll-behavior-x:none}
 
 /* 2. Single sticky nav unit — masthead + TOC wrapped together.
       Opaque background + ::before slab fill the safe-area inset. */
@@ -745,7 +748,7 @@ pre{
 <table class="spec-table">
   <thead><tr><th>#</th><th>Rule</th><th>Verify</th></tr></thead>
   <tbody>
-    <tr><td>1</td><td><code>html{overflow-x:hidden;overflow-x:clip;overscroll-behavior-x:none}</code> present; <code>body</code> carries no <code>overflow-x</code></td><td>grep the two selectors</td></tr>
+    <tr><td>1</td><td><code>html{overflow-x:hidden;overflow-x:clip;overscroll-behavior-x:none}</code> present; <code>body{overflow-x:clip;overscroll-behavior-x:none}</code> also present (body must use <code>clip</code>, never <code>hidden</code>)</td><td>grep both selectors</td></tr>
     <tr><td>2</td><td>Masthead and TOC wrapped in one <code>.sticky-nav-unit</code>; unit has an opaque <code>background</code> and a <code>::before</code> slab (<code>bottom:100%;height:100vh</code>)</td><td>Inspect the source; scroll test on iOS standalone</td></tr>
     <tr><td>3</td><td><code>padding-top:env(safe-area-inset-top)</code> on <code>.sticky-nav-unit</code></td><td>Notch region opaque on iPhone standalone</td></tr>
     <tr><td>4</td><td><code>overscroll-behavior-x:contain</code> on every inner horizontal scroller</td><td>Swipe test — no page-level bounce</td></tr>
@@ -767,7 +770,7 @@ pre{
   <div class="do-block">
     <div class="do-lbl">✓ Do</div>
     <p>Use one of two blessed TOC patterns — (a) <code>&lt;a href="javascript:void(0)" onclick="...scrollIntoView..."&gt;</code> or (b) <code>&lt;a data-target="s1"&gt;</code> + <code>addEventListener</code> → <code>window.scrollTo({top: offsetTop − navH})</code>. (b) preferred for new builds.</p>
-    <p>Use <code>html{overflow-x:hidden;overflow-x:clip;overscroll-behavior-x:none}</code> — never body; add <code>overscroll-behavior-x:contain</code> to inner scrollers (toc-bar, wide tables)</p>
+    <p>Use <code>html{overflow-x:hidden;overflow-x:clip;overscroll-behavior-x:none}</code> AND <code>body{overflow-x:clip;overscroll-behavior-x:none}</code> (body: <code>clip</code> only, never <code>hidden</code>); add <code>overscroll-behavior-x:contain</code> to inner scrollers (toc-bar, wide tables)</p>
     <p>Wrap masthead and TOC bar in a single <code>.sticky-nav-unit</code></p>
     <p>Give <code>.sticky-nav-unit</code> a <code>background</code> and a <code>::before</code> slab (<code>bottom:100%;height:100vh</code>) to fill the safe-area inset on mobile PWA</p>
     <p>Set <code>scrollMarginTop</code> dynamically in JS — never hardcode it</p>
@@ -785,7 +788,7 @@ pre{
     <div class="dont-lbl">✗ Don't</div>
     <p>Name any function <code>scrollTo()</code> — collides with <code>window.scrollTo</code></p>
     <p>Use <code>&lt;span onclick&gt;</code> for TOC links — unreliable on iOS standalone</p>
-    <p>Use <code>body{overflow-x:hidden}</code> — breaks Safari sticky</p>
+    <p>Use <code>body{overflow-x:hidden}</code> — breaks Safari sticky (<code>body{overflow-x:clip}</code> is fine and now mandatory; <code>hidden</code> on body is the only prohibited form)</p>
     <p>Separate masthead and TOC into independent sticky elements</p>
     <p>Hardcode <code>scroll-margin-top</code> — it won't adapt to screen size changes</p>
     <p>Omit <code>print-color-adjust:exact</code> — everything prints white</p>
@@ -872,7 +875,7 @@ Last updated: 7 July 2026</pre>
 </div><!-- end .content -->
 
 <div class="doc-footer">
-  <span>LC76 Design Guidelines v1.6 · 7 July 2026</span>
+  <span>LC76 Design Guidelines v1.7 · 11 July 2026</span>
   <span>Reference Docs R1–R36 + 6 Calculators · Two design systems</span>
   <span>overlandslabs.github.io/Consumption</span>
 </div>
