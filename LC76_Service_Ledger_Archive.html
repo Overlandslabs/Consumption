@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0d0e12">
+<title>LC76 · Service Ledger — Archive</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=Oswald:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#0d0e12;--paper:#dad2c0;--paper2:#edeae0;--amber:#b86800;--amber2:#e07800;--rule:#d4cfc4;--steeldk:#2a2f3a;--steelmd:#6a7080;--red-warn:#B91C1C;--green-ok:#059669}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{overflow-x:hidden;overflow-x:clip;overscroll-behavior-x:none}
+body{font-family:Oswald,sans-serif;background:var(--paper);color:var(--steeldk);line-height:1.5;-webkit-font-smoothing:antialiased}
+.sticky-nav-unit{position:sticky;top:0;z-index:100;background:var(--ink);padding-top:env(safe-area-inset-top)}
+.sticky-nav-unit::before{content:"";position:absolute;left:0;right:0;bottom:100%;height:100vh;background:var(--ink)}
+.std-header{background:var(--ink);color:#fff;padding:18px 24px 14px;position:relative}
+.std-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--steelmd);margin-bottom:6px}
+.std-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.8rem,5vw,2.6rem);letter-spacing:.06em;color:var(--amber2);line-height:1}
+.std-sub{font-family:'IBM Plex Mono',monospace;font-size:.54rem;letter-spacing:.12em;color:rgba(255,200,100,.65);margin-top:5px}
+.std-vehicle{font-family:'IBM Plex Mono',monospace;font-size:.48rem;letter-spacing:.08em;color:var(--steelmd);margin-top:8px}
+.lib-home-btn{display:inline-flex;align-items:center;gap:5px;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--amber2,#e07800);background:rgba(232,120,0,.15);border:1px solid var(--amber2,#e07800);border-radius:20px;padding:6px 12px;min-height:32px;white-space:nowrap;position:absolute;top:1rem;right:1.5rem;-webkit-tap-highlight-color:transparent;transition:background .2s}
+.lib-home-btn:hover,.lib-home-btn:active{background:rgba(232,120,0,.30)}
+.toc-bar{background:var(--steeldk);padding:7px 24px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;border-bottom:2px solid var(--amber)}
+.toc-label{font-family:'IBM Plex Mono',monospace;font-size:.46rem;letter-spacing:.18em;color:#a8b0bc;text-transform:uppercase;margin-right:4px;flex-shrink:0}
+.toc-link{font-family:'IBM Plex Mono',monospace;font-size:.46rem;color:rgba(255,255,255,.45);text-decoration:none;padding:2px 6px;border:1px solid transparent;transition:all .12s;white-space:nowrap;cursor:pointer}
+.toc-link:hover,.toc-link.active{color:var(--amber2);border-color:var(--amber2);background:rgba(232,120,0,.1)}
+.sec-header{display:flex;align-items:center;gap:12px;padding:10px 5%;background:var(--steeldk);border-left:5px solid var(--amber2);margin:34px -5% 14px}
+.sec-num{font-family:'IBM Plex Mono',monospace;font-size:.58rem;font-weight:600;color:#fff;background:var(--amber);padding:3px 8px;letter-spacing:.12em;flex-shrink:0}
+.sec-title{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;letter-spacing:.10em;color:#fff;line-height:1}
+.sec-sub{font-family:'IBM Plex Mono',monospace;font-size:.44rem;letter-spacing:.10em;color:#a8b0bc;margin-left:auto;flex-shrink:0;text-align:right}
+main{padding:24px 5% 80px;max-width:100%}
+.how-block{background:var(--paper2);border:1px solid var(--rule);border-left:4px solid var(--amber);padding:14px 16px;font-size:.9rem;line-height:1.6}
+.how-block p{margin-bottom:.5rem}
+.how-block p:last-child{margin-bottom:0}
+.conv-note{font-family:'IBM Plex Mono',monospace;font-size:.56rem;letter-spacing:.05em;color:var(--steelmd);line-height:1.6;margin-top:8px}
+.xref-a{color:var(--amber);font-weight:600;text-decoration:none;border-bottom:1px solid var(--amber)}
+.kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:14px 0 18px}
+.kpi{background:var(--steeldk);padding:12px 14px;border-left:4px solid var(--amber2)}
+.kpi-val{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--amber2);line-height:1.05}
+.kpi-lbl{font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;color:#a8b0bc;margin-top:4px;line-height:1.4}
+.search-wrap{margin:14px 0 10px}
+.search-box{width:100%;max-width:420px;padding:10px 14px;font-family:'IBM Plex Mono',monospace;font-size:.75rem;border:2px solid var(--rule);background:#fff;color:var(--steeldk);outline:none}
+.search-box:focus{border-color:var(--amber2)}
+.search-count{font-family:'IBM Plex Mono',monospace;font-size:.56rem;letter-spacing:.08em;color:var(--steelmd);margin-top:6px}
+.table-card{background:#fff;border:2px solid var(--rule);border-radius:8px;overflow:hidden;margin-bottom:1.5rem}
+.table-wrapper{overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:.83rem}
+#ledgerTable{min-width:860px}
+thead{background:var(--ink);color:var(--amber2);position:sticky;top:0}
+th{padding:.85rem .6rem;text-align:left;font-family:'IBM Plex Mono',monospace;font-size:.62rem;text-transform:uppercase;letter-spacing:1px;font-weight:600}
+td{padding:.6rem;border-bottom:1px solid var(--rule);vertical-align:top}
+td.cost{text-align:right;font-family:'IBM Plex Mono',monospace;font-size:.75rem;white-space:nowrap}
+td.km{white-space:nowrap;font-family:'IBM Plex Mono',monospace;font-size:.75rem}
+td.dt{white-space:nowrap;font-family:'IBM Plex Mono',monospace;font-size:.75rem}
+tr.child td{color:var(--steelmd)}
+tr.child td.cost{color:var(--steelmd)}
+tbody tr:active{background:var(--paper2)}
+.supp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:14px 0}
+.supp-card{background:var(--paper2);border:1px solid var(--rule);border-left:4px solid var(--amber);padding:14px}
+.supp-name{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.08em;color:var(--steeldk)}
+.supp-desc{font-size:.8rem;color:var(--steelmd);margin-top:5px;line-height:1.5}
+.supp-tag{display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;padding:2px 7px;margin-top:8px;background:var(--amber);color:#fff}
+a.supp-link{text-decoration:none;color:inherit;display:block}
+@media(max-width:768px){
+.std-header{padding:14px 16px 12px}
+.std-title{font-size:1.6rem}
+main{padding:16px 4% 60px}
+th{padding:.6rem .45rem;font-size:.58rem}
+td{padding:.5rem .45rem;font-size:.78rem}
+}
+@media(max-width:480px){
+.std-title{font-size:1.4rem}
+th,td{font-size:.72rem;padding:.45rem .35rem}
+}
+@media print{
+@page{size:A4;margin:7mm}
+*{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+body{background:#fff;padding:0;margin:0;font-size:7.5pt;line-height:1.3}
+.sticky-nav-unit{position:static;padding-top:0}
+.sticky-nav-unit::before{content:none}
+.std-header{position:static;padding:4mm 8mm;page-break-after:avoid;background:#2a2f3a!important;color:#fff!important;border-bottom:2pt solid #e07800!important}
+.std-eyebrow{font-size:5pt;color:#a8b0bc!important}
+.std-title{font-size:16pt;color:#e07800!important}
+.std-sub{font-size:5pt;color:#dab27a!important}
+.std-vehicle{font-size:4.5pt;color:#a8b0bc!important}
+.lib-home-btn{display:none!important}
+.toc-bar{display:none!important}
+.search-wrap{display:none!important}
+.sec-header{background:#2a2f3a!important;border-left:4px solid #e07800!important;margin-left:0!important;margin-right:0!important;page-break-after:avoid}
+.sec-num{background:#b86800!important;color:#fff!important}
+.sec-title{color:#fff!important}
+.sec-sub{color:#a8b0bc!important}
+main{padding:2mm 0}
+.how-block{border-left:3px solid #b86800!important;background:#edeae0!important;break-inside:avoid}
+.kpi-strip{gap:2mm;margin:2mm 0}
+.kpi{background:#2a2f3a!important;break-inside:avoid}
+.kpi-val{color:#e07800!important;font-size:10pt}
+.kpi-lbl{color:#a8b0bc!important;font-size:4.5pt}
+.supp-card{break-inside:avoid}
+.table-card{border:1pt solid #d4cfc4}
+table{font-size:6.5pt;break-inside:auto}
+thead{display:table-header-group;background:#2a2f3a!important;color:#e07800!important;position:static}
+th{padding:1mm;font-size:5pt;color:#e07800!important}
+td{padding:.8mm 1mm;font-size:6.5pt}
+tr{break-inside:avoid}
+tr.child td{color:#6a7080!important}
+}
+</style>
+</head>
+<body>
+<div class="sticky-nav-unit"><div class="std-header">
+<a href="index.html" class="lib-home-btn" title="Library Index">⌂ Index</a>
+<div class="std-eyebrow">Reference · R8 Supplement</div>
+<div class="std-title">Service Ledger — Archive</div>
+<div class="std-sub">Chronological service record, 0–200,000 km · closed era</div>
+<div class="std-vehicle">2009 LC76 SW · 1HZ 4.2L Diesel · low-boost turbo (0.6 bar) · intercooler<br>Last updated: 10 July 2026</div>
+</div>
+<div class="toc-bar">
+  <span class="toc-label">Sections</span>
+  <a href="javascript:void(0)" onclick="document.getElementById('s1').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">1. How to Read</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s2').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">2. Ledger 0–200k</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s3').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">3. Era Summary</a>
+</div>
+</div><!-- end sticky-nav-unit -->
+<main>
+
+<div class="sec-header" id="s1"><span class="sec-num">§1</span><span class="sec-title">How to Read This Ledger</span><span class="sec-sub">DERIVED VIEW · CONVENTIONS</span></div>
+<div class="how-block">
+<p>This document is a <strong>derived view</strong> of <em>LC_Service_history_FINAL.xlsx</em> — the ledger of record. The xlsx is always authoritative; this HTML file is regenerated from it and is never edited directly. New service entries are made in the xlsx first.</p>
+<p>This is the <strong>closed era</strong>: the record from first service to 200,000&nbsp;km. No further entries will ever be added to this file — all future service entries land in the <a href="LC76_Service_Ledger_Current.html" class="xref-a">Current ledger</a>.</p>
+<p class="conv-note">COST-0 CONVENTION (Neil, 10 Jul 2026): Cost 0 = line item included in the parent invoice row above; the parent row carries the full invoice amount. Zero-cost child rows are shown dimmed below and are never summed separately.</p>
+</div>
+
+<div class="sec-header" id="s2"><span class="sec-num">§2</span><span class="sec-title">The Ledger</span><span class="sec-sub">79 ROWS · CHRONOLOGICAL</span></div>
+<div class="search-wrap">
+<input type="text" class="search-box" id="ledgerSearch" placeholder="Search item, category, dealer, notes…" oninput="filterLedger()">
+<div class="search-count" id="searchCount"></div>
+</div>
+<div class="table-card"><div class="table-wrapper">
+<table id="ledgerTable">
+<thead><tr><th>Date</th><th>Km</th><th>Service Item</th><th>Work Category</th><th>Dealer</th><th>Cost (R)</th><th>Notes</th></tr></thead>
+<tbody id="ledgerBody"></tbody>
+</table>
+</div></div>
+
+<div class="sec-header" id="s3"><span class="sec-num">§3</span><span class="sec-title">Era Summary</span><span class="sec-sub">SPAN · TOTAL</span></div>
+<div class="kpi-strip">
+<div class="kpi"><div class="kpi-val">79</div><div class="kpi-lbl">Records</div></div>
+<div class="kpi"><div class="kpi-val">10,384 – 196,464 km</div><div class="kpi-lbl">Km span</div></div>
+<div class="kpi"><div class="kpi-val">31 May 2010 – 15 Mar 2021</div><div class="kpi-lbl">Date span</div></div>
+<div class="kpi"><div class="kpi-val">R 132,851.31</div><div class="kpi-lbl">Era total</div></div>
+</div>
+<div class="supp-grid">
+<a class="supp-link" href="LC76_Service_History.html"><div class="supp-card"><div class="supp-name">R8 · Service &amp; Cost Dashboard</div><div class="supp-desc">KPI strip, cost charts, major-works register, status &amp; forward plan.</div><span class="supp-tag">Open</span></div></a>
+<a class="supp-link" href="LC76_Service_Ledger_Current.html"><div class="supp-card"><div class="supp-name">Service Ledger — Current</div><div class="supp-desc">Chronological line-item record, 200,000 km to present. Live era — future entries land there.</div><span class="supp-tag">Open</span></div></a>
+</div>
+
+</main>
+<script>
+const LEDGER=[{"d":"31/05/2010","k":10384,"i":"Service 10,000 km","c":"Manufacturers service 10,000 km","s":"Toyota Tokai","v":2031.25,"n":"Dyno: 96kw; 285Nm"},{"d":"31/05/2010","k":10384,"i":"Oil filter","c":"Manufacturers service 10,000 km","s":"Toyota Tokai","v":0.0,"n":""},{"d":"29/12/2010","k":20000,"i":"Service 20,000 km","c":"Manufacturers service 20,000 km","s":"Toyota Umhlanga","v":3932.54,"n":""},{"d":"29/12/2010","k":20000,"i":"Oil filter","c":"Manufacturers service 20,000 km","s":"Toyota Umhlanga","v":0.0,"n":""},{"d":"29/12/2010","k":20000,"i":"Fuel filter","c":"Manufacturers service 20,000 km","s":"Toyota Umhlanga","v":0.0,"n":""},{"d":"25/07/2011","k":29606,"i":"Service 30,000 km","c":"Manufacturers service 30,000 km","s":"Toyota Kroonstad","v":1821.35,"n":""},{"d":"25/07/2011","k":29606,"i":"Oil filter","c":"Manufacturers service 30,000 km","s":"Toyota Kroonstad","v":0.0,"n":""},{"d":"11/01/2012","k":42304,"i":"Service 40,000 km","c":"Manufacturers service 40,000 km","s":"Toyota Tokai","v":5695.5,"n":""},{"d":"11/01/2012","k":42304,"i":"Oil filter","c":"Manufacturers service 40,000 km","s":"Toyota Tokai","v":0.0,"n":""},{"d":"11/01/2012","k":42304,"i":"Oil seal axle","c":"Manufacturers service 40,000 km","s":"Toyota Tokai","v":0.0,"n":""},{"d":"11/01/2012","k":42304,"i":"Fuel filter","c":"Manufacturers service 40,000 km","s":"Toyota Tokai","v":0.0,"n":""},{"d":"11/01/2012","k":42304,"i":"Gear oil","c":"Manufacturers service 40,000 km","s":"Toyota Tokai","v":0.0,"n":""},{"d":"12/07/2012","k":49913,"i":"Service 50,000 km","c":"Manufacturers service 50,000 km","s":"Toyota Kroonstad","v":2000.95,"n":""},{"d":"12/07/2012","k":49913,"i":"Oil filter","c":"Manufacturers service 50,000 km","s":"Toyota Kroonstad","v":0.0,"n":""},{"d":"31/07/2012","k":50637,"i":"Intercooler","c":"Turbo","s":"Toyota Kroonstad","v":684.0,"n":""},{"d":"17/01/2013","k":60633,"i":"Service 60,000 km","c":"Manufacturers service 60,000 km","s":"Toyota Tokai","v":4912.0,"n":""},{"d":"17/01/2013","k":60633,"i":"Oil filter","c":"Manufacturers service 60,000 km","s":"Toyota Tokai","v":0.0,"n":""},{"d":"17/01/2013","k":60633,"i":"Oil seal axle","c":"Manufacturers service 60,000 km","s":"Toyota Tokai","v":0.0,"n":""},{"d":"17/01/2013","k":60633,"i":"Fuel filter","c":"Manufacturers service 60,000 km","s":"Toyota Tokai","v":0.0,"n":""},{"d":"17/01/2013","k":60633,"i":"Re-seal windscreen","c":"Windscreen","s":"Toyota Tokai","v":0.0,"n":""},{"d":"20/11/2013","k":70707,"i":"Service 70,000 km","c":"Manufacturers service 70,000 km","s":"Toyota Kroonstad","v":1518.1,"n":""},{"d":"11/09/2014","k":81065,"i":"Service 80,000 km","c":"Manufacturers service 80,000 km","s":"Toyota Kroonstad","v":6162.85,"n":""},{"d":"11/09/2014","k":81065,"i":"Brake fluid","c":"Manufacturers service 80,000 km","s":"Toyota Kroonstad","v":0.0,"n":""},{"d":"11/09/2014","k":81065,"i":"Fuel filter","c":"Manufacturers service 80,000 km","s":"Toyota Kroonstad","v":0.0,"n":""},{"d":"11/09/2014","k":81065,"i":"Oil seal axle","c":"Manufacturers service 80,000 km","s":"Toyota Kroonstad","v":0.0,"n":""},{"d":"11/09/2014","k":81065,"i":"Oil filter","c":"Manufacturers service 80,000 km","s":"Toyota Kroonstad","v":0.0,"n":""},{"d":"11/09/2014","k":81065,"i":"Wheel bearing grease","c":"Manufacturers service 80,000 km","s":"Toyota Kroonstad","v":0.0,"n":""},{"d":"11/09/2014","k":81065,"i":"Brake pads - front","c":"Brakes","s":"Toyota Kroonstad","v":1200.0,"n":""},{"d":"14/09/2015","k":89395,"i":"Service 90,000 km","c":"Manufacturers service 90,000 km","s":"Toyota Tokai","v":2726.65,"n":""},{"d":"14/09/2015","k":89395,"i":"Oil filter","c":"Manufacturers service 90,000 km","s":"Toyota Tokai","v":0.0,"n":""},{"d":"20/02/2016","k":100000,"i":"BFG KO2 - 4","c":"Tyres","s":"Tiger Wheel & Tyre","v":17740.0,"n":""},{"d":"14/07/2016","k":103832,"i":"Brake pipes replaced","c":"Brakes","s":"Toyota Montagu","v":1983.43,"n":""},{"d":"02/05/2017","k":115033,"i":"Service 120,000 km","c":"Manufacturers service 120,000 km","s":"Toyota Tokai","v":8888.55,"n":""},{"d":"02/05/2017","k":115033,"i":"Fuel filter","c":"Manufacturers service 120,000 km","s":"Toyota Tokai","v":0.0,"n":""},{"d":"02/05/2017","k":115033,"i":"Oil seal axle","c":"Manufacturers service 120,000 km","s":"Toyota Tokai","v":0.0,"n":""},{"d":"02/05/2017","k":115033,"i":"Oil filter","c":"Manufacturers service 120,000 km","s":"Toyota Tokai","v":0.0,"n":""},{"d":"02/05/2017","k":115033,"i":"Brake fluid","c":"Manufacturers service 120,000 km","s":"Toyota Tokai","v":0.0,"n":""},{"d":"02/05/2017","k":115033,"i":"Air filter","c":"Manufacturers service 120,000 km","s":"Toyota Tokai","v":0.0,"n":""},{"d":"09/05/2017","k":116600,"i":"Spiral Cable Sub-Assembly","c":"Steering wheel","s":"Totota Constantia","v":2979.05,"n":""},{"d":"19/06/2017","k":128648,"i":"Service 130,000 km","c":"Manufacturers service 130,000 km","s":"Toyota Kokstad","v":1798.41,"n":""},{"d":"19/06/2017","k":128648,"i":"Oil filter","c":"Manufacturers service 130,000 km","s":"Toyota Kokstad","v":0.0,"n":""},{"d":"10/11/2017","k":135023,"i":"Brake pads","c":"Brakes","s":"Tyres and More","v":1475.0,"n":""},{"d":"26/01/2018","k":140260,"i":"Service 140,000 km","c":"Manufacturers service 140,000 km","s":"Toyota Tokai","v":6731.05,"n":""},{"d":"26/01/2018","k":140260,"i":"Fuel filter","c":"Manufacturers service 140,000 km","s":"Toyota Tokai","v":0.0,"n":""},{"d":"26/01/2018","k":140260,"i":"Oil filter","c":"Manufacturers service 140,000 km","s":"Toyota Tokai","v":0.0,"n":""},{"d":"11/09/2018","k":146929,"i":"Service 145,000 km","c":"Manufacturers service 145,000 km","s":"Toyota Tokai","v":1948.3,"n":""},{"d":"11/09/2018","k":146929,"i":"Oil filter","c":"Manufacturers service 145,000 km","s":"Toyota Tokai","v":0.0,"n":""},{"d":"23/10/2018","k":151354,"i":"Service 150,000 km","c":"Manufacturers service 150,000 km","s":"Toyota Tokai","v":3102.0,"n":""},{"d":"23/10/2018","k":151354,"i":"Cambelt","c":"Cambelt","s":"Toyota Tokai","v":1000.0,"n":"Cambelt changed 150,000km"},{"d":"23/10/2018","k":151354,"i":"Cambelt Idler","c":"Cambelt","s":"Toyota Tokai","v":1800.0,"n":""},{"d":"23/10/2018","k":151354,"i":"Cambelt Tensioner","c":"Cambelt","s":"Toyota Tokai","v":940.0,"n":""},{"d":"22/08/2019","k":159805,"i":"Service 160,000 km","c":"Manufacturers service 160,000 km","s":"Toyota Tokai","v":12999.3,"n":""},{"d":"22/08/2019","k":159805,"i":"Coolant","c":"Cooling system","s":"Toyota Tokai","v":0.0,"n":""},{"d":"22/08/2019","k":159805,"i":"Oil filter","c":"Manufacturers service 160,000 km","s":"Toyota Tokai","v":0.0,"n":""},{"d":"22/08/2019","k":159805,"i":"Fuel filter","c":"Manufacturers service 160,000 km","s":"Toyota Tokai","v":0.0,"n":""},{"d":"22/08/2019","k":159805,"i":"Brake fluid","c":"Manufacturers service 160,000 km","s":"Toyota Tokai","v":0.0,"n":""},{"d":"22/08/2019","k":159805,"i":"Brake pads","c":"Manufacturers service 160,000 km","s":"Toyota Tokai","v":0.0,"n":""},{"d":"22/08/2019","k":159805,"i":"Fan belt kit","c":"Fan belt","s":"Toyota Tokai","v":0.0,"n":""},{"d":"01/11/2019","k":165942,"i":"Service 165,000 km","c":"Manufacturers service 165,000 km","s":"Toyota Oshakati","v":1275.5,"n":""},{"d":"19/11/2019","k":170324,"i":"Service 170,000 km","c":"Manufacturers service 170,000 km","s":"Toyota Tokai","v":1770.0,"n":""},{"d":"19/11/2019","k":170324,"i":"Oil filter","c":"Manufacturers service 170,000 km","s":"Toyota Tokai","v":280.0,"n":""},{"d":"19/11/2019","k":170324,"i":"Engin oil","c":"Manufacturers service 170,000 km","s":"Toyota Tokai","v":900.0,"n":""},{"d":"27/02/2020","k":175011,"i":"Service 175,000 km","c":"Manufacturers service 175,000 km","s":"Toyota Tokai","v":482.65,"n":""},{"d":"27/02/2020","k":175011,"i":"Engin oil","c":"Manufacturers service 175,000 km","s":"Toyota Tokai","v":800.0,"n":""},{"d":"04/09/2020","k":179000,"i":"BFG KO2 - 1","c":"Tyres","s":"Tiger Wheel & Tyre","v":4719.0,"n":""},{"d":"21/09/2020","k":179578,"i":"Service 180,000 km","c":"Manufacturers service 180,000 km","s":"Toyota Tokai","v":2119.0,"n":""},{"d":"21/09/2020","k":179578,"i":"Fuel filter","c":"Manufacturers service 180,000 km","s":"Toyota Tokai","v":500.0,"n":""},{"d":"21/09/2020","k":179578,"i":"Oil seal axle","c":"Manufacturers service 180,000 km","s":"Toyota Tokai","v":600.0,"n":""},{"d":"21/09/2020","k":179578,"i":"Oil filter","c":"Manufacturers service 180,000 km","s":"Toyota Tokai","v":500.0,"n":""},{"d":"21/09/2020","k":179578,"i":"Engin oil","c":"Manufacturers service 180,000 km","s":"Toyota Tokai","v":1000.0,"n":""},{"d":"22/12/2020","k":191658,"i":"Service 190,000 km","c":"Manufacturers service 190,000 km","s":"Toyota Tokai","v":1386.1,"n":""},{"d":"22/12/2020","k":191658,"i":"Oil filter","c":"Manufacturers service 190,000 km","s":"Toyota Tokai","v":300.0,"n":""},{"d":"22/12/2020","k":191658,"i":"Engin oil","c":"Manufacturers service 190,000 km","s":"Toyota Tokai","v":1000.0,"n":""},{"d":"15/03/2021","k":196464,"i":"Brake disk & pads","c":"Brakes","s":"Steenberg Motors","v":2148.78,"n":""},{"d":"15/03/2021","k":196464,"i":"Brake Drum Rear","c":"Brakes","s":"Don Kyatt (Terrain Tamer)","v":4500.0,"n":""},{"d":"15/03/2021","k":196464,"i":"Brake Shoe Kit Rear","c":"Brakes","s":"Don Kyatt (Terrain Tamer)","v":2500.0,"n":""},{"d":"15/03/2021","k":196464,"i":"Wheel Cylinder Rear","c":"Brakes","s":"Don Kyatt (Terrain Tamer)","v":1000.0,"n":""},{"d":"15/03/2021","k":196464,"i":"Discs High Carbon Front set","c":"Brakes","s":"Powerbrake","v":5000.0,"n":""},{"d":"15/03/2021","k":196464,"i":"Brake pads Front set","c":"Brakes","s":"Powerbrake","v":4000.0,"n":""}];
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function fmtCost(v){
+  if(v===null)return '—';
+  if(typeof v==='string')return v;
+  return v.toLocaleString('en-ZA',{minimumFractionDigits:2,maximumFractionDigits:2});
+}
+function rowHtml(r){
+  var cls=(r.v===0)?' class="child"':'';
+  return '<tr'+cls+'><td class="dt">'+esc(r.d)+'</td><td class="km">'+r.k.toLocaleString('en-ZA')+'</td><td>'+esc(r.i)+'</td><td>'+esc(r.c)+'</td><td>'+esc(r.s)+'</td><td class="cost">'+fmtCost(r.v)+'</td><td>'+esc(r.n)+'</td></tr>';
+}
+function renderLedger(rows){
+  document.getElementById('ledgerBody').innerHTML=rows.map(rowHtml).join('');
+  document.getElementById('searchCount').textContent=rows.length+' of '+LEDGER.length+' records shown';
+}
+function filterLedger(){
+  var q=document.getElementById('ledgerSearch').value.trim().toLowerCase();
+  if(!q){renderLedger(LEDGER);return;}
+  renderLedger(LEDGER.filter(function(r){
+    return (r.i+' '+r.c+' '+r.s+' '+r.n+' '+r.d).toLowerCase().indexOf(q)>=0;
+  }));
+}
+document.addEventListener('DOMContentLoaded',function(){
+  renderLedger(LEDGER);
+  var links=document.querySelectorAll('.toc-link');
+  var secs=[];for(var i=1;i<=3;i++){var el=document.getElementById('s'+i);if(el)secs.push(el);}
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){links.forEach(function(l){l.classList.remove('active');});var idx=secs.indexOf(en.target);if(links[idx])links[idx].classList.add('active');}});},{rootMargin:'-20% 0px -70% 0px'});
+    secs.forEach(function(sc){io.observe(sc);});
+  }
+});
+</script>
+</body>
+</html>
