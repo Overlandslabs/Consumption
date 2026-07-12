@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LC76 Library">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0d0e12">
+<title>LC76 · Expedition Systems Map</title>
+<link rel="manifest" href="manifest-ref.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500;600&family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0d0e12;--paper:#dad2c0;--paper2:#edeae0;--rule:#d4cfc4;
+  --amber:#b86800;--amber2:#e07800;
+  --steeldk:#2a2f3a;--steelmd:#6a7080;--steellt:#a8b0bc;
+  --red-warn:#B91C1C;--green-ok:#059669;
+  --mono:'IBM Plex Mono',monospace;
+  --sans:'Oswald',sans-serif;
+  --display:'Bebas Neue',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{overflow-x:hidden;overflow-x:clip;overscroll-behavior-x:none}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.6;overflow-x:clip;overscroll-behavior-x:none}
+
+/* ── STICKY NAV ── */
+.sticky-nav-unit{position:sticky;top:0;z-index:100;padding-top:env(safe-area-inset-top);background:var(--ink)}
+.sticky-nav-unit::before{content:"";position:absolute;left:0;right:0;bottom:100%;height:100vh;background:var(--ink)}
+.std-header{background:var(--ink);padding:18px 24px 14px;position:relative;border-bottom:3px solid var(--amber)}
+.std-eyebrow{font-family:var(--mono);font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--steelmd);margin-bottom:6px}
+.std-title{font-family:var(--display);font-size:clamp(1.9rem,5vw,2.8rem);letter-spacing:.06em;color:var(--amber2);line-height:1}
+.std-sub{font-family:var(--mono);font-size:.54rem;letter-spacing:.12em;color:rgba(255,200,100,.65);margin-top:5px}
+.std-vehicle{font-family:var(--mono);font-size:.48rem;letter-spacing:.08em;color:var(--steelmd);margin-top:8px}
+.lib-home-btn{position:absolute;top:14px;right:16px;display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--amber2);background:rgba(232,120,0,.15);border:1px solid var(--amber2);border-radius:20px;padding:6px 12px;min-height:32px;white-space:nowrap;transition:background .2s}
+.lib-home-btn:hover{background:rgba(232,120,0,.30)}
+.toc-bar{background:var(--steeldk);padding:7px 24px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;border-bottom:2px solid var(--amber)}
+.toc-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.18em;color:var(--steellt);text-transform:uppercase;margin-right:4px;flex-shrink:0}
+.toc-link{font-family:var(--mono);font-size:.46rem;color:rgba(255,255,255,.45);text-decoration:none;padding:2px 6px;border:1px solid transparent;transition:all .12s;white-space:nowrap;cursor:pointer}
+.toc-link:hover,.toc-link.active{color:var(--amber2);border-color:var(--amber2);background:rgba(232,120,0,.1)}
+
+/* ── CONTENT ── */
+.content{padding:24px 5% 80px;max-width:100%}
+.lead{font-size:.92rem;color:var(--steeldk);line-height:1.7;margin:6px 0 4px}
+.p{font-size:.86rem;color:var(--steeldk);line-height:1.65;margin:10px 0}
+.p strong{color:var(--ink);font-weight:600}
+
+/* ── SECTION HEADERS ── */
+.sec-header{display:flex;align-items:center;gap:12px;padding:10px 5%;background:var(--steeldk);border-left:5px solid var(--amber2);margin:34px 0 0;margin-left:-5%;margin-right:-5%}
+.sec-num{font-family:var(--mono);font-size:.58rem;font-weight:600;color:#fff;background:var(--amber);padding:3px 8px;letter-spacing:.12em;flex-shrink:0}
+.sec-title{font-family:var(--display);font-size:1.7rem;letter-spacing:.10em;color:#fff;line-height:1}
+.sec-sub{font-family:var(--mono);font-size:.44rem;letter-spacing:.10em;color:var(--steellt);margin-left:auto;flex-shrink:0;text-align:right}
+
+/* ── SUBSECTIONS ── */
+.subsec{background:var(--paper2);border-left:3px solid var(--amber);padding:6px 16px 6px 14px;margin:22px 0 10px;display:flex;align-items:center;gap:10px}
+.subsec-title{font-family:var(--display);font-size:1.1rem;letter-spacing:.12em;color:var(--ink)}
+.subsec-tag{font-family:var(--mono);font-size:.44rem;letter-spacing:.12em;color:var(--steelmd);text-transform:uppercase;margin-left:auto}
+
+/* ── RULE BOXES ── */
+.rule{border-left:4px solid;padding:11px 15px;margin:12px 0;font-family:var(--sans);font-size:.86rem;line-height:1.65}
+.rule .rule-hdr{font-weight:700;display:block;margin-bottom:5px;font-family:var(--sans);font-size:.92rem;letter-spacing:.01em}
+.rule strong{font-weight:700;color:inherit}
+.rule-warn{background:#fff4f0;border-color:var(--red-warn);color:#5a1010}
+.rule-warn .rule-hdr{color:var(--red-warn)}
+.rule-note{background:#fffbe8;border-color:var(--amber2);color:#4a3000}
+.rule-note .rule-hdr{color:var(--amber)}
+.rule-ok{background:#f0fff8;border-color:var(--green-ok);color:#0a3a20}
+.rule-ok .rule-hdr{color:var(--green-ok)}
+.rule-info{background:var(--paper2);border-color:var(--steelmd);color:var(--steeldk)}
+.rule-info .rule-hdr{color:var(--steelmd)}
+
+/* ── SPEC TABLES ── */
+.spec-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.82rem}
+.spec-table caption{font-family:var(--mono);font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;color:var(--steelmd);text-align:left;padding-bottom:6px}
+.spec-table th{background:var(--steeldk);color:#fff;font-family:var(--mono);font-size:.44rem;letter-spacing:.12em;text-transform:uppercase;padding:7px 10px;text-align:left}
+.spec-table td{padding:6px 10px;border-bottom:1px solid var(--rule);vertical-align:top;font-family:var(--sans)}
+.spec-table tr:nth-child(even) td{background:var(--paper2)}
+.mono{font-family:var(--mono);font-size:.72rem;color:var(--amber)}
+
+/* ── CASCADE CARDS ── */
+.cascade{border:1px solid var(--rule);border-top:4px solid var(--red-warn);background:#fff;margin:18px 0;padding:0}
+.cascade-hdr{display:flex;align-items:baseline;gap:10px;background:var(--paper2);padding:9px 14px;border-bottom:1px solid var(--rule)}
+.cascade-id{font-family:var(--mono);font-size:.6rem;font-weight:600;color:#fff;background:var(--red-warn);padding:2px 8px;letter-spacing:.1em;flex-shrink:0}
+.cascade-title{font-family:var(--display);font-size:1.15rem;letter-spacing:.08em;color:var(--ink)}
+.cascade-sys{font-family:var(--mono);font-size:.44rem;letter-spacing:.1em;color:var(--steelmd);text-transform:uppercase;margin-left:auto;text-align:right}
+.cascade-body{padding:10px 14px 12px}
+.chain{margin:8px 0;padding:0;list-style:none}
+.chain li{position:relative;padding:5px 0 5px 78px;font-size:.82rem;color:var(--steeldk);line-height:1.55;border-bottom:1px dashed var(--rule)}
+.chain li:last-child{border-bottom:none}
+.chain .ord{position:absolute;left:0;top:6px;font-family:var(--mono);font-size:.5rem;font-weight:600;letter-spacing:.08em;color:var(--amber);text-transform:uppercase;width:68px}
+.chain li strong{color:var(--ink);font-weight:600}
+.clocks{font-size:.78rem;color:#5a1010;background:#fff4f0;border-left:3px solid var(--red-warn);padding:7px 11px;margin:8px 0}
+.clocks strong{color:var(--red-warn)}
+.breaker{font-size:.78rem;color:#0a3a20;background:#f0fff8;border-left:3px solid var(--green-ok);padding:7px 11px;margin:8px 0}
+.breaker strong{color:var(--green-ok)}
+.owns{font-family:var(--mono);font-size:.6rem;color:var(--steelmd);margin-top:6px}
+.owns b{color:var(--amber)}
+
+/* ── XREF ── */
+.xref-bar{background:var(--steeldk);padding:9px 5%;display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:32px -5% 0}
+.xref-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.16em;color:var(--steellt);text-transform:uppercase;margin-right:6px}
+.xref-pill{font-family:var(--mono);font-size:.46rem;letter-spacing:.08em;color:var(--amber2);background:rgba(232,120,0,.12);border:1px solid rgba(232,120,0,.4);padding:3px 9px;text-decoration:none;white-space:nowrap}
+.xref-pill:hover{background:rgba(232,120,0,.25)}
+
+/* ── MOBILE ── */
+@media(max-width:600px){
+  .std-header{padding:14px 16px 12px}
+  .std-title{font-size:clamp(1.6rem,6vw,2.4rem)}
+  .lib-home-btn{top:12px;right:12px}
+  .toc-bar{padding:5px 12px!important;flex-wrap:nowrap!important;overflow-x:auto!important;-webkit-overflow-scrolling:touch!important;scrollbar-width:none!important}
+  .toc-bar::-webkit-scrollbar{display:none}
+  .toc-link{font-size:.42rem!important;padding:2px 5px!important}
+  .content{padding:14px 4% 60px}
+  .sec-header{margin-left:-4%;margin-right:-4%;padding:10px 4%}
+  .xref-bar{margin-left:-4%;margin-right:-4%;padding:9px 4%}
+  .spec-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .chain li{padding-left:0;padding-top:22px}
+  .chain .ord{top:4px}
+  .toc-bar,.spec-table{overscroll-behavior-x:contain}
+}
+
+/* ── PRINT ── */
+@media print{
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;color-adjust:exact!important}
+  @page{margin:7mm;size:A4}
+  :root{
+    --ink:#0d0e12;--paper:#ffffff;--paper2:#edeae0;--rule:#d4cfc4;
+    --amber:#b86800;--amber2:#e07800;--steeldk:#2a2f3a;--steelmd:#6a7080;
+    --steellt:#a8b0bc;--red-warn:#B91C1C;--green-ok:#059669;
+  }
+  body{font-size:7.5pt;background:#fff!important}
+  .lib-home-btn,.toc-bar{display:none!important}
+  .sticky-nav-unit{position:static!important}
+  .sticky-nav-unit::before{content:none}
+  .std-header{background:#0d0e12!important;padding:8px 14px 6px!important;border-bottom:2px solid #e07800!important}
+  .std-title{color:#e07800!important;font-size:1.5rem!important}
+  .std-eyebrow,.std-vehicle{color:#9aa0ae!important}
+  .std-sub{color:#e8c864!important}
+  .sec-header{background:#2a2f3a!important;border-left:4px solid #e07800!important;padding:6px 14px!important;page-break-after:avoid;margin-left:0!important;margin-right:0!important}
+  .sec-num{background:#b86800!important;color:#fff!important}
+  .sec-title{color:#fff!important}
+  .sec-sub{color:#a8b0bc!important}
+  .subsec{background:#edeae0!important;page-break-after:avoid}
+  .spec-table{break-inside:auto}
+  .spec-table thead{display:table-header-group}
+  .spec-table th{background:#2a2f3a!important;color:#fff!important}
+  .spec-table tr:nth-child(even) td{background:#edeae0!important}
+  .rule,.cascade,.clocks,.breaker{break-inside:avoid}
+  .rule-warn,.clocks{background:#fff4f0!important}
+  .rule-note{background:#fffbe8!important}
+  .rule-ok,.breaker{background:#f0fff8!important}
+  .rule-info{background:#edeae0!important}
+  .cascade-hdr{background:#edeae0!important}
+  .cascade-id{background:#B91C1C!important;color:#fff!important}
+  .xref-bar{background:#2a2f3a!important;margin-left:0!important;margin-right:0!important}
+  .xref-pill{color:#e07800!important;background:#fff!important}
+}
+</style>
+</head>
+<body>
+
+<div class="sticky-nav-unit">
+<div class="std-header">
+  <a href="index.html" class="lib-home-btn">⌂ Index</a>
+  <div class="std-eyebrow">Reference · R41</div>
+  <div class="std-title">Expedition Systems Map</div>
+  <div class="std-sub">Subsystem couplings, failure cascades &amp; the seams between them</div>
+  <div class="std-vehicle">2009 LC76 SW · 1HZ 4.2L Diesel · low-boost turbo (0.6 bar) · intercooler<br>Last updated: 12 July 2026</div>
+</div>
+<div class="toc-bar">
+  <span class="toc-label">Sections</span>
+  <a href="javascript:void(0)" onclick="document.getElementById('s1').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">1. Why a Map</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s2').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">2. Systems &amp; Couplings</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s3').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">3. Failure Cascades</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s4').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">4. Seams Register</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s5').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">5. Sensing &amp; Feedback</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s6').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">6. Using the Map</a>
+</div>
+</div>
+
+<div class="content">
+
+<p class="lead">Every other reference document in this library owns a <strong>part</strong> — cooling, brakes, tyres, money, comms. This one owns the <strong>connections</strong>. A two-year expedition rarely fails inside a single subsystem; it fails in the seams between them, where one small failure quietly starts a clock on something else. This map names the six systems the expedition runs on, shows how they couple, traces the cascades that follow the most consequential single failures, and lists the interfaces to watch. It is the trunk of the tree — the structure everything visible depends on.</p>
+
+<!-- ============ S1 ============ -->
+<div class="sec-header" id="s1">
+  <span class="sec-num">§1</span>
+  <span class="sec-title">Why a Systems Map</span>
+  <span class="sec-sub">Parts vs whole · seams · second-order effects</span>
+</div>
+
+<p class="p"><strong>Analysis is not enough.</strong> Taking the expedition apart — vehicle, crew, route, money, comms, paperwork — and understanding each part is necessary and this library does it thoroughly. But the essential properties of the expedition belong to the whole, not the parts. A vehicle that starts, a crew that is trained, a route that is mapped and insurance that is paid can still produce a failed trip, because failure lives in the interactions. The alternator does not end the expedition; the <em>alternator → house charging → fridge → food → morale → decision-quality</em> chain can.</p>
+
+<p class="p"><strong>Three habits this document encodes:</strong></p>
+
+<div class="rule rule-note"><span class="rule-hdr">1 · Ask the second-order question</span>When anything fails, the first question is the obvious one — <em>how do I fix this?</em> The systems question comes immediately after: <strong>what has this failure started the clock on?</strong> Most field failures are survivable in themselves; what bites is the second thing that goes wrong while the first is being managed, on a timer nobody noticed had started.</div>
+
+<div class="rule rule-note"><span class="rule-hdr">2 · Trouble originates at interfaces</span>Individually engineered subsystems are usually sound; the places where two systems hand over to each other — belt to alternator, crew to machine, money to border, plan to weather — are where slack, ambiguity and neglect accumulate. §4 lists the expedition's seams and the signal to watch at each.</div>
+
+<div class="rule rule-note"><span class="rule-hdr">3 · Feedback beats prediction</span>On a 60,000+ km trip nothing can be forecast to the end; the honest alternative is to instrument the system and respond to what it says. §5 lists what the expedition measures, how often, and what trend triggers action. The library's oil-analysis programme, EGT/boost gauges, fuel logs and cost-per-km trending already exist for exactly this reason — this section simply gathers the listening apparatus in one place.</div>
+
+<p class="p">This document changes no doctrine. Every response it points to already lives in an owning document — R18 diagnoses, R38 decides, R29 evacuates. What R41 adds is the connective tissue: symptom → structure → consequence → owning document.</p>
+
+<!-- ============ S2 ============ -->
+<div class="sec-header" id="s2">
+  <span class="sec-num">§2</span>
+  <span class="sec-title">The Six Systems &amp; Their Couplings</span>
+  <span class="sec-sub">What the expedition actually runs on</span>
+</div>
+
+<p class="p">The expedition is a socio-technical system of six interacting subsystems. Each has an owning document family; none operates alone.</p>
+
+<table class="spec-table">
+<caption>The six expedition systems</caption>
+<thead><tr><th>System</th><th>What it comprises</th><th>Primary owning docs</th></tr></thead>
+<tbody>
+<tr><td><strong>1 · Vehicle</strong></td><td>1HZ drivetrain, cooling, brakes, suspension, wheels &amp; tyres, spares &amp; tools</td><td>R4, R13, R14, R18, R20–R25, R27, R28, R34, R40, R3</td></tr>
+<tr><td><strong>2 · Crew</strong></td><td>Two people: health, skills, redundancy, rest, judgement, partnership</td><td>R17, R37, R38 §5, Manifesto</td></tr>
+<tr><td><strong>3 · Energy &amp; Comms</strong></td><td>LiFePO4 house system, solar, crank battery, inReach, planned satphone, devices</td><td>R7, R16, R26, R32, R5</td></tr>
+<tr><td><strong>4 · Money</strong></td><td>Cards, cash layers, forex, budget stock, fuel purchasing power</td><td>R39, R8 (cost trending)</td></tr>
+<tr><td><strong>5 · Paperwork</strong></td><td>Passports, carnet, vehicle licence, IDPs, visas, insurance &amp; medevac cover</td><td>R15, R29, R39</td></tr>
+<tr><td><strong>6 · Route &amp; Environment</strong></td><td>Roads, borders, weather, security, fuel/water availability, distance-to-help</td><td>Profiles 001–010, R15, R35, R36, R12, R24</td></tr>
+</tbody>
+</table>
+
+<p class="p"><strong>The coupling matrix.</strong> Read it as: the row system affects the column system <em>through</em> the named interface. The strongest couplings — the ones worth carrying in your head — are marked in amber.</p>
+
+<table class="spec-table">
+<caption>Principal couplings — interface between systems</caption>
+<thead><tr><th>Coupling</th><th>Interface</th><th>How it transmits failure</th></tr></thead>
+<tbody>
+<tr><td><span class="mono">Vehicle → Crew</span></td><td>Workload &amp; heat of field repairs</td><td>A hard breakdown consumes crew energy and daylight; fatigue then degrades every later decision.</td></tr>
+<tr><td><span class="mono">Vehicle → Money</span></td><td>Unscheduled spend</td><td>Major repairs draw down the cash stock that also buys fuel, visas and margin. R8 shows unscheduled/renewal spend dominates lifetime cost.</td></tr>
+<tr><td><span class="mono">Vehicle → Paperwork</span></td><td>Carnet</td><td>The vehicle IS a customs liability. A written-off or abandoned vehicle does not end the obligation — disposal must happen under customs supervision or the carnet bond is called (R29 §8).</td></tr>
+<tr><td><span class="mono">Crew → Vehicle</span></td><td>Operating skill &amp; judgement</td><td>Most vehicle damage is decision damage: speed on corrugations, a crossing not walked, a warning gauge unread. R37 exists to harden this interface.</td></tr>
+<tr><td><span class="mono">Crew → Comms</span></td><td>The check-in discipline</td><td>Home's escalation tree (R38 §1) fires on <em>silence</em>. A missed check-in from forgetfulness triggers the same machinery as a real emergency.</td></tr>
+<tr><td><span class="mono">Energy → Vehicle</span></td><td>Crank battery &amp; alternator</td><td>The house system is islanded from the crank side by design; the alternator is the single charge source for the Willard 650. See cascade C1.</td></tr>
+<tr><td><span class="mono">Energy → Crew</span></td><td>Fridge, water, devices, navigation</td><td>House-power loss degrades food safety, comms charging and navigation together — three crew-support functions on one bus.</td></tr>
+<tr><td><span class="mono">Money → Route</span></td><td>Fuel purchasing &amp; border fees</td><td>Money access failure converts directly into a mobility limit and a visa-clock problem. See cascade C7.</td></tr>
+<tr><td><span class="mono">Paperwork → Route</span></td><td>Visa validity windows</td><td>Every entry stamp starts a countdown. Any delay — mechanical, medical, financial — spends visa days that were budgeted for travel.</td></tr>
+<tr><td><span class="mono">Route → Vehicle</span></td><td>Surface, fuel quality, distance</td><td>Corrugation fatigues components; poor diesel attacks the freshly rebuilt injection system (R24); remoteness multiplies the cost of every failure above.</td></tr>
+<tr><td><span class="mono">Route → Crew</span></td><td>Heat, disease vectors, security</td><td>Environment loads the crew system continuously — malaria zones, heat stress, security vigilance (R17, R35, R36).</td></tr>
+<tr><td><span class="mono">Comms → Crew (reverse)</span></td><td>Home's picture of the expedition</td><td>Comms failure doesn't just isolate the crew — it triggers escalation, worry and potentially a search on the home side. The coupling runs both directions. See cascade C6.</td></tr>
+</tbody>
+</table>
+
+<div class="rule rule-info"><span class="rule-hdr">Why six, not one</span>The instinct is to treat "the expedition" as the vehicle plus everything else. The matrix shows why that fails: of the twelve strongest couplings, only five have the vehicle on either end. The crew, money, paperwork and comms systems fail each other directly, without the vehicle ever being involved.</div>
+
+<!-- ============ S3 ============ -->
+<div class="sec-header" id="s3">
+  <span class="sec-num">§3</span>
+  <span class="sec-title">Failure Cascade Register</span>
+  <span class="sec-sub">Trigger · chain · clocks started · chain-breaker</span>
+</div>
+
+<p class="p">The ten most consequential single failures, each traced past the obvious first effect. Format: the <strong>chain</strong> (first, second, third order), the <strong>clocks started</strong> (the hidden timers), and the <strong>chain-breaker</strong> (the action or preparation that stops the cascade early). The owning documents carry the detailed response — this register carries the shape.</p>
+
+<div class="cascade">
+  <div class="cascade-hdr"><span class="cascade-id">C1</span><span class="cascade-title">Alternator Failure</span><span class="cascade-sys">Vehicle → Energy → Crew</span></div>
+  <div class="cascade-body">
+    <ul class="chain">
+      <li><span class="ord">1st order</span><strong>Engine keeps running.</strong> The 1HZ's injection is fully mechanical — no electrical dependency once started. This is the deceptive part: nothing dramatic happens.</li>
+      <li><span class="ord">2nd order</span>The Willard 650 crank battery stops charging (alternator is its only source). The house bank stops receiving DC-DC charge; solar becomes the sole house input.</li>
+      <li><span class="ord">3rd order</span>Once the crank battery depletes below starting capability, the vehicle is immobile at the next shutdown. House loads (fridge, comms charging, navigation) survive on solar alone — degraded in cloud, dust or short winter days.</li>
+    </ul>
+    <div class="clocks"><strong>Clocks started:</strong> crank-battery reserve (days of starts, worsened by glow-plug draw on cold mornings); food safety once the fridge budget tightens; distance to a repair-capable town.</div>
+    <div class="breaker"><strong>Chain-breaker:</strong> RA-4 rotating-electrics redundancy — spare alternator or brush/regulator kit carried (R3 ledger, EX-8). Doctrine: on alternator warning, do NOT shut down until parked somewhere recoverable; minimise starts; conserve crank battery absolutely. Emergency bridge: the house bank can jump the crank side in extremis (R32 §7 routine, R26 wiring).</div>
+    <div class="owns">Owns the response: <b>R26</b> wiring · <b>R32</b> crank care · <b>R18</b> diagnosis · <b>R3</b> spares</div>
+  </div>
+</div>
+
+<div class="cascade">
+  <div class="cascade-hdr"><span class="cascade-id">C2</span><span class="cascade-title">Tyre Casing Destroyed</span><span class="cascade-sys">Vehicle → Route → Paperwork</span></div>
+  <div class="cascade-body">
+    <ul class="chain">
+      <li><span class="ord">1st order</span>A sidewall tear or run-flat destruction beyond plugging. Wheel change to the spare (R40 §2) — mobility restored, redundancy spent.</li>
+      <li><span class="ord">2nd order</span>The expedition is now running with <strong>zero tyre redundancy</strong> until the carcass is swapped onto the damaged wheel's rim (R40 §3–§5) or a replacement is sourced. North of the Zambezi, matching 265/75R16 stock is thin — sourcing can mean days and a detour.</li>
+      <li><span class="ord">3rd order</span>The sourcing detour spends visa days and budget; pushing on without redundancy converts the <em>next</em> puncture from an inconvenience into a mobility emergency in a remote area.</li>
+    </ul>
+    <div class="clocks"><strong>Clocks started:</strong> visa validity in the current country; distance to the next tyre-capable town (profile §serviceability); the risk-exposure window travelled without a spare.</div>
+    <div class="breaker"><strong>Chain-breaker:</strong> the carried carcass (expedition only, matched to the fitted 265/75 set — RA-9) plus the pre-departure carcass-swap drill, both crew signed off in R37. The open owner decision on a second-spare / casing-repair strategy for East Africa is precisely a decision about how early this chain gets broken.</div>
+    <div class="owns">Owns the response: <b>R40</b> procedures · <b>R14</b> strategy · <b>R37</b> drill sign-off · profiles §serviceability</div>
+  </div>
+</div>
+
+<div class="cascade">
+  <div class="cascade-hdr"><span class="cascade-id">C3</span><span class="cascade-title">Crew Member Incapacitated</span><span class="cascade-sys">Crew → everything</span></div>
+  <div class="cascade-body">
+    <ul class="chain">
+      <li><span class="ord">1st order</span>Illness or injury takes one of two crew out of action — the expedition's single largest capacity loss, instantly halving every capability.</li>
+      <li><span class="ord">2nd order</span>The remaining crew member must simultaneously provide care, run comms escalation (R38 §1, R29 §7), drive, navigate and make decisions alone — the exact scenario RA-8 trains for.</li>
+      <li><span class="ord">3rd order</span>If evacuation follows, the vehicle and the healthy crew member are separated from the patient; the vehicle becomes a single-handed repatriation or long-stay problem (R38 §3), and the carnet clock keeps running regardless.</li>
+    </ul>
+    <div class="clocks"><strong>Clocks started:</strong> medical golden hours (condition-dependent); insurance case-opening requirements (R29 — insurer contact of record, first-call discipline); visa validity for a hospital stay; Bonitas day-85 lapse if the stay runs long.</div>
+    <div class="breaker"><strong>Chain-breaker:</strong> RA-6 (WFA training both crew, screenings, prescribing-doctor kit) reduces the probability; RA-8 (Mary-Ann solo-capability, designed into the Karoo loop) and R37's no-single-point-of-failure rule make the second-order survivable. The SOS drill (R29 §7 / R10 §9) is rehearsed, not improvised.</div>
+    <div class="owns">Owns the response: <b>R29</b> medevac · <b>R10</b> emergency drill · <b>R38</b> §1 escalation · <b>R37</b> capability · <b>R17</b> health</div>
+  </div>
+</div>
+
+<div class="cascade">
+  <div class="cascade-hdr"><span class="cascade-id">C4</span><span class="cascade-title">Timing Belt Failure</span><span class="cascade-sys">Vehicle — terminal branch</span></div>
+  <div class="cascade-body">
+    <ul class="chain">
+      <li><span class="ord">1st order</span>The 1HZ is an <strong>interference engine</strong>: belt failure means pistons meet open valves. This is not a roadside repair — it is engine destruction, bent valves at minimum.</li>
+      <li><span class="ord">2nd order</span>The expedition stops where the belt broke. Recovery is a flatbed to a capable town, an engine-out job of weeks, or repatriation (R38 §3).</li>
+      <li><span class="ord">3rd order</span>Carnet disposal obligations, visa extensions, accommodation burn and the abort decision (R38 §2) all activate together.</li>
+    </ul>
+    <div class="clocks"><strong>Clocks started:</strong> every clock at once — this is the cascade the library works hardest to make impossible rather than survivable.</div>
+    <div class="breaker"><strong>Chain-breaker:</strong> RA-3 — pre-departure belt + tensioner replacement (~T-3 months), removing the ~373,000 km interval from the expedition window entirely; the removed belt travels as the emergency spare. This is the textbook systems move: spend once at a workshop to delete a terminal branch from the field tree.</div>
+    <div class="owns">Owns the response: <b>R23</b> pre-trip protocol · <b>R4</b> engine · <b>R38</b> §2–§3 if it ever happens</div>
+  </div>
+</div>
+
+<div class="cascade">
+  <div class="cascade-hdr"><span class="cascade-id">C5</span><span class="cascade-title">Cooling System Failure</span><span class="cascade-sys">Vehicle — fast escalation</span></div>
+  <div class="cascade-body">
+    <ul class="chain">
+      <li><span class="ord">1st order</span>A hose lets go, the viscous hub gives up, or the radiator core fails — coolant temperature climbs. Caught at the gauge, this is a stop-and-fix.</li>
+      <li><span class="ord">2nd order</span>Driven on, overheat becomes head-gasket failure within minutes — converting a R500 hose into a top-end rebuild far from home.</li>
+      <li><span class="ord">3rd order</span>A cooked engine in a remote area follows the C4 terminal branch: recovery, repatriation, abort machinery.</li>
+    </ul>
+    <div class="clocks"><strong>Clocks started:</strong> minutes, not days — cooling is the fastest cascade in the register. The only clock that matters is how quickly the driver reacts to the gauge.</div>
+    <div class="breaker"><strong>Chain-breaker:</strong> RA-5 (radiator core, viscous hub, hoses assessed and replaced on condition pre-departure) plus the standing doctrine: <strong>rising temperature = stop NOW</strong>, not at the next convenient spot. Carried hoses, Gun Gum and fencing wire (R3 §7) handle the field repair; the discipline handles the cascade.</div>
+    <div class="owns">Owns the response: <b>R22</b> cooling · <b>R18</b> diagnosis · <b>R27</b> field repair · <b>R3</b> spares</div>
+  </div>
+</div>
+
+<div class="cascade">
+  <div class="cascade-hdr"><span class="cascade-id">C6</span><span class="cascade-title">Comms Blackout</span><span class="cascade-sys">Comms → Home → Crew (reverse cascade)</span></div>
+  <div class="cascade-body">
+    <ul class="chain">
+      <li><span class="ord">1st order</span>The inReach fails, is lost, or the subscription lapses; the planned satphone (once owned) is the voice backup — a blackout means both channels are down or the second is not yet purchased.</li>
+      <li><span class="ord">2nd order</span><strong>This cascade runs backwards.</strong> The crew may be perfectly safe, but home cannot know it. A missed check-in starts the R38 §1 escalation tree on the home side — worry, then formal escalation, potentially a search enquiry.</li>
+      <li><span class="ord">3rd order</span>Resources are mobilised for a non-emergency; trust in the check-in system is damaged; and if a <em>real</em> emergency follows during the blackout, the layered SOS doctrine (R29 §7) is unavailable exactly when needed.</li>
+    </ul>
+    <div class="clocks"><strong>Clocks started:</strong> the home escalation clock — it starts at the first missed check-in whether or not anything is wrong. The crew must treat comms restoration with emergency-level urgency <em>because of what silence does at the other end</em>.</div>
+    <div class="breaker"><strong>Chain-breaker:</strong> RA-10 — two independent channels (inReach owned; satphone planned pre-departure purchase with IERCC registration and a scheduled SOS test), scheduled verification, and an escalation tree at home that distinguishes "late" from "silent" with agreed grace windows. On any single-channel loss: divert to restore redundancy before continuing remote legs.</div>
+    <div class="owns">Owns the response: <b>R16</b> comms kit · <b>R38</b> §1 SOP · <b>R29</b> §7 SOS doctrine · <b>RA-10</b></div>
+  </div>
+</div>
+
+<div class="cascade">
+  <div class="cascade-hdr"><span class="cascade-id">C7</span><span class="cascade-title">Money Access Failure</span><span class="cascade-sys">Money → Route → Paperwork</span></div>
+  <div class="cascade-body">
+    <ul class="chain">
+      <li><span class="ord">1st order</span>Cards decline (fraud lock, network outage, forex control change) or an ATM corridor dries up. Purchasing stops.</li>
+      <li><span class="ord">2nd order</span>Fuel purchasing power is mobility: the vehicle's range shrinks to the tank plus the cash on hand. Camp fees, food and border fees compete for the same cash stock.</li>
+      <li><span class="ord">3rd order</span>If resolution takes longer than the visa window or the fuel range to the next reliable banking town, a money problem has become a paperwork problem and a route problem simultaneously.</li>
+    </ul>
+    <div class="clocks"><strong>Clocks started:</strong> cash-stock burn-down at daily spend rate; fuel range remaining; visa days in the current country.</div>
+    <div class="breaker"><strong>Chain-breaker:</strong> R39's layered money doctrine — multiple cards on different networks, USD cash reserve in staged stashes, and the standing rule of refuelling and re-cashing <em>before</em> the stock runs low, not when it has. The cash reserve is sized as a stock: days of full autonomy, not an arbitrary sum.</div>
+    <div class="owns">Owns the response: <b>R39</b> money doctrine · <b>R35</b> cash security · profiles §money/fuel</div>
+  </div>
+</div>
+
+<div class="cascade">
+  <div class="cascade-hdr"><span class="cascade-id">C8</span><span class="cascade-title">Document Loss or Theft</span><span class="cascade-sys">Paperwork → Route → Money</span></div>
+  <div class="cascade-body">
+    <ul class="chain">
+      <li><span class="ord">1st order</span>Passport, carnet or vehicle papers lost or stolen. The expedition is legally frozen in place — no border can be crossed in either direction.</li>
+      <li><span class="ord">2nd order</span>Replacement runs through embassies and issuing bodies at their pace, not yours: travel to a capital, accommodation burn, and visa extensions for the waiting time.</li>
+      <li><span class="ord">3rd order</span>A lost <em>carnet</em> is the deep branch: the customs guarantee attaches to the document. Replacement mid-route is slow and the vehicle's legal status is ambiguous until resolved — it cannot simply be driven out.</li>
+    </ul>
+    <div class="clocks"><strong>Clocks started:</strong> visa validity (now being spent stationary); insurance/medevac cover continuity; embassy processing timelines.</div>
+    <div class="breaker"><strong>Chain-breaker:</strong> R39's document doctrine — certified copies carried separately from originals, digital copies in offline and cloud storage, originals split between crew where sensible, and R35's security discipline on where documents live in the vehicle. The copies do not replace the originals but they collapse the replacement timeline.</div>
+    <div class="owns">Owns the response: <b>R39</b> documentation · <b>R15</b> borders · <b>R35</b> security</div>
+  </div>
+</div>
+
+<div class="cascade">
+  <div class="cascade-hdr"><span class="cascade-id">C9</span><span class="cascade-title">Fuel Contamination</span><span class="cascade-sys">Route → Vehicle → Money</span></div>
+  <div class="cascade-body">
+    <ul class="chain">
+      <li><span class="ord">1st order</span>A load of dirty or water-laden diesel goes into the 145 L main tank. The water trap and filters are the engineered defence — they catch it if drained and watched.</li>
+      <li><span class="ord">2nd order</span>Ignored, water and fines pass to the injection side. The Bosch VE pump and injectors — freshly rebuilt Jun 2026 — are precision components lubricated by the fuel itself; water attacks them directly.</li>
+      <li><span class="ord">3rd order</span>Injection-system damage in the field is a tow-and-rebuild event: the single most expensive avoidable failure on a mechanical diesel, and one that consumes the filter spares stock even in its milder forms.</li>
+    </ul>
+    <div class="clocks"><strong>Clocks started:</strong> filter-stock depletion rate (each contamination event can consume multiple filters); distance to clean-fuel resupply.</div>
+    <div class="breaker"><strong>Chain-breaker:</strong> R24's sourcing and filtration doctrine — buy from high-turnover stations, filter-funnel on suspect fills, drain the water trap as a routine (not a response), and carry filter spares sized to the leg (R3/EX-8 consumables ledger). The habit is the defence; the hardware only backs it up.</div>
+    <div class="owns">Owns the response: <b>R24</b> fuel system · <b>R18</b> diagnosis · <b>R3</b> filter stock</div>
+  </div>
+</div>
+
+<div class="cascade">
+  <div class="cascade-hdr"><span class="cascade-id">C10</span><span class="cascade-title">Fatigue — The Slow Cascade</span><span class="cascade-sys">Crew → Crew (the invisible stock)</span></div>
+  <div class="cascade-body">
+    <ul class="chain">
+      <li><span class="ord">1st order</span>Nothing fails. Days of heat, corrugation, border friction and camp routine slowly draw down the crew's reserve — a stock with no gauge on the dashboard.</li>
+      <li><span class="ord">2nd order</span>Decision quality degrades before anyone feels "tired": the late push into the dark, the crossing not walked, the gauge not glanced at, the shortcut taken. Fatigue does not cause incidents directly — it causes the <em>decisions</em> that cause them.</li>
+      <li><span class="ord">3rd order</span>The incident that follows looks like a vehicle or route failure in the log, and the true root cause never gets recorded. Nearly every other cascade in this register becomes more likely as this stock depletes.</li>
+    </ul>
+    <div class="clocks"><strong>Clocks started:</strong> none visible — that is the danger. The stock depletes silently and recovers only with genuine rest.</div>
+    <div class="breaker"><strong>Chain-breaker:</strong> R38 §5's structural defences — the 5–7 day rest rhythm, the no-night-driving rule, the either-crew veto on discretionary risk, and naming "get-there-itis" out loud. These are not comfort measures; they are the maintenance schedule for the system that operates every other system.</div>
+    <div class="owns">Owns the response: <b>R38</b> §5 governance · <b>R37</b> crew · <b>R17</b> health · Manifesto</div>
+  </div>
+</div>
+
+<!-- ============ S4 ============ -->
+<div class="sec-header" id="s4">
+  <span class="sec-num">§4</span>
+  <span class="sec-title">The Seams Register</span>
+  <span class="sec-sub">Interfaces to watch · one signal each</span>
+</div>
+
+<p class="p">The interfaces where systems hand over to each other — where responsibility is shared and therefore easiest to drop. Each seam gets one watch signal: the early tell that the interface is degrading.</p>
+
+<table class="spec-table">
+<caption>Expedition seams &amp; watch signals</caption>
+<thead><tr><th>Seam</th><th>Between</th><th>Watch signal</th></tr></thead>
+<tbody>
+<tr><td><strong>Belt &amp; pulleys</strong></td><td>Engine ↔ alternator / cooling</td><td>Belt condition &amp; tension at every service stop; squeal or dust at the pulleys. One belt serves two cascades (C1, C5).</td></tr>
+<tr><td><strong>DC-DC charge path</strong></td><td>Crank side ↔ house side</td><td>SmartShunt state-of-charge trend vs driving hours — a weakening alternator shows here first, before the crank battery complains.</td></tr>
+<tr><td><strong>Crew ↔ machine</strong></td><td>Skill ↔ hardware</td><td>Any task only one crew member can do. Per R38 §5 that is a governance risk to be scheduled out, not lived with.</td></tr>
+<tr><td><strong>Check-in discipline</strong></td><td>Crew ↔ home</td><td>Any casually missed or late check-in — the protocol only protects if silence reliably means trouble (C6).</td></tr>
+<tr><td><strong>Vehicle ↔ carnet</strong></td><td>Machine ↔ customs law</td><td>Every border stamp-in/stamp-out matched same-day; an unstamped exit is a latent bond claim (R39, R29 §8).</td></tr>
+<tr><td><strong>Money ↔ border</strong></td><td>Cash ↔ officialdom</td><td>Fee demands that don't match the profile's documented schedule — the tell for both stale data and solicitation (R15, R35).</td></tr>
+<tr><td><strong>Tyres ↔ surface</strong></td><td>Vehicle ↔ route</td><td>Pressure discipline at every surface change (R14 / Tyre Pressure Calculator); sidewall checks at each fuel stop.</td></tr>
+<tr><td><strong>Fuel ↔ tank</strong></td><td>Route ↔ vehicle</td><td>Water-trap drain as routine; any hesitation or smoke change after a fill is treated as contamination until proven otherwise (C9).</td></tr>
+<tr><td><strong>Plan ↔ conditions</strong></td><td>Itinerary ↔ reality</td><td>Two consecutive days of schedule slippage — the tell that the plan, not the driving, needs to change (R38 §2 suspend logic).</td></tr>
+<tr><td><strong>Cover ↔ calendar</strong></td><td>Insurance ↔ time</td><td>The R29 calendar rows — Bonitas day-85 lapse and licence/IDP expiry checks — reviewed at every rest day, not remembered under pressure.</td></tr>
+</tbody>
+</table>
+
+<div class="rule rule-warn"><span class="rule-hdr">The seam habit</span>At any interface event — a border, a fuel stop, a surface change, a handover of driving, a service — pause on the seam itself for ten seconds: <strong>what is being handed over here, and what would dropping it start?</strong> The vehicle's subsystems are engineered; the seams are only ever maintained by attention.</div>
+
+<!-- ============ S5 ============ -->
+<div class="sec-header" id="s5">
+  <span class="sec-num">§5</span>
+  <span class="sec-title">Sensing &amp; Feedback</span>
+  <span class="sec-sub">The listening apparatus · trend → trigger</span>
+</div>
+
+<p class="p">The expedition cannot be predicted to its end; it can be <strong>instrumented</strong>. This is the consolidated list of what the system measures about itself, at what cadence, and what a bad trend triggers. Most of these instruments already exist in the library — this table is the loop that connects reading to action.</p>
+
+<table class="spec-table">
+<caption>Feedback instruments — measure · cadence · trigger</caption>
+<thead><tr><th>Instrument</th><th>Cadence</th><th>Trend that triggers action</th></tr></thead>
+<tbody>
+<tr><td><strong>Spectrographic oil analysis</strong> (RA-2)</td><td>Every oil change (never deferred — owner policy)</td><td>Rising wear-metal trend → workshop assessment before the next remote leg; feeds the ~360,000 km mid-expedition service decision (R38 §4).</td></tr>
+<tr><td><strong>EGT &amp; boost gauges</strong> (fitted)</td><td>Continuous while driving</td><td>EGT creep at familiar load → fuelling/filtration check (R21, R24); boost drift from 0.6 bar → turbo/plumbing inspection.</td></tr>
+<tr><td><strong>Coolant temperature</strong></td><td>Continuous — the fastest loop</td><td>Any rise above normal band → stop NOW (C5). No trend analysis; immediate response.</td></tr>
+<tr><td><strong>Fuel burn rate</strong> (Fuel Log Analyser)</td><td>Every fill</td><td>Consumption creep at constant conditions → drivetrain, tyre-pressure or fuel-quality investigation before it becomes a range problem.</td></tr>
+<tr><td><strong>SmartShunt SoC &amp; charge trend</strong></td><td>Daily glance; weekly review</td><td>House bank failing to reach full on normal driving/solar days → charge-path diagnosis (C1 early warning).</td></tr>
+<tr><td><strong>Cost per km</strong> (R8 dashboard convention)</td><td>Monthly, with the odometer log</td><td>Spend-rate trend against the expedition budget stock → pace or scope adjustment while options still exist (R39).</td></tr>
+<tr><td><strong>Tyre wear &amp; pressure log</strong></td><td>Pressure per surface change; wear weekly</td><td>Uneven wear → alignment/loading check; wear rate projecting replacement mid-route → sourcing decision moved forward (C2).</td></tr>
+<tr><td><strong>Water stock</strong> (Water Budget Calculator)</td><td>Daily in remote legs</td><td>Stock below the days-to-resupply requirement → route revision now, per R12's margin doctrine.</td></tr>
+<tr><td><strong>Crew state check</strong></td><td>Verbal, at the evening halt</td><td>Either crew reporting depleted two days running → rest day scheduled regardless of itinerary (C10; R38 §5).</td></tr>
+<tr><td><strong>Assumption register review</strong> (R38 §6)</td><td>Each rest day</td><td>Any invalidating signal observed → the register's named response executes; this closes the loop on the plan itself.</td></tr>
+</tbody>
+</table>
+
+<div class="rule rule-ok"><span class="rule-hdr">Feedback doctrine</span>An instrument that is read but never changes a decision is decoration. Each row above ends in an action because the loop — <strong>measure → compare → decide → act</strong> — is only closed by the act. The post-trip review (R23) is the same loop at expedition scale: the Karoo Winter Loop is its first live run.</div>
+
+<!-- ============ S6 ============ -->
+<div class="sec-header" id="s6">
+  <span class="sec-num">§6</span>
+  <span class="sec-title">Using the Map</span>
+  <span class="sec-sub">Field habit · planning habit</span>
+</div>
+
+<p class="p"><strong>In the field</strong> — when something fails, work R18 for the diagnosis and the owning document for the fix, then come here and read the failure's cascade card once. The card answers the question the fix does not: <em>what clocks are now running, and what is the chain-breaker?</em> Ten minutes with the right card converts a reactive day into a managed one.</p>
+
+<p class="p"><strong>In planning</strong> — before each major leg, read §4's seams register against the leg's profile: which seams does this leg stress? A remote northern leg stresses tyres↔surface, fuel↔tank and comms↔home; a border-dense leg stresses money↔border and vehicle↔carnet. Load the preparation where the stress will be.</p>
+
+<p class="p"><strong>Keeping it honest</strong> — this map is a model, and models earn their keep only by being updated. When the Karoo loop or the expedition produces a cascade this register did not predict, or a seam it did not name, the post-trip review (R23) amends this document. A systems map that never changes is a systems map nobody is dancing with.</p>
+
+<div class="rule rule-info"><span class="rule-hdr">What R41 does not own</span>No procedures, no specifications, no doctrine changes. Diagnosis stays in R18, decisions in R38, evacuation in R29, spares in R3, and every subsystem with its owning guide. R41 owns only the connections — if a conflict ever appears between this map and an owning document, the owning document wins and this map gets corrected.</div>
+
+<div class="xref-bar">
+  <span class="xref-label">Cross-ref</span>
+  <span class="xref-pill">R38 §6 · Assumption &amp; Trigger Register</span>
+  <span class="xref-pill">R18 · Troubleshooting</span>
+  <span class="xref-pill">R23 · Pre-trip &amp; post-trip review</span>
+  <span class="xref-pill">R29 · Insurance &amp; medevac</span>
+  <span class="xref-pill">R37 · Crew readiness</span>
+  <span class="xref-pill">R39 · Documentation &amp; money</span>
+  <span class="xref-pill">R30 · Cross-reference index</span>
+</div>
+
+</div>
+
+<script>
+// Active TOC state
+const sections = ['s1','s2','s3','s4','s5','s6'];
+const tocLinks = document.querySelectorAll('.toc-link');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      const idx = sections.indexOf(entry.target.id);
+      tocLinks.forEach((l, i) => l.classList.toggle('active', i === idx));
+    }
+  });
+}, {rootMargin: '-30% 0px -60% 0px'});
+sections.forEach(id => {
+  const el = document.getElementById(id);
+  if(el) observer.observe(el);
+});
+
+// Dynamic scroll margin
+function updateScrollMargins(){
+  const navH = document.querySelector('.sticky-nav-unit').offsetHeight;
+  document.querySelectorAll('.sec-header').forEach(el => {
+    el.style.scrollMarginTop = (navH + 4) + 'px';
+  });
+}
+updateScrollMargins();
+window.addEventListener('resize', updateScrollMargins);
+
+// Service worker — domain-guarded
+if('serviceWorker' in navigator && location.hostname !== 'www.claudeusercontent.com'){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('./sw.js')
+      .then(r => console.log('LC76 SW registered'))
+      .catch(e => console.log('SW error:', e));
+  });
+}
+</script>
+</body>
+</html>
