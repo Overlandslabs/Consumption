@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<!--
+  LC76 OVERLAND SERIES — KAROO WINTER LOOP ITINERARY
+  Trip: 3 Aug – 4 Sept 2026 · Cape Town round-trip · LC76 SW 1HZ
+  Built from the country-profile base, adapted for domestic travel
+  (no border / visa / currency / language sections).
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Karoo Winter Loop — LC76 Camping Itinerary, Aug–Sep 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+  :root {
+    --clay:#C4572A; --ochre:#D4963A; --sand:#E8D5A3; --cream:#F5EDDA;
+    --ink:#1C1410; --bark:#3D2B1A; --smoke:#6B5B4E; --slate:#4A5568;
+    --white:#FDFAF4; --red-warn:#B91C1C; --amber-warn:#92400E;
+    --green-ok:#1A4731; --border:rgba(61,43,26,0.15);
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html { overflow-x:hidden; }
+  body{ background:var(--white); color:var(--ink); font-family:'Oswald',sans-serif; font-size:15px; line-height:1.7;overflow-x:clip;overscroll-behavior-x:none}
+
+  /* ── STICKY NAV CONTAINER (masthead + toc wrapped together) ── */
+  #sticky-nav { position:sticky; top:0; z-index:100; padding-top:env(safe-area-inset-top); }
+
+  .masthead { background:var(--ink); color:var(--sand); position:relative; overflow:hidden; }
+  .masthead .lib-home-btn{position:absolute;top:14px;right:5%;z-index:2;display:inline-flex;align-items:center;gap:5px;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;text-decoration:none;color:var(--ochre);background:rgba(212,150,58,0.14);border:1px solid var(--ochre);border-radius:20px;padding:6px 12px;white-space:nowrap;transition:background 0.2s;}
+  .masthead .lib-home-btn:hover{background:rgba(212,150,58,0.28);}
+  .masthead-inner { width:100%; padding:22px 5% 18px; display:grid; grid-template-columns:1fr auto; gap:28px; align-items:end; }
+  .country-label { font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:var(--smoke); margin-bottom:8px; }
+  .masthead h1 { font-family:'Bebas Neue',sans-serif; font-size:clamp(34px,5vw,60px); font-weight:900; line-height:0.95; color:var(--cream); letter-spacing:-0.02em; }
+  .masthead h1 em { font-style:italic; color:var(--ochre); }
+  .masthead-sub { margin-top:12px; font-size:14px; color:var(--sand); font-style:italic; }
+  .masthead-meta { text-align:right; font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--smoke); line-height:1.9; }
+  .alert-strip { background:var(--clay); color:var(--cream); padding:9px 5%; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.04em; display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+  .alert-strip .pill { background:rgba(255,255,255,0.15); padding:3px 10px; border-radius:2px; white-space:nowrap; }
+  .alert-strip .pill.warn { background:rgba(0,0,0,0.28); }
+  #updated-banner { background:#1A4731; color:#D1FAE5; padding:7px 5%; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.06em; display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+  #updated-banner strong { color:#6EE7B7; }
+  #updated-banner .upd-tag { background:rgba(255,255,255,0.12); padding:2px 10px; border-radius:2px; }
+  .toc { background:var(--ink); color:var(--sand); padding:12px 5%; display:flex; gap:8px; flex-wrap:wrap; font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.06em; text-transform:uppercase; border-top:1px solid rgba(212,150,58,0.2); }
+  .toc a { color:var(--ochre); text-decoration:none; padding:4px 9px; border:1px solid rgba(212,150,58,0.3); transition:all 0.15s; cursor:pointer; }
+  .toc a:hover { background:rgba(212,150,58,0.15); }
+  .toc a.active { background:var(--ochre); color:var(--ink); border-color:var(--ochre); }
+
+  /* ── LAYOUT ── */
+  .page { width:100%; max-width:100%; padding:28px 5% 60px; }
+  .section { padding:18px 0 22px; border-bottom:1px solid var(--border); scroll-margin-top:180px; }
+  .section:last-child { border-bottom:none; }
+  .section-header { display:flex; align-items:baseline; gap:14px; margin-bottom:12px; }
+  .section-num { font-family:'Bebas Neue',sans-serif; font-size:24px; font-weight:900; color:var(--clay); border:2px solid var(--clay); padding:2px 10px; flex-shrink:0; line-height:1.2; }
+  .section h2 { font-family:'Bebas Neue',sans-serif; font-size:25px; font-weight:700; color:var(--bark); letter-spacing:-0.01em; }
+  .subsection-heading { font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:500; letter-spacing:0.15em; text-transform:uppercase; color:var(--cream); background:var(--bark); padding:5px 12px; margin:22px 0 12px; display:inline-block; }
+  .prose { font-size:14.5px; line-height:1.7; color:var(--bark); margin-bottom:14px; }
+  .prose + .prose { margin-top:-6px; }
+  strong { color:var(--bark); }
+  .divider { height:1px; background:linear-gradient(90deg,var(--clay),transparent); margin:20px 0; width:200px; }
+
+  /* ── INFO BOXES ── */
+  .box-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; margin-bottom:16px; }
+  .ibox { border-left:3px solid var(--ochre); background:var(--cream); padding:13px 16px; }
+  .ibox.warn { border-left-color:var(--red-warn); background:#FEF2F2; }
+  .ibox.ok { border-left-color:#15803D; background:#F0FDF4; }
+  .ibox.dark { border-left-color:var(--clay); background:var(--ink); color:var(--sand); }
+  .ibox-label { font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.15em; text-transform:uppercase; color:var(--smoke); margin-bottom:6px; }
+  .ibox.dark .ibox-label { color:var(--ochre); }
+  .ibox-value { font-size:21px; font-weight:600; line-height:1.2; color:var(--bark); margin-bottom:4px; }
+  .ibox.dark .ibox-value { color:var(--cream); }
+  .ibox-sub { font-size:12.5px; color:var(--smoke); line-height:1.5; }
+
+  /* ── TABLES ── */
+  .table-scroll { overflow-x:auto; -webkit-overflow-scrolling:touch; max-width:100%; }
+  .data-table { width:100%; border-collapse:collapse; font-size:13px; margin-bottom:16px; }
+  .data-table th { background:var(--ink); color:var(--ochre); font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; padding:8px 11px; text-align:left; font-weight:500; }
+  .data-table td { padding:8px 11px; border-bottom:1px solid var(--border); vertical-align:top; line-height:1.5; }
+  .data-table tr:nth-child(even) td { background:rgba(212,150,58,0.05); }
+  .data-table td:first-child { font-weight:600; color:var(--bark); }
+
+  /* ── STOP CARDS ── */
+  .stop { background:var(--cream); border-left:5px solid var(--clay); border-top:1px solid rgba(196,87,42,0.18); border-bottom:1px solid rgba(196,87,42,0.18); border-right:1px solid rgba(196,87,42,0.18); padding:16px 20px; margin-bottom:14px; }
+  .stop.book { border-left-color:var(--green-ok); }
+  .stop.wild { border-left-color:var(--amber-warn); }
+  .stop-head { display:flex; justify-content:space-between; align-items:baseline; gap:12px; flex-wrap:wrap; margin-bottom:4px; }
+  .stop h3 { font-family:'Bebas Neue',sans-serif; font-size:19px; color:var(--bark); }
+  .stop .nights { font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--clay); white-space:nowrap; }
+  .stop .meta { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--smoke); letter-spacing:0.03em; margin-bottom:10px; }
+  .stop .meta a { color:var(--clay); text-decoration:none; }
+  .stop dl { display:grid; grid-template-columns:120px 1fr; gap:4px 14px; font-size:13.5px; line-height:1.6; }
+  .stop dt { font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--clay); padding-top:3px; }
+  .stop dd { color:var(--bark); }
+  .stop dd strong { color:var(--bark); }
+
+  /* ── CALLOUTS ── */
+  .callout { display:flex; gap:13px; padding:12px 16px; margin:12px 0; background:#FEF2F2; border-left:4px solid var(--red-warn); }
+  .callout.amber { background:#FFFBEB; border-left-color:var(--ochre); }
+  .callout.green { background:#F0FDF4; border-left-color:#15803D; }
+  .callout-icon { font-size:19px; flex-shrink:0; line-height:1; margin-top:2px; }
+  .callout-body { font-size:13.5px; line-height:1.6; }
+  .callout-body strong { color:var(--bark); }
+
+  /* ── FUEL BAND ── */
+  .fuel-band { background:var(--bark); color:var(--cream); padding:16px 20px; margin:12px 0; display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:16px; }
+  .fuel-stat { text-align:center; }
+  .fuel-num { font-family:'Bebas Neue',sans-serif; font-size:34px; font-weight:900; color:var(--ochre); line-height:1; }
+  .fuel-label { font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:rgba(232,213,163,0.6); margin-top:4px; }
+
+  /* ── MAP ── */
+  #map-tabs { display:flex; flex-wrap:wrap; width:100%; }
+  .map-tab { font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.06em; text-transform:uppercase; background:var(--cream); color:var(--smoke); border:1px solid var(--border); border-bottom:none; padding:8px 16px; cursor:pointer; margin-right:4px; transition:all 0.15s; }
+  .map-tab:hover { background:var(--sand); color:var(--bark); }
+  .map-tab.active { background:var(--ink); color:var(--ochre); border-color:var(--ink); }
+  #route-map { height:560px; width:100%; max-width:100%; border:1px solid var(--border); border-top:none; }
+
+  /* ── CHANGELOG ── */
+  .changelog-entry { display:grid; grid-template-columns:110px 60px 1fr; gap:0; border-bottom:1px solid var(--border); padding:9px 0; font-size:13.5px; align-items:baseline; }
+  .changelog-entry:last-child { border-bottom:none; }
+  .cl-date { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--smoke); letter-spacing:0.05em; }
+  .cl-tag { font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:0.1em; text-transform:uppercase; padding:2px 7px; border-radius:2px; display:inline-block; white-space:nowrap; }
+  .cl-tag.new { background:#D1FAE5; color:#065F46; }
+  .cl-tag.upd { background:#FEF3C7; color:#92400E; }
+  .cl-note { color:var(--smoke); line-height:1.6; }
+  .cl-note strong { color:var(--bark); }
+
+  /* ── FOOTER + EXPORT ── */
+  #export-bar { background:var(--ink); border-top:1px solid rgba(212,150,58,0.3); padding:10px 5%; display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
+  #export-bar > span { font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--smoke); margin-right:6px; }
+  .export-btn-inline { font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.1em; text-transform:uppercase; background:transparent; color:var(--ochre); border:1px solid rgba(212,150,58,0.5); padding:6px 14px; cursor:pointer; transition:all 0.15s; }
+  .export-btn-inline:hover { background:var(--ochre); color:var(--ink); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width:700px) {
+    /* TOC becomes a single swipeable row so the sticky header stays short on mobile */
+    .toc { flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; padding-top:10px; padding-bottom:10px; }
+    .toc::-webkit-scrollbar { display:none; }
+    .toc a { flex:0 0 auto; white-space:nowrap; }
+    .masthead-inner { grid-template-columns:1fr; gap:12px; padding:18px 6% 16px; }
+    .masthead-meta { text-align:left; }
+    .section { scroll-margin-top:240px; }
+    .stop dl { grid-template-columns:1fr; gap:2px; }
+    .stop dt { padding-top:8px; }
+    .box-grid, .fuel-band { grid-template-columns:1fr 1fr; }
+    #route-map { height:400px; }
+    .map-tab { flex:1 1 0; min-width:0; text-align:center; margin-right:0; font-size:9.5px; padding:7px 6px; }
+  }
+
+  /* ── PRINT (Design Guidelines v1.2 §16) ── */
+  @media print {
+    * { -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; color-adjust:exact !important; }
+    @page { margin:7mm; }
+    body { font-size:7.5pt; }
+    #sticky-nav { position:static !important; }
+    #export-bar, #map-tabs, .toc, .lib-home-btn { display:none !important; }
+    .masthead, .alert-strip, #updated-banner, .ibox, .stop, .callout, .fuel-band, .data-table th { -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
+    .stop, .ibox, .callout, .changelog-entry { break-inside:avoid; }
+    .fuel-band { break-inside:avoid; }
+    .data-table { break-inside:auto; }
+    .data-table thead { display:table-header-group; }
+    #route-map { height:320px; }
+    .page { padding:0 2%; }
+  }
+</style>
+</head>
+<body>
+
+<div id="sticky-nav">
+  <header class="masthead">
+    <a href="index.html" class="lib-home-btn" title="Library Index">⌂ Index</a>
+    <div class="masthead-inner">
+      <div>
+        <div class="country-label">LC76 Overland Series · Trip Itinerary</div>
+        <h1>Karoo <em>Winter Loop</em></h1>
+        <div class="masthead-sub">32 nights of gravel, big skies and cold clear stars — Cape Town round-trip, mostly under canvas.</div>
+      </div>
+    </div>
+  </header>
+  <nav class="toc" id="toc">
+    <a onclick="goTo('overview')">01 Overview</a>
+    <a onclick="goTo('glance')">02 At a Glance</a>
+    <a onclick="goTo('map-section')">03 Route Map</a>
+    <a onclick="goTo('geology')">04 Geology &amp; Fossils</a>
+    <a onclick="goTo('flora')">05 Biomes &amp; Flora</a>
+    <a onclick="goTo('wildlife')">06 Wildlife</a>
+    <a onclick="goTo('heritage')">07 People &amp; Heritage</a>
+    <a onclick="goTo('skies')">08 Dark Skies</a>
+    <a onclick="goTo('leg1')">09 Cederberg &amp; Tankwa</a>
+    <a onclick="goTo('leg2')">10 Hantam &amp; Bushmanland</a>
+    <a onclick="goTo('leg3')">11 Upper Karoo Home</a>
+    <a onclick="goTo('fuel')">12 Fuel &amp; Range</a>
+    <a onclick="goTo('water')">13 Water &amp; Supplies</a>
+    <a onclick="goTo('weather')">14 Weather &amp; Season</a>
+    <a onclick="goTo('gravel')">15 Gravel &amp; Vehicle</a>
+    <a onclick="goTo('contacts')">16 Contact Directory</a>
+    <a onclick="goTo('log')">· Log</a>
+  </nav>
+</div>
+
+<main class="page">
+
+  <!-- 01 OVERVIEW -->
+  <section class="section" id="overview">
+    <div class="section-header"><div class="section-num">01</div><h2>Trip Overview</h2></div>
+    <p class="prose">A slow winter circle through the heart of the Karoo and Bushmanland — succulent plains, dolerite koppies, dry pans and some of the darkest skies in the country. The route runs almost entirely on gravel, threading the Cederberg and Tankwa first, then arcing north into the Hantam before looping home down through the Upper Karoo. The rhythm is deliberately unhurried: <strong>two to four nights at most stops</strong>, self-sufficient under canvas, buying food and topping up water as you pass through the towns.</p>
+    <div class="box-grid">
+      <div class="ibox"><div class="ibox-label">Duration</div><div class="ibox-value">32 nights</div><div class="ibox-sub">Depart 3 Aug · home 4 Sept</div></div>
+      <div class="ibox"><div class="ibox-label">Distance</div><div class="ibox-value">~2,250 km</div><div class="ibox-sub">~80% gravel · verify all tracks</div></div>
+      <div class="ibox"><div class="ibox-label">Stops</div><div class="ibox-value">13</div><div class="ibox-sub">10 camping · 3 self-catering houses</div></div>
+      <div class="ibox dark"><div class="ibox-label">Fixed Point</div><div class="ibox-value">Enjo</div><div class="ibox-sub">Booked 10–14 Aug · the pivot</div></div>
+    </div>
+    <p class="prose">The loop is built clockwise around the one fixed booking. The Cederberg/Tankwa cluster sits closest to home, so it falls naturally <strong>before</strong> Enjo; everything north and east follows <strong>after</strong>. Distances between stops are mostly short — the longest single legs are the run in to Tankwa and the run home from Sutherland.</p>
+    <div class="callout amber"><div class="callout-icon">⚑</div><div class="callout-body"><strong>Booking status:</strong> only Enjo is confirmed. Tankwa (SANParks) and the popular farm camps book out in season — reserve the rest as soon as the route is locked. Verneukpan and Soutpoort need a phone call to arrange access and check the road.</div></div>
+  </section>
+
+  <!-- 02 AT A GLANCE -->
+  <section class="section" id="glance">
+    <div class="section-header"><div class="section-num">02</div><h2>Itinerary at a Glance</h2></div>
+    <div class="table-scroll">
+    <table class="data-table">
+      <thead><tr><th>Dates</th><th>Nights</th><th>Stop</th><th>Type</th><th>Leg drive in</th></tr></thead>
+      <tbody>
+        <tr><td>3–7 Aug</td><td>4</td><td>Tankwa Karoo NP — Perdekloof</td><td>Camp</td><td>CT → ~330 km</td></tr>
+        <tr><td>7–10 Aug</td><td>3</td><td>Kagga Kamma</td><td>Camp</td><td>~150 km</td></tr>
+        <tr><td>10–14 Aug</td><td>4</td><td>Enjo Nature Farm <strong>(booked)</strong></td><td>Camp/cottage</td><td>~200 km</td></tr>
+        <tr><td>14–16 Aug</td><td>2</td><td>Calvinia — Kleinplasie</td><td>Camp</td><td>~150 km</td></tr>
+        <tr><td>16–18 Aug</td><td>2</td><td>Loeriesfontein — Skurweberg</td><td>Camp</td><td>~60 km</td></tr>
+        <tr><td>18–19 Aug</td><td>1</td><td>Brandvlei — Casablanca</td><td>Overnight</td><td>~170 km</td></tr>
+        <tr><td>19–22 Aug</td><td>3</td><td>Verneukpan — wild camp</td><td>Wild</td><td>~70 km</td></tr>
+        <tr><td>22–24 Aug</td><td>2</td><td>Stuurmansfontein Corbelled House</td><td>Self-catering</td><td>~180 km</td></tr>
+        <tr><td>24–26 Aug</td><td>2</td><td>Melton Wold Guest Farm</td><td>Camp</td><td>~150 km</td></tr>
+        <tr><td>26–27 Aug</td><td>1</td><td>Loxton — Pear Tree</td><td>Camp</td><td>~45 km</td></tr>
+        <tr><td>27–29 Aug</td><td>2</td><td>Soutpoort</td><td>Camp</td><td>~20 km</td></tr>
+        <tr><td>29 Aug–1 Sept</td><td>3</td><td>Merweville</td><td>Cottage*</td><td>~160 km</td></tr>
+        <tr><td>1–4 Sept</td><td>3</td><td>Sutherland</td><td>Camp</td><td>~130 km</td></tr>
+        <tr><td>4 Sept</td><td>—</td><td>Home — Cape Town</td><td>—</td><td>~350 km</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p class="prose">*Merweville camping is limited — the confirmed options are self-catering cottages (see Stop 12). If you'd rather pitch the tent there, let me know and I'll chase a farm campsite.</p>
+  </section>
+
+  <!-- 03 ROUTE MAP -->
+  <section class="section" id="map-section" style="overflow:hidden;">
+    <div class="section-header"><div class="section-num">03</div><h2>Route Map</h2></div>
+    <p class="prose" style="margin-bottom:14px;">Click a marker for the stop detail. <strong>Full Loop</strong> shows the whole circle; <strong>West</strong> isolates the Cederberg/Tankwa run; <strong>North &amp; Karoo</strong> shows the Hantam-to-home arc.</p>
+    <div id="map-tabs">
+      <button class="map-tab active" id="tab-all" onclick="switchTab('all')">Full Loop</button>
+      <button class="map-tab" id="tab-west" onclick="switchTab('west')">West — Cederberg &amp; Tankwa</button>
+      <button class="map-tab" id="tab-north" onclick="switchTab('north')">North &amp; Karoo</button>
+    </div>
+    <div id="route-map"></div>
+    <p style="font-size:11px;color:var(--smoke);font-family:'JetBrains Mono',monospace;margin-top:6px;letter-spacing:0.04em;">© OpenStreetMap contributors — route line indicative only, verify every gravel track before travel.</p>
+  </section>
+
+  <!-- 04 GEOLOGY & FOSSILS -->
+  <section class="section" id="geology">
+    <div class="section-header"><div class="section-num">04</div><h2>Geology &amp; Fossils — The Floor of an Ancient World</h2></div>
+    <p class="prose">Almost everything you drive across on this trip is the <strong>Karoo Supergroup</strong> — a single, vast pile of sedimentary rock that covers roughly two-thirds of South Africa. It was laid down over about 120 million years, from around 300 to 180 million years ago (Ma), in a great inland basin while this part of Gondwana drifted off the South Pole. Read from the bottom up, it is the story of a continent thawing out of an ice age, flooding, drying into endless river floodplains, and finally being buried under lava as Gondwana tore apart.</p>
+    <div class="box-grid">
+      <div class="ibox dark"><div class="ibox-label">Karoo Supergroup</div><div class="ibox-value">~300–180 Ma</div><div class="ibox-sub">Covers ~⅔ of South Africa. The flat plains, the layered cuttings and the koppies are all chapters of the same book.</div></div>
+      <div class="ibox warn"><div class="ibox-label">The Great Dying</div><div class="ibox-value">~252 Ma</div><div class="ibox-sub">Earth's largest mass extinction (~90% of species). The Karoo's Beaufort Group holds the world's best <em>land</em> record of it — a global reference for science.</div></div>
+      <div class="ibox"><div class="ibox-label">Dolerite</div><div class="ibox-value">The koppies</div><div class="ibox-sub">~183-Ma magma squeezed between the layers as sills and dykes. Harder than the mudstone around it, so it caps every flat-topped hill you'll see.</div></div>
+      <div class="ibox"><div class="ibox-label">Fossil country</div><div class="ibox-value">Therapsids</div><div class="ibox-sub">The "mammal-like reptiles" that preceded the dinosaurs are found in extraordinary density in the Beaufort mudstones beneath your wheels.</div></div>
+    </div>
+    <div class="subsection-heading">Reading the layers</div>
+    <div class="table-scroll">
+    <table class="data-table">
+      <thead><tr><th>Layer (oldest first)</th><th>Age</th><th>What it records</th></tr></thead>
+      <tbody>
+        <tr><td>Dwyka</td><td>~300 Ma</td><td>Glacial tillite — ice sheets when this land sat near the South Pole.</td></tr>
+        <tr><td>Ecca</td><td>~280 Ma</td><td>Black shales of a vast inland sea; source of the Karoo's coal and shale gas.</td></tr>
+        <tr><td>Beaufort</td><td>~265–250 Ma</td><td>River-floodplain mudstones — the fossil reptile beds and the end-Permian extinction record.</td></tr>
+        <tr><td>Stormberg</td><td>~230–190 Ma</td><td>Sandstones and the pale Clarens "cave sandstone"; early dinosaurs.</td></tr>
+        <tr><td>Drakensberg basalt</td><td>~183 Ma</td><td>Flood lavas that buried it all as Gondwana broke up. The dolerite below is its plumbing.</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="callout amber"><div class="callout-icon">⛰</div><div class="callout-body"><strong>On the ground:</strong> every flat-topped koppie and "ironstone" ridge is dolerite-capped; the open plains between are soft Beaufort mudstone. The fossil footprint surface at <strong>Gansfontein</strong> near Fraserburg (a short detour from the Sutherland leg) is one of the most accessible windows into this world. <em>Note: Ma = million years ago.</em></div></div>
+  </section>
+
+  <!-- 05 BIOMES & FLORA -->
+  <section class="section" id="flora">
+    <div class="section-header"><div class="section-num">05</div><h2>Biomes &amp; Flora — Two Karoos</h2></div>
+    <p class="prose">The route crosses the meeting place of two great arid biomes. The <strong>Succulent Karoo</strong> in the west (the Tankwa, Cederberg fringe and Hantam) is a winter-rainfall world and one of only a handful of <em>arid biodiversity hotspots on Earth</em> — around 6,300 plant species, some 40% of them found nowhere else, and the richest succulent flora on the planet. The <strong>Nama-Karoo</strong> of the interior (Bushmanland and the Upper Karoo) is a summer-rainfall dwarf shrubland — sparse, grey-green "Karoo bossies" and grass over huge distances, deceptively rich underfoot.</p>
+    <div class="box-grid">
+      <div class="ibox ok"><div class="ibox-label">Succulent Karoo</div><div class="ibox-value">Global hotspot</div><div class="ibox-sub">~6,300 species, ~40% endemic. The only arid-zone hotspot on Earth. Tankwa, Cederberg edge, Hantam.</div></div>
+      <div class="ibox"><div class="ibox-label">Nama-Karoo</div><div class="ibox-value">Dwarf shrubland</div><div class="ibox-sub">Hardy shrublets and grasses across Bushmanland and the Upper Karoo. Built for drought and frost.</div></div>
+      <div class="ibox"><div class="ibox-label">Quiver tree</div><div class="ibox-value">Kokerboom</div><div class="ibox-sub">The aloe that isn't a tree. Groves around Loeriesfontein and Nieuwoudtville; San hollowed the branches for arrow quivers.</div></div>
+      <div class="ibox"><div class="ibox-label">Spring flowers</div><div class="ibox-value">Late Aug–Sept</div><div class="ibox-sub">Rain-dependent daisies, vygies and bulbs. Your timing sits right at the front edge of the display.</div></div>
+    </div>
+    <p class="prose">Nieuwoudtville, a short hop from Calvinia, is often called the <strong>bulb capital of the world</strong> for its unmatched density of geophyte species. The Biedouw Valley (Enjo) and the Hantam plains can both flower spectacularly in a good year.</p>
+    <div class="callout green"><div class="callout-icon">🌼</div><div class="callout-body"><strong>Flower window:</strong> displays open from late August and need recent rain plus sun by mid-morning to perform. Check the seasonal flower line before committing to the Calvinia/Nieuwoudtville day trip — and remember flowers face the sun, so drive <em>with</em> the sun behind you for the best show.</div></div>
+  </section>
+
+  <!-- 06 WILDLIFE -->
+  <section class="section" id="wildlife">
+    <div class="section-header"><div class="section-num">06</div><h2>Wildlife — Sparse, Specialised, Worth the Patience</h2></div>
+    <p class="prose">Karoo wildlife rewards stillness rather than the big-game checklist. Gemsbok, springbok, kudu, steenbok and klipspringer hold the plains and koppies; after dark the Karoo belongs to bat-eared and Cape fox, aardvark, aardwolf, caracal and porcupine. The birding is genuinely special — this is the global heartland of Africa's <strong>larks</strong>, with several species found almost nowhere else, plus Verreaux's (black) eagle on the cliffs, blue crane on the plains, and the great bustards and korhaans striding the veld.</p>
+    <div class="box-grid">
+      <div class="ibox warn"><div class="ibox-label">Karoo icon</div><div class="ibox-value">Riverine rabbit</div><div class="ibox-sub">Critically endangered and found only in central-Karoo riverine scrub — one of the world's rarest mammals. Largely nocturnal; a privilege to glimpse.</div></div>
+      <div class="ibox"><div class="ibox-label">Birding</div><div class="ibox-value">Lark capital</div><div class="ibox-sub">Karoo, red, Sclater's and other larks; Ludwig's &amp; kori bustard, Karoo korhaan, pale chanting goshawk, ostrich. Tankwa is a top arid-birding spot.</div></div>
+      <div class="ibox"><div class="ibox-label">Reptiles</div><div class="ibox-value">Tortoise central</div><div class="ibox-sub">The Karoo and Namaqualand have the highest tortoise diversity on Earth. Also puff adder and Cape cobra — watch where you step and reach.</div></div>
+      <div class="ibox"><div class="ibox-label">Best viewing</div><div class="ibox-value">Night drives</div><div class="ibox-sub">Melton Wold runs guided night drives (aardvark, bat-eared fox possible). Dawn and dusk are the active windows everywhere.</div></div>
+    </div>
+    <div class="callout"><div class="callout-icon">🦌</div><div class="callout-body"><strong>Driving + wildlife = the real risk.</strong> Kudu, antelope and stray livestock on unfenced gravel are the most likely hazard of the whole trip, and they move at dusk and dawn. Plan to be <strong>in camp before dark</strong> and avoid night driving on the gravel — it's the single biggest safety lever you have out here.</div></div>
+  </section>
+
+  <!-- 07 PEOPLE & HERITAGE -->
+  <section class="section" id="heritage">
+    <div class="section-header"><div class="section-num">07</div><h2>People &amp; Heritage — Deep Time to Radio Telescopes</h2></div>
+    <p class="prose">The Karoo's human story is as layered as its rock. The <strong>San</strong> — among the oldest continuous cultures on Earth — left rock <em>paintings</em> in the sandstone of the Cederberg and rock <em>engravings</em> (petroglyphs) pecked into the dark dolerite of the central Karoo. Khoekhoe herders followed, and from the 1700s the <strong>trekboers</strong> — semi-nomadic Dutch-descended pastoralists — pushed in with fat-tailed sheep, founding the merino-wool culture that still defines the region's towns.</p>
+    <div class="box-grid">
+      <div class="ibox"><div class="ibox-label">First peoples</div><div class="ibox-value">San rock art</div><div class="ibox-sub">Paintings in Cederberg sandstone; engravings on central-Karoo dolerite, including near Stuurmansfontein. Irreplaceable.</div></div>
+      <div class="ibox"><div class="ibox-label">Settler heritage</div><div class="ibox-value">Corbelled houses</div><div class="ibox-sub">Domed dry-stone dwellings (klipkoepelhuise) built by 1800s trekboers where there was no timber — unique to the Carnarvon–Williston–Fraserburg triangle. Stuurmansfontein is a preserved one you sleep in.</div></div>
+      <div class="ibox"><div class="ibox-label">Town culture</div><div class="ibox-value">Wool &amp; water</div><div class="ibox-sub">Victorian streetscapes, NG churches and sheep economies — Calvinia, Loxton, Sutherland, Williston. Wupperthal in the Cederberg is a 19th-century Moravian mission.</div></div>
+      <div class="ibox dark"><div class="ibox-label">Modern layer</div><div class="ibox-value">SKA</div><div class="ibox-sub">The Square Kilometre Array radio telescope is rising near Carnarvon, inside a legally protected radio-quiet zone.</div></div>
+    </div>
+    <div class="callout amber"><div class="callout-icon">🪨</div><div class="callout-body"><strong>Rock-art etiquette:</strong> never touch, wet, chalk or rub paintings or engravings — skin oils and water destroy them. Visit only with the landowner's permission or a guide, and <strong>do not publish or share exact panel locations</strong>. These sites survive precisely because they stay quiet.</div></div>
+  </section>
+
+  <!-- 08 DARK SKIES & ASTRONOMY -->
+  <section class="section" id="skies">
+    <div class="section-header"><div class="section-num">08</div><h2>Dark Skies &amp; Astronomy</h2></div>
+    <p class="prose">The Karoo has some of the darkest, clearest skies on Earth — almost no light pollution, very low humidity and high ground. It's why <strong>Sutherland</strong> hosts the South African Astronomical Observatory (SAAO) and the Southern African Large Telescope (SALT), the largest single optical telescope in the Southern Hemisphere, and why the Square Kilometre Array (SKA) radio telescope sits out near Carnarvon. On this trip the pans and remote camps — Tankwa, Verneukpan, Stuurmansfontein, Merweville — are every bit as dark; you simply look up.</p>
+    <div class="box-grid">
+      <div class="ibox dark"><div class="ibox-label">Sutherland</div><div class="ibox-value">SALT &amp; SAAO</div><div class="ibox-sub">Day tour of the telescopes plus a guided town night-sky session — book both ahead. Winter nights are long and crystal clear (and bitterly cold).</div></div>
+      <div class="ibox ok"><div class="ibox-label">New moon</div><div class="ibox-value">13 Aug 2026</div><div class="ibox-sub">Darkest skies of the trip — and it falls during your Enjo stay (10–14 Aug). The late Tankwa nights are also dark.</div></div>
+      <div class="ibox"><div class="ibox-label">Full moon + eclipse</div><div class="ibox-value">28 Aug 2026</div><div class="ibox-sub">A partial lunar eclipse is visible from South Africa in the early hours of 28 Aug — during your Soutpoort stay. Bright moon, but a real spectacle.</div></div>
+      <div class="ibox"><div class="ibox-label">Sky quality</div><div class="ibox-value">Among the best</div><div class="ibox-sub">The Milky Way core sits well placed in the August evening sky. A red head-torch and 20 minutes of dark adaption transform the view.</div></div>
+    </div>
+    <div class="callout green"><div class="callout-icon">✦</div><div class="callout-body"><strong>Moon-aware planning:</strong> aim your darkest-sky expectations at Enjo and late Tankwa (near new moon, 13 Aug). At Verneukpan (19–22 Aug) the waxing moon sets after midnight, so the pre-dawn hours stay dark. The moon is brightest 24 Aug–1 Sept (Melton Wold through early Merweville), then wanes again for Sutherland. <em>Abbreviations: SAAO = SA Astronomical Observatory; SALT = Southern African Large Telescope; SKA = Square Kilometre Array.</em></div></div>
+  </section>
+
+  <!-- 09 LEG 1 -->
+  <section class="section" id="leg1">
+    <div class="section-header"><div class="section-num">09</div><h2>Leg 1 — Cederberg &amp; Tankwa</h2></div>
+    <p class="prose">The opening week, all within easy reach of home and building gently toward Enjo. Leave Cape Town with full water and a full main tank — the R355 into the Tankwa is the longest dry, fuel-less stretch of the whole trip.</p>
+
+    <div class="stop">
+      <div class="stop-head"><h3>1 · Tankwa Karoo National Park — Perdekloof</h3><span class="nights">3–7 Aug · 4 nights</span></div>
+      <div class="meta">−32.2462, 20.1635 · SANParks reception <a href="tel:+27273411927">027 341 1927</a> · book via sanparks.org</div>
+      <dl>
+        <dt>Facilities</dt><dd>6 private stands, each with its own kitchen, hot shower and flush toilet. Borehole water is mineral-heavy and smells of sulphur — fine for washing, <strong>carry your own drinking water</strong>. No power, no shop, no fuel.</dd>
+        <dt>Explore</dt><dd>Gannaga Pass up the escarpment for the big view; Elandsberg loop; Oudebaaskraal dam; superb succulent-Karoo flora and endemic larks. World-class dark skies — this is one of the trip's best stargazing nights.</dd>
+        <dt>Access</dt><dd>From Ceres on the R355 — ~250 km of corrugated gravel, no fuel or services. Drop tyre pressures. The internal park roads to Perdekloof are corrugated in sections; take it slow.</dd>
+        <dt>Drive in</dt><dd>Cape Town → Ceres → R355 ≈ 330 km / ~5 hrs. A full travel day.</dd>
+      </dl>
+    </div>
+
+    <div class="stop">
+      <div class="stop-head"><h3>2 · Kagga Kamma Nature Reserve</h3><span class="nights">7–10 Aug · 3 nights</span></div>
+      <div class="meta">−32.7459, 19.5629 · <a href="tel:+27218724343">021 872 4343</a> · kaggakamma.co.za</div>
+      <dl>
+        <dt>Facilities</dt><dd>Dedicated campsites (book the camping rate, not the lodge), each with braai; small shop for basics; restaurant and pool on site. Note campsites have little natural shade.</dd>
+        <dt>Explore</dt><dd>Guided San rock-art walks, nature drives among the sandstone formations, and an on-site observatory for guided stargazing. Self-guided walks around the rock labyrinth.</dd>
+        <dt>Access</dt><dd>R303 through the Koue Bokkeveld; gravel final approach. From Tankwa via the Katbakkies Pass — a beautiful gravel link.</dd>
+        <dt>Drive in</dt><dd>Tankwa → Katbakkies → Kagga Kamma ≈ 150 km / ~3 hrs gravel.</dd>
+      </dl>
+    </div>
+
+    <div class="stop book">
+      <div class="stop-head"><h3>3 · Enjo Nature Farm — Biedouw Valley <span style="font-size:11px;color:var(--green-ok);">BOOKED</span></h3><span class="nights">10–14 Aug · 4 nights</span></div>
+      <div class="meta">−32.1390, 19.2983 · <a href="tel:+27274700055">027 470 0055</a> · enjo.co.za</div>
+      <dl>
+        <dt>Facilities</dt><dd>Camping and simple cottages, swimming pool and farm dam, honesty bar. Relaxed, family-run.</dd>
+        <dt>Explore</dt><dd>Farm hiking trails, the Biedouw Valley itself (famous for spring wildflowers — late Aug timing could be excellent), and easy day trips to the Pakhuis Pass, Wupperthal and the Cederberg rock art. A genuine rest stop mid-trip.</dd>
+        <dt>Access</dt><dd>Biedouw Valley road off the R364 / Pakhuis Pass, gravel. Stunning approach.</dd>
+        <dt>Drive in</dt><dd>Kagga Kamma → Ceres/Op-die-Berg → N7 → Biedouw ≈ 200 km / ~3.5 hrs.</dd>
+      </dl>
+    </div>
+  </section>
+
+  <!-- 10 LEG 2 -->
+  <section class="section" id="leg2">
+    <div class="section-header"><div class="section-num">10</div><h2>Leg 2 — Hantam &amp; Bushmanland</h2></div>
+    <p class="prose">North out of the Cederberg into the wide, empty Hantam and Bushmanland. This is the remotest stretch — long horizons, tiny towns, and the trip's wildest night out on Verneukpan. Top up fuel and food at Calvinia before pushing on.</p>
+
+    <div class="stop">
+      <div class="stop-head"><h3>4 · Calvinia — Kleinplasie</h3><span class="nights">14–16 Aug · 2 nights</span></div>
+      <div class="meta">−31.4625, 19.8009 · <a href="tel:+27798859836">079 885 9836</a> · smallholding just outside town</div>
+      <dl>
+        <dt>Facilities</dt><dd>Camping with private braai, toilet and shower per site; level but limited shade. (In-town alternative: Klipwerf, <a href="tel:+27273411126">027 341 1126</a>.) Calvinia has supermarkets, fuel, ATMs — the big resupply.</dd>
+        <dt>Explore</dt><dd>Calvinia Museum and the giant post box; Akkerendam Nature Reserve walks above town; day trip to Nieuwoudtville — the "bulb capital", flowers and the waterfall, ~70 km. Late Aug can be peak Hantam flower season.</dd>
+        <dt>Note</dt><dd>The Hantam Vleisfees (meat festival) runs 28–29 Aug 2026 — after your 14–16 Aug stay, so no clash and no accommodation pressure on your dates.</dd>
+        <dt>Drive in</dt><dd>Enjo → Pakhuis → Calvinia ≈ 150 km / ~2.5 hrs.</dd>
+      </dl>
+    </div>
+
+    <div class="stop">
+      <div class="stop-head"><h3>5 · Loeriesfontein — Skurweberg Bush Camp</h3><span class="nights">16–18 Aug · 2 nights</span></div>
+      <div class="meta">−31.0097, 19.4472 · Eric <a href="tel:+27837634836">083 763 4836</a></div>
+      <dl>
+        <dt>Facilities</dt><dd>Only 4 rustic sites under the Skurweberg, among quiver trees and aloes; hot showers; two sites have limited solar power (phone/light charging, no kettles). Overlander-favourite, very helpful host.</dd>
+        <dt>Explore</dt><dd>The Fred Turner Windpump Museum in Loeriesfontein — one of only a couple in the world, genuinely worth it. Quiver-tree groves, rock formations, big birdsong-and-sunset country.</dd>
+        <dt>Drive in</dt><dd>Calvinia → Loeriesfontein ≈ 60 km / ~45 min.</dd>
+      </dl>
+    </div>
+
+    <div class="stop">
+      <div class="stop-head"><h3>6 · Brandvlei — Casablanca</h3><span class="nights">18–19 Aug · 1 night</span></div>
+      <div class="meta">−30.4602, 20.4884 · <a href="tel:+27662630125">066 263 0125</a> · 41 Charl Cilliers St</div>
+      <dl>
+        <dt>Facilities</dt><dd>Quirky overnight stop, friendly host. Brandvlei is the last proper resupply and fuel before Verneukpan — fill up here, buy water and food for the wild-camp days.</dd>
+        <dt>Explore</dt><dd>A staging night rather than a destination. Stretch the legs around the salt-pan town; it's the gateway to the pan.</dd>
+        <dt>Drive in</dt><dd>Loeriesfontein → Brandvlei ≈ 170 km / ~2.5 hrs.</dd>
+      </dl>
+    </div>
+
+    <div class="stop wild">
+      <div class="stop-head"><h3>7 · Verneukpan — Wild Camp</h3><span class="nights">19–22 Aug · 3 nights</span></div>
+      <div class="meta">−30.1409, 21.0573 · access via Brandvlei · arrange permission locally</div>
+      <dl>
+        <dt>Facilities</dt><dd><strong>None.</strong> A vast dry lake bed — fully self-sufficient. No water, no fuel, no toilets, no signal. Carry everything in, pack everything out.</dd>
+        <dt>Explore</dt><dd>The 1929 Malcolm Campbell "Bluebird" land-speed-record site and the old measured-mile markers; the surreal flat horizon; and perhaps the darkest, most silent skies of the trip. Walk the pan at sunrise.</dd>
+        <dt>Access &amp; safety</dt><dd>The pan sits on private farmland — <strong>arrange access and directions through Brandvlei tourism / the managing farm before you go</strong>. Never drive onto a damp pan surface (breakthrough risk). Exposed to wind and severe frost; no shelter — set up so the tent is anchored hard and braced for cold.</dd>
+        <dt>Drive in</dt><dd>Brandvlei → Verneukpan ≈ 70 km / ~1.5 hrs gravel.</dd>
+      </dl>
+    </div>
+  </section>
+
+  <!-- 11 LEG 3 -->
+  <section class="section" id="leg3">
+    <div class="section-header"><div class="section-num">11</div><h2>Leg 3 — Upper Karoo &amp; Home</h2></div>
+    <p class="prose">Turning south for the long sweep home through the classic Upper Karoo — corbelled stone houses, historic guest farms, quiet villages and, finally, the cold heights of Sutherland. Stuurmansfontein, Melton Wold, Loxton and Soutpoort cluster close together, so the driving eases off here.</p>
+
+    <div class="stop">
+      <div class="stop-head"><h3>8 · Stuurmansfontein Corbelled House</h3><span class="nights">22–24 Aug · 2 nights</span></div>
+      <div class="meta">−30.9557, 21.6820 · Charmaine/Piet Botha <a href="tel:+27723528070">072 352 8070</a> · 30 km off the R63 from Carnarvon</div>
+      <dl>
+        <dt>Facilities</dt><dd>A restored 1800s corbelled (klipkoepel) stone house — self-catering, off-grid. Gas fridge and stove, Dover wood stove, cast-iron oven, candles, outdoor shower, "swemgat" and wood-fired jacuzzi, boma. No power, no signal. Bring all food and drinking water.</dd>
+        <dt>Explore</dt><dd>San rock art and engravings on the farm; total solitude and silence; heritage interest in the corbelled-house architecture unique to this corner of the Karoo. Detour into Carnarvon for the village and resupply.</dd>
+        <dt>Drive in</dt><dd>Verneukpan → Vanwyksvlei → Carnarvon → Stuurmansfontein ≈ 180 km / ~3 hrs gravel.</dd>
+      </dl>
+    </div>
+
+    <div class="stop">
+      <div class="stop-head"><h3>9 · Melton Wold Guest Farm</h3><span class="nights">24–26 Aug · 2 nights</span></div>
+      <div class="meta">−31.4573, 22.7530 · <a href="tel:+27536211912">053 621 1912</a> · on the R63, Loxton–Victoria West</div>
+      <dl>
+        <dt>Facilities</dt><dd>10 campsites with water, power and built-in braais under willow trees; swimming pool; clean ablutions; firewood and braai packs for sale. Historic guesthouse and meals on site if you want a night off the camp stove.</dd>
+        <dt>Explore</dt><dd>Large working farm with game — self-drive and arranged night drives (bat-eared fox, aardvark possible); walking trails; old-world Karoo homestead atmosphere.</dd>
+        <dt>Drive in</dt><dd>Stuurmansfontein → Carnarvon → R63 → Melton Wold ≈ 150 km / ~2 hrs.</dd>
+      </dl>
+    </div>
+
+    <div class="stop">
+      <div class="stop-head"><h3>10 · Loxton — Pear Tree</h3><span class="nights">26–27 Aug · 1 night</span></div>
+      <div class="meta">−31.4783, 22.3521 · Alewyn &amp; Anelise <a href="tel:+27834111035">083 411 1035</a> · cnr Beaufort &amp; Schalkwyk St</div>
+      <dl>
+        <dt>Facilities</dt><dd>Small in-town camp with private ablutions and a dish-wash area; friendly hosts. Office is the red-roofed house across the road.</dd>
+        <dt>Explore</dt><dd>Loxton is one of the prettiest Karoo villages — pepper trees, restored architecture, quiet streets made for an evening walk or cycle. Good village shop and eateries.</dd>
+        <dt>Drive in</dt><dd>Melton Wold → Loxton ≈ 45 km / ~40 min.</dd>
+      </dl>
+    </div>
+
+    <div class="stop">
+      <div class="stop-head"><h3>11 · Soutpoort</h3><span class="nights">27–29 Aug · 2 nights</span></div>
+      <div class="meta">Karoo farm near Loxton · book via LekkeSlaap (confirm phone &amp; road) · gravel access</div>
+      <dl>
+        <dt>Facilities</dt><dd>Two private camp sites, each set among the hills with its own ablution (toilet, shower, basin), outdoor wash-up, large shade canopy and splash pool. Warm water but <strong>no electricity</strong>. Hosts can supply packaged Karoo lamb and firewood if arranged ahead.</dd>
+        <dt>Explore</dt><dd>Birding, walks and cycling on the farm; cool off in the splash pool with the Karoo plains laid out below. A quiet, remote counterpoint to in-town Loxton.</dd>
+        <dt>Access</dt><dd>Gravel road in — <strong>phone ahead to check the road condition</strong>, it can change after rain.</dd>
+        <dt>Drive in</dt><dd>Loxton → Soutpoort ≈ 20 km / ~30 min.</dd>
+      </dl>
+    </div>
+
+    <div class="stop">
+      <div class="stop-head"><h3>12 · Merweville</h3><span class="nights">29 Aug–1 Sept · 3 nights</span></div>
+      <div class="meta">−32.6687, 21.5114 · Karoo Vreugde <a href="tel:+27828716936">082 871 6936</a> · Die Ou Winkeltjie (Bryan) <a href="tel:+27824541906">082 454 1906</a></div>
+      <dl>
+        <dt>Facilities</dt><dd>Tiny, deeply remote Koup village. Confirmed options are self-catering cottages (the two above are well reviewed). <strong>Dedicated camping is limited</strong> — say the word and I'll chase a farm camp if you'd rather be under canvas for these three nights.</dd>
+        <dt>Explore</dt><dd>Stillness, stargazing and old-Karoo character — the historic church, donkey carts, walks into the veld. A genuine "edge of the map" stop; resupply at Beaufort West if needed (~85 km).</dd>
+        <dt>Drive in</dt><dd>Soutpoort → Fraserburg → Merweville ≈ 160 km / ~2.5 hrs.</dd>
+      </dl>
+    </div>
+
+    <div class="stop">
+      <div class="stop-head"><h3>13 · Sutherland</h3><span class="nights">1–4 Sept · 3 nights</span></div>
+      <div class="meta">−32.3942, 20.6616 · several farm &amp; town camps (Kambro, Sterland, Jupiter, Blesfontein)</div>
+      <dl>
+        <dt>Facilities</dt><dd>Full village services — fuel, shops, restaurants. Range of campsites and guest farms; expect the trip's coldest nights here, so a powered site or a farm with a warm communal area is worth it.</dd>
+        <dt>Explore</dt><dd><strong>Book the SALT / SAAO observatory tours ahead</strong> — the day visit to the telescopes and a guided night-sky session are the headline. Drive the Ouberg Pass down the escarpment for the view; Karoo Gariep reserve walks. The ideal decompression before the run home.</dd>
+        <dt>Drive home</dt><dd>Sutherland → Ouberg/Matjiesfontein → N1 → Cape Town ≈ 350 km / ~4.5 hrs on 4 Sept.</dd>
+      </dl>
+    </div>
+  </section>
+
+  <!-- 12 FUEL -->
+  <section class="section" id="fuel">
+    <div class="section-header"><div class="section-num">12</div><h2>Fuel &amp; Range</h2></div>
+    <p class="prose">Fuel is comfortable on this trip — the LC76's 145 L main tank plus the 2 × 20 L Desert Fox cells give well over 1,000 km of range, far more than any single leg demands. The discipline is simply to <strong>fill at the right towns and never run a tank down before a long gravel gap.</strong></p>
+    <div class="fuel-band">
+      <div class="fuel-stat"><div class="fuel-num">185 L</div><div class="fuel-label">Total capacity</div></div>
+      <div class="fuel-stat"><div class="fuel-num">~1,000+ km</div><div class="fuel-label">Realistic range</div></div>
+      <div class="fuel-stat"><div class="fuel-num">~330 km</div><div class="fuel-label">Longest leg (in to Tankwa)</div></div>
+    </div>
+    <p class="prose"><strong>Reliable fill points:</strong> Ceres (before the R355), Calvinia (big resupply), Brandvlei (last before Verneukpan), Carnarvon, Fraserburg, Sutherland, Matjiesfontein/Laingsburg on the run home. <strong>No fuel:</strong> the R355 corridor, inside Tankwa NP, Verneukpan, and the small farm-camp stops.</p>
+    <div class="callout amber"><div class="callout-icon">⛽</div><div class="callout-body"><strong>Two gaps to respect:</strong> fill to the brim in Ceres before the R355, and in Brandvlei before the Verneukpan / Vanwyksvlei stretch. Run the calculators (<em>LC76 Fuel Range</em> / <em>Trip Fuel Planner</em>) against your actual loaded consumption if you want exact margins.</div></div>
+  </section>
+
+  <!-- 13 WATER -->
+  <section class="section" id="water">
+    <div class="section-header"><div class="section-num">13</div><h2>Water &amp; Supplies</h2></div>
+    <p class="prose">You're self-sufficient on water throughout, which suits this route — several stops have water that's either mineral-heavy or absent. Plan resupply around the bigger towns and carry a full reserve into the dry stops.</p>
+    <div class="box-grid">
+      <div class="ibox warn"><div class="ibox-label">No / unusable water</div><div class="ibox-value">Verneukpan</div><div class="ibox-sub">Carry every litre. Tankwa &amp; Soutpoort water is fine for washing but carry your own drinking water.</div></div>
+      <div class="ibox"><div class="ibox-label">Main food resupply</div><div class="ibox-value">Calvinia</div><div class="ibox-sub">Supermarkets + fuel. Top up again at Carnarvon and Beaufort West (from Merweville).</div></div>
+      <div class="ibox"><div class="ibox-label">Local produce</div><div class="ibox-value">Karoo lamb</div><div class="ibox-sub">Soutpoort &amp; Melton Wold can supply meat + firewood if arranged ahead.</div></div>
+    </div>
+    <p class="prose">Run the <em>Water Budget Calculator</em> for your two-up daily figure and size the Verneukpan reserve to the full 3 nights plus a contingency day. Fill the tanks fully at Brandvlei before the pan.</p>
+  </section>
+
+  <!-- 14 WEATHER -->
+  <section class="section" id="weather">
+    <div class="section-header"><div class="section-num">14</div><h2>Weather &amp; Season</h2></div>
+    <p class="prose">August is deep Karoo winter: dry, clear, superb for gravel and stargazing — and <strong>cold</strong>. Daytime is pleasant (often 16–22 °C) but nights are hard frost, especially at altitude on the Roggeveld around Sutherland and exposed on Verneukpan, where −5 °C or lower and snow are both possible. Wind on the open pans can be fierce.</p>
+    <div class="callout"><div class="callout-icon">❄</div><div class="callout-body"><strong>Pack for serious cold:</strong> proper sleeping bags rated well below freezing, an insulated mat, beanies and a warm layer for the evenings. The OzTent handles wind well but stake and brace it hard at Verneukpan and Sutherland.</div></div>
+    <p class="prose"><strong>The upside:</strong> late August is the start of the spring flower season in the Hantam — Nieuwoudtville and the Biedouw Valley (Enjo) can be exceptional if the timing lands. Worth a flower-line check around mid-August before committing to Calvinia day trips.</p>
+  </section>
+
+  <!-- 15 GRAVEL -->
+  <section class="section" id="gravel">
+    <div class="section-header"><div class="section-num">15</div><h2>Gravel &amp; Vehicle Notes</h2></div>
+    <p class="prose">Roughly 80% of this route is gravel — corrugations, loose surfaces and the occasional rocky section, but no serious 4×4 obstacles on the planned line. The LC76 on OME is well within its element; the main wear factors are corrugation fatigue and tyre damage, both managed by pressure and pace.</p>
+    <div class="box-grid">
+      <div class="ibox"><div class="ibox-label">Tyre pressures</div><div class="ibox-value">Set from the slip</div><div class="ibox-sub">Weigh loaded on Day 1 at the public weighbridge before Worcester (full Karoo trim), then run the <em>Tyre Pressure Calculator</em> from the actual axle figures before the R355. Re-inflate for tar runs (R63, N1). Keep the slip — it closes the weighbridge action on return.</div></div>
+      <div class="ibox"><div class="ibox-label">Pace</div><div class="ibox-value">Slow on corrugation</div><div class="ibox-sub">The R355 and Tankwa interior are notoriously corrugated. Easy speeds save the vehicle and your fillings.</div></div>
+      <div class="ibox"><div class="ibox-label">Recovery / spares</div><div class="ibox-value">Self-reliant</div><div class="ibox-sub">Long stretches with no signal or traffic. Carry the full spares/tools kit; check the recovery gear before the remote legs.</div></div>
+      <div class="ibox"><div class="ibox-label">Electrical shakedown</div><div class="ibox-value">First field test</div><div class="ibox-sub">This loop is the first extended test of the Victron LiFePO4 stack. Log SmartShunt state-of-charge morning and evening; try solar-only days at Enjo and Verneukpan; test the 16A shore inlet at Melton Wold and Sutherland; note any BMS low-temp charge delay on frost mornings.</div></div>
+    </div>
+    <p class="prose">Watch the usual monitor items between legs — a quick under-vehicle look at each camp for the known seepage points, hubs and propshaft. The corrugated sections are exactly where small leaks show themselves. Add the daily battery state-of-charge reading to the same habit: 32 nights of real data is the energy budget the expedition planning has been missing. Everything logged here feeds the post-trip review on return.</p>
+  </section>
+
+  <!-- 16 CONTACTS -->
+  <section class="section" id="contacts">
+    <div class="section-header"><div class="section-num">16</div><h2>Contact Directory</h2></div>
+    <p class="prose">Single-page field reference — print this one. Confirm all bookings once the route is locked.</p>
+    <div class="table-scroll">
+    <table class="data-table">
+      <thead><tr><th>Stop</th><th>Phone</th><th>Book / note</th></tr></thead>
+      <tbody>
+        <tr><td>Tankwa — Perdekloof</td><td>027 341 1927</td><td>SANParks (sanparks.org)</td></tr>
+        <tr><td>Kagga Kamma</td><td>021 872 4343</td><td>kaggakamma.co.za — book camping rate</td></tr>
+        <tr><td>Enjo Nature Farm</td><td>027 470 0055</td><td>✓ Booked 10–14 Aug</td></tr>
+        <tr><td>Calvinia — Kleinplasie</td><td>079 885 9836</td><td>Alt: Klipwerf 027 341 1126</td></tr>
+        <tr><td>Loeriesfontein — Skurweberg</td><td>083 763 4836</td><td>Eric — only 4 sites, book early</td></tr>
+        <tr><td>Brandvlei — Casablanca</td><td>066 263 0125</td><td>1-night overnight</td></tr>
+        <tr><td>Verneukpan</td><td>via Brandvlei</td><td>Arrange access + directions locally</td></tr>
+        <tr><td>Stuurmansfontein</td><td>072 352 8070</td><td>Charmaine / Piet Botha</td></tr>
+        <tr><td>Melton Wold</td><td>053 621 1912</td><td>Camping + guesthouse</td></tr>
+        <tr><td>Loxton — Pear Tree</td><td>083 411 1035</td><td>Alewyn &amp; Anelise</td></tr>
+        <tr><td>Soutpoort</td><td>via LekkeSlaap</td><td>Confirm phone + road condition</td></tr>
+        <tr><td>Merweville — Karoo Vreugde</td><td>082 871 6936</td><td>Or Die Ou Winkeltjie 082 454 1906</td></tr>
+        <tr><td>Sutherland — SALT tours</td><td>see saao.ac.za</td><td>Book observatory tour ahead</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="callout green"><div class="callout-icon">☎</div><div class="callout-body"><strong>Priority calls:</strong> Tankwa (books out), Skurweberg (only 4 sites), Verneukpan access, Soutpoort road check, and the Sutherland observatory tour. Everything else is flexible.</div></div>
+  </section>
+
+  <!-- LOG -->
+  <section class="section" id="log">
+    <div class="section-header"><div class="section-num" style="font-size:11px;padding:6px 10px;letter-spacing:0.05em;">LOG</div><h2>Changelog</h2></div>
+    <div class="changelog-entry">
+      <div class="cl-date">19 Jul 2026</div>
+      <div><span class="cl-tag upd">Upd</span></div>
+      <div class="cl-note"><strong>T-15 pre-departure update.</strong> Vleisfees dates resolved (28–29 Aug — no clash with the Calvinia stay). Gravel &amp; Vehicle: tyre pressures now set from the Day-1 loaded weighbridge slip (public bridge before Worcester, full Karoo trim); new Electrical Shakedown card — first extended field test of the Jul 2026 Victron LiFePO4 stack (SmartShunt log, solar-only days, shore-power tests at Melton Wold &amp; Sutherland, cold-morning BMS behaviour); daily state-of-charge added to the between-legs monitor habit, all feeding the post-trip review. Pre-departure service skipped by decision (next interval falls post-return).</div>
+    </div>
+    <div class="changelog-entry">
+      <div class="cl-date">4 Jun 2026</div>
+      <div><span class="cl-tag new">New</span></div>
+      <div class="cl-note"><strong>Background cluster added.</strong> Five Kalahari-style context sections inserted ahead of the legs — Geology &amp; Fossils, Biomes &amp; Flora, Wildlife, People &amp; Heritage, Dark Skies &amp; Astronomy. Dark-skies section keyed to real 2026 moon phases (new moon 13 Aug; full moon + partial lunar eclipse 28 Aug). Sections renumbered 04–16; rock-art locations kept general per the coordinate-publication rule.</div>
+    </div>
+    <div class="changelog-entry">
+      <div class="cl-date">4 Jun 2026</div>
+      <div><span class="cl-tag new">New</span></div>
+      <div class="cl-note"><strong>Karoo Winter Loop itinerary created.</strong> 13 stops, 32 nights, Cape Town round-trip 3 Aug – 4 Sept 2026. Clockwise loop built around the fixed Enjo booking (10–14 Aug); Tankwa + Kagga Kamma confirmed pre-Enjo, Red Cederberg dropped. Pacing balanced (Verneukpan, Merweville, Sutherland 3 nights each). Open items: Verneukpan access, Soutpoort phone/road, Merweville camping vs cottage.</div>
+    </div>
+  </section>
+
+</main>
+
+<div id="export-bar">
+  <span>Export</span>
+  <button class="export-btn-inline" onclick="window.print()">⎙ Print / PDF</button>
+</div>
+<script>
+  /* ── TOC: scrollIntoView + IntersectionObserver active state ── */
+  function stickyHeight(){ var n=document.getElementById('sticky-nav'); return n?n.offsetHeight:0; }
+  function goTo(id){
+    var el=document.getElementById(id); if(!el) return;
+    var y=el.getBoundingClientRect().top + window.pageYOffset - stickyHeight() - 8;
+    window.scrollTo({top:y,behavior:'smooth'});
+  }
+  (function(){
+    var links={}, tocLinks=document.querySelectorAll('#toc a');
+    tocLinks.forEach(function(a){
+      var m=a.getAttribute('onclick'); if(!m) return;
+      var id=m.match(/goTo\('([^']+)'\)/); if(id) links[id[1]]=a;
+    });
+    var obs=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          tocLinks.forEach(function(a){a.classList.remove('active');});
+          var a=links[e.target.id]; if(a) a.classList.add('active');
+        }
+      });
+    },{rootMargin:'-180px 0px -55% 0px',threshold:0});
+    document.querySelectorAll('main .section').forEach(function(s){obs.observe(s);});
+  })();
+
+  /* ── LEAFLET ROUTE MAP ── */
+  var stops=[
+    {n:'Cape Town (start/end)',ll:[-33.925,18.424],g:'both'},
+    {n:'1 · Tankwa — Perdekloof',ll:[-32.2462,20.1635],g:'west'},
+    {n:'2 · Kagga Kamma',ll:[-32.7459,19.5629],g:'west'},
+    {n:'3 · Enjo (booked)',ll:[-32.1390,19.2983],g:'west'},
+    {n:'4 · Calvinia — Kleinplasie',ll:[-31.4625,19.8009],g:'north'},
+    {n:'5 · Loeriesfontein — Skurweberg',ll:[-31.0097,19.4472],g:'north'},
+    {n:'6 · Brandvlei — Casablanca',ll:[-30.4602,20.4884],g:'north'},
+    {n:'7 · Verneukpan (wild camp)',ll:[-30.1409,21.0573],g:'north'},
+    {n:'8 · Stuurmansfontein',ll:[-30.9557,21.6820],g:'north'},
+    {n:'9 · Melton Wold',ll:[-31.4573,22.7530],g:'north'},
+    {n:'10 · Loxton — Pear Tree',ll:[-31.4783,22.3521],g:'north'},
+    {n:'11 · Soutpoort',ll:[-31.5200,22.3000],g:'north'},
+    {n:'12 · Merweville',ll:[-32.6687,21.5114],g:'north'},
+    {n:'13 · Sutherland',ll:[-32.3942,20.6616],g:'north'}
+  ];
+  /* driving order indices into stops[] */
+  var order=[0,1,2,3,4,5,6,7,8,9,10,11,12,13,0];
+  var map=L.map('route-map',{scrollWheelZoom:false}).setView([-31.6,20.6],6);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:17,attribution:'© OpenStreetMap'}).addTo(map);
+  var layers={all:L.layerGroup(),west:L.layerGroup(),north:L.layerGroup()};
+  function marker(s){
+    var c = s.n.indexOf('booked')>-1 ? '#1A4731' : (s.n.indexOf('wild')>-1?'#92400E':'#C4572A');
+    return L.circleMarker(s.ll,{radius:7,color:'#fff',weight:2,fillColor:c,fillOpacity:1}).bindPopup('<b>'+s.n+'</b>');
+  }
+  stops.forEach(function(s){
+    layers.all.addLayer(marker(s));
+    if(s.g==='west'||s.g==='both') layers.west.addLayer(marker(s));
+    if(s.g==='north'||s.g==='both') layers.north.addLayer(marker(s));
+  });
+  /* full route polyline */
+  var fullLine=order.map(function(i){return stops[i].ll;});
+  layers.all.addLayer(L.polyline(fullLine,{color:'#C4572A',weight:2.5,opacity:0.75,dashArray:'4 6'}));
+  /* west segment: CT-Tankwa-Kagga-Enjo */
+  layers.west.addLayer(L.polyline([stops[0].ll,stops[1].ll,stops[2].ll,stops[3].ll],{color:'#C4572A',weight:2.5,opacity:0.8,dashArray:'4 6'}));
+  /* north segment: Enjo onward to Sutherland to CT */
+  var northOrder=[3,4,5,6,7,8,9,10,11,12,13,0];
+  layers.north.addLayer(L.polyline(northOrder.map(function(i){return stops[i].ll;}),{color:'#92400E',weight:2.5,opacity:0.8,dashArray:'4 6'}));
+  layers.all.addTo(map);
+  function switchTab(t){
+    ['all','west','north'].forEach(function(k){
+      map.removeLayer(layers[k]);
+      document.getElementById('tab-'+k).classList.remove('active');
+    });
+    layers[t].addTo(map);
+    document.getElementById('tab-'+t).classList.add('active');
+    setTimeout(function(){map.invalidateSize();},50);
+  }
+  setTimeout(function(){map.invalidateSize();},300);
+</script>
+</body>
+</html>
