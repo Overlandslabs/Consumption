@@ -332,7 +332,7 @@
     <div class="mh-eyebrow">Reference · R18</div>
     <div class="mh-title">1HZ Engine Troubleshooting</div>
     <div class="mh-sub">No-start, running faults, smoke, fuel, cooling &amp; electrical diagnosis</div>
-    <div class="mh-vehicle">2009 LC76 SW · 1HZ 4.2L Diesel · low-boost turbo (0.6 bar) · intercooler<br>Last updated: 19 July 2026</div>
+    <div class="mh-vehicle">2009 LC76 SW · 1HZ 4.2L Diesel · low-boost turbo (0.6 bar) · intercooler<br>Last updated: 21 July 2026</div>
   </div>
   <nav class="toc-bar">
     <button class="toc-btn" data-target="s-quickref">Quick Ref</button>
@@ -405,6 +405,21 @@
 
     <div class="diag-group">
       <div class="diag-group-title">§1 · Engine Cranks — Will Not Fire</div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <span class="diag-symptom">Sudden stop at speed, now cranks fast &amp; free — TIMING BELT</span>
+          <div style="display:flex;align-items:center;gap:8px;"><span class="diag-badge badge-stop">STOP CRANKING</span><span class="diag-arrow">▼</span></div>
+        </div>
+        <div class="diag-body">
+          <div class="warn-box"><strong>The 1HZ is an INTERFERENCE engine — a snapped belt bends valves.</strong> Signature: the engine dies <em>instantly</em> at speed with no warning, and now cranks noticeably faster and more freely than normal (no compression resistance) without firing. If this is the picture, <strong>STOP CRANKING IMMEDIATELY</strong> — every further revolution can add valve and piston damage.</div>
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Confirm before anything else</span><span class="cause-note">Remove the oil filler cap (or the top belt cover) and have a crew member watch while you bump the key for a fraction of a second, or turn the crank by hand with a socket on the pulley bolt. Crank turns but the camshaft/rockers do not move = belt gone.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">There is no field repair</span><span class="cause-note">Even with the carried spare belt fitted, bent valves mean low/no compression — the engine will not run. This is a recovery-and-workshop event: tow to a workshop, compression test all six BEFORE any restart attempt, head off if compression is down.</span></div></li>
+            <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Prevention is the only strategy</span><span class="cause-note">Belt replaced Apr 2025 @ 273,023 km (full kit); 100,000 km interval falls ~373,000 km — RA-3 pre-departure replacement (~T-3 months) removes this branch from the expedition. Cascade chain: R41 C4.</span></div></li>
+          </ul>
+        </div>
+      </div>
 
       <div class="diag-card">
         <div class="diag-header" onclick="toggleDiag(this)">
@@ -515,6 +530,25 @@
             <li><div class="cause-num">4</div><div class="cause-text"><span class="cause-label">Wastegate stuck open</span><span class="cause-note">Limits maximum boost from the SAC turbo. Check actual boost pressure against spec (see Specs section). Inspect wastegate actuator rod for free movement.</span></div></li>
           </ul>
           <div class="ok-box">✓ Note: At high altitude (3,000 m+) expect 15–20% power reduction. This is normal — not a fault.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="diag-group">
+      <div class="diag-group-title">§3B · EGT (Pyrometer) — Reading the Fitted Gauge</div>
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <span class="diag-symptom">EGT high, climbing, or abnormal — cross-diagnosis with boost</span>
+          <div style="display:flex;align-items:center;gap:8px;"><span class="diag-badge badge-caution">WATCH &amp; ACT</span><span class="diag-arrow">▼</span></div>
+        </div>
+        <div class="diag-body">
+          <p style="font-size:13px;margin-bottom:10px;">The pyrometer is the earliest warning instrument on this engine. Doctrine: <strong>600&deg;C sustained is the ceiling</strong> (manifold/pre-turbo) — back off before it, not at it. Momentary peaks on a hard pull are acceptable if they fall away when you lift; a reading that <em>stays</em> up is the fault signal. The turbo carries ~86,000 km since the Aug 2023 recon — treat sustained-EGT discipline as turbo life insurance (R21).</p>
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">High EGT + LOW boost (below the normal 0.6 bar)</span><span class="cause-note">Boost leak (hose, clamp, intercooler joint) or turbo trouble — unburnt energy leaving as heat. Soapy-water the boost plumbing; see R21 turbo checks.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">High EGT + NORMAL boost + black smoke</span><span class="cause-note">Overfuelling for the airflow: overload, headwind + soft-sand drag, blocked air filter, or altitude. Short-shift, reduce load, service the filter. See Smoke section.</span></div></li>
+            <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">EGT trending up over days at the SAME load</span><span class="cause-note">Slow restriction building — bug/seed-blocked intercooler or radiator core, collapsing intake hose, filter loading. Inspect and clean; log it in the fault log.</span></div></li>
+            <li><div class="cause-num">4</div><div class="cause-text"><span class="cause-label">Long climbs / soft sand</span><span class="cause-note">Drop a gear early and hold revs where boost is healthy; watch EGT, not the speedo. If EGT will not stay under the ceiling, stop and let it idle down — NEVER shut down hot off boost (turbo idle-down doctrine, R21).</span></div></li>
+          </ul>
         </div>
       </div>
     </div>
@@ -796,6 +830,7 @@
 
     <div class="diag-group">
       <div class="diag-group-title">§1 · Alternator / Charging</div>
+      <div class="note-box"><strong>Two charging systems since Jul 2026 — diagnose the right one.</strong> The alternator charges the <strong>crank battery</strong> (Willard 650) directly; the <strong>house LiFePO4</strong> charges through the Victron Orion Smart DC-DC. <em>House not charging with the crank battery healthy is NOT an alternator fault</em>: check the Orion first — 30A fuse on the alternator cable, ignition-sense wire, status in VictronConnect, and BMS charge-inhibit (battery full, or cold-temperature cutoff). The SmartShunt is the truth for house current in/out. This section owns the CRANK side; the house-side fault tree is R5 / R26.</div>
       <div class="diag-card">
         <div class="diag-header" onclick="toggleDiag(this)">
           <span class="diag-symptom">Battery warning light — charging system fault</span>
