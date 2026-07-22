@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>LC76 Content Currency &amp; Completeness Audit — July 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:      #1C1410;
+    --paper:    #F5EDDA;
+    --paper2:   #EDE5D0;
+    --amber:    #b86800;
+    --amber2:   #e07800;
+    --rule:     #d4cfc4;
+    --steeldk:  #2a2f3a;
+    --steelmd:  #6a7080;
+    --red-warn: #B91C1C;
+    --green-ok: #059669;
+    --orange:   #c05a00;
+    --border:   #c8bfad;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
+  body {
+    overflow-x:clip; overscroll-behavior-x:none;
+    font-family:'Oswald','Arial Narrow',sans-serif; font-weight:300;
+    background:var(--paper); color:var(--ink); line-height:1.55; font-size:14px;
+  }
+  .sticky-wrap { position:sticky; top:0; z-index:100; background:var(--ink); padding-top:env(safe-area-inset-top); }
+  .sticky-wrap::before { content:""; position:absolute; left:0; right:0; bottom:100%; height:100vh; background:var(--ink); }
+  .masthead { background:var(--ink); padding:18px 24px 14px; position:relative; }
+  .lib-home-btn {
+    display:inline-flex; align-items:center; gap:5px;
+    font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600;
+    letter-spacing:.14em; text-transform:uppercase; text-decoration:none;
+    color:var(--amber2); background:rgba(232,120,0,.15);
+    border:1px solid var(--amber2); border-radius:20px;
+    padding:6px 12px; min-height:32px; white-space:nowrap;
+    position:absolute; top:50%; right:16px; transform:translateY(-50%);
+  }
+  .mh-eyebrow { font-family:'IBM Plex Mono',monospace; font-size:.5rem; letter-spacing:.28em; text-transform:uppercase; color:var(--steelmd); margin-bottom:6px; }
+  .mh-title { font-family:'Bebas Neue',sans-serif; font-size:clamp(1.8rem,5vw,2.6rem); letter-spacing:.06em; color:var(--amber2); line-height:1; }
+  .mh-sub { font-family:'IBM Plex Mono',monospace; font-size:.54rem; letter-spacing:.12em; color:rgba(255,200,100,.65); margin-top:5px; }
+  .mh-vehicle { font-family:'IBM Plex Mono',monospace; font-size:.48rem; letter-spacing:.08em; color:var(--steelmd); margin-top:8px; }
+  nav.toc { background:var(--steeldk); padding:7px 24px; display:flex; align-items:center; gap:5px; flex-wrap:wrap; border-bottom:2px solid var(--amber); }
+  .toc-btn { font-family:'IBM Plex Mono',monospace; font-size:.48rem; color:rgba(255,255,255,.45); background:none; border:1px solid transparent; padding:3px 7px; cursor:pointer; letter-spacing:.1em; text-transform:uppercase; white-space:nowrap; }
+  .toc-btn:hover { color:var(--amber2); border-color:rgba(255,255,255,.2); }
+  .toc-btn.active { color:var(--amber2); border-color:var(--amber2); background:rgba(232,120,0,.1); }
+  main { padding:28px 5% 80px; max-width:100%; }
+  h2 { font-family:'Bebas Neue',sans-serif; font-size:1.5rem; letter-spacing:.05em; color:var(--ink); margin:26px 0 4px; padding-bottom:5px; border-bottom:2px solid var(--amber); scroll-margin-top:150px; }
+  h2:first-of-type { margin-top:0; }
+  h3 { font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--amber); margin:18px 0 6px; padding-left:8px; border-left:3px solid var(--amber2); }
+  p { margin-bottom:10px; }
+  .section-intro { font-size:13px; color:var(--steelmd); font-style:italic; margin-bottom:12px; }
+  .box { background:#fff; border:1px solid var(--border); border-left:3px solid var(--amber2); padding:10px 13px; margin:12px 0; font-size:13px; }
+  .box.crit { border-left-color:var(--red-warn); background:#fef6f6; }
+  .box.ok { border-left-color:var(--green-ok); background:#f4fbf8; }
+  table { width:100%; border-collapse:collapse; margin:12px 0; font-size:12px; background:#fff; }
+  caption { font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--steelmd); text-align:left; padding-bottom:5px; }
+  th { background:var(--steeldk); color:var(--amber2); font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.08em; text-transform:uppercase; text-align:left; padding:7px 8px; font-weight:600; }
+  td { padding:6px 8px; border-bottom:1px solid var(--rule); vertical-align:top; }
+  tbody tr:nth-child(even) { background:var(--paper2); }
+  .mono { font-family:'IBM Plex Mono',monospace; font-size:11px; }
+  .tag { font-family:'IBM Plex Mono',monospace; font-size:8px; font-weight:600; letter-spacing:.06em; padding:2px 6px; border-radius:2px; white-space:nowrap; }
+  .t-crit  { background:#fde8e8; color:var(--red-warn); border:1px solid #f8b4b4; }
+  .t-high  { background:#fff0e0; color:var(--orange); border:1px solid #f5c88a; }
+  .t-med   { background:#fef9e7; color:#8a6100; border:1px solid #ecd9a0; }
+  .t-low   { background:#eef1f5; color:var(--steelmd); border:1px solid #ccd3dd; }
+  .t-fixed { background:#e6f6ef; color:var(--green-ok); border:1px solid #a8ddc6; }
+  .t-open  { background:#fde8e8; color:var(--red-warn); border:1px solid #f8b4b4; }
+  .footer { margin-top:40px; padding:14px 5%; background:var(--steeldk); color:var(--steelmd); font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.06em; line-height:1.7; }
+  @media (max-width:600px) {
+    .masthead { padding:14px 16px 12px; }
+    .mh-title { font-size:clamp(1.6rem,6vw,2.4rem); }
+    nav.toc { flex-wrap:nowrap; overflow-x:auto; overscroll-behavior-x:contain; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+    nav.toc::-webkit-scrollbar { display:none; }
+    table { display:block; overflow-x:auto; overscroll-behavior-x:contain; }
+  }
+  @media print {
+    @page { margin:7mm; }
+    body { font-size:7.5pt; background:#fff !important; color:#000 !important; }
+    .sticky-wrap { position:static !important; }
+    .sticky-wrap::before { display:none !important; }
+    nav.toc, .lib-home-btn { display:none !important; }
+    .masthead { background:#1C1410 !important; }
+    .mh-title { color:#e07800 !important; font-size:14pt !important; }
+    .mh-eyebrow, .mh-vehicle { color:#6a7080 !important; }
+    h2 { font-size:11pt !important; border-bottom:1.5pt solid #b86800 !important; break-after:avoid; }
+    h3 { color:#b86800 !important; border-left:2pt solid #e07800 !important; break-after:avoid; }
+    th { background:#2a2f3a !important; color:#e07800 !important; font-size:6.5pt !important; }
+    td { font-size:6.5pt !important; }
+    table { break-inside:auto; }
+    thead { display:table-header-group; }
+    .box { break-inside:avoid; border-left:2pt solid #e07800 !important; }
+    .footer { background:#2a2f3a !important; color:#6a7080 !important; font-size:6pt !important; }
+  }
+</style>
+</head>
+<body>
+<div class="sticky-wrap">
+  <div class="masthead">
+    <a href="index.html" class="lib-home-btn">&#8962; Index</a>
+    <div class="mh-eyebrow">HZJ76R-RKMRS &middot; Overland Reference Library &middot; Internal Audit</div>
+    <div class="mh-title">Content Currency &amp; Completeness Audit</div>
+    <div class="mh-sub">Are the documents current, complete, accurate and consistent &middot; July 2026</div>
+    <div class="mh-vehicle">2009 LC76 SW &middot; 1HZ 4.2L Diesel &middot; 2028&ndash;2030 Southern &amp; East Africa Expedition &middot; audited at HEAD b6a9b641 &middot; 5 sessions &middot; findings F38&ndash;F74</div>
+  </div>
+  <nav class="toc">
+    <button class="toc-btn" data-target="s-scope">Scope &amp; Method</button>
+    <button class="toc-btn" data-target="s-verdict">Verdict</button>
+    <button class="toc-btn" data-target="s-register">Findings Register</button>
+    <button class="toc-btn" data-target="s-critical">Critical &amp; High</button>
+    <button class="toc-btn" data-target="s-profiles">Profiles &rarr; EX-10</button>
+    <button class="toc-btn" data-target="s-clean">Verified Clean</button>
+    <button class="toc-btn" data-target="s-outstanding">Outstanding</button>
+  </nav>
+</div>
+
+<main>
+
+<h2 id="s-scope">01 &middot; Scope &amp; Method</h2>
+<p class="section-intro">Chartered by the owner, 21 July 2026: &ldquo;are they up to date, are they current with all relevant info.&rdquo;</p>
+<p>This is a <strong>different audit class</strong> from its two predecessors. The June 2026 audit (F1&ndash;F17) and the July 2026 post-install audit (F18&ndash;F37) were <strong>coverage</strong> audits &mdash; does a document exist for this topic, and is it structurally sound? Both passed the library. Neither would have caught what triggered this one.</p>
+<div class="box crit">
+<strong>The defect class this audit exists to find.</strong> On 21 July the owner flagged R42 as thin. It existed, it validated clean, its masthead was current &mdash; and it carried no fire blanket, no extinguisher sizing, and an instruction to operate a battery isolator that <em>is not fitted to the vehicle</em>. A document can be present, structurally perfect and confidently wrong. Coverage testing cannot see that. This audit tests the contents.
+</div>
+<h3>Assertions tested</h3>
+<table>
+<caption>Audit assertions &mdash; each file tested against all five</caption>
+<thead><tr><th style="width:18%">Assertion</th><th>Test</th></tr></thead>
+<tbody>
+<tr><td><strong>Currency</strong></td><td>Does the content reflect the vehicle and plan as at July 2026 &mdash; not merely the masthead date?</td></tr>
+<tr><td><strong>Completeness</strong></td><td>Does it cover what a 30-year practitioner would expect of a document with that title? Checklists were written <em>before</em> opening each file, so the standard is not anchored to what happens to be there.</td></tr>
+<tr><td><strong>Accuracy</strong></td><td>Do stated facts agree with the authoritative sources &mdash; Facts.txt, the RC1 block, the service ledger, the Enertec and 1HZ manuals?</td></tr>
+<tr><td><strong>Consistency</strong></td><td>One-owner rule holds; cross-references resolve; no doctrine contradictions between documents.</td></tr>
+<tr><td><strong>Field fitness</strong></td><td>Usable under stress, at the roadside, offline, in print.</td></tr>
+</tbody>
+</table>
+
+<h3>Risk tiering</h3>
+<p>Equal effort across 62 files is poor audit economics. Depth was set by consequence &times; staleness likelihood.</p>
+<table>
+<caption>Tiers and treatment</caption>
+<thead><tr><th style="width:8%">Tier</th><th style="width:34%">Files</th><th>Treatment</th></tr></thead>
+<tbody>
+<tr><td><strong>1</strong> Life-safety</td><td class="mono">R10 R18 R9 R42 R35 R36 R17</td><td>Full expert read. Error cost is injury or death; used under stress.</td></tr>
+<tr><td><strong>2</strong> Expedition-gating</td><td class="mono">R29 R39 +affidavit R38 R15 R23 R2 R37</td><td>Full read + document/date verification. Error cost is trip-stopping.</td></tr>
+<tr><td><strong>3a</strong> Engine &amp; driveline</td><td class="mono">R4 R21 R22 R24 R25 R20 R13 R14 R40 R27 R34 R3</td><td>Full read on the mechanical core; 70-Series engineer lens.</td></tr>
+<tr><td><strong>3b</strong> Electrical &amp; service</td><td class="mono">R5 R7 R26 R32 R8 +3 supplements R1 R31</td><td>Full read + self-audit of prior-session edits.</td></tr>
+<tr><td><strong>4</strong> Country profiles</td><td class="mono">001&ndash;010</td><td><strong>Defect catalogue only</strong> &mdash; no remediation. Known stale by design; EX-10 already charters the T-6 refresh (owner Gate A).</td></tr>
+<tr><td><strong>5</strong> Framework</td><td class="mono">R11 R12 R16 R19 R28 R30 R41 &middot; 6 calculators &middot; 4 philosophy &middot; Karoo &middot; index &middot; DG</td><td>Supersession sweep + spot completeness.</td></tr>
+</tbody>
+</table>
+<p>A scripted supersession sweep (24 term-chains: weights, odometer, ledger totals, retired electrical hardware, dead links, renamed files, licence dates, tyre framing) ran across the entire corpus first, with every hit adjudicated in context rather than by count. Kit specifications were audited against <strong>best practice</strong>, with inventory variances routed to EX-8 rather than recorded as defects (owner Gate C).</p>
+
+<h2 id="s-verdict">02 &middot; Verdict</h2>
+<div class="box">
+<p><strong>The library is in good condition. Its weakness is not what it says &mdash; it is the seams between documents, and the lag between an event and every document that event touches.</strong></p>
+<p>Thirty-seven findings were raised. One was critical, five high, the balance medium and low. Thirty-one were remediated within the audit sessions; four remain open and are routed; two were logged as acceptable scope. No finding indicated a document that should not exist, and no finding contradicted the library's doctrine &mdash; the doctrine is sound. The failures were of <em>propagation</em>: a correction landing in one document and not its neighbours, a fitted component never reaching the document that would send you looking for it, an upgrade completed and never entered in the upgrade tracker.</p>
+<p>Three structural patterns account for nearly every finding, and are more useful than the findings themselves:</p>
+</div>
+<h3>Pattern 1 &mdash; the owning document is the last to be updated</h3>
+<p>R42 was expanded with corrected fire doctrine on 21 July. R10 &sect;3, which R42 explicitly delegates the in-the-moment drill to, still carried the superseded version &mdash; including &ldquo;do not use water on an electrical fire&rdquo; against a 210 Ah LiFePO4 pack, where water in volume is the correct response. The new document was right and the document a person would actually open in an emergency was wrong. Same shape: R14 never learned about the TPMS fitted in May 2025; R31 never learned about the July 2026 electrical install.</p>
+<h3>Pattern 2 &mdash; documents promise content they do not carry</h3>
+<p>R1's own subtitle advertises &ldquo;torque values at a glance&rdquo;; the document contained no torque figure at all. R23's plan depended on a post-trip review protocol that had never been written. R2 and R23 both stated task counts that did not match their own contents. These are not cosmetic: a reader who trusts the subtitle stops looking.</p>
+<h3>Pattern 3 &mdash; authoritative values marooned in one file</h3>
+<p>The LiFePO4 commissioning charge profile existed only in Facts.txt &mdash; not in R7, the document that owns the house system and the one a workshop would be handed. Values that exist in exactly one place are values that will be lost, contradicted, or reinvented.</p>
+
+<h2 id="s-register">03 &middot; Findings Register</h2>
+<p class="section-intro">F38&ndash;F74. Grade &middot; finding &middot; disposition. Detail on the critical and high findings follows in section 04.</p>
+<table>
+<caption>Session A &mdash; corpus sweep and Tier 1 life-safety</caption>
+<thead><tr><th style="width:7%">Ref</th><th style="width:10%">Grade</th><th>Finding</th><th style="width:16%">Disposition</th></tr></thead>
+<tbody>
+<tr><td class="mono">F38</td><td><span class="tag t-crit">CRITICAL</span></td><td>R10 &sect;3 vehicle-fire drill superseded by R42 in the owning document &mdash; no battery-isolation step, and water doctrine wrong for LiFePO4</td><td><span class="tag t-fixed">FIXED</span></td></tr>
+<tr><td class="mono">F39</td><td><span class="tag t-high">HIGH</span></td><td>R18 contained zero timing-belt content on an interference engine &mdash; no sudden-stop recognition, no stop-cranking instruction</td><td><span class="tag t-fixed">FIXED</span></td></tr>
+<tr><td class="mono">F40</td><td><span class="tag t-high">HIGH</span></td><td>R18 contained zero EGT doctrine despite a fitted pyrometer and ~86,000 km on the reconditioned turbo</td><td><span class="tag t-fixed">FIXED</span></td></tr>
+<tr><td class="mono">F41</td><td><span class="tag t-high">HIGH</span></td><td>R18 charging diagnosis pre-dated the Victron stack &mdash; alternator-only tree, no Orion / SmartShunt / BMS path</td><td><span class="tag t-fixed">FIXED</span></td></tr>
+<tr><td class="mono">F42</td><td><span class="tag t-high">HIGH</span></td><td>Facts &sect;2 and the Library Register carried superseded ledger figures (314 records / R810,872) after EX-12 closed at 315 / R810,838.32</td><td><span class="tag t-fixed">FIXED</span></td></tr>
+<tr><td class="mono">F43</td><td><span class="tag t-med">MEDIUM</span></td><td>R10 carried no R42 cross-reference; the deferred &ldquo;optional C5 polish&rdquo; xref set confirmed as a live gap</td><td><span class="tag t-fixed">FIXED</span></td></tr>
+<tr><td class="mono">F44</td><td><span class="tag t-med">MEDIUM</span></td><td>R9 winching carried no electrical doctrine &mdash; which battery feeds the winch, engine state, duty cycle</td><td><span class="tag t-fixed">FIXED</span></td></tr>
+<tr><td class="mono">F45</td><td><span class="tag t-med">MEDIUM</span></td><td>R36 omitted baboons/vervets (the most frequent camp problem animal on this route) and African bees</td><td><span class="tag t-fixed">FIXED</span></td></tr>
+<tr><td class="mono">F46</td><td><span class="tag t-med">MEDIUM</span></td><td>R15 yellow-fever line described out-of-scope countries as &ldquo;on your route&rdquo;</td><td><span class="tag t-fixed">FIXED</span></td></tr>
+<tr><td class="mono">F47</td><td><span class="tag t-med">MEDIUM</span></td><td>R17 bilharzia was a single register row against a planned ~5-month Lake Malawi wet-season base</td><td><span class="tag t-fixed">FIXED</span></td></tr>
+<tr><td class="mono">F48</td><td><span class="tag t-low">LOW</span></td><td>Repo orphans: <span class="mono">tyre_calc.html</span> (unreferenced divergent duplicate) and a 716 KB session tarball</td><td><span class="tag t-open">OPEN &middot; OI-32</span></td></tr>
+<tr><td class="mono">F49</td><td><span class="tag t-low">LOW</span></td><td><span class="mono">mary-ann-70/</span> directory scope &mdash; confirmed intentional personal content</td><td><span class="tag t-fixed">CLOSED &middot; OI-33</span></td></tr>
+<tr><td class="mono">F50</td><td><span class="tag t-low">&mdash;</span></td><td>Merged into F38 (same root cause)</td><td><span class="tag t-fixed">MERGED</span></td></tr>
+</tbody>
+</table>
+
+<table>
+<caption>Session B &mdash; Tier 2 expedition-gating</caption>
+<thead><tr><th style="width:7%">Ref</th><th style="width:10%">Grade</th><th>Finding</th><th style="width:16%">Disposition</th></tr></thead>
+<tbody>
+<tr><td class="mono">F51</td><td><span class="tag t-high">HIGH</span></td><td>The R23 post-trip review protocol did not exist &mdash; chartered inside unexecuted EX-8, while the Karoo return was planned as its &ldquo;first live execution&rdquo;</td><td><span class="tag t-fixed">BUILT &middot; OI-35</span></td></tr>
+<tr><td class="mono">F52</td><td><span class="tag t-med">MEDIUM</span></td><td>R39 &sect;6 carried no mobile money &mdash; the ground-truth payment system north of the Zambezi (M-Pesa, Airtel Money, MoMo)</td><td><span class="tag t-fixed">FIXED</span></td></tr>
+<tr><td class="mono">F53</td><td><span class="tag t-med">MEDIUM</span></td><td>R2 carried no fire-equipment check after the R42 build</td><td><span class="tag t-fixed">FIXED</span></td></tr>
+<tr><td class="mono">F54</td><td><span class="tag t-med">MEDIUM</span></td><td>R2 vehicle-documents row silent on the owner's-authority affidavit and certified RC1 copy</td><td><span class="tag t-fixed">FIXED</span></td></tr>
+<tr><td class="mono">F55</td><td><span class="tag t-low">LOW</span></td><td>R2 stated 68 items / 37 critical against 70 / 41 actual; JS total also wrong</td><td><span class="tag t-fixed">FIXED</span></td></tr>
+<tr><td class="mono">F56</td><td><span class="tag t-low">LOW</span></td><td>R15 carries no red/green customs-channel description; flow coverage otherwise adequate</td><td><span class="tag t-low">LOGGED</span></td></tr>
+<tr><td class="mono">F57</td><td><span class="tag t-low">CLEAN</span></td><td>Tier 2 verification set &mdash; see section 05</td><td><span class="tag t-fixed">VERIFIED</span></td></tr>
+</tbody>
+</table>
+
+<table>
+<caption>Session C &mdash; Tier 3a engine &amp; driveline</caption>
+<thead><tr><th style="width:7%">Ref</th><th style="width:10%">Grade</th><th>Finding</th><th style="width:16%">Disposition</th></tr></thead>
+<tbody>
+<tr><td class="mono">F58</td><td><span class="tag t-low">LOW</span></td><td>R23 stated 32 tasks against 37 actual (same defect class as F55)</td><td><span class="tag t-fixed">FIXED</span></td></tr>
+<tr><td class="mono">F59</td><td><span class="tag t-med">MEDIUM</span></td><td>EGT thresholds inconsistent across three documents &mdash; R21 owns &ge;550&deg;C back-off / 650&deg;C hard ceiling; R10 and R18 both said 600&deg;C</td><td><span class="tag t-fixed">FIXED</span></td></tr>
+<tr><td class="mono">F60</td><td><span class="tag t-med">MEDIUM</span></td><td>R22 viscous-clutch card carried no RA-5 pointer</td><td><span class="tag t-fixed">FIXED</span></td></tr>
+<tr><td class="mono">F61</td><td><span class="tag t-med">MEDIUM</span></td><td>TPMS TP-V31 (fitted May 2025) absent from R14 &mdash; present in Facts and R40 only</td><td><span class="tag t-fixed">FIXED</span></td></tr>
+<tr><td class="mono">F62</td><td><span class="tag t-med">MEDIUM</span></td><td>R3 tyre-kit line contradicted R40 doctrine and OI-17 &mdash; claimed a bead breaker and bead seater are carried</td><td><span class="tag t-fixed">FIXED</span></td></tr>
+<tr><td class="mono">F63</td><td><span class="tag t-low">LOW</span></td><td>R20 omits injection-pump seals (unit-service scope, acceptable); R21 carries no running turbo mileage</td><td><span class="tag t-low">LOGGED</span></td></tr>
+<tr><td class="mono">F64</td><td><span class="tag t-low">CLEAN</span></td><td>Tier 3a verification set &mdash; see section 05</td><td><span class="tag t-fixed">VERIFIED</span></td></tr>
+</tbody>
+</table>
+
+<table>
+<caption>Session D &mdash; Tier 3b electrical &amp; service, including self-audit</caption>
+<thead><tr><th style="width:7%">Ref</th><th style="width:10%">Grade</th><th>Finding</th><th style="width:16%">Disposition</th></tr></thead>
+<tbody>
+<tr><td class="mono">F65</td><td><span class="tag t-med">MEDIUM</span></td><td><strong>Self-introduced defect.</strong> The Session-A R18 note asserted a &ldquo;30A fuse on the alternator cable&rdquo;; R26, the owning document, states no Orion fuse rating anywhere. The figure was fabricated, not sourced</td><td><span class="tag t-fixed">FIXED</span></td></tr>
+<tr><td class="mono">F66</td><td><span class="tag t-med">MEDIUM</span></td><td>R1 subtitle promises &ldquo;torque values at a glance&rdquo;; the document contained none</td><td><span class="tag t-fixed">FIXED</span></td></tr>
+<tr><td class="mono">F67</td><td><span class="tag t-med">MEDIUM</span></td><td>R31 status matrix carried no electrical row &mdash; the largest upgrade of 2026 was absent, as were solar, winch and tyre policy</td><td><span class="tag t-fixed">FIXED</span></td></tr>
+<tr><td class="mono">F68</td><td><span class="tag t-med">MEDIUM</span></td><td>R7 gave the charge profile only as &ldquo;LiFePO4 preset&rdquo;; commissioning values existed solely in Facts &sect;5</td><td><span class="tag t-fixed">FIXED</span></td></tr>
+<tr><td class="mono">F69</td><td><span class="tag t-med">MEDIUM</span></td><td>Seam: R31 records the radiator as flagged inferior quality at install; RA-5 did not carry that intelligence</td><td><span class="tag t-fixed">FIXED</span></td></tr>
+<tr><td class="mono">F70</td><td><span class="tag t-low">CLEAN</span></td><td>Tier 3b verification set &mdash; see section 05</td><td><span class="tag t-fixed">VERIFIED</span></td></tr>
+</tbody>
+</table>
+
+<table>
+<caption>Session E &mdash; Tier 4 profile catalogue and Tier 5 framework sweep</caption>
+<thead><tr><th style="width:7%">Ref</th><th style="width:10%">Grade</th><th>Finding</th><th style="width:16%">Disposition</th></tr></thead>
+<tbody>
+<tr><td class="mono">F71</td><td><span class="tag t-high">HIGH</span></td><td>&sect;06 Parts &amp; Serviceability exists only in profiles 007&ndash;010; profiles 001&ndash;006 (Angola, Namibia, Botswana, Zambia, Kalahari, Tanzania) lack it entirely &mdash; six of the ten, covering the whole opening leg</td><td><span class="tag t-open">OPEN &rarr; EX-8</span></td></tr>
+<tr><td class="mono">F72</td><td><span class="tag t-med">MEDIUM</span></td><td>No profile carries a data-freshness marker. Perishable content (fuel prices, visa fees, security posture) is indistinguishable from durable content at the point of reading</td><td><span class="tag t-open">OPEN &rarr; EX-10</span></td></tr>
+<tr><td class="mono">F73</td><td><span class="tag t-low">CLEAN</span></td><td>Tier 5 framework sweep &mdash; zero true defects across 20 files. All three apparent hits were false positives on inspection: R28's &ldquo;2,850&rdquo; is a wheelbase in mm, the Fuel Log Analyser's is odometer data inside an embedded CSV, and the Tyre Pressure Calculator's 265/75 entries are a size-selector offering both sizes with 265/70 marked current</td><td><span class="tag t-fixed">VERIFIED</span></td></tr>
+<tr><td class="mono">F74</td><td><span class="tag t-low">CLEAN</span></td><td>Profile structural integrity &mdash; no stale cross-references, no retired filenames, no superseded weights across all ten profiles</td><td><span class="tag t-fixed">VERIFIED</span></td></tr>
+</tbody>
+</table>
+
+<h2 id="s-critical">04 &middot; Critical &amp; High Findings in Detail</h2>
+
+<h3>F38 &middot; CRITICAL &middot; R10 &sect;3 &mdash; the wrong drill in the right place</h3>
+<p>R42 &sect;2 was rewritten on 21 July with corrected doctrine: the M-series battery switch is the one-second isolation action, <strong>no crank isolator is fitted</strong> to this vehicle, and on a venting LiFePO4 cell <strong>water in volume is correct</strong> because dry powder addresses surface flame only while a self-oxidising cell continues to re-flash. R42 explicitly delegates the in-the-moment drill to R10 &sect;3. R10 &sect;3 had not been touched since 11 July and instructed: <em>&ldquo;disconnect battery if safe to do so&rdquo;</em> and <em>&ldquo;do not use water on electrical fire.&rdquo;</em></p>
+<p>Under stress a crew opens the emergency document, not the equipment document. The library's newest and most carefully reasoned fire doctrine sat in the file nobody would reach for first. <strong>Remediated:</strong> both the engine-fire and electrical-fire procedures now carry the M-series step and the no-isolator fact; a LiFePO4 danger box states the water doctrine, the re-flash expectation and the total-loss perimeter response; a &sect;3 ownership note directs prevention, sizing and equipment questions to R42.</p>
+
+<h3>F39&ndash;F41 &middot; HIGH &middot; R18 &mdash; three absences in a 91 KB troubleshooting guide</h3>
+<p>No occurrence of &ldquo;timing belt&rdquo; or &ldquo;cambelt&rdquo; anywhere in the file, on an engine where belt failure bends valves. The field-recognition signature &mdash; instantaneous stop at speed, then cranking noticeably faster and freer than normal &mdash; and the instruction that follows from it (<em>stop cranking</em>, because every further revolution adds damage) were absent. No EGT content, despite a fitted pyrometer being the earliest warning instrument the vehicle has. And a charging-fault tree that predated the July electrical install, so a crew troubleshooting &ldquo;house not charging&rdquo; would be sent to the alternator rather than the Orion.</p>
+<p><strong>Remediated:</strong> a timing-belt card now leads the no-start section; a &sect;3B EGT group carries R21's thresholds and the EGT&times;boost cross-diagnosis; a charging note separates the crank and house paths and routes house faults to the Orion, with fuse ratings and layout deferred to R26.</p>
+
+<h3>F42 &middot; HIGH &middot; the ledger figures that half-propagated</h3>
+<p>EX-12 closed on 10 July with the ledger at 315 records and R810,838.32. The index card was corrected on 21 July. Facts &sect;2 and the Library Register &mdash; the two authoritative sources &mdash; still read 314 and R810,872 as at June. The wrong numbers lived in the files that other work would be checked against.</p>
+
+<h3>F51 &middot; HIGH &middot; a protocol the plan depended on and nobody had written</h3>
+<p>The Karoo Winter Loop plan describes the return as the &ldquo;first live execution of the R23 post-trip review protocol.&rdquo; No such protocol existed: it is chartered inside EX-8, which has not been executed. The dependency could not have been met, and the failure would only have surfaced on the day. <strong>Remediated</strong> by owner charter (OI-35): R23 &sect;7 was built &mdash; seven review tasks, a sign-off table, and propagation rules that route findings into R3, R37, EX-8 and the Open Items Register. It matters that this exists <em>before</em> departure, because it determines what gets logged during the trip.</p>
+
+<h3>F65 &middot; MEDIUM &middot; a fabricated specification, disclosed</h3>
+<div class="box crit">
+<p>The Victron charging note added to R18 in Session A stated that the Orion is protected by a &ldquo;30A fuse on the alternator cable.&rdquo; R26, which owns the wiring, gives no Orion fuse rating anywhere &mdash; it says only &ldquo;check Orion input and output fuses.&rdquo; The figure was invented to complete a sentence. It was plausible, it was specific, it read as authority, and it was not sourced.</p>
+<p>It survived four sessions before the Session-D self-audit caught it. <strong>Remediated:</strong> generic wording, ratings deferred to R26, and validation now asserts the string is absent. <strong>Standing control adopted:</strong> any specific numeric specification introduced into a library document must be traceable to Facts, the owning R-document, or a manual &mdash; and self-audit of prior-session edits is now a step in every audit session.</p>
+</div>
+
+<h3>F71 &middot; HIGH &middot; six profiles without a parts section</h3>
+<p>&sect;06 Parts &amp; Serviceability &mdash; dealer networks, independent specialists, parts availability and lead times &mdash; exists in the four profiles built in July 2026 (Mozambique, Malawi, Zimbabwe, Kenya) and in none of the six built earlier: Angola, Namibia, Botswana, Zambia, Kalahari and Tanzania. That is the entire opening leg of the expedition and the whole first dry-season run north. The retrofit is already chartered inside EX-8; this audit confirms it is outstanding and raises its priority, since a breakdown in Namibia in month two is served by nothing.</p>
+
+<h2 id="s-profiles">05 &middot; Tier 4 &mdash; Profile Catalogue for EX-10</h2>
+<p class="section-intro">Logged, not remediated (owner Gate A). Refreshing 2026 data now would be re-done at the T-6 refresh in 2028.</p>
+<p>All ten profiles are structurally sound and free of stale cross-references. Their exposure is entirely in perishable content, and the volume is now measured:</p>
+<table>
+<caption>Perishable-data census &mdash; EX-10 workload estimate</caption>
+<thead><tr><th>Profile</th><th style="width:11%">Size</th><th style="width:12%">Fuel prices</th><th style="width:12%">Visa fees</th><th style="width:12%">Security/political</th><th style="width:11%">&sect;06 parts</th></tr></thead>
+<tbody>
+<tr><td>001 Angola</td><td class="mono">119 KB</td><td class="mono">0</td><td class="mono">1</td><td class="mono">1</td><td><span class="tag t-open">MISSING</span></td></tr>
+<tr><td>002 Namibia</td><td class="mono">163 KB</td><td class="mono">3</td><td class="mono">2</td><td class="mono">5</td><td><span class="tag t-open">MISSING</span></td></tr>
+<tr><td>003 Botswana</td><td class="mono">128 KB</td><td class="mono">2</td><td class="mono">1</td><td class="mono">1</td><td><span class="tag t-open">MISSING</span></td></tr>
+<tr><td>004 Zambia</td><td class="mono">132 KB</td><td class="mono">6</td><td class="mono">11</td><td class="mono">1</td><td><span class="tag t-open">MISSING</span></td></tr>
+<tr><td>005 Kalahari</td><td class="mono">156 KB</td><td class="mono">0</td><td class="mono">0</td><td class="mono">4</td><td><span class="tag t-open">MISSING</span></td></tr>
+<tr><td>006 Tanzania</td><td class="mono">110 KB</td><td class="mono">4</td><td class="mono">0</td><td class="mono">4</td><td><span class="tag t-open">MISSING</span></td></tr>
+<tr><td>007 Mozambique</td><td class="mono">79 KB</td><td class="mono">3</td><td class="mono">0</td><td class="mono">8</td><td><span class="tag t-fixed">PRESENT</span></td></tr>
+<tr><td>008 Malawi</td><td class="mono">78 KB</td><td class="mono">5</td><td class="mono">0</td><td class="mono">0</td><td><span class="tag t-fixed">PRESENT</span></td></tr>
+<tr><td>009 Zimbabwe</td><td class="mono">68 KB</td><td class="mono">3</td><td class="mono">1</td><td class="mono">1</td><td><span class="tag t-fixed">PRESENT</span></td></tr>
+<tr><td>010 Kenya</td><td class="mono">63 KB</td><td class="mono">1</td><td class="mono">0</td><td class="mono">5</td><td><span class="tag t-fixed">PRESENT</span></td></tr>
+</tbody>
+</table>
+<div class="box">
+<strong>Recommendation to EX-10 (F72):</strong> adopt a standard data-freshness line on every profile &mdash; <span class="mono">Data verified: &lt;date&gt; &middot; prices &amp; fees indicative only</span> &mdash; placed where perishable content begins. At present a reader cannot tell, at the point of reading, whether a fuel price is two months or two years old. The scam register's evidence-grade convention (V / M / S with an 18-month re-verification rule) already solves this problem elsewhere in the library; profiles should inherit it.
+</div>
+
+<h2 id="s-clean">06 &middot; Verified Clean</h2>
+<p class="section-intro">Recorded so that future audits do not re-chase them.</p>
+<table>
+<caption>Confirmed sound on expert read</caption>
+<thead><tr><th style="width:16%">Document</th><th>Verified</th></tr></thead>
+<tbody>
+<tr><td class="mono">R10 medical</td><td>Snakebite doctrine is current best practice &mdash; no cutting or suction, pressure-immobilisation restricted to neurotoxic bites, documented rationale for carrying no antivenom. Tourniquet, wound-packing and junctional guidance is of trauma-course standard.</td></tr>
+<tr><td class="mono">R17</td><td>Disease coverage otherwise excellent, including tsetse belts, rabies, typhoid and the full vaccination chain.</td></tr>
+<tr><td class="mono">R29</td><td>Every 17 July licence correction held: Mary-Ann 27 May 2029 as mandatory, Day-85 medical-aid lapse row, carnet write-off step, GVM 3,000 kg, the WCG written-confirmation reference, and the Maisha corridor verification item.</td></tr>
+<tr><td class="mono">R38</td><td>Sound. &sect;4 remains a skeleton by charter (M4 / EX-9), which is a planned state, not a defect. Assumption register A1&ndash;A12, abort criteria, crew veto and IERCC references all present.</td></tr>
+<tr><td class="mono">R37</td><td>Readiness-action sign-off coverage complete &mdash; fire response, scam roleplay, carcass swap, winch, solo capability, dental, first-aid certification.</td></tr>
+<tr><td class="mono">Affidavit</td><td>Identity-number blanks intact; zero 13-digit strings in the committed file. Privacy doctrine holding.</td></tr>
+<tr><td class="mono">R11</td><td>Weights already authoritative (GVM 3,000 / kerb 2,190 / as-built ~2,317), correctly gated on RA-1.</td></tr>
+<tr><td class="mono">R4 R24 R25 R13 R34 R27 R40</td><td>Engine and driveline family sound throughout &mdash; SOHC and shim-adjustment detail, interference warnings, Bosch VE pump, June 2026 overhaul reflected, full OME part numbers, R151F and diff-lock coverage, LSPV braking, 131 Nm with its verification caveat.</td></tr>
+<tr><td class="mono">R5 R26 R32 R8</td><td>Electrical and service family current to the July install; all three ledger supplements internally consistent, with the Archive correctly holding no post-200,000 km data.</td></tr>
+<tr><td class="mono">Tier 5</td><td>Twenty framework files &mdash; calculators, philosophy documents, R12, R16, R19, R28, R30, R41, Karoo itinerary, index &mdash; zero true defects.</td></tr>
+</tbody>
+</table>
+
+<h2 id="s-outstanding">07 &middot; Outstanding</h2>
+<table>
+<caption>Open items arising from this audit</caption>
+<thead><tr><th style="width:8%">Ref</th><th style="width:14%">Route</th><th>Action</th></tr></thead>
+<tbody>
+<tr><td class="mono">F48</td><td class="mono">OI-32 &middot; owner</td><td><span class="mono">git rm</span> the two repo orphans. Neither is referenced by any library file, so no cache bump and no propagation follow.</td></tr>
+<tr><td class="mono">F71</td><td class="mono">EX-8 &middot; build</td><td>Retrofit &sect;06 Parts &amp; Serviceability to profiles 001&ndash;006. Already chartered; this audit raises its priority &mdash; it covers the opening leg.</td></tr>
+<tr><td class="mono">F72</td><td class="mono">EX-10 &middot; build</td><td>Adopt a data-freshness line across all ten profiles at the T-6 refresh.</td></tr>
+<tr><td class="mono">F56 F63</td><td class="mono">logged</td><td>Accepted scope. No action unless circumstances change.</td></tr>
+</tbody>
+</table>
+<div class="box ok">
+<strong>Method note for the next audit.</strong> Two controls earned their place and should be repeated: the scripted supersession sweep with in-context adjudication (it found F42 and cleared three false positives that a count-based check would have raised as defects), and the self-audit of prior-session edits (it found F65, which no other control would have caught). The completeness checklists must continue to be written before the file is opened &mdash; every completeness finding in this audit came from asking what <em>should</em> be there rather than reviewing what was.
+</div>
+
+</main>
+
+<div class="footer">
+LC76 OVERLAND REFERENCE LIBRARY &middot; INTERNAL CONTENT CURRENCY &amp; COMPLETENESS AUDIT &middot; JULY 2026 (issued 21 Jul 2026)<br>
+Evidence: full corpus fetched SHA-pinned at HEAD b6a9b641; five audit sessions; 24-chain supersession sweep; expert completeness checklists per tier; findings F38&ndash;F74.<br>
+Remediation detail in the Audit Working Papers (CONTENT-AUDIT-SA through SE) and the Open Items Register. This is a governance document &mdash; not a field reference, not precached.
+</div>
+
+<script>
+(function(){
+  var btns = document.querySelectorAll('.toc-btn');
+  btns.forEach(function(b){
+    b.addEventListener('click', function(){
+      var el = document.getElementById(b.dataset.target);
+      if (!el) return;
+      var top = el.getBoundingClientRect().top + window.pageYOffset
+              - document.querySelector('.sticky-wrap').offsetHeight - 8;
+      window.scrollTo({ top: top, behavior: 'smooth' });
+    });
+  });
+  var secs = document.querySelectorAll('main h2[id]');
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (!e.isIntersecting) return;
+      btns.forEach(function(b){
+        b.classList.toggle('active', b.dataset.target === e.target.id);
+      });
+    });
+  }, { rootMargin: '-160px 0px -70% 0px', threshold: 0 });
+  secs.forEach(function(s){ obs.observe(s); });
+})();
+</script>
+</body>
+</html>
