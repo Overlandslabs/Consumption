@@ -1,11 +1,46 @@
 LC76 OVERLAND REFERENCE LIBRARY — PROJECT INSTRUCTIONS
 ═════════════════════════════════════════════════════════════════
 
-Last updated: 22 July 2026, eleventh session (DECISION SESSION — NO BUILDS.
+Last updated: 22 July 2026, twelfth session (OI-36 + OI-37 BUILT — BOTH
+SESSIONS EXECUTED IN ONE SITTING; RATIFICATION R3 REVERSED ON EVIDENCE).
+Five profiles gained §06 Parts & Serviceability with the OI-37 freshness
+marker — 002 Namibia, 003 Botswana, 004 Zambia, 006 Tanzania, 001 Angola —
+each written to its own country, not templated. Sections 06–18 renumbered
+to 07–19 in all five; LC76_Profile_TEMPLATE.html corrected so the gap
+cannot recur; 005 Kalahari scoped OUT (terrain profile, different section
+spine, ground covered by 002/003). Content-only — nothing added, removed
+or renamed, so CACHE STAYS v24. Next free open item OI-39.
+
+R3 REVERSED — APPEND BECAME INSERT, ON EVIDENCE. The verification gate did
+its job. It found that 007–010 had INSERTED the section at §06 and pushed
+Roads to §07, while 001–004/006 AND the template still ran the original
+18-section shape. The premise behind APPEND was that renumbering breaks
+anchors; a corpus scan of all 112 repo files returned ZERO external anchor
+links and ZERO textual §-references into 001–006, and R30 carries no
+profile links at all. So renumbering broke nothing, while appending would
+have left identical content at §06 in four profiles and §19 in five —
+precisely the cross-document divergence the content audit diagnosed as the
+library's central weakness. Recorded because the lesson generalises: a
+ratification made on an assumption is provisional until the assumption is
+measured, and the gate that measures it must run before the spec, not after.
+
+THREE DEFECTS FOUND DURING THE BUILD. (1) SELF-INTRODUCED: the 002
+changelog insert consumed the wrapper that opens the preceding entry,
+taking the div walk to -1. Caught by the walk, fixed, disclosed — this is
+the class of defect only a self-audit catches (the F65 lesson holding).
+(2) PRE-EXISTING in 002 Namibia: a genuine stray </span>, 156 open against
+157 close in static HTML with scripts and comments stripped, from a
+superseded three-stripe flag construct — the same root cause as the Angola
+defect fixed 12 Jul. Removed; now 167/167. THE STANDING DO-NOT-RE-FLAG NOTE
+WAS WRONG about this and has been corrected below: the imbalance survives
+script-stripping, so it was never a JS template-string artifact. Angola
+re-verified genuinely clean at 126/126. (3) TOC/IntersectionObserver index
+contract broken across the profile family → OI-38 (see below and the OIR).
+
+PRIOR (22 July 2026, eleventh session): (DECISION SESSION — NO BUILDS.
 RA-1 UNDATED + FOUR RATIFICATIONS + OWNERSHIP-FIRST PROPAGATION ADOPTED).
-No HTML edited, no CACHE impact, no working-papers row — this session
-changed doctrine and scheduling only. CACHE stays v24. Next free open item
-stays OI-38.
+No HTML edited, no CACHE impact, no working-papers row — that session
+changed doctrine and scheduling only.
 
 RA-1 UNDATED (owner decision, 22 Jul 2026). The "BEFORE the 3 Aug Karoo
 departure" deadline on the loaded weighbridge is WITHDRAWN. It happens when
@@ -46,6 +81,12 @@ findings F71 and F72:
        cosmetic gain; the precedent is R35 §12 (appended rather than
        inserted, to protect external §-references) and R30 keeping its
        number when relocated.
+       [SUPERSEDED 22 Jul 2026, same day, by the gate this ratification
+       was made subject to. The anchor-breakage premise was measured and
+       found to be false — zero external anchor links or §-references
+       into 001–006 across all 112 repo files. INSERT-and-renumber was
+       executed instead. The R35 §12 precedent still stands for its own
+       case, where external §-references genuinely existed.]
   R4 · The seam fix is adopted as a WORKING CONVENTION now (see
        "Ownership-first propagation" below). The R30 OWNER-flag column —
        making ownership a lookup rather than an act of memory — is approved
@@ -1619,13 +1660,16 @@ Country & terrain profiles (001–010):
   009  Zimbabwe_Overland_Profile_2026-07.html
   010  Kenya_Overland_Profile_2026-07.html
 
-  PARTS & SERVICEABILITY COVERAGE (audit F71, 21 Jul 2026): the section
-  exists ONLY in 007–010. Retrofit to 001–006 is OI-36, executing as a
-  combined pass with the OI-37 freshness marker in two sessions —
-  Session 1: 002 Namibia · 003 Botswana · 004 Zambia; Session 2:
-  006 Tanzania · 005 Kalahari · 001 Angola (sequenced by route exposure,
-  not profile number). Thin-but-structurally-complete build; APPEND, not
-  renumber; verification gate first (see header).
+  SECTION NUMBERING — HARMONISED 22 Jul 2026 (OI-36). All ten country
+  profiles now carry §06 Parts & Serviceability and run the SAME numbering.
+  001–004 and 006 had the section INSERTED at §06 and their former §06–§18
+  renumbered to §07–§19, matching 007–010, which were built with it. Each
+  is a 19-section profile (plus alerts and changelog). 005 Kalahari is a
+  TERRAIN profile with a different section spine and is deliberately OUT of
+  scope. LC76_Profile_TEMPLATE.html was corrected the same day so the gap
+  cannot recur on the next profile built. Perishable content in the new
+  sections carries the OI-37 freshness marker with V/M/S grades; the full
+  build of that content lands at EX-10.
 
 Trip itineraries:
   LC76_Karoo_Winter_Loop_2026.html  (Cape Town round-trip, 3 Aug–4 Sep 2026)
@@ -1654,7 +1698,7 @@ Audit, governance & data (internal — not field-reference, not precached):
                                          remediated in-session. Governance file —
                                          index-linked, NOT precached, no CACHE bump.
   LC76_Open_Items_Register.txt           SINGLE authoritative open-items tracker
-                                         (OI-1…OI-37 + CLOSED LOG). Governance
+                                         (OI-1…OI-38 + CLOSED LOG). Governance
                                          file — GitHub + project knowledge; NOT
                                          precached, NEVER triggers a CACHE bump.
   LC76_Library_Audit_WorkingPapers.xlsx  Audit working papers — TA / LX / EX registers
@@ -1684,9 +1728,10 @@ extended 8 Jul 2026 (consultant strategic review) and 10 Jul 2026 (EX-12)
          corrected 9 Jul 2026) + R23 Post-Trip Review Protocol [BUILT
          21 Jul 2026 as the OI-35 pull-forward — R23 §7] + retrofit
          Parts & Serviceability §06 back to profiles 001–006 [PULLED
-         FORWARD 22 Jul 2026 as OI-36, executing outside EX-8 as a
-         combined pass with OI-37; see the header for sequence, depth
-         and the append decision. RATIONALE: the R3 Consumables Ledger
+         FORWARD AND BUILT 22 Jul 2026 as OI-36, outside EX-8, as a
+         combined pass with OI-37 — DONE for 001/002/003/004/006, with
+         005 scoped out and the template corrected; only the EX-10 full
+         build of perishable content remains. See the header. RATIONALE: the R3 Consumables Ledger
          keys its carry-versus-source-en-route logic to profile
          serviceability data, so the six missing sections block EX-8's
          principal deliverable for the first year of the route — the
@@ -1847,8 +1892,19 @@ PROFILE §06 RETROFIT + FRESHNESS MARKER (OI-36 + OI-37, chartered 22 Jul 2026)
     standing convention, place the marker at the head of each perishable
     section. Owner may collapse to one mechanism at Session 1.
   SEQUENCE (by route exposure, not profile number): Session 1 — 002 Namibia,
-    003 Botswana, 004 Zambia. Session 2 — 006 Tanzania, 005 Kalahari,
-    001 Angola.
+    003 Botswana, 004 Zambia. Session 2 — 006 Tanzania, 001 Angola.
+  EXECUTED 22 Jul 2026, both sessions, at pinned HEAD 9c6799c1 (full-corpus
+    tarball fetch). GATE 0 outcome: cohorts had diverged, the template was
+    stale, and the append premise was false — see the header. All five
+    profiles INSERTED at §06 and renumbered 06–18 → 07–19; the template
+    corrected the same day. 005 Kalahari SCOPED OUT: it is a terrain
+    profile with a different section spine (its §06 is "Zone 3 — Khutse"),
+    a Parts & Serviceability section does not map onto it, and its ground
+    lies in Botswana, Namibia and the Northern Cape — covered by 002/003.
+  VALIDATION on all six edited files: script-stripped div/span depth walks
+    0/0/0, spans balanced, ids unique, node --check clean, sec-num sequence
+    01–19 + LOG, and the TOC/sectionIds index contract 20/20 with pairwise
+    order verified.
   PROPAGATION per session: R30 topic rows · Library Register if descriptions
     move · Open Items Register · working-papers row · per-profile changelog
     entries · mastheads · index.html header-meta. Content-only — NO CACHE
@@ -1908,6 +1964,18 @@ DESIGN SYSTEM (mandatory — full spec in LC76_Design_Guidelines.html, now v1.7)
 - TOC navigation: JS scrollIntoView / computed-offset scrollTo (not href
   anchors). Scroll offset must account for full sticky container height.
   IntersectionObserver for active-state highlighting.
+- TOC INDEX CONTRACT (mandatory, adopted 22 Jul 2026 from OI-38). The
+  active-state highlighter maps sectionIds.indexOf(id) onto tocLinks[i] BY
+  POSITION. The sectionIds array must therefore MIRROR the TOC buttons
+  exactly — same entries, same order, same length — including any alerts
+  and changelog entries. A mismatch does not throw; it silently highlights
+  the wrong button, so it will never be caught by node --check or a depth
+  walk. Two mirror-image failures were found in the profile family: an
+  'alerts' id in the array with no button (003), and an "! Alerts" button
+  absent from the array (006 and the TEMPLATE). ADD TO THE STANDARD
+  VALIDATION SET: assert len(sectionIds) == len(tocLinks), assert every
+  sectionIds entry resolves to a real element id, and verify the pairing in
+  order. Whenever a section is added or removed, both lists change together.
 - Footer convention (post-standardisation, 8 Jul 2026):
   · Reference docs, profiles (body), philosophy, itinerary: NO footer.
   · Profiles: single-line sources-attribution footer only.
@@ -2115,9 +2183,16 @@ SESSION EXECUTION & VALIDATION (every HTML session)
 - Known do-not-re-flag items: Service_Checklist has zero horizontal scrollers →
   vacuously compliant on the overscroll check; R5 carries two dead sticky
   selectors (.hdr and .masthead,.hero) from an earlier style swap — only the
-  live .sticky-wrap is patched. Angola/Namibia profiles have legitimate
-  negative depth-walk values from JS template strings (pre-existing, not
-  introduced by edits). Facts §11 carries ONE intentional "later 2031" string
+  live .sticky-wrap is patched. CORRECTED 22 Jul 2026 — the note that
+  Angola/Namibia profiles carry "legitimate negative depth-walk values from
+  JS template strings" was a MISDIAGNOSIS and cost a real defect a month of
+  invisibility. Both files carried genuine stray closing tags that survive
+  script-stripping: Angola root-caused and fixed 12 Jul (now 126/126),
+  Namibia found and fixed 22 Jul (was 156/157, now 167/167) — both from the
+  same superseded multi-stripe masthead flag construct left behind when the
+  SVG flag replaced it. STANDING RULE: a negative depth walk is treated as a
+  real defect until root-caused in the static HTML with scripts and comments
+  stripped. If a walk goes negative, find the tag. Facts §11 carries ONE intentional "later 2031" string
   — the 17 Jul supersession reference, exempt from the stale sweep. R28's
   "2,850" is the WHEELBASE in mm, not a stale GVM; the Fuel Log Analyser's is
   odometer data inside an embedded CSV; the Tyre Pressure Calculator offers
