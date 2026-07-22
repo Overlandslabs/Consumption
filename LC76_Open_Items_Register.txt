@@ -1,6 +1,6 @@
 LC76 OVERLAND REFERENCE LIBRARY — OPEN ITEMS REGISTER
 ═══════════════════════════════════════════════════════════════════════
-Last updated: 22 July 2026 · Maintained by: Neil / Claude
+Last updated: 22 July 2026 (second update — OI-36/37 BUILT) · Maintained by: Neil / Claude
 Governance file — GitHub + project knowledge. NOT precached; never
 triggers a CACHE bump. Single authoritative list of everything open.
 Convention: every session close updates this file. Closed items move to
@@ -231,8 +231,8 @@ OI-32 Repo hygiene — git rm tyre_calc.html (legacy-named divergent orphan
       no CACHE bump and no propagation on removal.
 
 OI-36 Retrofit §06 Parts & Serviceability to profiles 001–006
-      CLAUDE (build) · EX-8 scope · Content audit F71 (21 Jul 2026)
-      OPEN — §06 exists only in profiles 007–010 (Mozambique, Malawi,
+      CLAUDE (build) · BUILT 22 Jul 2026 — residual at EX-10 · F71 (21 Jul)
+      SUBSTANTIALLY CLOSED — §06 exists only in profiles 007–010 (Mozambique, Malawi,
       Zimbabwe, Kenya). Angola, Namibia, Botswana, Zambia, Kalahari and
       Tanzania have no parts/serviceability section at all — that is the
       entire opening leg and the first dry-season run north. Already
@@ -254,7 +254,20 @@ OI-36 Retrofit §06 Parts & Serviceability to profiles 001–006
       section, correct the TEMPLATE too or the gap recurs on the next
       profile built. Sequence by route exposure, not profile number:
       Session 1 — 002 Namibia, 003 Botswana, 004 Zambia; Session 2 —
-      006 Tanzania, 005 Kalahari, 001 Angola.
+      006 Tanzania, 001 Angola.
+      EXECUTED 22 Jul 2026, BOTH SESSIONS. The APPEND ratification was
+      REVERSED on evidence: GATE 0 found 007–010 had INSERTED the section
+      at §06 and pushed Roads to §07, while 001–004/006 and the TEMPLATE
+      still ran the original 18-section shape. A corpus scan returned
+      ZERO external anchor links and ZERO textual §-references into
+      001–006 (R30 carries no profile links at all), so renumbering broke
+      nothing, while appending would have left identical content at §06
+      in four files and §19 in five — the exact seam the audit diagnosed.
+      All five therefore INSERTED at §06, sections 06–18 renumbered to
+      07–19. 005 Kalahari SCOPED OUT (terrain profile, different section
+      spine; its ground is covered by 002 and 003). TEMPLATE corrected
+      the same day so the gap cannot recur. RESIDUAL: full build of the
+      perishable content at EX-10.
 
 OI-37 Profile data-freshness marker
       CLAUDE (build) · EX-10 · Content audit F72 (21 Jul 2026)
@@ -273,9 +286,58 @@ OI-37 Profile data-freshness marker
       the badge untouched per the standing convention, place the marker
       at the head of each perishable section. Owner may collapse to one
       mechanism at Session 1.
+      BUILT 22 Jul 2026 in the same per-profile pass as OI-36 — the
+      marker is in all five new §06 sections with V/M/S grades applied to
+      dealer names, stock claims and fuel/pricing specifics. Default
+      kept: content-currency badges left untouched. RESIDUAL: extend the
+      marker to the other perishable sections across all ten profiles,
+      and maintain at EX-10.
+
+OI-38 Profile TOC / IntersectionObserver index contract broken
+      CLAUDE (build) · next profile session · Found 22 Jul 2026 during
+      the OI-36 build
+      OPEN — the profile active-state highlighter maps
+      sectionIds.indexOf(id) onto tocLinks[i] BY POSITION, so the array
+      must mirror the TOC buttons exactly in order and length. It did
+      not, and the two failure modes are mirror images: 003 Botswana had
+      'alerts' in the array with no matching button (every section lit
+      the button one place to its LEFT); the TEMPLATE and 006 Tanzania
+      had an "! Alerts" button absent from the array (same off-by-one,
+      other way). FIXED 22 Jul in 001, 002, 003, 004, 006 and the
+      template — all now 20/20, order verified pairwise. NOT YET CHECKED:
+      007 Mozambique shows the template pattern (button not in array),
+      and 008–010 were built from the same template, so all four are
+      likely carrying it. Sweep at the next profile session — a
+      one-token fix per file, but it silently misleads the reader about
+      where they are in the document.
 
 ═══════════════════════════════════════════════════════════════════════
 CLOSED LOG (most recent first — never delete)
+
+22 Jul 2026  OI-36 + OI-37 BUILT (same day, after the decision session
+      below). Five profiles gained §06 Parts & Serviceability with the
+      OI-37 freshness marker — 002 Namibia, 003 Botswana, 004 Zambia,
+      006 Tanzania, 001 Angola — each written to its own country rather
+      than templated. Sections 06–18 renumbered to 07–19 in all five;
+      LC76_Profile_TEMPLATE.html corrected so the gap cannot recur; 005
+      Kalahari scoped out. The APPEND ratification was reversed on
+      evidence (detail at OI-36). THREE DEFECTS: (1) a self-introduced
+      changelog-wrapper break in 002, caught by the div walk and fixed —
+      disclosed because only a self-audit catches that class; (2) 002
+      Namibia carried a genuine stray </span> (156/157 static, pre-
+      existing) from a superseded three-stripe flag construct — same
+      root cause as the Angola defect fixed 12 Jul, now 167/167. The
+      standing do-not-re-flag note attributing Angola/Namibia negative
+      walks to JS template strings is a MISDIAGNOSIS for Namibia and
+      must be corrected in the Project Instructions: the imbalance
+      survives script-stripping. Angola verified genuinely clean at
+      126/126. (3) TOC index-contract defect → OI-38. PROPAGATION:
+      Library Register profile blocks re-stated to 19 sections plus a
+      numbering note; index.html header-meta 22 Jul. Validation on all
+      six files: div walks 0/0/0, spans balanced, ids unique, node
+      --check clean, sec-num 01–19+LOG, TOC/sectionIds contract 20/20.
+      Content-only — nothing added, removed or renamed, so CACHE STAYS
+      v24. Next free open item OI-39.
 
 22 Jul 2026  DECISION SESSION — no builds, nothing closed, no file
       added or renamed. OI-1 DE-DATED by owner decision: the "before
