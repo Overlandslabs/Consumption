@@ -1,6 +1,6 @@
 LC76 OVERLAND REFERENCE LIBRARY — OPEN ITEMS REGISTER
 ═══════════════════════════════════════════════════════════════════════
-Last updated: 22 July 2026 (second update — OI-36/37 BUILT) · Maintained by: Neil / Claude
+Last updated: 22 July 2026 (third update — OI-38 CLOSED) · Maintained by: Neil / Claude
 Governance file — GitHub + project knowledge. NOT precached; never
 triggers a CACHE bump. Single authoritative list of everything open.
 Convention: every session close updates this file. Closed items move to
@@ -293,26 +293,34 @@ OI-37 Profile data-freshness marker
       marker to the other perishable sections across all ten profiles,
       and maintain at EX-10.
 
-OI-38 Profile TOC / IntersectionObserver index contract broken
-      CLAUDE (build) · next profile session · Found 22 Jul 2026 during
-      the OI-36 build
-      OPEN — the profile active-state highlighter maps
-      sectionIds.indexOf(id) onto tocLinks[i] BY POSITION, so the array
-      must mirror the TOC buttons exactly in order and length. It did
-      not, and the two failure modes are mirror images: 003 Botswana had
-      'alerts' in the array with no matching button (every section lit
-      the button one place to its LEFT); the TEMPLATE and 006 Tanzania
-      had an "! Alerts" button absent from the array (same off-by-one,
-      other way). FIXED 22 Jul in 001, 002, 003, 004, 006 and the
-      template — all now 20/20, order verified pairwise. NOT YET CHECKED:
-      007 Mozambique shows the template pattern (button not in array),
-      and 008–010 were built from the same template, so all four are
-      likely carrying it. Sweep at the next profile session — a
-      one-token fix per file, but it silently misleads the reader about
-      where they are in the document.
-
 ═══════════════════════════════════════════════════════════════════════
 CLOSED LOG (most recent first — never delete)
+
+22 Jul 2026  OI-38 CLOSED — profile TOC / IntersectionObserver index
+      contract swept across the whole profile family and repaired. The
+      highlighter maps sectionIds.indexOf(id) onto tocLinks[i] BY
+      POSITION, so the array must mirror the TOC click targets exactly in
+      order and length; a mismatch does not throw, is invisible to node
+      --check and to a depth walk, and simply highlights the wrong
+      section. AUDIT METHOD (worth repeating): compare the sectionIds
+      array against the getElementById targets extracted from every
+      element carrying class="toc-link" — not against the button LABELS,
+      and not with a regex that assumes <a> elements or a fixed attribute
+      order. Two earlier extractor versions gave false readings: 009
+      Zimbabwe uses <span class="toc-link" onclick=...> rather than <a>
+      and read as "0 buttons", and a class-first pattern missed every
+      file where class is the last attribute. Both were regex artifacts,
+      caught before being reported. RESULT ACROSS ELEVEN FILES: four
+      genuinely broken, all on the same 'alerts' mismatch — 007
+      Mozambique, 008 Malawi and 009 Zimbabwe each had an Alerts button
+      absent from the array; 005 Kalahari had the inverse, 'alerts' in
+      the array with no button. All four fixed, mastheads bumped 22 Jul,
+      validated (contract 20/20 with pairwise order, div/span walks
+      0/0/0, ids unique, node --check clean). 010 Kenya was already
+      correct and was not touched — the defect was not universal. Six
+      files had been repaired earlier the same day during the OI-36
+      build (001, 002, 003, 004, 006, TEMPLATE), so all eleven now hold
+      the contract. Content-only — CACHE stays v24. Next free OI-39.
 
 22 Jul 2026  OI-36 + OI-37 BUILT (same day, after the decision session
       below). Five profiles gained §06 Parts & Serviceability with the
