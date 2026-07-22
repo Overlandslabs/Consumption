@@ -11,6 +11,21 @@ cannot recur; 005 Kalahari scoped OUT (terrain profile, different section
 spine, ground covered by 002/003). Content-only — nothing added, removed
 or renamed, so CACHE STAYS v24. Next free open item OI-39.
 
+OI-38 OPENED AND CLOSED THE SAME DAY. The TOC/IntersectionObserver index
+contract was swept across all ten profiles plus the template. FOUR files
+were genuinely broken, all on the same 'alerts' mismatch — 007 Mozambique,
+008 Malawi and 009 Zimbabwe each carried an Alerts button absent from the
+array; 005 Kalahari had the inverse. All four repaired and mastheads
+bumped; 010 Kenya was already correct and was NOT touched, so the defect
+was not universal — the prediction logged when OI-38 was opened (that all
+four July profiles would carry it) was WRONG, and is recorded as wrong.
+Six files had been repaired earlier the same day during the OI-36 build,
+so all eleven now hold the contract. Judgement call disclosed: mastheads
+bumped but NO per-profile changelog entries added, on the grounds that a
+silent-bug fix gives a reader nothing to notice and 007/008/009 do not
+carry the changelog anchor format used elsewhere — owner to confirm
+whether every touched file should carry an entry regardless.
+
 R3 REVERSED — APPEND BECAME INSERT, ON EVIDENCE. The verification gate did
 its job. It found that 007–010 had INSERTED the section at §06 and pushed
 Roads to §07, while 001–004/006 AND the template still ran the original
@@ -1976,6 +1991,18 @@ DESIGN SYSTEM (mandatory — full spec in LC76_Design_Guidelines.html, now v1.7)
   VALIDATION SET: assert len(sectionIds) == len(tocLinks), assert every
   sectionIds entry resolves to a real element id, and verify the pairing in
   order. Whenever a section is added or removed, both lists change together.
+  HOW TO EXTRACT THE TOC SIDE (learned the hard way, 22 Jul 2026 — two
+  extractor versions gave false readings before the third was trusted):
+  compare sectionIds against the getElementById TARGETS taken from every
+  element carrying class="toc-link". Do NOT compare against button LABELS;
+  do NOT assume the element is an <a>, because 009 Zimbabwe uses
+  <span class="toc-link" onclick=...> and read as zero buttons; and do NOT
+  anchor the pattern on attribute ORDER, because a class-first regex misses
+  every file where class is the last attribute and will report most of the
+  family as broken. The safe form is: find all tags matching
+  <[a-zA-Z]+[^>]*class="toc-link"[^>]*>, then pull getElementById('X') from
+  each tag. Both false readings were caught before being reported — working
+  convention (d) doing exactly what it exists for.
 - Footer convention (post-standardisation, 8 Jul 2026):
   · Reference docs, profiles (body), philosophy, itinerary: NO footer.
   · Profiles: single-line sources-attribution footer only.
