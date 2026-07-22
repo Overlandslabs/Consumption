@@ -1,6 +1,6 @@
 LC76 OVERLAND REFERENCE LIBRARY — OPEN ITEMS REGISTER
 ═══════════════════════════════════════════════════════════════════════
-Last updated: 22 July 2026 (third update — OI-38 CLOSED) · Maintained by: Neil / Claude
+Last updated: 22 July 2026 (fourth update — OI-38 CLOSURE CORRECTED; OI-39 opened) · Maintained by: Neil / Claude
 Governance file — GitHub + project knowledge. NOT precached; never
 triggers a CACHE bump. Single authoritative list of everything open.
 Convention: every session close updates this file. Closed items move to
@@ -293,10 +293,68 @@ OI-37 Profile data-freshness marker
       marker to the other perishable sections across all ten profiles,
       and maintain at EX-10.
 
+OI-39 Changelog structure divergence across the profile family
+      NEIL (decision) · no deadline · Found 22 Jul 2026
+      OPEN — the ten profiles carry their changelog in TWO different
+      structures. 001–008 use an UNNUMBERED section (id="changelog",
+      sec-num LOG or ✎) rendered as .changelog-entry grid rows. 009
+      Zimbabwe and 010 Kenya carry theirs as the FINAL NUMBERED SECTION
+      (§19 and §20 respectively) rendered as a revision table. Both work
+      and both are now on ISO dates with a 22 Jul entry, so this is a
+      consistency question, not a defect. NOT ACTED ON because
+      harmonising 009/010 to the grid form means removing their changelog
+      from the numbered sequence — a second renumber of two files that
+      were only just renumbered, for a cosmetic gain. Owner to rule:
+      (a) leave both structures and record the divergence as accepted
+      scope; (b) harmonise 009/010 to the unnumbered grid form, accepting
+      the renumber; or (c) harmonise the other way. Recommendation: (a)
+      for now, revisit at EX-10 when the profiles are being reworked
+      anyway and the renumber rides along free.
+      NOTE: a related probe error is recorded at OI-38 — testing for
+      id="changelog" reported these two files as having NO changelog at
+      all, twice, before the section-table form was found.
+
 ═══════════════════════════════════════════════════════════════════════
 CLOSED LOG (most recent first — never delete)
 
-22 Jul 2026  OI-38 CLOSED — profile TOC / IntersectionObserver index
+22 Jul 2026  OI-38 CLOSURE CORRECTED — THE ENTRY BELOW WAS WRONG AND IS
+      SUPERSEDED BY THIS ONE. It is retained rather than deleted because
+      the error is the useful record. WHAT WENT WRONG: the contract was
+      taken to be "sectionIds must mirror the TOC buttons", verified on
+      that basis, and applied family-wide. That is only half the
+      contract. The other half is the TOGGLE EXPRESSION that consumes the
+      pairing, and it was NOT uniform: 001–006 and the template use
+      i===idx, while 007–010 used (i-1)===idx, a convention under which
+      an array that deliberately OMITS the leading Alerts button is
+      CORRECT. CONSEQUENCE: 007 Mozambique, 008 Malawi and 009 Zimbabwe
+      were correct before the "fix" and were BROKEN BY IT — prepending
+      'alerts' to their arrays put every section one button out. Those
+      three files were pushed to the repo in that state. 005 Kalahari
+      (i===idx) was genuinely broken and the fix was right. 010 Kenya was
+      genuinely broken, was never touched, and the original finding holds
+      for it alone. ROOT CAUSE: a family-wide rule asserted from a
+      sample, without reading the code that consumes the data in each
+      file — the same class of error as F65 (a plausible generalisation
+      that reads as authority), and the reason working convention (d)
+      exists. REPAIR (22 Jul, same day): rather than reverting, the
+      convention was NORMALISED — the toggle in 007, 008, 009 and 010
+      changed from (i-1)===idx to i===idx, which makes the already-
+      altered arrays correct AND fixes 010's pre-existing defect. All
+      ELEVEN files (ten profiles + template) verified together on one
+      rule: toggle i===idx, sectionIds identical to the TOC targets in
+      order and length, div/span walks 0/0/0, ids unique, node --check
+      clean. LESSON RECORDED IN THE PI: the contract is array + TOC +
+      TOGGLE, and the toggle must be read per file, never assumed.
+      SAME PASS: changelog discipline applied per owner ruling — every
+      masthead bump now carries a changelog entry, all profiles carry a
+      changelog, dates normalised to ISO. Entries added to 005, 007, 008,
+      009, 010; 010 masthead bumped. Content-currency badges deliberately
+      NOT touched (document-level provenance, standing convention).
+      Structural divergence in changelog form → OI-39. Content-only —
+      CACHE stays v24.
+
+22 Jul 2026  [SUPERSEDED BY THE ENTRY ABOVE — retained as the record of
+      the error] OI-38 CLOSED — profile TOC / IntersectionObserver index
       contract swept across the whole profile family and repaired. The
       highlighter maps sectionIds.indexOf(id) onto tocLinks[i] BY
       POSITION, so the array must mirror the TOC click targets exactly in

@@ -11,6 +11,23 @@ cannot recur; 005 Kalahari scoped OUT (terrain profile, different section
 spine, ground covered by 002/003). Content-only — nothing added, removed
 or renamed, so CACHE STAYS v24. Next free open item OI-39.
 
+OI-38 CLOSURE WAS WRONG AND HAS BEEN CORRECTED — READ THIS BEFORE
+TRUSTING THE PARAGRAPH THAT FOLLOWS IT. The TOC contract was taken to be
+"sectionIds mirrors the TOC buttons" and applied family-wide on that
+basis. That is only half the contract; the other half is the TOGGLE
+EXPRESSION consuming the pairing, and it was NOT uniform. 001–006 and the
+template use i===idx; 007–010 used (i-1)===idx, under which an array that
+deliberately OMITS the leading Alerts button is CORRECT. So 007, 008 and
+009 were right before the "fix" and were BROKEN BY IT, and shipped to the
+repo in that state. 005 was genuinely broken and correctly fixed; 010 was
+genuinely broken and untouched. ROOT CAUSE: a family-wide rule asserted
+from a sample without reading the consuming code per file — the F65 error
+class exactly. REPAIRED the same day by NORMALISING rather than reverting:
+the toggle in 007–010 changed to i===idx, which makes the already-altered
+arrays correct and fixes 010 as well. All eleven files verified together on
+one rule. The paragraph below is the original, over-confident account and
+is retained for the record.
+
 OI-38 OPENED AND CLOSED THE SAME DAY. The TOC/IntersectionObserver index
 contract was swept across all ten profiles plus the template. FOUR files
 were genuinely broken, all on the same 'alerts' mismatch — 007 Mozambique,
@@ -1979,11 +1996,20 @@ DESIGN SYSTEM (mandatory — full spec in LC76_Design_Guidelines.html, now v1.7)
 - TOC navigation: JS scrollIntoView / computed-offset scrollTo (not href
   anchors). Scroll offset must account for full sticky container height.
   IntersectionObserver for active-state highlighting.
-- TOC INDEX CONTRACT (mandatory, adopted 22 Jul 2026 from OI-38). The
-  active-state highlighter maps sectionIds.indexOf(id) onto tocLinks[i] BY
-  POSITION. The sectionIds array must therefore MIRROR the TOC buttons
-  exactly — same entries, same order, same length — including any alerts
-  and changelog entries. A mismatch does not throw; it silently highlights
+- TOC INDEX CONTRACT (mandatory, adopted 22 Jul 2026 from OI-38;
+  CORRECTED the same day after the first version of this rule caused three
+  regressions). THE CONTRACT HAS THREE PARTS, NOT TWO: the sectionIds
+  array, the TOC buttons, AND THE TOGGLE EXPRESSION that compares them.
+  Read the toggle in the file before judging the pairing — do not assume it.
+  Under toggle i===idx the array must mirror the TOC buttons exactly (same
+  entries, same order, same length, including any alerts and changelog
+  entries). Under toggle (i-1)===idx the array must be the TOC list MINUS
+  its leading button, and an array that looks "short" is correct. Both
+  conventions existed in this library and a rule written from one of them
+  broke three files built on the other. STANDARDISED 22 Jul 2026: all ten
+  profiles and the template now use i===idx with a 1:1 array, and any new
+  profile inherits that from the template. If a future file is found on the
+  offset convention, normalise it rather than adjusting the array. A mismatch does not throw; it silently highlights
   the wrong button, so it will never be caught by node --check or a depth
   walk. Two mirror-image failures were found in the profile family: an
   'alerts' id in the array with no button (003), and an "! Alerts" button
@@ -2096,6 +2122,24 @@ WORKING CONVENTIONS
   are heavier to round-trip than markdown/txt — for fast iteration markdown or
   plain txt is the smoother medium; use Word only when the owner prefers the
   editing feel.
+- Changelog discipline (owner ruling, 22 Jul 2026). (a) EVERY masthead
+  "Last updated" bump carries a matching changelog entry — the masthead is
+  the claim, the changelog is the evidence, and a claim without evidence is
+  the defect class the content audit spent five sessions removing. This
+  applies to silent fixes too: "TOC highlighting corrected, no content
+  changed" is a valid entry. (b) Every profile carries a changelog.
+  (c) Changelog dates are ISO (2026-07-22) — sortable and unambiguous.
+  (d) The content-currency badge ("Compiled 7 Jul 2026") is NOT a changelog
+  date and is never normalised or bumped with these edits — it is
+  document-level provenance and has its own convention.
+  STRUCTURAL DIVERGENCE, UNRESOLVED (OI-39): 001–008 carry the changelog as
+  an UNNUMBERED section (id="changelog") with .changelog-entry grid rows;
+  009 and 010 carry it as the FINAL NUMBERED SECTION (§19 / §20) as a
+  revision table. Both are valid and both now satisfy (a)–(c). Harmonising
+  would renumber two files a second time, so it is parked for EX-10.
+  PROBE WARNING: testing for id="changelog" reports 009 and 010 as having
+  NO changelog. They have one. Test for a changelog SECTION by title, not
+  by that id.
 - Masthead migration & the 80k rule: a masthead-only migration is a 3–4
   string anchored str.replace + whole-file validation walk — safe at any file
   size, EXEMPT from the "80k+ = own-session" rule (owner, 7 Jul 2026). The

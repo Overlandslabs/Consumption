@@ -985,12 +985,17 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 
 <div style="margin:14px 0">
   <div class="changelog-entry">
-    <div class="cl-date">21 Jul 2026</div>
+    <div class="cl-date">2026-07-22</div>
+    <div><span class="cl-tag update">Update</span></div>
+    <div class="cl-note"><strong>TOC highlighting contract normalised.</strong> The section-highlighter in this profile used an offset convention (<code>(i-1)===idx</code>) that assumed the sectionIds array deliberately omitted the leading Alerts button. That is now standardised across all ten profiles and the template to a single rule: the array mirrors the TOC buttons exactly, one-to-one and in order, matched with <code>i===idx</code>. Corrects an off-by-one introduced earlier the same day when the array was changed without the toggle. No profile content changed.</div>
+  </div>
+  <div class="changelog-entry">
+    <div class="cl-date">2026-07-21</div>
     <div><span class="cl-tag update">Update</span></div>
     <div class="cl-note"><strong>Cross-reference link repaired.</strong> The R35 security guide was renamed (LC76_Security_Fire_Guide &rarr; LC76_Security_Scams_Guide) when fire safety was split out to the new R42 guide; the security nav pills now point to the new filename. No profile content changed.</div>
   </div>
   <div class="changelog-entry">
-    <div class="cl-date">06 Jul 2026</div>
+    <div class="cl-date">2026-07-06</div>
     <div><span class="cl-tag new">New</span></div>
     <div class="cl-note"><strong>Profile 007 created (EX-4).</strong> Southern Mozambique, coastal focus extended to Beira/Sofala. Includes the new <strong>Parts &amp; Serviceability</strong> section (§06). Web-researched for currency: 2026 ETA rollout, ~MZN 116/L diesel + supply disruptions, compulsory SORCA, EN1/EN6 banditry corridor, CFAO Toyota network, Maputo NP / Bazaruto. Northbound Moz→Malawi leg carried as a forward note (§18) to EX-5 / EX-9.</div>
   </div>
@@ -1118,7 +1123,7 @@ document.addEventListener('DOMContentLoaded', function() {
     entries.forEach(function(e){
       if(e.isIntersecting){
         var idx = sectionIds.indexOf(e.target.id);
-        tocLinks.forEach(function(l,i){ l.classList.toggle('active', (i-1)===idx); });
+        tocLinks.forEach(function(l,i){ l.classList.toggle('active', i === idx); });
       }
     });
   }, { rootMargin:'-20% 0px -70% 0px' });

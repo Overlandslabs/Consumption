@@ -992,12 +992,17 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 
 <div style="margin:14px 0">
   <div class="changelog-entry">
-    <div class="cl-date">21 Jul 2026</div>
+    <div class="cl-date">2026-07-22</div>
+    <div><span class="cl-tag update">Update</span></div>
+    <div class="cl-note"><strong>TOC highlighting contract normalised.</strong> The section-highlighter in this profile used an offset convention (<code>(i-1)===idx</code>) that assumed the sectionIds array deliberately omitted the leading Alerts button. That is now standardised across all ten profiles and the template to a single rule: the array mirrors the TOC buttons exactly, one-to-one and in order, matched with <code>i===idx</code>. Corrects an off-by-one introduced earlier the same day when the array was changed without the toggle. No profile content changed.</div>
+  </div>
+  <div class="changelog-entry">
+    <div class="cl-date">2026-07-21</div>
     <div><span class="cl-tag update">Update</span></div>
     <div class="cl-note"><strong>Cross-reference link repaired.</strong> The R35 security guide was renamed (LC76_Security_Fire_Guide &rarr; LC76_Security_Scams_Guide) when fire safety was split out to the new R42 guide; the security nav pills now point to the new filename. No profile content changed.</div>
   </div>
   <div class="changelog-entry">
-    <div class="cl-date">06 Jul 2026</div>
+    <div class="cl-date">2026-07-06</div>
     <div><span class="cl-tag new">New</span></div>
     <div class="cl-note"><strong>Profile 008 created (EX-5).</strong> Whole-country Malawi, Lake Malawi shore as the spine (N/C/S), built on the 007 v1.5 scaffold with the §06 Parts &amp; Serviceability section. Web-researched for currency: 2026 fuel/forex crisis (~MWK 6,687/L diesel, chronic shortages), 3 Jan 2026 reciprocity visa regime, COMESA-valid insurance + road-access tax, Lake Malawi bilharzia, CFAO Toyota network, African Parks reserves. Both Moz entries covered evenly (Mwanza/Zóbuè + Dedza, and Chiponde/Mandimba); onward Tanzania/Zambia exits as forward notes (§18) to 006 / 004 / EX-9.</div>
   </div>
@@ -1111,7 +1116,7 @@ document.addEventListener('DOMContentLoaded', function() {
     entries.forEach(function(e){
       if(e.isIntersecting){
         var idx = sectionIds.indexOf(e.target.id);
-        tocLinks.forEach(function(l,i){ l.classList.toggle('active', (i-1)===idx); });
+        tocLinks.forEach(function(l,i){ l.classList.toggle('active', i === idx); });
       }
     });
   }, { rootMargin:'-20% 0px -70% 0px' });
