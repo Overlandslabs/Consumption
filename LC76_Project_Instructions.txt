@@ -44,7 +44,8 @@ D 6 · E 3. Item TEXT was not edited, only its filing: blocks were
 extracted verbatim and reassembled under assertions that nothing was
 filed twice, that filed-plus-retired equalled the original 33, and that
 every retained block appeared in the output exactly once byte-for-byte.
-No OI number consumed; next free remains OI-45. Working papers
+No OI number consumed by the re-file itself; OI-45 was then opened for
+RA-4 (below), so next free is OI-46. Working papers
 deliberately NOT touched — governance-only housekeeping with no EX or RA
 status change, same class as the 21 Jul index restructure.
 SECOND SELF-AUDIT CATCH IN THE SAME PASS, AND THE MORE IMPORTANT ONE:
@@ -62,10 +63,24 @@ Governance .txt files are edited by splice as often as the HTML is, and
 they currently have no structural gate at all. Worth adding one: assert
 each section header appears exactly once and that item IDs are unique,
 whenever the OIR or Facts is spliced. NOTED FOR THE
-OWNER: RA-4 (rotating-electrics redundancy) is the one readiness action
-with no open item of its own — it rides inside EX-8's scope while every
-other RA carries its own OI number. That asymmetry may be deliberate, but
-it is the kind that hides work.
+OWNER, AND CORRECTED: the first version of this note said RA-4 was "the
+one" readiness action with no open item of its own. WRONG — RA-8 was in
+the same position. The error came from checking item TITLES rather than
+item bodies, the same shortcut that produced the character-count error
+recorded above, and it was caught the same way, by checking. BOTH ARE NOW
+RESOLVED, and the difference between them decided the treatment. RA-8 is
+welded to the Karoo post-trip review, a dated event weeks away, so it
+surfaces on its own — it stays inside OI-13, which was retitled "R23
+post-trip review + RA-8" so that a scan finds it. RA-4 rode inside EX-8,
+which carries NO trigger date, and an action parked inside an undated
+workstream is invisible until that workstream runs: if EX-8 slips, RA-4
+slips silently with it. It was given OI-45 and filed under DECISIONS, not
+actions, because the first question is a genuine owner ruling — complete
+spare alternator versus brush/regulator plus starter kit, a trade-off in
+weight, cost and field skill, and payload-coupled to RA-1. It is also the
+designated chain-breaker for R41 cascade C1, which is why it earns
+visibility disproportionate to its cost. On ruling it moves to section A
+and its parts lines land in the R3 ledger via EX-8.
 
 SELF-AUDIT CATCH, DISCLOSED. The first draft of the OIR closing entry
 quoted R1 and R16 end-of-edit character counts of 33,392 and 54,930.
@@ -190,7 +205,7 @@ the emergency-numbers row already carries three live exceptions (R10
 pending Session 3, R1 at OI-41, R16 at OI-44), which is the register
 doing its job: making a seam visible as a list instead of leaving it to
 memory. Content-only throughout — CACHE STAYS v24. Next free open item
-OI-45. NOTHING REMAINS FROM THIS PROGRAMME — OI-41 and OI-44 were both
+OI-46. NOTHING REMAINS FROM THIS PROGRAMME — OI-41 and OI-44 were both
 closed on 24 Jul in a single session, deliberately together, because
 they were the same fact reaching the last two documents that carry it
 and splitting them would have recreated the very seam the Controlled
@@ -1978,7 +1993,7 @@ Audit, governance & data (internal — not field-reference, not precached):
                                          remediated in-session. Governance file —
                                          index-linked, NOT precached, no CACHE bump.
   LC76_Open_Items_Register.txt           SINGLE authoritative open-items tracker
-                                         (OI-1…OI-44 + CLOSED LOG + Controlled
+                                         (OI-1…OI-45 + CLOSED LOG + Controlled
                                          Duplication Register). Governance
                                          file — GitHub + project knowledge; NOT
                                          precached, NEVER triggers a CACHE bump.
@@ -2467,6 +2482,42 @@ WORKING CONVENTIONS
   generic terms ("the workshop," "a diesel/turbo workshop"). Historical
   service records may retain supplier names. Dirk Du Plessis / Dup Diesel
   is no longer the preferred turbo/fuel-system workshop.
+- Roll-forward reconciliation on governance files (standing, adopted
+  24 Jul 2026). The validation pipeline was built from HTML defects and is
+  made of HTML instruments; the governance .txt files — the Open Items
+  Register, Facts, the Library Register, this file — are spliced by the
+  same str.replace technique and had NO structural gate at all. A
+  duplicated "CLOSED LOG" header survived two commits because depth walks
+  and node --check cannot see it. The fix is deliberately NOT a checklist:
+  a checklist only catches the failure modes someone anticipated, and
+  nobody anticipated that one. Instead, reconcile the file the way a
+  ledger is reconciled — opening balance, declared movements, closing
+  balance, and anything unexplained is a finding.
+  METHOD: before editing, snapshot the file's structural invariants; state
+  the intended delta; recompute after; assert the difference equals
+  exactly what was declared. For the OIR the invariants are the multiset
+  of section headers, the set of OI IDs with the section each occupies,
+  the count of structural headers, and the closed-log entry count. For
+  Facts: section numbers unique and sequential, plus the authoritative
+  figures (odometer, GVM, kerb, payload) extracted before and after — an
+  UNDECLARED change to a payload figure is exactly what should trip an
+  alarm while those figures remain PROVISIONAL.
+  CROSS-FILE CHECK, run at session close: assert this file's "next free"
+  number equals the register's maximum OI plus one. MEASURE ITEM
+  DEFINITIONS, NOT MENTIONS — match line-start "OI-nn" followed by a
+  title, because closed-log prose routinely names numbers ("next free is
+  now OI-46") and a naive scan reads those as items and reports a false
+  failure. This probe did exactly that on its first run, 24 Jul 2026, and
+  the file was correct. Same class as the id="changelog" probe error at
+  OI-38: when a probe disagrees with the file, suspect the probe first. Two sessions both
+  believing the same number is free is a collision no single-file gate can
+  see.
+  LIMITATION, STATED SO THE GATE DOES NOT CREATE FALSE COMFORT: this
+  catches SHAPE, NOT TRUTH. A well-formed entry containing an invented
+  number passes every one of these assertions. The character-count error
+  of 24 Jul was caught by working convention (d), verify-before-you-report,
+  and not by any structural gate. They are different controls doing
+  different jobs and neither substitutes for the other.
 - Encode before you truncate (standing, adopted 24 Jul 2026, from a live
   defect). Never write an edited file with open(path,'w') — that truncates
   the target the instant it is called, so any later failure (a bad encode, a
