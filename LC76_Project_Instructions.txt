@@ -1,13 +1,59 @@
 LC76 OVERLAND REFERENCE LIBRARY — PROJECT INSTRUCTIONS
 ═════════════════════════════════════════════════════════════════
 
-Last updated: 24 July 2026, thirteenth session (EMERGENCY DOCTRINE &
-INSURANCE RESTRUCTURE — SESSION 2 OF 3 EXECUTED; M1b UN-BLOCKED
-MID-SESSION). The 23 Jul handover pack's Session 2 is DONE: R29 gained
-the emergency-number correction (M1a), the Vehicle Asset Cover part (M2)
-and the medical-layer decoupling doctrine (M3). Session 3 (R10) remains
-chartered and unexecuted — run it in its own chat, after this commit,
-per the ownership-first sequence: R29 owns the stack, R10 delegates to it.
+Last updated: 24 July 2026, fourteenth session (EMERGENCY DOCTRINE &
+INSURANCE RESTRUCTURE — PROGRAMME COMPLETE; SESSIONS 2 AND 3 BOTH
+EXECUTED). The 23 Jul handover pack is fully discharged. Session 2:
+R29 gained the emergency-number correction (M1a + M1b), §13 Vehicle
+Asset Cover (M2) and the medical-layer decoupling doctrine (M3).
+Session 3: R10 gained the corrected numbers and the drill content (M4)
+— an ownership note, THE HANDOVER five-item call script, and the
+call-first-argue-cover-later doctrine. Run in the correct order,
+owner first: R29 owns the stack, R10 delegates to it.
+
+R10 §9 NOW CARRIES THE CALL SCRIPT, which is the single highest-value
+thing added in either session. Five items, invariant order: who is
+calling plus the callback number · what has happened in ONE sentence ·
+exact position read aloud off the InReach and confirmed back · casualty
+count and condition · what is being requested, said explicitly. It
+exists because under stress people narrate instead of reporting and
+forget the coordinates. Alongside it, CALL FIRST, ARGUE COVER LATER,
+with the reasoning written down rather than asserted: the failure mode
+is a careful person behaving carefully — a prudent operator wants to
+confirm entitlement before committing to a cost, and every minute spent
+confirming it is a minute the casualty does not have. Entitlement is
+recoverable after the fact; physiology is not. R10 points at the R29 §6
+four-layer model rather than restating it — one-owner rule upheld.
+
+THE CONTROLLED DUPLICATION REGISTER HAD ITS FIRST LIVE USE AND WORKED.
+Its emergency-numbers row names four delegating documents; all four were
+visited or explicitly deferred, none left to memory. R10 aligned this
+session; R1 deferred to OI-41 (it carries no numbers at all); R16
+deferred to OI-44 (it carries a conflicting, unprovenanced one); R38
+SWEPT AND VERIFIED to carry zero emergency numbers and zero provider
+names, so it correctly needs no edit. That last one matters as method:
+the register named R38, the sweep checked it, and "no change needed" is
+a finding that was proved rather than assumed.
+
+PROCESS DEFECT DISCLOSED — AND THE PATTERN CHANGED BECAUSE OF IT. An
+emoji written as a lone surrogate pair threw on encode AFTER
+open(...,'w') had already truncated the target file to ZERO BYTES. No
+data was lost: R10 was restored from the pinned SHA in a single fetch,
+which is precisely what the SHA-pinning discipline exists for. The edit
+pattern is now hardened and this is a STANDING CHANGE — encode the
+string FIRST, then write binary, so a bad encode can never again destroy
+the target before it fails. A validation gate that runs after the write
+cannot protect a file the write itself has emptied.
+
+COMMIT-STATE VERIFICATION IS NOW PART OF RE-PINNING. Between the two
+sessions the owner reported the Session 2 files as committed; a
+cache-busted check of the raw main-branch copy showed they were NOT yet
+landed — same byte count as the original, none of the four expected
+markers present. The session waited rather than editing against a stale
+HEAD, and on the second report the landing was verified file by file
+before any edit. Recorded because "committed" is a claim like any other
+and the cost of believing it wrongly is an edit built on the wrong
+base.
 
 M1b WAS EXECUTED, NOT DEFERRED. The pack blocked M1b on OI-40 because
 inventing an international equivalent for a 6-digit SA short code is a
@@ -72,7 +118,10 @@ the emergency-numbers row already carries three live exceptions (R10
 pending Session 3, R1 at OI-41, R16 at OI-44), which is the register
 doing its job: making a seam visible as a list instead of leaving it to
 memory. Content-only throughout — CACHE STAYS v24. Next free open item
-OI-45.
+OI-45. REMAINING FROM THIS PROGRAMME: OI-41 (R1 emergency-number card)
+and OI-44 (R16 conflicting number) — both un-gated, both small, and they
+belong in ONE session together since they are the same fact reaching the
+last two documents that carry it.
 
 PRIOR (22 July 2026, twelfth session) (OI-36 + OI-37 BUILT — BOTH
 SESSIONS EXECUTED IN ONE SITTING; RATIFICATION R3 REVERSED ON EVIDENCE).
@@ -1638,10 +1687,17 @@ next free number is R43):
   R9   LC76_Vehicle_Recovery_Guide.html      Vehicle recovery (winch electrical
                                              doctrine added 21 Jul 2026 —
                                              crank-direct, engine at fast idle)
-  R10  LC76_Emergency_Procedures_Guide.html  Emergency procedures (§3 fire drill
-                                             rewritten 21 Jul 2026 to R42-
+  R10  LC76_Emergency_Procedures_Guide.html  Emergency procedures. OWNS THE DRILL;
+                                             R29 owns the cover stack. (§3 fire
+                                             drill rewritten 21 Jul 2026 to R42-
                                              consistent doctrine — M-series,
-                                             no crank isolator, LiFePO4 water)
+                                             no crank isolator, LiFePO4 water.
+                                             §9 gained 24 Jul 2026: ownership
+                                             note, THE HANDOVER five-item call
+                                             script, call-first-argue-cover-later
+                                             doctrine, and the satellite-dialable
+                                             medevac numbers as a controlled copy
+                                             of the R29 §6 master set)
   R11  LC76_Packing_Optimisation_Guide.html  Packing optimisation
   R12  LC76_Water_Management_Guide.html      Water management
   R13  LC76_Drivetrain_Training_Guide.html   Drivetrain training
@@ -2325,6 +2381,15 @@ WORKING CONVENTIONS
   generic terms ("the workshop," "a diesel/turbo workshop"). Historical
   service records may retain supplier names. Dirk Du Plessis / Dup Diesel
   is no longer the preferred turbo/fuel-system workshop.
+- Encode before you truncate (standing, adopted 24 Jul 2026, from a live
+  defect). Never write an edited file with open(path,'w') — that truncates
+  the target the instant it is called, so any later failure (a bad encode, a
+  lone surrogate in an emoji, an exception mid-write) destroys the file
+  before a single validation gate has run. Encode the full string to bytes
+  FIRST, confirm that succeeded, then write binary. The validation pipeline
+  runs after the write and therefore cannot protect against this class at
+  all; only the write pattern can. Recovery is a single SHA-pinned fetch,
+  which is one more reason pinning is not optional.
 - Emergency number format (standing, adopted 23 Jul 2026, first applied
   24 Jul). Every emergency or assistance number in the library is stored and
   printed in FULL INTERNATIONAL FORMAT (+country code). Where only a national
