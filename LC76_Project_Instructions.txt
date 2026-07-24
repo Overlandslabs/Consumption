@@ -1,7 +1,60 @@
 LC76 OVERLAND REFERENCE LIBRARY — PROJECT INSTRUCTIONS
 ═════════════════════════════════════════════════════════════════
 
-Last updated: 24 July 2026, fifteenth session (EMERGENCY DOCTRINE &
+Last updated: 24 July 2026, sixteenth session (RA-4 RULED — NO SPARE
+ALTERNATOR CARRIED; PROPAGATED THROUGH FOUR OWNING DOCUMENTS).
+OWNER RULING: a complete spare alternator will NOT be carried. Recorded
+rationale — the 70-Series alternator is a commonly available part along
+the route, the unit is heavy and expensive, and payload stays PROVISIONAL
+until RA-1. Carried redundancy is the brush/regulator kit, the starter
+contact/solenoid kit and a spare V-belt set, with a replacement sourced
+en route. OI-45 CLOSED; OI-46 opened; next free is OI-47.
+
+WHAT THE RULING ACTUALLY CHANGES, written down because it is not
+obvious from the ruling itself: the alternator is the crank battery's
+ONLY charge source. Solar charges the house bank. Shore power through the
+MultiPlus charges the house bank. The Orion is one-way, crank to house.
+Starting off the LiFePO4 is prohibited — no paralleling path, house
+wiring not rated for cranking current, BMS will not tolerate the draw. So
+when the alternator fails, every charging path into the Willard fails
+with it, and the ARB jump pack stops being a convenience and becomes the
+only thing between the crew and an immobile vehicle. That is now doctrine
+in R32, and it is why OI-46 asks a cheap question with a large
+consequence: can the jump pack itself be recharged in the field off the
+house bank? If yes, the survival chain is solar → house → pack → crank
+and it must be written down. If no, the ruling leaves a hole.
+
+R41 C1 REWRITTEN AND A CONTRADICTION REMOVED. The cascade's chain-breaker
+moved from "swap the unit" to "detect early, limp somewhere recoverable,
+source en route", which promotes the R32 §8 checks — especially AC ripple
+for a failing diode pack — from routine to load-bearing, and records that
+the kit does NOT fix a diode pack. Separately, C1 had carried "Emergency
+bridge: the house bank can jump the crank side in extremis", which
+DIRECTLY CONTRADICTED R32's explicit prohibition. Two documents
+disagreeing on a life-of-the-vehicle procedure. Removed; R41 points at
+R32 as owner.
+
+R31 CORRECTED — THE LIBRARY HAD BEEN ASSERTING A SPARE THAT DOES NOT
+EXIST. Its alternator row stated "the refurbished stock unit also serves
+as the field spare". That was a leftover from the REJECTED high-output
+alternator case: declining the upgrade means there was never a displaced
+unit. The claim sat in one document and was propagated nowhere — not to
+R3, which is where a carried spare belongs, not to Facts, not to R32.
+Exactly the marooned-fact pattern the content audit named. R3 gained item
+4.7 Alternator Brush & Regulator Kit; belts (1.3) and the starter
+solenoid (4.6) were already carried.
+
+PROCESS DEFECT DISCLOSED. An edit script re-run after two partial anchor
+failures applied the R32 insertion TWICE. The assert count==1 guard could
+not catch it because the anchor survived inside its own replacement, so
+the guard passed on every run. Detected by a post-edit count, R32
+restored from the pinned SHA and re-applied once. STANDING LESSON:
+assert count==1 protects the ANCHOR, not IDEMPOTENCE. Any script that
+might be re-run must also assert the NEW content is ABSENT before
+writing. This is the same lesson as encode-before-truncate — the failure
+was in the edit pattern, not in the validation that follows it.
+
+PRIOR (24 July 2026, fifteenth session — EMERGENCY DOCTRINE &
 INSURANCE RESTRUCTURE — PROGRAMME COMPLETE AND FULLY PROPAGATED;
 OI-41 AND OI-44 CLOSED). The emergency-number propagation list is now
 CLEAN END TO END: R29 §6 owns the master set, R10 §9 is aligned, R1
@@ -45,7 +98,7 @@ extracted verbatim and reassembled under assertions that nothing was
 filed twice, that filed-plus-retired equalled the original 33, and that
 every retained block appeared in the output exactly once byte-for-byte.
 No OI number consumed by the re-file itself; OI-45 was then opened for
-RA-4 (below), so next free is OI-46. Working papers
+RA-4 (below), so next free is OI-47. Working papers
 deliberately NOT touched — governance-only housekeeping with no EX or RA
 status change, same class as the 21 Jul index restructure.
 SECOND SELF-AUDIT CATCH IN THE SAME PASS, AND THE MORE IMPORTANT ONE:
@@ -1993,7 +2046,7 @@ Audit, governance & data (internal — not field-reference, not precached):
                                          remediated in-session. Governance file —
                                          index-linked, NOT precached, no CACHE bump.
   LC76_Open_Items_Register.txt           SINGLE authoritative open-items tracker
-                                         (OI-1…OI-45 + CLOSED LOG + Controlled
+                                         (OI-1…OI-46 + CLOSED LOG + Controlled
                                          Duplication Register). Governance
                                          file — GitHub + project knowledge; NOT
                                          precached, NEVER triggers a CACHE bump.
@@ -2113,8 +2166,14 @@ working-papers EX_Register and the Open Items Register:
         2026 (Gate 1 = A). Belt Apr 2025 @ 273,023 km, full kit; interval falls
         ~373,000 km mid-expedition. Replace ~T-3 months; carry removed belt as
         emergency spare; combine valve-clearance re-check. [OI-21]
-  RA-4  Rotating-electrics redundancy: spare alternator (or brush/regulator
-        kit), starter contact/solenoid kit, belt set → R3 ledger (EX-8).
+  RA-4  Rotating-electrics redundancy — RULED 24 Jul 2026: NO complete
+        spare alternator is carried (70-Series alternator is commonly
+        available on the route; the unit is heavy and expensive; payload
+        PROVISIONAL until RA-1). Carried: alternator brush/regulator kit
+        (R3 item 4.7), starter contact/solenoid kit (R3 4.6), spare V-belt
+        set (R3 1.3). Replacement sourced en route. Consequence doctrine
+        R32; cascade R41 C1; ledger lines EX-8. [OI-45 CLOSED; OI-46 open
+        — confirm the jump pack can be recharged in the field]
   RA-5  Cooling hardware condition assessment: radiator core, viscous fan
         hub, hoses — replace on condition before departure. [OI-6]
   RA-6  Medical readiness: wilderness first aid course incl. trauma +
@@ -2518,6 +2577,17 @@ WORKING CONVENTIONS
   of 24 Jul was caught by working convention (d), verify-before-you-report,
   and not by any structural gate. They are different controls doing
   different jobs and neither substitutes for the other.
+- Idempotence, not just anchors (standing, adopted 24 Jul 2026, from a live
+  defect). `assert count == 1` proves the ANCHOR is unique; it proves
+  nothing about whether the edit has already been applied. When a
+  replacement CONTAINS its own anchor — the common case for "keep the old
+  block and add a new one after it" — the guard passes on every re-run and
+  silently duplicates the insertion. This happened on R32 on 24 Jul: a
+  script re-run after two unrelated anchor failures applied the same block
+  twice. Any script that might be re-run must ALSO assert that a
+  distinctive string from the NEW content is ABSENT before writing, and a
+  post-edit count of that string should be 1. Recovery is a SHA-pinned
+  re-fetch and a single clean application.
 - Encode before you truncate (standing, adopted 24 Jul 2026, from a live
   defect). Never write an edited file with open(path,'w') — that truncates
   the target the instant it is called, so any later failure (a bad encode, a

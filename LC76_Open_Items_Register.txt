@@ -1,6 +1,6 @@
 LC76 OVERLAND REFERENCE LIBRARY — OPEN ITEMS REGISTER
 ═══════════════════════════════════════════════════════════════════════
-Last updated: 24 July 2026 (tenth update — OI-45 opened for RA-4; every readiness action is now discoverable by scanning) · Maintained by: Neil / Claude
+Last updated: 24 July 2026 (eleventh update — RA-4 RULED and OI-45 CLOSED; OI-46 opened) · Maintained by: Neil / Claude
 Governance file — GitHub + project knowledge. NOT precached; never
 triggers a CACHE bump. Single authoritative list of everything open.
 Convention: every session close updates this file. Closed items move to
@@ -227,6 +227,27 @@ OI-42 Repo hygiene — TWO byte-identical orphan governance duplicates
       where that would do the most damage. Same class as the OI-32
       orphans. Owner action: git rm both space-named files.
 
+OI-46 Confirm how the ARB jump pack is recharged in the field
+      NEIL (verify) · before departure · Opened 24 Jul 2026, from the RA-4 ruling
+      OPEN — With no spare alternator carried (RA-4 ruled 24 Jul 2026), the
+      ARB lithium jump pack is promoted from convenience to CRITICAL PATH.
+      R32 is explicit that the alternator is the crank battery's only
+      charge source: solar and shore power both serve the house bank, the
+      Orion is one-way crank->house, and starting off the LiFePO4 is
+      prohibited. So after an alternator failure the jump pack is the only
+      way the engine starts, for as long as it takes to reach a
+      replacement.
+      THE QUESTION: can the pack itself be recharged in the field from the
+      house bank — 12 V socket or mains via the MultiPlus — and how long
+      does it take? If YES, the survival chain is solar -> house bank ->
+      jump pack -> crank, and that chain must be written into R32 as
+      doctrine, because at present nobody has stated it anywhere. If NO,
+      the ruling leaves a hole that has to be filled another way (a small
+      standalone crank maintainer, a second pack, or reinstating the spare
+      alternator decision).
+      Cheap to answer: read the pack's manual and test it once. Record the
+      method and the recharge time in R32.
+
 ▌D. DECISIONS PENDING (owner rulings)
 
 OI-18 Satellite voice phone purchase (IsatPhone 2 recommended) — on
@@ -286,34 +307,6 @@ OI-39 Changelog structure divergence across the profile family
       id="changelog" reported these two files as having NO changelog at
       all, twice, before the section-table form was found.
 
-OI-45 RA-4 Rotating-electrics redundancy — spare alternator or kit?
-      NEIL (ruling) · before the EX-8 ledger build · Opened 24 Jul 2026
-      OPEN — RA-4 is the last readiness action without its own entry. It
-      has been riding inside OI-11 (EX-8) since it was chartered on
-      8 Jul 2026, and an action parked inside an UNDATED workstream is
-      invisible until that workstream runs: if EX-8 slips, RA-4 slips
-      silently with it. Every other RA carries its own number; the
-      asymmetry was the risk, not the content.
-      THE RULING NEEDED IS A GENUINE TRADE-OFF, which is why this sits in
-      DECISIONS and not in owner-gated actions: carry a complete spare
-      alternator, or a brush-and-regulator kit plus a starter contact /
-      solenoid kit. The complete unit is a swap almost anyone can do at
-      the roadside but is heavy, expensive, and competes directly for
-      payload that is still PROVISIONAL until RA-1 is weighed. The kit is
-      a fraction of the weight and cost but assumes the failure is in the
-      part the kit replaces, and assumes the crew will rebuild rotating
-      electrics in the field. A belt set is carried either way and is not
-      part of the ruling.
-      WHY IT MATTERS MORE THAN ITS COST SUGGESTS: the alternator is the
-      head of failure cascade C1 in R41 — lose charging and the sequence
-      runs to the crank battery, then the fridge and the house bank, then
-      comms, and it starts a clock measured in hours. RA-4 is the
-      designated chain-breaker for that cascade. R32 covers the
-      alternator-only crank charging regime this depends on; R26 owns the
-      wiring.
-      ON RULING: the item moves to section A as procurement and stowage,
-      the parts lines land in the R3 ledger via EX-8 (OI-11), and the
-      weight goes into the payload budget behind RA-1.
 
 ▌E. STANDING / RECURRING
 
@@ -379,6 +372,39 @@ weakness is its seams; this is the control aimed directly at them.
 
 ════════════════════════════════════════════════════════════════════════
 CLOSED LOG (most recent first — never delete)
+
+24 Jul 2026  RA-4 RULED — OI-45 CLOSED, OI-46 OPENED. OWNER RULING:
+      a complete spare alternator will NOT be carried. Rationale on the
+      record: the 70-Series alternator is a commonly available part along
+      the route, the unit is heavy and expensive, and payload remains
+      PROVISIONAL until RA-1. Carried redundancy is the brush/regulator
+      kit, the starter contact/solenoid kit and a spare V-belt set, with a
+      replacement alternator sourced en route if needed.
+      PROPAGATED SAME SESSION, owner document first. R32 (owns crank-
+      battery doctrine) gained an expedition-consequence rule box stating
+      plainly what the ruling means: the alternator is the crank battery's
+      ONLY charge source, so when it fails every charging path into the
+      Willard fails with it, and the ARB jump pack becomes the only thing
+      between the crew and an immobile vehicle. R41 C1 chain-breaker
+      rewritten from "swap the unit" to "detect early, limp somewhere
+      recoverable, source en route", which promotes the R32 §8 checks —
+      especially AC ripple for a failing diode pack — from routine to
+      load-bearing, and notes that the kit does NOT fix a diode pack.
+      R31 corrected: its claim that "the refurbished stock unit also
+      serves as the field spare" was a leftover from the REJECTED
+      high-output alternator case — declining that upgrade means there was
+      never a displaced unit, so the library had been asserting a spare
+      that does not exist, in one document, propagated nowhere. R3 gained
+      item 4.7 Alternator Brush & Regulator Kit (belts 1.3 and starter
+      solenoid 4.6 were already carried).
+      DEFECT FOUND AND FIXED IN THE SAME PASS: R41 C1 had carried
+      "Emergency bridge: the house bank can jump the crank side in
+      extremis", which DIRECTLY CONTRADICTS R32's explicit prohibition on
+      starting off the LiFePO4 (no paralleling path, house wiring not
+      rated for cranking current, BMS will not tolerate the draw). A
+      contradiction between two documents on a life-of-the-vehicle
+      procedure. Removed; R41 now points at R32 as the owner.
+      CLOSED.
 
 24 Jul 2026  OI-45 OPENED (RA-4) AND OI-13 RETITLED — closing a
       discoverability gap in the readiness programme rather than a defect
