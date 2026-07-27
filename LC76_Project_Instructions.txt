@@ -1,7 +1,139 @@
 LC76 OVERLAND REFERENCE LIBRARY — PROJECT INSTRUCTIONS
 ═════════════════════════════════════════════════════════════════
 
-Last updated: 25 July 2026, seventeenth session (EMERGENCY-NUMBER
+Last updated: 26 July 2026, eighteenth session (LiFePO4 CALCULATOR GAINS
+THE MULTI-DAY STAY BLOCK; DAILY-LOAD FIGURE SUPERSEDED 77 → 65.3 Ah/day
+ACROSS R5/R7/CALCULATOR; CALCULATOR DC-DC SPEC CORRECTED 30A → 40A;
+OI-48 OPENED AND CLOSED SAME DAY; next free OI-49).
+
+SESSION ORIGIN — AN EXTERNAL VIDEO USED AS AN AUDIT INSTRUMENT. The owner
+brought an Overland Workshop (Aspyr) video on electrical-system design and
+asked how it sat against the library. Claude cannot watch video; the owner
+supplied the transcript, which is the correct division of labour. The
+video's central claim — that a lithium bank connected to an alternator
+WITHOUT a DC-DC charger can draw enough current to burn the alternator out
+— independently corroborates the rationale for the Orion ~40 A cap
+(R7/R26). Graded V. On the 1HZ, whose alternator is smaller than the
+120–180 A European units the presenter cites, the cap matters MORE, not
+less. His alternator-upgrade suggestion is a path R31 already rejected and
+RA-4 ruled on (24 Jul, no spare carried). His solar pessimism is NOT
+imported: it comes from a 400 Ah mission with Starlink and an electric
+oven, which is not ours.
+
+WHAT THE VIDEO EXPOSED was not a doctrine error but a GAP: the library
+modelled a single day well and a multi-day STAY not at all. R7's "~2.2 days
+wild-camp autonomy" is a ZERO-INPUT floor — it ignores solar entirely — so
+it badly understates a real stationary stay with the blanket out, and it
+was the only multi-day number in the library. The owner's question ("if we
+stay 3 days, or 5, what do we need to do?") had no tool that answered it.
+
+MULTI-DAY STAY BLOCK BUILT (LiFePO4 Calculator). Four inputs — days at stop
+1–14 · arrival SOC · sun scenario (good 5.5 h / average 4.0 h / poor 2.5 h
+peak-sun-hours) · recharge-drive length (default 3 h). Outputs — Energy In
+/ Out / Net triptych, a day-by-day SOC projection table with green/amber/
+red banding, and a verdict naming how many recharge drives a stay needs and
+on which days. OWNER-RATIFIED MODEL: stationary days are solar-only (engine
+off, so no alternator term); a recharge drive fires ONLY on a day the bank
+would otherwise breach the 20% floor — the owner's "drive only when needed"
+doctrine, NOT a fixed every-N-days cadence. The SOC trajectory carries no
+loss factor, matching the existing single-day maths so the two cannot
+disagree.
+
+HYBRID CHOSEN OVER A STANDALONE REPORT, AND THE REASON IS THE SEAM RULE.
+The owner supplied the RETIRED R6 Battery Longevity Report as the visual
+reference and asked for "something like this". R6 was a standalone static
+report; rebuilding that shape would have added a file (CACHE bump, index,
+register, R30, a new R-number) AND created a SECOND OWNER of a calculation
+the LiFePO4 Calculator already owns — the exact structural weakness the
+content-audit programme spent five sessions closing. The block therefore
+EXTENDS the calculator, borrowing R6's In/Out/Net card presentation and
+NONE of its figures (R6 is 200/300 Ah bank, 80/110 A alternator, 30 A Orion
+era — every number in it is superseded).
+
+DAILY-LOAD FIGURE SUPERSEDED — 77 → 65.3 Ah/day (OI-48, opened and closed
+same day). Found by SIMULATING the new block against the calculator's own
+lc76 load preset, which summed to 65.3 while R7's headline said 77 and R7's
+own autonomy figure implied ~69. Three numbers for one fact. THE DIAGNOSIS
+IS THE INTERESTING PART: the breakdowns were right and the headline was
+wrong. R5's itemised table AND the calculator's reference-load callout both
+already summed to 65.3 — the "77" total sat on top of correct component
+lists in two separate files and had never been reconciled to them. OWNER
+RULING: 65.3 authoritative, no Starlink carried. All corrections move in
+the FAVOURABLE direction — longer autonomy, lower DoD, break-even solar in
+full sun, longer battery life.
+
+TWO MODEL ARTIFACTS DELIBERATELY NOT RE-DERIVED (owner-agreed), because
+recomputing them would have meant inventing numbers: (a) R7's capacity-fade
+curve was modelled at the higher DoD, so at 31% it is now CONSERVATIVE —
+real retention should meet or exceed it. A basis note saying exactly that
+was added to R7; the curve was NOT recomputed, because a replacement needs
+Enertec DoD-vs-cycle-life data and an invented curve reads as authority it
+has not earned (F65 class). (b) R5's day-by-day autonomy table runs on a
+deliberately conservative ~41 Ah/day net (shade, dust, winter sun) DECOUPLED
+from the headline load, so it stays valid; a one-line pointer to the
+Multi-day Stay block was added so a reader does not mistake the two
+readings for a contradiction.
+
+THE SWEEP EARNED ITS PLACE — STANDING LESSON. The planned anchor list
+covered 18 instances of "77"; a post-edit corpus sweep found FIVE MORE,
+including R5's load-breakdown TABLE TOTAL. Had the session stopped at the
+planned edits, R5 would have carried a 65.3 headline above a table still
+totalling 77. The instances you LIST are not the instances that EXIST; the
+sweep is not optional and must run wider than the change spec. TWO GUARDS
+FIRED AND BOTH WERE CORRECT: "~2.2 days" appeared TWICE in R7 (§1 spec
+table and §4 summary) and the count==1 assert refused a blind replace —
+disambiguated by row context, both changed deliberately; and the calculator
+spec-strip assert refused because the target string is split across <span>
+tags, i.e. the flattened-text search had misread the markup. Neither
+failure became a no-op dressed as success.
+
+SEPARATE PRE-EXISTING DEFECT FIXED IN THE SAME PASS: the calculator masthead
+spec strip read "DC–DC: 30A Orion" while the tool's own slider defaults to
+40 A and Facts specifies the Orion Smart 12/12-50A capped ~40 A. Corrected
+to 40 A. Unrelated to the load question — found only because the stale
+sweep ran wide. No OI consumed: a spec contradiction against Facts is a
+defect, not a decision.
+
+GOVERNANCE-DELIVERABLE DEFECT, DISCLOSED — AND THE RULE IT RESTORES. This
+session first delivered the PI and OIR updates as PATCH DOCUMENTS
+(PI_UPDATE / OIR_UPDATE .txt) describing edits for the owner to apply by
+hand, on the reasoning that regenerating a large governance file risks
+silent drift. The owner correctly challenged it: a patch file committed to
+the repo is an ORPHAN of the OI-32/OI-42 class, it updates neither the
+GitHub file nor the project-instructions field, and it hands the owner an
+error-prone manual step. THE DRIFT CONCERN WAS REAL BUT THE REMEDY WAS
+WRONG. The correct method is the one already used for every HTML file:
+apply anchored str.replace edits PROGRAMMATICALLY to the live file and
+deliver the actual updated .txt. STANDING RULE RESTORED AND SHARPENED:
+governance files are delivered as COMPLETE FILES, never as patch
+instructions; where the file is large, the protection against drift is
+anchored programmatic editing with count==1 asserts and a before/after
+structural reconciliation — not hand-application by the owner. The two
+patch files must be deleted and never committed.
+
+FILES THIS ROUND: LiFePO4 Calculator, R7, R5, R30, index.html, plus the two
+governance files. Validation clean on all — script-stripped div/span depth
+walks 0/0/0, table/tr/td balance, ids unique, node --check on every inline
+script, stale sweep to zero ("77 Ah", "~37%", "~2.2 days", "30A Orion" all
+at zero). Content-only — CACHE STAYS v24. Mastheads R5/R7/R30 and index
+header-meta at 26 Jul; the calculator is masthead-date-EXEMPT (Field Tool,
+DG v1.6 S10). Governance: OIR thirteenth update. Next free OI-49.
+
+DATE BOUNDARY NOTE: this session began 26 Jul and ran past midnight into
+27 Jul. All files are stamped 26 July 2026, the date the work was done.
+
+REPO ACCESS INTERRUPTION, RECORDED BECAUSE IT AFFECTS THE WORKING METHOD:
+mid-session, github.com/Overlandslabs/Consumption returned a hard 404 on the
+repo page, both branches of raw content, and the Atom feed, while the org
+page loaded normally and listed only two other repos. That signature is
+GitHub's mask for private/renamed/deleted — NOT the familiar
+unauthenticated-API 403. The session STOPPED rather than working from
+project-knowledge or memory copies, which is the correct behaviour and is
+why R7 and the calculator could not simply be "recalled". Access returned
+shortly after and work resumed SHA-pinned. If it recurs it is a working-
+method blocker, not a transient.
+
+PRIOR (25 July 2026, seventeenth session (EMERGENCY-NUMBER
 PERSONAL-COVER SET ADDED & PROPAGATED; NETCARE 911 DEMOTED TO NON-MEMBER
 OWN-COST FALLBACK; OI-46 COLLISION CAUGHT, OI-47 OPENED; next free OI-48).
 Owner asked that R10 open with the crew's own emergency numbers, split by
@@ -72,7 +204,7 @@ presentation. Content-only throughout — CACHE STAYS v24. Mastheads
 R29/R10/R1/R16 and index header-meta at 25 Jul (round 1); Facts re-dated.
 Files this round: R29, R10, R1, R16, Facts. Governance: OIR twelfth update
 (OI-47 opened, Controlled Duplication Register emergency-numbers note
-rewritten, closed-log entry); next free open item OI-48.
+rewritten, closed-log entry); next free open item OI-49.
 
 PRIOR (24 July 2026, sixteenth session) (RA-4 RULED — NO SPARE
 ALTERNATOR CARRIED; PROPAGATED THROUGH FOUR OWNING DOCUMENTS).
@@ -1861,7 +1993,10 @@ Field tools:
   LC76_Trip_Fuel_Planner.html
   LC76_Fuel_Log_Analyser.html
   LC76_Water_Budget_Calculator.html
-  LC76_LiFePO4_Calculator.html
+  LC76_LiFePO4_Calculator.html   — single-day power budget AND the
+                                   Multi-day Stay block (26 Jul 2026):
+                                   how many days a camp holds on solar,
+                                   and when a recharge drive is needed.
   LC76_Tyre_Pressure_Calculator.html
 
 Reference documents (R1–R42; R6 & R33 retired — numbers not reused;
@@ -1882,12 +2017,25 @@ next free number is R43):
   R3   LC76_Spares_Tools.html                Bush spares & tools (tyre-kit line
                                              aligned to R40/OI-17, 21 Jul 2026)
   R4   LC76_Engine_Training.html             1HZ engine training
-  R5   LC76_Battery_Training_Guide.html      Battery & electrical training
+  R5   LC76_Battery_Training_Guide.html      Battery & electrical training.
+                                             OWNING DOCUMENT for the daily
+                                             house-load figure (itemised
+                                             breakdown table) — 65.3 Ah/day,
+                                             corrected from 77 on 26 Jul 2026;
+                                             R7 and the LiFePO4 Calculator
+                                             delegate to it (Controlled
+                                             Duplication Register)
   R7   LC76_LiFePO4_System_Report.html       LiFePO4 house system — as fitted
                                              (incl. battery longevity & care;
                                              absorbed R6; commissioning
                                              charge-profile table added
-                                             21 Jul 2026)
+                                             21 Jul 2026; daily load 77 →
+                                             65.3 Ah/day with all derived
+                                             values recomputed 26 Jul 2026 —
+                                             autonomy 2.6 days, DoD 31%,
+                                             degradation column re-based;
+                                             fade curve retained with a
+                                             conservative-basis note)
   R8   LC76_Service_History.html             Service & cost dashboard (REBUILT
                                              10 Jul 2026, EX-12 S2) — KPI strip,
                                              charts V1–V4 + KPI strip (=V5),
@@ -2188,7 +2336,12 @@ extended 8 Jul 2026 (consultant strategic review) and 10 Jul 2026 (EX-12)
          ratification: minute decisions → M4 executes (R38 §4 rewrite from
          SKELETON + R39 §1 split-trip reconciliation) → then propagate to
          profile route framing.
-  EX-10: Pre-departure profile currency refresh — chartered full refresh of
+  EX-10: [26 Jul 2026 — the multi-day rolling-balance candidate raised this
+         session is CLOSED, built into the LiFePO4 Calculator the same day
+         rather than deferred: the owner's stay pattern (3–5 nights at one
+         camp, discretionary recharge drive) is a live planning question
+         now, not a T-6 one.]
+       Pre-departure profile currency refresh — chartered full refresh of
          profiles 001–010 plus R15/R39 fast-moving data (visas, fees, fuel,
          security, road state) at ~T-6 months before expedition departure
          (trigger ~2028). Profiles built 2026 will be materially stale by a
@@ -2712,7 +2865,13 @@ WORKING CONVENTIONS
   entire list in the SAME session — not a follow-up item. Seed rows: emergency
   numbers (OWNER R29 §6 → R10, R1, R16, R38); SOS activation steps (OWNER R29 §7
   → R10, R16); GVM/kerb/payload (OWNER Facts → R11, R12, R29, R28); licence &
-  disc dates (OWNER Facts → R29, R39). This is the same move as the R30
+  disc dates (OWNER Facts → R29, R39); daily house load in Ah/day (OWNER R5
+  breakdown table → R7, LiFePO4 Calculator — added 26 Jul 2026 BECAUSE IT HAD
+  ALREADY FAILED: 77 Ah/day stood in three documents while two of those
+  documents' own component breakdowns summed to 65.3. Any change sweeps the
+  list in the SAME session, INCLUDING the derived values it drives — daily
+  DoD %, wild-camp autonomy, 30%-alarm reserve hours, solar-deficit
+  arithmetic). This is the same move as the R30
   owner-flag column, and it converts a latent seam into a lookup.
   EMERGENCY-NUMBERS ROW, STATE AT 25 JUL 2026: the fact grew a PERSONAL-
   COVER set (Genesis/Neil, Bonitas-AZOZA/Mary-Ann, Santam) and Netcare 911
