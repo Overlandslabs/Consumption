@@ -177,8 +177,8 @@
     <div>Battery: <span>LiFePO4</span></div>
     <div>Usable: <span>80% DoD</span></div>
     <div>Solar: <span>200W blanket</span></div>
-    <div>DC&ndash;DC: <span>30A Orion</span></div>
-    <div>Ref load: <span>~77 Ah/day</span></div>
+    <div>DC&ndash;DC: <span>40A Orion</span></div>
+    <div>Ref load: <span>~65.3 Ah/day</span></div>
   </div>
 </header></div>
 
@@ -260,7 +260,7 @@
     <button class="tbtn active" onclick="loadPreset('lc76');selPre(this)">
       <div class="tm">Your actual system</div>
       <div class="tn">LC76 Reference Load</div>
-      <div class="tdesc">NL 52L fridge &middot; MacBook &middot; iPhones &middot; fans &middot; nav &mdash; 77 Ah/day</div>
+      <div class="tdesc">NL 52L fridge &middot; MacBook &middot; iPhones &middot; fans &middot; nav &mdash; 65.3 Ah/day</div>
     </button>
     <button class="tbtn" onclick="loadPreset('basecamp');selPre(this)">
       <div class="tm">Fixed camp</div>
@@ -381,6 +381,85 @@
     <div class="abr"><span>Battery autonomy (zero charging scenario)</span><span class="abv" id="ab-auto">—</span></div>
   </div>
 
+  <div class="sec">Multi-day stay &mdash; <span style="font-weight:300;letter-spacing:.05em;text-transform:none;font-size:11px;">how long a stop holds on solar, and when to take a recharge drive</span></div>
+
+  <div class="sblock">
+    <div class="slabelwrap"><div class="slabel">Days at this stop</div><div class="sval" id="v-mddays">5 days</div></div>
+    <div class="srow"><input type="range" id="sl-mddays" min="1" max="14" step="1" value="5" oninput="syncV('v-mddays',this.value,' days');updateSliderFill(this);updMulti()"></div>
+    <div class="snote">How many nights you plan to sit at one camp before moving on.</div>
+  </div>
+
+  <div class="sblock">
+    <div class="slabelwrap"><div class="slabel">Arrival SOC</div><div class="sval" id="v-mdsoc">100%</div></div>
+    <div class="srow"><input type="range" id="sl-mdsoc" min="20" max="100" step="5" value="100" oninput="syncPct('v-mdsoc',this.value);updateSliderFill(this);updMulti()"></div>
+    <div class="snote">State of charge when you pull in. A long drive to the spot arrives you near 100%.</div>
+  </div>
+
+  <div class="sblock">
+    <div class="slabelwrap"><div class="slabel">Sun scenario</div><div class="sval" id="v-mdsun">Good &middot; 5.5 h</div></div>
+    <div class="srow"><input type="range" id="sl-mdsun" min="0" max="2" step="1" value="2" oninput="syncSun(this.value);updateSliderFill(this);updMulti()"></div>
+    <div class="snote">Poor 2.5 h (overcast) &middot; Average 4.0 h &middot; Good 5.5 h (clear dry-season day). Sets solar yield for every day of the stay.</div>
+  </div>
+
+  <div class="sblock">
+    <div class="slabelwrap"><div class="slabel">Recharge drive length</div><div class="sval" id="v-mddrive">3.0 h</div></div>
+    <div class="srow"><input type="range" id="sl-mddrive" min="0" max="8" step="0.5" value="3" oninput="syncHrs('v-mddrive',this.value);updateSliderFill(this);updMulti()"></div>
+    <div class="snote">Engine hours on a discretionary top-up drive, taken only when the bank would otherwise fall to the floor. Set 0 to model solar-only.</div>
+  </div>
+
+  <!-- IN / OUT / NET (per stationary day) -->
+  <div class="rgrid">
+    <div class="rc h">
+      <div class="rcl">Energy in &mdash; solar</div>
+      <div class="rcv" id="md-in">&mdash;</div>
+      <div class="rcs">Ah per stationary day</div>
+    </div>
+    <div class="rc">
+      <div class="rcl">Energy out &mdash; load</div>
+      <div class="rcv" id="md-out">&mdash;</div>
+      <div class="rcs">Ah consumed per day</div>
+    </div>
+    <div class="rc g">
+      <div class="rcl">Net &mdash; stationary day</div>
+      <div class="rcv" id="md-net">&mdash;</div>
+      <div class="rcs">solar &minus; load</div>
+    </div>
+  </div>
+
+  <!-- STAY OUTCOME -->
+  <div class="rgrid">
+    <div class="rc">
+      <div class="rcl">Holds on solar alone</div>
+      <div class="rcv" id="md-daysfloor">&mdash;</div>
+      <div class="rcs">days to 20% from arrival</div>
+    </div>
+    <div class="rc h">
+      <div class="rcl">Recharge drives needed</div>
+      <div class="rcv" id="md-drives">&mdash;</div>
+      <div class="rcs">over the whole stay</div>
+    </div>
+    <div class="rc g">
+      <div class="rcl">SOC at end of stay</div>
+      <div class="rcv" id="md-endsoc">&mdash;</div>
+      <div class="rcs">day <span id="md-dlbl">5</span>, drives included</div>
+    </div>
+  </div>
+
+  <!-- VERDICT -->
+  <div class="call gn" id="md-verdict" style="display:none">
+    <div class="ci" id="md-vicon">&#10003;</div>
+    <div class="cb" id="md-vtxt"></div>
+  </div>
+
+  <!-- DAY-BY-DAY PROJECTION -->
+  <div class="tscroll">
+    <table class="dtable">
+      <thead><tr><th style="text-align:left">Day</th><th style="text-align:left">Recharge</th><th style="text-align:right">End SOC</th><th style="text-align:right">End Ah</th></tr></thead>
+      <tbody id="md-tbody"></tbody>
+    </table>
+  </div>
+  <div class="snote">Stationary days use solar only (engine off). A recharge drive adds <span id="md-driveah">&mdash;</span> via the DC&ndash;DC charger (drive hours &times; DC&ndash;DC output &times; 88%). The day-to-day SOC swing follows the same convention as the single-day balance above &mdash; the system-loss factor is shown in usable capacity, not applied twice to the trajectory. Uses the load table and battery settings unchanged.</div>
+
   <!-- SYSTEM NOTES -->
   <div class="sec">System notes &mdash; LC76 power configuration</div>
 
@@ -396,12 +475,12 @@
 
   <div class="call am">
     <div class="ci">&#9728;</div>
-    <div class="cb"><strong>Solar panel or blanket:</strong> A 200W panel at 5 peak sun hours with 72% combined efficiency (heat, angle, dust, controller losses) delivers <strong>~60 Ah/day</strong> on a clear African day. At the 77 Ah/day reference load, solar alone leaves a 17 Ah daily deficit &mdash; covered by about 55 minutes of driving. Dust on the panel or blanket costs 10&ndash;30% output &mdash; clean every 3&ndash;5 days. Park solar-side in full sun.</div>
+    <div class="cb"><strong>Solar panel or blanket:</strong> A 200W panel at 5 peak sun hours with 72% combined efficiency (heat, angle, dust, controller losses) delivers <strong>~60 Ah/day</strong> on a clear African day. At the 65.3 Ah/day reference load, solar alone is roughly break-even on a clear day &mdash; a short drive covers cloud or a heavier load. Dust on the panel or blanket costs 10&ndash;30% output &mdash; clean every 3&ndash;5 days. Park solar-side in full sun.</div>
   </div>
 
   <div class="call inf">
     <div class="ci">&#9432;</div>
-    <div class="cb"><strong>Reference load ~77 Ah/day (from R5 Battery Training Guide):</strong> Fridge 45.0 Ah &middot; Laptop 5.0 Ah &middot; iPhone &times;2 5.0 Ah &middot; GPS nav 2.5 Ah &middot; Camera charging 2.7 Ah &middot; Fan charging &times;2 1.5 Ah &middot; LED lights &amp; misc 3.6 Ah. This reflects actual daily draw at camp in SA summer conditions.</div>
+    <div class="cb"><strong>Reference load ~65.3 Ah/day (from R5 Battery Training Guide):</strong> Fridge 45.0 Ah &middot; Laptop 5.0 Ah &middot; iPhone &times;2 5.0 Ah &middot; GPS nav 2.5 Ah &middot; Camera charging 2.7 Ah &middot; Fan charging &times;2 1.5 Ah &middot; LED lights &amp; misc 3.6 Ah. This reflects actual daily draw at camp in SA summer conditions.</div>
   </div>
 
   <div class="call inf">
@@ -459,7 +538,7 @@
 
 <footer>
   <div>LC76 SW 1HZ &middot; LiFePO4 Power Budget Calculator</div>
-  <div>Battery: <span>LiFePO4</span> &middot; Fridge: <span>45 Ah/day SA heat</span> &middot; Reference: <span>~77 Ah/day</span></div>
+  <div>Battery: <span>LiFePO4</span> &middot; Fridge: <span>45 Ah/day SA heat</span> &middot; Reference: <span>~65.3 Ah/day</span></div>
   <div>Estimates only &mdash; verify against battery monitor readings. Source: R5 Battery Training Guide.</div>
 </footer>
 
@@ -470,7 +549,7 @@
    SA 38°C ambient, mid-speed, 55% duty cycle
    = 3.75A running × 13h compressor run time = 45 Ah/day
    Laptop: 49.9 Wh battery ÷ 12V ÷ 85% eff = ~4.9 Ah full charge
-   Total system reference: ~77 Ah/day
+   Total system reference: ~65.3 Ah/day
 ═══════════════════════════════════════════════════ */
 var rows=[], rowId=0;
 
@@ -624,6 +703,8 @@ function upd(){
   document.getElementById('ab-net').textContent    = (net>=0?'+':'')+net.toFixed(1)+' Ah';
   document.getElementById('ab-eod').textContent    = Math.round(socEnd*100)+'% ('+Math.round(socEnd*cap)+' Ah)';
   document.getElementById('ab-auto').textContent   = auto>=99 ? '∞' : auto.toFixed(1)+' days';
+
+  updMulti();
 }
 
 function buildVerdict(net,auto,socEnd,minSoc,load){
@@ -645,6 +726,103 @@ function buildVerdict(net,auto,socEnd,minSoc,load){
   } else {
     box.className='call'; icon.innerHTML='&#9888;';
     txt.innerHTML='<strong>Significant deficit: '+Math.abs(net).toFixed(1)+' Ah/day.</strong> Battery depletes in '+autoStr+' days. Action required: add '+(Math.abs(net)/4).toFixed(0)+'W+ solar, more drive time, or cut '+Math.abs(net).toFixed(0)+' Ah/day. Do not depart on extended wild camp without resolving this.';
+  }
+}
+
+/* --- MULTI-DAY STAY --- */
+function mdSun(v){ v=parseFloat(v); return v>=2?{h:5.5,l:'Good'}:v>=1?{h:4.0,l:'Average'}:{h:2.5,l:'Poor'}; }
+function syncSun(v){ var s=mdSun(v); document.getElementById('v-mdsun').textContent=s.l+' \u00b7 '+s.h.toFixed(1)+' h'; }
+
+function updMulti(){
+  var cap    = parseFloat(document.getElementById('sl-cap').value)||210;
+  var minSoc = parseFloat(document.getElementById('sl-min').value)/100;
+  var solW   = parseFloat(document.getElementById('sl-solw').value)||0;
+  var peff   = parseFloat(document.getElementById('sl-peff').value)/100;
+  var dcdc   = parseFloat(document.getElementById('sl-dcdc').value)||0;
+  var days   = parseInt(document.getElementById('sl-mddays').value)||1;
+  var arr    = parseFloat(document.getElementById('sl-mdsoc').value)/100;
+  var sun    = mdSun(document.getElementById('sl-mdsun').value);
+  var driveH = parseFloat(document.getElementById('sl-mddrive').value)||0;
+  var totalLoad = rows.reduce(function(s,r){return s+r.amps*r.hrs;},0);
+
+  var solAh   = (solW*sun.h*peff)/12;
+  var driveAh = driveH*dcdc*0.88;
+  var floor   = minSoc*cap;
+  var statNet = solAh - totalLoad;
+
+  document.getElementById('md-dlbl').textContent = days;
+  document.getElementById('md-in').textContent   = solAh.toFixed(1)+' Ah';
+  document.getElementById('md-out').textContent  = totalLoad.toFixed(1)+' Ah';
+  var mn=document.getElementById('md-net');
+  mn.textContent=(statNet>=0?'+':'')+statNet.toFixed(1)+' Ah';
+  mn.style.color = statNet>=0?'var(--green-ok)':statNet>-15?'var(--amber)':'var(--red-warn)';
+  document.getElementById('md-driveah').textContent = driveAh.toFixed(0)+' Ah';
+
+  var socAh0 = Math.min(cap, arr*cap);
+  var dtf;
+  if(statNet>=0) dtf=Infinity;
+  else dtf=Math.max(0, Math.floor((socAh0-floor)/(-statNet)));
+  document.getElementById('md-daysfloor').textContent = dtf===Infinity ? '\u221e' : dtf+(dtf===1?' day':' days');
+
+  var soc=socAh0, drives=0, driveDays=[], breached=false, insuffic=false, traj=[];
+  for(var d=1; d<=days; d++){
+    var projected = soc + statNet;
+    var drove=false;
+    if(projected < floor && driveAh>0){
+      soc = projected + driveAh; drove=true; drives++; driveDays.push(d);
+      if(soc < floor){ insuffic=true; breached=true; }
+    } else {
+      soc = projected;
+      if(soc < floor) breached=true;
+    }
+    if(soc>cap) soc=cap;
+    traj.push({day:d, drove:drove, soc:soc});
+  }
+  var endPct = Math.round(Math.max(0,soc)/cap*100);
+
+  var drivesTxt;
+  if(statNet>=0) drivesTxt='0 (not needed)';
+  else if(driveAh<=0 && breached) drivesTxt='set drive length';
+  else if(drives===0) drivesTxt='0 (not needed)';
+  else drivesTxt=String(drives);
+  document.getElementById('md-drives').textContent = drivesTxt;
+
+  var es=document.getElementById('md-endsoc');
+  es.textContent = endPct+'%';
+  es.style.color = endPct>=60?'var(--green-ok)':endPct>=30?'var(--ochre)':'var(--red-warn)';
+
+  var tb=document.getElementById('md-tbody');
+  tb.innerHTML = traj.map(function(t){
+    var pct=Math.round(Math.max(0,t.soc)/cap*100);
+    var col = pct>=60?'var(--green-ok)':pct>=30?'var(--ochre)':'var(--red-warn)';
+    var rech = t.drove ? '<span style="color:var(--amber);font-weight:600">'+driveH.toFixed(1)+' h drive</span>' : '<span style="color:var(--smoke)">\u2014</span>';
+    return '<tr>'+
+      '<td>'+t.day+'</td>'+
+      '<td>'+rech+'</td>'+
+      '<td style="text-align:right;border-right:4px solid '+col+';font-weight:600">'+pct+'%</td>'+
+      '<td style="text-align:right;color:var(--smoke)">'+Math.round(Math.max(0,t.soc))+' Ah</td>'+
+    '</tr>';
+  }).join('');
+
+  var box=document.getElementById('md-verdict'), ic=document.getElementById('md-vicon'), tx=document.getElementById('md-vtxt');
+  if(totalLoad===0){box.style.display='none';return;}
+  box.style.display='flex';
+  var driveList=driveDays.join(', ');
+  if(statNet>=0){
+    box.className='call gn'; ic.innerHTML='&#10003;';
+    tx.innerHTML='<strong>Energy-positive at this stop.</strong> Solar ('+solAh.toFixed(0)+' Ah/day) covers the '+totalLoad.toFixed(0)+' Ah daily load in '+sun.l.toLowerCase()+' sun. You can stay indefinitely without driving; the bank trends up to full.';
+  } else if(drives===0 && !breached){
+    box.className='call gn'; ic.innerHTML='&#10003;';
+    tx.innerHTML='<strong>Holds all '+days+' days on solar alone, no drive needed.</strong> Stationary net '+statNet.toFixed(0)+' Ah/day; ends day '+days+' at ~'+endPct+'%.';
+  } else if(driveAh<=0){
+    box.className='call am'; ic.innerHTML='&#9888;';
+    tx.innerHTML='<strong>Solar-only: holds '+dtf+(dtf===1?' day':' days')+'.</strong> Stationary net '+statNet.toFixed(0)+' Ah/day, so from '+Math.round(arr*100)+'% you reach the 20% floor on day '+(dtf+1)+'. Set a recharge-drive length to model a top-up run.';
+  } else if(!insuffic){
+    box.className='call am'; ic.innerHTML='&#9888;';
+    tx.innerHTML='<strong>'+days+'-day stay needs '+drives+' recharge drive'+(drives>1?'s':'')+' of '+driveH.toFixed(1)+' h</strong> - on day'+(driveDays.length>1?'s':'')+' '+driveList+'. Each adds ~'+driveAh.toFixed(0)+' Ah via the DC-DC. Ends day '+days+' at ~'+endPct+'%.';
+  } else {
+    box.className='call'; ic.innerHTML='&#9888;';
+    tx.innerHTML='<strong>A single '+driveH.toFixed(1)+' h drive will not hold this stay in '+sun.l.toLowerCase()+' sun.</strong> Each engine-hour returns ~'+(dcdc*0.88).toFixed(0)+' Ah. Drive longer, drive more often, cut load, or shorten the stay.';
   }
 }
 
