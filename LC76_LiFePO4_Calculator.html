@@ -397,8 +397,8 @@
 
   <div class="sblock">
     <div class="slabelwrap"><div class="slabel">Sun scenario</div><div class="sval" id="v-mdsun">Good &middot; 5.5 h</div></div>
-    <div class="srow"><input type="range" id="sl-mdsun" min="0" max="2" step="1" value="2" oninput="syncSun(this.value);updateSliderFill(this);updMulti()"></div>
-    <div class="snote">Poor 2.5 h (overcast) &middot; Average 4.0 h &middot; Good 5.5 h (clear dry-season day). Sets solar yield for every day of the stay.</div>
+    <div class="srow"><input type="range" id="sl-mdsun" min="0" max="3" step="1" value="3" oninput="syncSun(this.value);updateSliderFill(this);updMulti()"></div>
+    <div class="snote">Rainy 0 h (no sun) &middot; Poor 2.5 h (overcast) &middot; Average 4.0 h &middot; Good 5.5 h (clear dry-season day). Sets solar yield for every day of the stay.</div>
   </div>
 
   <div class="sblock">
@@ -730,7 +730,7 @@ function buildVerdict(net,auto,socEnd,minSoc,load){
 }
 
 /* --- MULTI-DAY STAY --- */
-function mdSun(v){ v=parseFloat(v); return v>=2?{h:5.5,l:'Good'}:v>=1?{h:4.0,l:'Average'}:{h:2.5,l:'Poor'}; }
+function mdSun(v){ v=parseFloat(v); return v>=3?{h:5.5,l:'Good'}:v>=2?{h:4.0,l:'Average'}:v>=1?{h:2.5,l:'Poor'}:{h:0,l:'Rainy'}; }
 function syncSun(v){ var s=mdSun(v); document.getElementById('v-mdsun').textContent=s.l+' \u00b7 '+s.h.toFixed(1)+' h'; }
 
 function updMulti(){
@@ -810,7 +810,7 @@ function updMulti(){
   var driveList=driveDays.join(', ');
   if(statNet>=0){
     box.className='call gn'; ic.innerHTML='&#10003;';
-    tx.innerHTML='<strong>Energy-positive at this stop.</strong> Solar ('+solAh.toFixed(0)+' Ah/day) covers the '+totalLoad.toFixed(0)+' Ah daily load in '+sun.l.toLowerCase()+' sun. You can stay indefinitely without driving; the bank trends up to full.';
+    tx.innerHTML='<strong>Energy-positive at this stop.</strong> Solar ('+solAh.toFixed(0)+' Ah/day) covers the '+totalLoad.toFixed(0)+' Ah daily load in '+sun.l.toLowerCase()+' conditions. You can stay indefinitely without driving; the bank trends up to full.';
   } else if(drives===0 && !breached){
     box.className='call gn'; ic.innerHTML='&#10003;';
     tx.innerHTML='<strong>Holds all '+days+' days on solar alone, no drive needed.</strong> Stationary net '+statNet.toFixed(0)+' Ah/day; ends day '+days+' at ~'+endPct+'%.';
@@ -822,7 +822,7 @@ function updMulti(){
     tx.innerHTML='<strong>'+days+'-day stay needs '+drives+' recharge drive'+(drives>1?'s':'')+' of '+driveH.toFixed(1)+' h</strong> - on day'+(driveDays.length>1?'s':'')+' '+driveList+'. Each adds ~'+driveAh.toFixed(0)+' Ah via the DC-DC. Ends day '+days+' at ~'+endPct+'%.';
   } else {
     box.className='call'; ic.innerHTML='&#9888;';
-    tx.innerHTML='<strong>A single '+driveH.toFixed(1)+' h drive will not hold this stay in '+sun.l.toLowerCase()+' sun.</strong> Each engine-hour returns ~'+(dcdc*0.88).toFixed(0)+' Ah. Drive longer, drive more often, cut load, or shorten the stay.';
+    tx.innerHTML='<strong>A single '+driveH.toFixed(1)+' h drive will not hold this stay in '+sun.l.toLowerCase()+' conditions.</strong> Each engine-hour returns ~'+(dcdc*0.88).toFixed(0)+' Ah. Drive longer, drive more often, cut load, or shorten the stay.';
   }
 }
 
