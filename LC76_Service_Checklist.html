@@ -265,13 +265,21 @@ var ALL_ITEMS = [
 ];
 
 var OUTSTANDING = [
-  {id:'out_rockergas', name:'Rocker Cover Gasket + Half-Moon Seal — Replace',   detail:'First and most cost-effective intervention for the cylinder head oil seepage monitor. Genuine Toyota rocker cover gasket + front/rear rubber grommets + reseal half-moon plug (11183-54011) with silicone. Combine with tappet inspection — rocker cover is already off.',flag:'critical'},
-  {id:'out_pcv',       name:'PCV Routing — Verify at Next Specialist Workshop', detail:'If the crankcase breather is routed post-intercooler rather than pre-turbo, boost pressure can back-pressurise the crankcase and force oil out at all top-end seals — directly explaining the head seepage. Trace breather hose from valve cover to intake at next visit to a 1HZ-experienced workshop.',flag:'critical'},
-  {id:'out_boost',     name:'Boost Gauge — Verify Fitted or Install',           detail:'Status unknown per service records. Without a boost gauge, wastegate function, boost leaks, and compensator failure cannot be diagnosed in the field. Recommended: 0\u201315 psi mechanical gauge. Safe boost limit: 6\u201310 psi for this low-boost setup.',flag:'warn'},
-  {id:'out_diff_ext',  name:'Diff Breather Extensions — Verify or Fit',         detail:'Status unknown. Standard Toyota breathers are inadequate for water crossings deeper than ankle height. Extended breathers route front diff, rear diff, and transfer case vents to a high point in the engine bay. Confirm before any river crossings.',flag:'critical'},
-  {id:'out_hstuds',    name:'Head Studs — Assess for Turbocharged Application', detail:'Not installed per service records. Stock head bolts are a known weak point on turbocharged 1HZ engines. Head studs increase clamping force and reduce head lift risk under sustained boost. Assess before 2028 expedition departure.',flag:'warn'},
-  {id:'out_racor',     name:'Racor Pre-Filter — Fit Before Expedition',         detail:'Africa diesel quality is variable. A Racor 500FG series water-separating pre-filter upstream of the factory fuel filter is standard expedition fit for sub-Saharan overlanding. Protects injection pump from water and contamination.',flag:'warn'},
+  {id:'out_pcv',       name:'PCV Routing — Verify FIRST', src:'ADV',            detail:'ADV-012 · OI-66. DO THIS BEFORE THE ROCKER GASKET. If the crankcase breather is routed post-intercooler rather than pre-turbo, boost pressure back-pressurises the crankcase and forces oil out at all top-end seals — which would explain the head seepage entirely. Reseal first and the new gasket fails the same way. Trace the breather hose from valve cover to intake at a 1HZ-experienced workshop.',flag:'critical'},
+  {id:'out_rockergas', name:'Rocker Cover Gasket + Half-Moon Seal — Replace', src:'ADV', detail:'ADV-011 · OI-66. Do AFTER the PCV routing check above. First and most cost-effective intervention for the cylinder head oil seepage monitor. Genuine Toyota rocker cover gasket + front/rear rubber grommets + reseal half-moon plug (11183-54011) with silicone. Combine with tappet inspection — rocker cover is already off.',flag:'critical'},
+  {id:'out_diff_ext',  name:'Diff Breather Extensions — Verify or Fit', src:'ADV', detail:'ADV-008 · OI-64. Status unknown — nobody has looked. Standard Toyota breathers are inadequate for water crossings deeper than ankle height. Extended breathers route front diff, rear diff and transfer case vents to a high point in the engine bay. Confirm before any river crossings.',flag:'critical'},
+  {id:'out_racor',     name:'Racor Pre-Filter — Fit Before Expedition', src:'ADV', detail:'ADV-013 · OI-11. Africa diesel quality is variable. A Racor 500FG series water-separating pre-filter upstream of the factory fuel filter is standard expedition fit for sub-Saharan overlanding. Relevant given the Jun 2026 fuel contamination event — tank dropped and flushed, filter housing renewed at 310,412 km.',flag:'warn'},
 ];
+// PROVENANCE (OI-67, 29 Jul 2026): every entry above carries src and an ADV/OI
+// reference. Source of record is the ADVISORIES sheet in
+// LC_Service_history_FINAL.xlsx; status is tracked in LC76_Open_Items_Register.txt.
+// REMOVED 29 Jul 2026 as SETTLED — do not reinstate without evidence:
+//   out_boost   Boost gauge — instrumentation confirmed FITTED by owner 8 Jul 2026
+//               (boost read 0.6 bar, Jun 2026).
+//   out_hstuds  Head studs — Udel ruled NOT REQUIRED Jun 2026 for this engine and
+//               use case; Apr 2026 chemical block test passed, stock bolts retained.
+// A list without provenance cannot be maintained: both of the above survived on a
+// print-and-take-to-the-workshop checklist for weeks after being settled.
 
 var SECTIONS_ORDER = ['Engine','Fuel System','Fluids','Drivetrain','Cooling','Turbo','Brakes','Suspension','Chassis','Tyres','Electrical','Monitors'];
 
@@ -375,7 +383,7 @@ function render(){
   var notDue = !isDue(currentInterval);
 
   var html = '<div class="cumulative-notice">'
-    + '<strong>Sources:</strong> FSM = Toyota FSM / Gregory\u2019s LC70 \u00a0|\u00a0 SH = Service History file \u00a0|\u00a0 DOC = Turbo 1HZ reference documents \u00a0|\u00a0 BOTH = multiple sources'
+    + '<strong>Sources:</strong> FSM = Toyota FSM / Gregory\u2019s LC70 \u00a0|\u00a0 SH = Service History file \u00a0|\u00a0 DOC = Turbo 1HZ reference documents \u00a0|\u00a0 BOTH = multiple sources \u00a0|\u00a0 ADV = workshop advisory (Advisories sheet)'
     + (notDue ? '<br><strong style="color:#B91C1C;">\u26a0 Note:</strong> This interval is not yet due at 315,000 km (' + KM_SINCE_LAST.toLocaleString() + ' km since last service). Items shown for planning only.' : '')
     + '</div>';
 
@@ -422,7 +430,7 @@ function openPrint(){
     return '<div style="display:flex;gap:3mm;align-items:flex-start;' + bg + 'border:1px solid #d4cfc4;' + borderLeft + 'padding:1.5mm 2mm;margin-bottom:1mm;page-break-inside:avoid;break-inside:avoid;">'
       + '<div style="width:12px;height:12px;min-width:12px;border:1.5px solid #aaa;border-radius:2px;' + cbBg + 'display:flex;align-items:center;justify-content:center;margin-top:1px;flex-shrink:0;">' + tick + '</div>'
       + '<div style="flex:1;min-width:0;">'
-      + '<div style="font-size:7pt;font-weight:bold;' + nameCol + 'line-height:1.25;">' + item.name + badge(item, isOut) + '</div>'
+      + '<div style="font-size:7pt;font-weight:bold;' + nameCol + 'line-height:1.25;">' + item.name + badge(item, isOut) + (item.src ? '<span style="font-size:5pt;font-weight:normal;color:#6a7080;border:0.5pt solid #c8bfad;padding:0 1mm;margin-left:1.5mm;">' + item.src + '</span>' : '') + '</div>'
       + '<div style="font-size:5.5pt;color:#6a7080;margin-top:1px;line-height:1.3;">' + item.detail + '</div>'
       + '</div></div>';
   }
@@ -448,7 +456,7 @@ function openPrint(){
 
   // Notice
   html += '<div style="background:#edeae0;border:1px solid #d4cfc4;font-size:5.5pt;padding:1.5mm 2.5mm;margin-bottom:3mm;font-family:monospace;line-height:1.4;">'
-    + 'Interval: <b>' + intLabel(currentInterval) + ' km</b> \u00b7 Cumulative from 5,000 km \u00a0|\u00a0 FSM = Toyota FSM \u00a0|\u00a0 SH = Service History \u00a0|\u00a0 DOC = Reference docs \u00a0|\u00a0 BOTH = multiple sources'
+    + 'Interval: <b>' + intLabel(currentInterval) + ' km</b> \u00b7 Cumulative from 5,000 km \u00a0|\u00a0 FSM = Toyota FSM \u00a0|\u00a0 SH = Service History \u00a0|\u00a0 DOC = Reference docs \u00a0|\u00a0 BOTH = multiple sources \u00a0|\u00a0 ADV = workshop advisory (Advisories sheet)'
     + '</div>';
 
   // Outstanding

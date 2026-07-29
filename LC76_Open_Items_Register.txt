@@ -1,6 +1,6 @@
 LC76 OVERLAND REFERENCE LIBRARY — OPEN ITEMS REGISTER
 ═══════════════════════════════════════════════════════════════════════
-Last updated: 29 July 2026 (twenty-first update — HOW TO USE THIS LIBRARY built (OI-58, opened & closed same day): the library's first user guide, infrastructure class, nine sections covering file classes, a full glossary, the registers explained, the change loop, the monthly/pre-trip/post-trip routine, session protocol and precedence order. TWO ITEMS OPENED AND LEFT OPEN: OI-59 open-items dashboard, OI-60 library-wide print-standard defect. FIVE FURTHER ITEMS OPENED after the OI-59 reconciliation gate and an owner catch on R8: OI-61 axle leaks (SAFETY), OI-62 cooling cluster, OI-63 wheel bearing repack, OI-64 diff breathers, OI-65 calculator advisories. A new ADVISORIES sheet added to LC_Service_history_FINAL.xlsx as the capture point for workshop-flagged items. THEN THE OWNER CAUGHT THE R8 SUPPLEMENT TOO: OI-66 cylinder head oil seepage (PCV routing verified BEFORE resealing) and OI-67 the untraceable OUTSTANDING array, two of whose six entries were already stale. Next free OI-68.)
+Last updated: 29 July 2026 (twenty-first update — HOW TO USE THIS LIBRARY built (OI-58, opened & closed same day): the library's first user guide, infrastructure class, nine sections covering file classes, a full glossary, the registers explained, the change loop, the monthly/pre-trip/post-trip routine, session protocol and precedence order. TWO ITEMS OPENED AND LEFT OPEN: OI-59 open-items dashboard, OI-60 library-wide print-standard defect. FIVE FURTHER ITEMS OPENED after the OI-59 reconciliation gate and an owner catch on R8: OI-61 axle leaks (SAFETY), OI-62 cooling cluster, OI-63 wheel bearing repack, OI-64 diff breathers, OI-65 calculator advisories. A new ADVISORIES sheet added to LC_Service_history_FINAL.xlsx as the capture point for workshop-flagged items. THEN THE OWNER CAUGHT THE R8 SUPPLEMENT TOO: OI-66 cylinder head oil seepage (PCV routing verified BEFORE resealing) and OI-67 the untraceable OUTSTANDING array, two of whose six entries were already stale. OI-67 CLOSED same day. Next free OI-68.)
 Governance file — GitHub + project knowledge. NOT precached; never
 triggers a CACHE bump. Single authoritative list of everything open.
 Convention: every session close updates this file. Closed items move to
@@ -373,33 +373,6 @@ OI-36 Retrofit §06 Parts & Serviceability to profiles 001–006
 
 ▌C. SMALL FIXES & DEFECTS
 
-OI-67 R8 supplement OUTSTANDING list — no provenance, and it has drifted
-      CLAUDE (build) · next build session · owner catch 29 Jul 2026
-      OPEN. LC76_Service_Checklist.html carries `var OUTSTANDING` — six items
-      presented as live workshop actions — HARDCODED INTO THE FILE WITH NO
-      SOURCE FIELD. The sibling ALL_ITEMS array in the SAME file carries
-      src:'FSM' / 'DOC' / 'SH' / 'BOTH' on every entry, so the convention
-      exists and this array simply does not use it. Untraceable, and therefore
-      unmaintained, and therefore drifted:
-      · Head Studs — assess for turbo application  → STALE. R8 records
-        "NOT REQUIRED, stock bolts adequate", Udel Jun 2026, after the Apr 2026
-        chemical block test passed.
-      · Boost Gauge — verify fitted or install  → STALE. Boost instrumentation
-        confirmed FITTED by the owner 8 Jul 2026; boost read 0.6 bar Jun 2026.
-      · Diff Breather Extensions  → DUPLICATE of OI-64.
-      · Rocker Cover Gasket / PCV Routing / Racor  → legitimate, and until
-        29 Jul 2026 tracked NOWHERE. Now ADV-011/012/013 and OI-66.
-      SCOPE: remove the two stale entries, de-duplicate the breather entry
-      against OI-64, add a src field to every remaining OUTSTANDING item, and
-      point the array at the Advisories sheet as its source of record.
-      WHY THIS MATTERS MORE THAN SIX LIST ENTRIES: this checklist has a
-      print-and-take-to-the-workshop function. A stale CRITICAL flag spends
-      money re-doing settled work, and an untraceable list cannot be audited
-      by anyone — which is how two adjudicated items survived on it for weeks.
-      GENERAL LESSON: A LIST WITHOUT PROVENANCE CANNOT BE MAINTAINED. Every
-      status-bearing array in this library carries a source field or it is a
-      liability.
-
 OI-65 Calculator advisory findings TA-007 to TA-010 — untracked since Jun 2026
       CLAUDE (build) · no deadline · working papers TA_Register
       OPEN. Four advisory findings carried "Open (advisory)" in the audit
@@ -607,6 +580,38 @@ weakness is its seams; this is the control aimed directly at them.
 
 ════════════════════════════════════════════════════════════════════════
 CLOSED LOG (most recent first — never delete)
+
+29 Jul 2026  OI-67 · R8 SUPPLEMENT OUTSTANDING LIST — PROVENANCE ADDED, TWO
+      STALE ENTRIES REMOVED. OPENED AND CLOSED SAME DAY, from an owner catch.
+      LC76_Service_Checklist.html carried `var OUTSTANDING` — six items shown as
+      live workshop actions — hardcoded with NO source field, while ALL_ITEMS in
+      the same file carried src on every entry. Untraceable, so unmaintained, so
+      drifted.
+      REMOVED AS SETTLED, with the evidence recorded in a comment block so they
+      are not reinstated: out_boost (instrumentation confirmed FITTED by the
+      owner 8 Jul 2026; boost read 0.6 bar Jun 2026) and out_hstuds (Udel ruled
+      NOT REQUIRED Jun 2026; Apr 2026 chemical block test passed, stock bolts
+      retained). Both had been settled for weeks on a document with a
+      print-and-take-to-the-workshop button.
+      RETAINED, now with src:'ADV' and an ADV/OI reference on each: PCV routing
+      (ADV-012 · OI-66), rocker cover gasket (ADV-011 · OI-66), diff breathers
+      (ADV-008 · OI-64), Racor pre-filter (ADV-013 · OI-11). PCV was REORDERED
+      ABOVE the rocker gasket and both carry the ordering instruction in their
+      detail text — verify the breather routing before resealing, or the new
+      gasket fails the same way.
+      ALSO FIXED, BEYOND THE ORIGINAL SCOPE: the PRINT path (itemHTML) rendered
+      no source tag at all. The printed sheet is the artifact that goes to the
+      workshop, which is precisely where provenance matters, so the src tag was
+      added there too and the source legend updated in BOTH render paths.
+      THREE ANCHOR FAILURES DURING EXECUTION, ALL CAUGHT BEFORE ANY WRITE — a
+      byte-vs-character size comparison that read as a phantom file change, an
+      over-escaped legend anchor, and then that same anchor matching TWICE
+      because the legend exists in both the screen and print paths. The third
+      was a genuine finding: a single-occurrence assumption would have left the
+      printed legend inconsistent with the screen. Encode-before-truncate meant
+      each failure cost nothing.
+      Validation: depth walk 0/0/0 on eleven tag types, node --check clean, ids
+      unique. Content-only — CACHE STAYS v25.
 
 29 Jul 2026  OI-58 · HOW TO USE THIS LIBRARY — THE LIBRARY'S FIRST USER GUIDE
       OPENED AND CLOSED SAME DAY. Raised by the owner from direct experience:
