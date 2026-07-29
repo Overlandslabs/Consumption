@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0d0e12">
-<title>LC76 Design Guidelines v1.7</title>
+<title>LC76 Design Guidelines v1.8</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500;600&family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -33,7 +33,8 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 .std-vehicle{font-family:var(--mono);font-size:.48rem;letter-spacing:.08em;color:var(--steelmd);margin-top:8px}
 .lib-home-btn{position:absolute;top:50%;right:16px;transform:translateY(-50%);display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--amber2);background:rgba(232,120,0,.15);border:1px solid var(--amber2);border-radius:20px;padding:6px 12px;min-height:32px;white-space:nowrap;transition:background .2s}
 .lib-home-btn:hover{background:rgba(232,120,0,.30)}
-.toc-bar{background:var(--steeldk);padding:7px 24px;display:flex;align-items:center;gap:5px;flex-wrap:wrap;border-bottom:2px solid var(--amber)}
+.toc-bar{background:var(--steeldk);padding:7px 24px;display:flex;align-items:center;gap:5px;flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none;border-bottom:2px solid var(--amber)}
+  .toc-bar::-webkit-scrollbar{display:none}
 .toc-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.18em;color:var(--steellt);text-transform:uppercase;margin-right:4px;flex-shrink:0}
 .toc-link{font-family:var(--mono);font-size:.46rem;color:rgba(255,255,255,.45);text-decoration:none;padding:2px 6px;border:1px solid transparent;transition:all .12s;white-space:nowrap;cursor:pointer}
 .toc-link:hover,.toc-link.active{color:var(--amber2);border-color:var(--amber2);background:rgba(232,120,0,.1)}
@@ -130,8 +131,7 @@ code{font-family:var(--mono);font-size:.75rem;color:var(--amber);background:var(
 @media(max-width:600px){
   .std-header{padding:14px 16px 12px}
   .std-title{font-size:clamp(1.6rem,6vw,2.4rem)}
-  .toc-bar{padding:5px 12px!important;flex-wrap:nowrap!important;overflow-x:auto!important;overscroll-behavior-x:contain!important;-webkit-overflow-scrolling:touch!important;scrollbar-width:none!important}
-  .toc-bar::-webkit-scrollbar{display:none}
+  .toc-bar{padding:5px 12px!important}
   .toc-link{font-size:.42rem!important;padding:2px 5px!important}
   .content{padding:14px 4% 60px}
   .dodo{grid-template-columns:1fr}
@@ -165,7 +165,7 @@ code{font-family:var(--mono);font-size:.75rem;color:var(--amber);background:var(
   <a href="index.html" class="lib-home-btn">⌂ Index</a>
   <div class="std-eyebrow">LC76 Overland Library</div>
   <div class="std-title">Design Guidelines</div>
-  <div class="std-sub">Reference Standard &nbsp;·&nbsp; v1.7 &nbsp;·&nbsp; 11 July 2026</div>
+  <div class="std-sub">Reference Standard &nbsp;·&nbsp; v1.8 &nbsp;·&nbsp; 29 July 2026</div>
   <div class="std-vehicle">HZJ76R-RKMRS · Two design systems · Reference docs R1–R36 + 6 Calculators</div>
 </div>
 <div class="toc-bar">
@@ -530,6 +530,44 @@ document.querySelectorAll('.toc-link[data-target]').forEach(a =&gt; {
 &lt;!-- WRONG — function named scrollTo() collides with window.scrollTo --&gt;
 function scrollTo(id){ ... }</pre>
 
+<div class="subsec" style="margin-top:20px"><span class="subsec-title">v1.8 Single-Row TOC &mdash; Mandatory</span><span class="subsec-tag">All widths, not just mobile</span></div>
+<div class="rule rule-warn">
+  <strong>&#9888; The TOC is ONE ROW at every viewport width &mdash; never wrapped</strong>
+  The TOC sits inside the sticky nav unit, so <em>every wrapped row permanently costs vertical viewport</em> on every screen of the document. A TOC that wraps to three rows on a laptop can consume a quarter of the visible page before a word of content is read. The single-row scroller must therefore live in the <strong>BASE rule</strong>, not in a mobile media query.
+  <br><br><strong>This was a library-wide defect, found 29 Jul 2026.</strong> Only 4 of 61 files carried the scroller in the base rule; 29 declared <code>flex-wrap:wrap</code> and wrapped on desktop, and 13 more had neither <code>flex-wrap</code> nor <code>overflow-x</code>, so they had no scroll mechanism at all. The pattern below is taken verbatim from the files that were already correct (R4, R8, R19) &mdash; it is adoption, not invention.
+</div>
+<pre>/* CORRECT &mdash; base rule, applies at ALL widths */
+.toc-bar{
+  background:var(--steeldk); padding:7px 24px;
+  display:flex; align-items:center; gap:5px;
+  flex-wrap:nowrap;                    /* never wrap  */
+  overflow-x:auto;                     /* scroll instead */
+  overscroll-behavior-x:contain;       /* don't chain to the page */
+  -webkit-overflow-scrolling:touch;    /* iOS momentum */
+  scrollbar-width:none;                /* bar hidden at all widths */
+  border-bottom:2px solid var(--amber);
+}
+.toc-bar::-webkit-scrollbar{display:none}
+.toc-link{ white-space:nowrap; }       /* child: nowrap only, no flex declarations */
+
+/* Mobile media query carries ONLY genuinely mobile overrides */
+@media(max-width:600px){
+  .toc-bar{padding:5px 12px!important}
+}
+
+/* WRONG &mdash; wraps on desktop, eats sticky viewport */
+.toc-bar{ flex-wrap:wrap; }
+
+/* WRONG &mdash; scroller scoped to mobile only; desktop still wraps */
+@media(max-width:600px){ .toc-bar{flex-wrap:nowrap;overflow-x:auto} }</pre>
+<div class="rule">
+  <strong>Scrollbar stays hidden &mdash; owner ruling, 29 Jul 2026</strong>
+  A visible scrollbar on pointer devices was considered and <strong>rejected</strong> in favour of consistency with the established pattern. Off-screen TOC items are reached by trackpad swipe or shift+wheel. Do not add a <code>@media (pointer:fine)</code> scrollbar to individual files.
+</div>
+<div class="rule">
+  <strong>Shorten labels before widening the bar</strong>
+  If a TOC row is so long that scrolling becomes tedious, shorten the labels &mdash; the section <code>h2</code> carries the full title. Karoo Winter Loop went from ~2,755px to ~1,792px on label shortening alone, with no loss of meaning.
+</div>
 <div class="subsec" style="margin-top:16px"><span class="subsec-title">Dynamic Scroll Margin</span><span class="subsec-tag">Prevents content hiding behind sticky nav</span></div>
 <pre>/* Set scrollMarginTop dynamically — never hardcode it.
    Sticky nav height varies by screen size and safe-area insets. */
@@ -875,7 +913,7 @@ Last updated: 7 July 2026</pre>
 </div><!-- end .content -->
 
 <div class="doc-footer">
-  <span>LC76 Design Guidelines v1.7 · 11 July 2026</span>
+  <span>LC76 Design Guidelines v1.8 · 29 July 2026</span>
   <span>Reference Docs R1–R36 + 6 Calculators · Two design systems</span>
   <span>overlandslabs.github.io/Consumption</span>
 </div>
