@@ -5,7 +5,63 @@ Last updated: 29 July 2026, twenty-fourth session (THE LIBRARY'S FIRST USER
 GUIDE BUILT — LC76_How_To_Use_This_Library.html, INFRASTRUCTURE CLASS, NINE
 SECTIONS; A LIBRARY-WIDE PRINT DEFECT FOUND BY DIAGNOSTIC — THE PRINT STANDARD
 HAS NEVER TAKEN EFFECT IN ANY OF 71 FILES; CACHE v24 → v25; OI-58 OPENED &
-CLOSED, OI-59 & OI-60 OPENED; next free OI-61).
+CLOSED, OI-59, OI-60 & OI-61–67 OPENED; next free OI-68).
+
+THE OWNER CAUGHT A REAL GAP AND IT IS THE MOST IMPORTANT FINDING OF THE DAY.
+The OI-59 reconciliation gate checked the working papers and the three audit
+reports and pronounced the register substantially complete. IT NEVER OPENED R8.
+R8 §2 carries a MONITOR block flagged by the workshop at the Apr 2026 service
+(308,248 km) and a curated "Critical Outstanding" section — and NONE of it had
+ever reached the Open Items Register. Two of those items are safety-relevant: a
+rear hub seal weeping onto the shoes of the primary parking brake, and front
+knuckle grease escaping from birfields that fail quickly once dry. Also
+untracked: no thermostat on record in 316 entries, no water pump replacement on
+record, a coolant flush ~86,006 km overdue, a wheel bearing repack ~63,684 km
+overdue, and diff breather extensions nobody has looked for.
+GENERAL LESSON: A COMPLETENESS GATE IS ONLY AS WIDE AS ITS POPULATION. The gate
+was scoped to the instruments that LOOK like registers — spreadsheets and audit
+reports — and missed a reference DOCUMENT that had quietly become one. R8 is a
+dashboard; dashboards accumulate status. Any future reconciliation must sweep
+for status-bearing content wherever it lives, not only where a register is
+expected. This is the same failure shape as the philosophy-batch flag written
+from recollection: the population was assumed rather than established.
+
+WORKSHOP ADVISORIES NOW HAVE A HOME. They had none — the service ledger records
+work PERFORMED, and its Notes column has never carried "the workshop said watch
+X". A new ADVISORIES sheet is added to LC_Service_history_FINAL.xlsx: ID, date,
+mileage, source, item, detail, severity, action, status, OI ref. Ten rows seeded
+from R8, one already closed. THE ROWS WERE DELIBERATELY NOT ADDED TO THE
+SERVICES SHEET — under the COST-0 convention a zero-cost row means "child line
+item of the invoice above", so advisories there would corrupt the cost ledger
+and both derived HTML ledgers.
+STANDING CONVENTION ADOPTED: every service event asks what the workshop flagged,
+and anything flagged is written to the Advisories sheet and, if it needs action,
+carried as an OI. R8 remains the OWNING document for the detail; the register
+holds a pointer.
+
+AND THE SAME OWNER CATCH EXTENDED TO THE R8 SUPPLEMENT, WHICH IS WORSE. The
+Service Checklist carries `var OUTSTANDING` — six items presented as live
+workshop actions — HARDCODED WITH NO SOURCE FIELD, while the ALL_ITEMS array in
+the SAME FILE carries src:'FSM'/'DOC'/'SH'/'BOTH' on every entry. The convention
+existed and this array did not use it. Untraceable, therefore unmaintained,
+therefore drifted: head studs still flagged for assessment after Udel ruled them
+NOT REQUIRED in Jun 2026, and a boost gauge still flagged "verify fitted or
+install" after the owner confirmed it fitted on 8 Jul 2026. This document has a
+print-and-take-to-the-workshop function, so a stale CRITICAL flag spends money
+re-doing settled work. OI-67.
+THE THREE LEGITIMATE ENTRIES WERE TRACKED NOWHERE — rocker cover gasket, PCV
+routing, Racor pre-filter. The first two are now OI-66, deliberately as ONE item
+because the ORDER matters: verify the crankcase breather routing BEFORE
+resealing the head. If the breather is routed post-intercooler, boost
+pressurises the crankcase and forces oil past every top-end seal — reseal first
+and the new gasket fails the same way.
+GENERAL LESSON, PROMOTED TO A WORKING CONVENTION BELOW: A LIST WITHOUT
+PROVENANCE CANNOT BE MAINTAINED. Every status-bearing array in this library
+carries a source field or it becomes a liability with a print button.
+ADVISORIES SHEET IS LIVE-ONLY (owner ruling, 29 Jul 2026): a closed advisory is
+REMOVED, not retained — ADV-005 (fan belt quality) deleted on that basis, the
+belts having been replaced since. IDs are not reused, so a gap is deliberate.
+The durable lesson from a removed row lives in its owning document, not here.
 
 WHY THIS SESSION. The owner opened it as a business question — how the library
 might be monetised — and it turned into a usability finding, which is the more
@@ -893,6 +949,17 @@ Audit, governance & data (internal — not field-reference, not precached):
                                          10 Jul 2026; COUNTIF baseline = 9
                                          formula cells, owner-adjudicated 12 Jul)
   LC_Service_history_FINAL.xlsx          Service ledger of record (source behind
+                                         R8 and the two ledger supplements).
+                                         TWO SHEETS from 29 Jul 2026: Services
+                                         (the cost ledger, 315 records) and
+                                         ADVISORIES (workshop-flagged items —
+                                         ID, date, mileage, source, item,
+                                         detail, severity, action, status, OI
+                                         ref; seeded 10 rows from R8 §2 and
+                                         Critical Outstanding). Advisories are
+                                         NEVER written to the Services sheet:
+                                         a zero-cost row there means a child
+                                         line item of the invoice above.
                                          R8 and the two ledger supplements) —
                                          315 records. Single Services sheet.
                                          LEDGER HYGIENE APPLIED 10 Jul 2026
@@ -1296,6 +1363,19 @@ WORKING CONVENTIONS
   session, verified against tool output, and never reports a session or step
   as complete from expectation (the ninth session opened with a prior turn
   wrongly asserting completed work that had not been done).
+- Status-bearing content carries provenance (standing, adopted 29 Jul 2026,
+  from OI-67). Any array, table or list in this library that asserts a live
+  STATUS — outstanding actions, monitors, flags, "no record" claims — must
+  carry a source field naming where each entry came from (manual, service
+  history, owning R-doc, workshop advisory). A list without provenance cannot
+  be audited, therefore is not maintained, therefore drifts — the Service
+  Checklist's OUTSTANDING array carried two items that had been settled weeks
+  earlier, on a document with a print-and-take-to-the-workshop function. The
+  convention already existed one array away in the same file. COROLLARY FOR
+  RECONCILIATION: a completeness gate must sweep for status-bearing content
+  WHEREVER IT LIVES, not only in instruments that look like registers. The
+  29 Jul gate checked spreadsheets and audit reports, declared the register
+  substantially complete, and missed both R8 and its supplement.
 - Numeric traceability, self-audit, and verify-before-you-report (adopted
   22 Jul 2026 from the content-audit programme close). (a) Any specific
   numeric specification introduced into a library document must be
