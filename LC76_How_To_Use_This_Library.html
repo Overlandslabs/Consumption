@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0d0e12">
+<title>How To Use This Library — LC76</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500;600&family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0d0e12;--paper:#dad2c0;--paper2:#edeae0;--rule:#d4cfc4;
+  --amber:#b86800;--amber2:#e07800;
+  --steeldk:#2a2f3a;--steelmd:#6a7080;--steellt:#a8b0bc;
+  --red-warn:#B91C1C;--green-ok:#059669;
+  --mono:'IBM Plex Mono',monospace;
+  --sans:'Oswald',sans-serif;
+  --display:'Bebas Neue',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{overflow-x:hidden;overflow-x:clip;overscroll-behavior-x:none}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.6;overflow-x:clip;overscroll-behavior-x:none}
+
+/* ── STICKY NAV ── */
+.sticky-nav-unit{position:sticky;top:0;z-index:100;padding-top:env(safe-area-inset-top);background:var(--ink)}
+.sticky-nav-unit::before{content:"";position:absolute;left:0;right:0;bottom:100%;height:100vh;background:var(--ink)}
+.std-header{background:var(--ink);padding:18px 24px 14px;position:relative;border-bottom:3px solid var(--amber)}
+.std-eyebrow{font-family:var(--mono);font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--steelmd);margin-bottom:6px}
+.std-title{font-family:var(--display);font-size:clamp(1.9rem,5vw,2.8rem);letter-spacing:.06em;color:var(--amber2);line-height:1}
+.std-sub{font-family:var(--mono);font-size:.54rem;letter-spacing:.12em;color:rgba(255,200,100,.65);margin-top:5px}
+.std-vehicle{font-family:var(--mono);font-size:.48rem;letter-spacing:.08em;color:var(--steelmd);margin-top:8px}
+.lib-home-btn{position:absolute;top:50%;right:16px;transform:translateY(-50%);display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--amber2);background:rgba(232,120,0,.15);border:1px solid var(--amber2);border-radius:20px;padding:6px 12px;min-height:32px;white-space:nowrap;transition:background .2s}
+.lib-home-btn:hover{background:rgba(232,120,0,.30)}
+.toc-bar{background:var(--steeldk);padding:7px 24px;display:flex;align-items:center;gap:5px;flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none;border-bottom:2px solid var(--amber)}
+.toc-bar::-webkit-scrollbar{display:none}
+.toc-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.18em;color:var(--steellt);text-transform:uppercase;margin-right:4px;flex-shrink:0}
+.toc-link{font-family:var(--mono);font-size:.46rem;color:rgba(255,255,255,.45);text-decoration:none;padding:2px 6px;border:1px solid transparent;transition:all .12s;white-space:nowrap;cursor:pointer}
+.toc-link:hover,.toc-link.active{color:var(--amber2);border-color:var(--amber2);background:rgba(232,120,0,.1)}
+
+/* ── CONTENT ── */
+.content{padding:24px 5% 80px;max-width:100%}
+
+/* ── SECTION HEADERS ── */
+.sec-header{display:flex;align-items:center;gap:12px;padding:10px 5%;background:var(--steeldk);border-left:5px solid var(--amber2);margin:32px 0 0}
+.sec-num{font-family:var(--mono);font-size:.58rem;font-weight:600;color:#fff;background:var(--amber);padding:3px 8px;letter-spacing:.12em;flex-shrink:0}
+.sec-title{font-family:var(--display);font-size:1.7rem;letter-spacing:.10em;color:#fff;line-height:1}
+.sec-sub{font-family:var(--mono);font-size:.44rem;letter-spacing:.10em;color:var(--steellt);margin-left:auto;flex-shrink:0}
+
+/* ── SUBSECTIONS ── */
+.subsec{background:var(--paper2);border-left:3px solid var(--amber);padding:6px 16px 6px 14px;margin:20px 0 10px;display:flex;align-items:center;gap:10px}
+.subsec-title{font-family:var(--display);font-size:1.1rem;letter-spacing:.12em;color:var(--ink)}
+.subsec-tag{font-family:var(--mono);font-size:.44rem;letter-spacing:.12em;color:var(--steelmd);text-transform:uppercase;margin-left:auto}
+
+/* ── PROSE ── */
+.prose{font-family:var(--sans);font-size:.92rem;line-height:1.65;color:var(--ink);margin:8px 0 12px}
+.prose strong{font-weight:600}
+.prose em{color:var(--amber);font-style:italic}
+.lead{font-size:1rem;line-height:1.6}
+
+/* ── RULE BOXES ── */
+.rule{border-left:4px solid;padding:10px 14px;margin:12px 0;font-family:var(--sans);font-size:.84rem;line-height:1.55}
+.rule strong{font-weight:600;display:block;margin-bottom:3px;font-family:var(--mono);font-size:.52rem;letter-spacing:.10em;text-transform:uppercase}
+.rule-warn{background:#fff4f0;border-color:var(--red-warn);color:#5a1010}
+.rule-warn strong{color:var(--red-warn)}
+.rule-note{background:#fffbe8;border-color:var(--amber2);color:#4a3000}
+.rule-note strong{color:var(--amber)}
+.rule-ok{background:#f0fff8;border-color:var(--green-ok);color:#0a3a20}
+.rule-ok strong{color:var(--green-ok)}
+.rule-info{background:var(--paper2);border-color:var(--steelmd);color:var(--steeldk)}
+.rule-info strong{color:var(--steelmd)}
+
+/* ── TABLES ── */
+.spec-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:.82rem}
+.spec-table th{background:var(--steeldk);color:#fff;font-family:var(--mono);font-size:.44rem;letter-spacing:.12em;text-transform:uppercase;padding:7px 10px;text-align:left}
+.spec-table td{padding:6px 10px;border-bottom:1px solid var(--rule);vertical-align:top;font-family:var(--sans)}
+.spec-table tr:nth-child(even) td{background:var(--paper2)}
+.table-scroll{overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;margin:12px 0}
+.mono{font-family:var(--mono);font-size:.70rem;color:var(--amber)}
+.tag{font-family:var(--mono);font-size:.52rem;font-weight:600;letter-spacing:.06em;color:var(--amber);white-space:nowrap}
+
+/* ── CODE ── */
+pre{background:var(--steeldk);color:#e8d5a3;padding:14px 16px;font-size:.66rem;line-height:1.7;overflow-x:auto;overscroll-behavior-x:contain;margin:10px 0;border-left:3px solid var(--amber);font-family:var(--mono)}
+code{font-family:var(--mono);font-size:.75rem;color:var(--amber);background:var(--paper2);padding:1px 5px}
+
+/* ── STEP LIST ── */
+.steps{margin:12px 0;counter-reset:stp}
+.step{display:flex;gap:12px;align-items:flex-start;margin-bottom:10px}
+.step-n{font-family:var(--mono);font-size:.58rem;font-weight:600;color:#fff;background:var(--amber);min-width:26px;height:22px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.step-b{flex:1;font-size:.88rem;line-height:1.55}
+.step-b b{font-weight:600}
+
+/* ── CHECKLIST ── */
+.chk{list-style:none;margin:10px 0}
+.chk li{position:relative;padding-left:22px;margin-bottom:7px;font-size:.88rem;line-height:1.5}
+.chk li::before{content:"\25A2";position:absolute;left:0;top:0;color:var(--amber);font-size:.95rem}
+
+/* ── LAYER CARDS ── */
+.layer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin:14px 0}
+.layer-card{background:var(--paper2);border:1px solid var(--rule);border-top:4px solid var(--amber2);padding:12px 14px}
+.layer-card.reg{border-top-color:var(--steelmd)}
+.layer-card.dat{border-top-color:var(--green-ok)}
+.layer-k{font-family:var(--mono);font-size:.46rem;letter-spacing:.14em;text-transform:uppercase;color:var(--steelmd);margin-bottom:5px}
+.layer-t{font-family:var(--display);font-size:1.15rem;letter-spacing:.06em;color:var(--ink);line-height:1.1;margin-bottom:5px}
+.layer-b{font-size:.80rem;line-height:1.5}
+
+/* ── PRINT ── */
+@media print{
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  @page{margin:7mm;size:A4}
+  .lib-home-btn,.toc-bar{display:none!important}
+  .sticky-nav-unit{position:static!important}
+  .sticky-nav-unit::before{content:none}
+  .std-header{background:#0d0e12!important;padding:8px 14px 6px!important;border-bottom:2px solid #e07800!important}
+  .std-eyebrow{color:#6a7080!important}
+  .std-title{color:#e07800!important;font-size:1.5rem!important}
+  .std-sub{color:#c8a05a!important}
+  .std-vehicle{color:#6a7080!important}
+  .sec-header{background:#2a2f3a!important;border-left:4px solid #e07800!important;padding:6px 14px!important;page-break-after:avoid;break-after:avoid}
+  .sec-num{background:#b86800!important;color:#fff!important}
+  .sec-title{color:#fff!important}
+  .sec-sub{color:#a8b0bc!important}
+  .subsec{background:#edeae0!important;border-left:3px solid #b86800!important}
+  .spec-table{break-inside:auto}
+  .spec-table thead{display:table-header-group}
+  .spec-table th{background:#2a2f3a!important;color:#fff!important}
+  .spec-table tr:nth-child(even) td{background:#edeae0!important}
+  .rule{break-inside:avoid}
+  .rule-warn{background:#fff4f0!important;border-color:#B91C1C!important;color:#5a1010!important}
+  .rule-note{background:#fffbe8!important;border-color:#e07800!important;color:#4a3000!important}
+  .rule-ok{background:#f0fff8!important;border-color:#059669!important;color:#0a3a20!important}
+  .rule-info{background:#edeae0!important;border-color:#6a7080!important;color:#2a2f3a!important}
+  .layer-card{background:#edeae0!important;border:1px solid #d4cfc4!important;break-inside:avoid}
+  .step{break-inside:avoid}
+  pre{background:#2a2f3a!important;color:#e8d5a3!important}
+  code{background:#edeae0!important;color:#b86800!important}
+  body{font-size:7.5pt}
+}
+</style>
+</head>
+<body>
+
+<div class="sticky-nav-unit">
+  <header class="std-header">
+    <a class="lib-home-btn" href="index.html">&#8962; Index</a>
+    <div class="std-eyebrow">LC76 Library &middot; Infrastructure</div>
+    <h1 class="std-title">How To Use This Library</h1>
+    <div class="std-sub">The map, the vocabulary and the working routine</div>
+    <div class="std-vehicle">Last updated: 29 July 2026</div>
+  </header>
+  <nav class="toc-bar">
+    <span class="toc-label">Contents</span>
+    <span class="toc-link" onclick="document.getElementById('s0').scrollIntoView({behavior:'smooth'})">00 Start</span>
+    <span class="toc-link" onclick="document.getElementById('s1').scrollIntoView({behavior:'smooth'})">01 Map</span>
+    <span class="toc-link" onclick="document.getElementById('s2').scrollIntoView({behavior:'smooth'})">02 Glossary</span>
+    <span class="toc-link" onclick="document.getElementById('s3').scrollIntoView({behavior:'smooth'})">03 Finding</span>
+    <span class="toc-link" onclick="document.getElementById('s4').scrollIntoView({behavior:'smooth'})">04 Registers</span>
+    <span class="toc-link" onclick="document.getElementById('s5').scrollIntoView({behavior:'smooth'})">05 Loop</span>
+    <span class="toc-link" onclick="document.getElementById('s6').scrollIntoView({behavior:'smooth'})">06 Routine</span>
+    <span class="toc-link" onclick="document.getElementById('s7').scrollIntoView({behavior:'smooth'})">07 Sessions</span>
+    <span class="toc-link" onclick="document.getElementById('s8').scrollIntoView({behavior:'smooth'})">08 Wrong</span>
+  </nav>
+</div>
+
+<div class="sec-header" id="s0">
+  <span class="sec-num">00</span>
+  <span class="sec-title">Start Here</span>
+  <span class="sec-sub">Read this first</span>
+</div>
+<div class="content">
+
+  <p class="prose lead">This library is the written memory of one vehicle and one expedition. It exists so that decisions already made do not have to be made again, and so that anything still unresolved is visible rather than remembered.</p>
+
+  <p class="prose">It is built from three layers. Almost every question about how to use it comes down to knowing which layer you are standing in.</p>
+
+  <div class="layer-grid">
+    <div class="layer-card">
+      <div class="layer-k">Layer 1</div>
+      <div class="layer-t">Documents</div>
+      <div class="layer-b">What you read. Reference guides, country profiles, calculators, checklists, philosophy. All HTML, all offline, all printable. This is the library proper.</div>
+    </div>
+    <div class="layer-card reg">
+      <div class="layer-k">Layer 2</div>
+      <div class="layer-t">Registers</div>
+      <div class="layer-b">What tracks state. Plain text files that record what is still open, what each document is, and what the standing rules are. Not field reading &mdash; governance.</div>
+    </div>
+    <div class="layer-card dat">
+      <div class="layer-k">Layer 3</div>
+      <div class="layer-t">Data</div>
+      <div class="layer-b">The underlying record. Service ledger and audit working papers, both spreadsheets. Documents are derived from these, never the other way round.</div>
+    </div>
+  </div>
+
+  <div class="rule rule-note">
+    <strong>The one rule that prevents most confusion</strong>
+    Every fact has exactly one home. If a number appears in two places, one of them is a copy &mdash; and copies drift. When two documents disagree, do not average them. Find the owner. Section 08 gives the precedence order.
+  </div>
+
+  <p class="prose"><strong>Where things live.</strong> Everything is on GitHub at <code>github.com/Overlandslabs/Consumption</code> and published to <code>overlandslabs.github.io/Consumption</code>. GitHub is the source of truth; anything on a laptop or phone is a copy that may be stale.</p>
+
+</div>
+
+<div class="sec-header" id="s1">
+  <span class="sec-num">01</span>
+  <span class="sec-title">The Map</span>
+  <span class="sec-sub">What each file class is for</span>
+</div>
+<div class="content">
+
+  <p class="prose">Nine classes of file. This is not a list of documents &mdash; that is what the Library Register is for. This is what each <em>kind</em> of file does and when you would reach for it.</p>
+
+  <div class="table-scroll">
+  <table class="spec-table">
+    <thead><tr><th>Class</th><th>Naming</th><th>Reach for it when</th></tr></thead>
+    <tbody>
+      <tr><td><b>Reference documents</b></td><td class="tag">R1&ndash;R42</td><td>You need to know how something works, how to do it, or what the doctrine is. The bulk of the library.</td></tr>
+      <tr><td><b>Field calculators</b></td><td class="tag">Six tools</td><td>You need a number worked out &mdash; fuel range, water, power, tyre pressure. Interactive, work offline.</td></tr>
+      <tr><td><b>Country &amp; terrain profiles</b></td><td class="tag">001&ndash;010</td><td>You are planning or entering a country. Borders, fuel, roads, security, parts availability.</td></tr>
+      <tr><td><b>Philosophy</b></td><td class="tag">Four documents</td><td>You want the why rather than the how. Not field reference &mdash; written to be read at the fire.</td></tr>
+      <tr><td><b>Itineraries</b></td><td class="tag">Per trip</td><td>A specific trip is planned or running.</td></tr>
+      <tr><td><b>Index</b></td><td class="tag">index.html</td><td>You have a situation and do not know where to start. Organised by urgency, emergency first.</td></tr>
+      <tr><td><b>Registers</b></td><td class="tag">.txt files</td><td>You need to know what is still open, what exists, or what the standing rules are. See section 04.</td></tr>
+      <tr><td><b>Audits</b></td><td class="tag">Dated HTML</td><td>You want to know what was found wrong and when. Historical &mdash; a snapshot, not live status.</td></tr>
+      <tr><td><b>Data</b></td><td class="tag">.xlsx</td><td>Service history and audit working papers. The record behind the derived documents.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="rule rule-info">
+    <strong>Why R-numbers skip</strong>
+    R6 and R33 were retired when their content was folded into other documents. Retired numbers are never reused, so a gap in the sequence is deliberate and not a missing file.
+  </div>
+
+</div>
+
+<div class="sec-header" id="s2">
+  <span class="sec-num">02</span>
+  <span class="sec-title">Glossary</span>
+  <span class="sec-sub">Every abbreviation in one place</span>
+</div>
+<div class="content">
+
+  <div class="table-scroll">
+  <table class="spec-table">
+    <thead><tr><th>Code</th><th>Stands for</th><th>What it actually means</th></tr></thead>
+    <tbody>
+      <tr><td class="tag">OI-n</td><td>Open Item</td><td>Anything unresolved. The universal unit of "not finished yet". Lives in the Open Items Register.</td></tr>
+      <tr><td class="tag">RA-n</td><td>Readiness Action</td><td>A physical thing that must happen in the world before departure &mdash; a weighbridge, a course, a replacement. Ten of them. Each also has an OI number tracking its status.</td></tr>
+      <tr><td class="tag">EX-n</td><td>Expedition Readiness programme</td><td>A chartered build workstream &mdash; a document or system to be created. Twelve chartered.</td></tr>
+      <tr><td class="tag">TA-n</td><td>Technical Accuracy finding</td><td>An audit finding about whether a stated fact is correct. Working papers, TA_Register sheet.</td></tr>
+      <tr><td class="tag">LX-n</td><td>Layout / experience finding</td><td>An audit finding about presentation rather than fact. Working papers, LX_Register sheet.</td></tr>
+      <tr><td class="tag">F-n</td><td>Finding</td><td>A numbered finding from one of the three audit reports.</td></tr>
+      <tr><td class="tag">RS-n</td><td>Remediation Session</td><td>A session that fixed a batch of audit findings.</td></tr>
+      <tr><td class="tag">R-n</td><td>Reference document</td><td>A numbered library document.</td></tr>
+      <tr><td class="tag">PI</td><td>Project Instructions</td><td>The standing rules. Authoritative for doctrine and working method.</td></tr>
+      <tr><td class="tag">OIR</td><td>Open Items Register</td><td>The single list of everything unresolved. Authoritative for status.</td></tr>
+      <tr><td class="tag">CDR</td><td>Controlled Duplication Register</td><td>The short list of facts allowed to exist in more than one document, each with one owner. Inside the OIR.</td></tr>
+      <tr><td class="tag">DG</td><td>Design Guidelines</td><td>How library documents must look and behave.</td></tr>
+      <tr><td class="tag">V / M / S</td><td>Evidence grade</td><td>How much to trust a fact. <b>V</b> verified at source. <b>M</b> manufacturer or official stated. <b>S</b> said &mdash; reported but unverified. Treat S as a lead, not a fact.</td></tr>
+      <tr><td class="tag">Gate A&ndash;D</td><td>Decision gate</td><td>A point where an owner ruling is required before work continues.</td></tr>
+      <tr><td class="tag">M1&ndash;M5</td><td>Change map</td><td>The numbered steps of a planned multi-file change.</td></tr>
+      <tr><td class="tag">SHA</td><td>Commit identifier</td><td>The 40-character fingerprint of an exact version of the repository. Editing is always pinned to one.</td></tr>
+      <tr><td class="tag">PWA</td><td>Progressive Web App</td><td>The library installed on a phone so it works with no signal.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+</div>
+
+<div class="sec-header" id="s3">
+  <span class="sec-num">03</span>
+  <span class="sec-title">Finding Things</span>
+  <span class="sec-sub">Three routes in</span>
+</div>
+<div class="content">
+
+  <p class="prose">There are three ways into the library and they answer different questions. Picking the right one is most of the skill.</p>
+
+  <div class="subsec"><span class="subsec-title">I have a situation</span><span class="subsec-tag">Start at the index</span></div>
+  <p class="prose">Open <code>index.html</code>. It is organised by what is happening to you, most urgent first: emergency and safety, then finding things, field tools, the vehicle, the expedition, countries, philosophy, governance. If something has gone wrong, the answer is near the top of the page.</p>
+
+  <div class="subsec"><span class="subsec-title">I have a topic</span><span class="subsec-tag">Use R30</span></div>
+  <p class="prose">The Cross-Reference Index (R30) is a searchable topic list across the whole library. It answers "which document covers tyre pressure / bilharzia / winching / carnets". It sits second on the index page for exactly this reason.</p>
+
+  <div class="subsec"><span class="subsec-title">I have a word</span><span class="subsec-tag">Search the page</span></div>
+  <p class="prose">Once inside a document, use the browser's own find function. Documents are single-page by design, so everything is on the page and searchable &mdash; nothing is hidden behind tabs or collapsed sections.</p>
+
+  <div class="rule rule-ok">
+    <strong>If you are alone and under pressure</strong>
+    Go to the index and start at the top. The emergency section is deliberately first, and within it the order runs medical, vehicle dead, stuck, fire, security, wildlife, health &mdash; worst day first. You do not need to know any document numbers to use this library.
+  </div>
+
+  <p class="prose"><strong>Printed copies.</strong> Every document prints properly. The critical few &mdash; the reference card and emergency procedures &mdash; are meant to be printed and laminated for the door pocket, because a flat phone is a foreseeable event.</p>
+
+</div>
+
+<div class="sec-header" id="s4">
+  <span class="sec-num">04</span>
+  <span class="sec-title">The Registers</span>
+  <span class="sec-sub">What tracks state</span>
+</div>
+<div class="content">
+
+  <p class="prose">Four governance files sit behind the library. They are plain text on GitHub rather than pages in the library, because they are working instruments rather than field reading.</p>
+
+  <div class="subsec"><span class="subsec-title">Open Items Register</span><span class="subsec-tag">The one that matters most</span></div>
+  <p class="prose">The single authoritative list of everything unresolved. If something is not in here, it is not tracked, and a job that lives only in someone's memory or in a chat message does not exist.</p>
+
+  <p class="prose">Every entry follows one shape:</p>
+  <pre>OI-n · Title · OWNER · GATE/DEADLINE · SOURCE · STATUS</pre>
+
+  <p class="prose">Items are grouped into five categories:</p>
+
+  <div class="table-scroll">
+  <table class="spec-table">
+    <thead><tr><th></th><th>Category</th><th>What is in it</th></tr></thead>
+    <tbody>
+      <tr><td class="tag">A</td><td>Owner-gated actions</td><td>Things only Neil or Mary-Ann can do. Deadline-ordered. The real pre-departure workload.</td></tr>
+      <tr><td class="tag">B</td><td>Chartered workstreams</td><td>Documents and systems still to be built.</td></tr>
+      <tr><td class="tag">C</td><td>Small fixes and defects</td><td>Known faults awaiting repair.</td></tr>
+      <tr><td class="tag">D</td><td>Decisions pending</td><td>Waiting on an owner ruling, not on work.</td></tr>
+      <tr><td class="tag">E</td><td>Standing / recurring</td><td>Things that never close &mdash; the monthly odometer reading, live working drafts.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p class="prose">Below the five categories sits the Controlled Duplication Register, and below that the closed log &mdash; every item ever closed, newest first, never deleted. The closed log is the reasoning archive: it records why something was decided, which is usually more valuable than the decision itself.</p>
+
+  <div class="rule rule-note">
+    <strong>Checking open items quickly</strong>
+    Open the register directly at<br>
+    <code>github.com/Overlandslabs/Consumption/blob/main/LC76_Open_Items_Register.txt</code><br>
+    Then search the page for <code>&#9612;A.</code> through <code>&#9612;E.</code> to jump between categories, or for <code>CLOSED LOG</code> to find where the open items stop. Everything above the closed log is live.
+  </div>
+
+  <div class="rule rule-info">
+    <strong>A readable dashboard is planned</strong>
+    Reading a hundred kilobytes of plain text to answer "what is still open" is the wrong instrument, and a proper filterable view is tracked as an open item in its own right. Until it exists, the method above is the fast route.
+  </div>
+
+  <div class="subsec"><span class="subsec-title">Controlled Duplication Register</span><span class="subsec-tag">Inside the OIR</span></div>
+  <p class="prose">A deliberately short list of facts that are <em>allowed</em> to appear in more than one document &mdash; emergency numbers, vehicle weights, licence dates, daily power draw. Each has one named owner and a mandatory list of everywhere it must be updated.</p>
+  <p class="prose">The rule: change the owner first, then sweep the whole propagation list in the <em>same</em> sitting. Never as a follow-up, never as a note for next time. This register exists because that discipline already failed once &mdash; a power figure drifted out of step with its own parts list in three separate documents and nobody noticed for weeks.</p>
+
+  <div class="subsec"><span class="subsec-title">Project Instructions</span><span class="subsec-tag">The standing rules</span></div>
+  <p class="prose">Vehicle specification, working conventions, design system, session protocol, and a narrative of recent sessions. Authoritative for doctrine. Older session narratives are archived into a separate history file so this one stays readable.</p>
+
+  <div class="subsec"><span class="subsec-title">Library Register</span><span class="subsec-tag">What exists</span></div>
+  <p class="prose">The definitive list of every document and its R-number. Check here before assuming a document exists or does not &mdash; the index page and any local copies can lag behind the repository.</p>
+
+  <div class="subsec"><span class="subsec-title">Working papers</span><span class="subsec-tag">Audit trail</span></div>
+  <p class="prose">A spreadsheet holding the technical-accuracy findings, the layout findings, the evidence sources behind them, and the programme tracker. This is the audit trail rather than a live task list.</p>
+
+</div>
+
+<div class="sec-header" id="s5">
+  <span class="sec-num">05</span>
+  <span class="sec-title">The Loop</span>
+  <span class="sec-sub">How a change actually happens</span>
+</div>
+<div class="content">
+
+  <p class="prose">Every change to this library runs the same seven steps. Knowing the shape makes it obvious where a piece of work has stalled.</p>
+
+  <div class="steps">
+    <div class="step"><span class="step-n">1</span><span class="step-b"><b>Finding.</b> Something is wrong, missing or newly decided. It becomes an entry in the Open Items Register &mdash; immediately, in the sitting that found it.</span></div>
+    <div class="step"><span class="step-n">2</span><span class="step-b"><b>Ruling.</b> If it needs a decision rather than work, it waits for an owner ruling. Decisions are recorded with their reasoning, so they are not re-argued later.</span></div>
+    <div class="step"><span class="step-n">3</span><span class="step-b"><b>Specification.</b> For anything structural or spanning files, the full change is proposed and agreed before a single edit is made.</span></div>
+    <div class="step"><span class="step-n">4</span><span class="step-b"><b>Execution.</b> Files are fetched pinned to an exact version, then edited surgically &mdash; never rebuilt from memory or from a local copy.</span></div>
+    <div class="step"><span class="step-n">5</span><span class="step-b"><b>Validation.</b> Structural checks run before anything is delivered: tag balance, script syntax, unique anchors, and a sweep for stale text that must run wider than the change itself.</span></div>
+    <div class="step"><span class="step-n">6</span><span class="step-b"><b>Propagation.</b> Everything that delegates to the changed fact is updated in the same sitting &mdash; the owner document first, then everything downstream.</span></div>
+    <div class="step"><span class="step-n">7</span><span class="step-b"><b>Registers and commit.</b> The Open Items Register and Project Instructions are updated, dates bumped, and the whole set committed to GitHub together.</span></div>
+  </div>
+
+  <div class="rule rule-warn">
+    <strong>The failure mode this prevents</strong>
+    A change that stops after step 4 leaves the library internally inconsistent and the registers claiming something untrue. A half-propagated change is worse than no change, because it looks finished.
+  </div>
+
+</div>
+
+<div class="sec-header" id="s6">
+  <span class="sec-num">06</span>
+  <span class="sec-title">Your Routine</span>
+  <span class="sec-sub">What to do and when</span>
+</div>
+<div class="content">
+
+  <div class="subsec"><span class="subsec-title">Every month</span><span class="subsec-tag">Ten minutes</span></div>
+  <ul class="chk">
+    <li>Read the odometer and log it &mdash; this drives service intervals across the whole library.</li>
+    <li>Glance at category A of the Open Items Register. Anything with a date approaching?</li>
+    <li>Glance at category D. Is anything waiting on a decision only you can make?</li>
+  </ul>
+
+  <div class="subsec"><span class="subsec-title">Before a trip</span><span class="subsec-tag">Pre-trip protocol</span></div>
+  <ul class="chk">
+    <li>Work through the pre-trip preparation protocol and the departure checklist.</li>
+    <li>Print and laminate the reference card and emergency procedures for the door pocket.</li>
+    <li>Open the profile for every country on the route and check the data-freshness dates.</li>
+    <li>Confirm the phone has the library installed and working with the network switched off.</li>
+    <li>Check documents: licences, vehicle disc, insurance, and the owner's authority affidavit where a border is involved.</li>
+  </ul>
+
+  <div class="subsec"><span class="subsec-title">After a trip</span><span class="subsec-tag">Post-trip review</span></div>
+  <ul class="chk">
+    <li>Run the post-trip review protocol. This is the step that turns a trip into an improvement.</li>
+    <li>Record actual fuel, water and power consumption against what was planned.</li>
+    <li>Log anything that broke, anything missing from the kit, and anything carried and never used.</li>
+    <li>Open a new item for every finding. Close the ones the trip resolved.</li>
+    <li>Enter any service work in the service spreadsheet first, then refresh the derived documents.</li>
+  </ul>
+
+  <div class="rule rule-ok">
+    <strong>If you do only one thing</strong>
+    Log the odometer monthly and run the post-trip review. Those two habits keep the library honest; everything else can be caught up.
+  </div>
+
+</div>
+
+<div class="sec-header" id="s7">
+  <span class="sec-num">07</span>
+  <span class="sec-title">Working Sessions</span>
+  <span class="sec-sub">Owner-facing &mdash; skip if you are just reading</span>
+</div>
+<div class="content">
+
+  <p class="prose">Changes to the library are made in working sessions with an AI assistant. One chat is one session. This section is how to run one.</p>
+
+  <div class="subsec"><span class="subsec-title">Opening a session</span><span class="subsec-tag">What to say</span></div>
+  <p class="prose">State the job and the file. The assistant fetches the live pinned version, proposes a change specification, and waits. Terse instructions are normal and expected &mdash; a single word is a valid approval once a specification is on the table.</p>
+
+  <div class="table-scroll">
+  <table class="spec-table">
+    <thead><tr><th>You say</th><th>What happens</th></tr></thead>
+    <tbody>
+      <tr><td><b>"Execute"</b> / <b>"Go"</b></td><td>Autonomous execution within the agreed specification. Nothing outside it.</td></tr>
+      <tr><td><b>"Propose first"</b></td><td>Full change map, no edits, until you rule.</td></tr>
+      <tr><td><b>"What's open?"</b></td><td>A read of the register rather than a guess.</td></tr>
+      <tr><td><b>"Verify that"</b></td><td>Check against the live file rather than against the narrative describing it.</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="subsec"><span class="subsec-title">What you should expect back</span><span class="subsec-tag">Quality gates</span></div>
+  <ul class="chk">
+    <li>A change specification before any structural or multi-file edit.</li>
+    <li>Governance files delivered complete, never as patches to hand-apply.</li>
+    <li>Validation results stated explicitly, not assumed.</li>
+    <li>Errors disclosed rather than quietly corrected.</li>
+    <li>A propagation list showing every file touched and why.</li>
+  </ul>
+
+  <div class="rule rule-warn">
+    <strong>Two things to insist on</strong>
+    Never accept an edit made against a local or remembered copy of a file &mdash; it must be fetched live and pinned. And never accept a number in a field document without a source; a plausible figure reads as authority, and an invented one in a safety document is the most dangerous thing that can be added to this library.
+  </div>
+
+  <p class="prose"><strong>Big files.</strong> Anything very large gets its own session. Rebuilding a large document from fragments is how content is silently lost.</p>
+
+</div>
+
+<div class="sec-header" id="s8">
+  <span class="sec-num">08</span>
+  <span class="sec-title">When Something's Wrong</span>
+  <span class="sec-sub">Precedence and reporting</span>
+</div>
+<div class="content">
+
+  <div class="subsec"><span class="subsec-title">Which source wins</span><span class="subsec-tag">Precedence order</span></div>
+  <p class="prose">When two sources disagree, this is the order. It settles almost every conflict without argument.</p>
+
+  <div class="table-scroll">
+  <table class="spec-table">
+    <thead><tr><th>Question</th><th>Authority</th></tr></thead>
+    <tbody>
+      <tr><td>Which version of a file is real?</td><td><b>GitHub.</b> Always. Any local copy, phone cache or attachment is a copy and may be stale.</td></tr>
+      <tr><td>Is this item open or closed?</td><td><b>The Open Items Register.</b> Not a narrative describing it.</td></tr>
+      <tr><td>What is the rule?</td><td><b>Project Instructions.</b> Nothing in the session history is a live rule.</td></tr>
+      <tr><td>Does this document exist?</td><td><b>The Library Register.</b> Not the index page.</td></tr>
+      <tr><td>What is this vehicle figure?</td><td><b>The Facts file</b>, or the owning document named in the Controlled Duplication Register.</td></tr>
+      <tr><td>How should a document look?</td><td><b>Design Guidelines.</b></td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="subsec"><span class="subsec-title">Reporting a fault</span><span class="subsec-tag">What to capture</span></div>
+  <p class="prose">Anything counts &mdash; a wrong number, a broken link, a contradiction, a section that reads badly, a document that no longer matches reality. Note four things:</p>
+  <ul class="chk">
+    <li>Which document, and roughly where in it.</li>
+    <li>What it says now.</li>
+    <li>What you think it should say, or simply why it looks wrong.</li>
+    <li>Whether it is dangerous. A wrong emergency number is a different class of fault from a typo.</li>
+  </ul>
+  <p class="prose">That becomes an open item. It does not need to be diagnosed to be logged, and a suspicion is worth recording &mdash; several real defects in this library started as somebody saying that something looked odd.</p>
+
+  <div class="rule rule-warn">
+    <strong>Stale content on the phone</strong>
+    If the phone shows an old version while the repository is current, that is the offline cache doing its job, not a lost edit. Close the app fully and reopen it with a signal. If a page is missing entirely in a fresh browser, that is a publishing problem rather than a caching one &mdash; two different faults with two different fixes.
+  </div>
+
+  <div class="rule rule-info">
+    <strong>Suspect the measuring instrument first</strong>
+    When a check disagrees with a file, the check is wrong more often than the file. This has held true repeatedly. Confirm the fault exists before acting on it &mdash; a false finding costs more trust than the defect it claimed to catch.
+  </div>
+
+</div>
+
+<script>
+// Active TOC state
+const sections = ['s0','s1','s2','s3','s4','s5','s6','s7','s8'];
+const tocLinks = document.querySelectorAll('.toc-link');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      const idx = sections.indexOf(entry.target.id);
+      tocLinks.forEach((l, i) => l.classList.toggle('active', i === idx));
+    }
+  });
+}, {rootMargin: '-30% 0px -60% 0px'});
+sections.forEach(id => {
+  const el = document.getElementById(id);
+  if(el) observer.observe(el);
+});
+
+// Dynamic scroll margin
+function updateScrollMargins(){
+  const navH = document.querySelector('.sticky-nav-unit').offsetHeight;
+  document.querySelectorAll('.sec-header').forEach(el => {
+    el.style.scrollMarginTop = (navH + 4) + 'px';
+  });
+}
+updateScrollMargins();
+window.addEventListener('resize', updateScrollMargins);
+</script>
+</body>
+</html>
