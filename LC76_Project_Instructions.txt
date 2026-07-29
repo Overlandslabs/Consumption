@@ -1,7 +1,95 @@
 LC76 OVERLAND REFERENCE LIBRARY — PROJECT INSTRUCTIONS
 ═════════════════════════════════════════════════════════════════
 
-Last updated: 29 July 2026, twenty-third session (S10 PHILOSOPHY BATCH
+Last updated: 29 July 2026, twenty-fourth session (THE LIBRARY'S FIRST USER
+GUIDE BUILT — LC76_How_To_Use_This_Library.html, INFRASTRUCTURE CLASS, NINE
+SECTIONS; A LIBRARY-WIDE PRINT DEFECT FOUND BY DIAGNOSTIC — THE PRINT STANDARD
+HAS NEVER TAKEN EFFECT IN ANY OF 71 FILES; CACHE v24 → v25; OI-58 OPENED &
+CLOSED, OI-59 & OI-60 OPENED; next free OI-61).
+
+WHY THIS SESSION. The owner opened it as a business question — how the library
+might be monetised — and it turned into a usability finding, which is the more
+valuable of the two. Working through what a productised version would contain,
+he could not answer from his own library what the abbreviations meant, how to
+use the Open Items Register, or whether the Controlled Duplication Register
+existed. It does. It sits between Section E and the closed log. THE OWNER OF A
+FOUR-YEAR SYSTEM COULD NOT NAVIGATE IT, AND THAT IS A DEFECT IN THE SYSTEM, NOT
+IN HIM.
+
+ROOT CAUSE, AND IT GENERALISES. The governance layer was built WRITE-OPTIMISED
+FOR THE ASSISTANT, NOT READ-OPTIMISED FOR THE OWNER. Every instrument is a plain
+.txt outside the PWA — unlinked from index.html, not precached, not searchable,
+not printable. An assistant reads 108 KB instantly and joins three files in
+working memory; the owner cannot, and should not have to. He has been the
+proprietor of this system but never its operator. Confirmed against the Library
+Register that no user guide existed: R30 answers "which document covers X",
+index.html answers "I have a problem, where do I start", and nothing answered
+"what is this machinery and how do I drive it".
+
+A ONE-FACT-THREE-OWNERS VIOLATION, INSIDE THE LAYER THAT ENFORCES THE RULE. The
+Readiness Actions live in three places: their descriptions in this file, their
+status in the register, their tracking row in the working papers. Answering
+"what is RA-5 and is it done?" requires two files and a mental join. Logged as
+input to the dashboard work rather than fixed here.
+
+THE PRINT FINDING IS THE LARGER ONE, AND IT CAME FROM A COMPLAINT ABOUT FONT
+SIZE. Every font size in this library is declared in rem, which resolves against
+the ROOT element. Every @media print block sets body. BODY IS NOT ROOT, so for
+rem-sized text the print rule does nothing whatever, and never has. Depth-aware
+diagnostic across all 71 HTML files at pinned HEAD: ZERO set the root size in
+print; 1,547 rem declarations sit in base CSS. Printed pages have been coming
+out at screen size since the print standard was written. Detail and remedy:
+OI-60. GENERAL LESSON: A STANDARD THAT WAS NEVER MEASURED IS A HYPOTHESIS. DG
+§16 has been cited as satisfied in session after session on the strength of the
+rule being PRESENT in the file, which is not the same as it being IN EFFECT.
+
+THE REMEDY IS A KNOB, NOT A TABLE OF SIZES. One root declaration inside @media
+print, plus a shared block of rem heading overrides that COMPRESS the hierarchy
+— on screen a heading earns its size, on paper it need only be distinguishable.
+Because the overrides are rem rather than pt they do not fight the root, so a
+single value rescales the whole document with relationships intact. Prototyped
+on the guide: 11.6px → 8pt body, 13.0 → 9pt, 14.5 → 10pt, 17.4 → 12pt.
+
+AND THE FIRST SIZE RULING WAS WRONG BECAUSE THE DIAGNOSIS WAS MIS-STATED. Claude
+reported the body text as the cause of long printouts; the owner reasonably
+ruled 12pt, printed it, and found it worse. Body prose was already printing at
+11pt — the length was coming from 20.4pt section titles, a 33.6pt masthead and
+1.65 line-height. THE MEASUREMENT WAS AVAILABLE BEFORE THE RULING WAS SOUGHT AND
+WAS NOT TAKEN. Same class as the 29 Jul masthead-date error: an option offered is
+already a claim, and an owner ruling on a defective option set produces a
+defective ruling and costs a round trip. 8pt adopted on re-ruling.
+
+SECTIONS 03, 06 AND 08 OF THE GUIDE ARE WRITTEN FOR MARY-ANN. This is an RA-8
+input, not a courtesy. Solo capability against a sixty-document library with five
+register categories and twelve abbreviation families requires an entry point
+assuming no prior knowledge; the library had been written throughout on the
+assumption that its reader was the owner or the assistant.
+
+TWO OWNER GATES RULED. Classification: infrastructure class, no R-number,
+masthead-EXEMPT under DG S10 — but carrying a Last-updated line by DELIBERATE
+DIVERGENCE, because unlike the Design Guidelines this document goes stale
+whenever the library's shape changes. Recorded here and in the Library Register
+so a later session does not "correct" it. Placement: first card in index.html §2
+Find Anything, ahead of R30 — crisis-first is a stress-state principle and a
+manual does not outrank Emergency.
+
+FOUR PROBE ERRORS, ALL CAUGHT. The instructive one searched for this file's
+PHRASING of the duplication register rather than the register's actual table
+FORMAT, returned zero hits, and nearly reported that the register did not exist.
+Also: a "max-width:1" guard firing on the correct "max-width:100%"; a status
+extractor reading four entries as blank because they use varied vocabulary
+("DORMANT by design", "SUBSTANTIALLY CLOSED") rather than a keyword; and an
+over-broad print classifier whose "OK" category dissolved on spot-checking
+against computed sizes. SUSPECT THE PROBE FIRST, four for four.
+
+FILES THIS ROUND: 6 — LC76_How_To_Use_This_Library.html (new), index.html,
+sw.js, LC76_Library_Register.txt, LC76_Open_Items_Register.txt, plus this file
+and LC76_Session_History.txt. Validation clean — script-stripped depth walks
+0/0/0 on seventeen tag types, node --check clean, ids unique, TOC index contract
+9/9 in order under i===idx, design conformance swept. CACHE BUMPED v24 → v25 —
+a file was ADDED, which is the trigger.
+
+PRIOR (29 July 2026, twenty-third session) (S10 PHILOSOPHY BATCH
 COMPLETED — THE FOUR PHILOSOPHY DOCUMENTS MIGRATED TO THE SIX-SLOT MASTHEAD;
 DESIGN GUIDELINES v1.9 WITH A PHILOSOPHY FAMILY ALLOWANCE AND THE COLLECTION
 VOCABULARY CORRECTED THREE → FOUR; THE CHANGELOG RULE GAINS A NON-PROFILE
@@ -234,106 +322,13 @@ DATE BOUNDARY NOTE: this session began 28 Jul and ran past midnight. The
 Karoo restructure and the date-exposure passes are stamped 28 July, the day
 that work was done; the TOC programme is stamped 29 July.
 
-PRIOR (28 July 2026, twenty-first session) — WHY THAT SESSION. Two jobs that turned out to be one. The owner supplied a
-pre-approved handover pack for the THIRD AND FINAL TRANCHE of the 28 Jul
-public-exposure review — the dated absence window — and, in the same breath,
-a substantially revised Karoo itinerary. These converged: the new schedule was
-specified in NIGHTS, with no dates at all, which IS Gate A option (i). The
-suppression fell out of doing the restructure properly rather than fighting it.
-
-RULINGS (owner, 28 Jul): masthead Last-updated line ADDED to the itinerary
-(closing a pre-existing DG v1.6 S10 defect the pack flagged but correctly
-refused to fix silently); departure moved to a later date, held in the annex
-and stated nowhere in the library; Gates A(i)/B(i)/C/D all as recommended;
-JetBrains Mono in the itinerary ACCEPTED as-is rather than normalised to the
-IBM Plex Mono in the design-system spec.
-
-RUN AS TWO PASSES, ITINERARY FIRST. Pass 1 rebuilt LC76_Karoo_Winter_Loop_2026
-.html alone: 13 stops → 10, 32 → 29 nights, loop reversed to ANTICLOCKWISE so
-Enjo opens and doubles as the shakedown leg. Calvinia, Brandvlei, Loxton and
-Soutpoort dropped; Gannabos added; Merweville → guesthouse; Sutherland camps
-resolved to two verified options. Two new sections: §12 PASSES & ROADS and §17
-BREAKDOWN & SERVICE. Pass 2 took the cross-file generalisation and governance.
-
-THE SHARPEST LEAK WAS NOT THE ITINERARY TABLE. It was DARK SKIES, which mapped
-moon phases to named stops AND exact dates ("new moon <date> — falls during
-your <stop> stay (<dates>)"). That is a complete calendar reconstruction hiding
-in an astronomy section, and it would have survived any sweep aimed at the
-glance table. It was also already WRONG, referencing a stop the owner had
-dropped. Rewritten to day-relative guidance: the trip opens and closes dark and
-is bright in the middle. GENERAL LESSON: a date-suppression sweep must look for
-the ANCHORING, not the date format — anything that lets a reader pin Day N to a
-calendar day is in scope, including public astronomical facts used as a key.
-
-RA-1 DE-DATING WAS NEVER ACTUALLY COMPLETED — the session's most useful finding,
-and a repeat of a lesson already in this file. The 22 Jul undating ruling was
-remediated on 24 Jul against a NAMED LIST (R29 §2, R11, Facts §2). A corpus
-sweep this session found the departure-dated deadline STILL LIVE against RA-1 in
-THREE files: R11 (a SECOND, differently-worded instance the 24 Jul fix did not
-match), R23 and R38 (never in scope at all). The 24 Jul fix swept its change
-spec, not the corpus, and matched one literal string form rather than the fact.
-Same class as the eighteenth session's "77" and the RC1 pass's abbreviated-name
-form — three sessions, three recurrences, which is why the rule is stated in the
-imperative: THE INSTANCES YOU LIST ARE NOT THE INSTANCES THAT EXIST. Facts was
-correct throughout and needed only coarsening.
-
-RESEARCH THAT COULD NOT BE INVENTED. The owner asked for nearest Toyota dealers
-as breakdown cover. Six were verified with addresses and numbers — and the
-material finding is a NEGATIVE one: there is no franchised Toyota between
-Nieuwoudtville and Carnarvon, so stops 2–5 sit NINE CONSECUTIVE NIGHTS from a
-dealer in any direction. §17 therefore names a Calvinia tyre-and-repair shop as
-the realistic first call for that leg. A Victoria West listing was EXCLUDED
-because it reads as a branded filling station rather than a service dealer, and
-the Gannabos coordinate is published as "confirm on booking" because the source
-data is internally inconsistent by ~20 km. Pass specifications (Ouberg's
-gradients, Gannaga's bend count, the winter-snow warning) are cited from
-mountain-pass references, not recalled — F65 discipline in a document that now
-carries driving-hazard advice.
-
-ARCHIVES: NOTICE EXTENDED, NOT DUPLICATED. The OIR and Session History already
-carried a dated redaction notice from tranches 1 and 2. Per the pack, each was
-EXTENDED to name the date class rather than given a second notice block, and the
-extension states plainly that this suppression is temporary and reversible.
-
-FILES THIS ROUND: 11 — LC76_Karoo_Winter_Loop_2026.html (rebuilt, pass 1),
-LC76_Crew_Readiness_Training_Register.html, LC76_Expedition_Operations_Plan.html,
-LC76_Packing_Optimisation_Guide.html, LC76_Pre_Trip_Prep_Protocol.html,
-index.html, LC76_Facts.txt, LC76_Library_Register.txt,
-LC76_EX_Programme_Handover.txt, LC76_Open_Items_Register.txt,
-LC76_Session_History.txt, plus this file. Validation clean throughout —
-script-stripped div/span/section/table/tr depth walks 0/0/0, ids unique,
-node --check clean, TOC contract 19/19 both directions, section sequence 01–18,
-day arithmetic independently reconciled across the glance table and ten stop
-cards (29 nights, contiguous), roll-forward reconciliation on every governance
-file. Corpus stale sweep run AFTER the narratives were written and taken to
-zero. Content-only — CACHE STAYS v24. NOT COMMITTED, BY DESIGN:
-LC76_Private_Annex.txt (offline, .gitignore'd) — §4 delivered separately.
-
-SAME-SESSION ADDENDUM — A STALE STATUS CLAIM IN THIS FILE, FOUND BY THE OWNER
-(OI-53, opened and closed same day). Closing the second pass, Claude reported
-OI-32/OI-42 as still open pending the owner's confirmation that the orphan
-files were deleted. The owner asked which files. They were CLOSED on 27 Jul
-with HTTP 404 verification on all five; the assertion came from THIS FILE's
-nineteenth-session narrative, which had been overtaken the same day and never
-updated. Claude read the narrative instead of the authoritative register —
-the precise failure the "keep a pointer, not the detail" convention exists to
-prevent, committed while reporting on a session whose headline finding was a
-fix that swept its named list instead of the corpus. Same error class, one
-turn later. Claude ALSO overstated the constraint ("deletion cannot be
-verified from here"): repo presence at a pinned SHA is checkable and was
-checked on challenge — all five files absent at HEAD, no space-named files,
-tarballs or .DS_Store anywhere in the repo. The nineteenth-session sentence is
-ANNOTATED, not rewritten. A new SECOND CROSS-FILE CHECK is added to WORKING
-CONVENTIONS, and was run before being written down: a loose proximity probe
-reported four stale claims and a tight attached-claim probe reported two — the
-true number. The loose form matched "OI-50 OPENED & CLOSED" and an unrelated
-"PENDING". Next free OI-54.
-
 SESSION HISTORY — ARCHIVED SESSIONS (full record: LC76_Session_History.txt)
-Blocks below the twenty-first session were moved to the history file — those
-below the seventeenth on 27 Jul 2026, the seventeenth to twentieth on 29 Jul
-2026. One line each, newest-first; open the history file for detail.
+Blocks below the twenty-second session were moved to the history file — those
+below the seventeenth on 27 Jul 2026, the seventeenth to twentieth earlier on
+29 Jul 2026, the twenty-first later the same day. One line each, newest-first;
+open the history file for detail.
 
+  · 28 Jul 2026 · twenty-first— Karoo restructure; RA-1 de-dating completed
   · 28 Jul 2026 · twentieth  — RC1 values & full legal names withdrawn to annex
   · 27 Jul 2026 · nineteenth — PI restructure; Session History split out
   · 26 Jul 2026 · eighteenth — LiFePO4 multi-day block; 77 → 65.3 Ah/day
@@ -861,6 +856,21 @@ repo, not precached, no CACHE impact; see WORKING CONVENTIONS + OI-26):
 
 Supporting: index.html, LC76_Design_Guidelines.html, LC76_Profile_TEMPLATE.html,
 PWA manifests and service workers.
+  LC76_How_To_Use_This_Library.html  THE LIBRARY'S USER GUIDE (built 29 Jul
+                                     2026, OI-58). Nine sections: file classes,
+                                     glossary of every abbreviation, the four
+                                     registers explained, the change loop,
+                                     monthly/pre-trip/post-trip routine, session
+                                     protocol, precedence order, fault
+                                     reporting. INFRASTRUCTURE CLASS — no
+                                     R-number, masthead-EXEMPT under DG S10, but
+                                     carries a Last-updated line by DELIBERATE
+                                     DIVERGENCE (it goes stale whenever the
+                                     library's shape changes; the Design
+                                     Guidelines do not). DO NOT "CORRECT" THIS.
+                                     Sections 03/06/08 are written for Mary-Ann
+                                     as an RA-8 input. First card in index.html
+                                     §2, ahead of R30. PRECACHED.
 
 Audit, governance & data (internal — not field-reference, not precached):
   LC76_Library_Audit_2026-06.html        Coverage audit (Jun 2026), findings F1–F17
@@ -1227,6 +1237,17 @@ DESIGN SYSTEM (mandatory — full spec in LC76_Design_Guidelines.html, now v1.9)
 - Print CSS: Design Guidelines Section 16 print standard — 7mm page margins,
   7.5pt body, no forced page breaks by default, break-inside:avoid on small
   elements only, break-inside:auto + thead repeat on large tables (15+ rows).
+  ** THE 7.5pt BODY RULE HAS NEVER TAKEN EFFECT ANYWHERE — see OI-60. Sizes in
+  this library are declared in rem, which resolves against the ROOT element;
+  the print blocks set BODY. Diagnostic 29 Jul 2026: zero of 71 files set the
+  root size in print, 1,547 rem declarations sit in base CSS, and printed pages
+  have been coming out at screen size throughout. The remedy is a single root
+  declaration inside @media print plus rem heading overrides that COMPRESS the
+  hierarchy — prototyped on LC76_How_To_Use_This_Library.html (knob 11.6px =
+  8pt body, owner-ruled off a real printout after 12pt was trialled and
+  rejected). DG §16 must be corrected BEFORE any propagation; until it is,
+  §16 specifies a form that cannot work. DO NOT record a file as §16-compliant
+  on the strength of the rule being present. **
   Firefox: redefine CSS custom properties as hex with !important inside
   @media print — var(--token) does not resolve reliably in Firefox print.
 - Calculator shared files (embedded in other pages) must have the index nav
@@ -1396,7 +1417,8 @@ WORKING CONVENTIONS
   index-linked but NEVER precached in sw.js and NEVER trigger a CACHE bump,
   even when newly added. Verified against sw.js: zero references to either
   prior audit HTML or the OIR. The bump rule applies to LIBRARY files only.
-  Current CACHE constant: lc76-library-v24 (bumped 21 Jul 2026 — R42 Fire
+  Current CACHE constant: lc76-library-v25 (bumped 29 Jul 2026 — the user
+  guide LC76_How_To_Use_This_Library.html ADDED. Prior: v24, 21 Jul 2026 — R42 Fire
   Safety Guide added AND R35 renamed to LC76_Security_Scams_Guide.html;
   the later 21 Jul scam-expansion and index-restructure sessions, and the
   22 Jul decision session, were content-only and did not bump it).
