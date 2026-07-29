@@ -40,10 +40,11 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 .toc-link:hover,.toc-link.active{color:var(--amber2);border-color:var(--amber2);background:rgba(232,120,0,.1)}
 
 /* ── CONTENT ── */
-.content{padding:24px 5% 80px;max-width:100%}
+.content{padding:18px 5% 26px;max-width:100%}
+.content:last-of-type{padding-bottom:80px}
 
 /* ── SECTION HEADERS ── */
-.sec-header{display:flex;align-items:center;gap:12px;padding:10px 5%;background:var(--steeldk);border-left:5px solid var(--amber2);margin:32px 0 0}
+.sec-header{display:flex;align-items:center;gap:12px;padding:10px 5%;background:var(--steeldk);border-left:5px solid var(--amber2);margin:20px 0 0}
 .sec-num{font-family:var(--mono);font-size:.58rem;font-weight:600;color:#fff;background:var(--amber);padding:3px 8px;letter-spacing:.12em;flex-shrink:0}
 .sec-title{font-family:var(--display);font-size:1.7rem;letter-spacing:.10em;color:#fff;line-height:1}
 .sec-sub{font-family:var(--mono);font-size:.44rem;letter-spacing:.10em;color:var(--steellt);margin-left:auto;flex-shrink:0}
@@ -90,6 +91,7 @@ code{font-family:var(--mono);font-size:.75rem;color:var(--amber);background:var(
 .step-n{font-family:var(--mono);font-size:.58rem;font-weight:600;color:#fff;background:var(--amber);min-width:26px;height:22px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
 .step-b{flex:1;font-size:.88rem;line-height:1.55}
 .step-b b{font-weight:600}
+.who{font-family:var(--mono);font-size:.44rem;letter-spacing:.12em;text-transform:uppercase;color:var(--steelmd);border:1px solid var(--rule);padding:1px 5px;margin-right:7px;white-space:nowrap}
 
 /* ── CHECKLIST ── */
 .chk{list-style:none;margin:10px 0}
@@ -108,34 +110,72 @@ code{font-family:var(--mono);font-size:.75rem;color:var(--amber);background:var(
 /* ── PRINT ── */
 @media print{
   *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
-  @page{margin:7mm;size:A4}
+  @page{margin:9mm;size:A4}
+
+  /* ══ THE ONE KNOB ══
+     Every font size in this document is declared in rem, so this single value
+     scales the entire page. Body prose = 0.92rem, therefore:
+        11.6px -> 8pt body   (current)
+        13.0px -> 9pt body
+        14.5px -> 10pt body
+        17.4px -> 12pt body
+     The overrides below do NOT set absolute sizes. They are also in rem, and
+     exist only to COMPRESS the hierarchy: on screen a heading earns its size,
+     on paper it only has to be distinguishable. Change the knob and the whole
+     scale moves together, relationships intact. */
+  html{font-size:11.6px}
+  body{line-height:1.32}
+
   .lib-home-btn,.toc-bar{display:none!important}
   .sticky-nav-unit{position:static!important}
   .sticky-nav-unit::before{content:none}
-  .std-header{background:#0d0e12!important;padding:8px 14px 6px!important;border-bottom:2px solid #e07800!important}
-  .std-eyebrow{color:#6a7080!important}
-  .std-title{color:#e07800!important;font-size:1.5rem!important}
-  .std-sub{color:#c8a05a!important}
-  .std-vehicle{color:#6a7080!important}
-  .sec-header{background:#2a2f3a!important;border-left:4px solid #e07800!important;padding:6px 14px!important;page-break-after:avoid;break-after:avoid}
-  .sec-num{background:#b86800!important;color:#fff!important}
-  .sec-title{color:#fff!important}
-  .sec-sub{color:#a8b0bc!important}
-  .subsec{background:#edeae0!important;border-left:3px solid #b86800!important}
-  .spec-table{break-inside:auto}
+
+  /* masthead — compressed */
+  .std-header{background:#0d0e12!important;padding:6px 11px 5px!important;border-bottom:2px solid #e07800!important}
+  .std-eyebrow{color:#6a7080!important;font-size:.62rem!important;letter-spacing:.20em!important;margin-bottom:2px!important}
+  .std-title{color:#e07800!important;font-size:1.55rem!important}
+  .std-sub{color:#c8a05a!important;font-size:.66rem!important;margin-top:2px!important}
+  .std-vehicle{color:#6a7080!important;font-size:.62rem!important;margin-top:3px!important}
+
+  /* structure — compressed */
+  .content{padding:7px 4% 10px!important}
+  .content:last-of-type{padding-bottom:12px!important}
+  .sec-header{background:#2a2f3a!important;border-left:3px solid #e07800!important;padding:3px 11px!important;margin:10px 0 0!important;page-break-after:avoid;break-after:avoid}
+  .sec-num{background:#b86800!important;color:#fff!important;font-size:.62rem!important;padding:1px 5px!important}
+  .sec-title{color:#fff!important;font-size:1.20rem!important}
+  .sec-sub{color:#a8b0bc!important;font-size:.58rem!important}
+  .subsec{background:#edeae0!important;border-left:3px solid #b86800!important;padding:2px 11px!important;margin:9px 0 4px!important}
+  .subsec-title{font-size:1.02rem!important}
+  .subsec-tag{font-size:.58rem!important}
+  .prose{margin:3px 0 6px!important}
+
+  /* tables */
+  .spec-table{break-inside:auto;margin:6px 0!important}
   .spec-table thead{display:table-header-group}
-  .spec-table th{background:#2a2f3a!important;color:#fff!important}
+  .spec-table th{background:#2a2f3a!important;color:#fff!important;font-size:.58rem!important;padding:3px 6px!important}
+  .spec-table td{padding:2px 6px!important}
   .spec-table tr:nth-child(even) td{background:#edeae0!important}
-  .rule{break-inside:avoid}
+  .table-scroll{overflow:visible!important}
+  .tag{font-size:.70rem!important}
+
+  /* boxes, steps, lists */
+  .rule{break-inside:avoid;padding:5px 9px!important;margin:6px 0!important}
+  .rule strong{font-size:.62rem!important;margin-bottom:1px!important}
   .rule-warn{background:#fff4f0!important;border-color:#B91C1C!important;color:#5a1010!important}
   .rule-note{background:#fffbe8!important;border-color:#e07800!important;color:#4a3000!important}
   .rule-ok{background:#f0fff8!important;border-color:#059669!important;color:#0a3a20!important}
   .rule-info{background:#edeae0!important;border-color:#6a7080!important;color:#2a2f3a!important}
-  .layer-card{background:#edeae0!important;border:1px solid #d4cfc4!important;break-inside:avoid}
-  .step{break-inside:avoid}
-  pre{background:#2a2f3a!important;color:#e8d5a3!important}
-  code{background:#edeae0!important;color:#b86800!important}
-  body{font-size:7.5pt}
+  .layer-grid{gap:5px!important;margin:7px 0!important}
+  .layer-card{background:#edeae0!important;border:1px solid #d4cfc4!important;break-inside:avoid;padding:6px 9px!important}
+  .layer-k{font-size:.58rem!important;margin-bottom:1px!important}
+  .layer-t{font-size:1.00rem!important;margin-bottom:1px!important}
+  .steps{margin:6px 0!important}
+  .step{break-inside:avoid;margin-bottom:4px!important}
+  .step-n{font-size:.62rem!important;min-width:18px!important;height:14px!important}
+  .who{font-size:.58rem!important;padding:0 4px!important;margin-right:5px!important}
+  .chk li{margin-bottom:2px!important}
+  pre{background:#2a2f3a!important;color:#e8d5a3!important;font-size:.80rem!important;padding:7px 9px!important;line-height:1.45!important}
+  code{background:#edeae0!important;color:#b86800!important;font-size:.82rem!important}
 }
 </style>
 </head>
@@ -170,7 +210,7 @@ code{font-family:var(--mono);font-size:.75rem;color:var(--amber);background:var(
 </div>
 <div class="content">
 
-  <p class="prose lead">This library is the written memory of one vehicle and one expedition. It exists so that decisions already made do not have to be made again, and so that anything still unresolved is visible rather than remembered.</p>
+  <p class="prose lead">This library is the written memory of one vehicle across every trip it makes &mdash; weekends, long loops, and the two-year expedition alike. It exists so that decisions already made do not have to be made again, and so that anything still unresolved is visible rather than remembered. It outlasts any single journey.</p>
 
   <p class="prose">It is built from three layers. Almost every question about how to use it comes down to knowing which layer you are standing in.</p>
 
@@ -341,10 +381,15 @@ code{font-family:var(--mono);font-size:.75rem;color:var(--amber);background:var(
 
   <div class="subsec"><span class="subsec-title">Controlled Duplication Register</span><span class="subsec-tag">Inside the OIR</span></div>
   <p class="prose">A deliberately short list of facts that are <em>allowed</em> to appear in more than one document &mdash; emergency numbers, vehicle weights, licence dates, daily power draw. Each has one named owner and a mandatory list of everywhere it must be updated.</p>
-  <p class="prose">The rule: change the owner first, then sweep the whole propagation list in the <em>same</em> sitting. Never as a follow-up, never as a note for next time. This register exists because that discipline already failed once &mdash; a power figure drifted out of step with its own parts list in three separate documents and nobody noticed for weeks.</p>
+  <p class="prose"><b>How it works in practice.</b> Say an emergency number changes. R29 holds the master copy, so R29 is edited first. The register then lists R10, R1, R16 and R38 as the documents carrying a copy, and every one of them is updated before the work stops &mdash; not noted for next time, not left as a follow-up. In practice this happens during a working session and the assistant does the editing; your part is knowing the rule exists, so you can ask whether the whole list was swept.</p>
+  <p class="prose">The register exists because the discipline already failed once. A power figure drifted out of step with its own parts list in three separate documents and nobody noticed for weeks. Registering a fact does not stop it changing &mdash; it makes sure the change lands everywhere at once.</p>
 
   <div class="subsec"><span class="subsec-title">Project Instructions</span><span class="subsec-tag">The standing rules</span></div>
   <p class="prose">Vehicle specification, working conventions, design system, session protocol, and a narrative of recent sessions. Authoritative for doctrine. Older session narratives are archived into a separate history file so this one stays readable.</p>
+  <div class="rule rule-warn">
+    <strong>It exists in two places &mdash; both must be updated</strong>
+    The versioned file <code>LC76_Project_Instructions.txt</code> lives on GitHub and is the historical record. A copy also sits in the Claude project's own Instructions field, and <em>that</em> is the one that actually governs how a session behaves, because it is loaded automatically every time. Update one without the other and the library's rules and the assistant's behaviour quietly diverge.
+  </div>
 
   <div class="subsec"><span class="subsec-title">Library Register</span><span class="subsec-tag">What exists</span></div>
   <p class="prose">The definitive list of every document and its R-number. Check here before assuming a document exists or does not &mdash; the index page and any local copies can lag behind the repository.</p>
@@ -357,20 +402,20 @@ code{font-family:var(--mono);font-size:.75rem;color:var(--amber);background:var(
 <div class="sec-header" id="s5">
   <span class="sec-num">05</span>
   <span class="sec-title">The Loop</span>
-  <span class="sec-sub">How a change actually happens</span>
+  <span class="sec-sub">How the assistant works</span>
 </div>
 <div class="content">
 
-  <p class="prose">Every change to this library runs the same seven steps. Knowing the shape makes it obvious where a piece of work has stalled.</p>
+  <p class="prose">Every change to this library runs the same seven steps. <b>This is how the assistant works, not a procedure for you to follow.</b> Steps 1 and 2 are yours &mdash; noticing something and ruling on it. Steps 3 to 7 are the assistant's. Knowing the shape makes it obvious where a piece of work has stalled, and what to ask for.</p>
 
   <div class="steps">
-    <div class="step"><span class="step-n">1</span><span class="step-b"><b>Finding.</b> Something is wrong, missing or newly decided. It becomes an entry in the Open Items Register &mdash; immediately, in the sitting that found it.</span></div>
-    <div class="step"><span class="step-n">2</span><span class="step-b"><b>Ruling.</b> If it needs a decision rather than work, it waits for an owner ruling. Decisions are recorded with their reasoning, so they are not re-argued later.</span></div>
-    <div class="step"><span class="step-n">3</span><span class="step-b"><b>Specification.</b> For anything structural or spanning files, the full change is proposed and agreed before a single edit is made.</span></div>
-    <div class="step"><span class="step-n">4</span><span class="step-b"><b>Execution.</b> Files are fetched pinned to an exact version, then edited surgically &mdash; never rebuilt from memory or from a local copy.</span></div>
-    <div class="step"><span class="step-n">5</span><span class="step-b"><b>Validation.</b> Structural checks run before anything is delivered: tag balance, script syntax, unique anchors, and a sweep for stale text that must run wider than the change itself.</span></div>
-    <div class="step"><span class="step-n">6</span><span class="step-b"><b>Propagation.</b> Everything that delegates to the changed fact is updated in the same sitting &mdash; the owner document first, then everything downstream.</span></div>
-    <div class="step"><span class="step-n">7</span><span class="step-b"><b>Registers and commit.</b> The Open Items Register and Project Instructions are updated, dates bumped, and the whole set committed to GitHub together.</span></div>
+    <div class="step"><span class="step-n">1</span><span class="step-b"><span class="who">You</span><b>Finding.</b> Something is wrong, missing or newly decided. It becomes an entry in the Open Items Register &mdash; immediately, in the sitting that found it.</span></div>
+    <div class="step"><span class="step-n">2</span><span class="step-b"><span class="who">You</span><b>Ruling.</b> If it needs a decision rather than work, it waits for an owner ruling. Decisions are recorded with their reasoning, so they are not re-argued later.</span></div>
+    <div class="step"><span class="step-n">3</span><span class="step-b"><span class="who">Assistant</span><b>Specification.</b> For anything structural or spanning files, the full change is proposed and agreed before a single edit is made.</span></div>
+    <div class="step"><span class="step-n">4</span><span class="step-b"><span class="who">Assistant</span><b>Execution.</b> Files are fetched pinned to an exact version, then edited surgically &mdash; never rebuilt from memory or from a local copy.</span></div>
+    <div class="step"><span class="step-n">5</span><span class="step-b"><span class="who">Assistant</span><b>Validation.</b> Structural checks run before anything is delivered: tag balance, script syntax, unique anchors, and a sweep for stale text that must run wider than the change itself.</span></div>
+    <div class="step"><span class="step-n">6</span><span class="step-b"><span class="who">Assistant</span><b>Propagation.</b> Everything that delegates to the changed fact is updated in the same sitting &mdash; the owner document first, then everything downstream.</span></div>
+    <div class="step"><span class="step-n">7</span><span class="step-b"><span class="who">Assistant</span><b>Registers and commit.</b> The Open Items Register and Project Instructions are updated, dates bumped, and the whole set committed to GitHub together.</span></div>
   </div>
 
   <div class="rule rule-warn">
@@ -390,8 +435,8 @@ code{font-family:var(--mono);font-size:.75rem;color:var(--amber);background:var(
   <div class="subsec"><span class="subsec-title">Every month</span><span class="subsec-tag">Ten minutes</span></div>
   <ul class="chk">
     <li>Read the odometer and log it &mdash; this drives service intervals across the whole library.</li>
-    <li>Glance at category A of the Open Items Register. Anything with a date approaching?</li>
-    <li>Glance at category D. Is anything waiting on a decision only you can make?</li>
+    <li>Open the open-items view and read category A. Anything with a date approaching?</li>
+    <li>Read category D. Is anything waiting on a decision only you can make?</li>
   </ul>
 
   <div class="subsec"><span class="subsec-title">Before a trip</span><span class="subsec-tag">Pre-trip protocol</span></div>
