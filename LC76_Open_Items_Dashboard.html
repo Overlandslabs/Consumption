@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0d0e12">
+<title>Open Items Dashboard — LC76</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500;600&family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0d0e12;--paper:#dad2c0;--paper2:#edeae0;--rule:#d4cfc4;
+  --amber:#b86800;--amber2:#e07800;
+  --steeldk:#2a2f3a;--steelmd:#6a7080;--steellt:#a8b0bc;
+  --red-warn:#B91C1C;--green-ok:#059669;
+  --mono:'IBM Plex Mono',monospace;
+  --sans:'Oswald','Arial Narrow',sans-serif;
+  --display:'Bebas Neue',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{overflow-x:hidden;overflow-x:clip;overscroll-behavior-x:none}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.6;overflow-x:clip;overscroll-behavior-x:none}
+
+/* ── STICKY NAV ── */
+.sticky-nav-unit{position:sticky;top:0;z-index:100;padding-top:env(safe-area-inset-top);background:var(--ink)}
+.sticky-nav-unit::before{content:"";position:absolute;left:0;right:0;bottom:100%;height:100vh;background:var(--ink)}
+.std-header{background:var(--ink);padding:18px 24px 14px;position:relative;border-bottom:3px solid var(--amber)}
+.lib-home-btn{position:absolute;top:14px;right:20px;font-family:var(--mono);font-size:.6rem;letter-spacing:.14em;color:var(--steellt);text-decoration:none;border:1px solid var(--steelmd);padding:3px 8px;border-radius:2px}
+.std-eyebrow{font-family:var(--mono);font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--steelmd);margin-bottom:6px}
+.std-title{font-family:var(--display);font-size:clamp(1.9rem,5vw,2.8rem);letter-spacing:.03em;color:var(--amber2);line-height:1}
+.std-sub{font-family:var(--mono);font-size:.62rem;letter-spacing:.06em;color:#c8a05a;margin-top:6px}
+.std-vehicle{font-family:var(--mono);font-size:.55rem;letter-spacing:.10em;color:var(--steelmd);margin-top:8px}
+.toc-bar{background:var(--steeldk);padding:7px 24px;display:flex;align-items:center;gap:5px;flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none;border-bottom:2px solid var(--amber)}
+.toc-bar::-webkit-scrollbar{display:none}
+.toc-label{font-family:var(--mono);font-size:.5rem;letter-spacing:.2em;color:var(--steelmd);white-space:nowrap;margin-right:4px}
+.toc-link{font-family:var(--mono);font-size:.58rem;letter-spacing:.08em;color:var(--steellt);white-space:nowrap;padding:3px 7px;border-radius:2px;cursor:pointer}
+.toc-link.active{background:var(--amber);color:#fff}
+
+/* ── CONTENT ── */
+.content{padding:18px 5% 60px;max-width:100%}
+.sec-header{background:var(--steeldk);border-left:4px solid var(--amber);padding:7px 12px;margin:26px 0 12px;display:flex;align-items:baseline;gap:10px}
+.sec-num{font-family:var(--mono);font-size:.58rem;letter-spacing:.18em;color:var(--amber2)}
+.sec-header h2{font-family:var(--display);font-size:1.35rem;letter-spacing:.04em;color:var(--paper2);font-weight:400}
+.lede{font-size:.94rem;margin-bottom:14px;max-width:none}
+
+/* provenance */
+.prov{background:var(--paper2);border:1px solid var(--rule);border-left:4px solid var(--steelmd);padding:10px 13px;font-family:var(--mono);font-size:.66rem;line-height:1.55;color:var(--steeldk)}
+.prov b{color:var(--amber)}
+
+/* KPI */
+.kpi{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 4px}
+.kpi div{flex:1 1 90px;background:var(--paper2);border:1px solid var(--rule);border-top:3px solid var(--steelmd);padding:8px 10px}
+.kpi .n{font-family:var(--display);font-size:1.9rem;line-height:1;color:var(--steeldk)}
+.kpi .l{font-family:var(--mono);font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;color:var(--steelmd);margin-top:3px}
+.kpi .k-safety{border-top-color:var(--red-warn)} .kpi .k-safety .n{color:var(--red-warn)}
+.kpi .k-live{border-top-color:var(--amber2)} .kpi .k-live .n{color:var(--amber)}
+
+/* filters */
+.filters{display:flex;flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none;gap:6px;margin:16px 0 6px;padding-bottom:2px}
+.filters::-webkit-scrollbar{display:none}
+.chip{font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;white-space:nowrap;padding:5px 10px;border:1px solid var(--steelmd);background:var(--paper2);color:var(--steeldk);cursor:pointer;border-radius:2px}
+.chip.on{background:var(--steeldk);color:var(--paper2);border-color:var(--steeldk)}
+.srch{width:100%;font-family:var(--sans);font-size:.9rem;padding:8px 10px;border:1px solid var(--steelmd);background:var(--paper2);color:var(--ink);margin-top:6px}
+.count{font-family:var(--mono);font-size:.62rem;color:var(--steelmd);margin:8px 0 2px}
+
+/* items */
+.oi{background:var(--paper2);border:1px solid var(--rule);border-left:4px solid var(--steelmd);margin-bottom:9px}
+.oi-safety{border-left-color:var(--red-warn)}
+.oi-live{border-left-color:var(--amber2)}
+.oi-waiting{border-left-color:var(--steellt);opacity:.9}
+.oi-head{width:100%;display:flex;align-items:flex-start;gap:9px;background:none;border:0;text-align:left;padding:10px 12px 4px;cursor:pointer;font-family:var(--sans);color:var(--ink)}
+.oi-id{font-family:var(--mono);font-size:.68rem;font-weight:600;color:var(--amber);flex:0 0 auto;padding-top:2px}
+.oi-title{flex:1 1 auto;font-size:.98rem;line-height:1.35;font-weight:500}
+.oi-chev{font-family:var(--mono);font-size:.9rem;color:var(--steelmd);flex:0 0 auto}
+.oi-ref{padding:0 12px 5px 12px;font-family:var(--mono);font-size:.58rem;line-height:1.5;color:var(--steelmd)}
+.oi-meta{padding:0 12px 7px 12px;font-family:var(--mono);font-size:.63rem;line-height:1.9;color:var(--steeldk)}
+.m-k{color:var(--amber);font-weight:600;letter-spacing:.16em;text-transform:uppercase;margin-right:5px}
+.m-v{color:var(--steeldk)}
+.m-v+.m-k{margin-left:12px}
+.oi-status{padding:0 12px 10px 12px;font-size:.86rem;color:var(--steeldk)}
+.oi-detail{display:none;padding:9px 12px 12px 12px;font-size:.88rem;line-height:1.62;border-top:1px dashed var(--rule);margin:0 12px 0}
+.oi-detail p{margin-bottom:.65em;max-width:none}
+.oi-detail p:last-child{margin-bottom:0}
+.oi-detail .none{color:var(--steelmd);font-family:var(--mono);font-size:.72rem}
+.oi.open .oi-detail{display:block}
+.oi.open .oi-chev{color:var(--amber)}
+.empty{font-family:var(--mono);font-size:.72rem;color:var(--steelmd);padding:14px 0}
+
+@media (max-width:520px){
+  .std-header{padding:14px 16px 11px} .toc-bar{padding:6px 16px}
+  .oi-title{font-size:.92rem}
+}
+
+@media print{
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  @page{margin:7mm;size:A4}
+  /* ══ THE ONE KNOB ══ every size here is rem, so this single value rescales
+     the document with its hierarchy intact. 11.6px -> 8pt body. */
+  html{font-size:11.6px}
+  body{line-height:1.32}
+  .lib-home-btn,.toc-bar,.filters,.srch,.oi-chev{display:none!important}
+  .sticky-nav-unit{position:static!important}
+  .sticky-nav-unit::before{content:none}
+  .std-header{background:#0d0e12!important;padding:6px 11px 5px!important;border-bottom:2px solid #e07800!important}
+  .std-eyebrow{color:#6a7080!important;font-size:.62rem!important}
+  .std-title{color:#e07800!important;font-size:1.55rem!important}
+  .std-sub{color:#c8a05a!important;font-size:.66rem!important}
+  .std-vehicle{color:#6a7080!important;font-size:.62rem!important}
+  .content{padding:7px 4% 10px!important}
+  .sec-header{background:#2a2f3a!important;border-left:3px solid #b86800!important;padding:4px 8px!important;margin:10px 0 6px!important}
+  .sec-header h2{color:#edeae0!important;font-size:1.05rem!important}
+  .oi{background:#edeae0!important;border:1px solid #d4cfc4!important;break-inside:avoid;margin-bottom:5px}
+  .oi-detail{display:block!important;border-top:1px dashed #d4cfc4!important}
+  .oi-head{padding:6px 9px 2px!important} .oi-title{font-size:.88rem!important}
+  .oi-meta,.oi-status,.oi-detail{font-size:.78rem!important}
+  .oi-ref{font-size:.7rem!important;color:#6a7080!important}
+  .m-k{color:#b86800!important}
+  .kpi div{background:#edeae0!important;border:1px solid #d4cfc4!important}
+  .prov{background:#edeae0!important;border-left:3px solid #6a7080!important;font-size:.72rem!important}
+}
+</style>
+</head>
+<body>
+
+<div class="sticky-nav-unit">
+  <header class="std-header">
+    <a class="lib-home-btn" href="index.html">&#8962; Index</a>
+    <div class="std-eyebrow">LC76 Library &middot; Infrastructure</div>
+    <h1 class="std-title">Open Items Dashboard</h1>
+    <div class="std-sub">Everything still open, and who has to move it</div>
+    <div class="std-vehicle">Generated 29 July 2026 &middot; 40 open items</div>
+  </header>
+  <nav class="toc-bar">
+    <span class="toc-label">Contents</span>
+    <span class="toc-link" onclick="go('s0')">00 Summary</span>
+    <span class="toc-link" onclick="go('s1')">01 Safety</span>
+    <span class="toc-link" onclick="go('s2')">02 Live Now</span>
+    <span class="toc-link" onclick="go('s3')">03 Waiting</span>
+    <span class="toc-link" onclick="go('s4')">04 About</span>
+  </nav>
+</div>
+
+<div class="content">
+
+  <div class="sec-header" id="s0"><span class="sec-num">00</span><h2>Summary</h2></div>
+  <p class="lede">Every open item on the register, newest findings included. Tap any item to read the full entry. Nothing is hidden behind a tab &mdash; the filters below narrow the list without losing anything.</p>
+
+  <div class="kpi">
+    <div class="k-safety"><div class="n">1</div><div class="l">Safety</div></div>
+    <div class="k-live"><div class="n">29</div><div class="l">Live now</div></div>
+    <div><div class="n">10</div><div class="l">Date-locked</div></div>
+    <div><div class="n">8</div><div class="l">Workshop</div></div>
+    <div><div class="n">6</div><div class="l">Your call</div></div>
+  </div>
+
+  <div class="filters">
+    <span class="chip on" data-f="all" onclick="filt(this)">All 40</span>
+    <span class="chip" data-f="workshop" onclick="filt(this)">Next workshop visit (8)</span>
+    <span class="chip" data-f="neil" onclick="filt(this)">Neil</span>
+    <span class="chip" data-f="claude" onclick="filt(this)">Library &amp; document work (13)</span>
+    <span class="chip" data-f="decision" onclick="filt(this)">Waiting on your decision (6)</span>
+  </div>
+  <input class="srch" id="q" type="search" placeholder="Search titles and detail…" oninput="apply()">
+  <div class="count" id="cnt"></div>
+
+  <div class="sec-header" id="s1"><span class="sec-num">01</span><h2>Safety First</h2></div>
+  <p class="lede">Flagged safety-relevant on the register. These outrank everything below.</p>
+      <article class="oi oi-safety" data-tags="workshop neil" data-band="safety" data-text="stop the axle leaks at both ends — one is soaking a parking brake axle oil &amp; grease leaks flagged at the apr 2026 service — both ends neil + workshop next workshop visit (a) rear hub seal weeping @ 308,248 km. the rear drums are the primary parking brake; gear oil tracking onto the shoes destroys friction outright. shoes were replaced jan 2026 @ 293,949 km, so contamination inside ~14,000 km would be a fast failure. confirm which side, check both drums; a wet shoe means seal and shoes replaced before the vehicle moves. (b) front knuckle grease escaping @ 308,248 km. the birfields run inside the knuckle packed with grease; once dry, wear accelerates to cv failure. knuckle kit was replaced feb 2025 @ 271,200 km. confirm side, re-pack with molybdenum disulphide grease, inspect the seal face. do not defer to the field — a dry birfield in deep sand or a river crossing fails quickly and is not a roadside repair. detail: r8 §2. owning document is r8; this is a pointer, not a copy.">
+        <button class="oi-head" onclick="tog(this)" aria-expanded="false">
+          <span class="oi-id">OI-61</span>
+          <span class="oi-title">Stop the axle leaks at both ends — one is soaking a parking brake</span>
+          <span class="oi-chev">+</span>
+        </button>
+        <div class="oi-ref">Register entry: Axle oil &amp; grease leaks flagged at the Apr 2026 service — BOTH ENDS</div>
+        <div class="oi-meta">
+          <span class="m-k">Who</span><span class="m-v">NEIL + WORKSHOP</span>
+          <span class="m-k">When</span><span class="m-v">next workshop visit</span>
+          <span class="m-k">Source</span><span class="m-v">R8 §2 / ADV-001, ADV-002</span>
+        </div>
+        <div class="oi-status">OPEN. SAFETY-RELEVANT — the highest-severity pair on this register.</div>
+        <div class="oi-detail"><p>(a) REAR HUB SEAL WEEPING @ 308,248 km. The rear drums are the primary parking brake; gear oil tracking onto the shoes destroys friction outright. Shoes were replaced Jan 2026 @ 293,949 km, so contamination inside ~14,000 km would be a fast failure. Confirm which side, check both drums; a wet shoe means seal and shoes replaced before the vehicle moves.</p><p>(b) FRONT KNUCKLE GREASE ESCAPING @ 308,248 km. The birfields run inside the knuckle packed with grease; once dry, wear accelerates to CV failure. Knuckle kit was replaced Feb 2025 @ 271,200 km. Confirm side, re-pack with molybdenum disulphide grease, inspect the seal face.</p><p>DO NOT DEFER TO THE FIELD — a dry birfield in deep sand or a river crossing fails quickly and is not a roadside repair. Detail: R8 §2. Owning document is R8; this is a pointer, not a copy.</p></div>
+      </article>
+
+  <div class="sec-header" id="s2"><span class="sec-num">02</span><h2>Live Now</h2></div>
+  <p class="lede">No date lock. These can move as soon as you or a workshop can get to them.</p>
+      <article class="oi oi-live" data-tags="neil" data-band="live" data-text="weigh the vehicle at a weighbridge, fully loaded ra-1 loaded weighbridge, full expedition trim neil undated — owner-timed (22 jul 2026) trip. the former pre-departure deadline is withdrawn by owner decision; never re-attach a date. kept first in this section despite carrying no deadline — it still gates more downstream work than anything else here. closing ra-1 closes ta-002 and triggers the single library-wide payload propagation (r11, r12, facts §2), collapsing the three circulating kerb/payload pairs. until the slip exists, every kerb and payload figure stays provisional and must be re-flagged rather than propagated as settled. known limitation accepted with the undating: the karoo loop no longer doubles as a shakedown at measured weight, so its r23 §7 consumption actuals carry an unmeasured mass basis — record the caveat with the data.">
+        <button class="oi-head" onclick="tog(this)" aria-expanded="false">
+          <span class="oi-id">OI-1</span>
+          <span class="oi-title">Weigh the vehicle at a weighbridge, fully loaded</span>
+          <span class="oi-chev">+</span>
+        </button>
+        <div class="oi-ref">Register entry: RA-1 Loaded weighbridge, full expedition trim</div>
+        <div class="oi-meta">
+          <span class="m-k">Who</span><span class="m-v">NEIL</span>
+          <span class="m-k">When</span><span class="m-v">UNDATED — owner-timed (22 Jul 2026)</span>
+          <span class="m-k">Source</span><span class="m-v">Consultant review 8 Jul</span>
+        </div>
+        <div class="oi-status">OPEN — CRITICAL PATH for library propagation, NOT for the Karoo</div>
+        <div class="oi-detail"><p>trip. The former pre-departure deadline is WITHDRAWN by owner decision; NEVER re-attach a date. Kept first in this section despite carrying no deadline — it still gates more downstream work than anything else here. Closing RA-1 closes TA-002 and triggers the single library-wide payload propagation (R11, R12, Facts §2), collapsing the three circulating kerb/payload pairs. Until the slip exists, every kerb and payload figure stays PROVISIONAL and must be re-flagged rather than propagated as settled. Known limitation accepted with the undating: the Karoo loop no longer doubles as a shakedown at measured weight, so its R23 §7 consumption actuals carry an unmeasured mass basis — record the caveat with the data.</p></div>
+      </article>
+      <article class="oi oi-live" data-tags="neil" data-band="live" data-text="recovery practice day — winch, snatch-block and sand ladders, both of us ra-7 recovery practice day (winch under load, snatch-block, maxtrax; both crew rig, both drive) — sign-off in r37 neil+mary-ann pre-karoo (before departure) ">
+        <button class="oi-head" onclick="tog(this)" aria-expanded="false">
+          <span class="oi-id">OI-2</span>
+          <span class="oi-title">Recovery practice day — winch, snatch-block and sand ladders, both of us</span>
+          <span class="oi-chev">+</span>
+        </button>
+        <div class="oi-ref">Register entry: RA-7 Recovery practice day (winch under load, snatch-block, MaxTrax; both crew rig, both drive) — sign-off in R37</div>
+        <div class="oi-meta">
+          <span class="m-k">Who</span><span class="m-v">NEIL+MARY-ANN</span>
+          <span class="m-k">When</span><span class="m-v">pre-Karoo (before departure)</span>
+          <span class="m-k">Source</span><span class="m-v">Consultant review 8 Jul</span>
+        </div>
+        <div class="oi-status">OPEN</div>
+        <div class="oi-detail"><p class="none">No further detail on the register.</p></div>
+      </article>
+      <article class="oi oi-live" data-tags="neil" data-band="live" data-text="do a live test of the inreach satellite messenger ra-10 inreach mini 2 live sos/tracking test neil pre-karoo (before departure) ">
+        <button class="oi-head" onclick="tog(this)" aria-expanded="false">
+          <span class="oi-id">OI-3</span>
+          <span class="oi-title">Do a live test of the inReach satellite messenger</span>
+          <span class="oi-chev">+</span>
+        </button>
+        <div class="oi-ref">Register entry: RA-10 inReach Mini 2 live SOS/tracking test</div>
+        <div class="oi-meta">
+          <span class="m-k">Who</span><span class="m-v">NEIL</span>
+          <span class="m-k">When</span><span class="m-v">pre-Karoo (before departure)</span>
+          <span class="m-k">Source</span><span class="m-v">RA-10 / R16 §6 items 1–5</span>
+        </div>
+        <div class="oi-status">OPEN — paper loop closed both sides; physical test outstanding.</div>
+        <div class="oi-detail"><p class="none">No further detail on the register.</p></div>
+      </article>
+      <article class="oi oi-live" data-tags="neil" data-band="live" data-text="wilderness first aid course, plus medical and dental checks, for both of us ra-6 medical readiness: wfa course (both), medical + dental screening, prescribing-doctor kit with border paperwork → r37 neil+mary-ann pre-departure (course value pre-karoo) ">
+        <button class="oi-head" onclick="tog(this)" aria-expanded="false">
+          <span class="oi-id">OI-4</span>
+          <span class="oi-title">Wilderness first aid course, plus medical and dental checks, for both of us</span>
+          <span class="oi-chev">+</span>
+        </button>
+        <div class="oi-ref">Register entry: RA-6 Medical readiness: WFA course (both), medical + dental screening, prescribing-doctor kit with border paperwork → R37</div>
+        <div class="oi-meta">
+          <span class="m-k">Who</span><span class="m-v">NEIL+MARY-ANN</span>
+          <span class="m-k">When</span><span class="m-v">pre-departure (course value pre-Karoo)</span>
+          <span class="m-k">Source</span><span class="m-v">8 Jul</span>
+        </div>
+        <div class="oi-status">OPEN</div>
+        <div class="oi-detail"><p class="none">No further detail on the register.</p></div>
+      </article>
+      <article class="oi oi-live" data-tags="workshop neil" data-band="live" data-text="baseline engine health tests — compression, leak-down and oil analysis ra-2 diagnostic baseline: compression + leak-down (all 6), coolant analysis, start spectrographic oil-analysis programme neil (workshop) next service ~315,000 km ">
+        <button class="oi-head" onclick="tog(this)" aria-expanded="false">
+          <span class="oi-id">OI-5</span>
+          <span class="oi-title">Baseline engine health tests — compression, leak-down and oil analysis</span>
+          <span class="oi-chev">+</span>
+        </button>
+        <div class="oi-ref">Register entry: RA-2 Diagnostic baseline: compression + leak-down (all 6), coolant analysis, START spectrographic oil-analysis programme</div>
+        <div class="oi-meta">
+          <span class="m-k">Who</span><span class="m-v">NEIL (workshop)</span>
+          <span class="m-k">When</span><span class="m-v">next service ~315,000 km</span>
+          <span class="m-k">Source</span><span class="m-v">Consultant review 8 Jul</span>
+        </div>
+        <div class="oi-status">OPEN — combine with OI-7 at the same workshop visit.</div>
+        <div class="oi-detail"><p class="none">No further detail on the register.</p></div>
+      </article>
+      <article class="oi oi-live" data-tags="workshop neil" data-band="live" data-text="assess the radiator, fan hub and hoses; replace whatever is tired ra-5 cooling hardware condition assessment (radiator core, viscous hub, hoses — replace on condition) neil (workshop) pre-departure; assess at next service ">
+        <button class="oi-head" onclick="tog(this)" aria-expanded="false">
+          <span class="oi-id">OI-6</span>
+          <span class="oi-title">Assess the radiator, fan hub and hoses; replace whatever is tired</span>
+          <span class="oi-chev">+</span>
+        </button>
+        <div class="oi-ref">Register entry: RA-5 Cooling hardware condition assessment (radiator core, viscous hub, hoses — replace on condition)</div>
+        <div class="oi-meta">
+          <span class="m-k">Who</span><span class="m-v">NEIL (workshop)</span>
+          <span class="m-k">When</span><span class="m-v">pre-departure; assess at next service</span>
+          <span class="m-k">Source</span><span class="m-v">8 Jul</span>
+        </div>
+        <div class="oi-status">OPEN</div>
+        <div class="oi-detail"><p class="none">No further detail on the register.</p></div>
+      </article>
+      <article class="oi oi-live" data-tags="workshop neil" data-band="live" data-text="check the wheel-nut torque figure against the vehicle handbook r40 §6 wheel-nut torque (131 nm) — verify vs vehicle handbook; correct r40 in place if it differs neil next service ~315,000 km ">
+        <button class="oi-head" onclick="tog(this)" aria-expanded="false">
+          <span class="oi-id">OI-7</span>
+          <span class="oi-title">Check the wheel-nut torque figure against the vehicle handbook</span>
+          <span class="oi-chev">+</span>
+        </button>
+        <div class="oi-ref">Register entry: R40 §6 wheel-nut torque (131 Nm) — verify vs vehicle handbook; correct R40 in place if it differs</div>
+        <div class="oi-meta">
+          <span class="m-k">Who</span><span class="m-v">NEIL</span>
+          <span class="m-k">When</span><span class="m-v">next service ~315,000 km</span>
+          <span class="m-k">Source</span><span class="m-v">R40 build 10 Jul</span>
+        </div>
+        <div class="oi-status">OPEN</div>
+        <div class="oi-detail"><p class="none">No further detail on the register.</p></div>
+      </article>
+      <article class="oi oi-live" data-tags="neil" data-band="live" data-text="get the battery installer&#x27;s invoice and put the cost on record gate b — manjaro lifepo4 invoice (quote lc76sw004) neil when invoice lands json/kpis, and ledger_current §3 totals.">
+        <button class="oi-head" onclick="tog(this)" aria-expanded="false">
+          <span class="oi-id">OI-8</span>
+          <span class="oi-title">Get the battery installer&#x27;s invoice and put the cost on record</span>
+          <span class="oi-chev">+</span>
+        </button>
+        <div class="oi-ref">Register entry: Gate B — Manjaro LiFePO4 invoice (quote LC76SW004)</div>
+        <div class="oi-meta">
+          <span class="m-k">Who</span><span class="m-v">NEIL</span>
+          <span class="m-k">When</span><span class="m-v">when invoice lands</span>
+          <span class="m-k">Source</span><span class="m-v">EX-12 S1</span>
+        </div>
+        <div class="oi-status">OPEN — on receipt: one session updates the xlsx row, R8 dashboard</div>
+        <div class="oi-detail"><p>JSON/KPIs, and Ledger_Current §3 totals.</p></div>
+      </article>
+      <article class="oi oi-live" data-tags="claude" data-band="live" data-text="print and laminate the emergency pages for the door pocket ex-11 crisis-critical printed field pack (r1, r10, r18, r37 extract, active profile; r40 §2–§5 candidate) claude soft deadline pre-karoo (print+laminate before departure) ">
+        <button class="oi-head" onclick="tog(this)" aria-expanded="false">
+          <span class="oi-id">OI-10</span>
+          <span class="oi-title">Print and laminate the emergency pages for the door pocket</span>
+          <span class="oi-chev">+</span>
+        </button>
+        <div class="oi-ref">Register entry: EX-11 Crisis-critical printed field pack (R1, R10, R18, R37 extract, active profile; R40 §2–§5 candidate)</div>
+        <div class="oi-meta">
+          <span class="m-k">Who</span><span class="m-v">CLAUDE</span>
+          <span class="m-k">When</span><span class="m-v">soft deadline pre-Karoo (print+laminate before departure)</span>
+          
+        </div>
+        <div class="oi-status">OPEN — recommended next build session.</div>
+        <div class="oi-detail"><p class="none">No further detail on the register.</p></div>
+      </article>
+      <article class="oi oi-live" data-tags="claude" data-band="live" data-text="build the consumables and spares list for the expedition ex-8 r3 expedition consumables ledger (60,000+ km basis) + r23 post-trip review protocol + §06 retrofit to profiles 001–006 + r40 kit gaps (levers ×3, protectors ×3, valve stems ×4 + tpms seals, bead lube) + ra-4 rotating-electrics spares + no-trace camp kit (20 jul 2026): consumables — pack-out sanitation bags, gelling agent/powder, urine bags, loo rolls, hand sanitizer (usage rate per crew-day over the 60,000+ km basis); hardware — flat-pack fire pan, braai/cooking kit, fibreglass ground sheet, ash tin + scoop, sealed sanitation container (doctrine r17 §5 / r42 §4; kit lines r11) + fire-suppression kit (21 jul 2026): fibreglass fire blanket ≥1.2×1.2 m (1.8 m preferred), 2× aerosol suppressor sticks (fire stryker class), extinguisher fleet review vs the r42 §1 sizing standard (primary ≥2.5 kg), tent knife ×2 (doctrine r42 §1–§4; kit lines r11) claude before karoo return so r23 protocol exists for first live execution ">
+        <button class="oi-head" onclick="tog(this)" aria-expanded="false">
+          <span class="oi-id">OI-11</span>
+          <span class="oi-title">Build the consumables and spares list for the expedition</span>
+          <span class="oi-chev">+</span>
+        </button>
+        <div class="oi-ref">Register entry: EX-8 R3 Expedition Consumables Ledger (60,000+ km basis) + R23 post-trip review protocol + §06 retrofit to profiles 001–006 + R40 kit gaps (levers ×3, protectors ×3, valve stems ×4 + TPMS seals, bead lube) + RA-4 rotating-electrics spares + no-trace camp kit (20 Jul 2026): consumables — pack-out sanitation bags, gelling agent/powder, urine bags, loo rolls, hand sanitizer (usage rate per crew-day over the 60,000+ km basis); hardware — flat-pack fire pan, braai/cooking kit, fibreglass ground sheet, ash tin + scoop, sealed sanitation container (doctrine R17 §5 / R42 §4; kit lines R11) + fire-suppression kit (21 Jul 2026): fibreglass fire blanket ≥1.2×1.2 m (1.8 m preferred), 2× aerosol suppressor sticks (Fire Stryker class), extinguisher fleet review vs the R42 §1 sizing standard (primary ≥2.5 kg), tent knife ×2 (doctrine R42 §1–§4; kit lines R11)</div>
+        <div class="oi-meta">
+          <span class="m-k">Who</span><span class="m-v">CLAUDE</span>
+          <span class="m-k">When</span><span class="m-v">before Karoo return so R23 protocol exists for first live execution</span>
+          <span class="m-k">Source</span><span class="m-v">EX charter 4 Jul + R40 build</span>
+        </div>
+        <div class="oi-status">OPEN</div>
+        <div class="oi-detail"><p class="none">No further detail on the register.</p></div>
+      </article>
+      <article class="oi oi-live" data-tags="claude neil" data-band="live" data-text="settle the route and the licence problem in a planning workshop ex-9 route &amp; licence-break workshop (interactive) claude+neil unblocked (profiles 007–010 built) return) pending workshop ratification; seasonal-windows + licence-break agenda pre-drafted in chat 13 jul. note: option a inverts route direction — namibia-first opening, eastern corridor (moz coast last) as the southbound return — ex-9 must ratify the direction flip and set the calendar + disc waypoint (oi-25). seasonal anchors: zambezi/zambia aug–oct; n.tanzania/kenya jun–oct or ndutu calving jan–feb; moz coast may–oct (cyclone).">
+        <button class="oi-head" onclick="tog(this)" aria-expanded="false">
+          <span class="oi-id">OI-12</span>
+          <span class="oi-title">Settle the route and the licence problem in a planning workshop</span>
+          <span class="oi-chev">+</span>
+        </button>
+        <div class="oi-ref">Register entry: EX-9 Route &amp; licence-break workshop (interactive)</div>
+        <div class="oi-meta">
+          <span class="m-k">Who</span><span class="m-v">CLAUDE+NEIL</span>
+          <span class="m-k">When</span><span class="m-v">unblocked (profiles 007–010 built)</span>
+          <span class="m-k">Source</span><span class="m-v">EX charter</span>
+        </div>
+        <div class="oi-status">OPEN — Option A ADOPTED 13 Jul (two-year continuous arc, no SA</div>
+        <div class="oi-detail"><p>return) pending workshop ratification; seasonal-windows + licence-break agenda pre-drafted in chat 13 Jul. NOTE: Option A INVERTS route direction — Namibia-first opening, eastern corridor (Moz coast last) as the southbound return — EX-9 must ratify the direction flip and set the calendar + disc waypoint (OI-25). Seasonal anchors: Zambezi/Zambia Aug–Oct; N.Tanzania/Kenya Jun–Oct or Ndutu calving Jan–Feb; Moz coast May–Oct (cyclone).</p></div>
+      </article>
+      <article class="oi oi-live" data-tags="neil decision" data-band="live" data-text="buy the satellite phone satellite voice phone purchase (isatphone 2 recommended) — on purchase: iercc registration + handset assistance button config, sim/airtime, scheduled sos test (r16 §6 items 6–9, r38 §1 rows 4–5) neil pre-departure ">
+        <button class="oi-head" onclick="tog(this)" aria-expanded="false">
+          <span class="oi-id">OI-18</span>
+          <span class="oi-title">Buy the satellite phone</span>
+          <span class="oi-chev">+</span>
+        </button>
+        <div class="oi-ref">Register entry: Satellite voice phone purchase (IsatPhone 2 recommended) — on purchase: IERCC registration + handset Assistance Button config, SIM/airtime, scheduled SOS test (R16 §6 items 6–9, R38 §1 rows 4–5)</div>
+        <div class="oi-meta">
+          <span class="m-k">Who</span><span class="m-v">NEIL</span>
+          <span class="m-k">When</span><span class="m-v">pre-departure</span>
+          <span class="m-k">Source</span><span class="m-v">R29 evaluation 11 Jul</span>
+        </div>
+        <div class="oi-status">OPEN</div>
+        <div class="oi-detail"><p class="none">No further detail on the register.</p></div>
+      </article>
+      <article class="oi oi-live" data-tags="claude neil" data-band="live" data-text="log the odometer reading every month monthly odometer reading (~1st of month) → facts §2 + library-wide current-odometer propagation (historical event mileages never touched) neil+claude monthly ">
+        <button class="oi-head" onclick="tog(this)" aria-expanded="false">
+          <span class="oi-id">OI-20</span>
+          <span class="oi-title">Log the odometer reading every month</span>
+          <span class="oi-chev">+</span>
+        </button>
+        <div class="oi-ref">Register entry: Monthly odometer reading (~1st of month) → Facts §2 + library-wide current-odometer propagation (historical event mileages NEVER touched)</div>
+        <div class="oi-meta">
+          <span class="m-k">Who</span><span class="m-v">NEIL+CLAUDE</span>
+          <span class="m-k">When</span><span class="m-v">monthly</span>
+          <span class="m-k">Source</span><span class="m-v">standing rule (Project Instructions)</span>
+        </div>
+        <div class="oi-status">OPEN — standing/recurring. Current reading: 311,000 km (Jul 2026).</div>
+        <div class="oi-detail"><p class="none">No further detail on the register.</p></div>
+      </article>
+      <article class="oi oi-live" data-tags="claude neil" data-band="live" data-text="keep developing the route draft until the workshop ratifies it experimental route draft (pre-ex-9) — live working artifact neil+claude until ex-9 ratifies outside the library (ordinary chats, not the project). source of truth = lc76_experimental_route_optiona_working.docx (owner edits in place; &quot;changes this round&quot; list at top = reconciliation signal on re-upload). map (…_map.html / inline) is a view re-rendered from the brief on demand, not a persistent doc. loop: edit brief → when stable it becomes the ex-9 seasonal/route input → ex-9 ratifies → only then propagate to library (r38 §4, r39 §1, profile framing). nothing route-related commits pre-ex-9. full method: project instructions → working conventions.">
+        <button class="oi-head" onclick="tog(this)" aria-expanded="false">
+          <span class="oi-id">OI-26</span>
+          <span class="oi-title">Keep developing the route draft until the workshop ratifies it</span>
+          <span class="oi-chev">+</span>
+        </button>
+        <div class="oi-ref">Register entry: Experimental route draft (pre-EX-9) — LIVE working artifact</div>
+        <div class="oi-meta">
+          <span class="m-k">Who</span><span class="m-v">NEIL+CLAUDE</span>
+          <span class="m-k">When</span><span class="m-v">until EX-9 ratifies</span>
+          <span class="m-k">Source</span><span class="m-v">adopted 13 Jul 2026</span>
+        </div>
+        <div class="oi-status">OPEN — the Option A route is developed as an EXPERIMENTAL DRAFT</div>
+        <div class="oi-detail"><p>outside the library (ordinary chats, NOT the project). Source of truth = LC76_Experimental_Route_OptionA_WORKING.docx (owner edits in place; &quot;CHANGES THIS ROUND&quot; list at top = reconciliation signal on re-upload). Map (…_MAP.html / inline) is a VIEW re-rendered from the brief on demand, not a persistent doc. Loop: edit brief → when stable it becomes the EX-9 seasonal/route input → EX-9 ratifies → ONLY THEN propagate to library (R38 §4, R39 §1, profile framing). Nothing route-related commits pre-EX-9. Full method: Project Instructions → WORKING CONVENTIONS.</p></div>
+      </article>
+      <article class="oi oi-live" data-tags="neil decision" data-band="live" data-text="decide on controls that stop out-of-date facts surviving in the library adopt standing anti-staleness controls (owner decision) neil next session governance file (every superseded fact/term appended when it dies); (2) tarball full-corpus sweep against the dictionary becomes a session-close validation gate. root cause on record: change-map propagation from known citation sites only — orphan files and unswept documents were invisible to it.">
+        <button class="oi-head" onclick="tog(this)" aria-expanded="false">
+          <span class="oi-id">OI-29</span>
+          <span class="oi-title">Decide on controls that stop out-of-date facts surviving in the library</span>
+          <span class="oi-chev">+</span>
+        </button>
+        <div class="oi-ref">Register entry: Adopt standing anti-staleness controls (owner decision)</div>
+        <div class="oi-meta">
+          <span class="m-k">Who</span><span class="m-v">NEIL</span>
+          <span class="m-k">When</span><span class="m-v">next session</span>
+          <span class="m-k">Source</span><span class="m-v">Full-corpus sweep 19 Jul 2026</span>
+        </div>
+        <div class="oi-status">OPEN — proposed: (1) commit LC76_Supersession_Dictionary.txt as a</div>
+        <div class="oi-detail"><p>governance file (every superseded fact/term appended when it dies); (2) tarball full-corpus sweep against the dictionary becomes a session-close validation gate. Root cause on record: change-map propagation from known citation sites only — orphan files and unswept documents were invisible to it.</p></div>
+      </article>
+      <article class="oi oi-live" data-tags="claude neil decision" data-band="live" data-text="sort out the affidavit&#x27;s short validity against a two-year trip affidavit validity window vs two-year no-return trip neil+claude ex-9 20 jul) states a fixed travel period, but border officials commonly treat a certified affidavit as current for ~3 months from commissioning, and re-certification is saps-only — impossible abroad. options for ex-9: generously worded period commissioned in the final pre-departure week (pairs with the oi-24 sweep); a second pre-signed set left with the rsa proxy for courier (legally weaker — commissioning date still ages); or accept the risk with certified-copy redundancy per r39 §5. decide alongside oi-24/oi-25.">
+        <button class="oi-head" onclick="tog(this)" aria-expanded="false">
+          <span class="oi-id">OI-30</span>
+          <span class="oi-title">Sort out the affidavit&#x27;s short validity against a two-year trip</span>
+          <span class="oi-chev">+</span>
+        </button>
+        <div class="oi-ref">Register entry: Affidavit validity window vs two-year no-return trip</div>
+        <div class="oi-meta">
+          <span class="m-k">Who</span><span class="m-v">NEIL+CLAUDE</span>
+          <span class="m-k">When</span><span class="m-v">EX-9</span>
+          <span class="m-k">Source</span><span class="m-v">opened 20 Jul 2026</span>
+        </div>
+        <div class="oi-status">OPEN — the owner&#x27;s-authority affidavit (R39 §3 + supplement, built</div>
+        <div class="oi-detail"><p>20 Jul) states a fixed travel period, but border officials commonly treat a certified affidavit as current for ~3 months from commissioning, and re-certification is SAPS-only — impossible abroad. Options for EX-9: generously worded period commissioned in the final pre-departure week (pairs with the OI-24 sweep); a second pre-signed set left with the RSA proxy for courier (legally weaker — commissioning date still ages); or accept the risk with certified-copy redundancy per R39 §5. Decide alongside OI-24/OI-25.</p></div>
+      </article>
+      <article class="oi oi-live" data-tags="neil" data-band="live" data-text="confirm the model year off the identification plate on the vehicle confirm model year off the toyota identification plate neil when vehicle back from build optimisation private annex §1, expressly &quot;not year model&quot;); marketing descriptor &quot;…5m 09&quot; indicates 2009. library stays 2009 pending plate verification (firewall/engine bay). if the plate contradicts 2009, the masthead identity line (&quot;2009 lc76 sw …&quot;) becomes a chartered library-wide sweep — do not change piecemeal. facts §1 carries the evidence trail.">
+        <button class="oi-head" onclick="tog(this)" aria-expanded="false">
+          <span class="oi-id">OI-31</span>
+          <span class="oi-title">Confirm the model year off the identification plate on the vehicle</span>
+          <span class="oi-chev">+</span>
+        </button>
+        <div class="oi-ref">Register entry: Confirm model year off the Toyota identification plate</div>
+        <div class="oi-meta">
+          <span class="m-k">Who</span><span class="m-v">NEIL</span>
+          <span class="m-k">When</span><span class="m-v">when vehicle back from build optimisation</span>
+          <span class="m-k">Source</span><span class="m-v">opened 20 Jul 2026</span>
+        </div>
+        <div class="oi-status">OPEN — RC1 carries NO model year (first-licensed date:</div>
+        <div class="oi-detail"><p>PRIVATE ANNEX §1, expressly &quot;not year model&quot;); marketing descriptor &quot;…5M 09&quot; indicates 2009. Library stays 2009 pending plate verification (firewall/engine bay). If the plate contradicts 2009, the masthead identity line (&quot;2009 LC76 SW …&quot;) becomes a chartered library-wide sweep — do NOT change piecemeal. Facts §1 carries the evidence trail.</p></div>
+      </article>
+      <article class="oi oi-live" data-tags="neil decision" data-band="live" data-text="decide how the country profiles should record their change history changelog structure divergence across the profile family neil (decision) no deadline structures. 001–008 use an unnumbered section (id=&quot;changelog&quot;, sec-num log or ✎) rendered as .changelog-entry grid rows. 009 zimbabwe and 010 kenya carry theirs as the final numbered section (§19 and §20 respectively) rendered as a revision table. both work and both are now on iso dates with a 22 jul entry, so this is a consistency question, not a defect. not acted on because harmonising 009/010 to the grid form means removing their changelog from the numbered sequence — a second renumber of two files that were only just renumbered, for a cosmetic gain. owner to rule: (a) leave both structures and record the divergence as accepted scope; (b) harmonise 009/010 to the unnumbered grid form, accepting the renumber; or (c) harmonise the other way. recommendation: (a) for now, revisit at ex-10 when the profiles are being reworked anyway and the renumber rides along free. note: a related probe error is recorded at oi-38 — testing for id=&quot;changelog&quot; reported these two files as having no changelog at all, twice, before the section-table form was found. ▌e. standing / recurring">
+        <button class="oi-head" onclick="tog(this)" aria-expanded="false">
+          <span class="oi-id">OI-39</span>
+          <span class="oi-title">Decide how the country profiles should record their change history</span>
+          <span class="oi-chev">+</span>
+        </button>
+        <div class="oi-ref">Register entry: Changelog structure divergence across the profile family</div>
+        <div class="oi-meta">
+          <span class="m-k">Who</span><span class="m-v">NEIL (decision)</span>
+          <span class="m-k">When</span><span class="m-v">no deadline</span>
+          <span class="m-k">Source</span><span class="m-v">Found 22 Jul 2026</span>
+        </div>
+        <div class="oi-status">OPEN — the ten profiles carry their changelog in TWO different</div>
+        <div class="oi-detail"><p>structures. 001–008 use an UNNUMBERED section (id=&quot;changelog&quot;, sec-num LOG or ✎) rendered as .changelog-entry grid rows. 009 Zimbabwe and 010 Kenya carry theirs as the FINAL NUMBERED SECTION (§19 and §20 respectively) rendered as a revision table. Both work and both are now on ISO dates with a 22 Jul entry, so this is a consistency question, not a defect. NOT ACTED ON because harmonising 009/010 to the grid form means removing their changelog from the numbered sequence — a second renumber of two files that were only just renumbered, for a cosmetic gain. Owner to rule:</p><p>(a) leave both structures and record the divergence as accepted scope; (b) harmonise 009/010 to the unnumbered grid form, accepting the renumber; or (c) harmonise the other way. Recommendation: (a) for now, revisit at EX-10 when the profiles are being reworked anyway and the renumber rides along free. NOTE: a related probe error is recorded at OI-38 — testing for id=&quot;changelog&quot; reported these two files as having NO changelog at all, twice, before the section-table form was found. ▌E. STANDING / RECURRING</p></div>
+      </article>
+      <article class="oi oi-live" data-tags="neil" data-band="live" data-text="choose the expedition medical and evacuation cover travel / expedition medical insurance feasibility neil (enquiry) test early — not at t-6 binding constraint on the decoupled medical architecture adopted 23 jul 2026 (r29 §6, layer 3). if a long-stay expedition policy is unobtainable for either crew member, the stack does not get adjusted — it rebuilds around amref plus a self-funded medical reserve, which is a route and budget decision, not a shopping decision. test age acceptance first; then single-trip duration caps inside annual multi-trip policies, hazardous-activity schedules, government-advisory exclusions (what happens if a country&#x27;s status changes while the crew is inside it), and residence/return-home conditions. full trap list: r29 §5.">
+        <button class="oi-head" onclick="tog(this)" aria-expanded="false">
+          <span class="oi-id">OI-43</span>
+          <span class="oi-title">Choose the expedition medical and evacuation cover</span>
+          <span class="oi-chev">+</span>
+        </button>
+        <div class="oi-ref">Register entry: Travel / expedition medical insurance feasibility</div>
+        <div class="oi-meta">
+          <span class="m-k">Who</span><span class="m-v">NEIL (enquiry)</span>
+          <span class="m-k">When</span><span class="m-v">TEST EARLY — not at T-6</span>
+          <span class="m-k">Source</span><span class="m-v">Insurance eval 23 Jul</span>
+        </div>
+        <div class="oi-status">OPEN — age acceptance limits and single-trip duration caps are the</div>
+        <div class="oi-detail"><p>BINDING constraint on the decoupled medical architecture adopted 23 Jul 2026 (R29 §6, layer 3). If a long-stay expedition policy is unobtainable for either crew member, the stack does not get adjusted — it rebuilds around AMREF plus a self-funded medical reserve, which is a route and budget decision, not a shopping decision. Test age acceptance FIRST; then single-trip duration caps inside annual multi-trip policies, hazardous-activity schedules, government-advisory exclusions (what happens if a country&#x27;s status changes while the crew is inside it), and residence/return-home conditions. Full trap list: R29 §5.</p></div>
+      </article>
+      <article class="oi oi-live" data-tags="neil" data-band="live" data-text="confirm how the jump pack gets recharged out in the field confirm how the arb jump pack is recharged in the field neil (verify) before departure arb lithium jump pack is promoted from convenience to critical path. r32 is explicit that the alternator is the crank battery&#x27;s only charge source: solar and shore power both serve the house bank, the orion is one-way crank-&gt;house, and starting off the lifepo4 is prohibited. so after an alternator failure the jump pack is the only way the engine starts, for as long as it takes to reach a replacement. the question: can the pack itself be recharged in the field from the house bank — 12 v socket or mains via the multiplus — and how long does it take? if yes, the survival chain is solar -&gt; house bank -&gt; jump pack -&gt; crank, and that chain must be written into r32 as doctrine, because at present nobody has stated it anywhere. if no, the ruling leaves a hole that has to be filled another way (a small standalone crank maintainer, a second pack, or reinstating the spare alternator decision). cheap to answer: read the pack&#x27;s manual and test it once. record the method and the recharge time in r32. ▌d. decisions pending (owner rulings)">
+        <button class="oi-head" onclick="tog(this)" aria-expanded="false">
+          <span class="oi-id">OI-46</span>
+          <span class="oi-title">Confirm how the jump pack gets recharged out in the field</span>
+          <span class="oi-chev">+</span>
+        </button>
+        <div class="oi-ref">Register entry: Confirm how the ARB jump pack is recharged in the field</div>
+        <div class="oi-meta">
+          <span class="m-k">Who</span><span class="m-v">NEIL (verify)</span>
+          <span class="m-k">When</span><span class="m-v">before departure</span>
+          <span class="m-k">Source</span><span class="m-v">Opened 24 Jul 2026, from the RA-4 ruling</span>
+        </div>
+        <div class="oi-status">OPEN — With no spare alternator carried (RA-4 ruled 24 Jul 2026), the</div>
+        <div class="oi-detail"><p>ARB lithium jump pack is promoted from convenience to CRITICAL PATH. R32 is explicit that the alternator is the crank battery&#x27;s only charge source: solar and shore power both serve the house bank, the Orion is one-way crank-&gt;house, and starting off the LiFePO4 is prohibited. So after an alternator failure the jump pack is the only way the engine starts, for as long as it takes to reach a replacement.</p><p>THE QUESTION: can the pack itself be recharged in the field from the house bank — 12 V socket or mains via the MultiPlus — and how long does it take? If YES, the survival chain is solar -&gt; house bank -&gt; jump pack -&gt; crank, and that chain must be written into R32 as doctrine, because at present nobody has stated it anywhere. If NO, the ruling leaves a hole that has to be filled another way (a small standalone crank maintainer, a second pack, or reinstating the spare alternator decision). Cheap to answer: read the pack&#x27;s manual and test it once. Record the method and the recharge time in R32. ▌D. DECISIONS PENDING (owner rulings)</p></div>
+      </article>
+      <article class="oi oi-live" data-tags="neil" data-band="live" data-text="get numbers for santam and bonitas that a satellite phone can actually dial international-dialable assistance lines — santam &amp; bonitas/azoza neil (enquiry — two emails) before departure of three providers. santam sos (0860 505 911) and bonitas sos (0860 555 505) are share-call codes that cannot be routed by iridium or inmarsat; a +27-prefixed form of a share-call number does not route (that was the rejected +27 860 555 505). confirmed satphone lines held: bonitas/azoza international travel desk +27 11 991 8174 (but that is the travel-benefit line — activate pre-departure, ~60–90 day cover, does not span the expedition, see oi-43) and er24 +27 10 205 3000 (neil&#x27;s genesis route). ask each provider for a geographic (+27 landline) 24/7 assistance number dialable from a satellite handset. genesis abroad pays nothing regardless, so its value is limited; santam is the real gap — a vehicle total loss abroad currently has no satphone-dialable claims line. lands in r29 §6 personal-cover table + r10 top block on receipt.">
+        <button class="oi-head" onclick="tog(this)" aria-expanded="false">
+          <span class="oi-id">OI-47</span>
+          <span class="oi-title">Get numbers for Santam and Bonitas that a satellite phone can actually dial</span>
+          <span class="oi-chev">+</span>
+        </button>
+        <div class="oi-ref">Register entry: International-dialable assistance lines — Santam &amp; Bonitas/AZOZA</div>
+        <div class="oi-meta">
+          <span class="m-k">Who</span><span class="m-v">NEIL (enquiry — two emails)</span>
+          <span class="m-k">When</span><span class="m-v">before departure</span>
+          <span class="m-k">Source</span><span class="m-v">Emergency-number build 25 Jul 2026</span>
+        </div>
+        <div class="oi-status">OPEN — the crew&#x27;s own cover has NO satphone-routable number for two</div>
+        <div class="oi-detail"><p>of three providers. Santam SOS (0860 505 911) and Bonitas SOS (0860 555 505) are share-call codes that cannot be routed by Iridium or Inmarsat; a +27-prefixed form of a share-call number does NOT route (that was the rejected +27 860 555 505). Confirmed satphone lines held: Bonitas/AZOZA international travel desk +27 11 991 8174 (but that is the travel-BENEFIT line — activate pre-departure, ~60–90 day cover, does not span the expedition, see OI-43) and ER24 +27 10 205 3000 (Neil&#x27;s Genesis route). ASK each provider for a geographic (+27 landline) 24/7 assistance number dialable from a satellite handset. Genesis abroad pays nothing regardless, so its value is limited; Santam is the real gap — a vehicle total loss abroad currently has no satphone-dialable claims line. Lands in R29 §6 personal-cover table + R10 top block on receipt.</p></div>
+      </article>
+      <article class="oi oi-live" data-tags="neil" data-band="live" data-text="work out why the website sometimes shows old pages or an error pages / pwa layer — which layer serves stale or 404 content owner no deadline the owner reported the live site as &quot;a few days old&quot; in safari while the repo and the sha-pinned raw source were current (http 200 anonymously), and a 404 in a fresh browser. the diagnosis at the time was that the first symptom is the pwa service-worker cache serving offline-first and the second is the github pages deployment layer — neither being the repo. an open-item number was reserved for this and never assigned: the reserved number was consumed the following day by the rc1 pass, and the finding then existed only inside a session narrative. it was recovered by the doctrine sweep run before that narrative was archived, which is precisely what that sweep exists for. action: owner confirms which layer actually fails, in a fresh browser with the service worker unregistered. triage doctrine is now in the project instructions working conventions. note: a cache bump does not repair a pages deployment and a redeploy does not clear a service worker — establish the layer before any fix.">
+        <button class="oi-head" onclick="tog(this)" aria-expanded="false">
+          <span class="oi-id">OI-57</span>
+          <span class="oi-title">Work out why the website sometimes shows old pages or an error</span>
+          <span class="oi-chev">+</span>
+        </button>
+        <div class="oi-ref">Register entry: Pages / PWA layer — which layer serves stale or 404 content</div>
+        <div class="oi-meta">
+          <span class="m-k">Who</span><span class="m-v">OWNER</span>
+          <span class="m-k">When</span><span class="m-v">no deadline</span>
+          <span class="m-k">Source</span><span class="m-v">nineteenth session (27 Jul 2026), recovered 29 Jul 2026 during the PI archiving sweep</span>
+        </div>
+        <div class="oi-status">OPEN.</div>
+        <div class="oi-detail"><p>The owner reported the live site as &quot;a few days old&quot; in Safari while the repo and the SHA-pinned raw source were current (HTTP 200 anonymously), and a 404 in a fresh browser. The diagnosis at the time was that the first symptom is the PWA SERVICE-WORKER CACHE serving offline-first and the second is the GITHUB PAGES DEPLOYMENT layer — neither being the repo. AN OPEN-ITEM NUMBER WAS RESERVED FOR THIS AND</p><p>NEVER ASSIGNED: the reserved number was consumed the following day by the RC1 pass, and the finding then existed ONLY inside a session narrative. It was recovered by the doctrine sweep run before that narrative was archived, which is precisely what that sweep exists for. ACTION: owner confirms which layer actually fails, in a fresh browser with the service worker unregistered. Triage doctrine is now in the Project Instructions working conventions. NOTE: a CACHE bump does not repair a Pages deployment and a redeploy does not clear a service worker — establish the layer before any fix.</p></div>
+      </article>
+      <article class="oi oi-live" data-tags="claude" data-band="live" data-text="this page — a readable view of the open items list open items dashboard — readable html view of this register claude (build) next build session the register is 108 kb of plain text, outside the pwa, not precached and not linked from index.html. checking what is open therefore means opening a raw .txt on github and scrolling — not usable from a phone in the field, and the owner has ruled it must be a standalone html file. derived-view pattern, exactly as the service ledgers derive from the xlsx: this file stays the record of truth, the html is generated from it. regenerates whenever the register changes; must carry a visible &quot;generated from the register at &lt;date&gt;/&lt;sha&gt;&quot; line so staleness is self-evident rather than silent. scope gate, run first — is this register actually the single list it claims to be? statuses also live in the working papers (ta_register, lx_register, ex_register) and in the three audit reports as f-findings. reconcile before building: does every unresolved ta / lx / f finding carry a corresponding oi? if not, the dashboard would inherit the gap and present it as completeness. also in scope: a formatting convention this register does not yet enforce. at oi-36 the status annotation runs into the original finding text on the same line, so the entry reads as though the work were still outstanding when it was done 22 jul. status belongs on its own line, never abutting narrative — the annotate-don&#x27;t-rewrite doctrine is correct but its rendering inverts the meaning it is annotating. owner ruling 29 jul 2026 — file class. the dashboard is a library file, not a governance file: it must work offline on the phone like the rest of the library. it is therefore index-linked and precached in sw.js, and its addition bumps cache. this is a deliberate exception to the standing rule that governance instruments are never precached — recorded so a later session does not &quot;correct&quot; it. consequence, accepted: a precached page is served from cache, so a regenerated dashboard can lag the register on a device that has not revalidated. the &quot;generated from the register at &lt;date&gt;/&lt;sha&gt;&quot; line is therefore load-bearing, not decorative. downstream: once built, a recurring monthly task prompts the odometer reading and points at this view (owner intent, 29 jul 2026).">
+        <button class="oi-head" onclick="tog(this)" aria-expanded="false">
+          <span class="oi-id">OI-59</span>
+          <span class="oi-title">This page — a readable view of the open items list</span>
+          <span class="oi-chev">+</span>
+        </button>
+        <div class="oi-ref">Register entry: Open Items dashboard — readable HTML view of this register</div>
+        <div class="oi-meta">
+          <span class="m-k">Who</span><span class="m-v">CLAUDE (build)</span>
+          <span class="m-k">When</span><span class="m-v">next build session</span>
+          <span class="m-k">Source</span><span class="m-v">owner request 29 Jul 2026</span>
+        </div>
+        <div class="oi-status">OPEN.</div>
+        <div class="oi-detail"><p>The register is 108 KB of plain text, outside the PWA, not precached and not linked from index.html. Checking what is open therefore means opening a raw .txt on GitHub and scrolling — not usable from a phone in the field, and the owner has ruled it must be a standalone HTML file. Derived-view pattern, exactly as the service ledgers derive from the xlsx: THIS FILE STAYS THE RECORD OF TRUTH, the HTML is generated from it. Regenerates whenever the register changes; must carry a visible &quot;generated from the register at &lt;date&gt;/&lt;SHA&gt;&quot; line so staleness is self-evident rather than silent.</p><p>SCOPE GATE, RUN FIRST — IS THIS REGISTER ACTUALLY THE SINGLE LIST IT CLAIMS TO BE? Statuses also live in the working papers (TA_Register, LX_Register, EX_Register) and in the three audit reports as F-findings. Reconcile before building: does every unresolved TA / LX / F finding carry a corresponding OI? If not, the dashboard would inherit the gap and present it as completeness.</p><p>ALSO IN SCOPE: a formatting convention this register does not yet enforce. At OI-36 the status annotation runs into the original finding text on the same line, so the entry reads as though the work were still outstanding when it was done 22 Jul. Status belongs on its own line, never abutting narrative — the annotate-don&#x27;t-rewrite doctrine is correct but its rendering inverts the meaning it is annotating. OWNER RULING 29 Jul 2026 — FILE CLASS. The dashboard is a LIBRARY file, not a governance file: it must work offline on the phone like the rest of the library. It is therefore index-linked AND PRECACHED in sw.js, and its addition bumps CACHE. This is a DELIBERATE EXCEPTION to the standing rule that governance instruments are never precached — recorded so a later session does not &quot;correct&quot; it. CONSEQUENCE, ACCEPTED: a precached page is served from cache, so a regenerated dashboard can lag the register on a device that has not revalidated. The &quot;generated from the register at &lt;date&gt;/&lt;SHA&gt;&quot; line is therefore load-bearing, not decorative.</p><p>DOWNSTREAM: once built, a recurring monthly task prompts the odometer reading and points at this view (owner intent, 29 Jul 2026).</p></div>
+      </article>
+      <article class="oi oi-live" data-tags="claude" data-band="live" data-text="fix printing across the whole library; pages print at screen size print standard has never taken effect — library-wide claude (build) programme, size ruled by owner every font size in the library is declared in rem, which resolves against the root element. every @media print block sets body. body is not root, so for rem-sized text the print rule does nothing at all and never has. printed pages have been coming out at screen size. diagnostic, 29 jul 2026, depth-aware parse of all 71 html files at pinned head: zero files set the root size in print; 1,547 rem font-size declarations sit in base css across the corpus. severity varies by how far each file compensates with per-element overrides — 52 barely or not at all, 9 partial, 9 meaningful, 1 unaffected (the affidavit, which sizes nothing). the universal defect is all 71. remedy, prototyped in lc76_how_to_use_this_library.html the same day: one root declaration inside @media print, plus a shared block of rem heading overrides that compress the hierarchy (on screen a heading earns its size; on paper it need only be distinguishable). because the overrides are rem and not pt, the root value is a single knob that rescales the document with relationships intact. no anchor hazard — nothing is replaced, only added. owner gate: body size ruled off a real printout before propagation. 12pt trialled and rejected as too large; 8pt adopted on the guide 29 jul 2026 (knob = 11.6px). micro-labels fall to ~5pt at that setting and the owner has accepted them. propagation: design guidelines §16 must be corrected first — it currently specifies the body-pt form that cannot work — then the template, then the corpus. the 9 partially-compensated files need their existing overrides reviewed as well as the root added, and are a separate, more careful pass.">
+        <button class="oi-head" onclick="tog(this)" aria-expanded="false">
+          <span class="oi-id">OI-60</span>
+          <span class="oi-title">Fix printing across the whole library; pages print at screen size</span>
+          <span class="oi-chev">+</span>
+        </button>
+        <div class="oi-ref">Register entry: Print standard has never taken effect — library-wide</div>
+        <div class="oi-meta">
+          <span class="m-k">Who</span><span class="m-v">CLAUDE (build)</span>
+          <span class="m-k">When</span><span class="m-v">programme, size ruled by owner</span>
+          <span class="m-k">Source</span><span class="m-v">diagnostic 29 Jul 2026</span>
+        </div>
+        <div class="oi-status">OPEN.</div>
+        <div class="oi-detail"><p>Every font size in the library is declared in rem, which resolves against the ROOT element. Every @media print block sets body. Body is not root, so for rem-sized text the print rule does nothing at all and never has. Printed pages have been coming out at screen size.</p><p>DIAGNOSTIC, 29 Jul 2026, depth-aware parse of all 71 HTML files at pinned HEAD: ZERO files set the root size in print; 1,547 rem font-size declarations sit in base CSS across the corpus. Severity varies by how far each file compensates with per-element overrides — 52 barely or not at all, 9 partial, 9 meaningful, 1 unaffected (the affidavit, which sizes nothing). The universal defect is all 71. REMEDY, PROTOTYPED IN LC76_How_To_Use_This_Library.html THE SAME DAY: one root declaration inside @media print, plus a shared block of rem heading overrides that COMPRESS the hierarchy (on screen a heading earns its size; on paper it need only be distinguishable). Because the overrides are rem and not pt, the root value is a single knob that rescales the document with relationships intact. No anchor hazard — nothing is replaced, only added.</p><p>OWNER GATE: body size ruled off a real printout before propagation. 12pt trialled and rejected as too large; 8pt adopted on the guide 29 Jul 2026 (knob = 11.6px). Micro-labels fall to ~5pt at that setting and the owner has accepted them.</p><p>PROPAGATION: Design Guidelines §16 must be corrected FIRST — it currently specifies the body-pt form that cannot work — then the template, then the corpus. The 9 partially-compensated files need their existing overrides reviewed as well as the root added, and are a separate, more careful pass.</p></div>
+      </article>
+      <article class="oi oi-live" data-tags="workshop neil" data-band="live" data-text="thermostat, water pump and coolant flush — all in one workshop visit cooling cluster — thermostat, water pump, coolant flush (one visit) neil + workshop before expedition; bundle with ra-3 individually cheap. · thermostat — no record in 316 service entries. stuck closed is a top-three 1hz overheating cause. 82°c oem spec; do not fit a lower-temperature variant. carry the removed unit as a field spare. · water pump — no replacement on record; weep hole dry at 308,248 and 308,500 km. replace proactively at the ra-3 timing-belt event — the access is already open. · coolant flush — one flush on record, aug 2023 @ 224,406 km, approximately 86,006 km overdue. relationship to ra-5 (oi-6): ra-5 covers radiator core, viscous hub and hoses. these three are not in ra-5&#x27;s scope and were not tracked anywhere until now. assess together; they are the same visit.">
+        <button class="oi-head" onclick="tog(this)" aria-expanded="false">
+          <span class="oi-id">OI-62</span>
+          <span class="oi-title">Thermostat, water pump and coolant flush — all in one workshop visit</span>
+          <span class="oi-chev">+</span>
+        </button>
+        <div class="oi-ref">Register entry: Cooling cluster — thermostat, water pump, coolant flush (ONE VISIT)</div>
+        <div class="oi-meta">
+          <span class="m-k">Who</span><span class="m-v">NEIL + WORKSHOP</span>
+          <span class="m-k">When</span><span class="m-v">before expedition; bundle with RA-3</span>
+          <span class="m-k">Source</span><span class="m-v">R8 / ADV-003, ADV-006, ADV-009</span>
+        </div>
+        <div class="oi-status">OPEN. Three findings that share a single workshop visit and are</div>
+        <div class="oi-detail"><p>individually cheap.</p><p>· THERMOSTAT — NO RECORD in 316 service entries. Stuck closed is a top-three 1HZ overheating cause. 82°C OEM spec; do not fit a lower-temperature variant. Carry the removed unit as a field spare.</p><p>· WATER PUMP — no replacement on record; weep hole dry at 308,248 and 308,500 km. Replace proactively at the RA-3 timing-belt event — the access is already open.</p><p>· COOLANT FLUSH — one flush on record, Aug 2023 @ 224,406 km, approximately 86,006 km overdue. RELATIONSHIP TO RA-5 (OI-6): RA-5 covers radiator core, viscous hub and hoses. These three are NOT in RA-5&#x27;s scope and were not tracked anywhere until now. Assess together; they are the same visit.</p></div>
+      </article>
+      <article class="oi oi-live" data-tags="workshop neil" data-band="live" data-text="repack the wheel bearings — long overdue on hard-use intervals wheel bearing repack — ~63,684 km overdue on the severe-use interval neil + workshop next workshop visit was ~245,000 km against a 20,000 km severe-use interval. new bearings do not reset the grease interval — old grease loses lubricating property and traps moisture and grit. front + rear, toyota-spec grease, seals inspected. combine with oi-61(a) and the brake inspection.">
+        <button class="oi-head" onclick="tog(this)" aria-expanded="false">
+          <span class="oi-id">OI-63</span>
+          <span class="oi-title">Repack the wheel bearings — long overdue on hard-use intervals</span>
+          <span class="oi-chev">+</span>
+        </button>
+        <div class="oi-ref">Register entry: Wheel bearing repack — ~63,684 km overdue on the severe-use interval</div>
+        <div class="oi-meta">
+          <span class="m-k">Who</span><span class="m-v">NEIL + WORKSHOP</span>
+          <span class="m-k">When</span><span class="m-v">next workshop visit</span>
+          <span class="m-k">Source</span><span class="m-v">R8 / ADV-007</span>
+        </div>
+        <div class="oi-status">OPEN. Bearings were REPLACED Feb 2025 @ 271,200 km, but the last REPACK</div>
+        <div class="oi-detail"><p>was ~245,000 km against a 20,000 km severe-use interval. New bearings do not reset the grease interval — old grease loses lubricating property and traps moisture and grit. Front + rear, Toyota-spec grease, seals inspected. Combine with OI-61(a) and the brake inspection.</p></div>
+      </article>
+      <article class="oi oi-live" data-tags="workshop neil" data-band="live" data-text="check whether the diff breather extensions are actually fitted diff breather extensions — fitted or not? status unknown neil visual check at next service ankle depth; extended breathers route front diff, rear diff and transfer vents to a high point in the engine bay. cheap and simple — but only worth anything if not already fitted, and nobody has looked. a visual check settles it. fit before any expedition water crossing if absent.">
+        <button class="oi-head" onclick="tog(this)" aria-expanded="false">
+          <span class="oi-id">OI-64</span>
+          <span class="oi-title">Check whether the diff breather extensions are actually fitted</span>
+          <span class="oi-chev">+</span>
+        </button>
+        <div class="oi-ref">Register entry: Diff breather extensions — fitted or not? STATUS UNKNOWN</div>
+        <div class="oi-meta">
+          <span class="m-k">Who</span><span class="m-v">NEIL</span>
+          <span class="m-k">When</span><span class="m-v">visual check at next service</span>
+          <span class="m-k">Source</span><span class="m-v">R8 / R31 §3 item 7 / ADV-008</span>
+        </div>
+        <div class="oi-status">OPEN. Standard Toyota breathers are inadequate for water crossings above</div>
+        <div class="oi-detail"><p>ankle depth; extended breathers route front diff, rear diff and transfer vents to a high point in the engine bay. Cheap and simple — but only worth anything if not already fitted, and nobody has looked. A visual check settles it. Fit before any expedition water crossing if absent.</p></div>
+      </article>
+      <article class="oi oi-live" data-tags="claude" data-band="live" data-text="four calculator corrections that fell off the tracking list calculator advisory findings ta-007 to ta-010 — untracked since jun 2026 claude (build) no deadline working papers and appeared in no other instrument — found by the oi-59 reconciliation gate, 29 jul 2026. all four were verdicted &quot;sound — advisory&quot;, so nothing is wrong; these are optional clarity and consistency edits. · ta-007 tyre pressure calculator — payload model / unit basis; revisit ceiling and thresholds after the ra-1 weighbridge (ties to ta-002). · ta-008 fuel range calculator + trip fuel planner — align label and divisor, add a math.max floor, reconcile the two consumption models or document why they differ. · ta-009 fuel log analyser + water budget calculator — widen or annotate the fuel log clip; align the gap metric to a reserve-respecting basis. · ta-010 lifepo4 calculator — default bank size to match the fitted 210 ah, plus optional precision tweaks. note ta-007 is gated on ra-1 and cannot fully close before the weighbridge. also cleared in the same pass: ta-038, whose verdict reads closed while its status cell is blank — working-papers hygiene, no substantive work.">
+        <button class="oi-head" onclick="tog(this)" aria-expanded="false">
+          <span class="oi-id">OI-65</span>
+          <span class="oi-title">Four calculator corrections that fell off the tracking list</span>
+          <span class="oi-chev">+</span>
+        </button>
+        <div class="oi-ref">Register entry: Calculator advisory findings TA-007 to TA-010 — untracked since Jun 2026</div>
+        <div class="oi-meta">
+          <span class="m-k">Who</span><span class="m-v">CLAUDE (build)</span>
+          <span class="m-k">When</span><span class="m-v">no deadline</span>
+          <span class="m-k">Source</span><span class="m-v">working papers TA_Register</span>
+        </div>
+        <div class="oi-status">OPEN. Four advisory findings carried &quot;Open (advisory)&quot; in the audit</div>
+        <div class="oi-detail"><p>working papers and appeared in NO other instrument — found by the OI-59 reconciliation gate, 29 Jul 2026. All four were verdicted &quot;Sound — advisory&quot;, so nothing is wrong; these are optional clarity and consistency edits.</p><p>· TA-007 Tyre Pressure Calculator — payload model / unit basis; revisit ceiling and thresholds after the RA-1 weighbridge (ties to TA-002).</p><p>· TA-008 Fuel Range Calculator + Trip Fuel Planner — align label and divisor, add a Math.max floor, reconcile the two consumption models or document why they differ.</p><p>· TA-009 Fuel Log Analyser + Water Budget Calculator — widen or annotate the Fuel Log clip; align the gap metric to a reserve-respecting basis.</p><p>· TA-010 LiFePO4 Calculator — default bank size to match the fitted 210 Ah, plus optional precision tweaks. NOTE TA-007 IS GATED ON RA-1 and cannot fully close before the weighbridge. Also cleared in the same pass: TA-038, whose verdict reads Closed while its status cell is blank — working-papers hygiene, no substantive work.</p></div>
+      </article>
+      <article class="oi oi-live" data-tags="workshop neil" data-band="live" data-text="find out why the cylinder head is seeping oil, before resealing anything cylinder head oil seepage — diagnose the cause before resealing neil + 1hz-experienced workshop next specialist visit whole point. (a) pcv / crankcase breather routing — verify first. if the breather is routed post-intercooler rather than pre-turbo, boost pressure back-pressurises the crankcase and forces oil out at every top-end seal. that would explain the head seepage completely. it has never been verified. trace the hose from valve cover to intake. (b) rocker cover gasket + half-moon seal — genuine toyota gasket, front and rear grommets, half-moon plug 11183-54011 resealed. cheapest effective intervention on the seepage, and the cover is already off at a tappet inspection and again at the ra-3 timing belt. do (a) before (b). reseal a head whose crankcase is being pressurised and the new gasket fails the same way — money spent to buy back the same defect. this ordering is the reason the two are one item.">
+        <button class="oi-head" onclick="tog(this)" aria-expanded="false">
+          <span class="oi-id">OI-66</span>
+          <span class="oi-title">Find out WHY the cylinder head is seeping oil, before resealing anything</span>
+          <span class="oi-chev">+</span>
+        </button>
+        <div class="oi-ref">Register entry: Cylinder head oil seepage — DIAGNOSE THE CAUSE BEFORE RESEALING</div>
+        <div class="oi-meta">
+          <span class="m-k">Who</span><span class="m-v">NEIL + 1HZ-EXPERIENCED WORKSHOP</span>
+          <span class="m-k">When</span><span class="m-v">next specialist visit</span>
+          <span class="m-k">Source</span><span class="m-v">R8 supplement OUTSTANDING / ADV-011, ADV-012</span>
+        </div>
+        <div class="oi-status">OPEN. Two findings that must be done IN ORDER, and the order is the</div>
+        <div class="oi-detail"><p>whole point.</p><p>(a) PCV / CRANKCASE BREATHER ROUTING — VERIFY FIRST. If the breather is routed post-intercooler rather than pre-turbo, boost pressure back-pressurises the crankcase and forces oil out at every top-end seal. That would explain the head seepage completely. It has never been verified. Trace the hose from valve cover to intake.</p><p>(b) ROCKER COVER GASKET + HALF-MOON SEAL — genuine Toyota gasket, front and rear grommets, half-moon plug 11183-54011 resealed. Cheapest effective intervention on the seepage, and the cover is already off at a tappet inspection and again at the RA-3 timing belt. DO (a) BEFORE (b). Reseal a head whose crankcase is being pressurised and the new gasket fails the same way — money spent to buy back the same defect. This ordering is the reason the two are one item.</p></div>
+      </article>
+
+  <div class="sec-header" id="s3"><span class="sec-num">03</span><h2>Waiting On A Date</h2></div>
+  <p class="lede">Nothing to do yet &mdash; each is held by a trigger date or event. Shown so they are never forgotten, greyed so they do not compete with live work.</p>
+      <article class="oi oi-waiting" data-tags="claude neil" data-band="waiting" data-text="review the karoo trip on return, including mary-ann driving solo r23 post-trip review + ra-8 — first live execution on karoo return; includes ra-8 mary-ann solo-capability assessment claude+neil on return ">
+        <button class="oi-head" onclick="tog(this)" aria-expanded="false">
+          <span class="oi-id">OI-13</span>
+          <span class="oi-title">Review the Karoo trip on return, including Mary-Ann driving solo</span>
+          <span class="oi-chev">+</span>
+        </button>
+        <div class="oi-ref">Register entry: R23 post-trip review + RA-8 — first live execution on Karoo return; includes RA-8 Mary-Ann solo-capability assessment</div>
+        <div class="oi-meta">
+          <span class="m-k">Who</span><span class="m-v">CLAUDE+NEIL</span>
+          <span class="m-k">When</span><span class="m-v">on return</span>
+          <span class="m-k">Source</span><span class="m-v">R23 / RA-8</span>
+        </div>
+        <div class="oi-status">OPEN — calendar-triggered.</div>
+        <div class="oi-detail"><p class="none">No further detail on the register.</p></div>
+      </article>
+      <article class="oi oi-waiting" data-tags="claude" data-band="waiting" data-text="refresh every country profile closer to departure ex-10 pre-departure profile currency refresh (001–010 + r15/r39) claude trigger ~t-6 months before departure (~2028) ">
+        <button class="oi-head" onclick="tog(this)" aria-expanded="false">
+          <span class="oi-id">OI-14</span>
+          <span class="oi-title">Refresh every country profile closer to departure</span>
+          <span class="oi-chev">+</span>
+        </button>
+        <div class="oi-ref">Register entry: EX-10 Pre-departure profile currency refresh (001–010 + R15/R39)</div>
+        <div class="oi-meta">
+          <span class="m-k">Who</span><span class="m-v">CLAUDE</span>
+          <span class="m-k">When</span><span class="m-v">trigger ~T-6 months before departure (~2028)</span>
+          <span class="m-k">Source</span><span class="m-v">8 Jul</span>
+        </div>
+        <div class="oi-status">DORMANT by design — do not start early.</div>
+        <div class="oi-detail"><p class="none">No further detail on the register.</p></div>
+      </article>
+      <article class="oi oi-waiting" data-tags="neil decision" data-band="waiting" data-text="decide whether to buy a clamp-type bead breaker clamp-type bead breaker purchase (recommended buy) neil before 265/75 fitment ~2027 ">
+        <button class="oi-head" onclick="tog(this)" aria-expanded="false">
+          <span class="oi-id">OI-17</span>
+          <span class="oi-title">Decide whether to buy a clamp-type bead breaker</span>
+          <span class="oi-chev">+</span>
+        </button>
+        <div class="oi-ref">Register entry: Clamp-type bead breaker purchase (recommended buy)</div>
+        <div class="oi-meta">
+          <span class="m-k">Who</span><span class="m-v">NEIL</span>
+          <span class="m-k">When</span><span class="m-v">before 265/75 fitment ~2027</span>
+          <span class="m-k">Source</span><span class="m-v">R40 build 10 Jul</span>
+        </div>
+        <div class="oi-status">OPEN</div>
+        <div class="oi-detail"><p class="none">No further detail on the register.</p></div>
+      </article>
+      <article class="oi oi-waiting" data-tags="neil decision" data-band="waiting" data-text="decide on a second spare tyre, or tyre repairs, for east africa second-spare / casing-repair strategy for east africa (one spare is thin north of the zambezi) neil with ra-9 tyre decision ~2027 ">
+        <button class="oi-head" onclick="tog(this)" aria-expanded="false">
+          <span class="oi-id">OI-19</span>
+          <span class="oi-title">Decide on a second spare tyre, or tyre repairs, for East Africa</span>
+          <span class="oi-chev">+</span>
+        </button>
+        <div class="oi-ref">Register entry: Second-spare / casing-repair strategy for East Africa (one spare is thin north of the Zambezi)</div>
+        <div class="oi-meta">
+          <span class="m-k">Who</span><span class="m-v">NEIL</span>
+          <span class="m-k">When</span><span class="m-v">with RA-9 tyre decision ~2027</span>
+          <span class="m-k">Source</span><span class="m-v">RA-9</span>
+        </div>
+        <div class="oi-status">OPEN</div>
+        <div class="oi-detail"><p class="none">No further detail on the register.</p></div>
+      </article>
+      <article class="oi oi-waiting" data-tags="neil" data-band="waiting" data-text="replace the timing belt and tensioner before departure ra-3 timing belt + tensioner pre-departure replacement (~t-3 months, ~2028); removed belt = carried spare; valve-clearance re-check same event neil t-3 months pre-departure actionable.">
+        <button class="oi-head" onclick="tog(this)" aria-expanded="false">
+          <span class="oi-id">OI-21</span>
+          <span class="oi-title">Replace the timing belt and tensioner before departure</span>
+          <span class="oi-chev">+</span>
+        </button>
+        <div class="oi-ref">Register entry: RA-3 timing belt + tensioner pre-departure replacement (~T-3 months, ~2028); removed belt = carried spare; valve-clearance re-check same event</div>
+        <div class="oi-meta">
+          <span class="m-k">Who</span><span class="m-v">NEIL</span>
+          <span class="m-k">When</span><span class="m-v">T-3 months pre-departure</span>
+          <span class="m-k">Source</span><span class="m-v">RA-3</span>
+        </div>
+        <div class="oi-status">OPEN — CONFIRMED 9 Jul; execution is calendar-triggered, not yet</div>
+        <div class="oi-detail"><p>actionable.</p></div>
+      </article>
+      <article class="oi oi-waiting" data-tags="neil" data-band="waiting" data-text="fit the expedition tyres early and prove them before departure ra-9 expedition tyre set — fit proven 265/75r16 ~2027, ≥5,000 proving km; r40 carcass-swap drill both crew on the new set (r37 row added 12 jul, sign-off pending) neil ~2027 ">
+        <button class="oi-head" onclick="tog(this)" aria-expanded="false">
+          <span class="oi-id">OI-22</span>
+          <span class="oi-title">Fit the expedition tyres early and prove them before departure</span>
+          <span class="oi-chev">+</span>
+        </button>
+        <div class="oi-ref">Register entry: RA-9 expedition tyre set — fit proven 265/75R16 ~2027, ≥5,000 proving km; R40 carcass-swap drill both crew on the new set (R37 row added 12 Jul, sign-off pending)</div>
+        <div class="oi-meta">
+          <span class="m-k">Who</span><span class="m-v">NEIL</span>
+          <span class="m-k">When</span><span class="m-v">~2027</span>
+          <span class="m-k">Source</span><span class="m-v">RA-9</span>
+        </div>
+        <div class="oi-status">OPEN</div>
+        <div class="oi-detail"><p class="none">No further detail on the register.</p></div>
+      </article>
+      <article class="oi oi-waiting" data-tags="neil" data-band="waiting" data-text="renew the licence disc and both driving licence cards before we go pre-departure admin sweep — vehicle disc + both licence cards neil start ~t-6 months (card backlogs routine); disc final week jul 2027, then final-week-before-departure early renewal 2028 (cycle resets pro-rata, full 12 months on the windscreen). (b) mary-ann&#x27;s card (expires mid-2029): mandatory early renewal — dies ~month 9–11 of the trip; cannot be renewed abroad/by proxy; fallback = fly-home ~apr/may 2029 (cluster with oi-25). (c) neil&#x27;s card (expires early 2031): ~5 months after a mid-2030 return — margin-driven; renew in the same sweep if dltc accepts. (d) issue both idp types against the fresh card(s), after renewal. early-renewal window verified (oi-27 closed 17 jul — wcg written confirmation ref 260717-000921; carry it to the dltc counter). detail: r29 checklist + r39 §4.">
+        <button class="oi-head" onclick="tog(this)" aria-expanded="false">
+          <span class="oi-id">OI-24</span>
+          <span class="oi-title">Renew the licence disc and both driving licence cards before we go</span>
+          <span class="oi-chev">+</span>
+        </button>
+        <div class="oi-ref">Register entry: Pre-departure admin sweep — vehicle disc + BOTH licence cards</div>
+        <div class="oi-meta">
+          <span class="m-k">Who</span><span class="m-v">NEIL</span>
+          <span class="m-k">When</span><span class="m-v">start ~T-6 months (card backlogs routine); disc final week</span>
+          <span class="m-k">Source</span><span class="m-v">CORRECTED 17 Jul (exact dates off cards supersede 13 Jul note)</span>
+        </div>
+        <div class="oi-status">OPEN — (a) vehicle disc (expires mid-2027): ordinary renewal</div>
+        <div class="oi-detail"><p>Jul 2027, then final-week-before-departure early renewal 2028 (cycle resets pro-rata, full 12 months on the windscreen).</p><p>(b) Mary-Ann&#x27;s card (expires mid-2029): MANDATORY early renewal — dies ~month 9–11 of the trip; cannot be renewed abroad/by proxy; fallback = fly-home ~Apr/May 2029 (cluster with OI-25).</p><p>(c) Neil&#x27;s card (expires early 2031): ~5 months after a mid-2030 return — margin-driven; renew in the same sweep if DLTC accepts.</p><p>(d) Issue both IDP types against the fresh card(s), AFTER renewal. Early-renewal window VERIFIED (OI-27 closed 17 Jul — WCG written confirmation ref 260717-000921; carry it to the DLTC counter). Detail: R29 checklist + R39 §4.</p></div>
+      </article>
+      <article class="oi oi-waiting" data-tags="neil" data-band="waiting" data-text="renew the licence disc mid-trip, through someone back home mid-expedition disc renewal waypoint (~month 12, ~2029) neil (via rsa proxy) calendar-triggered under mary-ann&#x27;s letter of authority + certified copies, then couriers to a route address (windhoek / arusha / nairobi on the option-a calendar). fix courier destination + date into the route plan when ex-9 sets the calendar. doctrine: r39 §4. ▌b. chartered claude workstreams — suggested order">
+        <button class="oi-head" onclick="tog(this)" aria-expanded="false">
+          <span class="oi-id">OI-25</span>
+          <span class="oi-title">Renew the licence disc mid-trip, through someone back home</span>
+          <span class="oi-chev">+</span>
+        </button>
+        <div class="oi-ref">Register entry: Mid-expedition disc renewal waypoint (~month 12, ~2029)</div>
+        <div class="oi-meta">
+          <span class="m-k">Who</span><span class="m-v">NEIL (via RSA proxy)</span>
+          <span class="m-k">When</span><span class="m-v">calendar-triggered</span>
+          <span class="m-k">Source</span><span class="m-v">EX-9 thread 13 Jul</span>
+        </div>
+        <div class="oi-status">OPEN — proxy (NOT either crew) renews the disc on NaTIS/online</div>
+        <div class="oi-detail"><p>under Mary-Ann&#x27;s letter of authority + certified copies, then couriers to a route address (Windhoek / Arusha / Nairobi on the Option-A calendar). Fix courier destination + date into the route plan when EX-9 sets the calendar. Doctrine: R39 §4. ▌B. CHARTERED CLAUDE WORKSTREAMS — suggested order</p></div>
+      </article>
+      <article class="oi oi-waiting" data-tags="claude neil" data-band="waiting" data-text="check the expedition tyres will still be on sale when we buy ko2→ko3 transition — re-verify expedition tyre availability at ex-10 neil+claude ex-10 (~t-6 months, trigger ~2028); also bites at the ~2027 ra-9 purchase (final ko3 phase announced may 2026; 107 sizes). consequences for ra-9/oi-22: (1) default expedition tyre is now the ko3 in the lt lr-e 123/120s spec — lr-d 119/116s shelf stock circulates under the same name (verified jul 2026; r19 card carries the dual-spec warning); (2) the ko2&#x27;s continental-network advantage transfers to the ko3 — north-of-zambezi ko3 stock must be re-verified at ex-10 before the second-spare/casing strategy (oi-19) is finalised; (3) any ko2 bought as run-out stock needs a dot-date check. doctrine: r19 (updated 19 jul 2026). ════════════════════════════════════════">
+        <button class="oi-head" onclick="tog(this)" aria-expanded="false">
+          <span class="oi-id">OI-28</span>
+          <span class="oi-title">Check the expedition tyres will still be on sale when we buy</span>
+          <span class="oi-chev">+</span>
+        </button>
+        <div class="oi-ref">Register entry: KO2→KO3 transition — re-verify expedition tyre availability at EX-10</div>
+        <div class="oi-meta">
+          <span class="m-k">Who</span><span class="m-v">NEIL+CLAUDE</span>
+          <span class="m-k">When</span><span class="m-v">EX-10 (~T-6 months, trigger ~2028); also bites at the ~2027 RA-9 purchase</span>
+          <span class="m-k">Source</span><span class="m-v">opened 19 Jul 2026</span>
+        </div>
+        <div class="oi-status">OPEN — BFG is phasing the KO2 out size-by-size as the KO3 launches</div>
+        <div class="oi-detail"><p>(final KO3 phase announced May 2026; 107 sizes). Consequences for</p><p>RA-9/OI-22: (1) default expedition tyre is now the KO3 in the LT LR-E 123/120S spec — LR-D 119/116S shelf stock circulates under the same name (verified Jul 2026; R19 card carries the dual-spec warning); (2) the KO2&#x27;s continental-network advantage transfers to the KO3 — north-of-Zambezi KO3 stock must be re-verified at EX-10 before the second-spare/casing strategy (OI-19) is finalised; (3) any KO2 bought as run-out stock needs a DOT-date check. Doctrine: R19 (updated 19 Jul 2026). ════════════════════════════════════════</p></div>
+      </article>
+      <article class="oi oi-waiting" data-tags="claude" data-band="waiting" data-text="parts and servicing sections added to the country profiles; detail still thin retrofit §06 parts &amp; serviceability to profiles 001–006 claude (build) built 22 jul 2026 — residual at ex-10 original finding (21 jul 2026, recorded unaltered): §06 exists only in profiles 007–010 (mozambique, malawi, zimbabwe, kenya). angola, namibia, botswana, zambia, kalahari and tanzania have no parts/serviceability section at all — that is the entire opening leg and the first dry-season run north. already chartered inside ex-8; pulled forward 22 jul 2026 because the r3 consumables ledger keys its carry-versus-source-en-route logic to this data, so the gap blocks ex-8&#x27;s principal deliverable for the first year of the route. content: dealer network, independent specialists, parts availability, lead times (mirror the 007–010 pattern). ratified 22 jul — executes as one combined pass with oi-37 (one visit per file, not two); built thin-but-structurally- complete (durable content now — 1hz parts reality, tyre sizes carried and planned, victron support presence, fuel grade and 50ppm availability; perishable specifics carry the oi-37 marker and are completed at ex-10); append, not renumber. gate 0 before any spec: confirm at pinned head what §06 is in 001–006, in 007–010 and in the live profile template — project knowledge shows the template running 18 sections with §06 = roads, so either it was revised or the two cohorts diverged; if the template lacks the section, correct the template too or the gap recurs on the next profile built. sequence by route exposure, not profile number: session 1 — 002 namibia, 003 botswana, 004 zambia; session 2 — 006 tanzania, 001 angola. executed 22 jul 2026, both sessions. the append ratification was reversed on evidence: gate 0 found 007–010 had inserted the section at §06 and pushed roads to §07, while 001–004/006 and the template still ran the original 18-section shape. a corpus scan returned zero external anchor links and zero textual §-references into 001–006 (r30 carries no profile links at all), so renumbering broke nothing, while appending would have left identical content at §06 in four files and §19 in five — the exact seam the audit diagnosed. all five therefore inserted at §06, sections 06–18 renumbered to 07–19. 005 kalahari scoped out (terrain profile, different section spine; its ground is covered by 002 and 003). template corrected the same day so the gap cannot recur. residual: full build of the perishable content at ex-10. ▌c. small fixes &amp; defects">
+        <button class="oi-head" onclick="tog(this)" aria-expanded="false">
+          <span class="oi-id">OI-36</span>
+          <span class="oi-title">Parts and servicing sections added to the country profiles; detail still thin</span>
+          <span class="oi-chev">+</span>
+        </button>
+        <div class="oi-ref">Register entry: Retrofit §06 Parts &amp; Serviceability to profiles 001–006</div>
+        <div class="oi-meta">
+          <span class="m-k">Who</span><span class="m-v">CLAUDE (build)</span>
+          <span class="m-k">When</span><span class="m-v">BUILT 22 Jul 2026 — residual at EX-10</span>
+          <span class="m-k">Source</span><span class="m-v">F71 (21 Jul)</span>
+        </div>
+        <div class="oi-status">SUBSTANTIALLY CLOSED — built 22 Jul 2026; residual content at EX-10.</div>
+        <div class="oi-detail"><p>ORIGINAL FINDING (21 Jul 2026, recorded unaltered): §06 exists only in profiles 007–010 (Mozambique, Malawi, Zimbabwe, Kenya). Angola, Namibia, Botswana, Zambia, Kalahari and Tanzania have no parts/serviceability section at all — that is the entire opening leg and the first dry-season run north. Already chartered inside EX-8; PULLED FORWARD 22 Jul 2026 because the R3 Consumables Ledger keys its carry-versus-source-en-route logic to this data, so the gap blocks EX-8&#x27;s principal deliverable for the first year of the route. Content: dealer network, independent specialists, parts availability, lead times (mirror the 007–010 pattern). RATIFIED 22 Jul — executes as ONE combined pass with OI-37 (one visit per file, not two); built THIN-BUT-STRUCTURALLY- COMPLETE (durable content now — 1HZ parts reality, tyre sizes carried and planned, Victron support presence, fuel grade and 50ppm availability; perishable specifics carry the OI-37 marker and are completed at EX-10); APPEND, not renumber. GATE 0 BEFORE ANY SPEC: confirm at pinned HEAD what §06 is in 001–006, in 007–010 and in the live Profile TEMPLATE — project knowledge shows the template running 18 sections with §06 = Roads, so either it was revised or the two cohorts diverged; if the template lacks the section, correct the TEMPLATE too or the gap recurs on the next profile built. Sequence by route exposure, not profile number: Session 1 — 002 Namibia, 003 Botswana, 004 Zambia; Session 2 — 006 Tanzania, 001 Angola. EXECUTED 22 Jul 2026, BOTH SESSIONS. The APPEND ratification was REVERSED on evidence: GATE 0 found 007–010 had INSERTED the section at §06 and pushed Roads to §07, while 001–004/006 and the TEMPLATE still ran the original 18-section shape. A corpus scan returned ZERO external anchor links and ZERO textual §-references into 001–006 (R30 carries no profile links at all), so renumbering broke nothing, while appending would have left identical content at §06 in four files and §19 in five — the exact seam the audit diagnosed. All five therefore INSERTED at §06, sections 06–18 renumbered to 07–19. 005 Kalahari SCOPED OUT (terrain profile, different section spine; its ground is covered by 002 and 003). TEMPLATE corrected the same day so the gap cannot recur. RESIDUAL: full build of the perishable content at EX-10. ▌C. SMALL FIXES &amp; DEFECTS</p></div>
+      </article>
+
+  <div class="sec-header" id="s4"><span class="sec-num">04</span><h2>About This View</h2></div>
+  <div class="prov">
+    <b>GENERATED FROM THE REGISTER</b><br>
+    Source: LC76_Open_Items_Register.txt at commit 3fa78e2078f9<br>
+    Generated: 29 July 2026<br><br>
+    THIS PAGE IS NOT THE RECORD OF TRUTH. The register .txt is. This is a
+    derived view, regenerated whenever the register changes &mdash; the same
+    arrangement as the service ledgers, which derive from the spreadsheet.<br><br>
+    <b>IF THE DATE ABOVE LOOKS OLD, IT IS.</b> This page is precached for
+    offline use, so your phone may serve a saved copy. Reload with a
+    connection to refresh, and check the register itself before acting on
+    anything consequential.<br><br>
+    BANDING IS DERIVED, NOT DECLARED. "Waiting on a date" means the entry's
+    own gate names a future year, a T-minus milestone or a calendar trigger.
+    Everything else is treated as live. The register does not carry a band
+    field; if a call looks wrong, the entry text governs.
+  </div>
+
+</div>
+
+<script>
+const sections=['s0','s1','s2','s3','s4'];
+const tocLinks=document.querySelectorAll('.toc-link');
+function go(id){
+  const el=document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:'smooth'});
+}
+const observer=new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      const idx=sections.indexOf(entry.target.id);
+      tocLinks.forEach((l,i)=>l.classList.toggle('active',i===idx));
+    }
+  });
+},{rootMargin:'-30% 0px -60% 0px'});
+sections.forEach(id=>{const el=document.getElementById(id); if(el) observer.observe(el);});
+
+function tog(btn){
+  const c=btn.closest('.oi');
+  const open=c.classList.toggle('open');
+  btn.setAttribute('aria-expanded',open?'true':'false');
+  btn.querySelector('.oi-chev').textContent=open?'−':'+';
+}
+let activeF='all';
+function filt(el){
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on'); activeF=el.dataset.f; apply();
+}
+function apply(){
+  const q=(document.getElementById('q').value||'').trim().toLowerCase();
+  let shown=0;
+  document.querySelectorAll('.oi').forEach(c=>{
+    const tagOK=activeF==='all'||c.dataset.tags.split(' ').includes(activeF);
+    const txtOK=!q||c.dataset.text.includes(q)||c.querySelector('.oi-id').textContent.toLowerCase().includes(q);
+    const ok=tagOK&&txtOK;
+    c.style.display=ok?'':'none';
+    if(ok) shown++;
+  });
+  document.getElementById('cnt').textContent='Showing '+shown+' of 40 open items';
+  document.querySelectorAll('.content .sec-header').forEach(h=>{
+    if(['s0','s4'].includes(h.id)) return;
+    let n=h.nextElementSibling, any=false;
+    while(n&&!n.classList.contains('sec-header')){
+      if(n.classList.contains('oi')&&n.style.display!=='none') any=true;
+      n=n.nextElementSibling;
+    }
+    h.style.display=any?'':'none';
+    const p=h.nextElementSibling;
+    if(p&&p.classList.contains('lede')) p.style.display=any?'':'none';
+  });
+}
+function updateScrollMargins(){
+  const navH=document.querySelector('.sticky-nav-unit').offsetHeight;
+  document.querySelectorAll('.sec-header').forEach(el=>{el.style.scrollMarginTop=(navH+4)+'px';});
+}
+updateScrollMargins();
+window.addEventListener('resize',updateScrollMargins);
+apply();
+</script>
+</body>
+</html>
