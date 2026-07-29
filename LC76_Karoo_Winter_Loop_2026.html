@@ -45,10 +45,11 @@
   #updated-banner { background:#1A4731; color:#D1FAE5; padding:7px 5%; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.06em; display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
   #updated-banner strong { color:#6EE7B7; }
   #updated-banner .upd-tag { background:rgba(255,255,255,0.12); padding:2px 10px; border-radius:2px; }
-  .toc { background:var(--ink); color:var(--sand); padding:12px 5%; display:flex; gap:8px; flex-wrap:wrap; font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.06em; text-transform:uppercase; border-top:1px solid rgba(212,150,58,0.2); }
-  .toc a { color:var(--ochre); text-decoration:none; padding:4px 9px; border:1px solid rgba(212,150,58,0.3); transition:all 0.15s; cursor:pointer; }
+  .toc { background:var(--ink); color:var(--sand); padding:12px 5%; display:flex; gap:8px; flex-wrap:nowrap; overflow-x:auto; overscroll-behavior-x:contain; -webkit-overflow-scrolling:touch; scrollbar-width:none; font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:0.06em; text-transform:uppercase; border-top:1px solid rgba(212,150,58,0.2); }
+  .toc a { flex:0 0 auto; white-space:nowrap; color:var(--ochre); text-decoration:none; padding:4px 9px; border:1px solid rgba(212,150,58,0.3); transition:all 0.15s; cursor:pointer; }
   .toc a:hover { background:rgba(212,150,58,0.15); }
   .toc a.active { background:var(--ochre); color:var(--ink); border-color:var(--ochre); }
+  .toc::-webkit-scrollbar { display:none; }
 
   /* ── LAYOUT ── */
   .page { width:100%; max-width:100%; padding:28px 5% 60px; }
@@ -136,10 +137,9 @@
 
   /* ── RESPONSIVE ── */
   @media (max-width:700px) {
-    /* TOC becomes a single swipeable row so the sticky header stays short on mobile */
-    .toc { flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; padding-top:10px; padding-bottom:10px; }
-    .toc::-webkit-scrollbar { display:none; }
-    .toc a { flex:0 0 auto; white-space:nowrap; }
+    /* Single-row scroller is the BASE behaviour at all widths (R4/R8/R19 pattern).
+       Mobile only tightens the vertical padding. */
+    .toc { padding-top:10px; padding-bottom:10px; }
     .masthead-inner { grid-template-columns:1fr; gap:12px; padding:18px 6% 16px; }
     .masthead-meta { text-align:left; }
     .section { scroll-margin-top:240px; }
@@ -184,23 +184,23 @@
   </header>
   <nav class="toc" id="toc">
     <a onclick="goTo('overview')">01 Overview</a>
-    <a onclick="goTo('glance')">02 At a Glance</a>
-    <a onclick="goTo('map-section')">03 Route Map</a>
-    <a onclick="goTo('geology')">04 Geology &amp; Fossils</a>
-    <a onclick="goTo('flora')">05 Biomes &amp; Flora</a>
+    <a onclick="goTo('glance')">02 Glance</a>
+    <a onclick="goTo('map-section')">03 Map</a>
+    <a onclick="goTo('geology')">04 Geology</a>
+    <a onclick="goTo('flora')">05 Flora</a>
     <a onclick="goTo('wildlife')">06 Wildlife</a>
-    <a onclick="goTo('heritage')">07 People &amp; Heritage</a>
-    <a onclick="goTo('skies')">08 Dark Skies</a>
-    <a onclick="goTo('leg1')">09 Cederberg &amp; Hantam</a>
-    <a onclick="goTo('leg2')">10 Bushmanland &amp; Upper Karoo</a>
-    <a onclick="goTo('leg3')">11 Roggeveld &amp; Home</a>
-    <a onclick="goTo('passes')">12 Passes &amp; Roads</a>
-    <a onclick="goTo('fuel')">13 Fuel &amp; Range</a>
-    <a onclick="goTo('water')">14 Water &amp; Supplies</a>
-    <a onclick="goTo('weather')">15 Weather &amp; Season</a>
-    <a onclick="goTo('gravel')">16 Gravel &amp; Vehicle</a>
-    <a onclick="goTo('service')">17 Breakdown &amp; Service</a>
-    <a onclick="goTo('contacts')">18 Contact Directory</a>
+    <a onclick="goTo('heritage')">07 Heritage</a>
+    <a onclick="goTo('skies')">08 Skies</a>
+    <a onclick="goTo('leg1')">09 Cederberg</a>
+    <a onclick="goTo('leg2')">10 Bushmanland</a>
+    <a onclick="goTo('leg3')">11 Roggeveld</a>
+    <a onclick="goTo('passes')">12 Passes</a>
+    <a onclick="goTo('fuel')">13 Fuel</a>
+    <a onclick="goTo('water')">14 Water</a>
+    <a onclick="goTo('weather')">15 Weather</a>
+    <a onclick="goTo('gravel')">16 Gravel</a>
+    <a onclick="goTo('service')">17 Breakdown</a>
+    <a onclick="goTo('contacts')">18 Contacts</a>
     <a onclick="goTo('log')">· Log</a>
   </nav>
 </div>
