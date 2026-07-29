@@ -1,6 +1,6 @@
 LC76 OVERLAND REFERENCE LIBRARY — OPEN ITEMS REGISTER
 ═══════════════════════════════════════════════════════════════════════
-Last updated: 28 July 2026 (eighteenth update — KAROO DATE-EXPOSURE PASS (third tranche): trip dates withdrawn to PRIVATE ANNEX §4 and generalised in place, itinerary now on relative day numbers; redaction notice EXTENDED; RA-1 de-dating defect found live in three files and closed; OI-52 opened and closed same day; OI-53 opened and closed same day on owner challenge — stale status claim in the PI narrative; second cross-file check adopted; next free OI-54) · Maintained by: Neil / Claude
+Last updated: 29 July 2026 (nineteenth update — LIBRARY-WIDE TOC WRAP DEFECT: single-row scroller promoted to the base rule across 39 files in four passes, Design Guidelines bumped to v1.8, closing corpus assert passes on all 61 files; OI-54 opened and closed same day; next free OI-55) · Maintained by: Neil / Claude
 Governance file — GitHub + project knowledge. NOT precached; never
 triggers a CACHE bump. Single authoritative list of everything open.
 Convention: every session close updates this file. Closed items move to
@@ -414,6 +414,72 @@ weakness is its seams; this is the control aimed directly at them.
 
 ════════════════════════════════════════════════════════════════════════
 CLOSED LOG (most recent first — never delete)
+
+29 Jul 2026  OI-54 · LIBRARY-WIDE TOC WRAP DEFECT — SINGLE-ROW SCROLLER
+      PROMOTED TO THE BASE RULE; DESIGN GUIDELINES v1.8
+      OPENED AND CLOSED SAME DAY, over four staged passes. RAISED BY THE
+      OWNER against the Karoo itinerary: the TOC wrapped to three rows on
+      a laptop while behaving correctly on mobile. ROOT CAUSE: the
+      single-row horizontal scroller was scoped to a max-width media
+      query, so desktop fell through to a base rule declaring
+      flex-wrap:wrap. Because the TOC sits inside the mandatory sticky
+      unit, every wrapped row permanently consumed viewport on every
+      screen of the document.
+      SCALE: 29 of 61 files with a TOC declared flex-wrap:wrap; 20 of
+      those overflowed a 1440px viewport. Only FOUR files (R4, R8, R19,
+      Seal Gasket Atlas) carried the scroller in the base rule — those
+      four supplied the pattern, so the remedy is ADOPTION, NOT
+      INVENTION. R4 Engine Training, with 75 TOC buttons and a ~15,400px
+      row, was the strongest evidence: it works precisely because its
+      base rule is correct.
+      OWNER RULINGS (29 Jul): scope = normalise the whole library, not
+      only the visibly broken files, because a wrapping TOC is LATENT
+      until someone adds a section — which is exactly how the Karoo file
+      broke, three weeks after being fine. Scrollbar stays HIDDEN at all
+      widths, matching the four proven files; a pointer:fine slim
+      scrollbar was built, offered and REJECTED, then reverted out of the
+      Karoo file. The 80 KB own-session rule is WAIVED for anchored
+      CSS-only edits, extending the existing masthead-migration exemption
+      — nine affected files exceed 80 KB and the edit is 2–4 anchored
+      strings plus a full validation walk, identical in shape.
+      EXECUTED IN FOUR PASSES, 39 files: S1 Profile TEMPLATE + Design
+      Guidelines (template first, so nothing inherits the defect; the
+      standard written into DG S6 and the document bumped v1.7 → v1.8);
+      S2 ten country/terrain profiles (masthead bumps + changelog entries
+      in BOTH formats, per the OI-39 divergence); S3 six remaining
+      overflowing files; S4 ten latent files. CLOSING CORPUS ASSERT
+      PASSES: no file wraps its TOC at desktop width, and no file lacks a
+      scroll mechanism. 33 files now carry the standard explicitly; 28
+      are correct by CSS default and were deliberately LEFT UNTOUCHED —
+      editing working files for cosmetic uniformity is churn.
+      FOUR PROBE/GUARD ERRORS, ALL CAUGHT BEFORE DAMAGE, disclosed
+      because the pattern is the lesson: (1) the first TOC survey matched
+      only <nav class="toc"> and reported ONE affected file when most of
+      the library uses .toc-bar; (2) the idempotence guard fired on
+      Angola for overscroll-behavior-x:contain, which also sits on
+      .table-scroll under the standing inner-scroller pattern; (3) the
+      changelog anchor assumed a wrapper style that varies between
+      profiles; (4) MOST SERIOUS — the category classifier took the FIRST
+      .toc-bar match in the flattened CSS, but in many files that match
+      is inside a media query. Rebuilt with depth-aware parsing (a rule
+      is BASE only when braces balance to zero before it), which
+      DISSOLVED "Category C" entirely: all 13 files so classified were
+      already correct, and would have been edited for nothing. S4 fell
+      from 23 files to 10. STANDING LESSON REINFORCED: when a probe
+      disagrees with the file, suspect the probe — and a CSS probe must
+      respect nesting, not text order.
+      FLAGGED, NOT FIXED (needs an owner ruling): FIVE files carry no
+      masthead "Last updated" line — the Manifesto, the Manifesto
+      Commentary, History of Overlanding and Expedition as a System (all
+      Philosophy, which IS in the DG S10 closed vocabulary and should
+      carry one) plus the Content Audit (governance, legitimately
+      exempt). Same defect class as the Karoo masthead the owner ruled on
+      28 Jul. SECOND GAP: non-profile R-docs carry no changelog section,
+      so the standing rule that every masthead bump carries a matching
+      changelog entry cannot be satisfied for them — it needs either an
+      exemption or changelogs added.
+      Content and CSS only — CACHE STAYS v24, no file added, removed or
+      renamed. Next free OI-55.
 
 28 Jul 2026  OI-53 · STALE STATUS CLAIM IN THE PROJECT INSTRUCTIONS —
       NARRATIVE ASSERTED OPEN, REGISTER SAID CLOSED

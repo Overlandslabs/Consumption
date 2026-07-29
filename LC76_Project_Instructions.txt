@@ -1,15 +1,85 @@
 LC76 OVERLAND REFERENCE LIBRARY — PROJECT INSTRUCTIONS
 ═════════════════════════════════════════════════════════════════
 
-Last updated: 28 July 2026, twenty-first session (KAROO DATE-EXPOSURE PASS /
-THIRD TRANCHE + ITINERARY RESTRUCTURE — TRIP DATES WITHDRAWN TO PRIVATE ANNEX
-§4 AND THE ITINERARY CONVERTED TO RELATIVE DAY NUMBERS; "PUBLISH TRIPS
-RETROSPECTIVELY" ADOPTED AS STANDING DOCTRINE; KAROO ITINERARY REBUILT
-13→10 STOPS / 32→29 NIGHTS / LOOP REVERSED, TWO NEW SECTIONS BUILT; RA-1
-DE-DATING FOUND INCOMPLETE IN THREE FILES AND CLOSED; OI-52 OPENED & CLOSED;
-next free OI-53 CONSUMED SAME DAY — next free OI-54).
+Last updated: 29 July 2026, twenty-second session (LIBRARY-WIDE TOC WRAP
+DEFECT CLOSED — THE SINGLE-ROW SCROLLER IS NOW A BASE RULE IN 33 FILES AND
+MANDATORY BY DESIGN GUIDELINES v1.8; 39 FILES EDITED ACROSS FOUR PASSES;
+A DEPTH-AWARE RE-CLASSIFICATION DISSOLVED AN ENTIRE CATEGORY AND PREVENTED
+13 UNNECESSARY EDITS; OI-54 OPENED & CLOSED; next free OI-55).
 
-WHY THIS SESSION. Two jobs that turned out to be one. The owner supplied a
+WHY THIS SESSION. The owner opened it with a UI complaint, not a governance
+task: the Karoo itinerary's TOC wrapped to three rows on a laptop while
+behaving correctly on mobile. Chasing it produced a LIBRARY-WIDE defect and a
+Design Guidelines change. The first diagnosis — "my regression, I added two
+buttons" — was WRONG and was corrected: the two extra buttons pushed one file
+over a threshold, but the wrap was structural and pre-existing in 29 files.
+
+ROOT CAUSE, ONE LINE. The single-row scroller was scoped to a max-width media
+query, so desktop fell through to a base rule declaring flex-wrap:wrap. The
+TOC sits inside the mandatory sticky unit, so every wrapped row permanently
+consumed viewport on every screen of the document.
+
+THE FIX WAS ALREADY IN THE LIBRARY. Four files (R4, R8, R19, Seal Gasket
+Atlas) carried the scroller in the BASE rule. R4, with 75 TOC buttons and a
+~15,400px row, works precisely because of it. The remedy was therefore
+ADOPTION of a proven in-house pattern, and the one thing Claude invented — a
+slim @media (pointer:fine) scrollbar for mouse users — was offered, REJECTED
+by the owner in favour of consistency, and reverted out of the Karoo file
+before the programme started. Do not reintroduce it.
+
+FOUR PASSES, 39 FILES. S1 Profile TEMPLATE + Design Guidelines — template
+FIRST, so no future profile inherits the defect (the OI-36 lesson), and the
+standard written into DG S6 with the document bumped v1.7 → v1.8. S2 ten
+country/terrain profiles, with changelog entries in BOTH formats per the
+OI-39 divergence. S3 six remaining overflowing files. S4 ten latent ones.
+Closing corpus assert passes on all 61 files: none wraps, none lacks a scroll
+mechanism. 33 carry the standard explicitly; 28 are correct by CSS default
+and were LEFT UNTOUCHED — editing working files for cosmetic uniformity is
+churn, and every edit is a chance to break something.
+
+FOUR PROBE ERRORS, ALL CAUGHT, AND THE FOURTH IS THE INSTRUCTIVE ONE. (1) The
+first survey matched only <nav class="toc"> and reported ONE affected file;
+most of the library uses .toc-bar. (2) The idempotence guard fired on Angola
+for overscroll-behavior-x:contain — which also sits on .table-scroll under
+the standing inner-scroller pattern. (3) The changelog anchor assumed a
+wrapper style that varies between profiles. (4) THE CATEGORY CLASSIFIER TOOK
+THE FIRST .toc-bar MATCH IN THE FLATTENED CSS, but in many files that match
+is inside a media query — Brake System Guide's first match is a mobile
+padding rule, Vehicle Recovery's is the print rule. Rebuilt with DEPTH-AWARE
+parsing (a rule is BASE only when braces balance to zero before it), which
+DISSOLVED an entire category: the 13 files classed "no scroll mechanism" were
+already correct, and S4 fell from 23 files to 10. Thirteen healthy files
+would have been edited for nothing. GENERAL RULE: a CSS probe must respect
+NESTING, not text order — flattening the stylesheet destroys the very scoping
+that decides which rule applies.
+
+THE ANCHOR THAT WOULD HAVE DONE REAL DAMAGE. flex-wrap:wrap appears 2–8 times
+per file, almost always on OTHER components — .xref-bar, .comp-header,
+.ohm-tri, .cover-specs, .footer, .sec-header. Spares & Tools alone has eight.
+A replace on that string would have silently unwrapped half a dozen unrelated
+layouts per file. The safe anchor was ';flex-wrap:wrap;border-bottom'
+(count==1 everywhere), and validation asserts the OTHER wrap rules survive.
+
+FLAGGED, NOT FIXED. Five files carry no masthead "Last updated" line — the
+Manifesto, the Commentary, History of Overlanding and Expedition as a System
+(all Philosophy, which IS in the DG S10 closed vocabulary) plus the Content
+Audit (governance, legitimately exempt). Same class as the Karoo masthead
+ruled on 28 Jul; not fixed silently. Separately, non-profile R-docs have no
+changelog section, so the "every masthead bump carries a changelog entry"
+rule cannot be honoured for them — it needs an exemption or changelogs.
+
+FILES THIS ROUND: 39 HTML + this file, the OIR and the Library Register.
+Validation on every edited file — depth walks 0/0/0 (div, span, section,
+nav, table, tbody, tr, dl, pre), ids unique, node --check clean, TOC index
+contract 1:1 in order on all ten profiles, and a per-file assert that the
+base rule carries all five declarations with no flex-wrap:wrap surviving.
+Content and CSS only — CACHE STAYS v24.
+
+DATE BOUNDARY NOTE: this session began 28 Jul and ran past midnight. The
+Karoo restructure and the date-exposure passes are stamped 28 July, the day
+that work was done; the TOC programme is stamped 29 July.
+
+PRIOR (28 July 2026, twenty-first session) — WHY THAT SESSION. Two jobs that turned out to be one. The owner supplied a
 pre-approved handover pack for the THIRD AND FINAL TRANCHE of the 28 Jul
 public-exposure review — the dated absence window — and, in the same breath,
 a substantially revised Karoo itinerary. These converged: the new schedule was
@@ -1310,7 +1380,7 @@ resolved. Content-only, no sw.js bump.
 DEFECT FIXES (7 Jul 2026): offline map tiles (sw.js, CACHE v15→v16); tile-source
 reconciliation (009 → OSM basemap, CACHE v17→v18). Detail in handover pack.
 
-DESIGN SYSTEM (mandatory — full spec in LC76_Design_Guidelines.html, now v1.7)
+DESIGN SYSTEM (mandatory — full spec in LC76_Design_Guidelines.html, now v1.8)
 - Fonts: Bebas Neue (display), Oswald / 'Oswald','Arial Narrow',sans-serif
   (body), IBM Plex Mono (labels/mono). The whole library is on this single
   on-system set — no off-system faces anywhere.
@@ -1336,6 +1406,20 @@ DESIGN SYSTEM (mandatory — full spec in LC76_Design_Guidelines.html, now v1.7)
   R8-supplement eyebrow form: "Reference · R8 Supplement".
 - Sticky nav: masthead and TOC MUST be wrapped together in a single sticky
   container (position:sticky; top:0; z-index:100). Never separate.
+- TOC IS ONE ROW AT EVERY WIDTH (mandatory, DG v1.8, adopted 29 Jul 2026).
+  The single-row horizontal scroller lives in the BASE rule, never in a
+  max-width media query: flex-wrap:nowrap; overflow-x:auto;
+  overscroll-behavior-x:contain; -webkit-overflow-scrolling:touch;
+  scrollbar-width:none — plus .toc-bar::-webkit-scrollbar{display:none} at
+  base. The child selector needs white-space:nowrap ONLY; no flex
+  declarations. THE SCROLLBAR STAYS HIDDEN on desktop too (owner ruling,
+  29 Jul) — do NOT add a @media (pointer:fine) scrollbar to individual
+  files. REASONING: the TOC is inside the sticky unit, so a wrapped row
+  costs viewport on every screen of the document, permanently. A TOC that
+  wraps is LATENT until someone adds a section — the Karoo file was fine
+  at 17 buttons and became a three-row header at 19. If a row gets
+  tediously long, SHORTEN THE LABELS (the section h2 carries the full
+  title), do not widen the bar.
 - Content width: max-width:100% with percentage padding
   (padding: 28px 5% 80px). NEVER a fixed pixel max-width cap. Headers,
   footers, sticky nav always full browser width.
