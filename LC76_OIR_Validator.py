@@ -10,7 +10,7 @@ PI  = sys.argv[2] if len(sys.argv) > 2 else None
 OPEN_VOCAB = {"OPEN","BLOCKED","WAITING-DATE","DONE-PENDING-EVIDENCE","STANDING"}
 # tokens that make a SOURCE a "place" (A7) or a closure "checkable" (A10 strict)
 PLACE = re.compile(r'(R\d|§|RA-|EX-|TA[-_]|ADV-|F\d|WCG|ref\b|Facts|\.txt|\.html|xlsx|working papers|charter|ruling|sweep|manual|annex|Project Instructions|standing rule|20\d\d)', re.I)
-COMMITISH = re.compile(r'([0-9a-f]{7,40}\b|HTTP[ -]?404|testzip|byte|char|corpus assert|ref\s*\d|\.eml|HEAD [0-9a-f])', re.I)
+COMMITISH = re.compile(r'([0-9a-f]{7,40}\b|HTTP[ -]?404|testzip|byte|char|corpus assert|ref\s*\d|\.eml|HEAD [0-9a-f]|sw\.js|precache|index\.html|index link|validator PASSES)', re.I)
 
 s = open(OIR, encoding="utf-8").read()
 body = s.split("CONTROLLED DUPLICATION REGISTER")[0]
