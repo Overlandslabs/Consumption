@@ -156,31 +156,84 @@
     * { -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; color-adjust:exact !important; }
 
     /* OI-60 root font-size fix — rem resolves against :root, not body.
-       11.6px ≈ 8pt body (AoT S5 prototype). */
+       Retained for correctness once this file moves off px. This file is
+       currently sized in px, so the compression below (R10 pattern) is what
+       actually tightens the printout. */
     html { font-size:11.6px !important; }
 
     /* Firefox print: redefine CSS custom properties as hex with !important */
     :root {
-      --clay:#C4572A !important; --ochre:#D4963A !important;
+      --clay:#C4572A !important; --ochre:#B0521E !important;
       --sand:#E8D5A3 !important; --cream:#F5EDDA !important;
       --ink:#1C1410 !important; --bark:#3D2B1A !important;
-      --smoke:#6B5B4E !important; --slate:#4A5568 !important;
+      --smoke:#5A4E42 !important; --slate:#4A5568 !important;
       --white:#FDFAF4 !important; --red-warn:#B91C1C !important;
       --amber-warn:#92400E !important; --green-ok:#1A4731 !important;
       --border:rgba(61,43,26,0.15) !important;
     }
     body { background:#fff !important; margin:0 !important; font-size:7.5pt !important; line-height:1.3 !important; }
 
-    #sticky-nav { position:static !important; }
-    #sticky-nav::before { content:none !important; }
-    #export-bar, #map-tabs, .toc, .lib-home-btn { display:none !important; }
-    .masthead, .alert-strip, #updated-banner, .ibox, .stop, .callout, .fuel-band, .data-table th { -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
-    .stop, .ibox, .callout, .changelog-entry { break-inside:avoid; }
-    .fuel-band { break-inside:avoid; }
-    .data-table { break-inside:auto; }
+    /* Chrome hooks (sticky-nav) + Firefox-era hooks (sticky-wrap/toc-bar) — cover both */
+    #sticky-nav, .sticky-wrap { position:static !important; }
+    #sticky-nav::before, .sticky-wrap::before { content:none !important; }
+    #export-bar, #map-tabs, .toc, .toc-bar, .lib-home-btn { display:none !important; }
+
+    /* page container: kill the 5% side padding, print edge-to-edge inside @page margin */
+    .page { padding:0 !important; max-width:none !important; margin:0 !important; }
+
+    /* masthead — compress like R10 */
+    .masthead { padding:5pt 8pt !important; box-shadow:none !important; break-after:avoid; }
+    .masthead h1, h1 { font-size:15pt !important; line-height:1 !important; }
+    .masthead-sub, .masthead-date, .masthead-id { font-size:5pt !important; }
+
+    /* sections: tighten vertical rhythm */
+    .section { padding:5pt 0 4pt !important; break-inside:auto; }
+    .section-header { gap:8pt !important; margin-bottom:3pt !important; break-after:avoid; }
+    .section-num { font-size:9pt !important; padding:1pt 5pt !important; border-width:1pt !important; }
+    .section h2, h2 { font-size:11pt !important; margin:0 !important; break-after:avoid; page-break-after:avoid; }
+    h3 { font-size:8.5pt !important; margin:3pt 0 2pt !important; break-after:avoid; }
+    .section-heading { font-size:6pt !important; padding:3pt 8pt !important; margin:5pt 0 3pt !important; }
+
+    p, .prose { font-size:7pt !important; line-height:1.3 !important; margin:2pt 0 !important; }
+    .prose + .prose { margin-top:0 !important; }
+
+    /* info boxes: 3-up stays 3-up, compressed; no wasted height */
+    .box-grid { display:grid !important; grid-template-columns:1fr 1fr 1fr !important; gap:4pt !important; margin-bottom:4pt !important; }
+    .ibox { padding:4pt 6pt !important; border-left-width:2pt !important; break-inside:avoid; }
+    .ibox-label { font-size:5pt !important; margin-bottom:2pt !important; }
+    .ibox-value { font-size:10pt !important; line-height:1.1 !important; margin-bottom:2pt !important; }
+    .ibox-sub { font-size:6pt !important; line-height:1.25 !important; }
+
+    /* stop cards: the core of the itinerary — pack them tight */
+    .stop { padding:5pt 8pt !important; margin-bottom:4pt !important; border-left-width:3pt !important; break-inside:avoid; page-break-inside:avoid; }
+    .stop-head { gap:8pt !important; margin-bottom:2pt !important; }
+    .stop h3 { font-size:10pt !important; }
+    .stop .nights { font-size:6pt !important; }
+    .stop .meta { font-size:6pt !important; margin-bottom:4pt !important; }
+    .stop dl { grid-template-columns:70pt 1fr !important; gap:1pt 8pt !important; font-size:7pt !important; line-height:1.3 !important; }
+    .stop dt { font-size:5.5pt !important; padding-top:1pt !important; }
+    .stop dd { font-size:7pt !important; }
+    .stop dd br { line-height:1 !important; }
+
+    /* callouts */
+    .callout { padding:4pt 8pt !important; margin:4pt 0 !important; gap:6pt !important; border-left-width:2pt !important; break-inside:avoid; }
+    .callout-icon { font-size:9pt !important; }
+    .callout-body { font-size:7pt !important; line-height:1.3 !important; }
+
+    /* fuel band */
+    .fuel-band { padding:5pt 8pt !important; margin:4pt 0 !important; gap:6pt !important; break-inside:avoid; }
+    .fuel-num { font-size:15pt !important; }
+    .fuel-label { font-size:5pt !important; margin-top:1pt !important; }
+
+    /* tables: repeat headers, allow splitting big ones */
+    .data-table { font-size:7pt !important; margin-bottom:5pt !important; break-inside:auto; }
+    .data-table th { padding:3pt 6pt !important; font-size:5.5pt !important; }
+    .data-table td { padding:2.5pt 6pt !important; line-height:1.3 !important; }
     .data-table thead { display:table-header-group; }
-    #route-map { height:320px; }
-    .page { padding:0 2%; }
+
+    .changelog-entry { break-inside:avoid; font-size:7pt !important; }
+
+    #route-map { height:180pt !important; break-inside:avoid; }
   }
 </style>
 </head>
