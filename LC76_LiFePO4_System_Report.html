@@ -165,7 +165,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
   <div class="std-eyebrow">Reference · R7</div>
   <div class="std-title">LiFePO4 House System — As Fitted</div>
   <div class="std-sub">Daily load, charge profile &amp; system topology — as installed</div>
-  <div class="std-vehicle">2009 LC76 SW · 1HZ 4.2L Diesel · low-boost turbo (0.6 bar) · intercooler<br>Last updated: 29 July 2026</div>
+  <div class="std-vehicle">2009 LC76 SW · 1HZ 4.2L Diesel · low-boost turbo (0.6 bar) · intercooler<br>Last updated: 5 August 2026</div>
 </div>
 <div class="toc-bar">
   <span class="toc-label">Sections</span>
@@ -207,7 +207,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 
 <div class="rule rule-info">
   <span class="rule-hdr">Earthing — non-isolated, common negative</span>
-  The Orion DC-DC is a <strong>non-isolated</strong> unit: input and output share the battery negative. The system therefore uses a single clean <strong>common-negative star-earth</strong> — no galvanic isolation, one earth reference for the house electronics and the SmartShunt. The DC-DC output is capped to <strong>~40 A</strong> in VictronConnect to protect the 1HZ alternator.
+  The Orion DC-DC is a <strong>non-isolated</strong> unit: input and output share the battery negative. The system therefore uses a single clean <strong>common-negative star-earth</strong> — no galvanic isolation, one earth reference for the house electronics and the BMV-712. The DC-DC output is capped to <strong>~30 A</strong> in VictronConnect to protect the 1HZ alternator.
 </div>
 
 <div class="subsec"><span class="subsec-title">The System Layers</span></div>
@@ -218,10 +218,10 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
   <tbody>
     <tr><td>House battery</td><td>Energy storage</td><td>Enertec Power+ 12.8V 210Ah LiFePO4</td><td>Part 15BLI-12V210-BLP. Internal BMS + Bluetooth. IP65. 20 kg. 105 A max continuous.</td></tr>
     <tr><td>Crank battery</td><td>Engine start</td><td>Willard 650 lead-acid</td><td>Unchanged. Dual-chemistry — kept electrically separate from the house bank.</td></tr>
-    <tr><td>DC-DC</td><td>Alternator charging</td><td>Victron Orion Smart 12/12-50A Non-isolated</td><td>Capped ~40 A to protect the alternator. LiFePO4 profile. Common-negative.</td></tr>
+    <tr><td>DC-DC</td><td>Alternator charging</td><td>Victron Orion XS 12/12-50A Non-isolated</td><td>Capped ~30 A to protect the alternator. LiFePO4 profile. Common-negative.</td></tr>
     <tr><td>Solar MPPT</td><td>Solar charging</td><td>Victron SmartSolar MPPT 100/30</td><td>100 V / 30 A. Hardkorr 200 W portable blanket.</td></tr>
     <tr><td>Inverter/charger</td><td>230 V mains + AC out</td><td>Victron MultiPlus 12/500/20-16</td><td>~430 W continuous · 20 A charger · 16 A transfer. Shore charging + small AC loads.</td></tr>
-    <tr><td>Monitor</td><td>SoC tracking</td><td>Victron SmartShunt 500A</td><td>No display — read in VictronConnect over Bluetooth. V, A, SoC%, consumed Ah.</td></tr>
+    <tr><td>Monitor</td><td>SoC tracking</td><td>Victron BMV-712 Smart (500A shunt)</td><td>Round LCD display + VictronConnect; aux input on crank — read in VictronConnect over Bluetooth. V, A, SoC%, consumed Ah.</td></tr>
     <tr><td>Load protection</td><td>Low-voltage disconnect</td><td>Victron Smart BatteryProtect 65A</td><td>Disconnects loads at low SoC to protect the house battery.</td></tr>
     <tr><td>Distribution</td><td>Fused outputs</td><td>Fuse Block Safety Hub 150 + 8-circuit blade</td><td>Main fusing + M-series battery switch for isolation.</td></tr>
   </tbody>
@@ -267,10 +267,10 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 <div class="subsec"><span class="subsec-title">Charging, Conversion &amp; Monitoring</span></div>
 
 <table class="spec-table">
-  <caption>Orion Smart 12/12-50A Non-isolated — DC-DC Charger</caption>
+  <caption>Orion XS 12/12-50A Non-isolated — DC-DC Charger</caption>
   <thead><tr><th>Spec</th><th>Value</th></tr></thead>
   <tbody>
-    <tr><td>Output</td><td><strong>50 A rated — capped ~40 A</strong></td></tr>
+    <tr><td>Output</td><td><strong>50 A rated — capped ~30 A</strong></td></tr>
     <tr><td>Cap reason</td><td class="v-warn">Protects the 1HZ alternator (set in VictronConnect)</td></tr>
     <tr><td>Charge profile</td><td class="v-good">Multi-stage · LiFePO4 preset</td></tr>
     <tr><td>Earthing</td><td>Non-isolated — common negative</td></tr>
@@ -315,7 +315,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 </table>
 
 <table class="spec-table">
-  <caption>SmartShunt 500A — Battery Monitor</caption>
+  <caption>BMV-712 Smart (500A shunt) — Battery Monitor</caption>
   <thead><tr><th>Spec</th><th>Value</th></tr></thead>
   <tbody>
     <tr><td>Display</td><td>None — read in VictronConnect (Bluetooth)</td></tr>
@@ -352,13 +352,13 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 
 [ HARDKORR 200W BLANKET ] ──4mm² + SB50──► <strong>SmartSolar MPPT 100/30</strong> ──► [ ENERTEC 210Ah LiFePO4 ]
 
-[ CRANK · WILLARD 650 ] ──► <strong>Orion Smart 50A Non-isolated (~40A cap)</strong> ──► [ ENERTEC 210Ah ]
+[ CRANK · WILLARD 650 ] ──► <strong>Orion XS 50A Non-isolated (~30A cap)</strong> ──► [ ENERTEC 210Ah ]
 
 [ 230V SHORE · EZ-Lock inlet ] ──► <strong>MultiPlus 12/500</strong> ──► [ ENERTEC 210Ah ] ──► AC out
 
 [ ENERTEC 210Ah ] ──Safety Hub 150──► <strong>8-circuit blade + BatteryProtect 65A</strong> ──► Loads
 
-── SmartShunt 500A on negative · VictronConnect monitors DC-DC / MPPT / MultiPlus / shunt / BatteryProtect · Bms Blue Tooth app monitors the battery ──
+── BMV-712 500A shunt on negative · display + VictronConnect monitors DC-DC / MPPT / MultiPlus / shunt / BatteryProtect · Bms Blue Tooth app monitors the battery ──
 </pre></div>
 
 
@@ -405,7 +405,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 
 <div class="rule rule-info">
   <span class="rule-hdr">Depth of discharge</span>
-  LFP cycles comfortably to <strong>80% DoD</strong> daily; occasional deeper draws are fine. There is <strong>no memory effect</strong> and no benefit to routinely charging to 100% and holding — partial-state cycling is healthy. Let the SmartShunt SoC guide you, not lead-acid habits.
+  LFP cycles comfortably to <strong>80% DoD</strong> daily; occasional deeper draws are fine. There is <strong>no memory effect</strong> and no benefit to routinely charging to 100% and holding — partial-state cycling is healthy. Let the BMV-712 SoC guide you, not lead-acid habits.
 </div>
 
 <div class="rule rule-warn">
@@ -440,7 +440,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
     <tr><td>Load ceiling</td><td class="mono">105 A</td><td>Hard BMS discharge limit — total continuous 12 V budget.</td></tr>
     <tr><td>AC output</td><td class="mono">~430 W</td><td>MultiPlus 12/500 continuous. Shore charging at 20 A.</td></tr>
     <tr><td>Solar yield</td><td class="mono">~65 Ah/day</td><td>Hardkorr 200 W → SmartSolar MPPT 100/30.</td></tr>
-    <tr><td>Alternator charge</td><td class="mono">~40 A</td><td>DC-DC cap in VictronConnect — protects the 1HZ alternator.</td></tr>
+    <tr><td>Alternator charge</td><td class="mono">~30 A</td><td>DC-DC cap in VictronConnect — protects the 1HZ alternator.</td></tr>
     <tr><td>Monitoring</td><td class="mono">2 apps</td><td>VictronConnect (electronics) + BMS app (battery).</td></tr>
   </tbody>
 </table>
