@@ -118,6 +118,7 @@
   .map-tab:hover { background:var(--sand); color:var(--bark); }
   .map-tab.active { background:var(--ink); color:var(--ochre); border-color:var(--ink); }
   #route-map { height:560px; width:100%; max-width:100%; border:1px solid var(--border); border-top:none; }
+  .print-route { display:none; }
 
   /* ── CHANGELOG ── */
   .changelog-entry { display:grid; grid-template-columns:110px 60px 1fr; gap:0; border-bottom:1px solid var(--border); padding:9px 0; font-size:13.5px; align-items:baseline; }
@@ -233,7 +234,98 @@
 
     .changelog-entry { break-inside:avoid; font-size:7pt !important; }
 
+    /* §03 map: the slippy map prints as a blank box and can split pages.
+       Hide it and its attribution in print; show the text route chain instead. */
+    #route-map, #map-section > p:last-of-type { display:none !important; }
+    .print-route {
+      display:block !important;
+      border:1pt solid #000 !important;
+      padding:5pt 8pt !important;
+      margin-top:3pt !important;
+      break-inside:avoid;
+    }
+    .print-route-title {
+      font-family:'JetBrains Mono',monospace !important;
+      font-size:5.5pt !important; letter-spacing:0.08em !important;
+      text-transform:uppercase !important; color:#000 !important;
+      margin-bottom:3pt !important;
+    }
+    .print-route-chain {
+      font-size:8pt !important; line-height:1.5 !important; color:#000 !important;
+    }
+    .print-route-chain strong { font-weight:700 !important; }
+    .print-route-note {
+      font-size:6pt !important; line-height:1.3 !important; color:#000 !important;
+      margin-top:3pt !important;
+    }
     #route-map { height:180pt !important; break-inside:avoid; }
+
+    /* ============================================================
+       B&W / GRAYSCALE HARDENING (OI-96).
+       Field documents are printed mono. Muted amber/smoke labels and
+       low-opacity text collapse to light grey in grayscale and fade;
+       light-on-dark blocks vanish if "print background graphics" is off.
+       Fix: everything becomes solid black text on white, with rules for
+       the structure the dark fills used to carry. Screen/mobile/colour
+       print are untouched — this lives in @media print only.
+       ============================================================ */
+
+    /* 1 — kill every dark fill; no reliance on background graphics */
+    .masthead, .ibox.dark, .fuel-band, .stop-head, .section-num,
+    .alert-strip, #updated-banner, .data-table th {
+      background:#fff !important;
+      color:#000 !important;
+      box-shadow:none !important;
+    }
+
+    /* 2 — force ALL text to solid black at full opacity.
+       Overrides amber/ochre/smoke/clay tokens and the rgba fuel-label. */
+    body, .page, .section, .prose, p,
+    .masthead h1, .masthead-sub, .masthead-id, .masthead-date,
+    .section-num, .section h2, h2, h3,
+    .ibox, .ibox.dark, .ibox-label, .ibox-value, .ibox-sub,
+    .stop, .stop h3, .stop .nights, .stop .meta, .stop .meta a,
+    .stop dt, .stop dd, .stop dd strong,
+    .callout, .callout-body, .callout-icon,
+    .fuel-band, .fuel-num, .fuel-label, .fuel-stat,
+    .data-table, .data-table th, .data-table td, .data-table a,
+    .section-heading, .changelog-entry, .cl-date, .cl-note, .cl-note strong,
+    .nights, .meta, .meta a, a {
+      color:#000 !important;
+      opacity:1 !important;
+      text-shadow:none !important;
+    }
+
+    /* 3 — restore structure the dark banners used to carry, as rules */
+    .masthead { border:1.5pt solid #000 !important; padding:6pt 8pt !important; }
+    .masthead h1 { font-weight:900 !important; }
+    .section-num {
+      border:1.25pt solid #000 !important;
+      font-weight:700 !important;
+    }
+    .stop-head {
+      border-bottom:1pt solid #000 !important;
+      padding-bottom:2pt !important;
+    }
+    .ibox.dark { border:1pt solid #000 !important; }
+    .fuel-band {
+      border:1.25pt solid #000 !important;
+      border-radius:0 !important;
+    }
+    /* fuel divider so the stat blocks read without the dark field */
+    .fuel-stat { border-left:0.75pt solid #000 !important; padding-left:6pt !important; }
+    .fuel-stat:first-child { border-left:0 !important; padding-left:0 !important; }
+
+    /* 4 — the two genuinely tiny labels: nudge up so they hold ink at
+       photocopier quality, and drop the wide letter-spacing that thins them */
+    .ibox-label, .fuel-label { font-size:6pt !important; letter-spacing:0.06em !important; }
+    .meta, .nights, .cl-date { letter-spacing:0.02em !important; }
+
+    /* 5 — coloured left-borders → solid black so the card edges survive mono */
+    .ibox, .stop, .callout { border-left-color:#000 !important; }
+    /* keep table header separable without a grey fill */
+    .data-table th { border-bottom:1pt solid #000 !important; font-weight:700 !important; }
+    .data-table td { border-bottom:0.5pt solid #000 !important; }
   }
 </style>
 </head>
@@ -248,7 +340,7 @@
         <h1>Karoo <em>Winter Loop</em></h1>
         <div class="masthead-sub">29 nights of gravel, big skies and cold clear stars — Cape Town round-trip, mostly under canvas.</div>
         <div class="masthead-id">2009 LC76 SW · 1HZ 4.2L Diesel · low-boost turbo (0.6 bar) · intercooler</div>
-        <div class="masthead-date">Last updated: 4 August 2026</div>
+        <div class="masthead-date">Last updated: 5 August 2026</div>
       </div>
     </div>
   </header>
@@ -325,6 +417,11 @@
       <button class="map-tab" id="tab-north" onclick="switchTab('north')">Legs 2–3 — Karoo &amp; Home</button>
     </div>
     <div id="route-map"></div>
+    <div class="print-route">
+      <div class="print-route-title">Route — anticlockwise, Cape Town round-trip</div>
+      <div class="print-route-chain">CT → <strong>1</strong> Enjo → <strong>2</strong> Willemsrivier → <strong>3</strong> Skurweberg → <strong>4</strong> Verneukpan → <strong>5</strong> Osfontein → <strong>6</strong> Melton Wold → <strong>7</strong> Merweville → <strong>8</strong> Sutherland → <strong>9</strong> Tankwa/Perdekloof → <strong>10</strong> Bobbejaanskrans → CT</div>
+      <div class="print-route-note">Leg 1 (Cederberg &amp; Hantam): stops 1–3 · Legs 2–3 (Bushmanland, Roggeveld &amp; home): stops 4–10. Full stop detail in §04 Stops; coordinates in §18 Contact Directory.</div>
+    </div>
     <p style="font-size:11px;color:var(--smoke);font-family:'JetBrains Mono',monospace;margin-top:6px;letter-spacing:0.04em;">© OpenStreetMap contributors — route line indicative only, verify every gravel track before travel.</p>
   </section>
 
@@ -676,6 +773,12 @@
   <!-- LOG -->
   <section class="section" id="log">
     <div class="section-header"><div class="section-num" style="font-size:11px;padding:6px 10px;letter-spacing:0.05em;">LOG</div><h2>Changelog</h2></div>
+
+    <div class="changelog-entry">
+      <div class="cl-date">2026-08-05</div>
+      <div><span class="cl-tag upd">Upd</span></div>
+      <div class="cl-note"><strong>Black-and-white print hardening (OI-96).</strong> Faint muted-amber and low-opacity labels were fading to light grey when printed in grayscale, and light-on-dark blocks depended on "print background graphics" being on. Added a B&amp;W layer inside @media print only: all dark fills (masthead, fuel band, dark iboxes, stop-head, section numbers, table header) drop to white; all text forced to solid black at full opacity; the dark banners' structure restored as black rules/borders; the two tiniest mono labels nudged 5pt→6pt with tighter letter-spacing to hold ink. <strong>Route map print behaviour fixed:</strong> the interactive Leaflet map printed as a large blank box that split across pages, so in print it is now hidden and replaced by a compact text route chain (CT → 1 Enjo → … → 10 Bobbejaanskrans → CT) with a leg breakdown — the map still renders normally on screen. Screen, mobile and colour print are unchanged. Rendered proof (headless Chromium, print media, converted to true grayscale) confirms every label legible and the map section compact; 8 pages retained.</div>
+    </div>
 
     <div class="changelog-entry">
       <div class="cl-date">2026-08-04</div>

@@ -776,6 +776,35 @@ OI-75 Boost-pipe clamp check (ADV-010) — subject-correct home
       OI-ref in LC_Service_history_FINAL.xlsx (Advisories) is corrected to OI-75.
       CONFIRMED 30 Jul 2026 (AoT S5) · NEXT-DUE: next service (boost-pipe check)
 
+OI-96 Print grayscale contrast — muted labels fade in black-and-white
+      WHAT: Make the library print legibly on a black-and-white printer
+      CLAUDE (build) · programme, after Karoo pattern proven · Karoo B&W print
+            report 5 Aug 2026 (owner), rendered-grayscale diagnostic
+      OPEN. A SEPARATE AXIS FROM OI-60 (which is print FONT-SIZE, rem-vs-root).
+      This is print CONTRAST: the design's small mono labels are set in muted
+      tokens — amber/ochre (--ochre #D4963A) and smoke — which collapse to light
+      grey when a printer converts colour to grayscale. Measured on the Karoo
+      file: the ochre eyebrow labels fall to grey L≈157 on an L≈237 ground (Δ80,
+      the faint text the owner reported); the fuel-label is rgba(...,0.6) on a
+      dark fill and VANISHES entirely if "print background graphics" is off.
+      Two failure modes: (1) muted colours too light in grayscale; (2) light-on-
+      dark text depending on backgrounds printing. FIX PATTERN PROVEN ON KAROO
+      (owner ruling 5 Aug: option B): inside @media print only, drop every dark
+      fill to white, force all text to solid black at full opacity, restore the
+      dark banners' structure as black rules/borders, and nudge the two tiniest
+      labels 5pt→6pt. Screen/mobile/colour print untouched. Rendered proof
+      (headless Chromium → true grayscale) confirms every label legible.
+      SCOPE: Karoo is DONE as the exemplar; this item tracks propagating the
+      same B&W layer across the print-bearing corpus. SEQUENCING — this rides
+      WITH OI-60, not before it: OI-60 corrects DG §16 (print font-size) and
+      runs the per-file pass; the B&W-contrast layer is added in the SAME pass,
+      so the two print axes are fixed together per file rather than touching
+      every file's @media print block twice. Karoo (px-sized, R10 pattern) and
+      How_To_Use already have working print blocks; the B&W layer folds in when
+      each is next revised. NOT a CACHE bump (content/CSS only, no file add/
+      remove/rename).
+      CONFIRMED 5 Aug 2026 (Karoo B&W session) · NEXT-DUE: with OI-60 remediation programme
+
 ▌D. DECISIONS PENDING (owner rulings)
 
 

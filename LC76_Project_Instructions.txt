@@ -1,7 +1,53 @@
 LC76 OVERLAND REFERENCE LIBRARY — PROJECT INSTRUCTIONS
 ═════════════════════════════════════════════════════════════════
 
-Last updated: 4 August 2026, thirty-fifth session (KAROO ITINERARY UPDATE —
+Last updated: 5 August 2026, thirty-sixth session (KAROO B&W PRINT FIX —
+GRAYSCALE CONTRAST HARDENING. A single-file print-CSS session on
+LC76_Karoo_Winter_Loop_2026.html, plus ONE new open item OI-96. Next free
+OI-96 → OI-97. CACHE STAYS v26 — CSS-only, no library file added, removed or
+renamed. Re-pinned to HEAD df39ac02 (the owner had committed the previous
+session's print-fix output byte-identical to the working copy — reconciled,
+edit applied on top)).
+
+SESSION 36 IN ONE PARAGRAPH. The owner reported the Karoo file printing badly
+in BLACK AND WHITE — faint text barely showing. Diagnosed by measurement, not
+guess: the design's small mono labels use muted amber/ochre (--ochre #D4963A)
+and smoke tokens that collapse to LIGHT GREY in grayscale — the ochre eyebrow
+labels fall to grey L≈157 on an L≈237 ground (Δ80, the faint text), and the
+fuel-label is rgba(...,0.6) on a dark fill that VANISHES if "print background
+graphics" is off. Two failure modes: muted colours too light in mono, and
+light-on-dark text depending on backgrounds printing. This is a SEPARATE AXIS
+from OI-60 (which is print FONT-SIZE, rem-vs-root) — recorded as its own item,
+OI-96, at the owner's instruction. FIX (owner ruling: option B, bulletproof
+over option A): inside @media print ONLY, every dark fill (masthead, fuel band,
+dark iboxes, stop-head, section numbers, at-a-glance table header) drops to
+white; ALL text forced solid black at full opacity, overriding the amber/smoke/
+clay tokens and the rgba fuel-label; the dark banners' structure restored as
+black rules/borders; the two tiniest mono labels nudged 5pt→6pt with tighter
+letter-spacing to hold ink. Screen, mobile and colour print are UNTOUCHED.
+RENDERED PROOF (headless Chromium, print media, output converted to TRUE
+grayscale to simulate a mono printer, 5 Aug): every label legible, table
+header now black-on-white with a rule, 8 pages retained. SAME SESSION, MAP
+PRINT FIX (owner report, files not yet pushed so folded into this block): the
+interactive Leaflet route map in §03 printed as a large BLANK BOX that split
+across pages and pushed content down. In @media print the map and its OSM
+attribution are now hidden and a print-only TEXT ROUTE CHAIN shown instead
+(CT → 1 Enjo → … → 10 Bobbejaanskrans → CT, with a leg breakdown and pointers
+to §04/§18); the map still renders normally on screen (verified: screen
+display block 560px, .print-route display none). Karoo-specific (only file
+with a map) so NO propagation and NO new OI. §03 now closes on page 1. A misnumber was caught
+by roll-forward reconciliation mid-session — the item was first written OI-97
+when next-free was OI-96; corrected before propagation (register max was 95,
+so 96 is correct). OI-96 rides WITH OI-60's eventual per-file remediation, not
+before it, so each file's @media print block is touched once for both print
+axes. VALIDATION: script-stripped depth walks 0/0 on div/span/section/header/
+nav/button (292/292 div, 27/27 span after the changelog entry), node --check
+clean on both inline scripts, 27/27 ids unique. FILES THIS ROUND:
+LC76_Karoo_Winter_Loop_2026.html (print CSS + masthead + changelog),
+LC76_Open_Items_Register.txt (OI-96 opened), LC76_Library_Register.txt (Karoo
+entry note), index.html (Last Updated bump), plus this file.
+
+PRIOR (4 August 2026, thirty-fifth session) (KAROO ITINERARY UPDATE —
 DATES RESTORED, STOPS FINALISED, PRINT FIX. A content session on
 LC76_Karoo_Winter_Loop_2026.html only. No audit work; no OI opened or closed;
 next free stays OI-96. CACHE STAYS v26 — no library file added, removed or
