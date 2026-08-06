@@ -91,6 +91,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;margin:14px 0}
 .table-scroll .spec-table{margin:0}
 .spec-table.symtable td:first-child{white-space:nowrap;padding-right:16px}
+.spec-table td.pos{min-width:150px}
 .mono{font-family:var(--mono);font-size:.72rem;color:var(--amber)}
 .v-good{color:var(--green-ok);font-weight:600}
 .v-warn{color:var(--amber);font-weight:600}
@@ -227,7 +228,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 .row:last-child{border-bottom:none}
 .row:nth-child(even){background:rgba(0,0,0,.02)}
 .row-label{color:var(--steelmd);font-size:.75rem;flex:0 0 44%}
-.row-value{font-family:var(--mono);font-weight:600;font-size:.75rem;color:var(--ink);flex:1}
+.row-value{font-family:var(--sans);font-weight:600;font-size:.75rem;color:var(--ink);flex:1}
 
 /* ── XREF ── */
 .xref-bar{background:var(--steeldk);padding:9px 5%;display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:32px -5% 0}
@@ -256,7 +257,8 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
   .fc{display:block;width:100%;margin-bottom:8px}
   .chem-grid{grid-template-columns:1fr}
   .dodont{display:block}
-  .do-item>div{min-width:0}
+  .do-item{min-width:0}
+  .do-item>div{min-width:0;max-width:100%}
   .dodont>*{display:block;width:100%;margin-bottom:8px}
   .soc-container{display:block}
   .soc-card{margin-bottom:8px}
@@ -977,9 +979,9 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
   <caption>Switch panel — what each position does</caption>
   <thead><tr><th>Switch</th><th>Position</th><th>What happens</th></tr></thead>
   <tbody>
-    <tr><td rowspan="3"><strong>Inverter</strong><br><span class="mono">(the MultiPlus)</span></td><td class="v-warn">TOP — Inverter &amp; Charger (I)</td><td>Full hybrid. On shore power: charges the battery AND passes shore AC to the sockets. If shore power <strong>drops</strong>, the inverter takes over in under 20 ms and keeps the sockets live off the battery. Use when you need 230V AC off-grid, or when you want the sockets to survive a shore-power cut (CPAP, laptop mid-work) — but it <strong>will</strong> draw down the lithium if shore stays off.</td></tr>
-    <tr><td class="v-bad">MIDDLE — Off (O)</td><td>Everything shut down — no charging, no inverting. The sockets are dead <strong>even if shore is plugged in</strong> (the transfer relay stays open). Minimal standby draw. Use for long storage.</td></tr>
-    <tr><td class="v-good">BOTTOM — Charger Only (II)</td><td>Charges the battery from shore AND passes shore AC through to the sockets, but the inverter is disabled. If shore power drops, the sockets go dead immediately — the battery is <strong>never</strong> drained to carry AC loads. <strong>Your default at a shore-power campsite</strong> and overnight on shore.</td></tr>
+    <tr><td rowspan="3"><strong>Inverter</strong><br><span class="mono">(the MultiPlus)</span></td><td class="v-warn pos">TOP — Inverter &amp; Charger (I)</td><td>Full hybrid. On shore power: charges the battery AND passes shore AC to the sockets. If shore power <strong>drops</strong>, the inverter takes over in under 20 ms and keeps the sockets live off the battery. Use when you need 230V AC off-grid, or when you want the sockets to survive a shore-power cut (CPAP, laptop mid-work) — but it <strong>will</strong> draw down the lithium if shore stays off.</td></tr>
+    <tr><td class="v-bad pos">MIDDLE — Off (O)</td><td>Everything shut down — no charging, no inverting. The sockets are dead <strong>even if shore is plugged in</strong> (the transfer relay stays open). Minimal standby draw. Use for long storage.</td></tr>
+    <tr><td class="v-good pos">BOTTOM — Charger Only (II)</td><td>Charges the battery from shore AND passes shore AC through to the sockets, but the inverter is disabled. If shore power drops, the sockets go dead immediately — the battery is <strong>never</strong> drained to carry AC loads. <strong>Your default at a shore-power campsite</strong> and overnight on shore.</td></tr>
     <tr><td><strong>LED Lights</strong></td><td>ON / OFF</td><td>The interior LED lighting circuit. Off at night saves a few amp-hours.</td></tr>
     <tr><td><strong>12V Load</strong></td><td>ON / OFF</td><td>Master switch for the 12V accessory circuit (USB, 12V sockets, fridge 12V feed) through the BatteryProtect. <strong>Leave ON whenever using the vehicle.</strong> Off only for long storage.</td></tr>
   </tbody>
@@ -1278,7 +1280,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
       <div>
         <div class="di-label">How long must we drive on transit day to recover to 100%?</div>
         <div class="di-note">Net charge rate while driving: <strong>~20.6A</strong> (≈25A effective DC-DC delivery − 4.4A average load draw).<br>Deploying the solar blanket at the new camp for 3h of remaining sun adds ~32 Ah and cuts transit drive time.<br><br>
-          <table class="spec-table" style="font-size:11px;">
+          <div class="table-scroll"><table class="spec-table mwn" style="font-size:11px;">
             <thead><tr><th>Departure SoC</th><th>Driving only</th><th>Drive + 3h solar at new camp</th></tr></thead>
             <tbody>
               <tr><td style="color:var(--green-ok);">80%</td><td class="g">2.0 hrs</td><td class="g">0.9 hrs + solar</td></tr>
@@ -1287,7 +1289,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
               <tr><td>50%</td><td class="h" style="color:#B87800;">5.1 hrs</td><td class="h" style="color:#B87800;">4.0 hrs + solar</td></tr>
               <tr><td style="color:#B00000;">30% 🔴</td><td class="h" style="color:#B00000;font-weight:700">6.4 hrs</td><td class="h" style="color:#B00000;">5.4 hrs + solar</td></tr>
             </tbody>
-          </table>
+          </table></div>
           <strong>Key insight:</strong> Reaching 100% in a single transit day is only realistic if you depart at 70%+. Arriving at 70–80% then deploying the blanket is the practical goal. Full recovery completes the next morning with solar.
         </div>
       </div>
