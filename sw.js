@@ -22,7 +22,7 @@
 // but any tiles fetched successfully while online are cached opportunistically
 // for later offline reuse via the same runtime fetch handler.
 
-const CACHE = 'lc76-library-v27';
+const CACHE = 'lc76-library-v28';
 
 const CDN_HOSTS = [
   'cdnjs.cloudflare.com',
@@ -67,6 +67,7 @@ const PRECACHE = [
   './LC76_How_To_Use_This_Library.html',
   './LC76_Open_Items_Dashboard.html',
   './LC76_Insurance_Medevac.html',
+  './LC76_IsatPhone_Operating_Guide.html',
   './LC76_Kalahari_Profile_2026-04.html',
   './LC76_Karoo_Winter_Loop_2026.html',
   './LC76_LiFePO4_Calculator.html',

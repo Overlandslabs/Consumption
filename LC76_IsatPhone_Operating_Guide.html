@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LC76 Library">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0d0e12">
+<title>LC76 · IsatPhone 2 Operating Guide · R43</title>
+<link rel="manifest" href="manifest-ref.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500;600&family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0d0e12;--paper:#dad2c0;--paper2:#edeae0;--rule:#d4cfc4;
+  --amber:#b86800;--amber2:#e07800;
+  --steeldk:#2a2f3a;--steelmd:#6a7080;--steellt:#a8b0bc;
+  --red-warn:#B91C1C;--green-ok:#059669;
+  --mono:'IBM Plex Mono',monospace;
+  --sans:'Oswald',sans-serif;
+  --display:'Bebas Neue',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{overflow-x:hidden;overflow-x:clip;overscroll-behavior-x:none}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.6;overflow-x:clip;overscroll-behavior-x:none}
+
+/* ── STICKY NAV ── */
+.sticky-nav-unit{position:sticky;top:0;z-index:100;padding-top:env(safe-area-inset-top);background:var(--ink)}
+.sticky-nav-unit::before{content:"";position:absolute;left:0;right:0;bottom:100%;height:100vh;background:var(--ink)}
+.std-header{background:var(--ink);padding:18px 24px 14px;position:relative;border-bottom:3px solid var(--amber)}
+.std-eyebrow{font-family:var(--mono);font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--steelmd);margin-bottom:6px}
+.std-title{font-family:var(--display);font-size:clamp(1.9rem,5vw,2.8rem);letter-spacing:.06em;color:var(--amber2);line-height:1}
+.std-sub{font-family:var(--mono);font-size:.54rem;letter-spacing:.12em;color:rgba(255,200,100,.65);margin-top:5px}
+.std-vehicle{font-family:var(--mono);font-size:.48rem;letter-spacing:.08em;color:var(--steelmd);margin-top:8px}
+.lib-home-btn{position:absolute;top:14px;right:16px;display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--amber2);background:rgba(232,120,0,.15);border:1px solid var(--amber2);border-radius:20px;padding:6px 12px;min-height:32px;white-space:nowrap;transition:background .2s}
+.lib-home-btn:hover{background:rgba(232,120,0,.30)}
+.toc-bar::-webkit-scrollbar{display:none}
+  .toc-bar{background:var(--steeldk);padding:7px 24px;display:flex;align-items:center;gap:5px;flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none;border-bottom:2px solid var(--amber)}
+.toc-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.18em;color:var(--steellt);text-transform:uppercase;margin-right:4px;flex-shrink:0}
+.toc-link{font-family:var(--mono);font-size:.46rem;color:rgba(255,255,255,.45);text-decoration:none;padding:2px 6px;border:1px solid transparent;transition:all .12s;white-space:nowrap;cursor:pointer}
+.toc-link:hover,.toc-link.active{color:var(--amber2);border-color:var(--amber2);background:rgba(232,120,0,.1)}
+
+/* ── CONTENT ── */
+.content{padding:24px 5% 80px;max-width:100%}
+.lead{font-size:.92rem;color:var(--steeldk);line-height:1.7;margin:6px 0 16px;max-width:900px}
+.p{font-size:.86rem;color:var(--steeldk);line-height:1.65;margin:10px 0}
+.p strong{color:var(--ink);font-weight:600}
+
+/* ── SECTION HEADERS ── */
+.sec-header{display:flex;align-items:center;gap:12px;padding:10px 5%;background:var(--steeldk);border-left:5px solid var(--amber2);margin:34px 0 0;margin-left:-5%;margin-right:-5%}
+.sec-header:first-child{margin-top:0}
+.sec-num{font-family:var(--mono);font-size:.58rem;font-weight:600;color:#fff;background:var(--amber);padding:3px 8px;letter-spacing:.12em;flex-shrink:0}
+.sec-title{font-family:var(--display);font-size:1.7rem;letter-spacing:.10em;color:#fff;line-height:1}
+.sec-sub{font-family:var(--mono);font-size:.44rem;letter-spacing:.10em;color:var(--steellt);margin-left:auto;flex-shrink:0;text-align:right}
+
+/* ── SUBSECTIONS ── */
+.subsec{background:var(--paper2);border-left:3px solid var(--amber);padding:6px 16px 6px 14px;margin:22px 0 10px;display:flex;align-items:center;gap:10px}
+.subsec-title{font-family:var(--display);font-size:1.1rem;letter-spacing:.12em;color:var(--ink)}
+.subsec-tag{font-family:var(--mono);font-size:.44rem;letter-spacing:.12em;color:var(--steelmd);text-transform:uppercase;margin-left:auto}
+
+/* ── RULE BOXES ── */
+.rule{border-left:4px solid;padding:11px 15px;margin:12px 0;font-family:var(--sans);font-size:.86rem;line-height:1.65}
+.rule .rule-hdr{font-weight:700;display:block;margin-bottom:5px;font-family:var(--sans);font-size:.92rem;letter-spacing:.01em}
+.rule .rule-body{font-size:.86rem;line-height:1.65}
+.rule strong{font-weight:700;color:inherit}
+.rule-warn{background:#fff4f0;border-color:var(--red-warn);color:#5a1010}
+.rule-warn .rule-hdr{color:var(--red-warn)}
+.rule-note{background:#fffbe8;border-color:var(--amber2);color:#4a3000}
+.rule-note .rule-hdr{color:var(--amber)}
+.rule-ok{background:#f0fff8;border-color:var(--green-ok);color:#0a3a20}
+.rule-ok .rule-hdr{color:var(--green-ok)}
+.rule-info{background:var(--paper2);border-color:var(--steelmd);color:var(--steeldk)}
+.rule-info .rule-hdr{color:var(--steelmd)}
+
+/* ── SPEC TABLES ── */
+.spec-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:.82rem}
+.spec-table caption{font-family:var(--mono);font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;color:var(--steelmd);text-align:left;padding-bottom:6px}
+.spec-table th{background:var(--steeldk);color:#fff;font-family:var(--mono);font-size:.44rem;letter-spacing:.12em;text-transform:uppercase;padding:7px 10px;text-align:left}
+.spec-table th.th-std{background:var(--steeldk)}
+.spec-table th.th-amber{background:var(--amber)}
+.spec-table th.th-green{background:var(--green-ok)}
+.spec-table th.th-blue{background:#1A3A5C}
+.spec-table th.th-teal{background:#1A4A4A}
+.spec-table td{padding:6px 10px;border-bottom:1px solid var(--rule);vertical-align:top;font-family:var(--sans)}
+.spec-table tr:nth-child(even) td{background:var(--paper2)}
+.spec-table .tr-section td{background:var(--paper2);font-weight:600;font-family:var(--mono);font-size:.42rem;letter-spacing:.08em;text-transform:uppercase;color:var(--steelmd)}
+.spec-table .tr-total td{background:var(--steeldk);color:var(--amber2);font-family:var(--mono);font-weight:700}
+.spec-table .td-label{font-weight:500}
+.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;margin:14px 0}
+.table-scroll .spec-table{margin:0}
+.spec-table.symtable td:first-child{white-space:nowrap;padding-right:16px}
+.spec-table td.pos{min-width:150px}
+.mono{font-family:var(--mono);font-size:.72rem;color:var(--amber)}
+.v-good{color:var(--green-ok);font-weight:600}
+.v-warn{color:var(--amber);font-weight:600}
+.v-bad{color:var(--red-warn);font-weight:600}
+
+/* ── SYMBOL GRID ── */
+.sym-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin-bottom:22px}
+.sym-cell{background:var(--paper);padding:16px 18px}
+.sym-cell.amber,.sym-cell.green,.sym-cell.blue,.sym-cell.purple,.sym-cell.red,.sym-cell.teal,.sym-cell.orange{background:var(--paper2)}
+.sym-symbol{font-family:var(--mono);font-size:36px;line-height:1;margin-bottom:4px;color:var(--amber2)}
+.sym-name{font-family:var(--mono);font-size:.44rem;letter-spacing:.08em;text-transform:uppercase;color:var(--steelmd);margin-bottom:3px}
+.sym-full{font-weight:600;font-size:.86rem;color:var(--ink);margin-bottom:4px}
+.sym-desc{font-size:.78rem;color:var(--steeldk);line-height:1.55}
+.sym-formula{font-family:var(--mono);font-size:.68rem;background:rgba(0,0,0,.06);padding:2px 7px;border-radius:2px;display:inline-block;margin-top:4px;color:var(--ink)}
+
+/* ── FORMULA STRIP ── */
+.formula-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin-bottom:22px}
+.fc{padding:18px 20px;background:var(--paper2)}
+.fc.fa,.fc.fg,.fc.fb,.fc.fp,.fc.ft,.fc.fr{background:var(--paper2)}
+.f-name{font-family:var(--mono);font-size:.42rem;letter-spacing:.15em;text-transform:uppercase;color:var(--steelmd);margin-bottom:6px}
+.f-eq{font-family:var(--mono);font-size:1.4rem;color:var(--ink);line-height:1;margin-bottom:6px}
+.f-exp{font-size:.78rem;color:var(--steeldk);line-height:1.55}
+.f-ex{font-family:var(--mono);font-size:.68rem;background:rgba(0,0,0,.07);padding:3px 8px;border-radius:2px;display:inline-block;margin-top:5px;color:var(--ink)}
+
+/* ── OHM'S LAW ── */
+.ohm-tri{display:flex;align-items:center;gap:28px;margin-bottom:22px;flex-wrap:wrap}
+.ohm-box{background:var(--steeldk);color:#fff;padding:22px 28px;border-radius:4px;text-align:center;font-family:var(--mono);min-width:200px}
+.ohm-title{font-size:.42rem;letter-spacing:.18em;text-transform:uppercase;color:var(--amber2);margin-bottom:12px}
+.ohm-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:2px}
+.ohm-top{grid-column:1/-1;background:var(--amber2);color:var(--ink);padding:10px;text-align:center;font-size:20px;font-weight:600;border-radius:2px 2px 0 0}
+.ohm-bl{background:rgba(255,255,255,.12);padding:10px;text-align:center;font-size:20px;border-radius:0 0 0 2px}
+.ohm-br{background:rgba(255,255,255,.08);padding:10px;text-align:center;font-size:20px;border-radius:0 0 2px 0}
+.ohm-sub{font-size:9px;display:block;margin-top:2px;opacity:.65}
+.ohm-desc{flex:1;min-width:280px}
+.ohm-rule{font-size:.86rem;line-height:1.8;color:var(--ink)}
+.ohm-rule li{margin-left:18px;margin-bottom:4px}
+
+/* ── DIAGRAM ── */
+.diagram-wrap{background:var(--steeldk);border-radius:4px;padding:18px;margin:18px 0;overflow-x:auto;overscroll-behavior-x:contain;color:#ccc;font-family:var(--mono);font-size:.78rem;line-height:2}
+.diagram-wrap pre{font-family:var(--mono);font-size:.7rem;color:var(--steellt);line-height:1.9;white-space:pre-wrap;word-break:break-word}
+.diagram-title{color:var(--amber2);font-size:.42rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:12px}
+.diagram-wrap .dc{color:var(--green-ok)}
+.diagram-wrap .da{color:var(--amber2)}
+.diagram-wrap .dr{color:#FF9A7A}
+.diagram-wrap .db{color:var(--steellt)}
+.diagram-wrap .dp{color:#D0A0FF}
+
+/* ── CALC BLOCKS ── */
+.calc-block{background:var(--steeldk);border-radius:4px;padding:20px 24px;margin-bottom:22px}
+.calc-title{font-family:var(--mono);font-size:.42rem;letter-spacing:.22em;text-transform:uppercase;color:var(--amber2);margin-bottom:14px}
+.calc-step{display:flex;gap:14px;margin-bottom:12px;align-items:flex-start}
+.calc-step:last-child{margin-bottom:0}
+.calc-num{background:var(--amber2);color:var(--ink);width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:600;flex:0 0 auto}
+.calc-body{font-size:.82rem;color:#ccc;line-height:1.65}
+.calc-body strong{color:var(--amber2)}
+.eq{font-family:var(--mono);background:rgba(255,255,255,.08);padding:2px 8px;border-radius:2px;color:#fff;display:inline-block;margin:2px 0}
+
+/* ── CHEMISTRY GRID ── */
+.chem-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin-bottom:22px}
+.chem-cell{padding:14px 16px;background:var(--paper2)}
+.chem-cell.best{background:#f0fff8}
+.chem-cell.ok{background:#fffbe8}
+.chem-cell.avoid{background:#fff4f0}
+.chem-name{font-weight:600;font-size:.86rem;margin-bottom:3px}
+.chem-badge{display:inline-block;font-size:.42rem;font-family:var(--mono);padding:1px 6px;border-radius:2px;color:#fff;margin-left:6px;vertical-align:middle;letter-spacing:.06em}
+.chem-badge.gb{background:var(--green-ok)}
+.chem-badge.ab{background:var(--amber)}
+.chem-badge.rb{background:var(--red-warn)}
+.chem-prop{font-size:.78rem;color:var(--steeldk);line-height:1.6;margin-top:4px}
+
+/* ── DO/DON'T GRIDS ── */
+.dodont{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:22px}
+.do-card{border:1px solid var(--green-ok);border-radius:3px;overflow:hidden}
+.dont-card{border:1px solid var(--red-warn);border-radius:3px;overflow:hidden}
+.do-head{background:var(--green-ok);color:#fff;padding:10px 16px;font-family:var(--mono);font-size:.42rem;letter-spacing:.1em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+.dont-head{background:var(--red-warn);color:#fff;padding:10px 16px;font-family:var(--mono);font-size:.42rem;letter-spacing:.1em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+.do-body{padding:0}
+.do-item{display:flex;gap:10px;align-items:flex-start;padding:9px 16px;border-bottom:1px solid var(--rule);font-size:.82rem;line-height:1.55}
+.dont-item{display:flex;gap:10px;align-items:flex-start;padding:9px 16px;border-bottom:1px solid var(--rule);font-size:.82rem;line-height:1.55}
+.do-item:last-child,.dont-item:last-child{border-bottom:none}
+.do-icon{color:var(--green-ok);font-size:14px;flex:0 0 auto;margin-top:1px}
+.dont-icon{color:var(--red-warn);font-size:14px;flex:0 0 auto;margin-top:1px}
+.di-label{font-weight:600;font-size:.82rem}
+.di-note{font-size:.78rem;color:var(--steeldk);margin-top:2px;line-height:1.5}
+
+/* ── SOC METER ── */
+.soc-container{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:22px}
+.soc-card{border:1px solid var(--rule);border-radius:3px;overflow:hidden}
+.soc-head{padding:11px 16px;font-family:var(--mono);font-size:.42rem;letter-spacing:.1em;text-transform:uppercase;color:#fff}
+.soc-head.ha{background:var(--amber)}
+.soc-head.hg{background:var(--green-ok)}
+.soc-body{padding:14px 16px}
+.soc-bar-wrap{margin-bottom:14px}
+.soc-bar-label{display:flex;justify-content:space-between;font-size:.68rem;color:var(--steelmd);margin-bottom:5px;font-family:var(--mono)}
+.soc-bar-track{height:22px;background:rgba(0,0,0,.07);border-radius:3px;overflow:hidden;position:relative}
+.soc-segment{height:100%;display:inline-flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:9px;color:#fff;font-weight:600;float:left}
+.seg-red{background:var(--red-warn)}
+.seg-yellow{background:var(--amber)}
+.seg-lime{background:#4A8A1A}
+.seg-green{background:var(--green-ok)}
+.soc-zones{margin-top:10px}
+.soc-zone-row{display:flex;align-items:flex-start;gap:10px;padding:6px 0;border-bottom:1px solid var(--rule);font-size:.82rem}
+.soc-zone-row:last-child{border-bottom:none}
+.soc-dot{width:12px;height:12px;border-radius:50%;flex:0 0 auto;margin-top:2px}
+.soc-zone-label{font-weight:600;font-size:.78rem}
+.soc-zone-desc{font-size:.75rem;color:var(--steeldk);line-height:1.5}
+
+/* ── STATS ── */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin-bottom:22px;align-items:start}
+.sc{background:var(--paper);padding:15px 18px;position:relative}
+.sc.a,.sc.g,.sc.b,.sc.p,.sc.r,.sc.t{background:var(--paper2)}
+.sv{font-family:var(--display);font-size:1.6rem;color:var(--ink);line-height:1}
+.sv .u{font-size:.68rem;font-family:var(--mono);color:var(--steelmd);margin-left:2px}
+.sl{font-size:.68rem;color:var(--steeldk);margin-top:3px;line-height:1.45}
+.sbadge{position:absolute;top:9px;right:11px;font-size:.42rem;font-family:var(--mono);letter-spacing:.07em;padding:2px 6px;border-radius:2px;text-transform:uppercase;color:#fff;background:var(--steelmd)}
+.ba,.bp{background:var(--amber)}
+.bg{background:var(--green-ok)}
+.bb{background:#1A3A5C}
+.br,.bh{background:var(--red-warn)}
+
+/* ── CARD GRID ── */
+.card-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:22px;align-items:start}
+.card-block{border:1px solid var(--rule);border-radius:2px;overflow:hidden}
+.card-hd{padding:12px 17px;display:flex;align-items:center;justify-content:space-between}
+.card-hd.amber{background:var(--amber)}
+.card-hd.green{background:var(--green-ok)}
+.card-hd.blue{background:#1A3A5C}
+.card-hd.purple{background:#3A1A5C}
+.card-hd.teal{background:#1A4A4A}
+.card-name{font-family:var(--display);font-size:1rem;color:#fff}
+.card-sub{font-size:.42rem;color:rgba(255,255,255,.55);font-family:var(--mono);margin-top:1px;letter-spacing:.07em;text-transform:uppercase}
+.card-icon{font-size:22px}
+.row{display:flex;justify-content:flex-start;align-items:flex-start;padding:8px 17px;border-bottom:1px solid var(--rule);font-size:.82rem}
+.row:last-child{border-bottom:none}
+.row:nth-child(even){background:rgba(0,0,0,.02)}
+.row-label{color:var(--steelmd);font-size:.75rem;flex:0 0 44%}
+.row-value{font-family:var(--sans);font-weight:600;font-size:.75rem;color:var(--ink);flex:1}
+
+/* ── XREF ── */
+.xref-bar{background:var(--steeldk);padding:9px 5%;display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:32px -5% 0}
+.xref-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.16em;color:var(--steellt);text-transform:uppercase;margin-right:6px}
+.xref-pill{font-family:var(--mono);font-size:.46rem;letter-spacing:.08em;color:var(--amber2);background:rgba(232,120,0,.12);border:1px solid rgba(232,120,0,.4);padding:3px 9px;text-decoration:none;white-space:nowrap}
+.xref-pill:hover{background:rgba(232,120,0,.25)}
+
+/* ── MOBILE ── */
+@media(max-width:600px){
+  .std-header{padding:10px 16px 8px}
+  .std-title{font-size:clamp(1.5rem,6vw,2.2rem)}
+  .std-sub,.std-vehicle{display:none}
+  .lib-home-btn{top:10px;right:12px;font-size:8px;padding:5px 10px}
+  .toc-bar{padding:5px 12px!important}
+  
+  .toc-link{font-size:.42rem!important;padding:2px 5px!important}
+  .content{padding:14px 4% 60px}
+  .sec-header{margin-left:-4%;margin-right:-4%;padding:10px 4%;flex-wrap:wrap;gap:6px}
+  .sec-sub{display:none}
+  .subsec{flex-wrap:wrap;gap:4px}
+  .subsec-tag{margin-left:0;max-width:100%;white-space:normal}
+  .xref-bar{margin-left:-4%;margin-right:-4%;padding:9px 4%}
+  .sym-grid{display:block}
+  .sym-cell{display:block;width:100%;margin-bottom:8px}
+  .formula-strip{display:block}
+  .fc{display:block;width:100%;margin-bottom:8px}
+  .chem-grid{grid-template-columns:1fr}
+  .dodont{display:block}
+  .do-item{min-width:0}
+  .do-item>div{min-width:0;max-width:100%}
+  .dodont>*{display:block;width:100%;margin-bottom:8px}
+  .soc-container{display:block}
+  .soc-card{margin-bottom:8px}
+  .card-grid{display:block}
+  .card-block{margin-bottom:12px}
+  .stats{grid-template-columns:1fr}
+  .ohm-tri{flex-direction:column;align-items:center}
+  .ohm-box{min-width:0;width:100%;padding:10px 12px}
+  .ohm-desc{min-width:0;width:100%}
+  .spec-table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .spec-table.mwn{min-width:420px}
+  .spec-table.mw3{min-width:380px}
+  .spec-table.mw4{min-width:480px}
+  .spec-table.mw5{min-width:540px}
+  .spec-table.mw6{min-width:640px}
+  .spec-table.mw7{min-width:720px}
+  .diagram-wrap{font-size:.68rem;line-height:1.6;padding:10px 12px;white-space:pre}
+  .calc-block{padding:10px 12px}
+  .sv{font-size:1.3rem}
+  .f-eq{font-size:1.1rem}
+  .sym-symbol{font-size:24px}
+
+  .toc-bar,.spec-table,.diagram-wrap{overscroll-behavior-x:contain}
+}
+
+/* ── PRINT ── */
+@media print{
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;color-adjust:exact!important}
+  @page{margin:7mm;size:A4}
+  :root{
+    --ink:#0d0e12;--paper:#ffffff;--paper2:#edeae0;--rule:#d4cfc4;
+    --amber:#b86800;--amber2:#e07800;--steeldk:#2a2f3a;--steelmd:#6a7080;
+    --steellt:#a8b0bc;--red-warn:#B91C1C;--green-ok:#059669;
+  }
+  body{font-size:7.5pt;background:#fff!important}
+  .lib-home-btn,.toc-bar{display:none!important}
+  .sticky-nav-unit{position:static!important}
+  .sticky-nav-unit::before{content:none}
+  .std-header{background:#0d0e12!important;padding:8px 14px 6px!important;border-bottom:2px solid #e07800!important}
+  .std-title{color:#e07800!important;font-size:1.5rem!important}
+  .std-eyebrow,.std-vehicle{color:#9aa0ae!important}
+  .std-sub{color:#e8c864!important}
+  .sec-header{background:#2a2f3a!important;border-left:4px solid #e07800!important;padding:6px 14px!important;page-break-after:avoid;margin-left:0!important;margin-right:0!important}
+  .sec-num{background:#b86800!important;color:#fff!important}
+  .sec-title{color:#fff!important}
+  .sec-sub{color:#a8b0bc!important}
+  .subsec{background:#edeae0!important;page-break-after:avoid}
+  .spec-table{break-inside:auto}
+  .table-scroll{overflow:visible!important}
+  .spec-table thead{display:table-header-group}
+  .spec-table th{background:#2a2f3a!important;color:#fff!important}
+  .spec-table th.th-amber{background:#b86800!important}
+  .spec-table th.th-green{background:#059669!important}
+  .spec-table th.th-blue{background:#1A3A5C!important}
+  .spec-table th.th-teal{background:#1A4A4A!important}
+  .spec-table tr:nth-child(even) td{background:#edeae0!important}
+  .spec-table .tr-total td{background:#2a2f3a!important;color:#e07800!important}
+  .rule{break-inside:avoid}
+  .rule-warn{background:#fff4f0!important}
+  .rule-note{background:#fffbe8!important}
+  .rule-ok{background:#f0fff8!important}
+  .rule-info{background:#edeae0!important}
+  .xref-bar{background:#2a2f3a!important;margin-left:0!important;margin-right:0!important}
+  .xref-pill{color:#e07800!important;background:#fff!important}
+  .diagram-wrap,.calc-block{background:#2a2f3a!important}
+  .sym-grid{display:grid!important;grid-template-columns:1fr 1fr 1fr 1fr!important;margin-bottom:4px!important}
+  .formula-strip{display:grid!important;grid-template-columns:1fr 1fr 1fr!important;margin-bottom:4px!important}
+  .dodont{display:grid!important;grid-template-columns:1fr 1fr!important;margin-bottom:4px!important}
+  .soc-container{display:grid!important;grid-template-columns:1fr 1fr!important;margin-bottom:4px!important}
+  .stats{display:grid!important;grid-template-columns:1fr 1fr 1fr!important;margin-bottom:4px!important}
+  .card-grid{display:grid!important;grid-template-columns:1fr 1fr!important;margin-bottom:4px!important}
+  .chem-grid{display:grid!important;margin-bottom:4px!important}
+  .do-head,.dont-head{background:#2a2f3a!important;color:#fff!important}
+  .soc-head.ha{background:#b86800!important}
+  .soc-head.hg{background:#059669!important}
+  .card-hd.amber{background:#b86800!important}
+  .card-hd.green{background:#059669!important}
+  .card-hd.blue{background:#1A3A5C!important}
+  .card-hd.purple{background:#3A1A5C!important}
+  .card-hd.teal{background:#1A4A4A!important}
+}
+</style>
+</head>
+<body>
+
+
+<div class="sticky-nav-unit">
+
+<div class="std-header">
+  <a href="index.html" class="lib-home-btn">⌂ Index</a>
+  <div class="std-eyebrow">Reference · R43</div>
+  <div class="std-title">IsatPhone 2 Operating Guide</div>
+  <div class="std-sub">Inmarsat IsatPhone 2.1 — crew field operation &amp; emergency use</div>
+  <div class="std-vehicle">2009 LC76 SW · 1HZ 4.2L Diesel · low-boost turbo (0.6 bar) · intercooler<br>Last updated: 8 August 2026</div>
+</div>
+
+<div class="toc-bar">
+  <span class="toc-label">Sections</span>
+  <a href="javascript:void(0)" onclick="document.getElementById('ch1').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">1. At a Glance</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('ch2').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">2. Readiness Check</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('ch3').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">3. Calls &amp; SMS</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('ch4').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">4. Emergency / SOS</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('ch5').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">5. Prepay Units</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('ch6').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">6. Field Doctrine</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('ch7').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">7. Scenarios</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('ch8').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">8. Troubleshooting</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('ch9').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">9. Cheat Card</a>
+</div>
+</div>
+
+
+<div class="content">
+
+<p class="lead">This is the crew operating manual for the satellite phone. It is written so that either crew member can pick the phone up cold and use it — including in an emergency, with no cell coverage and no one to ask. The phone is a backup voice channel; the Garmin inReach is the tracking-and-SOS channel. In a serious emergency both run at the same time. Handset key-presses and menu paths in this guide are taken from the Inmarsat <em>IsatPhone 2 User Guide (Model 2.1, September 2020)</em> — the manual for this exact handset — with page references given so you can check the source. Emergency numbers here are a controlled copy of R29 §6; if a number here ever disagrees with R29 §6, R29 §6 is right and this page is wrong.</p>
+
+<div class="rule rule-note"><span class="rule-hdr">Two channels, two jobs — know which is which</span><span class="rule-body">The <strong>inReach Mini 2</strong> does tracking, GPS coordinates and one-button <strong>SOS</strong>; its SOS routes automatically to the Garmin emergency response centre (IERCC) — that path is built into the device. The <strong>IsatPhone does not have an SOS button that reaches a rescue centre</strong> — it is a telephone. It dials numbers. In an emergency you use the satphone to <strong>call our own medevac providers</strong> (Section 4). Two different paths, on purpose.</span></div>
+
+<!-- ══════════════════════════════════════════════════
+     SECTION 1 — THE PHONE AT A GLANCE
+══════════════════════════════════════════════════ -->
+<div id="ch1" class="sec-header">
+  <span class="sec-num">§1</span>
+  <span class="sec-title">The Phone at a Glance</span>
+  <span class="sec-sub">What it is · where it lives</span>
+</div>
+
+<p class="lead">The phone is already set up: SIM installed, activated and test-called. You do not need to configure it from the box — you need to know its numbers, keep it charged, and be able to raise a signal. This section is the identity card; the how-to starts in Section 2.</p>
+
+<div class="card-grid">
+  <div class="card-block">
+    <div class="card-hd amber"><div><div class="card-name">The Device</div><div class="card-sub">As configured</div></div><div class="card-icon">📡</div></div>
+    <div class="row"><div class="row-label">Handset</div><div class="row-value">Inmarsat IsatPhone 2.1 + hardcase</div></div>
+    <div class="row"><div class="row-label">Our sat number</div><div class="row-value">+870 777 751 134</div></div>
+    <div class="row"><div class="row-label">Plan</div><div class="row-value">IsatPhone Pro Prepay, Regional 2018</div></div>
+    <div class="row"><div class="row-label">Balance</div><div class="row-value">20 units · expires 7 Aug 2027</div></div>
+    <div class="row"><div class="row-label">Network</div><div class="row-value">Inmarsat-4 / Alphasat, global</div></div>
+    <div class="row"><div class="row-label">Rating</div><div class="row-value">IP65 · dust &amp; splash resistant</div></div>
+  </div>
+  <div class="card-block">
+    <div class="card-hd green"><div><div class="card-name">State &amp; Stowage</div><div class="card-sub">Where it lives, how it travels</div></div><div class="card-icon">🎒</div></div>
+    <div class="row"><div class="row-label">Status</div><div class="row-value">SIM in · activated · test-called (8 Aug 2026)</div></div>
+    <div class="row"><div class="row-label">Stowage</div><div class="row-value">In the hardcase, charged, known fixed spot</div></div>
+    <div class="row"><div class="row-label">Charge from</div><div class="row-value">House bank (12&nbsp;V) via car charger; mains; USB</div></div>
+    <div class="row"><div class="row-label">Antenna</div><div class="row-value">Folds down (stowed) · lift up to use</div></div>
+    <div class="row"><div class="row-label">SOS button?</div><div class="row-value">No — it dials numbers (see §4)</div></div>
+    <div class="row"><div class="row-label">Owner of numbers</div><div class="row-value">R29 §6 · this page is a copy</div></div>
+  </div>
+</div>
+
+<div class="rule rule-info"><span class="rule-hdr">Where these facts live</span><span class="rule-body">The device identifiers above (number, ICC&nbsp;ID, IMSI, plan) are held in <strong>Facts §9</strong> — that is the master record. This guide is the crew-usable copy. The satphone is recorded as an asset but is <strong>not insured under the motor policy</strong>; it sits in the offline insurance valuation as a portable item.</span></div>
+
+<div class="subsec"><span class="subsec-title">Coverage — does it work where we are going?</span></div>
+<p class="p">The IsatPhone works globally over the Inmarsat-4 satellites and Alphasat. <span class="mono">[Guide p8]</span> Alphasat coverage prioritises the region <strong>north of 44°S</strong>, and service may degrade south of that line. South Africa and everywhere on the planned Southern- and East-Africa route sit well north of 44°S, so the whole expedition corridor is inside strong coverage. The one thing to confirm before departure is that our specific <strong>Regional</strong> prepay plan (not just the satellite footprint) covers every country on the route — that is a pre-departure check, not a field one.</p>
+
+<div class="rule rule-note"><span class="rule-hdr">Data freshness</span><span class="rule-body">Plan, unit balance and expiry above verified 8 Aug 2026 from the purchase record. Prices and unit rates are <strong>indicative only</strong> — confirm against Inmarsat / the reseller (Global Sat4Rent) before relying on them (see §5).</span></div>
+
+<!-- ══════════════════════════════════════════════════
+     SECTION 2 — READINESS CHECK
+══════════════════════════════════════════════════ -->
+<div id="ch2" class="sec-header">
+  <span class="sec-num">§2</span>
+  <span class="sec-title">Readiness Check</span>
+  <span class="sec-sub">Power · signal · registration</span>
+</div>
+
+<p class="lead">A satphone that is flat, or that has never seen the sky since you switched it on, is not a comms channel. Two habits keep it real: keep it charged, and power it up under open sky often enough to know it still registers. Do this on a schedule, not for the first time in a crisis.</p>
+
+<div class="subsec"><span class="subsec-title">Keeping it charged</span></div>
+<p class="p">The handset runs on a rechargeable lithium-ion battery. <span class="mono">[Guide p11]</span> Charge it from the <strong>house bank</strong> using the car charger (it accepts 10–30&nbsp;V DC in), from mains, or from USB. <span class="mono">[Guide p11, p71]</span> For long storage between trips, Inmarsat advises keeping the battery around <strong>80% charge</strong>, stored dry and cool, and checking it <strong>every three months</strong>, recharging if it drops below 40%. <span class="mono">[Guide p60]</span> Operating range is −20&nbsp;°C to +55&nbsp;°C; it only charges between 0&nbsp;°C and +45&nbsp;°C. <span class="mono">[Guide p59]</span> Do not leave it cooking on the dashboard.</p>
+
+<div class="subsec"><span class="subsec-title">Raising a signal — the drill</span></div>
+<p class="p">The phone talks to satellites above the equator, so <strong>the antenna must be up and there must be clear sky between the antenna and the satellite.</strong> <span class="mono">[Guide p14]</span> Trees, canopy, a vehicle roof, a gorge wall — any of these will block it.</p>
+
+<div class="calc-block">
+  <div class="calc-title">Power-on to ready — every time</div>
+  <div class="calc-step"><div class="calc-num">1</div><div class="calc-body">Step <strong>outside</strong>, into the open. If open sky is about <span class="eq">70%</span> of what you see looking up, the signal should be strong. <span class="mono">[p14]</span></div></div>
+  <div class="calc-step"><div class="calc-num">2</div><div class="calc-body">Lift the <strong>antenna</strong> so it points upward, clear line of sight to the sky.</div></div>
+  <div class="calc-step"><div class="calc-num">3</div><div class="calc-body">Hold the <strong>red key</strong> a few seconds until the screen lights and the Inmarsat logo shows. <span class="mono">[p12]</span></div></div>
+  <div class="calc-step"><div class="calc-num">4</div><div class="calc-body">Screen shows <strong>Searching satellite</strong>, then <strong>Ready for service</strong>, with <strong>Inmarsat</strong> at the top-left. <span class="mono">[p14]</span></div></div>
+  <div class="calc-step"><div class="calc-num">5</div><div class="calc-body">Check the <strong>signal bars</strong>. You need <strong>at least two bars</strong> to make or receive a call. <span class="mono">[p14]</span></div></div>
+  <div class="calc-step"><div class="calc-num">6</div><div class="calc-body">Check the <strong>GPS-fix</strong> icon is gone. The phone needs a GPS fix to be located by the satellite; it acquires one automatically — keep it in the open until the icon disappears. <span class="mono">[p15]</span></div></div>
+</div>
+
+<div class="rule rule-note"><span class="rule-hdr">If it will not register</span><span class="rule-body">If it keeps showing <strong>Searching satellite</strong>, the on-screen <strong>eCompass</strong> points you toward the best satellite — turn the antenna the way it shows until the on-screen satellite goes <strong>green</strong>, then press Search. <span class="mono">[p15]</span> Move away from obstructions. Full troubleshooting is in §8.</span></div>
+
+<div class="subsec"><span class="subsec-title">Periodic readiness — not from the box, but on a clock</span></div>
+<p class="p">The phone is already configured, so this is a <strong>check</strong>, not a setup. Make it a standing habit: power up under open sky and confirm <strong>Ready for service</strong> and two bars; glance at the unit balance and expiry (§5); confirm the battery is charged. Do it <strong>monthly at home and again just before every trip</strong>. A phone that registered last month and is charged today is a channel you can trust; a phone you have not switched on since purchase is a hope, not a plan.</p>
+
+<div class="xref-bar">
+  <span class="xref-label">See also</span>
+  <a href="LC76_Insurance_Medevac.html" class="xref-pill">R29 · numbers &amp; cover</a>
+  <a href="LC76_Emergency_Procedures_Guide.html" class="xref-pill">R10 · the drill</a>
+  <a href="LC76_Comms_Navigation_Guide.html" class="xref-pill">R16 · comms &amp; nav</a>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     SECTION 3 — CALLS & SMS
+══════════════════════════════════════════════════ -->
+<div id="ch3" class="sec-header">
+  <span class="sec-num">§3</span>
+  <span class="sec-title">Making &amp; Taking Calls, SMS</span>
+  <span class="sec-sub">Dial format · text · voicemail</span>
+</div>
+
+<p class="lead">The single most important rule on this phone: <strong>every number is dialled in full international format.</strong> A satellite handset has no "home network," so there is no local short-dial. This is not a preference — a South African share-call or short-dial code physically cannot be routed by satellite, so getting the format right is the difference between a call that connects and one that cannot.</p>
+
+<div class="subsec"><span class="subsec-title">Dialling a call</span></div>
+<p class="p">Enter the number as <strong>+ (hold the 0 key for 3 seconds to get the +) or 00</strong>, then the <strong>country code</strong>, then the <strong>area code without its leading 0</strong>, then the number, and press the <strong>green key</strong>. <span class="mono">[Guide p16]</span> For South Africa the country code is 27. Example: a Cape Town landline 021 123 4567 is dialled <span class="mono">+27 21 123 4567</span>. To end a call, press the <strong>red key</strong>.</p>
+
+<div class="rule rule-warn"><span class="rule-hdr">Share-call and short-dial codes will NOT route by satellite</span><span class="rule-body">SA share-call numbers (starting <strong>0860 / 0861</strong>) and short-dial codes (<strong>112 · 082&nbsp;911 · 084&nbsp;124</strong>) work only on an in-country mobile network. They <strong>cannot</strong> be dialled from the satphone, and putting +27 in front of a share-call number does <strong>not</strong> turn it into a dialable number. If a service you need only publishes a share-call line, you cannot reach it from here — use the full geographic (+27&nbsp;…) alternative given in Section 4.</span></div>
+
+<div class="subsec"><span class="subsec-title">Taking a call</span></div>
+<p class="p">To receive a call the antenna must be up and the phone connected. Press the <strong>green key</strong> to answer, the <strong>red key</strong> to reject. <span class="mono">[Guide p17]</span> If the antenna is stowed or signal is marginal, the phone's <strong>Incoming call alerting</strong> will still flag an incoming call — you then have ~15 seconds to lift the antenna and get into the open to connect. <span class="mono">[Guide p20]</span></p>
+
+<div class="subsec"><span class="subsec-title">Text messages (SMS)</span></div>
+<p class="p">Select <strong>Menu &gt; Messaging &gt; New message &gt; Text message</strong>, type the message, add the recipient's <strong>full international number</strong>, then <strong>Options &gt; Send</strong>. <span class="mono">[Guide p29–30]</span> Incoming voice and SMS are free; a text is cheaper than a call and gets through in weaker signal, so for non-urgent contact home, <strong>text rather than call</strong>. The phone can also send a text <strong>to an email address</strong> (Menu &gt; Messaging &gt; New message &gt; Email message) — useful for reaching someone without a phone to hand. <span class="mono">[Guide p30]</span></p>
+
+<div class="subsec"><span class="subsec-title">Voicemail</span></div>
+<p class="p">If voicemail is enabled, a new-voicemail icon appears; to listen, hold the <strong>1 key</strong>, or dial short code <strong>570</strong>, or the full number <span class="mono">+870 772 001 899</span>, then the green key, and follow the spoken prompts. <span class="mono">[Guide p22]</span></p>
+
+<!-- ══════════════════════════════════════════════════
+     SECTION 4 — EMERGENCY / SOS
+══════════════════════════════════════════════════ -->
+<div id="ch4" class="sec-header">
+  <span class="sec-num">§4</span>
+  <span class="sec-title">Emergency / SOS</span>
+  <span class="sec-sub">Who to call · what to say</span>
+</div>
+
+<p class="lead">In a medical or life-threatening emergency, the satphone's job is to <strong>call our own medevac providers</strong> — the people who will actually send help and whom we can claim against. There is no magic button that reaches a rescue centre from this handset; you dial. Run the inReach SOS and the satphone at the same time (they are independent channels). This section owns the numbers as a controlled copy; the <strong>drill and the call script are owned by R10 §9</strong> — read that before departure, not with a casualty on the ground.</p>
+
+<div class="rule rule-warn"><span class="rule-hdr">Call first. Argue cover later.</span><span class="rule-body">Get the aircraft moving before you confirm who pays. A coverage question must never delay a clinical decision. Entitlement is recoverable after the fact; physiology is not. Make the call. (Full doctrine: R10 §9.)</span></div>
+
+<div class="subsec"><span class="subsec-title">The medevac numbers — controlled copy of R29 §6</span></div>
+<p class="p">Dial these in <strong>full international format</strong> from the satphone. The short-dial column is what these services use inside SA on a cellphone — it is shown only so you recognise it; <strong>it will not route from the satphone.</strong></p>
+
+<div class="table-scroll">
+<table class="spec-table mw6">
+  <caption>Medevac / assistance — dial the +.. number from the satphone</caption>
+  <thead><tr><th class="th-amber">Service</th><th class="th-amber">Dial from satphone</th><th class="th-amber">SA short-dial (won't route)</th><th class="th-amber">Notes</th></tr></thead>
+  <tbody>
+    <tr><td class="td-label">AMREF Flying Doctors</td><td class="mono">+254 730 811 811</td><td>—</td><td>East-Africa retrieval. <span class="v-good">Confirmed to connect from a satphone.</span> Maisha membership.</td></tr>
+    <tr><td class="td-label">ER24 (int'l dispatch)</td><td class="mono">+27 10 205 3000</td><td>084 124</td><td>24/7 contact centre; coordinates evacuation across Africa.</td></tr>
+    <tr><td class="td-label">ER24 (aeromedical desk)</td><td class="mono">+27 10 205 3588</td><td>084 124</td><td>Flight desk for air-ambulance tasking.</td></tr>
+    <tr><td class="td-label">Genesis — Neil (via ER24)</td><td class="mono">+27 10 205 3000</td><td>0861 436 374</td><td>Neil's medical aid; assistance run by ER24. Membership no. on the card.</td></tr>
+    <tr><td class="td-label">Bonitas / AZOZA — Mary-Ann</td><td class="mono">+27 11 991 8174</td><td>0860 555 505</td><td>AZOZA int'l travel desk. Bonitas SOS (0860…) is share-call, SA only.</td></tr>
+    <tr><td class="td-label">Santam — vehicle</td><td>none published</td><td>0860 505 911</td><td>Vehicle recovery. <span class="v-warn">No satphone-dialable line published</span> — a gap, not an error.</td></tr>
+    <tr><td class="td-label">Netcare 911 (NOT a member)</td><td class="mono">+27 11 301 0000</td><td>082 911</td><td><span class="v-bad">Own-cost last resort only</span> — neither crew holds Netcare membership.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="rule rule-note"><span class="rule-hdr">One number is proven, the rest are published</span><span class="rule-body">Of the numbers above, <strong>AMREF is the one confirmed to connect from the satphone.</strong> The ER24 and Netcare international lines are provider-published but have <strong>not yet been voice-tested from this handset</strong> — dialling each one and confirming a human answers is a pre-departure action (RA-10 / OI-3). Until that test is signed off, treat AMREF as the confirmed satellite route.</span></div>
+
+<div class="subsec"><span class="subsec-title">Run both channels — the SOS drill (mirrors R29 §7, drill owned by R10 §9)</span></div>
+<div class="calc-block">
+  <div class="calc-title">In a serious emergency</div>
+  <div class="calc-step"><div class="calc-num">1</div><div class="calc-body"><strong>inReach SOS first.</strong> Hold the inReach SOS button 3 seconds, confirm on screen. Tracking starts and Garmin's response centre opens two-way text. Read your GPS coordinates off the inReach screen for the voice call.</div></div>
+  <div class="calc-step"><div class="calc-num">2</div><div class="calc-body"><strong>Then call on the satphone.</strong> Get it to Ready for service (§2), and dial the right medevac number above in full international format.</div></div>
+  <div class="calc-step"><div class="calc-num">3</div><div class="calc-body"><strong>Give the handover in fixed order</strong> — who / callback number / what happened / exact position / casualties &amp; condition / what you request. The full five-item script is <strong>R10 §9</strong>. Read coordinates off the inReach; do not recite from memory.</div></div>
+  <div class="calc-step"><div class="calc-num">4</div><div class="calc-body"><strong>Keep the inReach text channel open in parallel</strong> — it survives conditions that drop a voice call.</div></div>
+</div>
+
+<div class="subsec"><span class="subsec-title">The Assistance button — optional, and it is not an SOS</span></div>
+<p class="p">The handset has a programmable <strong>Assistance button</strong> under a flip latch at the top. It is <strong>not</strong> the same as an emergency call: it rings, or texts, a recipient <strong>you</strong> pre-set — and by design it <strong>cannot dial a number shorter than four digits</strong> (so it can never be set to 112 or 082&nbsp;911). <span class="mono">[Guide p35]</span> If configured, it would point at one of our own full-international provider or anchor numbers, send GPS with the alert, retry up to eight times, and give a 15-second cancel window before firing. <span class="mono">[Guide p35–36]</span></p>
+
+<div class="rule rule-info"><span class="rule-hdr">Assistance-button target — decision pending</span><span class="rule-body">Whether to configure the Assistance button at all, and to which number, is an <strong>open owner decision (OI-3 / RA-10)</strong>. Until it is set, treat §4 above — dial the provider yourself — as the emergency method. If it is later configured, its target and the "how to fire it" steps get added here.</span></div>
+
+<div class="xref-bar">
+  <span class="xref-label">Owned by</span>
+  <a href="LC76_Insurance_Medevac.html" class="xref-pill">R29 §6 · numbers</a>
+  <a href="LC76_Emergency_Procedures_Guide.html" class="xref-pill">R10 §9 · the drill &amp; script</a>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     SECTION 5 — PREPAY UNITS
+══════════════════════════════════════════════════ -->
+<div id="ch5" class="sec-header">
+  <span class="sec-num">§5</span>
+  <span class="sec-title">Prepay Units</span>
+  <span class="sec-sub">How many · how long · top-up</span>
+</div>
+
+<p class="lead">The phone runs on <strong>prepay units</strong>, and there are two clocks on it: how fast units burn when you talk, and when the bundle <strong>expires</strong>. For the Karoo trip the 20 units are plenty. As an expedition budget they are neither enough nor safe to leave sitting — the expiry is the real risk.</p>
+
+<div class="subsec"><span class="subsec-title">What a call costs</span></div>
+<div class="table-scroll">
+<table class="spec-table mw5">
+  <caption>Burn rates — indicative, verify with reseller (see freshness note)</caption>
+  <thead><tr><th class="th-std">Action</th><th class="th-std">Cost</th><th class="th-std">Meaning</th></tr></thead>
+  <tbody>
+    <tr><td class="td-label">Outgoing voice</td><td class="mono">~1.5 units / min</td><td>The main drain.</td></tr>
+    <tr><td class="td-label">Outgoing SMS</td><td class="mono">~0.60 units</td><td>Far cheaper than a call.</td></tr>
+    <tr><td class="td-label">Incoming voice &amp; SMS</td><td class="v-good">Free</td><td>Let people call you back where you can.</td></tr>
+    <tr><td class="td-label">Voice to other sat networks</td><td class="v-bad">Much higher</td><td>Iridium ~12.7 u/min, Thuraya ~5.8 — avoid.</td></tr>
+    <tr class="tr-total"><td>20 units ≈</td><td>~13 min talk</td><td>or ~33 texts. Emergency reserve, not a chat budget.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="rule rule-warn"><span class="rule-hdr">One medevac call can empty it</span><span class="rule-body">At ~1.5 units/min, a single evacuation call with callbacks can burn through most of 20 units. Because <strong>incoming is free</strong>, once you have reached the coordinator, ask them to <strong>call you back</strong> and keep your outgoing legs short. Twenty units is an emergency reserve — treat it like one.</span></div>
+
+<div class="subsec"><span class="subsec-title">Check the balance and expiry — free, do it often</span></div>
+<p class="p">From the main screen enter the balance-enquiry code <span class="mono">*106#</span> and press the green key — the phone shows your <strong>current balance and expiry date</strong> on screen, free of charge. <span class="mono">[Guide p34]</span> You can also go <strong>Menu &gt; Settings &gt; Prepay &gt; Balance enquiry</strong>. To load a voucher: <span class="mono">*101*VoucherNumber#</span> then the green key. <span class="mono">[Guide p34]</span> Make the balance check a <strong>standing habit — monthly and before every trip.</strong></p>
+
+<div class="rule rule-note"><span class="rule-hdr">Balance-check code — verify which one applies</span><span class="rule-body">The Inmarsat Model 2.1 user guide gives the balance code as <span class="mono">*106#</span> (above). Our purchase paperwork referenced <span class="mono">591</span> instead — some resellers route balance enquiries through their own short code. <strong>Confirm the correct code with Global Sat4Rent</strong> and, if it differs, correct this line. Either way the <strong>Menu &gt; Settings &gt; Prepay</strong> route always works.</span></div>
+
+<div class="subsec"><span class="subsec-title">The expiry — the thing most likely to catch us out</span></div>
+<p class="p">The current bundle <strong>expires 7 August 2027</strong> — roughly ten months <em>before</em> a mid-2028 departure. Left alone, the units simply lapse, unused, before the expedition even starts. <strong>Topping up before the expiry date rolls the unused units forward, extends validity, and keeps the same number</strong> (+870 777 751 134). Let it lapse and you risk losing the units <em>and</em> the number. Put the expiry date somewhere you will see it.</p>
+
+<div class="rule rule-info"><span class="rule-hdr">Expedition airtime is a separate decision</span><span class="rule-body">The 20-unit bundle is a <strong>domestic backup</strong> — right for the Karoo, where there is cell coverage almost everywhere. It is <strong>not</strong> an expedition airtime plan. Bundle size, validity and a top-up cadence for a two-year trip are decided closer to departure (~T-6 months) as a separate item — this guide flags it, it does not solve it.</span></div>
+
+<div class="rule rule-note"><span class="rule-hdr">Data freshness</span><span class="rule-body">Unit rates and the 20-units≈13-min figure are <strong>indicative</strong> and owner-supplied — verify against Inmarsat / Global Sat4Rent at build and again at the pre-departure airtime review. Balance and expiry (20 units / 7 Aug 2027) are from the 6 Aug 2026 purchase record.</span></div>
+
+
+<!-- ══════════════════════════════════════════════════
+     SECTION 6 — FIELD DOCTRINE
+══════════════════════════════════════════════════ -->
+<div id="ch6" class="sec-header">
+  <span class="sec-num">§6</span>
+  <span class="sec-title">Field Doctrine</span>
+  <span class="sec-sub">Satphone vs inReach · care</span>
+</div>
+
+<p class="lead">Two satellite devices, and it matters which you reach for. The rule of thumb: <strong>the inReach is for reaching out with position and short text and for pressing SOS; the satphone is for a two-way conversation.</strong> When it is genuinely serious, you use both.</p>
+
+<div class="dodont">
+  <div class="do-card">
+    <div class="do-head">✓ Reach for the inReach when…</div>
+    <div class="do-body">
+      <div class="do-item"><span class="do-icon">✓</span><div><span class="di-label">You need SOS.</span><div class="di-note">Its SOS button reaches the Garmin response centre automatically. The satphone has no such button.</div></div></div>
+      <div class="do-item"><span class="do-icon">✓</span><div><span class="di-label">You want to send position or a short message.</span><div class="di-note">Tracking and short texts survive weaker signal than a voice call.</div></div></div>
+      <div class="do-item"><span class="do-icon">✓</span><div><span class="di-label">Battery or airtime is precious.</span><div class="di-note">Texting sips power and units; a call gulps both.</div></div></div>
+    </div>
+  </div>
+  <div class="dont-card">
+    <div class="dont-head">→ Reach for the satphone when…</div>
+    <div class="do-body">
+      <div class="dont-item"><span class="dont-icon">→</span><div><span class="di-label">You need a real conversation.</span><div class="di-note">Talking a coordinator through a casualty, or being talked through a fix — voice, not text.</div></div></div>
+      <div class="dont-item"><span class="dont-icon">→</span><div><span class="di-label">You must reach a phone number, not a device.</span><div class="di-note">A medevac desk, an insurer, family — the satphone dials them; the inReach cannot.</div></div></div>
+      <div class="dont-item"><span class="dont-icon">→</span><div><span class="di-label">It is serious — then run BOTH.</span><div class="di-note">inReach SOS for coordination and position, satphone for the voice call. Independent channels.</div></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="subsec"><span class="subsec-title">Line-of-sight discipline</span></div>
+<p class="p">Every call and message needs clear sky between the antenna and the satellite. <span class="mono">[Guide p14, p19]</span> Move out from under canopy, off the vehicle, away from a gorge wall or a building. If the signal drops mid-call, the <strong>eCompass</strong> shows which way to aim the antenna. <span class="mono">[Guide p15]</span> Keep the antenna pointed the way it shows when you bring the phone back to your ear.</p>
+
+<div class="subsec"><span class="subsec-title">Keep it charged · keep it dry</span></div>
+<p class="p">Keep the phone charged off the house bank so it is never the flat device in a crisis (§2). It is <strong>IP65</strong> — dust- and splash-resistant, not waterproof — so keep the USB/audio cover closed and clean, and dry the handset if it gets wet before opening the cover. <span class="mono">[Guide p59–60]</span> Store it in the <strong>hardcase</strong> against knocks, dust and condensation, and let it acclimatise rather than charging a cold-soaked phone (it will not charge below 0&nbsp;°C anyway). Take care folding the antenna — it can nip a fingertip. <span class="mono">[Guide p5]</span></p>
+
+<!-- ══════════════════════════════════════════════════
+     SECTION 7 — SCENARIOS
+══════════════════════════════════════════════════ -->
+<div id="ch7" class="sec-header">
+  <span class="sec-num">§7</span>
+  <span class="sec-title">Scenario Table</span>
+  <span class="sec-sub">Situation → right tool → action</span>
+</div>
+
+<p class="lead">The quick lookup. Find the situation, reach for the tool named, do the action. When two tools are named, use both.</p>
+
+<div class="table-scroll">
+<table class="spec-table mw7">
+  <caption>What to do, by situation</caption>
+  <thead><tr><th class="th-std">Situation</th><th class="th-std">Tool</th><th class="th-std">Action</th></tr></thead>
+  <tbody>
+    <tr><td class="td-label">Routine check (monthly / pre-trip)</td><td>Satphone</td><td>Power up under open sky → Ready for service + 2 bars; dial <span class="mono">*106#</span> for balance &amp; expiry; confirm charged. (§2, §5)</td></tr>
+    <tr><td class="td-label">Out of cell coverage, need to reach home</td><td>Satphone (or inReach)</td><td>Get Ready for service; <strong>text</strong> rather than call to save units; dial in full international format. (§3)</td></tr>
+    <tr><td class="td-label">Medical emergency / evacuation</td><td><strong>Both</strong></td><td>inReach <strong>SOS</strong> first (coordination + position), then satphone <strong>call</strong> AMREF/ER24 in full int'l format; give the R10 §9 handover; keep inReach text open. (§4)</td></tr>
+    <tr><td class="td-label">Vehicle dead, remote, no cell</td><td>Satphone</td><td>Call the recovery/insurer line (Santam — note no satphone line published; use ER24/family relay). Text position via inReach. (§4)</td></tr>
+    <tr><td class="td-label">Comms-tree check-in</td><td>Satphone / inReach</td><td>Scheduled call or text to the home anchor; if voice, keep it short (incoming is free — have them call back).</td></tr>
+    <tr><td class="td-label">Phone won't register</td><td>Satphone</td><td>Antenna up, into the open, follow the eCompass; see §8 troubleshooting.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     SECTION 8 — TROUBLESHOOTING
+══════════════════════════════════════════════════ -->
+<div id="ch8" class="sec-header">
+  <span class="sec-num">§8</span>
+  <span class="sec-title">Troubleshooting</span>
+  <span class="sec-sub">When it won't play</span>
+</div>
+
+<p class="lead">Most satphone problems are signal or power, and most are fixable in the field. Work down the list. <span class="mono">[Guide p56–58]</span></p>
+
+<div class="table-scroll">
+<table class="spec-table mw6">
+  <caption>Symptom → what to try</caption>
+  <thead><tr><th class="th-amber">Symptom</th><th class="th-amber">What to try</th></tr></thead>
+  <tbody>
+    <tr><td class="td-label">Won't switch on</td><td>Check the battery is seated; put it on charge — ~20 min gives enough to boot. If it will not charge at all, the battery is likely end-of-life. <span class="mono">[p56]</span></td></tr>
+    <tr><td class="td-label">Can't make / receive calls</td><td>Antenna up, clear sky, <strong>≥2 bars</strong>, valid GPS fix, sufficient battery. Rotate/angle the antenna to lift the bars. Check Call barring / Divert / Fixed-number-dialling aren't on. Check units (§5). <span class="mono">[p56]</span></td></tr>
+    <tr><td class="td-label">Stuck on "Searching satellite"</td><td>Antenna fully up and pointed per the eCompass; move to clearer sky; confirm you are within coverage. <span class="mono">[p57]</span></td></tr>
+    <tr><td class="td-label">No GPS fix / GPS-fix icon stays</td><td>Keep it in the open, screen up, until the icon clears; it re-tries every ~30&nbsp;s. Some countries restrict GPS display — the phone still works, it just won't show the position. <span class="mono">[p15, p39, p58]</span></td></tr>
+    <tr><td class="td-label">Flat battery, nowhere to charge</td><td>Charge off the house bank via the car charger (10–30&nbsp;V in). Send a short inReach text meanwhile. <span class="mono">[p11, p71]</span></td></tr>
+    <tr><td class="td-label">Balance / units question</td><td>Dial <span class="mono">*106#</span> (or Menu &gt; Settings &gt; Prepay); if that code is rejected, the reseller code may differ — see §5. <span class="mono">[p34]</span></td></tr>
+    <tr><td class="td-label">Can't receive texts</td><td>Message memory may be full (max 20 in memory) — delete a few. If still nothing, the service-centre number may be wrong — contact the provider. <span class="mono">[p57]</span></td></tr>
+    <tr><td class="td-label">Screen in a language you can't read</td><td>Red key → left key → down twice to Settings → open → down twice to Language → pick English. <span class="mono">[p47, p57]</span></td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     SECTION 9 — CHEAT CARD
+══════════════════════════════════════════════════ -->
+<div id="ch9" class="sec-header">
+  <span class="sec-num">§9</span>
+  <span class="sec-title">Print &amp; Laminate — Cheat Card</span>
+  <span class="sec-sub">The one-page field copy</span>
+</div>
+
+<p class="lead">This is the card to print, laminate and keep with the phone in the hardcase — a door-pocket candidate for the crisis-critical field pack. Numbers are a controlled copy of R29 §6; if they ever disagree, R29 §6 wins.</p>
+
+<div class="card-grid">
+  <div class="card-block">
+    <div class="card-hd blue"><div><div class="card-name">This Phone</div><div class="card-sub">IsatPhone 2.1</div></div><div class="card-icon">📞</div></div>
+    <div class="row"><div class="row-label">Our number</div><div class="row-value">+870 777 751 134</div></div>
+    <div class="row"><div class="row-label">Balance / expiry</div><div class="row-value">Dial <span class="mono">*106#</span> · exp 7 Aug 2027</div></div>
+    <div class="row"><div class="row-label">Dial format</div><div class="row-value">+ (hold 0) or 00 · country code · no leading 0</div></div>
+    <div class="row"><div class="row-label">Won't route</div><div class="row-value">0860/0861 · 112 · 082 911 · 084 124</div></div>
+    <div class="row"><div class="row-label">Voicemail</div><div class="row-value">Hold 1, or 570, or +870 772 001 899</div></div>
+  </div>
+  <div class="card-block">
+    <div class="card-hd amber"><div><div class="card-name">Medevac — dial +.. from satphone</div><div class="card-sub">Controlled copy · R29 §6</div></div><div class="card-icon">🚑</div></div>
+    <div class="row"><div class="row-label">AMREF (proven)</div><div class="row-value">+254 730 811 811</div></div>
+    <div class="row"><div class="row-label">ER24 dispatch</div><div class="row-value">+27 10 205 3000</div></div>
+    <div class="row"><div class="row-label">ER24 aeromedical</div><div class="row-value">+27 10 205 3588</div></div>
+    <div class="row"><div class="row-label">Bonitas/AZOZA (M-A)</div><div class="row-value">+27 11 991 8174</div></div>
+    <div class="row"><div class="row-label">Netcare (own-cost)</div><div class="row-value">+27 11 301 0000</div></div>
+  </div>
+</div>
+
+<div class="calc-block">
+  <div class="calc-title">Emergency — 4 steps</div>
+  <div class="calc-step"><div class="calc-num">1</div><div class="calc-body"><strong>inReach SOS</strong> — hold 3&nbsp;s, confirm. Read coordinates off its screen.</div></div>
+  <div class="calc-step"><div class="calc-num">2</div><div class="calc-body"><strong>Satphone</strong> — antenna up, open sky, Ready for service + 2 bars.</div></div>
+  <div class="calc-step"><div class="calc-num">3</div><div class="calc-body"><strong>Dial</strong> AMREF/ER24 in full int'l format. Give the handover (R10 §9): who · callback · what · position · casualties · request.</div></div>
+  <div class="calc-step"><div class="calc-num">4</div><div class="calc-body"><strong>Call first, argue cover later.</strong> Keep the inReach text channel open.</div></div>
+</div>
+
+<div class="rule rule-note"><span class="rule-hdr">Assistance button</span><span class="rule-body">Not configured / target pending (OI-3). The emergency method is to <strong>dial the provider yourself</strong>, above.</span></div>
+
+<div class="xref-bar">
+  <span class="xref-label">Cross-reference</span>
+  <a href="LC76_Insurance_Medevac.html" class="xref-pill">R29 · cover &amp; numbers</a>
+  <a href="LC76_Emergency_Procedures_Guide.html" class="xref-pill">R10 · emergency drill</a>
+  <a href="LC76_Comms_Navigation_Guide.html" class="xref-pill">R16 · comms &amp; nav</a>
+  <a href="LC76_Crew_Readiness_Training_Register.html" class="xref-pill">R37 · crew training</a>
+</div>
+
+</div>
+
+<script>
+if('serviceWorker' in navigator && location.hostname !== 'www.claudeusercontent.com'){
+  window.addEventListener('load',function(){
+    navigator.serviceWorker.register('./sw.js')
+      .then(function(r){console.log('LC76 SW registered');})
+      .catch(function(e){console.log('SW error:',e);});
+  });
+}
+</script>
+
+</body>
+</html>
