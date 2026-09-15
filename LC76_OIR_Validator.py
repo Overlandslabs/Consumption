@@ -13,8 +13,14 @@ PLACE = re.compile(r'(R\d|§|RA-|EX-|TA[-_]|ADV-|F\d|WCG|ref\b|Facts|\.txt|\.htm
 COMMITISH = re.compile(r'([0-9a-f]{7,40}\b|HTTP[ -]?404|testzip|byte|char|corpus assert|ref\s*\d|\.eml|HEAD [0-9a-f]|sw\.js|precache|index\.html|index link|validator PASSES)', re.I)
 
 s = open(OIR, encoding="utf-8").read()
-body = s.split("CONTROLLED DUPLICATION REGISTER")[0]
-closed = s.split("CLOSED LOG (most recent first")[1] if "CLOSED LOG (most recent first" in s else ""
+# Split on the SECTION HEADERS, which sit at column 0. The header narrative now
+# also mentions "CONTROLLED DUPLICATION REGISTER" mid-line (e.g. "A CONTROLLED
+# DUPLICATION REGISTER change was made"), so a plain str.split() on that phrase
+# landed inside the header and parsed ZERO open entries — passing vacuously.
+# Anchor on line-start (?m)^ so only the real section headers match.
+body   = re.split(r'(?m)^CONTROLLED DUPLICATION REGISTER', s)[0]
+_cl    = re.split(r'(?m)^CLOSED LOG \(most recent first', s)
+closed = _cl[1] if len(_cl) > 1 else ""
 
 # --- parse open entries ---
 idxs = [m.start() for m in re.finditer(r'(?m)^OI-\d+ ', body)]
