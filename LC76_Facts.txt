@@ -5,7 +5,7 @@ documents. Update this file FIRST whenever a service, upgrade, or
 status change occurs. Use it as a briefing attachment when asking
 Claude to update any library document.
 
-Last updated: 15 September 2026
+Last updated: 18 September 2026
 Maintained by: Neil / Mary-Ann
 ══════════════════════════════════════════════════════════════════════
 
@@ -121,7 +121,30 @@ Suspension:           OME medium lift ~50 mm
 §2  ODOMETER & SERVICE STATE  ← UPDATE AFTER EVERY SERVICE
 ═══════════════════════════════════════════════════════════════════
 
-Current odometer:     314,546 km  (read 15 Sep 2026)
+FACT STORE (§2) — SINGLE SOURCE OF TRUTH FOR THESE FIGURES (SSOT pilot, 18 Sep 2026).
+Edit a value HERE only, then run lc76_fact_release.py to push it to every
+<span data-fact> in the HTML corpus AND to the <fact:...> readouts in the readable
+lines below. Derived facts carry a formula and NEVER a stored result; kind=EVENT
+mileages are immutable history. Parsed & checked by LC76_Fact_Validator.py.
+  [fact:odometer] value=314546 unit=km as_of=2026-09-15 grade=E2 display="314,546 km" owner=Facts§2
+  [fact:turbo_recon] value=224406 unit=km kind=EVENT grade=E2 display="224,406 km" owner=Facts§2 note="turbo recon Aug 2023"
+  [fact:cambelt] value=273023 unit=km kind=EVENT grade=E2 display="273,023 km" owner=Facts§2 note="cambelt fitted Apr 2025"
+  [fact:clutch] value=296500 unit=km kind=EVENT grade=E2 display="296,500 km" owner=Facts§2 note="clutch 4 (TT 4WD HD) fitted Feb 2026"
+  [fact:gearbox] value=271200 unit=km kind=EVENT grade=E2 display="271,200 km" owner=Facts§2 note="gearbox rebuild Feb 2025 (Cape Transmissions)"
+  [fact:injectors] value=310412 unit=km kind=EVENT grade=E2 display="310,412 km" owner=Facts§2 note="injection overhaul Jun 2026 (Udel) — injectors + VE pump"
+  [fact:last_routine_service] value=308248 unit=km kind=EVENT grade=E2 display="308,248 km" owner=Facts§2 note="oil service 14 Apr 2026"
+  [fact:crank_fit] value=311263 unit=km kind=EVENT grade=E2 display="311,263 km" owner=Facts§2 note="crank battery fitted 4 Aug 2026"
+  [fact:km_since_turbo] derived="odometer - turbo_recon" unit=km approx=yes grade=E2 owner=Facts§2
+  [fact:km_since_cambelt] derived="odometer - cambelt" unit=km grade=E2 owner=Facts§2
+  [fact:km_since_clutch] derived="odometer - clutch" unit=km approx=yes grade=E2 owner=Facts§2
+  [fact:km_since_gearbox] derived="odometer - gearbox" unit=km grade=E2 owner=Facts§2
+  [fact:km_since_injectors] derived="odometer - injectors" unit=km approx=yes grade=E2 owner=Facts§2
+  [fact:km_since_injpump] derived="odometer - injectors" unit=km approx=yes grade=E2 owner=Facts§2
+
+The odometer & component-life values in the lines below are RELEASED from the fact
+store above (released into the readable lines) — do not hand-edit them; edit the store.
+
+Current odometer:     <fact:odometer>314,546 km</fact>  (read 15 Sep 2026)
 Last oil service:     308,248 km  (14 Apr 2026 — PW Auto Centre)
                       Full filter kit · engine oil · fan belt kit
                       Propshaft UJ (GUT 21) + sliding assy replaced + balanced
@@ -133,15 +156,15 @@ Latest record:        310,412 km  (19 Jun 2026 — Udel fuel-injection overhaul:
 Next service due:     ~315,000 km  (manufacturer manual milestone; local-use phase)
                       or ~328,000 km if on 20,000 km filter interval
 
-Km on turbo recon:    ~90,140 km  (recon Aug 2023 @ 224,406 km)
-Km on cambelt:        41,523 km   (fitted Apr 2025 @ 273,023 km)
+Km on turbo recon:    <fact:km_since_turbo>~90,140 km</fact>  (recon Aug 2023 @ 224,406 km)
+Km on cambelt:        <fact:km_since_cambelt>41,523 km</fact>   (fitted Apr 2025 @ 273,023 km)
                       Next due: ~373,000 km or Apr 2030 (100,000 km / 5 yr)
 Km on clutch (current Clutch 4, TT 4WD HD):
-                      ~18,046 km  (fitted Feb 2026 @ 296,500 km)
-Km on gearbox rebuild: 43,346 km  (Cape Transmissions, Feb 2025 @ 271,200 km)
-Km on injectors:      ~4,134 km   (reconditioned Udel, Jun 2026 @ 310,412 km;
+                      <fact:km_since_clutch>~18,046 km</fact>  (fitted Feb 2026 @ 296,500 km)
+Km on gearbox rebuild: <fact:km_since_gearbox>43,346 km</fact>  (Cape Transmissions, Feb 2025 @ 271,200 km)
+Km on injectors:      <fact:km_since_injectors>~4,134 km</fact>   (reconditioned Udel, Jun 2026 @ 310,412 km;
                       new nozzles x6 — prior reman Toyota Mar 2025 @ 272,185 km)
-Km on inj pump:       ~4,134 km   (VE pump rebuilt & calibrated Udel, Jun 2026
+Km on inj pump:       <fact:km_since_injpump>~4,134 km</fact>   (VE pump rebuilt & calibrated Udel, Jun 2026
                       @ 310,412 km — prior calibration Mar 2025 @ 272,185 km)
 
 Total maintenance (R): 792,104.65 (Services sheet — the maintenance & repair
@@ -293,7 +316,7 @@ Tyre history:
 Clutch 1 (OEM):          0–212,330 km        = 212,330 km ✓
 Clutch 2 (standard):     212,330–224,406 km  = 12,076 km  ✗ (premature)
 Clutch 3 (HD):           224,406–250,894 km  = 26,488 km  ⚠
-Clutch 4 (TT 4WD HD):    Feb 2026 @ 296,500 km — CURRENT (~18,046 km)
+Clutch 4 (TT 4WD HD):    Feb 2026 @ 296,500 km — CURRENT (<fact:km_since_clutch>~18,046 km</fact>)
 Installer:               Cape Transmissions (Aleric & Donovan)
 
 NOTE: Low-RPM in-gear drive rattle confirmed benign (May 2026) — inherent
