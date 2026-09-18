@@ -437,6 +437,40 @@ AUDIT, GOVERNANCE & DATA (internal — not field-reference)
                                          LC76_Open_Items_Register.txt
                                          LC76_Project_Instructions.txt. Governance
                                          tool — NOT precached, no CACHE bump.
+  LC76_Fact_Validator.py                 SSOT — the FACT-STORE schema validator
+                                         (OI-107, Phase 1, 18 Sep 2026). Parses
+                                         every [fact:...] line in LC76_Facts.txt
+                                         and FAILS on a malformed line, a missing
+                                         grade, a duplicate id, a derived formula
+                                         referencing an unknown id, a derived fact
+                                         carrying a stored result, or an EVENT
+                                         mileage changed vs a baseline; WARNS on a
+                                         fact with no owner. The fact analogue of
+                                         LC76_OIR_Validator.py. Governance tool —
+                                         NOT precached, no CACHE bump.
+  lc76_fact_release.py                   SSOT — the RELEASE script (OI-107). Reads
+                                         the fact store, computes derived facts
+                                         from their formulas, and bakes each fact's
+                                         display value into every <span data-fact>
+                                         (HTML) and <fact:...> (Facts.txt readable
+                                         line) slot — print-safe, idempotent.
+                                         Governance tool — NOT precached, no bump.
+  lc76_fact_gate.py                      SSOT — the GATE (OI-107), run at session
+                                         close / pre-commit. FAILS if any tagged
+                                         slot != the store; WARN-tier drift-catcher
+                                         flags a known live value appearing
+                                         UNTAGGED in prose (EVENT mileages
+                                         whitelisted). Governance tool — NOT
+                                         precached, no CACHE bump.
+  lc76_facts_lib.py                      SSOT — shared parse/derive library for the
+                                         three scripts above (fact-line grammar,
+                                         formula evaluation, slot patterns).
+                                         Governance module — NOT precached, no bump.
+                                         NOTE: LC76_Facts.txt §2 is now the FACT
+                                         STORE — the machine-parseable single
+                                         source of truth for the odometer + km-since
+                                         + event mileages (Phase 1 pilot); other
+                                         fact cohorts migrate in later phases.
   LC76_Open_Items_Dashboard.html         OPEN ITEMS DASHBOARD — WIRED 30 Jul 2026
                                          (Audit of Truth Session 6, OI-59 CLOSED). A
                                          DERIVED VIEW generated from LC76_Open_Items_

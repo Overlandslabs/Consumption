@@ -1,0 +1,103 @@
+═══════════════════════════════════════════════════════════════════════
+LC76 — SINGLE SOURCE OF TRUTH: HANDOVER (REFRESHED 18 September 2026)
+Supersedes the 15 Sep 2026 Phases 0/1/2 pack. Dated working artifact,
+not a library file; the OIR (OI-107) is the live status master.
+═══════════════════════════════════════════════════════════════════════
+
+WHERE THE PROGRAMME STANDS
+  PHASE 0 (doctrine) ......... DONE 18 Sep 2026 — PI amended: two-domain
+     source-of-truth (HTML = prose SoT; LC76_Facts.txt = fact SoT; fact-
+     values in HTML are released copies); CDR recorded as absorbed by the
+     fact store; edit->release->gate workflow added; scripts registered.
+  PHASE 1 (machinery + odometer fact set) ... DONE 18 Sep 2026, PROVEN.
+     · LC76_Facts.txt §2 is the FACT STORE (Option A): an authoritative
+       [fact:...] block (14 facts — current odometer + 6 derived km-since,
+       each a formula never a stored result, + 7 immutable kind=EVENT
+       mileages) with the readable lines released via <fact:...> tags.
+     · Scripts built + proven (E2, re-runnable), committed & pushed:
+       LC76_Fact_Validator.py · lc76_fact_release.py · lc76_fact_gate.py ·
+       lc76_facts_lib.py. Validator PASS (14 facts, 0 warn); release
+       idempotent; gate PASS incl. the drift-catcher (which already caught a
+       second untagged home of the clutch figure in Facts §7).
+  PHASE 2 (odometer corpus sweep) ... NEXT SESSION. Tracked as OI-107.
+
+PREREQUISITE READING for the Phase-2 session (in the new chat):
+  1. LC76_Single_Source_of_Truth_Design.txt (ratified design — the WHY).
+  2. The Project Instructions FIELD (injected) — all standing conventions
+     apply UNCHANGED, plus the NEW two-domain SoT rule + edit->release->gate
+     workflow added in Phase 0.
+  3. This handover, and OI-107 in the OIR (the live status).
+
+STARTING POINT. Re-pin HEAD at session start (atom feed → first
+/commit/<40-hex> → raw.githubusercontent.com/.../<SHA>/<file>). Verify
+LC76_Facts.txt §2 carries the [fact:...] store and that
+`python3 lc76_fact_gate.py LC76_Facts.txt LC76_Facts.txt` PASSES before
+building on it. Last HEAD at this handover: (set by the Phase-0/1 commit).
+
+───────────────────────────────────────────────────────────────────────
+PHASE 2 — THE ODOMETER CORPUS SWEEP (run through the proven pipeline)
+───────────────────────────────────────────────────────────────────────
+GOAL: every current-odo-derived figure in the HTML corpus is TAGGED and
+RELEASED from the store, and the gate + a corpus grep prove no stale
+current-odo value survives (event mileages excepted).
+
+TAG + RELEASE these (recompute to the 314,546 base; events untouched):
+  · LC76_Service_History.html (R8) — DERIVED VIEW off the service xlsx.
+    Its odo-dependent KPIs ("311,000km Current Odometer", "308,248km
+    (current)", ~8× turbo-life ~86,006) are regenerated from the generator
+    input, NOT hand-patched. The current-odometer KPI is a fact-slot
+    (data-fact="odometer"); the xlsx-derived aggregates stay generated.
+    TRAP: the "coolant flush ~86,006 km overdue" figure is entangled with
+    OI-62 (elapsed-since carrying no interval) — do NOT blind-recompute to
+    the 314,546 base; express against the coolant EVENT + interval or leave
+    flagged to OI-62. Same caution for any "overdue" (bearing → OI-63).
+  · LC76_Pre_Trip_Prep_Protocol.html (R23) — the heaviest file. 2×
+    "Current Odometer" (311,000/308,248); 7× "Current ~311,000 km = ~X"
+    interval derivations; 3× turbo-life. Map each derivation to its
+    km_since_* fact.
+  · LC76_Upgrade_Assessment.html (R31) — 3× turbo-life ~86,006 → 90,140.
+  · LC76_Seal_Gasket_Atlas.html (R20) — 1× turbo-life.
+  · LC76_Service_Checklist.html — 2× turbo-life.
+  · LC76_Open_Items_Dashboard.html — DERIVED VIEW of the OIR; REGENERATE
+    from the register (OI-20 already reads 314,546), do not hand-patch.
+
+LEAVE UNTOUCHED (dated historical snapshots — archives-not-reconstructed):
+  · LC76_Library_Audit_2026-06.html, LC76_Library_Audit_2026-07.html.
+
+TAG CONVENTION: <span data-fact="id">display</span> around each value.
+For the fact ids + exact displays, read Facts §2's [fact:...] store
+(odometer, km_since_turbo, km_since_cambelt, km_since_clutch,
+km_since_gearbox, km_since_injectors, km_since_injpump).
+
+PIPELINE (per the enforced order):
+  a. TAG the fact-sites; for the two derived views, regenerate from master.
+  b. RELEASE: python3 lc76_fact_release.py LC76_Facts.txt <files...>
+  c. GATE:    python3 lc76_fact_gate.py LC76_Facts.txt <files...>  (must PASS)
+  d. Corpus grep: no HTML shows a current-odo value other than 314,546
+     (events excepted); every derived figure = Facts §2 − event mileage.
+  e. Per-file HTML validation (depth walks, node --check, ids, TOC contract,
+     masthead bump, stale sweep). Content-only edits → CACHE STAYS v28
+     (confirm no library file added/removed/renamed).
+
+GOVERNANCE CLOSE: annotate OI-107 (Phase 2 done); this also discharges the
+OI-20 propagate-library-wide gap for the Sep reading. Run the OIR
+validator; PI↔OIR next-free reconciles. Refresh this handover.
+
+───────────────────────────────────────────────────────────────────────
+LATER PHASES (unchanged from the design note)
+───────────────────────────────────────────────────────────────────────
+  PHASE 3  Next cohort — GVM/weight facts or the electrical stack (both
+           existing CDR rows). Same tag→release→gate loop.
+  PHASE 4  Full inventory migrated; the blanket "GitHub SoT for all HTML"
+           rule already narrowed to prose (Phase 0); CDR retired into the
+           store row by row as each cohort lands.
+
+───────────────────────────────────────────────────────────────────────
+STILL-OPEN RECAP ITEMS (do not let them fall off the radar — OI-49 lesson)
+───────────────────────────────────────────────────────────────────────
+  · OI-106  telematics device make/model + 15-day proof-lodged date (on upload).
+  · OI-104  weighbridge measured-figure propagation to R11/R12/R28 (R29 done).
+  · OI-103  GVM overload DECISION — payload audit vs certified GVM re-rating.
+  · Tyre session — BFG KO3 265/75 once fitted (RA-9); sidewall/no-spare.
+  · OneX mirror field-fix; Manjaro worklist (extra shelf etc.) pending list.
+═══════════════════════════════════════════════════════════════════════
