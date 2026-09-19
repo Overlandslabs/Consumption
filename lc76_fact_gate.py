@@ -44,6 +44,14 @@ def main(argv):
                 continue
             if re.search(r'(?<!\d)'+re.escape(val)+r'(?!\d)', stripped):
                 warns.append(f"{path}: live value '{val}' ({fid}) appears UNTAGGED in prose")
+    # (d) OVERRUN check: a derived km-since fact that meets/exceeds its service interval
+    for fid,ff in facts.items():
+        if 'derived' in ff and 'interval' in ff:
+            try:
+                v=value_of(facts,fid); iv=int(str(ff['interval']).replace(',',''))
+                if v>=iv:
+                    warns.append(f"OVERRUN: {fid} at {v:,} km >= interval {iv:,} km (+{v-iv:,}) — review conclusions in docs that cite it")
+            except Exception: pass
     for w in warns: print("WARN:", w)
     if fails:
         for x in fails: print("FAIL:", x)
