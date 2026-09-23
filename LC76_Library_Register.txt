@@ -4,7 +4,7 @@ Authoritative source for all documents in the library.
 Repo:    github.com/Overlandslabs/Consumption
 Hosted:  overlandslabs.github.io/Consumption
 Vehicle: 2009 Toyota Land Cruiser 76 SW · HZJ76R-RKMRS
-Last updated: 8 August 2026
+Last updated: 22 September 2026
 
 ═══════════════════════════════════════════════════════════════════════
 PHILOSOPHY & ETHOS
@@ -471,6 +471,28 @@ AUDIT, GOVERNANCE & DATA (internal — not field-reference)
                                          source of truth for the odometer + km-since
                                          + event mileages (Phase 1 pilot); other
                                          fact cohorts migrate in later phases.
+  lc76_currency_gate.py                  CONTENT-CURRENCY GATE (forty-fifth OIR
+                                         update, 22 Sep 2026). Reads lc76_
+                                         supersessions.txt and greps the whole
+                                         corpus for any retired term still present
+                                         outside its exemptions; FAILS on fail-tier
+                                         hits, surfaces warn-tier for review. The
+                                         PROSE analogue of the fact gate — catches
+                                         stale names/status (Racor->Flashlube,
+                                         planned->fitted) the numeric fact gate
+                                         cannot see. Driven by the log, not a
+                                         hardcoded list. Run at session close beside
+                                         the fact gate. Governance tool — NOT
+                                         precached, no CACHE bump.
+  lc76_supersessions.txt                 SUPERSESSION LOG — the master record of
+                                         real-world changes that retire a term in
+                                         the corpus (old -> new, tier, as_of,
+                                         exemptions). Adding a row ARMS the currency
+                                         gate against the old term, so a new change
+                                         cannot slip past unlogged. The enforcement
+                                         arm of the Controlled Duplication Register
+                                         for named-entity / status currency.
+                                         Governance data — NOT precached, no bump.
   LC76_Open_Items_Dashboard.html         OPEN ITEMS DASHBOARD — WIRED 30 Jul 2026
                                          (Audit of Truth Session 6, OI-59 CLOSED). A
                                          DERIVED VIEW generated from LC76_Open_Items_
