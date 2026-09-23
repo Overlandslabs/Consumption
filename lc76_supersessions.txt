@@ -1,0 +1,40 @@
+# ═══════════════════════════════════════════════════════════════════════════
+# LC76 SUPERSESSION LOG  —  the master list of real-world changes that retire a
+# term in the corpus.  Read by lc76_currency_gate.py.
+#
+# WHY THIS FILE EXISTS (the point that keeps being missed):
+#   The fact-gate catches NUMERIC drift.  Depth-walks catch STRUCTURE.  Nothing
+#   caught stale PROSE — a part swapped on the vehicle (Racor->Flashlube) or a
+#   status that turned (planned->fitted).  The only control for that is a
+#   corpus-wide grep of the OLD term, run every session, re-grepped to zero.
+#   A hand-kept list in a script fails the moment something NEW changes and
+#   nobody remembers to edit the script.  THIS LOG removes that step: when a
+#   real-world change happens you add ONE row here — the same old->new line you
+#   would write to record the change anyway — and that row IS what arms the gate.
+#   You cannot record the change without arming the check.
+#
+# LIMIT, STATED HONESTLY: this catches SUPERSESSIONS that go through the log.
+#   It cannot catch a brand-new fabricated fact, or a change made in prose that
+#   was never logged.  Log-first is the discipline; the gate is the rejecter.
+#
+# FORMAT — fields separated by '  ::  ' (double-colon); '|' is free for regex:
+#   old_regex :: new_term :: tier :: as_of :: exempt_files :: exempt_line :: note
+#     tier          fail = unambiguous stale (gate exits non-zero)
+#                   warn = legitimate in some contexts (surfaced for review)
+#     exempt_files  '|'-joined filename substrings to skip (- = none)
+#     exempt_line   regex; a matching LINE is a legitimate use (- = none)
+# Historical ledgers, changelogs and correction notes legitimately name the old
+# term — that is what exempt_line / exempt_files are for.  Tune, don't delete.
+# ═══════════════════════════════════════════════════════════════════════════
+
+Racor :: Flashlube Diesel Filter (FDF) :: fail :: 2026-08-06 :: Library_Audit :: RFF8C|funnel|Funnel|Parker Racor|Not a Racor|scoped as|corrected to the fitted|racor-card :: Secondary fuel pre-filter is a Flashlube FDF 30u. RFF8C decant funnel is a separate current hand tool.
+Willard 650|WPL320T :: Enertec 650B-BLS :: fail :: 2026-08-04 :: Library_Audit|Session_History|Crank_Battery|Service_Ledger|Service_History :: Replaces Willard|previously|superseded|history|Enertec|fitted 23 Jan 2025 :: Crank battery. Ledgers + R32 preserve Willard history deliberately.
+Orion Smart :: Victron Orion XS :: fail :: 2026-07-01 :: Library_Audit|Session_History :: superseded|previously|Orion XS|correction :: DC-DC converter identity.
+SmartShunt :: Victron BMV-712 Smart :: fail :: 2026-07-01 :: Library_Audit|Session_History :: superseded|previously|BMV-712|replaces :: Battery monitor identity.
+Sinetech :: Victron MultiPlus :: fail :: 2026-07-01 :: Library_Audit|Session_History :: replaces|superseded|previously :: Inverter/charger identity.
+Lynx Distributor :: Fuse Block Safety Hub 150 :: fail :: 2026-07-01 :: Library_Audit|Session_History :: replaces|superseded|previously :: DC distribution identity.
+(weighbridge|RA-1(?![0-9]))[^.<]{0,55}(planned|pending|undated|to be done|not yet done) :: weighbridge DONE 2026-08-10 :: fail :: 2026-08-10 :: Library_Audit :: closed|CLOSED|DONE :: RA-1 loaded weighbridge is done (3,280 kg, +280 over GVM); legalising it is a decision (OI-103), not a pending weigh.
+(planned 265/75|265/75[^<]{0,15}planned|expedition tyre[^<]{0,25}planned) :: BFG KO3 265/75R16 FITTED 2026-09-17 :: fail :: 2026-09-17 :: Library_Audit :: corrected|scoped as :: Expedition tyres are fitted, not planned.
+National Luna 52L :: National Luna 55L :: warn :: 2026-07-01 :: Library_Audit|Session_History :: superseded|previously :: Fridge capacity.
+Maxxis :: BFG All-Terrain KO3 265/75R16 :: warn :: 2026-09-17 :: Library_Audit|Session_History|Service_Ledger|Service_History|AT_Tyre_Review|Tyre_Pressure_Calculator|Cross_Reference|Profile :: retired|previous|historical|Nov 2024|263,000|Set 4|discarded|comparison :: Old tyre. Legit in ledgers/review/comparison; flag present-tense fitted claims only.
+265/70 :: 265/75R16 KO3 :: warn :: 2026-09-17 :: Library_Audit|Session_History|Tyre_Pressure_Calculator|AT_Tyre_Review|Cross_Reference|Tyre_Management|Profile :: compar|previous|historical|retired|Set 4 :: Old size; legit in size-comparison contexts.
