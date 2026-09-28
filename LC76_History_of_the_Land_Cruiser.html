@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LC76 Library">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0d0e12">
+<title>LC76 · The History of the Land Cruiser</title>
+<link rel="manifest" href="manifest-ref.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500;600&family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0d0e12;--paper:#dad2c0;--paper2:#edeae0;--rule:#d4cfc4;
+  --amber:#b86800;--amber2:#e07800;
+  --steeldk:#2a2f3a;--steelmd:#6a7080;--steellt:#a8b0bc;
+  --red-warn:#B91C1C;--green-ok:#059669;
+  --mono:'IBM Plex Mono',monospace;
+  --sans:'Oswald',sans-serif;
+  --display:'Bebas Neue',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{overflow-x:hidden;overflow-x:clip;overscroll-behavior-x:none}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.6;overflow-x:clip;overscroll-behavior-x:none}
+
+/* ── STICKY NAV ── */
+.sticky-nav-unit{position:sticky;top:0;z-index:100;padding-top:env(safe-area-inset-top);background:var(--ink)}
+.sticky-nav-unit::before{content:"";position:absolute;left:0;right:0;bottom:100%;height:100vh;background:var(--ink)}
+.std-header{background:var(--ink);padding:18px 24px 14px;position:relative;border-bottom:3px solid var(--amber)}
+.std-eyebrow{font-family:var(--mono);font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--steelmd);margin-bottom:6px}
+.std-title{font-family:var(--display);font-size:clamp(1.9rem,5vw,2.8rem);letter-spacing:.06em;color:var(--amber2);line-height:1}
+.std-sub{font-family:var(--mono);font-size:.54rem;letter-spacing:.12em;color:rgba(255,200,100,.65);margin-top:5px}
+.std-local{font-family:var(--mono);font-size:.52rem;letter-spacing:.10em;color:rgba(255,200,100,.55);margin-top:6px;font-style:italic}
+.std-vehicle{font-family:var(--mono);font-size:.48rem;letter-spacing:.08em;color:var(--steelmd);margin-top:8px}
+.lib-home-btn{position:absolute;top:14px;right:16px;display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--amber2);background:rgba(232,120,0,.15);border:1px solid var(--amber2);border-radius:20px;padding:6px 12px;min-height:32px;white-space:nowrap;transition:background .2s}
+.lib-home-btn:hover{background:rgba(232,120,0,.30)}
+.toc-bar::-webkit-scrollbar{display:none}
+  .toc-bar{background:var(--steeldk);padding:7px 24px;display:flex;align-items:center;gap:5px;flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none;border-bottom:2px solid var(--amber)}
+.toc-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.18em;color:var(--steellt);text-transform:uppercase;margin-right:4px;flex-shrink:0}
+.toc-link{font-family:var(--mono);font-size:.46rem;color:rgba(255,255,255,.45);text-decoration:none;padding:2px 6px;border:1px solid transparent;transition:all .12s;white-space:nowrap;cursor:pointer}
+.toc-link:hover,.toc-link.active{color:var(--amber2);border-color:var(--amber2);background:rgba(232,120,0,.1)}
+
+/* ── CONTENT ── */
+.content{padding:24px 5% 80px;max-width:100%}
+.lead{font-size:.96rem;color:var(--steeldk);line-height:1.75;margin:6px 0 4px}
+.lead strong{color:var(--ink);font-weight:600}
+.p{font-size:.9rem;color:var(--steeldk);line-height:1.72;margin:12px 0}
+.p strong{color:var(--ink);font-weight:600}
+.p em{font-style:italic}
+.p.first::first-letter{font-family:var(--display);font-size:2.6rem;line-height:.8;float:left;color:var(--amber2);margin:4px 8px 0 0}
+
+/* ── SECTION HEADERS ── */
+.sec-header{display:flex;align-items:baseline;gap:14px;padding:10px 5%;background:var(--steeldk);border-left:5px solid var(--amber2);margin:38px 0 0;margin-left:-5%;margin-right:-5%}
+.sec-num{font-family:var(--display);font-size:1.5rem;letter-spacing:.08em;color:#fff;background:var(--amber);padding:1px 12px;flex-shrink:0;line-height:1.3}
+.sec-title{font-family:var(--display);font-size:1.75rem;letter-spacing:.09em;color:#fff;line-height:1.05}
+.sec-header.plain{background:var(--ink)}
+.sec-era{font-family:var(--mono);font-size:.46rem;letter-spacing:.18em;text-transform:uppercase;color:var(--steellt);align-self:center;margin-left:auto;flex-shrink:0}
+
+/* ── EPIGRAPH / PULL QUOTE ── */
+.epigraph{margin:22px 4% 18px;padding:14px 24px;border-left:3px solid var(--amber2);background:var(--paper2);font-style:italic;font-size:1.06rem;line-height:1.55;color:var(--ink)}
+.epigraph cite{display:block;font-family:var(--mono);font-style:normal;font-size:.5rem;letter-spacing:.18em;text-transform:uppercase;color:var(--steelmd);margin-top:10px}
+.epigraph.center{text-align:center;border-left:none;border-top:2px solid var(--amber2);border-bottom:2px solid var(--amber2);background:transparent;margin:22px 6%}
+
+/* ── KEY-FIGURE / NOTE STRIP (echoes the manifesto thinkers strip) ── */
+.note{margin:18px 0 6px;padding:12px 16px 13px;background:var(--steeldk);border-left:4px solid var(--amber2)}
+.note-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.18em;text-transform:uppercase;color:var(--steellt);display:block;margin-bottom:9px}
+.note-line{font-family:var(--mono);font-size:.64rem;line-height:1.85;color:rgba(255,255,255,.82);display:block}
+.note-line b{color:var(--amber2);font-weight:600;letter-spacing:.05em}
+
+/* ── CAST LIST ── */
+.cast-item{font-size:.9rem;color:var(--steeldk);line-height:1.68;margin:10px 0;padding-left:14px;border-left:2px solid var(--rule)}
+.cast-item b{color:var(--amber);font-weight:600}
+
+/* ── REFERENCES ── */
+.refs{margin:14px 0 4px}
+.refs-group{font-family:var(--mono);font-size:.48rem;letter-spacing:.18em;text-transform:uppercase;color:var(--amber);display:block;margin:16px 0 7px;padding-bottom:4px;border-bottom:1px solid var(--rule)}
+.ref{font-family:var(--mono);font-size:.62rem;line-height:1.7;color:var(--steeldk);margin:5px 0 5px 16px;text-indent:-16px}
+.ref a{color:var(--amber);text-decoration:none;border-bottom:1px dotted var(--amber)}
+.ref a:hover{color:var(--amber2)}
+.refs-note{font-size:.84rem;color:var(--steeldk);line-height:1.65;margin:10px 0;padding:11px 15px;background:var(--paper2);border-left:3px solid var(--steelmd)}
+.refs-note b{color:var(--ink)}
+
+/* ── CLOSING BANNER ── */
+.closing-banner{background:var(--ink);border-top:3px solid var(--amber2);border-bottom:3px solid var(--amber2);text-align:center;padding:26px 5%;margin:34px -5% 0}
+.closing-banner .big-line{font-family:var(--display);font-size:clamp(1.9rem,7vw,3.1rem);letter-spacing:.12em;color:var(--amber2);line-height:1.1}
+.closing-banner .sign{font-family:var(--mono);font-size:.52rem;letter-spacing:.18em;color:var(--steellt);margin-top:14px}
+
+/* ── XREF ── */
+.xref-bar{background:var(--steeldk);padding:9px 5%;display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:34px -5% 0}
+.xref-label{font-family:var(--mono);font-size:.46rem;letter-spacing:.16em;color:var(--steellt);text-transform:uppercase;margin-right:6px}
+.xref-pill{font-family:var(--mono);font-size:.46rem;letter-spacing:.08em;color:var(--amber2);background:rgba(232,120,0,.12);border:1px solid rgba(232,120,0,.4);padding:3px 9px;text-decoration:none;white-space:nowrap}
+.xref-pill:hover{background:rgba(232,120,0,.25)}
+
+/* ── FOOTER ── */
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+
+/* ── SOURCE KEYS, TABLES, CALLOUT (added for this document) ── */
+.src{font-family:var(--mono);font-size:.56rem;letter-spacing:.03em;color:var(--steelmd);white-space:nowrap}
+.rep{font-family:var(--mono);font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;color:var(--red-warn);border:1px solid var(--red-warn);padding:0 4px;white-space:nowrap}
+.callout{font-size:.86rem;color:var(--steeldk);line-height:1.65;margin:16px 0;padding:12px 16px;background:var(--paper2);border-left:4px solid var(--red-warn)}
+.callout b{color:var(--red-warn)}
+.callout strong{color:var(--ink)}
+.tbl-wrap{margin:16px 0 8px;overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
+.ht{width:100%;min-width:640px;border-collapse:collapse;background:var(--paper2);font-size:.8rem;color:var(--steeldk)}
+.ht th{font-family:var(--mono);font-size:.5rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;text-align:left;color:#fff;background:var(--steeldk);padding:8px 9px;border-bottom:2px solid var(--amber2)}
+.ht td{padding:7px 9px;border-bottom:1px solid var(--rule);vertical-align:top;line-height:1.5}
+.ht td b{color:var(--ink);font-weight:600}
+.ht td .src{white-space:normal}
+.ht tr.grp td{font-family:var(--mono);font-size:.5rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);background:var(--paper);padding:9px 9px 5px}
+
+/* ── MOBILE ── */
+@media(max-width:600px){
+  .std-header{padding:14px 16px 12px}
+  .std-title{font-size:clamp(1.6rem,6vw,2.4rem)}
+  .lib-home-btn{top:12px;right:12px}
+  .toc-bar{padding:5px 12px!important}
+  
+  .toc-link{font-size:.42rem!important;padding:2px 5px!important}
+  .content{padding:14px 4% 60px}
+  .sec-header{margin-left:-4%;margin-right:-4%;padding:10px 4%}
+  .sec-era{display:none}
+  .xref-bar{margin-left:-4%;margin-right:-4%;padding:9px 4%}
+  .closing-banner{margin-left:-4%;margin-right:-4%}
+  .epigraph{margin-left:2%;margin-right:2%}
+}
+
+/* ── PRINT ── */
+@media print{
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;color-adjust:exact!important}
+  @page{margin:7mm;size:A4}
+  :root{--paper:#ffffff}
+  body{font-size:8pt;background:#fff!important}
+  .lib-home-btn,.toc-bar{display:none!important}
+  .sticky-nav-unit{position:static!important}
+  .sticky-nav-unit::before{content:none}
+  .reveal{opacity:1!important;transform:none!important}
+  .std-header{background:#0d0e12!important;border-bottom:2px solid #e07800!important}
+  .std-title{color:#e07800!important}
+  .sec-header{background:#2a2f3a!important;border-left:4px solid #e07800!important;page-break-after:avoid;break-after:avoid;margin-left:0!important;margin-right:0!important}
+  .sec-header.plain{background:#0d0e12!important}
+  .sec-num{background:#b86800!important;color:#fff!important}
+  .sec-title{color:#fff!important}
+  .epigraph{background:#edeae0!important;break-inside:avoid}
+  .epigraph.center{background:#fff!important}
+  .note{background:#2a2f3a!important;break-inside:avoid}
+  .note-line{color:#e8e4da!important}.note-line b{color:#e07800!important}
+  .closing-banner{background:#0d0e12!important;margin-left:0!important;margin-right:0!important;break-inside:avoid}
+  .closing-banner .big-line{color:#e07800!important}
+  .xref-bar{background:#2a2f3a!important;margin-left:0!important;margin-right:0!important}
+  .xref-pill{color:#e07800!important;background:#fff!important}
+  .p.first::first-letter{color:#b86800!important}
+  .src{color:#6a7080!important}
+  .rep{color:#B91C1C!important;border-color:#B91C1C!important}
+  .callout{background:#edeae0!important;border-left:3px solid #B91C1C!important;break-inside:avoid}
+  .tbl-wrap{overflow:visible!important}
+  .ht{min-width:0!important;background:#fff!important;font-size:7pt;break-inside:auto}
+  .ht thead{display:table-header-group}
+  .ht tr{break-inside:avoid}
+  .ht th{background:#2a2f3a!important;color:#fff!important;border-bottom:2px solid #e07800!important}
+  .ht tr.grp td{background:#dad2c0!important;color:#b86800!important}
+}
+</style>
+</head>
+<body>
+
+<div class="sticky-nav-unit">
+<div class="std-header">
+  <a href="index.html" class="lib-home-btn">⌂ Index</a>
+  <div class="std-eyebrow">Philosophy · Land Cruiser</div>
+  <div class="std-title">The History of the Land Cruiser</div>
+  <div class="std-sub">Seventy-Five Years · From the BJ to the 300 and the FJ</div>
+  <div class="std-local">A companion to the Manifesto — the vehicle we chose, and where it came from</div>
+  <div class="std-vehicle">2009 LC76 SW · 1HZ 4.2L Diesel · low-boost turbo (0.6 bar) · intercooler<br>Last updated: 28 September 2026</div>
+</div>
+<div class="toc-bar">
+  <span class="toc-label">Contents</span>
+  <a href="javascript:void(0)" onclick="document.getElementById('why').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">Why</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('origins').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">Origins</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('heavy').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">40 &amp; 70</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('wagons').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">Wagons</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('prado').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">Prado</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('fj').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">FJ</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('engines').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">Engines</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('world').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">World</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('war').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">Toyota War</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('codes').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">Model Codes</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('ours').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">Our 76</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('sources').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">Sources</a>
+</div>
+</div>
+
+<div class="content">
+
+<p class="epigraph center"><em>Go anywhere — and come home.</em></p>
+
+<!-- WHY ───────────────────────────────────────────────── -->
+<div class="sec-header plain" id="why">
+  <span class="sec-num">§</span>
+  <span class="sec-title">Why This History Matters</span>
+</div>
+
+<p class="p first">Most vehicles are designed to be replaced. The Land Cruiser was designed to be relied upon, and that difference has shaped seventy-five years of its history. It is Toyota's longest-running model line <span class="src">[TUK-HD]</span>, and by Toyota's own count, given at the launch of the newest model in October 2025, about 12.15 million have been sold in more than 190 countries and regions <span class="src">[T-FJ25]</span>. A South African review from 2026 puts the figure at "over 12.4 million" <span class="src">[CARS-FJ]</span>; the Toyota figure is used here because it carries a date and an owner.</p>
+
+<p class="p">Toyota describes the purpose of the vehicle in plain terms: it must be able to go anywhere, and it must bring the people inside it back safely <span class="src">[T-FJ25]</span>. That is not a marketing line so much as an engineering brief, and it is the reason this history sits in the Philosophy section of the library rather than among the workshop documents. Our Manifesto asks for simplicity, reliability and "eco not ego". The Land Cruiser story is, for long stretches, a story of a manufacturer choosing exactly those things — keeping an old, simple design in production for the people who depend on it, long after the showroom has moved on.</p>
+
+<p class="p">This document is for reading and learning, not for the roadside. It covers every market and every branch of the family, up to the newest models. It names no prices. Every figure carries a short source key in square brackets, such as <span class="src">[T-HD]</span>; the keys are listed in full in the last section, together with a table of the places where the sources disagree. Where they disagree, both versions are shown. Nothing has been chosen quietly.</p>
+
+<div class="note">
+  <span class="note-label">The family tree, in Toyota's own words · [TT-70] [W-LC]</span>
+  <span class="note-line"><b>HEAVY DUTY</b> — the working line: the 40 Series, then the 70 Series</span>
+  <span class="note-line"><b>STATION WAGON</b> — the big family wagons: 55, 60, 80, 100, 200, 300</span>
+  <span class="note-line"><b>LIGHT DUTY</b> — the lighter wagons that became the Prado: 70 wagon, 90, 120, 150, 250</span>
+  <span class="note-line"><b>LAND CRUISER FJ</b> — a fourth, compact branch, added in 2025–26</span>
+</div>
+
+<p class="p">Toyota itself describes the family as three branches, all descended from the original 1951 vehicle <span class="src">[TT-70]</span>, and a fourth, compact branch — the Land Cruiser FJ — arrived in 2025–26, below the Prado <span class="src">[W-LC]</span>. A word on the numbers: Toyota names each generation by a "series" number — 40, 70, 80 and so on. The number is a family name, not a size or a year. How the full model codes are built is explained in the section <em>Reading a Model Code</em>.</p>
+
+<!-- ORIGINS ───────────────────────────────────────────── -->
+<div class="sec-header" id="origins">
+  <span class="sec-title">Origins — The BJ and the 20 Series</span>
+  <span class="sec-era">1951 – 1960</span>
+</div>
+
+<p class="p">The Land Cruiser began as a government order. During the Korean War, Japan's National Police Reserve wanted about a thousand Jeep-type four-wheel-drive vehicles, built from Japanese materials <span class="src">[TUK-HD]</span>. Toyota's answer, a prototype finished in January 1951, was assembled largely from parts it already had: the chassis of its Type SB one-ton truck, its Type B 3.4-litre six-cylinder petrol engine, and suspension from a Toyota passenger car <span class="src">[TUK-HD]</span>. The name followed the recipe. "BJ" meant the B engine plus "Jeep" <span class="src">[TUK-HD]</span>.</p>
+
+<p class="p">In 1951 the BJ became the first vehicle to climb to the sixth station of Mount Fuji <span class="src">[T-FJ25][TUK-HD]</span>. The sources do not agree on the month — Toyota UK and others say July, Red Line Land Cruisers says August <span class="src">[TUK-HD][CARBUZZ][RLLC]</span> — so this document says only "1951". One secondary account names the driver as Ichiro Taira; the Toyota pages checked for this document do not name him, so the name is <span class="rep">reported</span> only.</p>
+
+<p class="p">The climb did not, on its own, win the police order. The Reserve first chose Mitsubishi's licence-built Willys Jeep <span class="src">[T-HD]</span>; Toyota UK says a further trial then won Toyota the supply contract <span class="src">[TUK-HD]</span>. Volume production began in 1953 <span class="src">[T-HD]</span>, with series production from August 1953 <span class="src">[TUK-HD]</span>. Because "Jeep" was a trademark of Willys-Overland, Toyota renamed the vehicle the <strong>Land Cruiser</strong> in June 1954 <span class="src">[T-HD]</span>. (The Land Cruiser Heritage Museum gives the renaming as 1955 <span class="src">[LCHM]</span>; this document follows Toyota.) The first exports went to Pakistan in 1954 and to Saudi Arabia in 1955 <span class="src">[TUK-HD]</span>.</p>
+
+<p class="p"><strong>The 20 Series</strong> followed — November 1955 according to Toyota Japan <span class="src">[T-HD]</span>, August 1955 according to Toyota UK <span class="src">[TUK-HD]</span>. Its body was redesigned for civilian owners <span class="src">[T-HD]</span>. It came on two wheelbases, 2,285 mm and 2,430 mm, with a third of 2,650 mm added in 1959 <span class="src">[T-HD]</span>. (The wheelbase is the distance between the front and rear axles; a longer wheelbase means a longer body.) Engines were the 3.4-litre Type B and the 3.9-litre Type F petrol sixes, and from mid-1956 the Type F only <span class="src">[T-HD]</span>. Toyota UK calls the F Toyota's longest-serving engine, still in use until late 1992 <span class="src">[TUK-HD]</span>.</p>
+
+<p class="p">The 20 Series is where the Land Cruiser went abroad in earnest. Toyota dates the start of volume exports to North America and elsewhere to this model <span class="src">[T-HD]</span>. In 1957 Land Cruisers made up 38.2% of all vehicles exported from Japan <span class="src">[TUK-HD]</span>, and in many countries the Land Cruiser was the first Toyota ever sold <span class="src">[TUK-HD]</span>. It was also the vehicle Toyota first built outside Japan: Toyota Times, Toyota's own magazine, records that Toyota do Brasil was set up in 1958 and that in May of the following year the <strong>Bandeirante</strong>, "Toyota's first overseas production vehicle", was born <span class="src">[TT-BR]</span>. That story continues under the 40 Series and in <em>Around the World</em>.</p>
+
+<!-- HEAVY DUTY ────────────────────────────────────────── -->
+<div class="sec-header" id="heavy">
+  <span class="sec-title">The Workhorses — 40 and 70 Series</span>
+  <span class="sec-era">1960 – today</span>
+</div>
+
+<p class="p"><strong>The 40 Series</strong> arrived in August 1960 <span class="src">[T-HD]</span> and became the shape most people still picture when they hear the name. It was built on the 2,285, 2,430 and 2,650 mm wheelbases, with a 2,950 mm version added in 1963 for export pickups and cab-chassis models <span class="src">[T-HD]</span>. Its most important first was mechanical: it was the first Land Cruiser with a two-speed transfer case, which gives the driver a separate set of very low gears — "low range" — for steep, slow or rough ground <span class="src">[W-J40][TOY-US]</span>. The 20 Series had relied on a very low first gear instead <span class="src">[TOY-US]</span>.</p>
+
+<p class="p">The 40 started on the F petrol six <span class="src">[T-HD]</span>. Diesel followed: the H, a 3.6-litre six-cylinder diesel, in 1972–73 (Toyota Japan says 1973 <span class="src">[T-HD]</span>, Toyota UK 1972 <span class="src">[TUK-HD]</span>), then the B, a 3.0-litre four-cylinder diesel, in 1974 <span class="src">[T-HD]</span>. The 2F 4.2-litre petrol and a four-speed gearbox came in 1975 <span class="src">[TOY-US]</span>. In Japan, diesels became the popular choice because they were taxed more lightly <span class="src">[T-HD]</span>. In West Africa the long troop-carrier body earned the nickname "Bush Taxi" <span class="src">[TUK-HD]</span>, and in 1980 the millionth Land Cruiser was built <span class="src">[TUK-HD][TOY-US]</span>.</p>
+
+<p class="p">Japanese production of the 40 ended in the mid-1980s — 1984 according to Wikipedia and Toyota USA <span class="src">[W-J40][TOY-US]</span>, 1986 according to Toyota UK <span class="src">[TUK-HD]</span>. But the design lived on in Brazil. The Bandeirante carried the 40's shape until <strong>2001</strong> <span class="src">[TUK-HD][W-J40]</span>, fitted first with Mercedes-Benz diesels and from 1994 with Toyota's own 14B diesel <span class="src">[W-J40]</span>.</p>
+
+<p class="p"><strong>The 70 Series</strong> replaced the 40 in November 1984 <span class="src">[T-HD]</span> and is still in production. It is the branch our own vehicle belongs to. Toyota built it on five wheelbases, from 2,310 to 3,180 mm <span class="src">[T-HD]</span>, with soft-top, van and fibreglass-roof bodies, and as a bare chassis for customers to build their own bodywork on <span class="src">[T-HD]</span>. The two-digit number tells you the wheelbase: 70 and 71 are the short ones, 73 and 74 medium, 75, 78 and 79 long, while 77 and 76 are semi-long four-door wagons sold in a few markets <span class="src">[W-J70]</span>.</p>
+
+<p class="p">The 70 changed slowly, and on purpose. In 1999 the front leaf springs gave way to coil springs <span class="src">[T-HD]</span>; from that year the Troop Carrier is the 78 and the pickup the 79 <span class="src">[W-J70]</span>. In 2004 Japanese sales ended and the 70 became an overseas-only model <span class="src">[T-HD]</span>. The <strong>2007 facelift</strong> was its first major redesign: a new front end, with the front widened by 80 mm and the engine bay by 230 mm to make room for a new V8 turbo diesel <span class="src">[T-HD]</span>. In the same change, Toyota added the <strong>76 Series four-door semi-long wagon</strong> and dropped the 73 medium-wheelbase model <span class="src">[T-HD]</span>. Twin airbags and a redesigned dashboard followed in 2009 <span class="src">[TUK-HD]</span>, and a double-cab pickup in August 2012 <span class="src">[T-HD]</span>.</p>
+
+<p class="p">Japan could not quite let it go. In 2014, for its thirtieth anniversary, Toyota re-released the 70 in Japan for about a year with the 4.0-litre V6 petrol <span class="src">[T-HD][T-70-30]</span>. In November 2023 it came back to Japan as a regular model, now with the 1GD-FTV 2.8-litre turbo diesel — 150 kW (204 PS) and 500 Nm — and a six-speed automatic <span class="src">[T-70JP]</span>. (A kilowatt, kW, measures power; PS is the metric horsepower Toyota Japan uses; a newton-metre, Nm, measures torque — the twisting force that pulls a heavy vehicle up a hill.)</p>
+
+<p class="p">The same 2.8-litre four-cylinder reached Australia and South Africa in the 2023–24 update, at 150 kW and 500 Nm with the automatic <span class="src">[CD-AU][CARS-70]</span>; a five-speed manual version followed in Australia, rated at 450 Nm <span class="src">[CE-AU]</span>. The V8 then bowed out. In Australia, V8 production ended in September 2024, apart from the 79 GXL utes, whose deliveries finished in the last quarter of 2025 <span class="src">[T-AU][CE-AU]</span>. In South Africa the V8 was dropped in the 2026 update <span class="src">[T-ZA26]</span>, leaving a range of the 4.0 V6 petrol, the 4.2 diesel — the 1HZ, at 96 kW and 285 Nm — and the 2.8 GD-6 <span class="src">[T-ZA26][CARMAG]</span>.</p>
+
+<p class="p">Over its life the 70 has used four-, five- and six-cylinder engines, petrol and diesel, plus a V8 diesel for export, in Toyota's own summary <span class="src">[T-HD]</span>; a 2024 Russian-language feature puts the total at about fifteen engines <span class="src">[IDA]</span>. The engine section below lists them with their years.</p>
+
+<div class="note">
+  <span class="note-label">The 70 Series in five dates · sources in the text above</span>
+  <span class="note-line"><b>1984</b> — launched as the 40's successor</span>
+  <span class="note-line"><b>1999</b> — coil springs at the front</span>
+  <span class="note-line"><b>2004</b> — withdrawn from Japan; overseas only</span>
+  <span class="note-line"><b>2007</b> — first major redesign; V8 diesel; the 76 wagon added</span>
+  <span class="note-line"><b>2023</b> — back in Japan; 2.8 four-cylinder diesel arrives</span>
+</div>
+
+<!-- STATION WAGONS ────────────────────────────────────── -->
+<div class="sec-header" id="wagons">
+  <span class="sec-title">The Station Wagons — 55 to 300</span>
+  <span class="sec-era">1967 – today</span>
+</div>
+
+<p class="p">The wagon branch began as a sideline and became the flagship. <strong>The 55 Series</strong>, launched in August 1967 on a 2,700 mm wheelbase, replaced the FJ45V four-door van <span class="src">[T-SW]</span>. In Japan it was classed as a commercial van; overseas it was sold as a passenger car <span class="src">[T-SW]</span>. It used the F petrol six at 125 hp (130 hp from 1969), a three-speed manual gearbox and a two-speed transfer case <span class="src">[T-SW]</span>, and in Japan the 4,230 cc 2F from January 1975 <span class="src">[T-SW]</span>. It was the first true Land Cruiser station wagon, and Toyota UK says it grew to about 11% of Land Cruiser sales <span class="src">[TUK-SW]</span>.</p>
+
+<p class="p"><strong>The 60 Series</strong> (August 1980 <span class="src">[T-SW]</span>) brought comfort into the family: air conditioning, power steering and fabric seats all became available <span class="src">[T-SW]</span>. It launched with the 2F 4.2 petrol and a 3.4 diesel, added the 2H 3,980 cc diesel six two years later, and gained turbocharged and fuel-injected versions later in its life <span class="src">[T-SW]</span>. The best remembered is the 12H-T, a turbocharged, direct-injection version of the 2H — the "whistling" HJ61 <span class="src">[TUK-SW][W-H]</span>. (A turbocharger uses exhaust gas to force more air into the engine; "direct injection" means the fuel is sprayed straight into the cylinder rather than into a small pre-chamber beside it.) A four-speed automatic arrived in 1984, which Toyota UK calls the first automatic in a Japanese four-wheel drive <span class="src">[TUK-SW]</span>. From August 1986 the four-wheel drive and the differential locks were engaged with push-buttons that worked the mechanism by air pressure <span class="src">[TUK-SW]</span>. The last 60 was built in December 1989 after a run of 406,700, and the model was also assembled in Venezuela <span class="src">[TUK-SW]</span>.</p>
+
+<p class="p"><strong>The 80 Series</strong> was launched in October 1989 in Japan <span class="src">[T-SW]</span>; Toyota UK dates it to 1990, when the export markets received it <span class="src">[TUK-SW]</span>. At 4,970 mm long and 1,930 mm wide it was deliberately moved up to luxury-vehicle level <span class="src">[T-SW]</span>. Coil springs replaced leaf springs all round, while the solid axles were kept <span class="src">[T-SW][TUK-SW]</span> — a solid axle is a single rigid beam joining the two wheels, simple and very strong, the traditional choice for rough ground. Higher models had full-time four-wheel drive with a centre differential <span class="src">[T-SW]</span>. Engines included the 3F-E petrol at launch, the naturally aspirated (no turbo) 1HZ 4.2 diesel and the 1HD-T turbo diesel <span class="src">[T-SW][CG-80]</span>, the 1FZ-FE 4.5 petrol six from August 1992 at 215 PS <span class="src">[T-SW]</span>, and the 24-valve 1HD-FT turbo diesel from 1995 <span class="src">[TUK-SW][W-HD]</span>.</p>
+
+<p class="p">The 80 is widely regarded as the last full-size Land Cruiser wagon with a solid front axle <span class="src">[JDM-80]</span> — an enthusiast view, borne out by the 100 Series' change to independent front suspension. In Colombia and Venezuela it was nicknamed "Burbuja", the bubble, and sold as the "Autana" <span class="src">[FAN]</span>. Japanese production ended in 1997 <span class="src">[TUK-SW]</span>, but assembly from kits continued at Cumaná in Venezuela: the Land Cruiser Heritage Museum holds a 2007-model Autana assembled in November 2006, one of the last <span class="src">[LCHM-80]</span>. The 80 also gave Lexus its first LX, the LX 450 of 1996 <span class="src">[W-LX]</span>.</p>
+
+<p class="p"><strong>The 100 Series</strong> (January 1998 <span class="src">[T-SW]</span>) brought the biggest change in the wagon line's history. Its new 2UZ-FE 4.7-litre V8 petrol, at 235 PS, was the first V8 in a Land Cruiser <span class="src">[T-SW][TUK-SW]</span>, and a 1HD-FTE 4.2 turbo diesel went into the van model <span class="src">[T-SW]</span>. At the front, a solid axle gave way to <strong>independent front suspension</strong> — each front wheel on its own arms, here double wishbones sprung by torsion bars <span class="src">[T-SW]</span> — which rides and steers better on the road but is less simple in the bush. Top models had height control and electronically adjusted damping; the Cygnus was the top grade in Japan from December 1998 <span class="src">[T-SW]</span>.</p>
+
+<p class="p">For Africa, Australia and the Middle East, Toyota kept a tougher version: <strong>the 105</strong>, which put the 100 body on a solid front axle <span class="src">[CG-105]</span>. It was offered with the 1HZ diesel or the 1FZ-FE petrol, not with the 1HD-FTE or the V8 <span class="src">[CG-105]</span> — Toyota UK says Toyota kept a solid-axle version for loyal customers, but not with the big turbo diesel <span class="src">[TUK-SW]</span>. One secondary source reports a GXL 105 with the 1HD-FTE in some markets <span class="src">[MOD]</span>; an Australian buyer's guide checked for this document lists only the 1HZ and the petrol six across all 105 grades, including the GXL <span class="src">[DRIVA]</span>, so that claim stays <span class="rep">reported</span>. The Lexus version of the 100 was the LX 470 <span class="src">[W-LX]</span>.</p>
+
+<p class="p"><strong>The 200 Series</strong> was launched in September 2007 <span class="src">[T-SW]</span>, reaching Toyota UK's markets in early 2008 <span class="src">[TUK-SW]</span>, and was sold in more than 100 countries <span class="src">[T-SW]</span>. Toyota called its Crawl Control — an off-road system that holds a slow, steady speed so the driver only has to steer — a world first, and it used a Torsen limited-slip centre differential <span class="src">[T-SW]</span>. Its engines were the 2UZ-FE V8 petrol, now with variable valve timing <span class="src">[T-SW]</span>; the 5.7-litre 3UR-FE petrol in North America <span class="src">[T-SW]</span>; the 1UR-FE 4.6 petrol from about 2012 <span class="src">[LCL]</span>; and, most significantly, the <strong>1VD-FTV 4.5-litre twin-turbo V8 diesel</strong>, Toyota's first V8 diesel, developed in January 2007 <span class="src">[T-ENG][W-VD]</span>. Its torque is given as 650 Nm <span class="src">[W-VD]</span>; its power is quoted differently by different sources, at about 200 kW depending on market (see the conflicts table). The Lexus version was the LX 570 <span class="src">[W-LX]</span>. After the 2021 model year the Land Cruiser name left the United States <span class="src">[EDM]</span>.</p>
+
+<p class="p"><strong>The 300 Series</strong> had its world premiere on 10 June 2021, the Land Cruiser's seventieth anniversary <span class="src">[TT-70]</span>, and went on sale on 2 August 2021 <span class="src">[T-300]</span>. It sits on the GA-F platform, Toyota's first new-architecture platform for a body-on-frame vehicle — one built the traditional way, with the body bolted onto a separate ladder frame <span class="src">[TEU-300]</span>. The diesel is the F33A-FTV 3.3-litre twin-turbo V6, at 227 kW (309 PS) and 700 Nm <span class="src">[T-300]</span>, Toyota's first V6 diesel <span class="src">[DRIVE]</span>; the petrol is the V35A-FTS 3.5 twin-turbo V6 at 415 PS and 650 Nm <span class="src">[PT-300]</span>. Both drive through a ten-speed automatic <span class="src">[TEU-300]</span>. Toyota calls its E-KDSS — an electronically controlled system that frees the anti-roll bars so the wheels can drop further over rough ground — a world first, and its Multi-Terrain Monitor camera system a first for any Toyota <span class="src">[TEU-300]</span>.</p>
+
+<p class="p">A hybrid followed in 2025–26: the V35A petrol with a 36 kW, 250 Nm electric motor and the ten-speed automatic, for a combined 341 kW and 790 Nm <span class="src">[CC-300H]</span>, marketed as "457" horsepower in the United Arab Emirates <span class="src">[CC-300H][CS-300H]</span>. It went on sale in eastern Europe from January 2026 <span class="src">[TEU-300H]</span> and in Australia during 2026 <span class="src">[CC-300H]</span>. The Lexus versions are the LX 600 and 500d <span class="src">[W-F33]</span>, and the 300 is not sold as a Toyota in the United States <span class="src">[EDM]</span>.</p>
+
+<!-- PRADO ─────────────────────────────────────────────── -->
+<div class="sec-header" id="prado">
+  <span class="sec-title">The Prado — A Side Branch</span>
+  <span class="sec-era">1985 – today</span>
+</div>
+
+<p class="p">The Light Duty branch is a side road in this history, but a busy one. It began in October 1985 as the <strong>Land Cruiser Wagon</strong>, built on the short 70 van but softened with coil springs and powered by the 2L-T 2.4-litre turbo diesel <span class="src">[T-LD]</span>. Some markets called it the Bundera or Land Cruiser II <span class="src">[TUK-HD]</span>. In April 1990 it was split off and named the <strong>Land Cruiser Prado</strong>, aimed squarely at the Mitsubishi Pajero, with three- and five-door bodies and part-time four-wheel drive <span class="src">[T-LD]</span>. Its diesels were the 2L-TE at 97 PS and, from May 1993, a 3.0-litre 130 PS turbo diesel, the 1KZ <span class="src">[T-LD]</span>.</p>
+
+<p class="p">The <strong>Prado 90</strong> (May 1996) moved to independent front suspension and full-time four-wheel drive <span class="src">[T-LD]</span>. It shared its underpinnings with the Hilux Surf, and was sold in the United Kingdom as the Colorado <span class="src">[T-LD][TUK-HD]</span>. Its engines included the 5VZ-FE 3.4 V6 petrol, an intercooled 1KZ-TE at 140 PS, the 3RZ-FE 2.7 petrol from 1997, and from July 2000 the <strong>1KD-FTV 3.0 common-rail diesel</strong> <span class="src">[T-LD]</span>. (An intercooler cools the air coming from the turbocharger so the engine can burn more fuel cleanly. A common-rail diesel keeps its fuel in a single high-pressure pipe feeding electronically controlled injectors, instead of a mechanical pump timing each squirt.) Toyota UK calls the 1KD-FTV "Toyota's first common rail diesel", but Toyota's own 75-year history gives that title to the 1CD-FTV of 1999 <span class="src">[TUK-HD][T-ENG]</span>; the safe statement is that the 1KD-FTV was <strong>the first common-rail diesel in a Land Cruiser</strong>.</p>
+
+<p class="p">The <strong>Prado 120</strong> (October 2002) added a Torsen centre differential, electronic traction control and rear air suspension <span class="src">[T-LD]</span>. It was styled by Toyota's ED2 design studio in France and formed the basis of the FJ Cruiser from 2006 <span class="src">[TUK-HD]</span>; its Lexus twin was the GX 470 <span class="src">[W-GX]</span>. The <strong>Prado 150</strong> (September 2009) brought Crawl Control and Multi-Terrain Select <span class="src">[T-LD]</span>, and from 2015 the 1GD-FTV 2.8 diesel — 450 Nm with the automatic, uprated to 150 kW and 500 Nm in October 2020 <span class="src">[TUK-HD][W-GD]</span>. Its Lexus twin was the GX 460 <span class="src">[W-GX]</span>.</p>
+
+<p class="p">The newest Prado, <strong>the 250</strong>, had its world premiere in August 2023 and reached Japan in April 2024 <span class="src">[T-250][PT-250J]</span>. Toyota describes it as a "back to basics" Light Duty model <span class="src">[T-250][PT-250]</span>. It shares the 300's GA-F platform and its 2,850 mm wheelbase <span class="src">[PT-250J]</span>. Engines vary by market: the 1GD-FTV 2.8 diesel at 204 PS and 500 Nm with an eight-speed automatic (with a 48-volt mild-hybrid assist in Australia and Western Europe); a 2.4 turbo petrol hybrid, sold in the United States as the "i-FORCE MAX" at 326 hp; and the 2TR-FE 2.7 petrol <span class="src">[PT-250]</span>. In the United States it is simply called the "Land Cruiser", from the 2024 model year <span class="src">[TS-US]</span>. Its Lexus twin is the GX 550 <span class="src">[W-GX]</span>.</p>
+
+<!-- FJ ────────────────────────────────────────────────── -->
+<div class="sec-header" id="fj">
+  <span class="sec-title">The Land Cruiser FJ — The Newest Branch</span>
+  <span class="sec-era">2025 –</span>
+</div>
+
+<p class="p">The Land Cruiser FJ was revealed in October 2025 <span class="src">[T-FJ25]</span> and launched in 2026: in Thailand at the end of March, in South Africa on 10 May and in Japan on 14 May <span class="src">[PT-FJ][W-FJ]</span>. It is built by Toyota Motor Thailand <span class="src">[W-FJ]</span> on a shortened version of the IMV ladder frame that also carries the Hilux and Fortuner, with a 2,580 mm wheelbase <span class="src">[W-FJ][PM-FJ]</span>. It uses the 2TR-FE 2.7-litre petrol with a six-speed automatic, and part-time four-wheel drive with low range and a locking rear differential <span class="src">[PM-FJ]</span> — a locking differential forces both wheels on an axle to turn together, so a wheel in the air cannot steal all the drive.</p>
+
+<p class="p">Its output depends on where it is sold: 163 PS and 246 Nm in Japan <span class="src">[PM-FJ]</span>, 166 PS and 245 Nm in Thailand <span class="src">[PT-FJ]</span>, 122 kW and 245 Nm in South Africa <span class="src">[CARS-FJ]</span>. A 2.8 diesel has been rumoured but is <span class="rep">unconfirmed</span> <span class="src">[CIT-FJ]</span>. The FJ is a small vehicle carrying a large name back to its roots: short, simple, ladder-framed, with low range — much what the 40 Series was.</p>
+
+<!-- ENGINES ───────────────────────────────────────────── -->
+<div class="sec-header" id="engines">
+  <span class="sec-title">The Engines — Families, and Where They Went</span>
+</div>
+
+<p class="p">Toyota names its engines with a short code. The number in front is the version within a family (1HZ, 2H); the letters are the family itself (HZ, HD, VD); and the letters after the dash describe the build. Among the engines in this story, <strong>T</strong> marks a turbocharger (1HD-T), <strong>E</strong> electronic fuel control (1HD-FTE), <strong>F</strong> appears on the multi-valve engines (1HD-FT, 1FZ-FE), and <strong>V</strong> on the common-rail diesels (1KD-FTV, 1VD-FTV, 1GD-FTV). Toyota's full suffix scheme has more letters than are needed here. Where the letters appear inside a model code — the <em>HZ</em> in HZJ76 — they name the engine the vehicle was built with; the section <em>Reading a Model Code</em> takes that further.</p>
+
+<p class="epigraph"><em>We'll know how long it lasts when the first one wears out.</em><cite>Toyota slogan for the F engine, as quoted by Toyota UK [TUK-HD]</cite></p>
+
+<div class="callout"><b>The 1HZ is an interference engine.</b> Its camshaft is driven by a timing belt <span class="src">[T-ENG][W-HZ]</span>, and in an interference engine the valves and pistons share the same space at different moments. If the belt breaks or slips, they collide and the valves bend. This is a standing rule of this library; any document that says otherwise is in error. Our own belt history and replacement plan live in <strong>LC76_Facts.txt §4</strong>, not here.</div>
+
+<div class="tbl-wrap">
+<table class="ht">
+  <thead><tr><th>Engine</th><th>What it is, in plain words</th><th>When</th><th>Where it went</th><th>Source</th></tr></thead>
+  <tbody>
+    <tr class="grp"><td colspan="5">Petrol — inline six (six cylinders in a row)</td></tr>
+    <tr><td><b>Type B</b></td><td>3.4-litre petrol six. Not the same as the later B-series <em>diesel</em> fours.</td><td>1951</td><td>BJ, early 20 Series</td><td><span class="src">[T-HD]</span></td></tr>
+    <tr><td><b>F / 2F / 3F-E</b></td><td>F: 3.9-litre pushrod petrol six (valves worked by rods from a camshaft low in the block). 2F: 4.2-litre. 3F-E: 4.0-litre with fuel injection.</td><td>Late 1940s – 1992 (2F from 1975)</td><td>F family: 20, 40, 55, 60; 3F-E in the 80</td><td><span class="src">[T-HD][W-F][T-SW][TOY-US][CG-80][TUK-HD]</span></td></tr>
+    <tr><td><b>1FZ-FE</b></td><td>4.5-litre twin-cam (two camshafts in the head), 24-valve petrol six, 215 PS.</td><td>FZ family from 1992</td><td>80, 105, 70</td><td><span class="src">[T-SW][T-ENG][CG-105][W-J70]</span></td></tr>
+    <tr class="grp"><td colspan="5">Diesel — inline six</td></tr>
+    <tr><td><b>H / 2H / 12H-T</b></td><td>H: 3.6-litre. 2H: 4.0-litre, indirect injection. 12H-T: 4.0 turbo, direct injection. All pushrod engines with gear-driven timing (no belt).</td><td>H from 1972–73</td><td>40, 60 (the "whistling" HJ61)</td><td><span class="src">[T-HD][W-H][T-SW][TUK-SW]</span></td></tr>
+    <tr><td><b>1HZ</b></td><td>4.2-litre (4,164 cc), 12-valve, single overhead camshaft, indirect injection, mechanical injection pump, camshaft driven by a timing belt. Interference engine (library rule). 96 kW / 285 Nm.</td><td>August 1990 – still made</td><td>80, 105, 70 (still in the South African 70)</td><td><span class="src">[T-ENG][W-HZ][T-ZA26][CARMAG]</span></td></tr>
+    <tr><td><b>1HD-T</b></td><td>12-valve turbo diesel, direct injection, 122 kW / 361 Nm.</td><td>1990</td><td>80</td><td><span class="src">[W-HD][TLC]</span></td></tr>
+    <tr><td><b>1HD-FT</b></td><td>24-valve ("multivalve") turbo diesel, direct injection, 125 kW / 380 Nm.</td><td>January 1995</td><td>80</td><td><span class="src">[T-ENG][W-HD]</span></td></tr>
+    <tr><td><b>1HD-FTE</b></td><td>The 1HD with <em>electronic</em> injection — Toyota developed a 120 MPa electronically controlled pump for it. 151 kW / 430 Nm with an intercooler (100 Series); 125 kW / 380 Nm without one (70 Series).</td><td>1998 (in the 70: 1998–2007)</td><td>100 (van model), 70</td><td><span class="src">[T-ENG][W-HD][W-J70]</span></td></tr>
+    <tr class="grp"><td colspan="5">Diesel — four and five cylinder</td></tr>
+    <tr><td><b>B / 3B / 13B-T / 14B</b></td><td>B: 3.0-litre four. 3B: 3.4-litre. 13B-T: 3.4 turbo, direct injection. 14B: later Toyota four used in the Bandeirante.</td><td>B from 1974; 13B-T ended 1989; 14B in Brazil from 1994</td><td>40, BJ70-series, Bandeirante</td><td><span class="src">[T-HD][W-B][W-J40]</span></td></tr>
+    <tr><td><b>1PZ</b></td><td>3.4-litre <em>five</em>-cylinder version of the HZ design.</td><td>1990</td><td>Not stated in the sources used</td><td><span class="src">[T-ENG][W-HZ]</span></td></tr>
+    <tr><td><b>2L-T / 1KZ-TE / 1KD-FTV</b></td><td>The light-duty diesels: 2.4 turbo; 3.0 turbo (intercooled 1KZ-TE); 3.0 common-rail 1KD-FTV — the first common-rail diesel in a Land Cruiser.</td><td>2L-T 1985; KZ family 1993; KD family August 2000</td><td>Land Cruiser Wagon, Prado 70 and 90</td><td><span class="src">[T-LD][T-ENG]</span></td></tr>
+    <tr><td><b>1GD-FTV</b></td><td>2.8-litre common-rail turbo four, 150 kW / 500 Nm in its automatic form.</td><td>2015</td><td>Prado, 70, 250 (also Hilux, Fortuner)</td><td><span class="src">[W-GD][T-70JP][PT-250]</span></td></tr>
+    <tr class="grp"><td colspan="5">Diesel — V8 and V6 (cylinders in two angled rows)</td></tr>
+    <tr><td><b>1VD-FTV</b></td><td>4.5-litre common-rail V8 diesel, Toyota's first V8 diesel. Single turbo in the 70 (151 kW / 430 Nm); twin turbo in the 200 (650 Nm).</td><td>January 2007 – 2024/25 (Australia, South Africa)</td><td>70 (first in Australia, 2007), 200</td><td><span class="src">[T-ENG][W-VD][HW-VD][T-AU][T-ZA26]</span></td></tr>
+    <tr><td><b>F33A-FTV</b></td><td>3.3-litre twin-turbo V6 diesel, 227 kW / 700 Nm. Toyota's first V6 diesel.</td><td>2021</td><td>300</td><td><span class="src">[T-300][DRIVE]</span></td></tr>
+    <tr class="grp"><td colspan="5">Petrol — V8, V6 and four</td></tr>
+    <tr><td><b>2UZ-FE</b></td><td>4.7-litre V8, 235 PS; the first V8 in a Land Cruiser.</td><td>1998</td><td>100, 200</td><td><span class="src">[T-SW][TUK-SW]</span></td></tr>
+    <tr><td><b>1UR-FE</b></td><td>4.6-litre V8.</td><td>About 2012</td><td>200</td><td><span class="src">[LCL]</span></td></tr>
+    <tr><td><b>3UR-FE</b></td><td>5.7-litre V8.</td><td>—</td><td>200 (North America)</td><td><span class="src">[T-SW][W-UR]</span></td></tr>
+    <tr><td><b>1GR-FE</b></td><td>4.0-litre V6.</td><td>70 from about 2009; Japan 2014</td><td>70</td><td><span class="src">[W-J70][T-HD]</span></td></tr>
+    <tr><td><b>V35A-FTS</b></td><td>3.5-litre twin-turbo V6, 415 PS / 650 Nm; also the base of the 300 Hybrid.</td><td>2021</td><td>300</td><td><span class="src">[PT-300][CC-300H]</span></td></tr>
+    <tr><td><b>2TR-FE</b></td><td>2.7-litre four-cylinder petrol.</td><td>—</td><td>250 (some markets), Land Cruiser FJ</td><td><span class="src">[PT-250][PM-FJ]</span></td></tr>
+    <tr class="grp"><td colspan="5">Engines from other makers</td></tr>
+    <tr><td><b>Mercedes-Benz diesels</b></td><td>Fitted to the Brazilian Bandeirante until Toyota's 14B replaced them.</td><td>From 1962 until 1994</td><td>Bandeirante</td><td><span class="src">[W-J40]</span></td></tr>
+    <tr><td><b>VM Motori 2.5</b></td><td>Italian four- and five-cylinder diesels.</td><td>1987 – about 1992</td><td>70s built in Portugal for Portugal, Italy and Spain</td><td><span class="src">[W-J70]</span></td></tr>
+    <tr><td><b>ADE 236</b></td><td>South African 3.9-litre four-cylinder diesel from Atlantis Diesel Engines. Model and years <span class="rep">reported</span> only.</td><td>Mid-1980s (reported)</td><td>Some South African 70s</td><td><span class="src">[W-J70][W-ADE][4X4C]</span></td></tr>
+  </tbody>
+</table>
+</div>
+
+<p class="p">Two engines deserve a word of their own. The <strong>1HZ</strong>, introduced in August 1990 <span class="src">[T-ENG]</span>, is the plain one: no turbocharger from the factory, indirect injection, and a mechanical injection pump <span class="src">[T-ENG][W-HZ][CG-80]</span>. Its ratings vary by market and year — 96 kW is the figure used here <span class="src">[W-HZ]</span> — and it is still in production for the 70 Series in some markets, South Africa among them <span class="src">[W-HZ][T-ZA26]</span>. Its simplicity is the whole point: it can be understood, and mended, far from a dealer. (MPa, in the 1HD-FTE row, is a unit of pressure: one MPa is ten bar.)</p>
+
+<p class="p">The <strong>1HD line</strong> is the 1HZ's turbocharged, direct-injection cousin, and it grew more sophisticated in three steps: the 12-valve 1HD-T of 1990, the 24-valve 1HD-FT of 1995 and the electronically injected 1HD-FTE of 1998 <span class="src">[W-HD][T-ENG]</span>. The last of these is the "FTE" engine often talked about in 70 Series circles; in the 70 it ran from 1998 to 2007 without an intercooler <span class="src">[W-HD][W-J70]</span>. The step from the mechanical 1HZ to the electronic 1HD-FTE, and on to the common-rail 1VD-FTV, is the step from an engine you fix with spanners to one you fix with a laptop — neither better nor worse in itself, but a real choice for anyone travelling far from help.</p>
+
+<!-- WORLD ─────────────────────────────────────────────── -->
+<div class="sec-header" id="world">
+  <span class="sec-title">Around the World</span>
+</div>
+
+<p class="p">The Land Cruiser was an export vehicle almost from the start, and several countries built their own. What follows is by region, with South Africa and the rest of Africa given most room, because that is where this library is written and where the vehicle's reputation was most tested.</p>
+
+<p class="p"><strong>Brazil.</strong> Toyota do Brasil was founded in 1958, and its first vehicle, the Bandeirante, appeared in May 1959 — "Toyota's first overseas production vehicle", in Toyota's own words <span class="src">[TT-BR]</span>. A full vehicle plant opened at São Bernardo do Campo in 1962, and it had built more than 100,000 Bandeirantes by 2001 <span class="src">[TT-BR]</span>, carrying the 40 Series shape to the end <span class="src">[W-J40]</span>. Wikipedia's account dates Brazilian production of the FJ25 to November 1962 and the Mercedes-Benz diesel to December 1962 <span class="src">[W-J40]</span>; the 1959 date is Toyota's and is used here. The plant closed in November 2023 after sixty years <span class="src">[TT-BR]</span>.</p>
+
+<p class="p"><strong>Venezuela and Colombia.</strong> At Cumaná, Venezuela, the 40, 60, 70 and 80 were assembled <span class="src">[W-J40][TUK-SW][LCHM-80]</span>. Local names were affectionate: blog-level sources record the 70 as the "Machito" and the 80 as the "Autana" <span class="src">[BLOG][FAN]</span>. In Colombia the 70 Series was built by SOFASA at Envigado from 1993 to 2008 <span class="src">[W-J70]</span>.</p>
+
+<p class="p"><strong>Portugal, Italy and Spain.</strong> Salvador Caetano, at Ovar in Portugal, built 70 Series vehicles fitted with Italian VM Motori 2.5-litre diesels, four- and five-cylinder, for Portugal, Italy and Spain from 1987 to about 1992 <span class="src">[W-J70]</span>.</p>
+
+<p class="p"><strong>South Africa.</strong> The first Toyota ever exported to South Africa was a Land Cruiser, in 1959 <span class="src">[W-TSAM]</span>, and Toyota confirms that Land Cruiser exports to South Africa, Nigeria and Angola began in the late 1950s <span class="src">[T-AFR]</span>. Local assembly began in 1962, but of other models — the Stout, and later the Hilux and Corolla; the Prospecton plant near Durban builds Hilux, Fortuner, Corolla Cross and Hiace, not Land Cruisers <span class="src">[W-TSAM][T-AFR]</span>. One local chapter is less clear. Wikipedia lists a South-Africa-only 3.9-litre four-cylinder diesel, the ADE 236, among the 70 Series engines <span class="src">[W-J70]</span>. It was built by Atlantis Diesel Engines, a state-backed company set up after the 1977 United Nations arms embargo and licensed in 1979 <span class="src">[W-ADE]</span>. A forum source says it went into the 75 in 1986–87, with the 1HZ taking over from 1988 <span class="src">[4X4C]</span>; another source says these vehicles were assembled in Portugal <span class="src">[IDA]</span>. Neither is confirmed by Toyota, so both are <span class="rep">reported</span>. Today, according to the motoring press, South Africa is among the Land Cruiser's ten biggest markets <span class="src">[CARS-FJ]</span>, and its 2026 70 Series range is the 76 wagon and the 79 single and double cab, with the 4.0 V6 petrol, the 4.2 1HZ and the 2.8 GD-6 <span class="src">[T-ZA26]</span>.</p>
+
+<p class="p"><strong>Kenya.</strong> Land Cruiser assembly began in Kenya in 1977 <span class="src">[T-AFR]</span>.</p>
+
+<p class="p"><strong>Australia.</strong> Australia is a core 70 Series market — the Troop Carrier, the 79 ute and the 76 wagon <span class="src">[T-AU]</span>. It was the first market for the single-turbo V8 in 2007 <span class="src">[W-VD]</span> and the market where the V8 ended in 2024–25 <span class="src">[T-AU]</span>. For the seventieth anniversary Toyota Australia built just 600 special-edition 70s — 320 double cabs, 200 single cabs and 80 wagons — arriving in September 2021 <span class="src">[T-AU70]</span>.</p>
+
+<p class="p"><strong>The Middle East.</strong> Saudi Arabia was one of the first two export markets, in 1955 <span class="src">[TUK-HD]</span>. Petrol engines dominate there, and the 300 Hybrid was launched there first <span class="src">[CS-300H][AI-300H]</span>.</p>
+
+<p class="p"><strong>Japan.</strong> The home market let the 70 go in 2004 <span class="src">[T-HD]</span>, took it back for a year in 2014 <span class="src">[T-70-30]</span>, and brought it back for good in 2023 <span class="src">[T-70JP]</span>.</p>
+
+<p class="p"><strong>The United States and Canada.</strong> The Land Cruiser was sold in the United States from 1958 and was the best-selling Toyota there from 1961 to 1965 <span class="src">[RLLC]</span>. From the 60 onwards, American buyers had petrol engines only <span class="src">[JDM-GEN]</span>. The name was absent for the 2022 and 2023 model years and returned in 2024 on the 250 <span class="src">[TS-US][EDM]</span>.</p>
+
+<p class="p"><strong>Europe.</strong> Official sales in the United Kingdom began in 1975 <span class="src">[TUK-HD]</span>. Local names there included the Colorado (Prado 90) and the Amazon (100) <span class="src">[TUK-HD][TUK-SW]</span>.</p>
+
+<p class="p"><strong>The aid workers' vehicle.</strong> White 70 Series Land Cruisers are a familiar sight wherever the United Nations and aid agencies work. Many come through Toyota Gibraltar Stockholdings, a Gibraltar-based Toyota dealer that supplies and adapts them — chiefly 70s with the 4.2-litre non-turbo diesel — for the UN, non-governmental organisations and aid agencies <span class="src">[TG-TGS][W-HZ]</span>.</p>
+
+<p class="p"><strong>Lexus.</strong> The Station Wagon line has Lexus twins — the LX 450 (80), LX 470 (100), LX 570 (200) and LX 600 (300) <span class="src">[W-LX]</span> — and so does the Prado: the GX 470 (120), GX 460 (150) and GX 550 (250) <span class="src">[W-GX]</span>.</p>
+
+<div class="sec-header" id="war">
+  <span class="sec-title">The Toyota War</span>
+  <span class="sec-era">1986 – 1987</span>
+</div>
+
+<p class="p">Part of the reason the Land Cruiser is known across Africa is a war. The conflict between Chad and Libya from December 1986 to September 1987 is called the <strong>"Toyota War"</strong> after the Toyota Hilux and Land Cruiser pickups that Chadian forces used <span class="src">[W-TW]</span>. Chad's forces had French support, under Opération Épervier <span class="src">[W-TW]</span>.</p>
+
+<p class="p">The turning point was the Battle of Fada on 2 January 1987. Chad's force was the larger there — about 3,000 against about 1,500 <span class="src">[W-FADA]</span> — and, according to Wikipedia's summary of the battle, Chadian troops in Toyota pickups destroyed 92 Libyan tanks for the loss of 18 dead and 3 trucks <span class="src">[W-FADA]</span>. The speed and reach of light, reliable vehicles counted for more than armour on that ground. According to American sources, Libya lost about 7,500 killed and roughly US$1.5 billion of equipment over the war, and Chad about 1,000 killed <span class="src">[W-TW]</span>.</p>
+
+<p class="p">The war made the armed pickup — the "technical" — a fixture of later conflicts <span class="src">[W-TECH][SG]</span>, and Sudanese rebels later nicknamed the Darfur conflict the "Land Cruiser War" <span class="src">[W-LCW]</span>. This is recorded here as history, without pride in it. A vehicle built to go anywhere and come back will be used for every purpose people have, the worst included.</p>
+
+<!-- CODES ─────────────────────────────────────────────── -->
+<div class="sec-header" id="codes">
+  <span class="sec-title">Reading a Model Code</span>
+</div>
+
+<p class="p">A Land Cruiser's model code looks like shorthand, but it can be read. <strong>J</strong> is Toyota's family letter for the Land Cruiser — which is why the whole 70 family is also called the "J70" <span class="src">[W-J70]</span>. The letters before the J name the engine the vehicle was built with: <strong>HZJ</strong> means a 1HZ, <strong>HDJ</strong> a 1HD, <strong>VDJ</strong> a 1VD, <strong>FZJ</strong> a 1FZ and <strong>GDJ</strong> a 1GD <span class="src">[APW][W-J70]</span>. The two digits after the J name the series and body, as described under the 70 Series <span class="src">[W-J70]</span>.</p>
+
+<div class="note">
+  <span class="note-label">Worked examples</span>
+  <span class="note-line"><b>HZJ76</b> — 1HZ diesel · Land Cruiser · 76 four-door semi-long wagon</span>
+  <span class="note-line"><b>VDJ79</b> — 1VD V8 diesel · Land Cruiser · 79 long-wheelbase pickup</span>
+  <span class="note-line"><b>HDJ80</b> — 1HD turbo diesel · Land Cruiser · 80 Series wagon</span>
+  <span class="note-line"><b>FZJ80</b> — 1FZ petrol six · Land Cruiser · 80 Series wagon</span>
+  <span class="note-line"><b>HJ61</b> — H-family diesel (the 12H-T) · Land Cruiser · 60 Series wagon</span>
+</div>
+
+<p class="p">The old codes follow the same logic with a single engine letter: the BJ was the B engine in a "Jeep" <span class="src">[TUK-HD]</span>, and an HJ carries an H-family diesel <span class="src">[W-H]</span>. The letters that follow the digits on a full code — body, trim, market — vary by market and are not covered here; for our own vehicle they are recorded in <strong>LC76_Facts.txt §1</strong>.</p>
+
+<p class="p">One puzzle is worth knowing about. Toyota dates the 76 four-door wagon to the 2007 facelift <span class="src">[T-HD]</span>, but Wikipedia also lists the 77 and 76 as semi-long four-door wagons offered in a few markets <span class="src">[W-J70]</span>. The safest reading is that the 76 most people mean — the modern four-door wagon — is the 2007 model, and that earlier semi-long wagons carried the 77 code.</p>
+
+<!-- OUR 76 ────────────────────────────────────────────── -->
+<div class="sec-header plain" id="ours">
+  <span class="sec-num">§</span>
+  <span class="sec-title">Where Our 76 Sits</span>
+</div>
+
+<p class="p">Our vehicle is an HZJ76: a 1HZ diesel in the four-door semi-long 76 wagon, from the years just after the 2007 facelift that created that body. In the family tree it sits on the Heavy Duty branch — descended from the 40 and, before that, the BJ — with the plainest of the diesels under the bonnet. That combination is not an accident of the showroom. It is the Land Cruiser's oldest idea, kept deliberately simple, carried into the present.</p>
+
+<p class="p">This document holds <strong>no figures about our own vehicle</strong>. Everything about it — identity, weights, odometer, service history, tyres, electrics, and the timing-belt history of an interference engine — lives in one place, <strong>LC76_Facts.txt</strong>, the library's master of vehicle figures. How the 1HZ works, and how to look after it, is covered in <a href="LC76_Engine_Training.html" style="color:var(--amber);border-bottom:1px dotted var(--amber);text-decoration:none">the 1HZ Engine Training guide</a>. Why we chose to travel this way is in the <a href="LC76_Overlanders_Manifesto.html" style="color:var(--amber);border-bottom:1px dotted var(--amber);text-decoration:none">Manifesto</a>.</p>
+
+<div class="closing-banner">
+  <div class="big-line">Go Anywhere. Come Home.</div>
+  <div class="sign">Neil &amp; Mary-Ann · Overland's Labs</div>
+</div>
+
+<!-- SOURCES ───────────────────────────────────────────── -->
+<div class="sec-header plain" id="sources">
+  <span class="sec-num">§</span>
+  <span class="sec-title">Sources, and Where They Disagree</span>
+</div>
+
+<p class="p">The research for this document was compiled on 28 September 2026 and re-checked while it was built. Sources are ranked: Toyota's own publications first; reputable motoring press and reference works second; enthusiast sites and forums last, used only in support and always flagged. A fact marked <span class="rep">reported</span> could not be confirmed from a source of the first two kinds. One specification website was deliberately excluded after it contradicted Toyota and the other sources on three separate facts — a plausible-looking source that is wrong is exactly the risk this library's rule on traceable figures exists to guard against.</p>
+
+<div class="refs-note"><b>Where the sources disagree.</b> Both versions are recorded below with the way this document handles them. Nothing has been chosen quietly.</div>
+
+<div class="tbl-wrap">
+<table class="ht">
+  <thead><tr><th>Topic</th><th>One source says</th><th>Another says</th><th>How this document handles it</th></tr></thead>
+  <tbody>
+    <tr><td><b>Mount Fuji climb</b></td><td>July 1951 <span class="src">[TUK-HD][CARBUZZ]</span></td><td>August 1951 <span class="src">[RLLC]</span></td><td>Says "1951" and notes the disagreement over the month. The driver's name is reported by a secondary source only.</td></tr>
+    <tr><td><b>"Land Cruiser" name</b></td><td>June 1954 <span class="src">[T-HD]</span></td><td>1955 <span class="src">[LCHM]</span></td><td>Uses Toyota: June 1954.</td></tr>
+    <tr><td><b>20 Series launch</b></td><td>November 1955 <span class="src">[T-HD]</span></td><td>August 1955 <span class="src">[TUK-HD]</span></td><td>Uses Toyota Japan; notes the UK date.</td></tr>
+    <tr><td><b>H diesel in the 40</b></td><td>1973 <span class="src">[T-HD]</span></td><td>1972 <span class="src">[TUK-HD][W-J40]</span></td><td>Says "1972–73".</td></tr>
+    <tr><td><b>End of 40 production in Japan</b></td><td>1984 <span class="src">[W-J40][TOY-US]</span></td><td>1986 <span class="src">[TUK-HD]</span></td><td>Says "mid-1980s"; the Bandeirante ran to 2001.</td></tr>
+    <tr><td><b>Start of production in Brazil</b></td><td>Bandeirante born May 1959; full plant 1962 <span class="src">[TT-BR]</span></td><td>FJ25 built from November 1962 <span class="src">[W-J40]</span></td><td>Uses Toyota: 1959, with the São Bernardo plant from 1962.</td></tr>
+    <tr><td><b>F engine origin</b></td><td>1948 <span class="src">[TUK-HD]</span></td><td>November 1949 <span class="src">[W-F]</span></td><td>Says "late 1940s".</td></tr>
+    <tr><td><b>80 Series launch</b></td><td>October 1989 <span class="src">[T-SW]</span></td><td>1990 <span class="src">[TUK-SW]</span></td><td>Uses Toyota Japan; export markets received it in 1990.</td></tr>
+    <tr><td><b>200 Series launch</b></td><td>September 2007 <span class="src">[T-SW]</span></td><td>Early 2008 <span class="src">[TUK-SW]</span></td><td>Same approach as the 80.</td></tr>
+    <tr><td><b>Last Venezuelan 80</b></td><td>Built November 2006, a 2007 model <span class="src">[LCHM-80]</span></td><td>2008 <span class="src">[FAN]</span></td><td>Uses the museum's vehicle — a physical example is the strongest evidence.</td></tr>
+    <tr><td><b>GXL 105 with the 1HD-FTE</b></td><td>Offered in some markets <span class="src">[MOD]</span></td><td>Australian 105 grades, GXL included, list only the 1HZ and the petrol six <span class="src">[DRIVA][CG-105]</span></td><td>Treated as reported, not confirmed.</td></tr>
+    <tr><td><b>1VD twin-turbo power</b></td><td>195–200 kW <span class="src">[HW-VD][TTS]</span></td><td>"286 bhp" <span class="src">[TUK-SW]</span></td><td>Says "about 200 kW, varies by market".</td></tr>
+    <tr><td><b>1HD-T torque</b></td><td>361 Nm <span class="src">[W-HD]</span></td><td>382 Nm (the excluded website)</td><td>Uses 361 Nm, which matches Toyota's quoted 37.0 kgm <span class="src">[TLC]</span>.</td></tr>
+    <tr><td><b>1HZ power</b></td><td>96 kW / 131 PS <span class="src">[W-HZ]</span></td><td>135 PS <span class="src">[FLEX]</span></td><td>Uses 96 kW; ratings vary by market and year.</td></tr>
+    <tr><td><b>Land Cruiser FJ output</b></td><td>163 PS, Japan <span class="src">[PM-FJ]</span></td><td>166 PS, Thailand <span class="src">[PT-FJ]</span>; 122 kW, South Africa <span class="src">[CARS-FJ]</span></td><td>Shown as market-dependent.</td></tr>
+    <tr><td><b>Cumulative sales</b></td><td>About 12.15 million, October 2025 <span class="src">[T-FJ25]</span></td><td>"Over 12.4 million", 2026 <span class="src">[CARS-FJ]</span></td><td>Uses Toyota's figure with its date.</td></tr>
+    <tr><td><b>First 76 wagon</b></td><td>76 "added" in 2007 <span class="src">[T-HD]</span></td><td>77 and 76 semi-long wagons offered in a few markets <span class="src">[W-J70]</span></td><td>Explains: the 2007 76 is the modern four-door wagon; earlier semi-long wagons carried the 77 code.</td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="refs">
+  <span class="refs-group">Toyota — primary sources</span>
+  <p class="ref"><b>[T-HD]</b> Toyota global, Land Cruiser heritage site, "Heavy Duty" (20 Sep 2019). <a href="https://global.toyota/en/mobility/toyota-brand/features/landcruiser/history/evolution/heavy-duty.html">global.toyota</a></p>
+  <p class="ref"><b>[T-SW]</b> Same site, "Station Wagon". <a href="https://global.toyota/en/mobility/toyota-brand/features/landcruiser/history/evolution/station-wagon.html">global.toyota</a></p>
+  <p class="ref"><b>[T-LD]</b> Same site, "Light Duty". <a href="https://global.toyota/en/mobility/toyota-brand/features/landcruiser/history/evolution/light-duty.html">global.toyota</a></p>
+  <p class="ref"><b>[T-ENG]</b> Toyota, 75 Years of Toyota — Technical Development: Engines. <a href="https://www.toyota-global.com/company/history_of_toyota/75years/data/automotive_business/products_technology/technology_development/engines/index.html">toyota-global.com</a></p>
+  <p class="ref"><b>[T-AFR]</b> Toyota, 75 Years of Toyota — Activities by Region: Africa. <a href="https://www.toyota-global.com/company/history_of_toyota/75years/data/automotive_business/sales/activity/africa/index.html">toyota-global.com</a></p>
+  <p class="ref"><b>[TUK-HD]</b> Toyota UK Magazine, "Land Cruiser history: Heavy and Light Duty editions" (updated 3 Jun 2026). <a href="https://mag.toyota.co.uk/history-of-the-toyota-land-cruiser-heavy-and-light-duty-models-2/">mag.toyota.co.uk</a></p>
+  <p class="ref"><b>[TUK-SW]</b> Toyota UK Magazine, "Land Cruiser history – Station Wagon edition". <a href="https://mag.toyota.co.uk/history-of-the-toyota-land-cruiser-station-wagon-models/">mag.toyota.co.uk</a></p>
+  <p class="ref"><b>[TOY-US]</b> Toyota USA Newsroom, "After Seven Decades, Toyota's Legendary Land Cruiser Keeps Rolling Along" (2019). <a href="https://pressroom.toyota.com/after-seven-decades-toyotas-legendary-land-cruiser-keeps-rolling-along/">pressroom.toyota.com</a></p>
+  <p class="ref"><b>[TT-70]</b> Toyota Times, "Land Cruiser's 70-Year History and Design Philosophy" (2021). <a href="https://toyotatimes.jp/en/spotlights/landcruiser_70th/040.html">toyotatimes.jp</a></p>
+  <p class="ref"><b>[TT-BR]</b> Toyota Times, "Toyota's First Overseas Plant Bids Farewell but Leaves a Timeless Legacy" (11 Jan 2024). <a href="https://toyotatimes.jp/en/spotlights/1045.html">toyotatimes.jp</a> — added at the build, 28 Sep 2026.</p>
+  <p class="ref"><b>[T-300]</b> Toyota Global Newsroom, "Toyota Launches New Land Cruiser" (2 Aug 2021). <a href="https://global.toyota/en/newsroom/toyota/35758437.html">global.toyota</a></p>
+  <p class="ref"><b>[TEU-300]</b> Toyota Europe Newsroom, 300 Series world premiere (June 2021). <a href="https://newsroom.toyota.eu/world-premiere-of-the-all-new-toyota-land-cruiser-300-series/">newsroom.toyota.eu</a></p>
+  <p class="ref"><b>[TEU-300H]</b> Toyota Europe Newsroom, "Land Cruiser 300 Performance Hybrid" (Jan 2026). <a href="https://newsroom.toyota.eu/toyota-land-cruiser-300-performance-hybrid-power-without-compromises/">newsroom.toyota.eu</a></p>
+  <p class="ref"><b>[T-250]</b> Toyota Global Newsroom, 250 world premiere (Aug 2023). <a href="https://global.toyota/en/newsroom/toyota/39526684.html">global.toyota</a></p>
+  <p class="ref"><b>[T-70JP]</b> Toyota Global Newsroom, 70 Series re-introduced in Japan (29 Nov 2023). <a href="https://global.toyota/en/newsroom/toyota/40139890.html">global.toyota</a></p>
+  <p class="ref"><b>[T-70-30]</b> Toyota Global Newsroom, thirty years of the 70 Series (25 Aug 2014). <a href="https://global.toyota/en/detail/3821341">global.toyota</a></p>
+  <p class="ref"><b>[T-FJ25]</b> Toyota Global Newsroom, Land Cruiser FJ world premiere (Oct 2025). <a href="https://global.toyota/en/newsroom/toyota/43389422.html">global.toyota</a></p>
+  <p class="ref"><b>[T-AU]</b> Toyota Australia pressroom, V8 farewell and four-cylinder manual (Jul 2024). pressroom.toyota.com.au</p>
+  <p class="ref"><b>[T-AU70]</b> Toyota Australia, "LandCruiser's 70th Birthday" (2021). <a href="https://www.toyota.com.au/news/toyota-marks-landcruiser-70-birthday-in-style">toyota.com.au</a> — added at the build, 28 Sep 2026.</p>
+  <p class="ref"><b>[T-ZA26]</b> Toyota South Africa, "Toyota sharpens Land Cruiser 70 Series for 2026". <a href="https://www.toyota.co.za/discover/news/updated-toyota-sharpens-land-cruiser-70-series-for-2026">toyota.co.za</a></p>
+
+  <span class="refs-group">Reference works and museums</span>
+  <p class="ref"><b>[W-…]</b> English Wikipedia, accessed 28 Sep 2026: [W-LC] Toyota Land Cruiser · [W-J40] Land Cruiser (J40) · [W-J70] Land Cruiser (J70) · [W-HZ] Toyota HZ engine · [W-HD] Toyota HD engine · [W-H] Toyota H engine · [W-B] Toyota B engine · [W-F] Toyota F engine · [W-VD] Toyota VD engine · [W-GD] Toyota GD engine · [W-F33] Toyota F33A engine · [W-UR] Toyota UR engine · [W-LX] Lexus LX · [W-GX] Lexus GX · [W-FJ] Toyota Land Cruiser FJ · [W-TSAM] Toyota South Africa Motors · [W-ADE] Atlantis Diesel Engines · [W-TW] Toyota War · [W-FADA] Battle of Fada · [W-TECH] Technical (vehicle) · [W-LCW] Darfur conflict ("Land Cruiser War").</p>
+  <p class="ref"><b>[LCHM]</b> Land Cruiser Heritage Museum, Resources. <a href="https://landcruiserhm.com/resources">landcruiserhm.com</a></p>
+  <p class="ref"><b>[LCHM-80]</b> Land Cruiser Heritage Museum, 2007 FZJ80L exhibit. <a href="https://landcruiserhm.com/museum-collection/vehicle-collection/200-2007-fzj80l">landcruiserhm.com</a></p>
+
+  <span class="refs-group">Motoring press</span>
+  <p class="ref"><b>[PT-300]</b> paultan.org, 300 on sale in Japan (2 Aug 2021) · <b>[PT-250]</b> paultan.org, 250 debut (2 Aug 2023) · <b>[PT-250J]</b> paultan.org, 250 in Japan (19 Apr 2024) · <b>[PT-FJ]</b> paultan.org, FJ in Thailand (23 Mar 2026)</p>
+  <p class="ref"><b>[PM-FJ]</b> piston.my, FJ Japan launch (19 May 2026) · <b>[DRIVE]</b> drive.com.au, F33A details (Aug 2021) · <b>[CD-AU]</b> Drive, V8 phase-out report (Dec 2023) · <b>[CE-AU]</b> CarExpert, V8 axed (2024/25)</p>
+  <p class="ref"><b>[CG-80]</b> CarsGuide, 80 Series used review · <b>[CG-105]</b> CarsGuide, 105 Series guide (2020) · <b>[DRIVA]</b> Driva, "Toyota 105 series LandCruiser — Complete Guide" (<a href="https://www.driva.com.au/blog/toyota-105-series-landcruiser/">driva.com.au</a>) — added at the build, 28 Sep 2026</p>
+  <p class="ref"><b>[CARS-70]</b> cars.co.za, new South African 70 line-up (1 Dec 2023) · <b>[CARS-FJ]</b> cars.co.za, FJ launch review (May 2026) · <b>[CARMAG]</b> CAR magazine SA, updated 70 Series specifications (Mar 2026) · <b>[CIT-70]</b> The Citizen, GD-6 70 Series for SA (Dec 2023) · <b>[CIT-FJ]</b> The Citizen, FJ launch (May 2026)</p>
+  <p class="ref"><b>[CC-300H]</b> Chasing Cars, LC300 Hybrid review (Aug 2026) · <b>[CS-300H]</b> Carscoops, LC300 Hybrid (Jun 2025) · <b>[AI-300H]</b> AutoIndustriya, LC300 Hybrid (Nov 2025)</p>
+  <p class="ref"><b>[EDM]</b> Edmunds, Land Cruiser leaves the US (Dec 2022) · <b>[TS-US]</b> TopSpeed, Land Cruiser returns to the US (Aug 2026) · <b>[CARBUZZ]</b> CarBuzz, the Jeep trademark story (Sep 2025) · <b>[SG]</b> SlashGear, "The Great Toyota War" (May 2024)</p>
+  <p class="ref"><b>[TG-TGS]</b> Top Gear, "Inside the factory that only builds white Toyotas". <a href="https://www.topgear.com/car-news/big-reads/inside-factory-only-builds-white-toyotas">topgear.com</a> — added at the build, 28 Sep 2026.</p>
+
+  <span class="refs-group">Secondary and enthusiast sources — support only</span>
+  <p class="ref"><b>[RLLC]</b> Red Line Land Cruisers, history · <b>[JDM-80]</b> / <b>[JDM-GEN]</b> jdmbuysell.com guides · <b>[FLEX]</b> flexmotor.com · <b>[FAN]</b> Fandom wikis · <b>[MOD]</b> modifind.com · <b>[IDA]</b> idaoffice.org (2024)</p>
+  <p class="ref"><b>[4X4C]</b> 4x4community.co.za forum (2012) · <b>[BLOG]</b> hussamabdu blog (2010) · <b>[LCL]</b> thelandcruiserlifestyle.com · <b>[TLC]</b> toyotalandcruiser.org · <b>[HW-VD]</b> handwiki · <b>[TTS]</b> tractortechspecs · <b>[APW]</b> autopartswd</p>
+</div>
+
+<div class="refs-note"><b>Re-checked at the build (28 Sep 2026).</b> Six items flagged as unconfirmed in the research were checked again. <b>Confirmed:</b> the Bandeirante as Toyota's first vehicle built outside Japan [TT-BR]; the Australian seventieth-anniversary edition of 600 [T-AU70]; Toyota Gibraltar Stockholdings supplying 70 Series vehicles to the UN and aid agencies [TG-TGS]. <b>Still reported only:</b> the GXL 105 with the 1HD-FTE (an Australian guide lists no such engine [DRIVA]); the ADE-engined South African 75; the name of the driver on the Mount Fuji climb, and its month.</div>
+
+</div><!-- end .content -->
+
+<div class="xref-bar">
+  <span class="xref-label">Companion</span>
+  <a href="LC76_Overlanders_Manifesto.html" class="xref-pill">📜 The Manifesto · fourteen commitments</a>
+  <a href="LC76_History_of_Overlanding.html" class="xref-pill">🧭 The History of Overlanding</a>
+  <a href="LC76_Engine_Training.html" class="xref-pill">🔧 1HZ Engine Training</a>
+  <a href="index.html" class="xref-pill">⌂ Library Index</a>
+</div>
+
+<script>
+// Active TOC state
+const sections = ['why','origins','heavy','wagons','prado','fj','engines','world','war','codes','ours','sources'];
+const tocLinks = document.querySelectorAll('.toc-link');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      const idx = sections.indexOf(entry.target.id);
+      tocLinks.forEach((l, i) => l.classList.toggle('active', i === idx));
+    }
+  });
+}, {rootMargin: '-30% 0px -60% 0px'});
+sections.forEach(id => {
+  const el = document.getElementById(id);
+  if(el) observer.observe(el);
+});
+
+// Dynamic scroll margin
+function updateScrollMargins(){
+  const navH = document.querySelector('.sticky-nav-unit').offsetHeight;
+  document.querySelectorAll('.sec-header').forEach(el => {
+    el.style.scrollMarginTop = (navH + 4) + 'px';
+  });
+}
+updateScrollMargins();
+window.addEventListener('resize', updateScrollMargins);
+
+// Scroll-triggered reveals (respect reduced-motion)
+const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if(!prefersReduced){
+  document.querySelectorAll('.p, .epigraph, .note, .callout, .tbl-wrap, .refs, .refs-note, .closing-banner').forEach(el => el.classList.add('reveal'));
+  const revObs = new IntersectionObserver((entries, obs) => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target); } });
+  }, {rootMargin: '0px 0px -8% 0px', threshold: 0.04});
+  document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
+}
+
+// Service worker — domain-guarded
+if('serviceWorker' in navigator && location.hostname !== 'www.claudeusercontent.com'){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('./sw.js')
+      .then(r => console.log('LC76 SW registered'))
+      .catch(e => console.log('SW error:', e));
+  });
+}
+</script>
+</body>
+</html>
