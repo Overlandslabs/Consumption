@@ -1,43 +1,8 @@
-/* LC76 Water Budget Calculator — Service Worker v1.0 */
-var CACHE = 'lc76-water-v1';
-var ASSETS = [
-  './LC76_Water_Budget_Calculator.html',
-  './manifest-water.json',
-  './icon-water-192.svg',
-  './icon-water-512.svg',
-  'https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap'
-];
-
-self.addEventListener('install', function(e){
-  e.waitUntil(
-    caches.open(CACHE).then(function(c){ return c.addAll(ASSETS); })
-  );
-  self.skipWaiting();
-});
-
-self.addEventListener('activate', function(e){
-  e.waitUntil(
-    caches.keys().then(function(keys){
-      return Promise.all(
-        keys.filter(function(k){ return k!==CACHE; }).map(function(k){ return caches.delete(k); })
-      );
-    })
-  );
-  self.clients.claim();
-});
-
-self.addEventListener('fetch', function(e){
-  e.respondWith(
-    caches.match(e.request).then(function(cached){
-      if(cached) return cached;
-      return fetch(e.request).then(function(resp){
-        if(!resp || resp.status!==200 || resp.type==='opaque') return resp;
-        var clone = resp.clone();
-        caches.open(CACHE).then(function(c){ c.put(e.request, clone); });
-        return resp;
-      }).catch(function(){
-        return caches.match('./LC76_Water_Budget_Calculator.html');
-      });
-    })
-  );
-});
+/* sw-water.js — RETIRED 13 Oct 2026 (OI-118).
+   This calculator used to install its own offline worker from the library
+   root, which replaced the library's sw.js for every page. Phones that still
+   hold this worker fetch this file on their next visit; it now simply runs
+   the library's worker, so those phones move onto it with no gap. Every page,
+   this calculator included, registers ./sw.js. Safe to delete once old
+   installs have updated. */
+importScripts('./sw.js');

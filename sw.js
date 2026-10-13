@@ -22,7 +22,7 @@
 // but any tiles fetched successfully while online are cached opportunistically
 // for later offline reuse via the same runtime fetch handler.
 
-const CACHE = 'lc76-library-v30';
+const CACHE = 'lc76-library-v31';
 
 const CDN_HOSTS = [
   'cdnjs.cloudflare.com',
