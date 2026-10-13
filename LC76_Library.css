@@ -30,6 +30,16 @@
 @media (max-width:767px){
   table.lc-scroll{display:block;max-width:100%;overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
 }
+/*    Long-text columns that a phone would squeeze keep a readable width
+      (cells marked lc-col-long / -wide / -mid by LC76_Library.js); the
+      table then scrolls sideways. Screen only — print keeps the page's
+      own layout. */
+@media screen and (max-width:767px){
+  table.lc-cols{table-layout:auto!important}
+  table td.lc-col-long,table th.lc-col-long{min-width:280px}
+  table td.lc-col-wide,table th.lc-col-wide{min-width:200px}
+  table td.lc-col-mid,table th.lc-col-mid{min-width:116px}
+}
 
 /* 4. Print (colour PDF) — cards that sit side by side on screen print
       one below the other, so no card leaves a block of empty paper

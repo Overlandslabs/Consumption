@@ -49,12 +49,38 @@
 
 /* Wide tables: on a phone, a table wider than its box scrolls sideways
    inside it (class lc-scroll, styled in LC76_Library.css). Re-checked when
-   the screen turns or a hidden section opens. */
+   the screen turns or a hidden section opens.
+   Where a phone squeezes a column of long text (notes, descriptions) under
+   140 px, that table's columns are marked once by the length of their
+   longest cell — lc-col-long (120+ characters), lc-col-wide (60+) or
+   lc-col-mid (28+) — so they keep a readable width and the table scrolls
+   instead of squeezing them to a few words a line (13 Oct 2026). */
 (function(){
   var pending=false;
+  function widen(t){
+    if(t.getAttribute('data-lc-cols')||window.innerWidth>767||!t.offsetWidth) return;
+    var rows=t.rows, mx=[], w=[], c, r, k, cell, tight=false;
+    for(r=0;r<rows.length;r++){ c=0;
+      for(k=0;k<rows[r].cells.length;k++){ cell=rows[r].cells[k];
+        if((cell.colSpan||1)===1){
+          var L=cell.textContent.replace(/\s+/g,' ').trim().length, cw=cell.getBoundingClientRect().width;
+          if(!(mx[c]>=L)) mx[c]=L; if(cw&&!(w[c]<=cw)) w[c]=cw; }
+        c+=cell.colSpan||1; } }
+    for(c=0;c<mx.length;c++) if(mx[c]>=60&&w[c]<140) tight=true;
+    t.setAttribute('data-lc-cols',tight?'1':'0'); if(!tight) return;
+    for(r=0;r<rows.length;r++){ c=0;
+      for(k=0;k<rows[r].cells.length;k++){ cell=rows[r].cells[k];
+        if((cell.colSpan||1)===1){
+          if(mx[c]>=120) cell.classList.add('lc-col-long');
+          else if(mx[c]>=60) cell.classList.add('lc-col-wide');
+          else if(mx[c]>=28) cell.classList.add('lc-col-mid'); }
+        c+=cell.colSpan||1; } }
+    t.classList.add('lc-cols');
+  }
   function check(){
     pending=false;
     [].forEach.call(document.querySelectorAll('table'),function(t){
+      widen(t);
       t.classList.remove('lc-scroll');
       var box=t.parentElement; if(!box||!t.offsetWidth) return;
       if(t.scrollWidth>box.clientWidth+1||t.offsetWidth>box.clientWidth+1) t.classList.add('lc-scroll');
