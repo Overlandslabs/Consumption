@@ -143,18 +143,6 @@
 
 <main class="page">
 
-  <!-- DATA SOURCE -->
-  <div class="sec">Data source &mdash; <b>drop a fresh Fuelio CSV export to refresh</b></div>
-  <div class="src">
-    <label class="drop" id="drop">
-      <div class="dt">&#128228; Drop or tap to load a Fuelio CSV export</div>
-      <div class="ds">Everything is processed on your device &mdash; nothing is uploaded anywhere.</div>
-      <input type="file" id="file" accept=".csv,text/csv" style="display:none">
-    </label>
-    <button class="srcbtn" id="resetBtn">Reset to<br>bundled data</button>
-  </div>
-  <div class="srcstat" id="srcstat"></div>
-
   <!-- HEADLINE -->
   <div class="sec" style="display:flex;justify-content:space-between;align-items:center;gap:10px;">
     <span>Headline economy</span>
@@ -576,7 +564,7 @@ function render(){
   document.getElementById('auditTable').innerHTML=at;
 
   // src stat
-  document.getElementById('srcstat').innerHTML='Loaded: <b>'+SRCNAME+'</b> &middot; '+RAW.length+' rows &middot; '+ks.length+' economy intervals in current view';
+  var ss=document.getElementById('srcstat'); if(ss) ss.innerHTML='Loaded: <b>'+SRCNAME+'</b> &middot; '+RAW.length+' rows &middot; '+ks.length+' economy intervals in current view';
 }
 
 /* ---------- SVG charts ---------- */
@@ -759,12 +747,8 @@ function renderExtras(filt,pts,med,homeRpl){
 document.getElementById('clearFilters').addEventListener('click',function(){
   document.getElementById('f-region').value='all';
   document.getElementById('f-from').value='';document.getElementById('f-to').value='';render();});
-var drop=document.getElementById('drop'),fileInput=document.getElementById('file');
-fileInput.addEventListener('change',function(e){var f=e.target.files[0];if(f){var rd=new FileReader();rd.onload=function(){loadText(rd.result,f.name);};rd.readAsText(f);}});
-['dragenter','dragover'].forEach(function(ev){drop.addEventListener(ev,function(e){e.preventDefault();drop.classList.add('over');});});
-['dragleave','drop'].forEach(function(ev){drop.addEventListener(ev,function(e){e.preventDefault();drop.classList.remove('over');});});
-drop.addEventListener('drop',function(e){var f=e.dataTransfer.files[0];if(f){var rd=new FileReader();rd.onload=function(){loadText(rd.result,f.name);};rd.readAsText(f);}});
-document.getElementById('resetBtn').addEventListener('click',function(){loadText(document.getElementById('bundled').textContent,'bundled data');});
+/* The data is the Fuelio export bundled below; it is refreshed in a library
+   session when a new export is attached (owner, 13 Oct 2026). */
 
 /* init */
 loadText(document.getElementById('bundled').textContent,'bundled data');
