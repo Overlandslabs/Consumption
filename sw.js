@@ -22,7 +22,7 @@
 // but any tiles fetched successfully while online are cached opportunistically
 // for later offline reuse via the same runtime fetch handler.
 
-const CACHE = 'lc76-library-v29';
+const CACHE = 'lc76-library-v30';
 
 const CDN_HOSTS = [
   'cdnjs.cloudflare.com',
@@ -32,6 +32,8 @@ const CDN_HOSTS = [
 const PRECACHE = [
   './',
   './index.html',
+  './LC76_Library.css',   // shared stylesheet — Design Guidelines v2.0 (13 Oct 2026)
+  './LC76_Library.js',    // shared script — Design Guidelines v2.0 (13 Oct 2026)
   './manifest.json',
   './manifest-index.json',
   './icon-index-192.svg',

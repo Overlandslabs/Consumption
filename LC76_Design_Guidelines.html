@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0d0e12">
-<title>LC76 Design Guidelines v1.9</title>
+<title>LC76 Design Guidelines v2.0</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500;600&family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -165,7 +165,7 @@ code{font-family:var(--mono);font-size:.75rem;color:var(--amber);background:var(
   <a href="index.html" class="lib-home-btn">⌂ Index</a>
   <div class="std-eyebrow">LC76 Overland Library</div>
   <div class="std-title">Design Guidelines</div>
-  <div class="std-sub">Reference Standard &nbsp;·&nbsp; v1.9 &nbsp;·&nbsp; 29 July 2026</div>
+  <div class="std-sub">Reference Standard &nbsp;·&nbsp; v2.0 &nbsp;·&nbsp; 13 October 2026</div>
   <div class="std-vehicle">HZJ76R-RKMRS · Two design systems · Reference docs R1–R36 + 6 Calculators</div>
 </div>
 <div class="toc-bar">
@@ -180,6 +180,7 @@ code{font-family:var(--mono);font-size:.75rem;color:var(--amber);background:var(
   <a href="javascript:void(0)" onclick="document.getElementById('s8').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">8. PWA</a>
   <a href="javascript:void(0)" onclick="document.getElementById('s9').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">9. Do / Don't</a>
   <a href="javascript:void(0)" onclick="document.getElementById('s10').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">10. Masthead</a>
+  <a href="javascript:void(0)" onclick="document.getElementById('s11').scrollIntoView({behavior:'smooth'});return false;" class="toc-link">11. Shared files</a>
 </div>
 </div>
 
@@ -308,6 +309,28 @@ code{font-family:var(--mono);font-size:.75rem;color:var(--amber);background:var(
     <tr><td>Alert body</td><td>Oswald</td><td>.84rem</td><td>line-height:1.55</td></tr>
   </tbody>
 </table>
+
+<div class="subsec" style="margin-top:20px"><span class="subsec-title">Print Type — v2.0</span></div>
+<div class="rule rule-ok">
+  <strong>One set of print type for every page</strong>
+  The PDF uses the same three faces as the screen, one job each, at one fixed scale. It is set once, in <code>LC76_Library.css</code> (S11), and replaces whatever sizes a page's own print block sets — so every document prints alike. Adopted v2.0 (owner review, 13 Oct 2026): before this, R10 printed at 7pt body with 8pt headings, R9 mixed two body sizes, R28 printed in Oswald Light, R1 printed entirely in mono and R2 in an off-system face.
+</div>
+<table class="spec-table">
+  <thead><tr><th>Role</th><th>Font</th><th>Print size</th><th>Applies to</th></tr></thead>
+  <tbody>
+    <tr><td>Page title</td><td>Bebas Neue</td><td>26pt</td><td>h1, .mh-title, .std-title</td></tr>
+    <tr><td>Section heading</td><td>Bebas Neue</td><td>18pt</td><td>h2, .section-head, .section-strip, .sec-header, .zone-name</td></tr>
+    <tr><td>Sub-heading</td><td>Bebas Neue</td><td>13.5pt</td><td>h3, .sub-head, .subsec, .card-title</td></tr>
+    <tr><td>Item heading</td><td>Oswald 600</td><td>9.5pt</td><td>h4, .cl-item-name, .cl-label, .cause-label</td></tr>
+    <tr><td>Reading text</td><td>Oswald 400</td><td>9.5pt</td><td>everything not named in another row</td></tr>
+    <tr><td>Tables, short notes</td><td>Oswald 400</td><td>9pt</td><td>td, .card-why</td></tr>
+    <tr><td>Small labels</td><td>IBM Plex Mono 600</td><td>7pt</td><td>th, eyebrow and date, xref pills, badges, row labels</td></tr>
+  </tbody>
+</table>
+<div class="rule rule-warn">
+  <strong>No Light weight for reading text in print</strong>
+  Oswald 300 prints grey and thin. Reading text prints at 400, headings in Bebas, emphasis at 600–700.
+</div>
 </div>
 
 
@@ -341,7 +364,8 @@ code{font-family:var(--mono);font-size:.75rem;color:var(--amber);background:var(
     <tr><td>Content padding (desktop)</td><td><code>padding:28px 5% 80px</code></td></tr>
     <tr><td>Content padding (mobile)</td><td><code>padding:14px 4% 60px</code></td></tr>
     <tr><td>Print page margin</td><td><code>7mm</code> all sides, A4</td></tr>
-    <tr><td>Print body font size</td><td>7.5pt</td></tr>
+    <tr><td>Print body font size</td><td>9.5pt Oswald — set by <code>LC76_Library.css</code> for every page (S3, S11). A page's own print block sets no font sizes. <em>Was 7.5pt to v1.9; that rule never took effect (OI-60).</em></td></tr>
+    <tr><td>Cards side by side</td><td>Each card keeps its own height (<code>align-items:start</code>) — no stretched, half-empty card beside a taller one. In print they stack one below the other.</td></tr>
   </tbody>
 </table>
 </div>
@@ -360,10 +384,9 @@ code{font-family:var(--mono);font-size:.75rem;color:var(--amber);background:var(
 <div class="demo-wrap">
   <div class="demo-label">Live example</div>
   <div class="demo-masthead">
-    <div class="demo-mh-eyebrow">Overland Series · R23</div>
+    <div class="demo-mh-eyebrow">Reference · R23 · Last updated: 13 October 2026</div>
     <div class="demo-mh-title">Pre-Trip Preparation Protocol</div>
-    <div class="demo-mh-sub">2009 LC76 SW 1HZ · High-Mileage Expedition Prep</div>
-    <div class="demo-mh-vehicle">HZJ76R-RKMRS · 1HZ 4.2L Diesel · SAC Turbo · April 2026</div>
+    <div class="demo-mh-sub">High-mileage expedition preparation, step by step</div>
   </div>
   <div class="demo-toc">
     <span class="demo-toc-link active">1. Triage</span>
@@ -377,7 +400,9 @@ code{font-family:var(--mono);font-size:.75rem;color:var(--amber);background:var(
 .std-eyebrow { font-family:var(--mono); font-size:.5rem; letter-spacing:.28em; text-transform:uppercase; color:var(--steelmd); }
 .std-title   { font-family:var(--display); font-size:clamp(1.9rem,5vw,2.8rem); color:var(--amber2); line-height:1; }
 .std-sub     { font-family:var(--mono); font-size:.54rem; color:rgba(255,200,100,.65); margin-top:5px; }
-.std-vehicle { font-family:var(--mono); font-size:.48rem; color:var(--steelmd); margin-top:8px; }
+/* v2.0 — no .std-vehicle / .mh-vehicle line. The date sits inside the eyebrow:
+   &lt;div class="std-eyebrow"&gt;Reference · R23&lt;span class="mh-date"&gt;Last updated: 13 October 2026&lt;/span&gt;&lt;/div&gt;
+   LC76_Library.css puts " · " before it, and on a phone moves it to its own line. */
 
 /* TOC bar */
 .toc-bar  { background:var(--steeldk); padding:7px 24px; display:flex; align-items:center; gap:5px; border-bottom:2px solid var(--amber); }
@@ -477,7 +502,17 @@ code{font-family:var(--mono);font-size:.75rem;color:var(--amber);background:var(
 <pre>/* Cross-reference bar */
 .xref-bar   { background:var(--steeldk); padding:8px 14px; display:flex; align-items:center; flex-wrap:wrap; gap:6px; margin:20px 0 8px; }
 .xref-label { font-family:var(--mono); font-size:.46rem; letter-spacing:.18em; color:var(--steellt); text-transform:uppercase; flex-shrink:0; }
-.xref-pill  { font-family:var(--mono); font-size:.46rem; color:var(--amber2); background:rgba(232,120,0,.12); border:1px solid rgba(232,120,0,.4); padding:2px 8px; text-decoration:none; white-space:nowrap; }</pre>
+.xref-pill  { font-family:var(--mono); font-size:.46rem; color:var(--amber2); background:rgba(232,120,0,.12); border:1px solid rgba(232,120,0,.4); padding:2px 8px; text-decoration:none; white-space:nowrap; }
+/* v2.0 — every pill is a link to the page it names, never a bare span:
+   &lt;a class="xref-pill" href="LC76_Tyre_Management_Guide.html"&gt;R14 Tyre Management&lt;/a&gt;
+   A reference to another document in running text is a link too:
+   &lt;a class="lc-xlink" href="LC76_Tyre_Management_Guide.html"&gt;R14&lt;/a&gt;  (style in LC76_Library.css) */</pre>
+
+<div class="subsec" style="margin-top:20px"><span class="subsec-title">Numbered Steps — v2.0</span></div>
+<div class="rule rule-note">
+  <strong>Step circles line up with the card's text edge</strong>
+  A numbered list (red circle, white number) sits flush with the card's left text edge — the same line as the card title — on the phone and in the PDF. No extra list indent: the general <code>.card-body ol</code> margin must not apply to it, and the circle is sized to the text beside it. Owner review, 13 Oct 2026 (R10).
+</div>
 
 <div class="subsec" style="margin-top:20px"><span class="subsec-title">Tables — Spec and Triage</span></div>
 <pre>/* Spec table */
@@ -580,6 +615,12 @@ function updateScrollMargins(){
 updateScrollMargins();
 window.addEventListener('resize', updateScrollMargins);</pre>
 
+<div class="subsec" style="margin-top:16px"><span class="subsec-title">Current Section — v2.0</span></div>
+<div class="rule rule-ok">
+  <strong>The menu lights the section you are reading and slides to keep it in view</strong>
+  Done once, by <code>LC76_Library.js</code> (S11), for every page with a section menu. It reads the menu's own targets (<code>data-target</code>, <code>getElementById('x')</code>, <code>go('x')</code> or <code>#x</code>), marks the section whose top has passed under the pinned header, and scrolls the menu bar so that item is centred. A page's own IntersectionObserver (below) may stay; the shared script does not depend on it. The TOC index contract (PI §7) still applies to every page that keeps one.
+</div>
+
 <div class="subsec" style="margin-top:16px"><span class="subsec-title">IntersectionObserver — Active TOC State</span></div>
 <pre>const sections = ['s1','s2','s3','s4','s5','s6'];
 const tocLinks = document.querySelectorAll('.toc-link');
@@ -616,10 +657,25 @@ sections.forEach(id => {
 <div class="sec-header" id="s7">
   <span class="sec-num">S7</span>
   <span class="sec-title">Print CSS</span>
-  <span class="sec-sub">Colour forcing · A4 · Section 16</span>
+  <span class="sec-sub">Colour PDF · A4 · shared print type</span>
 </div>
 
 <div style="padding-top:12px">
+
+<div class="rule rule-ok">
+  <strong>v2.0 — print means a colour PDF</strong>
+  Owner ruling, 13 Oct 2026: the library is printed to PDF in colour (laminated where needed). The black-and-white print layer and the separate print runs are discarded. Print must read well in the PDF — colours stay, as on screen.
+</div>
+
+<div class="rule rule-info">
+  <strong>What the shared stylesheet does in print (S11)</strong>
+  <span style="display:block;margin-top:4px">1. <strong>Type</strong> — one scale for every page (S3).
+  2. <strong>Cards</strong> — cards that sit side by side on screen print one below the other, so no card leaves a block of empty paper beside it.
+  3. <strong>Headings</strong> stay with what follows them; a cross-reference bar never sits alone at the top of a page.
+  4. <strong>New page per section</strong> — a long guide opts in with <code>&lt;body class="lc-print-sections"&gt;</code>: each main section after the first starts on a new page (now R9, R10, R28). The first section follows the title on page 1.
+  5. <strong>Tables</strong> print whole-width, header row repeated.</span>
+  A page's own print block keeps only what is particular to it: hiding its interactive parts and forcing its own colours. It sets no font sizes.
+</div>
 
 <div class="rule rule-warn">
   <strong>⚠ All backgrounds must be explicitly forced in print CSS</strong>
@@ -689,7 +745,7 @@ sections.forEach(id => {
   /* Large tables 15+ rows: break-inside:auto with thead repeat */
   /* No forced page breaks by default */
 
-  body{ font-size:7.5pt; }
+  /* v2.0 — no font sizes here: print type comes from LC76_Library.css (S3, S11) */
 }</pre>
 </div>
 
@@ -714,6 +770,7 @@ sections.forEach(id => {
     <tr><td>Service worker strategy</td><td>Network-first — always fetch latest; cache as offline fallback only. Never cache-first for HTML files.</td></tr>
     <tr><td>Horizontal overflow</td><td><code>html{overflow-x:hidden;overflow-x:clip;overscroll-behavior-x:none}</code> AND <code>body{overflow-x:clip;overscroll-behavior-x:none}</code> (v1.7). Body must use <code>clip</code>, never <code>hidden</code> — <code>hidden</code> on body breaks Safari sticky, <code>clip</code> creates no scroll container so sticky is unaffected. html-only was found insufficient to stop mobile horizontal sway on some devices (R40/index.html/R29). Inner horizontal scrollers (toc-bar, wide tables) take <code>overscroll-behavior-x:contain</code> so their scroll doesn’t chain to the page — confirmed on R26/R32 + Manifesto/Commentary/History.</td></tr>
     <tr><td>Safe area insets</td><td><code>padding-top:env(safe-area-inset-top)</code> on the sticky nav unit, plus <code>background:var(--ink)</code> and a <code>::before</code> slab (<code>bottom:100%;height:100vh</code>) so the inset region stays opaque on mobile PWA — confirmed on R26/R32 + Manifesto/Commentary/History</td></tr>
+    <tr><td>Wide tables on a phone</td><td>Below 768px every table scrolls sideways inside its own box (<code>display:block; overflow-x:auto; overscroll-behavior-x:contain</code>) — set once in <code>LC76_Library.css</code>. Never cut off, never a sideways page scroll. v2.0.</td></tr>
     <tr><td>prompt() / alert()</td><td>Both blocked in standalone mode — all interactions must be inline</td></tr>
     <tr><td>After JS changes</td><td>User must delete and re-add the home screen shortcut after any JS change — iOS caches the PWA at install time</td></tr>
   </tbody>
@@ -821,6 +878,10 @@ pre{
     <p>Use bar as primary pressure unit; PSI is secondary</p>
     <p>Test in iOS Safari browser AND after adding to home screen</p>
     <p>Delete and re-add home screen shortcut after any JS change</p>
+    <p>Link <code>LC76_Library.css</code> after the page's own <code>&lt;style&gt;</code> and <code>LC76_Library.js</code> before <code>&lt;/body&gt;</code> (v2.0)</p>
+    <p>Make every cross-reference a link — pills and running text (v2.0)</p>
+    <p>Check a page as a colour PDF before calling it done (v2.0)</p>
+    <p>Give every library page the <code>⌂ Index</code> button at the top, Field Tools included (v2.0)</p>
   </div>
   <div class="dont-block">
     <div class="dont-lbl">✗ Don't</div>
@@ -836,6 +897,9 @@ pre{
     <p>Use <code>href="#id"</code> anchor links for TOC — ignore sticky offset</p>
     <p>Use <code>prompt()</code> or <code>alert()</code> — blocked in standalone PWA</p>
     <p>Use <code>addEventListener</code> + <code>data-target</code> pattern in reference docs — use inline onclick on &lt;a&gt; tags instead</p>
+    <p>Restate the vehicle in a masthead — the identity line is retired (v2.0)</p>
+    <p>Set font sizes in a page's print block — the shared stylesheet owns print type (v2.0)</p>
+    <p>Use Oswald Light (300) for reading text in print (v2.0)</p>
   </div>
 </div>
 </div>
@@ -846,34 +910,31 @@ pre{
 <div class="sec-header" id="s10">
   <span class="sec-num">S10</span>
   <span class="sec-title">Masthead Standard</span>
-  <span class="sec-sub">Six slots · fixed order</span>
+  <span class="sec-sub">Five slots · fixed order</span>
 </div>
 
 <div style="padding-top:12px">
-<p style="font-size:.88rem;color:var(--steeldk);margin-bottom:14px;line-height:1.6">Adopted at v1.6 (7 July 2026). The masthead <strong>identifies the document; it does not re-specify the vehicle</strong>. Every field-facing reference document and country/terrain profile carries the same six slots, in fixed order. Anything that is a fact about the truck lives once in <code>LC76_Facts.txt</code> and R1 — never restated in a masthead.</p>
+<p style="font-size:.88rem;color:var(--steeldk);margin-bottom:14px;line-height:1.6">Adopted at v1.6 (7 July 2026). The masthead <strong>identifies the document; it does not re-specify the vehicle</strong>. Every field-facing reference document and country/terrain profile carries the same five slots, in fixed order. Anything that is a fact about the truck lives once in <code>LC76_Facts.txt</code> and R1 — never restated in a masthead. <strong>v2.0 (owner ruling, 13 Oct 2026):</strong> the vehicle identity line is removed from every masthead — it adds nothing a reader needs and costs reading space on a phone — and the date moves up to the eyebrow line.</p>
 
 <table class="spec-table">
   <thead><tr><th>Slot</th><th>Element</th><th>Rule</th></tr></thead>
   <tbody>
-    <tr><td><strong>1</strong></td><td>Back-link</td><td><code>⌂ Index</code> — single glyph + word, on every document except the exemptions below. No <code>◄ Library</code> / <code>⬅ Library</code> variants.</td></tr>
-    <tr><td><strong>2</strong></td><td>Eyebrow</td><td><code>{Collection} · {ID}</code> — the collection word plus its ID, nothing else. <strong>No vehicle code, no EX-programme tag, no "Series/Library" name.</strong></td></tr>
+    <tr><td><strong>1</strong></td><td>Back-link</td><td><code>⌂ Index</code> — single glyph + word, on every library page, the Field Tools and the affidavit included (v2.0, owner ruling 13 Oct 2026). No <code>◄ Library</code> / <code>⬅ Library</code> variants.</td></tr>
+    <tr><td><strong>2</strong></td><td>Eyebrow + date</td><td><code>{Collection} · {ID} · Last updated: D Month YYYY</code> — the collection word, its ID and the date, nothing else. The date is a <code>&lt;span class="mh-date"&gt;</code> inside the eyebrow; on a phone it drops to its own line under the eyebrow. <strong>No vehicle code, no EX-programme tag, no "Series/Library" name.</strong></td></tr>
     <tr><td><strong>3</strong></td><td>Title (H1)</td><td>Document name, Title Case in source; the display font handles capitalisation.</td></tr>
     <tr><td><strong>4</strong></td><td>Subtitle</td><td>One scope line, ≤ ~12 words. Section/contents lists belong to the TOC, not here.</td></tr>
-    <tr><td><strong>5</strong></td><td>Identity line</td><td>The invariant vehicle stamp (below). Identical on every file.</td></tr>
-    <tr><td><strong>6</strong></td><td>Date</td><td><code>Last updated: D Month YYYY</code> — lowercase "updated", full month, no zero-pad. Replaces "Last Updated" / "Compiled".</td></tr>
+    <tr><td><strong>5</strong></td><td>Date form</td><td><code>Last updated: D Month YYYY</code> — lowercase "updated", full month, no zero-pad. Carried on the eyebrow line (slot 2); no line of its own.</td></tr>
   </tbody>
 </table>
 
 <pre>⌂ Index
-Reference · R24
+Reference · R24 · Last updated: 7 July 2026
 Fuel System &amp; Diesel Quality Guide
-Architecture, diesel quality, filtration &amp; bad-fuel protocol
-2009 LC76 SW · 1HZ 4.2L Diesel · low-boost turbo (0.6 bar) · intercooler
-Last updated: 7 July 2026</pre>
+Architecture, diesel quality, filtration &amp; bad-fuel protocol</pre>
 
-<div class="rule rule-ok">
-  <strong>Slot 5 — invariant identity line</strong>
-  The same tokens on every file: <span class="mono">2009 LC76 SW · 1HZ 4.2L Diesel · low-boost turbo (0.6 bar) · intercooler</span>. It is a fixed identity stamp, not per-document spec.
+<div class="rule rule-warn">
+  <strong>Identity line — retired v2.0</strong>
+  The fixed vehicle stamp that was slot 5 to v1.9 (<span class="mono">.mh-vehicle</span> / <span class="mono">.std-vehicle</span>) is removed from every masthead. Do not restore it. The vehicle is described once, in R1 and <code>LC76_Facts.txt</code>.
 </div>
 
 <div class="rule rule-warn">
@@ -901,31 +962,66 @@ Last updated: 7 July 2026</pre>
 
 <div class="rule rule-note">
   <strong>Philosophy — one extra element</strong>
-  The five philosophy documents carry an editorial gloss (e.g. <em>written to be read at the fire</em>) as a de-emphasised italic line in slot 5's neighbourhood — <code>.std-local</code>, placed <strong>below the subtitle and above the identity line</strong>. Note this is NOT the profile placement: profiles put <code>.std-local</code> directly under the title because their <code>.std-sub</code> is a 0.92rem sans italic, whereas the philosophy <code>.std-sub</code> is a 0.54rem mono amber line — typographically the same instrument as the profile's <code>.std-local</code>, so the profile placement stacks two near-identical lines. The invariant identity line and the date are unaffected and remain slots 5 and 6. Adopted v1.9 (29 Jul 2026).
+  The five philosophy documents carry an editorial gloss (e.g. <em>written to be read at the fire</em>) as a de-emphasised italic line — <code>.std-local</code>, placed <strong>directly below the subtitle</strong> (to v1.9: above the identity line, now retired). Note this is NOT the profile placement: profiles put <code>.std-local</code> directly under the title because their <code>.std-sub</code> is a 0.92rem sans italic, whereas the philosophy <code>.std-sub</code> is a 0.54rem mono amber line — typographically the same instrument as the profile's <code>.std-local</code>, so the profile placement stacks two near-identical lines. Adopted v1.9 (29 Jul 2026); placement restated v2.0.
 </div>
 
 <div class="rule rule-info">
   <strong>Exemptions</strong>
-  <span style="display:block;margin-top:4px"><strong>Field Tools (calculators):</strong> no back-link (standalone-shareable), no identity line, no date line — they keep their live-stats strip; eyebrow is just <code>Field Tool</code>. <strong>Governance / infrastructure</strong> — <code>index.html</code>, this Design Guidelines doc, <code>LC76_Profile_TEMPLATE.html</code>, and the audit HTML — are not in the index or precache and keep their own headers; the six-slot standard does not apply to them.</span>
+  <span style="display:block;margin-top:4px"><strong>Field Tools (calculators):</strong> the <code>⌂ Index</code> back-link like every page (left off to v1.9 to keep them standalone-shareable; a link home does not stop a tool being shared), no date — they keep their live-stats strip; eyebrow is just <code>Field Tool</code>. <strong>Governance / infrastructure</strong> — <code>index.html</code>, this Design Guidelines doc, <code>LC76_Profile_TEMPLATE.html</code>, and the audit HTML — are not in the index or precache and keep their own headers; the five-slot standard does not apply to them.</span>
 </div>
 
 <div class="rule rule-note">
   <strong>Migration status</strong>
-  Standard adopted v1.6 (7 Jul 2026). Field files migrate by family batch — reference, then profiles, then philosophy + itinerary, then tools. Until a file's batch runs it may still show a legacy masthead; the register and this document are the authority, not any single unmigrated file. Content-only migration — no CACHE bump; each migrated file's "Last updated" bumps to its session date. <strong>Batch record:</strong> the itinerary half of the "philosophy + itinerary" batch ran 28 Jul 2026 (Karoo Winter Loop); the philosophy half ran 29 Jul 2026, completing that batch across all four documents.
+  Standard adopted v1.6 (7 Jul 2026). Field files migrate by family batch — reference, then profiles, then philosophy + itinerary, then tools. Until a file's batch runs it may still show a legacy masthead; the register and this document are the authority, not any single unmigrated file. Content-only migration — no CACHE bump; each migrated file's "Last updated" bumps to its session date. <strong>Batch record:</strong> the itinerary half of the "philosophy + itinerary" batch ran 28 Jul 2026 (Karoo Winter Loop); the philosophy half ran 29 Jul 2026, completing that batch across all four documents. <strong>v2.0:</strong> the identity line comes out and the date moves to the eyebrow across every masthead file in one pass, with the shared files (S11) linked in the same pass.
+</div>
+</div>
+
+<!-- S11 ─────────────────────────────────────────────────── -->
+<div class="sec-header" id="s11">
+  <span class="sec-num">S11</span>
+  <span class="sec-title">Shared Files</span>
+  <span class="sec-sub">LC76_Library.css · LC76_Library.js · v2.0</span>
+</div>
+
+<div style="padding-top:12px">
+<p style="font-size:.88rem;color:var(--steeldk);margin-bottom:14px;line-height:1.6">From v2.0 every library page links two shared files. They carry what every page must do the same way, so a fix is made once instead of in sixty files. Each page keeps its own look — the shared files do not change text sizes or colours on screen. The files themselves are the master; this section says what they do.</p>
+
+<pre>&lt;style&gt; … the page's own styles … &lt;/style&gt;
+&lt;link rel="stylesheet" href="LC76_Library.css"&gt;   &lt;!-- after the page's own style, so it wins --&gt;
+…
+&lt;script src="LC76_Library.js"&gt;&lt;/script&gt;             &lt;!-- last thing before &lt;/body&gt; --&gt;
+&lt;/body&gt;</pre>
+
+<table class="spec-table">
+  <thead><tr><th>File</th><th>On screen</th><th>In the PDF</th></tr></thead>
+  <tbody>
+    <tr><td><code>LC76_Library.css</code></td><td>Date on the eyebrow line (own line on a phone) · Index button clear of the eyebrow · current-section highlight style · side-by-side cards keep their own height · wide tables scroll inside their card on a phone · link style for cross-references</td><td>Colour kept · one print type scale (S3) · cards stacked · headings kept with what follows · cross-reference bar kept with content · opt-in new page per main section (<code>body.lc-print-sections</code>)</td></tr>
+    <tr><td><code>LC76_Library.js</code></td><td>Lights the current section in the menu and slides the menu to keep it in view (S6)</td><td>Fetches the print faces up front, so a PDF made straight away never falls back to a system font</td></tr>
+  </tbody>
+</table>
+
+<div class="rule rule-note">
+  <strong>Library files, precached</strong>
+  Both are library files: listed in the Library Register, precached in <code>sw.js</code>, and adding them bumps the CACHE constant. Changing them later is a plain edit (no bump). Calculators and governance pages do not link them.
+</div>
+
+<div class="rule rule-info">
+  <strong>v2.0 — what changed from v1.9</strong>
+  <span style="display:block;margin-top:4px">Identity line removed and date moved to the eyebrow (S10) · current section lit in the menu (S6) · wide tables scroll in their card on a phone (S8) · cards keep their own height (S4) · numbered steps flush with the card edge (S5) · the ⌂ Index button on every page, Field Tools included (S10) · cross-references are links (S5) · print means a colour PDF with one type scale, stacked cards and opt-in section page breaks (S3, S7) · the two shared files (S11). Source: owner review of the five-page design pilot (R1, R2, R9, R10, R28), 13 Oct 2026.</span>
 </div>
 </div>
 
 </div><!-- end .content -->
 
 <div class="doc-footer">
-  <span>LC76 Design Guidelines v1.9 · 29 July 2026</span>
+  <span>LC76 Design Guidelines v2.0 · 13 October 2026</span>
   <span>Reference Docs R1–R36 + 6 Calculators · Two design systems</span>
   <span>overlandslabs.github.io/Consumption</span>
 </div>
 
 <script>
 // Active TOC state
-const sections = ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10'];
+const sections = ['s1','s2','s3','s4','s5','s6','s7','s8','s9','s10','s11'];
 const tocLinks = document.querySelectorAll('.toc-link');
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {

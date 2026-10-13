@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600&family=Oswald:wght@400;600;700&display=swap');
+/* ═══════════════════════════════════════════════════════════════════
+   LC76 LIBRARY — SHARED STYLESHEET (Design Guidelines v2.0)
+   Linked by every page after its own <style>. Today's look is kept:
+   this file only adds what every page should share.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* 1. Masthead — date on the top line, beside the collection and number */
+.mh-date{white-space:nowrap}
+.mh-date::before{content:" · "}
+/* eyebrow classes in use: mh-, std-, ms-, cover-eyebrow and the itinerary's country-label */
+@media (max-width:767px){ .mh-date{display:block;margin-top:2px} .mh-date::before{content:none} }
+/* profile eyebrows are flex rows (flag + text): the date takes its own row */
+@media (max-width:767px){ .std-eyebrow{flex-wrap:wrap} .std-eyebrow > .mh-date{flex-basis:100%} }
+@media (max-width:767px){
+  /* the Index button sits on the top line; the top line wraps clear of it */
+  .lib-home-btn{top:10px!important;transform:none!important}
+  :is(.mh-eyebrow,.std-eyebrow,.ms-eyebrow,.cover-eyebrow,.country-label){padding-right:84px}
+}
+
+/* 2. Section menu — the section you are reading is lit */
+:is(.toc-bar,.toc) :is(a,button,span).lc-active{color:var(--amber2,#e07800)!important;box-shadow:inset 0 -2px 0 var(--amber2,#e07800)}
+
+/* 2b. Cards side by side keep their own height — no stretched empty card beside a tall one */
+:is([class*="card-grid"],.grid,.two-col,.three-col,.grid-2,.grid-3,.box-grid){align-items:start}
+
+/* 3. Wide tables scroll sideways inside their card, never clipped */
+/*    LC76_Library.js marks only the tables that are wider than their box
+      (class lc-scroll); tables that fit keep their normal layout. */
+@media (max-width:767px){
+  table.lc-scroll{display:block;max-width:100%;overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
+}
+
+/* 4. Print (colour PDF) — cards that sit side by side on screen print
+      one below the other, so no card leaves a block of empty paper
+      beside it; a heading stays with what follows it. */
+@media print{
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  :is([class*="card-grid"],[class*="cards"],.grid,.two-col,.three-col,.grid-2,.grid-3,.box-grid){display:block!important}
+  :is([class*="card-grid"],[class*="cards"],.grid,.two-col,.three-col,.grid-2,.grid-3,.box-grid) > *{margin-bottom:8px!important;width:auto!important}
+  :is(h2,h3,.sec-header,.section-head,.sub-head,.subsec,.card-header,.zone-header){break-after:avoid;page-break-after:avoid}
+  table{display:table!important;overflow:visible!important}
+}
+
+/* Links to other library pages, inside running text and the cross-reference pills */
+a.lc-xlink{color:var(--amber-text,#8a4e00);text-decoration:underline;text-underline-offset:2px}
+a.xref-pill{text-decoration:none}
+a.xref-pill:hover,a.xref-pill:focus-visible{text-decoration:underline}
+
+/* Print: pages that opt in (body.lc-print-sections) start each main section on a new page.
+   The first section follows the title on page 1. */
+@media print{
+  html:not(#_) body.lc-print-sections main > h2[id] ~ h2[id],
+  html:not(#_) body.lc-print-sections .main > .sa ~ .sa{break-before:page!important;page-break-before:always!important}
+  a.lc-xlink{color:inherit!important}
+  .lib-home-btn{display:none!important}   /* the Index button is for the screen */
+  /* a cross-reference bar never sits alone at the top of a page */
+  .xref-bar{break-before:avoid;page-break-before:avoid;break-inside:avoid}
+}
+
+/* 5. Print type (colour PDF) — one set of type for every page.
+      Three faces, one job each: Bebas Neue for headings, Oswald for all
+      reading text, IBM Plex Mono for small labels only. Every page's own
+      print sizes are replaced, so all pages print alike.
+        page title     Bebas 26pt
+        section        Bebas 18pt
+        sub-heading    Bebas 13.5pt
+        item heading   Oswald 600, body size
+        body           Oswald 400 9.5pt
+        tables, notes  Oswald 400 9pt
+        labels         Plex Mono 600 7pt
+      "html:not(#_) body" gives each rule id-level weight so it beats the
+      page's older print rules. */
+@media print{
+  /* reset: everything is body text unless a role below says otherwise */
+  html:not(#_) body *{font-family:'Oswald','Arial Narrow',sans-serif!important;font-size:9.5pt!important;font-weight:400;line-height:1.4!important;letter-spacing:normal!important;font-style:normal}
+  html:not(#_) body :is(span,strong,b,em,i,a,u,small,code,mark,sup,sub,label){font-size:inherit!important;font-family:inherit!important;font-weight:inherit;line-height:inherit!important;letter-spacing:inherit!important}
+  html:not(#_) body :is(strong,b){font-weight:700!important}
+  html:not(#_) body :is(em,i){font-style:italic}
+
+  /* page title */
+  html:not(#_) body :is(h1,.mh-title,.std-title,.cover-title){font-family:'Bebas Neue','Arial Narrow',sans-serif!important;font-size:26pt!important;line-height:1!important;letter-spacing:.03em!important}
+
+  /* section heading */
+  html:not(#_) body :is(h2,.section-head,.section-strip,.sec-header,.section-title,.zone-name,div[style*="font-family:var(--display)"]){font-family:'Bebas Neue','Arial Narrow',sans-serif!important;font-size:18pt!important;font-weight:400!important;line-height:1.1!important;letter-spacing:.04em!important}
+  html:not(#_) body :is(h2,.section-head,.section-strip,.sec-header,.section-title,.zone-header,div[style*="font-family:var(--display)"]){margin-top:10pt!important;margin-bottom:6pt!important;break-after:avoid;page-break-after:avoid}
+
+  /* sub-heading */
+  html:not(#_) body :is(h3,.sub-head,.subsec,.card-title,.tc-head){font-family:'Bebas Neue','Arial Narrow',sans-serif!important;font-size:13.5pt!important;font-weight:400!important;line-height:1.15!important;letter-spacing:.04em!important;break-after:avoid;page-break-after:avoid}
+  html:not(#_) body :is(h3,.sub-head,.subsec){margin-top:9pt!important;margin-bottom:4pt!important}
+
+  /* item heading — run-in, body size, bold */
+  html:not(#_) body :is(h4,h5,.cl-item-name,.cl-label,.cause-label,.tc-name,.f-spec,.status-value,.status-critical,.status-warn,.status-ok){font-size:9.5pt!important;font-weight:600!important}
+
+  /* tables and secondary notes */
+  html:not(#_) body :is(td,.card-why,.q-note,.f-cap,.cl-detail){font-size:9pt!important}
+  html:not(#_) body td :is(span,strong,b,em,a){font-size:inherit!important}
+
+  /* small labels — the only place the mono face is used */
+  html:not(#_) body :is(th,.mh-eyebrow,.std-eyebrow,.mh-date,.mh-sub,.std-sub,.xref-label,.xref-pill,.status-label,.label,.row-label,.f-label,.zone-count,[class*="badge"],.sc-step,.cl-num,.cause-num,.step-num,.step-stop,.rb-label){font-family:'IBM Plex Mono',monospace!important;font-size:7pt!important;font-weight:600!important;letter-spacing:.06em!important;line-height:1.35!important}
+  html:not(#_) body :is(.mh-sub,.std-sub){font-size:8pt!important;font-weight:400!important}
+}

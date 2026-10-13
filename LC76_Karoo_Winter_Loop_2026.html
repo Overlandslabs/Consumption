@@ -260,74 +260,10 @@
     }
     #route-map { height:180pt !important; break-inside:avoid; }
 
-    /* ============================================================
-       B&W / GRAYSCALE HARDENING (OI-96).
-       Field documents are printed mono. Muted amber/smoke labels and
-       low-opacity text collapse to light grey in grayscale and fade;
-       light-on-dark blocks vanish if "print background graphics" is off.
-       Fix: everything becomes solid black text on white, with rules for
-       the structure the dark fills used to carry. Screen/mobile/colour
-       print are untouched — this lives in @media print only.
-       ============================================================ */
-
-    /* 1 — kill every dark fill; no reliance on background graphics */
-    .masthead, .ibox.dark, .fuel-band, .stop-head, .section-num,
-    .alert-strip, #updated-banner, .data-table th {
-      background:#fff !important;
-      color:#000 !important;
-      box-shadow:none !important;
-    }
-
-    /* 2 — force ALL text to solid black at full opacity.
-       Overrides amber/ochre/smoke/clay tokens and the rgba fuel-label. */
-    body, .page, .section, .prose, p,
-    .masthead h1, .masthead-sub, .masthead-id, .masthead-date,
-    .section-num, .section h2, h2, h3,
-    .ibox, .ibox.dark, .ibox-label, .ibox-value, .ibox-sub,
-    .stop, .stop h3, .stop .nights, .stop .meta, .stop .meta a,
-    .stop dt, .stop dd, .stop dd strong,
-    .callout, .callout-body, .callout-icon,
-    .fuel-band, .fuel-num, .fuel-label, .fuel-stat,
-    .data-table, .data-table th, .data-table td, .data-table a,
-    .section-heading, .changelog-entry, .cl-date, .cl-note, .cl-note strong,
-    .nights, .meta, .meta a, a {
-      color:#000 !important;
-      opacity:1 !important;
-      text-shadow:none !important;
-    }
-
-    /* 3 — restore structure the dark banners used to carry, as rules */
-    .masthead { border:1.5pt solid #000 !important; padding:6pt 8pt !important; }
-    .masthead h1 { font-weight:900 !important; }
-    .section-num {
-      border:1.25pt solid #000 !important;
-      font-weight:700 !important;
-    }
-    .stop-head {
-      border-bottom:1pt solid #000 !important;
-      padding-bottom:2pt !important;
-    }
-    .ibox.dark { border:1pt solid #000 !important; }
-    .fuel-band {
-      border:1.25pt solid #000 !important;
-      border-radius:0 !important;
-    }
-    /* fuel divider so the stat blocks read without the dark field */
-    .fuel-stat { border-left:0.75pt solid #000 !important; padding-left:6pt !important; }
-    .fuel-stat:first-child { border-left:0 !important; padding-left:0 !important; }
-
-    /* 4 — the two genuinely tiny labels: nudge up so they hold ink at
-       photocopier quality, and drop the wide letter-spacing that thins them */
-    .ibox-label, .fuel-label { font-size:6pt !important; letter-spacing:0.06em !important; }
-    .meta, .nights, .cl-date { letter-spacing:0.02em !important; }
-
-    /* 5 — coloured left-borders → solid black so the card edges survive mono */
-    .ibox, .stop, .callout { border-left-color:#000 !important; }
-    /* keep table header separable without a grey fill */
-    .data-table th { border-bottom:1pt solid #000 !important; font-weight:700 !important; }
-    .data-table td { border-bottom:0.5pt solid #000 !important; }
+    /* B&W print layer removed 13 Oct 2026 — the library prints to a colour PDF (owner ruling; OI-96 closed). */
   }
 </style>
+<link rel="stylesheet" href="LC76_Library.css">
 </head>
 <body>
 
@@ -336,11 +272,9 @@
     <a href="index.html" class="lib-home-btn" title="Library Index">⌂ Index</a>
     <div class="masthead-inner">
       <div>
-        <div class="country-label">LC76 Overland Series · Trip Itinerary</div>
+        <div class="country-label">LC76 Overland Series · Trip Itinerary<span class="mh-date">Last updated: 13 October 2026</span></div>
         <h1>Karoo <em>Winter Loop</em></h1>
         <div class="masthead-sub">29 nights of gravel, big skies and cold clear stars — Cape Town round-trip, mostly under canvas.</div>
-        <div class="masthead-id">2009 LC76 SW · 1HZ 4.2L Diesel · low-boost turbo (0.6 bar) · intercooler</div>
-        <div class="masthead-date">Last updated: 8 August 2026</div>
       </div>
     </div>
   </header>
@@ -775,6 +709,11 @@
     <div class="section-header"><div class="section-num" style="font-size:11px;padding:6px 10px;letter-spacing:0.05em;">LOG</div><h2>Changelog</h2></div>
 
     <div class="changelog-entry">
+      <div class="cl-date">2026-10-13</div>
+      <div><span class="cl-tag upd">Upd</span></div>
+      <div class="cl-note"><strong>Design standard v2.0.</strong> Masthead: the vehicle identity line is removed and the date moves to the top line. The library's shared stylesheet and script are linked. The black-and-white print layer is removed: the library now prints to a colour PDF in one print type (owner ruling, 13 Oct 2026). No content changed.</div>
+    </div>
+    <div class="changelog-entry">
       <div class="cl-date">2026-08-08</div>
       <div><span class="cl-tag upd">Upd</span></div>
       <div class="cl-note"><strong>Electrical device names aligned to as-built.</strong> The battery-monitor references were corrected to the fitted BMV-712 Smart, matching the July&ndash;August electrical reconciliation. Content-only.</div>
@@ -893,5 +832,6 @@
   }
   setTimeout(function(){map.invalidateSize();},300);
 </script>
+<script src="LC76_Library.js"></script>
 </body>
 </html>
