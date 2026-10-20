@@ -287,6 +287,38 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 }
 .lib-home-btn:hover,.lib-home-btn:active{background:rgba(232,120,0,.30);}
 @media print{.lib-home-btn{display:none!important}}
+
+/* SECTION 00 — HOW THE 1HZ WORKS (s89c, 20 Oct 2026) */
+.component.how{font-family:'Oswald','Arial Narrow',sans-serif;font-weight:300;color:var(--ink)}
+.how-intro{font-size:13.5px;font-style:italic;color:var(--steelmd);margin:4px 0 12px}
+.how-h{font-family:'Oswald',sans-serif;font-weight:500;font-size:15px;letter-spacing:.04em;text-transform:uppercase;color:var(--steel);margin:22px 0 6px;break-after:avoid;page-break-after:avoid}
+.how-p{font-size:14px;line-height:1.65;margin:0 0 10px}
+.how-list,.how-steps{font-size:14px;line-height:1.6;margin:0 0 10px 20px}
+.how-list li,.how-steps li{margin-bottom:5px}
+.how-scroll{overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;margin:8px 0 12px}
+.how-table{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed;min-width:520px}
+.how-table th{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;background:var(--steel);color:#d0d6de;padding:7px 10px;text-align:left}
+.how-table td{padding:7px 10px;border:1px solid var(--rule);vertical-align:top;background:#fff}
+.how-table tr:nth-child(even) td{background:var(--paper2)}
+.how-diagram{overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;margin:12px 0 6px;background:#fff;border:1px solid var(--rule)}
+.how-diagram svg{display:block;width:100%;min-width:640px;height:auto}
+.how-cap{font-size:12px;color:var(--steelmd);margin:0 0 14px}
+.how-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;margin:10px 0 12px}
+.how-card{border:1px solid var(--rule);background:#fff}
+.how-card-t{font-weight:500;font-size:13px;background:var(--paper2);padding:8px 12px;border-bottom:1px solid var(--rule)}
+.how-card-b{padding:10px 12px;font-size:13px;line-height:1.6}
+.how-warn{background:var(--warn-bg);border-left:4px solid var(--warn-bdr);padding:10px 14px;font-size:13px;line-height:1.6;color:#5a1800;margin:10px 0 12px}
+.how-curious{background:var(--paper2);border:1px dashed var(--steelmd);padding:10px 14px;margin:14px 0;font-size:13px;line-height:1.6}
+.how-curious-t{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--steel);margin-bottom:6px}
+@media(max-width:700px){.how-grid{grid-template-columns:1fr}}
+@media print{
+  .how-diagram{overflow:visible;break-inside:avoid}
+  .how-diagram svg{min-width:0}
+  .how-card,.how-curious{break-inside:avoid}
+  .how-table th{background:#3a4050!important;color:#d0d6de!important}
+  .how-curious{background:#ede8de!important}
+  .how-warn{background:#fff0ec!important}
+}
 </style>
 <link rel="stylesheet" href="LC76_Library.css">
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -303,6 +335,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 
 <div class="toc-bar">
   <span class="toc-label">Jump to:</span>
+  <a href="#s0c1" class="toc-link">0&nbsp;How the 1HZ Works</a>
   <a href="#s1c1" class="toc-link">1.1&nbsp;Engine Block</a>
 <a href="#s1c2" class="toc-link">1.2&nbsp;Oil Sump</a>
 <a href="#s1c3" class="toc-link">1.3&nbsp;Crankshaft & Main Bearings</a>
@@ -381,6 +414,305 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 </div>
 </div><!-- /sticky-wrap -->
 
+
+<!-- ══ 00: HOW THE 1HZ WORKS (added 20 Oct 2026, 89th session) ══ -->
+<div class="section-header">
+  <span class="section-num">00</span>
+  <span class="section-name">How the 1HZ Works</span>
+  <span class="section-desc">The engine as a system · the four strokes · the swirl chamber · timing · fuel, oil, cooling, electrics · this engine's record</span>
+</div>
+<div class="components-grid">
+  <div class="component how" id="s0c1">
+    <p class="how-intro">Sections 01–14 walk through the engine part by part. This section comes first and explains the machine as a whole: how the parts work together to turn diesel into torque, why the 1HZ is built the way it is, and what that means for looking after it. The turbo's own story is in R21 §1; this is the engine it is bolted to.</p>
+
+    <h3 class="how-h">0.1 What kind of engine this is</h3>
+    <p class="how-p">The 1HZ is about as simple as a modern diesel gets. It has six cylinders in a row, one camshaft in the head driven by a toothed belt, two valves per cylinder, and a purely mechanical injection pump. <strong>There is no engine computer.</strong> Every function is done by springs, weights, levers, gears and oil pressure. The only electrical parts the engine itself needs are the glow plugs, the starter and the pump's fuel-cut solenoid (§0.6).</p>
+    <div class="how-scroll">
+      <table class="how-table">
+        <thead><tr><th style="width:34%;">Feature</th><th style="width:36%;">The 1HZ</th><th style="width:30%;">Where it is in R4</th></tr></thead>
+        <tbody>
+          <tr><td>Layout</td><td>Inline six, cast-iron block and head</td><td>§1.1, §2.2</td></tr>
+          <tr><td>Capacity, bore × stroke</td><td>4.2 litres; 94&nbsp;mm × 100&nbsp;mm (a long stroke)</td><td>§1.1, §1.3</td></tr>
+          <tr><td>Compression ratio</td><td>22:1</td><td>§1.4</td></tr>
+          <tr><td>Combustion</td><td>Indirect injection into a swirl chamber in the head</td><td>§2.2</td></tr>
+          <tr><td>Valve gear</td><td>One overhead camshaft, 12 valves, buckets and shims</td><td>§2.3, §3.3</td></tr>
+          <tr><td>Camshaft and pump drive</td><td>One toothed timing belt</td><td>§3.1</td></tr>
+          <tr><td>Injection</td><td>Bosch-type VE rotary pump (Denso-built), mechanical, 6 injectors</td><td>§5.3, §5.6</td></tr>
+          <tr><td>Firing order</td><td>1-5-3-6-2-4</td><td>§1.3</td></tr>
+          <tr><td>Output, stock</td><td>96&nbsp;kW / 285&nbsp;Nm (Facts §5, dyno May 2010)</td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="how-p"><strong>Why that suits Africa.</strong> An engine with no sensors and no electronic control cannot be stopped by a failed sensor or a corrupted computer, and any competent diesel mechanic can understand it with hand tools. It tolerates fuel quality that would trouble a modern common-rail engine. <strong>What it costs:</strong> it is heavy and makes modest power for its size. On its own (96&nbsp;kW from 4.2 litres) it is also less economical than a modern direct-injection diesel. The turbo (R21 §1) is how this vehicle recovers some of that power.</p>
+
+    <h3 class="how-h">0.2 The engine as a system</h3>
+    <div class="how-diagram">
+      <svg viewBox="0 0 760 470" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="hzSysT hzSysD" font-family="Oswald, 'Arial Narrow', sans-serif">
+        <title id="hzSysT">The 1HZ and the systems around it</title>
+        <desc id="hzSysD">The engine in the centre: cylinder head, block and sump. On the left the fuel path from tank through filter to the VE injection pump and six high-pressure lines to the injectors. The toothed timing belt links crankshaft, camshaft and injection pump. Air enters the head from the turbo and intercooler, exhaust leaves to the turbo. Oil goes from the sump through the pump, filter and cooler to the bearings, camshaft and turbo. Coolant goes from the water pump through block and head to the thermostat and radiator.</desc>
+        <defs>
+          <marker id="hz-g" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3E6B4F"/></marker>
+          <marker id="hz-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#2563a8"/></marker>
+          <marker id="hz-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#B91C1C"/></marker>
+          <marker id="hz-o" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#8a5a00"/></marker>
+          <marker id="hz-c" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#0f766e"/></marker>
+        </defs>
+        <rect x="0" y="0" width="760" height="470" fill="#ffffff"/>
+        <!-- air in / exhaust out -->
+        <path d="M335,70 L335,146" fill="none" stroke="#2563a8" stroke-width="3" marker-end="url(#hz-b)"/>
+        <text x="335" y="28" text-anchor="middle" font-size="10.5" fill="#2563a8">air in</text>
+        <text x="335" y="42" text-anchor="middle" font-size="9.5" fill="#2563a8">from turbo + intercooler</text>
+        <text x="335" y="55" text-anchor="middle" font-size="9.5" fill="#2563a8">(R21 §1)</text>
+        <path d="M435,146 L435,70" fill="none" stroke="#B91C1C" stroke-width="3" marker-end="url(#hz-r)"/>
+        <text x="435" y="28" text-anchor="middle" font-size="10.5" fill="#B91C1C">exhaust out</text>
+        <text x="435" y="42" text-anchor="middle" font-size="9.5" fill="#B91C1C">to the turbo</text>
+        <!-- engine -->
+        <rect x="270" y="150" width="230" height="44" rx="3" fill="#f3f1ea" stroke="#2a2f3a" stroke-width="1.5"/>
+        <text x="385" y="164" text-anchor="middle" font-size="11.5" font-weight="600" fill="#0d0e12">CYLINDER HEAD</text>
+        <text x="385" y="177" text-anchor="middle" font-size="8.8" fill="#4a505c">camshaft · 12 valves · 6 swirl chambers</text>
+        <text x="385" y="189" text-anchor="middle" font-size="8.8" fill="#4a505c">glow plugs · injectors</text>
+        <rect x="270" y="196" width="230" height="86" rx="3" fill="#f3f1ea" stroke="#2a2f3a" stroke-width="1.5"/>
+        <text x="385" y="216" text-anchor="middle" font-size="11.5" font-weight="600" fill="#0d0e12">BLOCK</text>
+        <g fill="#dad2c0" stroke="#6a7080" stroke-width="1">
+          <rect x="292" y="226" width="24" height="28"/><rect x="324" y="226" width="24" height="28"/><rect x="356" y="226" width="24" height="28"/>
+          <rect x="388" y="226" width="24" height="28"/><rect x="420" y="226" width="24" height="28"/><rect x="452" y="226" width="24" height="28"/>
+        </g>
+        <text x="385" y="272" text-anchor="middle" font-size="9" fill="#4a505c">6 pistons · crankshaft · 7 main bearings</text>
+        <rect x="270" y="284" width="230" height="34" rx="3" fill="#f6efe0" stroke="#8a5a00" stroke-width="1.3"/>
+        <text x="385" y="305" text-anchor="middle" font-size="10.5" font-weight="500" fill="#0d0e12">SUMP (oil)</text>
+        <!-- timing belt -->
+        <circle cx="232" cy="176" r="13" fill="#ffffff" stroke="#b86800" stroke-width="1.6"/>
+        <text x="232" y="180" text-anchor="middle" font-size="8" fill="#b86800">cam</text>
+        <circle cx="232" cy="262" r="13" fill="#ffffff" stroke="#b86800" stroke-width="1.6"/>
+        <text x="232" y="266" text-anchor="middle" font-size="8" fill="#b86800">crank</text>
+        <circle cx="190" cy="219" r="13" fill="#ffffff" stroke="#b86800" stroke-width="1.6"/>
+        <text x="190" y="223" text-anchor="middle" font-size="8" fill="#b86800">pump</text>
+        <path d="M245,176 L245,262 M232,275 L190,232 M190,206 L232,163" fill="none" stroke="#b86800" stroke-width="3"/>
+        <line x1="245" y1="176" x2="270" y2="176" stroke="#2a2f3a" stroke-width="1.2" stroke-dasharray="3 2"/>
+        <line x1="245" y1="262" x2="270" y2="262" stroke="#2a2f3a" stroke-width="1.2" stroke-dasharray="3 2"/>
+        <text x="205" y="138" text-anchor="middle" font-size="10" font-weight="600" fill="#b86800">TIMING BELT</text>
+        <text x="205" y="151" text-anchor="middle" font-size="9" fill="#b86800">keeps cam + pump in step</text>
+        <!-- VE pump -->
+        <rect x="14" y="186" width="148" height="66" rx="3" fill="#eef4ef" stroke="#3E6B4F" stroke-width="1.5"/>
+        <text x="88" y="204" text-anchor="middle" font-size="10.5" font-weight="600" fill="#0d0e12">VE INJECTION PUMP</text>
+        <text x="88" y="218" text-anchor="middle" font-size="8.8" fill="#3E6B4F">governor · timing advance</text>
+        <text x="88" y="231" text-anchor="middle" font-size="8.8" fill="#3E6B4F">boost compensator</text>
+        <text x="88" y="244" text-anchor="middle" font-size="8.8" fill="#3E6B4F">fuel-cut solenoid</text>
+        <line x1="162" y1="219" x2="177" y2="219" stroke="#2a2f3a" stroke-width="2"/>
+        <!-- fuel path -->
+        <rect x="14" y="404" width="112" height="40" rx="3" fill="#eef4ef" stroke="#3E6B4F" stroke-width="1.2"/>
+        <text x="70" y="428" text-anchor="middle" font-size="10.5" font-weight="500" fill="#0d0e12">FUEL TANK</text>
+        <rect x="14" y="320" width="112" height="46" rx="3" fill="#eef4ef" stroke="#3E6B4F" stroke-width="1.2"/>
+        <text x="70" y="339" text-anchor="middle" font-size="10" font-weight="500" fill="#0d0e12">FUEL FILTER</text>
+        <text x="70" y="354" text-anchor="middle" font-size="8.8" fill="#3E6B4F">water trap + hand primer</text>
+        <path d="M70,404 L70,370" fill="none" stroke="#3E6B4F" stroke-width="2.5" marker-end="url(#hz-g)"/>
+        <path d="M70,320 L70,256" fill="none" stroke="#3E6B4F" stroke-width="2.5" marker-end="url(#hz-g)"/>
+        <text x="80" y="292" font-size="9" fill="#3E6B4F">low pressure</text>
+        <path d="M60,186 L60,110 L292,110 L292,146" fill="none" stroke="#3E6B4F" stroke-width="2.5" marker-end="url(#hz-g)"/>
+        <text x="72" y="104" font-size="9.5" fill="#3E6B4F">6 high-pressure lines → injectors (firing order 1-5-3-6-2-4)</text>
+        <!-- oil loop -->
+        <rect x="520" y="378" width="226" height="50" rx="3" fill="#f6efe0" stroke="#8a5a00" stroke-width="1.3"/>
+        <text x="633" y="397" text-anchor="middle" font-size="10.5" font-weight="500" fill="#0d0e12">OIL PUMP → FILTER → OIL COOLER</text>
+        <text x="633" y="414" text-anchor="middle" font-size="8.8" fill="#8a5a00">pump driven off the crank nose</text>
+        <path d="M385,318 L385,403 L514,403" fill="none" stroke="#8a5a00" stroke-width="2.3" marker-end="url(#hz-o)"/>
+        <path d="M633,378 L633,345 L506,262" fill="none" stroke="#8a5a00" stroke-width="2.3" marker-end="url(#hz-o)"/>
+        <text x="642" y="352" font-size="9" fill="#8a5a00">to bearings,</text>
+        <text x="642" y="364" font-size="9" fill="#8a5a00">camshaft, turbo</text>
+        <!-- coolant loop -->
+        <rect x="560" y="140" width="186" height="48" rx="3" fill="#e6f4f2" stroke="#0f766e" stroke-width="1.3"/>
+        <text x="653" y="159" text-anchor="middle" font-size="10.5" font-weight="500" fill="#0d0e12">THERMOSTAT → RADIATOR</text>
+        <text x="653" y="175" text-anchor="middle" font-size="8.8" fill="#0f766e">viscous fan pulls air through</text>
+        <rect x="560" y="226" width="186" height="48" rx="3" fill="#e6f4f2" stroke="#0f766e" stroke-width="1.3"/>
+        <text x="653" y="245" text-anchor="middle" font-size="10.5" font-weight="500" fill="#0d0e12">WATER PUMP</text>
+        <text x="653" y="261" text-anchor="middle" font-size="8.8" fill="#0f766e">V-belt, with alternator + steering pump</text>
+        <path d="M500,166 L554,166" fill="none" stroke="#0f766e" stroke-width="2.3" marker-end="url(#hz-c)"/>
+        <path d="M653,188 L653,220" fill="none" stroke="#0f766e" stroke-width="2.3" marker-end="url(#hz-c)"/>
+        <path d="M560,252 L506,240" fill="none" stroke="#0f766e" stroke-width="2.3" marker-end="url(#hz-c)"/>
+        <text x="527" y="158" text-anchor="middle" font-size="9" fill="#0f766e">hot</text>
+        <text x="530" y="262" text-anchor="middle" font-size="9" fill="#0f766e">cooled</text>
+      </svg>
+    </div>
+    <p class="how-cap">Schematic, not to scale; the parts are not drawn where they sit. Green: fuel. Blue: air in. Red: exhaust. Brown: oil. Teal: coolant. Amber: the timing belt. The oil cooler is cooled by the engine's coolant, so the oil and coolant circuits also exchange heat. On a phone, scroll the diagram sideways.</p>
+    <p class="how-p">Think of the engine as a pump that breathes air, burns fuel in it, and turns the push of the burning gas into rotation. Four supply systems keep it alive, and one belt keeps it in time:</p>
+    <ul class="how-list">
+      <li><strong>Air</strong> comes in through the snorkel, filter, turbo and intercooler. Exhaust goes out through the turbo (R21 §1).</li>
+      <li><strong>Fuel</strong> is drawn from the tank through the filter, pressurised by the injection pump and sent to each injector at the right moment (§0.5).</li>
+      <li><strong>Oil</strong> is pumped from the sump to every bearing and back (§0.6).</li>
+      <li><strong>Coolant</strong> carries away the heat the oil and metal cannot (§0.6).</li>
+      <li><strong>The timing belt</strong> ties the camshaft (which opens the valves) and the injection pump (which times the fuel) to the crankshaft (§0.4).</li>
+    </ul>
+
+    <h3 class="how-h">0.3 The four strokes, and why a diesel needs no spark</h3>
+    <p class="how-p">Each cylinder repeats the same four-stroke cycle. The crankshaft turns twice per cycle, so the camshaft, which opens each valve once per cycle, turns at half crank speed (R4 §3.3).</p>
+    <div class="how-diagram">
+      <svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="hz4T hz4D" font-family="Oswald, 'Arial Narrow', sans-serif">
+        <title id="hz4T">The four strokes of the 1HZ</title>
+        <desc id="hz4D">Four panels. Intake: inlet valve open, piston moving down, air drawn in. Compression: both valves closed, piston rising, air squeezed and heated, pushed into the swirl chamber. Power: fuel injected into the swirl chamber, it ignites, burning gas drives the piston down. Exhaust: exhaust valve open, piston rising, burnt gas pushed out.</desc>
+        <defs>
+          <marker id="f4-b" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#2563a8"/></marker>
+          <marker id="f4-k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#2a2f3a"/></marker>
+          <marker id="f4-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#6a7080"/></marker>
+        </defs>
+        <rect x="0" y="0" width="760" height="300" fill="#ffffff"/>
+        <!-- panel template: x offsets 10, 200, 390, 580 -->
+        <g id="p1" transform="translate(10,0)">
+          <text x="85" y="18" text-anchor="middle" font-size="12" font-weight="600" fill="#0d0e12">1 · INTAKE</text>
+          <rect x="35" y="48" width="100" height="22" fill="#dad2c0" stroke="#2a2f3a"/>
+          <circle cx="85" cy="44" r="9" fill="#ffffff" stroke="#2a2f3a"/>
+          <line x1="85" y1="53" x2="85" y2="70" stroke="#2a2f3a" stroke-width="3"/>
+          <line x1="55" y1="30" x2="55" y2="84" stroke="#2563a8" stroke-width="2"/><line x1="47" y1="84" x2="63" y2="84" stroke="#2563a8" stroke-width="3"/>
+          <line x1="115" y1="30" x2="115" y2="70" stroke="#2a2f3a" stroke-width="2"/><line x1="107" y1="70" x2="123" y2="70" stroke="#2a2f3a" stroke-width="3"/>
+          <rect x="35" y="70" width="100" height="160" fill="#eef4fb" stroke="#2a2f3a"/>
+          <path d="M30,40 L48,74" stroke="#2563a8" stroke-width="2" fill="none" marker-end="url(#f4-b)"/>
+          <rect x="37" y="182" width="96" height="30" fill="#a8b0bc" stroke="#2a2f3a"/>
+          <line x1="85" y1="212" x2="96" y2="256" stroke="#2a2f3a" stroke-width="4"/>
+          <circle cx="85" cy="258" r="14" fill="none" stroke="#2a2f3a" stroke-width="1.5"/>
+          <path d="M150,150 L150,195" stroke="#2a2f3a" stroke-width="2" fill="none" marker-end="url(#f4-k)"/>
+          <text x="85" y="286" text-anchor="middle" font-size="10" fill="#0d0e12">inlet open · piston down · air in</text>
+        </g>
+        <g transform="translate(200,0)">
+          <text x="85" y="18" text-anchor="middle" font-size="12" font-weight="600" fill="#0d0e12">2 · COMPRESSION</text>
+          <rect x="35" y="48" width="100" height="22" fill="#dad2c0" stroke="#2a2f3a"/>
+          <circle cx="85" cy="44" r="9" fill="#fde7c8" stroke="#2a2f3a"/>
+          <line x1="85" y1="53" x2="85" y2="70" stroke="#2a2f3a" stroke-width="3"/>
+          <line x1="55" y1="30" x2="55" y2="70" stroke="#2a2f3a" stroke-width="2"/><line x1="47" y1="70" x2="63" y2="70" stroke="#2a2f3a" stroke-width="3"/>
+          <line x1="115" y1="30" x2="115" y2="70" stroke="#2a2f3a" stroke-width="2"/><line x1="107" y1="70" x2="123" y2="70" stroke="#2a2f3a" stroke-width="3"/>
+          <rect x="35" y="70" width="100" height="160" fill="#ffffff" stroke="#2a2f3a"/>
+          <rect x="35" y="70" width="100" height="16" fill="#fde7c8"/>
+          <rect x="37" y="86" width="96" height="30" fill="#a8b0bc" stroke="#2a2f3a"/>
+          <line x1="85" y1="116" x2="74" y2="244" stroke="#2a2f3a" stroke-width="4"/>
+          <circle cx="85" cy="258" r="14" fill="none" stroke="#2a2f3a" stroke-width="1.5"/>
+          <path d="M150,195 L150,150" stroke="#2a2f3a" stroke-width="2" fill="none" marker-end="url(#f4-k)"/>
+          <text x="85" y="286" text-anchor="middle" font-size="10" fill="#0d0e12">valves shut · air squeezed 22:1 · hot</text>
+        </g>
+        <g transform="translate(390,0)">
+          <text x="85" y="18" text-anchor="middle" font-size="12" font-weight="600" fill="#0d0e12">3 · POWER</text>
+          <rect x="35" y="48" width="100" height="22" fill="#dad2c0" stroke="#2a2f3a"/>
+          <circle cx="85" cy="44" r="9" fill="#e07800" stroke="#2a2f3a"/>
+          <line x1="85" y1="53" x2="85" y2="70" stroke="#e07800" stroke-width="3"/>
+          <line x1="85" y1="22" x2="85" y2="35" stroke="#3E6B4F" stroke-width="3"/>
+          <text x="96" y="30" font-size="9" fill="#3E6B4F">injector</text>
+          <line x1="55" y1="30" x2="55" y2="70" stroke="#2a2f3a" stroke-width="2"/><line x1="47" y1="70" x2="63" y2="70" stroke="#2a2f3a" stroke-width="3"/>
+          <line x1="115" y1="40" x2="115" y2="70" stroke="#2a2f3a" stroke-width="2"/><line x1="107" y1="70" x2="123" y2="70" stroke="#2a2f3a" stroke-width="3"/>
+          <rect x="35" y="70" width="100" height="160" fill="#ffffff" stroke="#2a2f3a"/>
+          <path d="M40,72 Q85,140 130,72 Z" fill="#f6b26b" opacity="0.85"/>
+          <rect x="37" y="150" width="96" height="30" fill="#a8b0bc" stroke="#2a2f3a"/>
+          <line x1="85" y1="180" x2="98" y2="252" stroke="#2a2f3a" stroke-width="4"/>
+          <circle cx="85" cy="258" r="14" fill="none" stroke="#2a2f3a" stroke-width="1.5"/>
+          <path d="M150,150 L150,195" stroke="#2a2f3a" stroke-width="2" fill="none" marker-end="url(#f4-k)"/>
+          <text x="85" y="286" text-anchor="middle" font-size="10" fill="#0d0e12">fuel in · ignites · gas drives piston down</text>
+        </g>
+        <g transform="translate(580,0)">
+          <text x="85" y="18" text-anchor="middle" font-size="12" font-weight="600" fill="#0d0e12">4 · EXHAUST</text>
+          <rect x="35" y="48" width="100" height="22" fill="#dad2c0" stroke="#2a2f3a"/>
+          <circle cx="85" cy="44" r="9" fill="#ffffff" stroke="#2a2f3a"/>
+          <line x1="85" y1="53" x2="85" y2="70" stroke="#2a2f3a" stroke-width="3"/>
+          <line x1="55" y1="30" x2="55" y2="70" stroke="#2a2f3a" stroke-width="2"/><line x1="47" y1="70" x2="63" y2="70" stroke="#2a2f3a" stroke-width="3"/>
+          <line x1="115" y1="30" x2="115" y2="84" stroke="#6a7080" stroke-width="2"/><line x1="107" y1="84" x2="123" y2="84" stroke="#6a7080" stroke-width="3"/>
+          <rect x="35" y="70" width="100" height="160" fill="#f1f1f1" stroke="#2a2f3a"/>
+          <path d="M122,74 L148,38" stroke="#6a7080" stroke-width="2" fill="none" marker-end="url(#f4-r)"/>
+          <rect x="37" y="100" width="96" height="30" fill="#a8b0bc" stroke="#2a2f3a"/>
+          <line x1="85" y1="130" x2="72" y2="250" stroke="#2a2f3a" stroke-width="4"/>
+          <circle cx="85" cy="258" r="14" fill="none" stroke="#2a2f3a" stroke-width="1.5"/>
+          <path d="M155,195 L155,150" stroke="#2a2f3a" stroke-width="2" fill="none" marker-end="url(#f4-k)"/>
+          <text x="85" y="286" text-anchor="middle" font-size="10" fill="#0d0e12">exhaust open · piston up · gas out</text>
+        </g>
+      </svg>
+    </div>
+    <p class="how-cap">One cylinder, simplified. The small circle in the head is the swirl chamber; the left valve is the inlet, the right one the exhaust. The arrow beside each cylinder shows which way the piston is moving.</p>
+    <ol class="how-steps">
+      <li><strong>Intake.</strong> The inlet valve opens and the piston moves down, drawing in air. The 1HZ draws in <em>air only</em>, with no fuel mixed in, and the amount of air is not what sets the power.</li>
+      <li><strong>Compression.</strong> Both valves close and the piston rises, squeezing the air to about one twenty-second of its volume (the 22:1 ratio). Squeezing air heats it. At the top of the stroke the air is hot enough to ignite diesel on contact. Much of it has been pushed through a narrow passage into the swirl chamber in the head.</li>
+      <li><strong>Power.</strong> Just before the top, the injector sprays a measured amount of diesel into the swirl chamber. It ignites by itself in the hot air. The burning gas rushes out into the cylinder and drives the piston down. This is the only stroke that makes power.</li>
+      <li><strong>Exhaust.</strong> The exhaust valve opens and the rising piston pushes the burnt gas out, to the turbo and the exhaust.</li>
+    </ol>
+    <p class="how-p"><strong>Two consequences worth knowing.</strong> First, a diesel has no spark: heat from compression lights the fuel. That is why the 1HZ needs strong compression, and why a cylinder that has lost compression (worn rings or a leaking valve) starts badly and smokes. Second, power is not set by a throttle: the accelerator is linked to the injection pump, not to an air valve. More pedal means more fuel into the same air. Past a point, extra fuel has no air to burn in and leaves as black smoke and heat. That is the limit the turbo raises (R21 §1.1), and the reason EGT matters.</p>
+    <p class="how-p"><strong>Why the six cylinders fire 1-5-3-6-2-4.</strong> Six cylinders share the crank's two turns, so one fires every third of a turn. The order spreads the firing along the crankshaft so that neighbouring cylinders do not fire one after the other. That keeps the engine smooth and the crank evenly loaded.</p>
+
+    <h3 class="how-h">0.4 The swirl chamber, the glow plugs and the timing belt</h3>
+    <p class="how-p"><strong>Indirect injection (the swirl chamber).</strong> In the 1HZ the fuel is not sprayed straight onto the piston, as in a modern direct-injection diesel. Each cylinder has a small, round chamber in the head, joined to the cylinder by a narrow throat (R4 §2.2). On the compression stroke the air is forced through the throat and spins in the chamber. The injector sprays into this whirling air, so the fuel mixes well even at modest injection pressure. Burning starts in the chamber and spreads into the cylinder.</p>
+    <div class="how-grid">
+      <div class="how-card"><div class="how-card-t">What indirect injection gives</div><div class="how-card-b"><p>Smoother, quieter running and a gentler rise in cylinder pressure. Simple pintle injectors working at a low opening pressure (about 115–120&nbsp;bar, R4 §5.6), far below a modern common-rail system. Good tolerance of imperfect fuel. These are a large part of why the 1HZ is so durable.</p></div></div>
+      <div class="how-card"><div class="how-card-t">What it costs</div><div class="how-card-b"><p>The chamber walls soak up heat, so the engine is less efficient: more fuel for the same work, and more heat into the exhaust and the coolant. It also needs a high compression ratio (22:1) to reach ignition temperature. And it is hard to start cold, because cold chamber walls steal the heat of compression.</p></div></div>
+      <div class="how-card"><div class="how-card-t">Glow plugs: the cold-start answer</div><div class="how-card-b"><p>Each swirl chamber has a glow plug, an electric heater that pre-heats the chamber before cranking (R4 §6.1). Once the engine is running, it keeps itself hot enough and the plugs are not needed. Hard cold starts with white smoke usually point to glow plugs or their power feed before anything more serious.</p></div></div>
+      <div class="how-card"><div class="how-card-t">The timing belt and the interference rule</div><div class="how-card-b"><p>One toothed belt turns the camshaft and the injection pump from the crankshaft, so the valves and the fuel arrive at exactly the right moment in every cycle (R4 §3.1). The 1HZ is an <strong>interference engine</strong>: the valves open into the space the pistons rise into, and they only miss each other because the belt keeps them in step. If the belt breaks or jumps a tooth, the camshaft stops while the crank keeps turning, and pistons strike open valves. The result is bent valves at least, and a workshop job. That is why the belt is changed on time (100,000&nbsp;km or 5 years, R4 §3.1) and never stretched on a long trip.</p></div></div>
+    </div>
+    <p class="how-p">The water pump, alternator and power-steering pump are not on the timing belt. They run on separate V-belts from the crank pulley (R4 §3.2), so a snapped fan belt costs charging, cooling and power steering, but does not stop the engine's timing.</p>
+
+    <h3 class="how-h">0.5 The fuel path and the injection pump</h3>
+    <p class="how-p">Diesel leaves the tank and passes through the fuel filter. The filter traps dirt and settles out water, and has a hand primer for bleeding air (R4 §5.2; the three-stage filtering in §5B). The fuel then reaches the VE injection pump, which does four jobs in one housing, with no electronics except the stop valve:</p>
+    <div class="how-grid">
+      <div class="how-card"><div class="how-card-t">Pressurise and distribute</div><div class="how-card-b"><p>A single plunger turns and moves back and forth. Each stroke builds injection pressure, and each part-turn sends that pulse to the next cylinder's line in firing order (R4 §5.3). Six steel lines of carefully matched length carry it to the injectors (§5.5).</p></div></div>
+      <div class="how-card"><div class="how-card-t">Meter the fuel (the governor)</div><div class="how-card-b"><p>Spinning weights inside the pump balance against a spring linked to the accelerator. Together they decide how much fuel each stroke delivers. They hold the idle steady, follow your foot, and cut fuel as the engine nears its maximum rpm, so the engine cannot over-rev under its own power.</p></div></div>
+      <div class="how-card"><div class="how-card-t">Time the injection</div><div class="how-card-b"><p>Fuel needs time to burn, so as rpm rises the pump injects a little earlier. A small piston inside the pump, moved by fuel pressure, does this automatically. The base setting is fixed when the pump is fitted and timed to the belt. It is a bench job, never a roadside adjustment.</p></div></div>
+      <div class="how-card"><div class="how-card-t">Add fuel for boost, and stop on command</div><div class="how-card-b"><p>The boost compensator lets in more fuel only when the turbo is supplying the air for it (R4 §5.4, R21 §1.4). The fuel-cut solenoid is an electric valve that stays open while the key is on. Turn the key off and it closes, and the engine stops. If its wire or connector fails while you are driving, the engine dies instantly, exactly as if the key had been turned off (Troubleshooting Guide).</p></div></div>
+    </div>
+    <div class="how-warn"><strong>Why fuel care matters so much on this engine.</strong> The diesel itself lubricates the injection pump's moving parts, and those parts are made to tiny clearances. Water or dirt in the fuel wears the pump, and a pump is one of the most expensive parts on the engine. Air is the other enemy: the pump cannot build pressure on a bubble, so air in the fuel (after running the tank dry or changing a filter) stops the engine until it is bled. That is why the filter is changed on time, the water trap is drained, fuel is bought carefully (R4 §5B), and the tank is never run dry.</div>
+
+    <h3 class="how-h">0.6 Oil, coolant and the little electricity the engine needs</h3>
+    <div class="how-grid">
+      <div class="how-card"><div class="how-card-t">Oil: the engine's blood</div><div class="how-card-b"><p>A gear-type pump driven off the crankshaft nose draws oil from the sump (R4 §1.5). It pushes the oil through the filter and the coolant-cooled oil cooler (§4.7), then along galleries to the crank and rod bearings, the camshaft and valve gear, and the turbo. The oil drains back to the sump by gravity. Every turning part floats on a film of oil, so the oil-pressure light means <strong>stop now</strong>. Diesel combustion puts soot into the oil, and the turbo heats it, which is why this engine's oil is changed every 5,000&nbsp;km (Service Checklist).</p></div></div>
+      <div class="how-card"><div class="how-card-t">Coolant: carrying the heat away</div><div class="how-card-b"><p>The water pump circulates coolant through the block and the head, especially around the hot swirl chambers. While the engine is cold, the thermostat keeps the coolant inside the engine; at operating temperature it opens (R4 §4.3) and sends it through the radiator. The viscous fan pulls air through the radiator, hardest when the engine is hot and the vehicle slow. The Cooling System Guide owns the details.</p></div></div>
+      <div class="how-card"><div class="how-card-t">Electricity: only to start and to keep the stop valve open</div><div class="how-card-b"><p>The engine needs electricity for the glow plugs and the starter, and to hold the fuel-cut solenoid open while it runs. The alternator recharges the crank battery. With no spark and no computer, the engine keeps running on a failing battery as long as the solenoid is powered, and it can be bump-started in 2nd gear (R4 §1.6).</p></div></div>
+    </div>
+
+    <h3 class="how-h">0.7 How the engine talks to you</h3>
+    <div class="how-scroll">
+      <table class="how-table">
+        <thead><tr><th style="width:32%;">What you notice</th><th style="width:68%;">What it usually means, and where to go</th></tr></thead>
+        <tbody>
+          <tr><td>Oil-pressure light while running</td><td>Stop the engine immediately. Bearings are minutes, the turbo seconds, from damage (R4 §1.5).</td></tr>
+          <tr><td>Hard cold start, white smoke that clears as it warms</td><td>Glow plugs or their feed, or a cold morning at altitude. Rarely low compression (R4 §6.1).</td></tr>
+          <tr><td>Engine cuts dead, as if switched off</td><td>Fuel-cut solenoid or its wire, or fuel starvation and air in the fuel (Troubleshooting Guide).</td></tr>
+          <tr><td>Black smoke under load, high EGT</td><td>More fuel than air: overload, a blocked air filter, a boost leak or altitude (R21 §1.7, §6).</td></tr>
+          <tr><td>Blue smoke, oil use</td><td>Oil burning: turbo seals or worn rings and guides (R21 §6; R4 §1.4).</td></tr>
+          <tr><td>Rising temperature gauge</td><td>Cooling: fan clutch, coolant level, a blocked radiator, a belt (Cooling System Guide).</td></tr>
+          <tr><td>Deep knock that grows with load</td><td>Bearing wear. Not a field repair; drive gently to help (R4 §1.3).</td></tr>
+          <tr><td>Rattle or tick from the head</td><td>Valve clearances, or an injector. Have the clearances checked (R4 §2.3).</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="how-p">The Troubleshooting Guide owns the full fault-finding steps. This table is only the map.</p>
+
+    <h3 class="how-h">0.8 Looking after it, and why each rule exists</h3>
+    <ul class="how-list">
+      <li><strong>Warm it up gently.</strong> Cold oil is thick and the clearances are not yet right. Drive off gently rather than idling for a long time, and save hard work for when the temperature gauge is up.</li>
+      <li><strong>Don't lug it.</strong> Full fuel at very low rpm hammers the bearings and runs the engine hot. Change down early (R21 §3).</li>
+      <li><strong>Let the turbo cool before switching off</strong> after hard work (R21 §5).</li>
+      <li><strong>Oil and filter on time</strong> (Service Checklist). This is the cheapest insurance the engine has.</li>
+      <li><strong>Clean fuel, a drained water trap, a never-empty tank</strong> (§0.5; R4 §5B).</li>
+      <li><strong>Timing belt on time</strong>, before a long trip, never after (§0.4).</li>
+      <li><strong>Watch the temperature and oil-pressure gauges and the EGT gauge</strong>, and act on what they show.</li>
+    </ul>
+
+    <h3 class="how-h">0.9 This engine: what is known, and from where</h3>
+    <div class="how-scroll">
+      <table class="how-table">
+        <thead><tr><th style="width:30%;">Item</th><th style="width:42%;">Record</th><th style="width:28%;">Source</th></tr></thead>
+        <tbody>
+          <tr><td>Odometer</td><td><span data-fact="odometer">314,819 km</span></td><td>Facts §2</td></tr>
+          <tr><td>Power and torque</td><td>Stock 96&nbsp;kW / 285&nbsp;Nm (May 2010); current 118&nbsp;kW / 373&nbsp;Nm with turbo and pump set-up (Mar 2025)</td><td>Facts §5 (dyno)</td></tr>
+          <tr><td>Compression test</td><td>Passed, Mar 2025</td><td>Facts §5</td></tr>
+          <tr><td>Timing belt, tensioner and idlers</td><td>Apr 2025 @ <span data-fact="cambelt">273,023 km</span>; <span data-fact="km_since_cambelt">41,796 km</span> since</td><td>Facts §2, §4</td></tr>
+          <tr><td>Injection pump and injectors</td><td>Overhauled Jun 2026 @ <span data-fact="injectors">310,412 km</span></td><td>Facts §2</td></tr>
+          <tr><td>Glow plugs</td><td>Tested OK Mar 2025; removed and refitted Jun 2026, not re-tested</td><td>Facts §5</td></tr>
+          <tr><td>Oil, oil filter, fuel filter, air filter</td><td>Oct 2026; next oil change ~319,800&nbsp;km</td><td>Facts §4</td></tr>
+          <tr><td>Rocker cover gasket, half-moon seal, intake manifold gaskets</td><td>Oct 2026</td><td>Facts §4</td></tr>
+          <tr><td>Fan belts</td><td>Apr 2026</td><td>Facts §4</td></tr>
+          <tr><td>Cooling</td><td>Coolant changed Jan 2026; pressure test, block test and fan clutch passed Apr 2026. Facts §4 marks the coolant flush overdue and the radiator for monitoring.</td><td>Facts §4</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="how-curious">
+      <div class="how-curious-t">For the curious: how hot does 22:1 make the air?</div>
+      <p>An ideal-gas estimate, not a measurement. Squeeze air at 30&nbsp;°C to one twenty-second of its volume with no heat lost, and its temperature rises by a factor of 22<sup>0.4</sup> ≈ 3.4. That takes it from 303&nbsp;K to about 1,040&nbsp;K, roughly 770&nbsp;°C. A real engine loses heat to the cylinder walls and the swirl chamber, so the true figure is lower. It is still far above the temperature at which diesel ignites by itself, which is why no spark is needed.</p>
+      <p style="margin-top:6px;">The same sum explains cold starts. On a cold morning the walls are cold and steal more of that heat, and at altitude there is less air to squeeze. The glow plugs make up the difference until the engine warms itself.</p>
+    </div>
+
+    <p class="how-cap" style="margin-top:12px;">Sources: R4 §§1–6 (component facts cited inline); Facts §2, §4, §5; the Service Checklist; R21 §1; the Troubleshooting Guide. Toyota's own repair manual could not be consulted for this section (the project copy has no text layer; the online copy could not be reached from the session, 20 Oct 2026).</p>
+  </div>
+</div>
 
 <div class="section-header">
   <span class="section-num">01</span>
