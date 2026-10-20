@@ -237,6 +237,22 @@
   .proto-label { font-weight:500; color:var(--ink); display:block; margin-bottom:2px; }
   .proto-note { color:var(--steelmd); font-size:12px; }
 
+
+  /* HOW-IT-WORKS SECTION (s89, 20 Oct 2026) */
+  .sub-head { font-family:'Oswald',sans-serif; font-weight:500; font-size:15px; letter-spacing:.04em; text-transform:uppercase; color:var(--steeldk); margin:22px 0 6px; break-after:avoid; page-break-after:avoid; }
+  .body-p { font-size:13.5px; margin:0 0 10px; }
+  .diagram-wrap { overflow-x:auto; overscroll-behavior-x:contain; -webkit-overflow-scrolling:touch; margin:12px 0 6px; background:#fff; border:1px solid var(--border); }
+  .diagram-wrap svg { display:block; width:100%; min-width:640px; height:auto; }
+  .diagram-cap { font-size:12px; color:var(--steelmd); margin:0 0 14px; }
+  .diagram-cap a { color:var(--amber); }
+  .curious { background:var(--paper2); border:1px dashed var(--steelmd); padding:10px 14px; margin:14px 0; font-size:12.5px; }
+  .curious-title { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--steeldk); margin-bottom:6px; }
+  @media print {
+    .diagram-wrap { overflow:visible; break-inside:avoid; }
+    .diagram-wrap svg { min-width:0; }
+    .curious { background:#EDE5D0 !important; break-inside:avoid; }
+  }
+
   /* SECTION ANCHOR OFFSET */
   .sa { scroll-margin-top: 130px; }
 
@@ -375,11 +391,12 @@
 <div class="sticky-wrap">
   <div class="masthead">
     <a href="index.html" class="lib-home-btn" title="Library Index">⌂ Index</a>
-    <div class="mh-eyebrow">Reference · R21<span class="mh-date">Last updated: 13 October 2026</span></div>
+    <div class="mh-eyebrow">Reference · R21<span class="mh-date">Last updated: 20 October 2026</span></div>
     <div class="mh-title">Turbo Operations &amp; Driver Discipline</div>
-    <div class="mh-sub">EGT limits, boost and load discipline, altitude, cool-down &amp; intercooler care</div>
+    <div class="mh-sub">How the turbo works, EGT limits, boost, altitude, cool-down &amp; intercooler care</div>
   </div>
   <nav class="toc-bar">
+    <button class="toc-btn" data-target="s-how">How It Works</button>
     <button class="toc-btn" data-target="s-egt">EGT Ranges</button>
     <button class="toc-btn" data-target="s-boost">Boost &amp; Load</button>
     <button class="toc-btn" data-target="s-altitude">Altitude</button>
@@ -391,9 +408,263 @@
 
 <div class="main">
 
-  <!-- ══ S1: EGT RANGES ══ -->
+  <!-- ══ S1: HOW THE TURBO WORKS (added 20 Oct 2026, 89th session) ══ -->
+  <div id="s-how" class="sa">
+    <div class="section-head">1 — How the Turbo Works</div>
+    <p class="section-intro">The rest of this guide tells you how to drive the turbo. This section explains the machine: what it does, how it is wired into the 1HZ's air, fuel, oil, cooling and exhaust, and why each rule in Sections 2–7 exists. Read it once properly; the field rules make more sense afterwards.</p>
+
+    <h3 class="sub-head">1.1 The problem the turbo solves</h3>
+    <p class="body-p">A diesel makes power by burning fuel, but fuel only burns completely if there is enough air in the cylinder to burn it. The naturally aspirated 1HZ can only take in as much air as the falling pistons draw in at atmospheric pressure. Past that point, extra fuel does not make extra power. It leaves as black smoke and heat. So the 1HZ is limited by <strong>air</strong>, not by fuel.</p>
+    <p class="body-p">A turbocharger is an air pump that pushes more air into the cylinders. It is driven by the exhaust, using energy that would otherwise go out of the tailpipe as heat and pressure. With more air in each cylinder, more fuel can be burned cleanly, so the same 4.2 litres makes more power and more torque.</p>
+    <div class="ok-box"><strong>What it did on this vehicle (dyno, Facts §5):</strong> stock, 96&nbsp;kW / 285&nbsp;Nm (May 2010). Current, 118&nbsp;kW / 373&nbsp;Nm (Mar 2025). That is about 23% more power and 31% more torque from the turbo, intercooler and pump set-up together, at a peak boost of only 0.6&nbsp;bar (8.7&nbsp;psi; measured Jun 2026).</div>
+
+    <h3 class="sub-head">1.2 The parts and the path</h3>
+    <p class="body-p">The turbo is two fans on one shaft. The <strong>turbine</strong> sits in the exhaust stream on the hot side; exhaust gas spins it. The <strong>compressor</strong> sits in the intake on the cold side; the shaft spins it, and it throws air outwards into its housing, which squeezes it. Between them is the <strong>centre (bearing) housing</strong>, where the shaft runs in bearings fed by engine oil. The shaft spins at tens of thousands of rpm, faster than anything else on the vehicle, which is why the oil supply matters so much.</p>
+
+    <div class="diagram-wrap">
+      <svg viewBox="0 0 760 450" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="turboDiagTitle turboDiagDesc" font-family="Oswald, 'Arial Narrow', sans-serif">
+        <title id="turboDiagTitle">How the SAC turbo is connected to the 1HZ</title>
+        <desc id="turboDiagDesc">Air enters through the snorkel and filter, is compressed by the compressor, cooled in the top-mount intercooler, and enters the intake manifold. Exhaust leaves the engine through the exhaust manifold, spins the turbine and leaves through the free-flow exhaust, with the wastegate letting some exhaust bypass the turbine. The boost compensator takes a pressure signal from the intake manifold to the injection pump. Engine oil feeds the turbo's bearing housing and drains back to the sump.</desc>
+        <defs>
+          <marker id="ah-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#2563a8"/></marker>
+          <marker id="ah-orange" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#e07800"/></marker>
+          <marker id="ah-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#B91C1C"/></marker>
+          <marker id="ah-oil" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#8a5a00"/></marker>
+          <marker id="ah-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#3E6B4F"/></marker>
+          <marker id="ah-grey" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#6a7080"/></marker>
+        </defs>
+        <rect x="0" y="0" width="760" height="450" fill="#ffffff"/>
+        <!-- bonnet scoop air -->
+        <text x="400" y="16" text-anchor="middle" font-size="11" fill="#2563a8">outside air through the bonnet scoop</text>
+        <line x1="340" y1="22" x2="340" y2="38" stroke="#2563a8" stroke-width="2" marker-end="url(#ah-blue)"/>
+        <line x1="400" y1="22" x2="400" y2="38" stroke="#2563a8" stroke-width="2" marker-end="url(#ah-blue)"/>
+        <line x1="460" y1="22" x2="460" y2="38" stroke="#2563a8" stroke-width="2" marker-end="url(#ah-blue)"/>
+        <!-- intercooler -->
+        <rect x="260" y="42" width="280" height="40" rx="3" fill="#e8f0f8" stroke="#2563a8" stroke-width="1.5"/>
+        <text x="400" y="60" text-anchor="middle" font-size="13" font-weight="500" fill="#0d0e12">TOP-MOUNT INTERCOOLER</text>
+        <text x="400" y="75" text-anchor="middle" font-size="10" fill="#4a505c">hot compressed air in · cooled air out</text>
+        <!-- snorkel / filter -->
+        <rect x="14" y="52" width="104" height="44" rx="3" fill="#f3f1ea" stroke="#2a2f3a" stroke-width="1.2"/>
+        <text x="66" y="70" text-anchor="middle" font-size="11" font-weight="500" fill="#0d0e12">SNORKEL +</text>
+        <text x="66" y="85" text-anchor="middle" font-size="11" font-weight="500" fill="#0d0e12">AIR FILTER</text>
+        <path d="M66,96 L66,170 L106,170" fill="none" stroke="#2563a8" stroke-width="3" marker-end="url(#ah-blue)"/>
+        <text x="72" y="140" font-size="10" fill="#2563a8">clean air</text>
+        <!-- compressor -->
+        <circle cx="150" cy="170" r="38" fill="#e8f0f8" stroke="#2563a8" stroke-width="2"/>
+        <text x="150" y="167" text-anchor="middle" font-size="9.5" font-weight="500" fill="#0d0e12">COMPRESSOR</text>
+        <text x="150" y="181" text-anchor="middle" font-size="9" fill="#4a505c">cold side</text>
+        <!-- hot charge pipe -->
+        <path d="M150,132 L150,62 L254,62" fill="none" stroke="#e07800" stroke-width="3" marker-end="url(#ah-orange)"/>
+        <text x="158" y="110" font-size="10" fill="#b05e00">hot, squeezed air</text>
+        <!-- intercooler outlet to manifold -->
+        <path d="M540,62 L580,62 L580,118 L450,118 L450,136" fill="none" stroke="#2563a8" stroke-width="3" marker-end="url(#ah-blue)"/>
+        <text x="588" y="96" font-size="10" fill="#2563a8">cooled, dense air</text>
+        <!-- intake manifold -->
+        <rect x="300" y="140" width="200" height="22" rx="2" fill="#e8f0f8" stroke="#2563a8" stroke-width="1.2"/>
+        <text x="400" y="155" text-anchor="middle" font-size="10.5" font-weight="500" fill="#0d0e12">INTAKE MANIFOLD (boost lives here)</text>
+        <!-- engine -->
+        <rect x="300" y="166" width="200" height="154" rx="3" fill="#f3f1ea" stroke="#2a2f3a" stroke-width="1.5"/>
+        <text x="400" y="200" text-anchor="middle" font-size="14" font-weight="600" fill="#0d0e12">1HZ ENGINE</text>
+        <text x="400" y="218" text-anchor="middle" font-size="10" fill="#4a505c">6 cylinders · indirect injection</text>
+        <text x="400" y="232" text-anchor="middle" font-size="10" fill="#4a505c">22:1 compression</text>
+        <g fill="#dad2c0" stroke="#6a7080" stroke-width="1">
+          <rect x="318" y="244" width="22" height="30"/><rect x="346" y="244" width="22" height="30"/><rect x="374" y="244" width="22" height="30"/>
+          <rect x="402" y="244" width="22" height="30"/><rect x="430" y="244" width="22" height="30"/><rect x="458" y="244" width="22" height="30"/>
+        </g>
+        <text x="400" y="296" text-anchor="middle" font-size="9.5" fill="#4a505c">sump and oil pump below</text>
+        <!-- exhaust manifold -->
+        <rect x="300" y="324" width="200" height="22" rx="2" fill="#fbe9e9" stroke="#B91C1C" stroke-width="1.2"/>
+        <text x="400" y="339" text-anchor="middle" font-size="10.5" font-weight="500" fill="#0d0e12">EXHAUST MANIFOLD (OE cast iron)</text>
+        <path d="M300,335 L194,335" fill="none" stroke="#B91C1C" stroke-width="3" marker-end="url(#ah-red)"/>
+        <text x="214" y="326" font-size="10" fill="#B91C1C">hot exhaust</text>
+        <!-- turbine -->
+        <circle cx="150" cy="335" r="38" fill="#fbe9e9" stroke="#B91C1C" stroke-width="2"/>
+        <text x="150" y="332" text-anchor="middle" font-size="10.5" font-weight="500" fill="#0d0e12">TURBINE</text>
+        <text x="150" y="346" text-anchor="middle" font-size="9" fill="#4a505c">hot side</text>
+        <!-- shaft & centre housing -->
+        <line x1="150" y1="208" x2="150" y2="297" stroke="#2a2f3a" stroke-width="4"/>
+        <rect x="134" y="238" width="32" height="30" rx="2" fill="#dad2c0" stroke="#2a2f3a" stroke-width="1.2"/>
+        <text x="128" y="250" text-anchor="end" font-size="9.5" fill="#2a2f3a">common shaft</text>
+        <text x="128" y="262" text-anchor="end" font-size="9.5" fill="#2a2f3a">+ bearing housing</text>
+        <!-- oil feed / drain -->
+        <path d="M300,242 L172,242" fill="none" stroke="#8a5a00" stroke-width="2.2" marker-end="url(#ah-oil)"/>
+        <text x="236" y="236" text-anchor="middle" font-size="9.5" fill="#8a5a00">oil feed (pressure)</text>
+        <path d="M166,264 L294,290" fill="none" stroke="#8a5a00" stroke-width="2.2" stroke-dasharray="6 4" marker-end="url(#ah-oil)"/>
+        <text x="192" y="313" font-size="9.5" fill="#8a5a00">oil drain to sump (gravity)</text>
+        <!-- turbine outlet and wastegate -->
+        <path d="M150,373 L150,418 L552,418" fill="none" stroke="#B91C1C" stroke-width="3" marker-end="url(#ah-red)"/>
+        <path d="M240,335 L240,418" fill="none" stroke="#B91C1C" stroke-width="2" stroke-dasharray="5 4"/>
+        <rect x="222" y="370" width="36" height="20" rx="2" fill="#ffffff" stroke="#B91C1C" stroke-width="1.5"/>
+        <text x="240" y="384" text-anchor="middle" font-size="9" font-weight="600" fill="#B91C1C">WG</text>
+        <text x="266" y="378" font-size="9.5" fill="#B91C1C">wastegate: lets some exhaust</text>
+        <text x="266" y="390" font-size="9.5" fill="#B91C1C">bypass the turbine at full boost</text>
+        <path d="M113,182 L40,182 L40,380 L216,380" fill="none" stroke="#6a7080" stroke-width="1.3" stroke-dasharray="3 3" marker-end="url(#ah-grey)"/>
+        <text x="46" y="300" font-size="9" fill="#6a7080">boost signal</text>
+        <text x="46" y="311" font-size="9" fill="#6a7080">to actuator</text>
+        <circle cx="150" cy="398" r="5" fill="#0d0e12"/>
+        <text x="136" y="402" text-anchor="end" font-size="9.5" fill="#0d0e12">EGT probe</text>
+        <text x="136" y="413" text-anchor="end" font-size="9.5" fill="#0d0e12">(post-turbo)</text>
+        <rect x="556" y="404" width="190" height="28" rx="3" fill="#fbe9e9" stroke="#B91C1C" stroke-width="1.2"/>
+        <text x="651" y="422" text-anchor="middle" font-size="10.5" font-weight="500" fill="#0d0e12">FREE-FLOW EXHAUST (May 2026)</text>
+        <!-- compensator & pump -->
+        <path d="M500,151 L676,151 L676,204" fill="none" stroke="#6a7080" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#ah-grey)"/>
+        <text x="600" y="145" text-anchor="middle" font-size="9.5" fill="#6a7080">boost signal hose</text>
+        <rect x="604" y="208" width="146" height="62" rx="3" fill="#eef4ef" stroke="#3E6B4F" stroke-width="1.5"/>
+        <text x="677" y="228" text-anchor="middle" font-size="10.5" font-weight="500" fill="#0d0e12">VE INJECTION PUMP</text>
+        <text x="677" y="243" text-anchor="middle" font-size="10" fill="#3E6B4F">+ BOOST COMPENSATOR</text>
+        <text x="677" y="258" text-anchor="middle" font-size="9" fill="#4a505c">more boost = more fuel allowed</text>
+        <path d="M604,250 L506,250" fill="none" stroke="#3E6B4F" stroke-width="2.5" marker-end="url(#ah-green)"/>
+        <text x="562" y="274" text-anchor="middle" font-size="9.5" fill="#3E6B4F">fuel to 6 injectors</text>
+      </svg>
+    </div>
+    <p class="diagram-cap">Schematic, not to scale; the parts are not drawn where they sit in the engine bay. Blue: intake air. Orange: hot compressed air. Red: exhaust. Brown: engine oil. Green: fuel. Grey dashed: pressure signals. The arrangement of the wastegate actuator and its signal pipe is the common one, drawn to explain the principle; this kit's actual arrangement is still to be confirmed at the workshop (OI-124). On a phone, scroll the diagram sideways.</p>
+
+    <p class="body-p">Follow the air. Clean air comes in through the snorkel and filter and into the compressor. Squeezing air heats it, so it leaves the compressor hot. It goes up to the intercooler on top of the engine, where air coming through the bonnet scoop cools it, and then into the intake manifold. The pressure in the manifold is the <strong>boost</strong> your gauge shows. From there it goes into the cylinders.</p>
+    <p class="body-p">Now follow the exhaust. Burnt gas leaves the cylinders through the original cast-iron exhaust manifold (SAC's kit keeps the Toyota part) and goes straight into the turbine, which takes energy out of it. It then leaves through the free-flow exhaust. The <strong>wastegate</strong> is a small valve that lets some exhaust bypass the turbine. Your EGT probe sits <em>after</em> the turbine (Section 2), so it reads gas that has already given up some of its heat.</p>
+
+    <h3 class="sub-head">1.3 The loop that feeds itself, and what stops it</h3>
+    <p class="body-p">This is the heart of it. The turbo and the engine drive each other in a loop:</p>
+    <ol class="protocol-list">
+      <li><span class="proto-num">1</span><span class="proto-text"><span class="proto-label">You press the accelerator</span><span class="proto-note">The pump injects more fuel, so the engine burns more fuel per stroke.</span></span></li>
+      <li><span class="proto-num">2</span><span class="proto-text"><span class="proto-label">More fuel means hotter, faster exhaust</span><span class="proto-note">More energy reaches the turbine, so the shaft speeds up.</span></span></li>
+      <li><span class="proto-num">3</span><span class="proto-text"><span class="proto-label">A faster shaft means more boost</span><span class="proto-note">The compressor pushes more air into the manifold, and manifold pressure rises.</span></span></li>
+      <li><span class="proto-num">4</span><span class="proto-text"><span class="proto-label">The boost compensator sees the pressure</span><span class="proto-note">It lets the pump deliver more fuel, because there is now air to burn it.</span></span></li>
+      <li><span class="proto-num">↻</span><span class="proto-text"><span class="proto-label">Back to step 2</span><span class="proto-note">More fuel, more exhaust energy, more boost, more fuel allowed.</span></span></li>
+    </ol>
+    <p class="body-p">Left alone, a loop like this would keep climbing until something broke. Four things stop it:</p>
+    <div class="info-grid">
+      <div class="info-card"><div class="info-title">The wastegate: limits boost</div><div class="info-body"><p>When boost reaches the wastegate's setting, the wastegate opens and lets exhaust bypass the turbine. The shaft stops speeding up and boost levels off. On this vehicle it levels off at about 0.6&nbsp;bar. Most wastegates are opened by a spring-loaded actuator that senses boost pressure (as drawn above). The type and setting on this kit are not yet recorded (OI-124).</p></div></div>
+      <div class="info-card"><div class="info-title">The pump's maximum: limits fuel</div><div class="info-body"><p>The compensator can only let fuel rise to the maximum the pump has been set to. That setting is what turns more air into more power, and it decides how hot the engine can run. It is set on a pump test bench and is never adjusted by hand in the field (R4 §5.3).</p></div></div>
+      <div class="info-card"><div class="info-title">The governor: limits rpm</div><div class="info-body"><p>The VE pump's governor cuts fuel as the engine approaches maximum rpm, whatever the boost. The turbo cannot over-rev the engine.</p></div></div>
+      <div class="info-card"><div class="info-title">Your right foot: limits heat</div><div class="info-body"><p>The wastegate limits pressure, not temperature. Hold full fuel for long enough, uphill and fully loaded, and heat builds even at normal boost. That is why the EGT gauge, not the boost gauge, is the instrument you drive by (Section 2).</p></div></div>
+    </div>
+    <p class="body-p"><strong>Turbo lag and "coming on boost."</strong> At idle and light load there is little exhaust energy, so the turbo hardly turns. The engine then behaves like a naturally aspirated 1HZ, and the compensator holds fuel back to what that air can burn. As you load the engine in a sensible gear, exhaust energy builds and the loop kicks in: boost rises, fuel is allowed, power arrives. The pause before this happens is lag. On a low-boost kit it is short, but it is why the engine pulls better once the revs are up and loaded than when it is lugging at low rpm (Section 3).</p>
+
+    <h3 class="sub-head">1.4 The boost compensator: the turbo's link to the fuel</h3>
+    <p class="body-p">The 1HZ's Bosch-type VE pump (Denso-built) has no electronics. On its own it has no way of knowing the turbo exists. The <strong>boost compensator</strong> is how it finds out. It is a canister on the pump with a diaphragm inside. A small hose brings intake-manifold pressure to the top of the diaphragm. As boost rises, the diaphragm pushes a rod down against a spring. A lever rides on a tapered part of the rod, and as the rod moves it lets the pump's full-load fuel stop move to a richer position (R4 §5.4). No boost: the fuel is held back. Full boost: full fuel is allowed.</p>
+    <p class="body-p">SAC's page lists the compensator as an OE Toyota part that older Cruisers do not have (see Sources), and SAC fitted it on this vehicle (owner, 20 Oct 2026). That is what keeps the engine clean and economical at low boost and lets it use the extra air at full boost.</p>
+    <div class="note-box"><strong>Why this matters for faults.</strong> The compensator reads <em>pressure in the manifold</em>, so it can be fooled two ways:
+      <br>• <strong>Its hose splits or comes off:</strong> it sees no boost, so fuel stays at the no-boost limit. The engine feels flat and "the turbo isn't doing anything", but it does not overheat.
+      <br>• <strong>Boost leaks out somewhere else:</strong> manifold pressure is low, so it allows less fuel. But how far it cuts fuel back depends on how the pump was set up. If the no-boost fuel is richer than the remaining air can burn, the leftover fuel leaves as black smoke and heat. That is why a boost leak can show as <em>low boost with high EGT</em> (the cross-diagnosis table in the Troubleshooting Guide, §3B).</div>
+
+    <h3 class="sub-head">1.5 Why "low boost" suits the 1HZ</h3>
+    <p class="body-p">Toyota designed the 1HZ to run without a turbo. When Toyota turbocharged this engine family, it built a different engine (the 1HD-T) with a different combustion system: direct injection instead of the 1HZ's indirect injection. The 1HZ's indirect-injection head, its 22:1 compression and its pistons were sized for naturally aspirated pressures and temperatures. Boost raises both:</p>
+    <ul class="cause-list">
+      <li><span class="cause-num">◆</span><span class="cause-text"><span class="cause-label">Pressure</span><span class="cause-note">More air and more fuel in the cylinder means higher peak cylinder pressure. That loads the head gasket, head bolts, pistons, rods and bearings. A low-boost kit keeps the increase modest.</span></span></li>
+      <li><span class="cause-num">◆</span><span class="cause-text"><span class="cause-label">Heat</span><span class="cause-note">More fuel burned means more heat into the pistons, the head, the coolant and the oil. Heat is the 1HZ's real limit under boost, and EGT is the gauge that watches it. On this engine, heat damage shows up first at the pistons and in the head.</span></span></li>
+    </ul>
+    <p class="body-p">So the SAC set-up is deliberately mild: SAC sells its stage-one 1HZ kit as a 0.5&nbsp;bar low-boost kit, and this vehicle's boost was measured at 0.6&nbsp;bar in June 2026. It adds a useful amount of air without asking the engine to survive pressures it was never built for. The intercooler (Stage 3 of SAC's package) and the free-flow exhaust (Stage 2) both work largely by taking heat out of the engine. The rule that runs through this whole guide follows from this: <strong>the turbo makes extra power available; the 1HZ's tolerance for heat decides how long you may use it.</strong></p>
+
+    <h3 class="sub-head">1.6 Where the turbo plugs into the engine</h3>
+    <p class="body-p">The turbo has no oil, cooling or control system of its own. It borrows all of them from the engine, so every engine system affects it.</p>
+    <div class="info-grid">
+      <div class="info-card"><div class="info-title">Oil: lubrication and cooling</div><div class="info-body">
+        <p>A feed line takes oil under pressure from the engine's oil circuit to the bearing housing. The shaft floats on a film of oil, and the same oil carries away heat that soaks through from the turbine side. The oil then drains back to the sump <strong>by gravity alone</strong> through the drain hose (renewed Mar 2025, ledger).</p>
+        <p style="margin-top:8px;">Three consequences: (1) lose oil pressure and the bearing dies within seconds (R4 §1.5); (2) dirty or broken-down oil wears the bearing; (3) stop the oil flow while the turbine is still very hot, and the oil left in the housing cooks into carbon. That last one is why the cool-down rule in Section 5 exists.</p>
+      </div></div>
+      <div class="info-card"><div class="info-title">Oil: the drain and the seals</div><div class="info-body">
+        <p>The seals at each end of the turbo shaft are ring seals, not rubber lip seals. They keep oil in only as long as it drains away freely and the pressure around them is right. Anything that slows the drain lets oil back up and get pushed past the seals into the intake or the exhaust: a kinked or collapsed drain hose, the hose running uphill, or high pressure in the crankcase from blow-by or a blocked breather.</p>
+        <p style="margin-top:8px;">That shows up as oil in the intercooler pipes or as blue smoke (Sections 6 and 7). It is also why an oily sweat around the turbo's pipes (OI-122) is worth a proper look: the workshop should check whether it is a joint weeping on the outside, or oil coming through from inside.</p>
+      </div></div>
+      <div class="info-card"><div class="info-title">Air: what the compressor eats</div><div class="info-body">
+        <p>Every gram of air the engine breathes passes through the compressor wheel first. The snorkel and filter are the turbo's only protection. Dust that gets past a split hose or a badly seated filter sandblasts the compressor blades, and the damage then spreads to the engine. A leak <em>after</em> the compressor does the opposite: it lets boost escape (Section 7 checks).</p>
+      </div></div>
+      <div class="info-card"><div class="info-title">Exhaust: what drives the turbine</div><div class="info-body">
+        <p>The turbine is driven by the <em>difference</em> in pressure and temperature between its inlet (the manifold) and its outlet (the exhaust pipe). A leak at the manifold or the turbo flange, upstream of the turbine, wastes drive energy and lowers boost (R4 §7.6). A freer exhaust downstream lowers the outlet pressure, so the turbine gets more drive for the same exhaust. That is how the free-flow system lowers EGT and can raise boost slightly (Section 2).</p>
+      </div></div>
+      <div class="info-card"><div class="info-title">Cooling: more fuel, more heat</div><div class="info-body">
+        <p>Burning more fuel puts more heat into the coolant and the oil, so the radiator, fan clutch, thermostat and oil cooler work harder than on a stock 1HZ (Cooling System Guide). Whether this turbo also has coolant lines to its bearing housing is still to be confirmed against the vehicle (OI-124).</p>
+      </div></div>
+      <div class="info-card"><div class="info-title">The intercooler: top-mounted</div><div class="info-body">
+        <p>This vehicle's intercooler sits on top of the engine and is fed by the bonnet scoop. It works well at speed, when air is forced through the scoop. At walking pace in low range, and when standing still, little air reaches it, and it sits above a hot engine, so the charge air runs warmer and EGT rises. That is why low-range climbing and idling in the heat need the EGT gauge watched (Section 2).</p>
+      </div></div>
+    </div>
+
+    <h3 class="sub-head">1.7 Reading the two gauges as one instrument</h3>
+    <p class="body-p">The two gauges tell you different things. The <strong>boost gauge</strong> shows how much air is being supplied. The <strong>EGT gauge</strong> shows how much heat is leaving in the exhaust, which tracks how much fuel is being burned against that air. Read them together:</p>
+    <div class="matrix-scroll">
+      <table class="specs-table">
+        <thead><tr><th style="width:24%;">Boost</th><th style="width:22%;">EGT</th><th style="width:54%;">What it usually means</th></tr></thead>
+        <tbody>
+          <tr><td>Rising with load</td><td>Rising, then steady</td><td>Normal. The loop is working and the air keeps up with the fuel.</td></tr>
+          <tr><td>Normal</td><td>Climbing and staying up</td><td>Too much fuel for too long: heavy load, a long climb, headwind, soft sand, altitude or heat. Change down, ease off, let it settle.</td></tr>
+          <tr><td>Low for the load</td><td>High</td><td>Air is going missing: a boost leak, a manifold leak or a tired turbo. The pump's no-boost fuel is now too much for the air.</td></tr>
+          <tr><td>Low</td><td>Normal or low</td><td>Fuel is being held back too: often the compensator hose. Flat, but not dangerous.</td></tr>
+          <tr><td>Same as always</td><td>Creeping up over weeks at the same load</td><td>Something is slowly restricting: a dirty air filter, a blocked intercooler or scoop, or a turbo starting to wear.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="body-p">This is the reasoning behind the cross-diagnosis table in the Troubleshooting Guide (§3B), which owns the fault actions. The EGT limits are in Section 2 of this guide.</p>
+
+    <h3 class="sub-head">1.8 Altitude: why the turbo helps but does not cure it</h3>
+    <p class="body-p">The boost gauge measures pressure <em>above the air outside</em>. Higher up, the outside air is thinner, so the same boost reading means less air in the cylinder. The turbo partly makes up for this, and a naturally aspirated engine cannot. Worked from the standard atmosphere, with boost held at 0.6&nbsp;bar:</p>
+    <div class="matrix-scroll">
+      <table class="specs-table">
+        <thead><tr><th style="width:28%;">Altitude</th><th style="width:24%;">Outside air (about)</th><th style="width:24%;">Air reaching the cylinders, turbo</th><th style="width:24%;">Same, without a turbo</th></tr></thead>
+        <tbody>
+          <tr><td>Sea level</td><td>1.01&nbsp;bar</td><td>100% (baseline)</td><td>63% of the turbo figure</td></tr>
+          <tr><td>1,500&nbsp;m (Highveld)</td><td>0.85&nbsp;bar</td><td>about 90%</td><td>about 53%</td></tr>
+          <tr><td>3,000&nbsp;m (Lesotho passes)</td><td>0.70&nbsp;bar</td><td>about 81%</td><td>about 43%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="body-p">Figures are by pressure only and ignore temperature. They assume the boost holds at its sea-level reading. For that, the turbo has to spin faster, because each turn of the compressor moves thinner air. This is why the engine still pulls well up high, but runs hotter for the same driving, and why Section 4 asks you to drive by EGT and not by habit at altitude.</p>
+
+    <h3 class="sub-head">1.9 What wears, and how you would notice</h3>
+    <div class="matrix-scroll">
+      <table class="specs-table">
+        <thead><tr><th style="width:22%;">Part</th><th style="width:36%;">What wears it</th><th style="width:42%;">How it shows</th></tr></thead>
+        <tbody>
+          <tr><td>Shaft bearings</td><td>Oil starvation, dirty oil, hot shutdowns</td><td>Whine or siren noise, shaft play (felt with the engine off and cold), oil past the seals, then sudden loss of boost</td></tr>
+          <tr><td>Shaft seals</td><td>Restricted drain, high crankcase pressure, bearing wear</td><td>Oil inside the intercooler pipes, blue smoke (Section 6)</td></tr>
+          <tr><td>Compressor wheel</td><td>Dust past the filter, foreign objects</td><td>Loss of boost, a changed whistle, more smoke; a damaged wheel can rub its housing</td></tr>
+          <tr><td>Turbine side</td><td>Sustained high EGT</td><td>Cracks, warped housing, loss of boost; often found only on inspection</td></tr>
+          <tr><td>Wastegate</td><td>Heat, carbon, a seized actuator rod</td><td>Stuck open: low boost, flat engine. Stuck shut: boost above normal. Either way, tell the workshop. Boost above normal is a stop-and-check condition, because the engine was not built for it.</td></tr>
+          <tr><td>Hoses and clamps</td><td>Heat, age, corrugations</td><td>Hiss or bang, sudden loss of power, black smoke and high EGT (Section 7)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="body-p"><strong>Compressor surge</strong> is the turbo's air flow stalling and briefly reversing. It is heard as a fluttering or chuffing from the intake when boost is high but the engine is taking little air: low rpm, heavy load, or lifting off suddenly at boost. A diesel with no throttle valve is less prone to it than a petrol engine, and it should be rare on a low-boost kit. If you hear it repeatedly, mention it to the workshop. Don't drive around it.</p>
+
+    <h3 class="sub-head">1.10 This vehicle's turbo: what is known, and from where</h3>
+    <div class="matrix-scroll">
+      <table class="specs-table">
+        <thead><tr><th style="width:26%;">Item</th><th style="width:44%;">Value</th><th style="width:30%;">Source</th></tr></thead>
+        <tbody>
+          <tr><td>Kit</td><td>SAC low-boost turbo kit, locally made; reuses the OE cast-iron exhaust manifold</td><td>SAC, published page (maker's description)</td></tr>
+          <tr><td>Peak boost</td><td>0.6&nbsp;bar (8.7&nbsp;psi); SAC sells the kit as 0.5&nbsp;bar</td><td>Facts §5 (Udel, Jun 2026); SAC page</td></tr>
+          <tr><td>Wastegate</td><td>Fitted; type and setting not recorded</td><td>Owner, 20 Oct 2026; OI-124</td></tr>
+          <tr><td>Intercooler</td><td>Top-mount, fed through a bonnet scoop</td><td>Owner, 20 Oct 2026; Build Register</td></tr>
+          <tr><td>Boost compensator</td><td>OE Toyota unit, fitted by SAC</td><td>Owner, 20 Oct 2026</td></tr>
+          <tr><td>Exhaust</td><td>Free-flow system, May 2026</td><td>Section 2; service ledger</td></tr>
+          <tr><td>EGT probe</td><td>Madman pyrometer, after the turbine</td><td>Section 2</td></tr>
+          <tr><td>Last reconditioned</td><td>Aug 2023 @ <span data-fact="turbo_recon">224,406 km</span> (SAC); <span data-fact="km_since_turbo">~90,413 km</span> since</td><td>Facts §2</td></tr>
+          <tr><td>Oil drain hose</td><td>Renewed Mar 2025</td><td>Service ledger</td></tr>
+          <tr><td>Power and torque</td><td>Stock 96&nbsp;kW / 285&nbsp;Nm; current 118&nbsp;kW / 373&nbsp;Nm</td><td>Facts §5 (dyno)</td></tr>
+          <tr><td>Turbo make and model</td><td>Not recorded. Not in Facts, the service ledger or the Build Register, and not published by SAC: searched steves.co.za (home, Toyota, conversions, intercooler and turbo pages, and the Land Cruiser road-test page), 20 Oct 2026</td><td>Read the data plate at the next workshop visit (OI-124)</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="curious">
+      <div class="curious-title">For the curious: why the intercooler matters (an illustration, not a measurement)</div>
+      <p>Squeezing air heats it. A compressor working at this turbo's pressure ratio (about 1.6 at sea level) with a typical efficiency of around 70%, assumed here and not measured on this turbo, would take 30&nbsp;°C outside air to roughly 90&nbsp;°C. Air density goes with pressure divided by absolute temperature, so:</p>
+      <p style="margin-top:6px;">• Without cooling, 1.6 × 303&nbsp;K ÷ 363&nbsp;K ≈ <strong>1.34×</strong> the air of a naturally aspirated engine.<br>• Cooled to 50&nbsp;°C in the intercooler, 1.6 × 303 ÷ 323 ≈ <strong>1.50×</strong>.</p>
+      <p style="margin-top:6px;">In this example the intercooler wins back roughly 60% of the gain that heat would otherwise take away. Every bit of that extra air either lowers EGT at the same fuel or carries more fuel at the same EGT. It is also why a dirty intercooler core, or a blocked bonnet scoop, slowly pushes EGT up.</p>
+    </div>
+
+    <div class="xref-bar">
+      <span class="xref-label">Related:</span>
+      <span class="xref-pill">R4 · Engine Training — §5.4 boost compensator, §7.4 turbo, §7.5 intercooler</span>
+      <span class="xref-pill">Troubleshooting Guide — §3B EGT × boost</span>
+      <span class="xref-pill">Cooling System Guide</span>
+    </div>
+    <p class="diagram-cap" style="margin-top:8px;">Sources: Steve's Auto Clinic, <a href="https://steves.co.za/road-tests-toyota-land-cruiser/">Road Tests: Toyota Land Cruiser</a> (maker's own description of its 1HZ kit stages; page dated 2016, updated 2018; its power claims were measured at Highveld altitude and differ from this vehicle's dyno figures, which are used above). Facts §2 and §5. Service ledger. Owner answers, 20 Oct 2026. Altitude pressures: the standard atmosphere.</p>
+  </div>
+
+  <!-- ══ S2: EGT RANGES ══ -->
   <div id="s-egt" class="sa">
-    <div class="section-head">1 — Normal EGT Operating Ranges</div>
+    <div class="section-head">2 — Normal EGT Operating Ranges</div>
     <p class="section-intro">Exhaust gas temperature (EGT) is the single most important real-time health indicator for the turbocharged 1HZ. Your Madman pyrometer sensor is post-turbo (after the turbine, on the exhaust side). Add approximately 150°C to any post-turbo reading to estimate the true pre-turbo manifold temperature. Aluminium pistons melt at approximately 650°C pre-turbo — this is your hard ceiling.</p>
 
     <div class="note-box">
@@ -471,7 +742,7 @@
             <td><span class="sev-ok mono">Falling to &lt;350°C within 2–3 min</span></td>
             <td><span class="sev-warn mono">Still &gt;450°C after 5 min gentle driving</span></td>
             <td>—</td>
-            <td>After a long climb, allow 5–10 min of level driving before stopping engine. If parking immediately, idle for 3 min minimum before shutdown — this is critical for the turbo bearing (see Section 4).</td>
+            <td>After a long climb, allow 5–10 min of level driving before stopping engine. If parking immediately, idle for 3 min minimum before shutdown — this is critical for the turbo bearing (see Section 5).</td>
           </tr>
         </tbody>
       </table>
@@ -484,10 +755,10 @@
     </div>
   </div>
 
-  <!-- ══ S2: BOOST & LOAD DISCIPLINE ══ -->
+  <!-- ══ S3: BOOST & LOAD DISCIPLINE ══ -->
   <div id="s-boost" class="sa">
-    <div class="section-head">2 — Boost &amp; Load Discipline</div>
-    <p class="section-intro">The 1HZ is a robust but unforgiving engine under sustained abuse. Your SAC low-boost setup (7–10 psi) is deliberately conservative — it extends engine life significantly compared to high-boost conversions. Driver technique is what protects the turbo, the pistons, and the injection pump.</p>
+    <div class="section-head">3 — Boost &amp; Load Discipline</div>
+    <p class="section-intro">The 1HZ is a robust but unforgiving engine under sustained abuse. Your SAC low-boost setup (0.6&nbsp;bar (8.7&nbsp;psi) peak, measured by Udel in Jun 2026 (Facts §5)) is deliberately conservative — it extends engine life significantly compared to high-boost conversions. Driver technique is what protects the turbo, the pistons, and the injection pump.</p>
 
     <div class="diag-group">
       <div class="diag-group-title">Gear Selection &amp; Lugging</div>
@@ -655,9 +926,9 @@
     </div>
   </div>
 
-  <!-- ══ S3: ALTITUDE EFFECTS ══ -->
+  <!-- ══ S4: ALTITUDE EFFECTS ══ -->
   <div id="s-altitude" class="sa">
-    <div class="section-head">3 — Altitude Effects</div>
+    <div class="section-head">4 — Altitude Effects</div>
     <p class="section-intro">The expedition route crosses significant altitude variation — from coastal Southern Africa to the East African highlands and Lesotho/Ethiopian plateau. Altitude affects EGT, power output, and turbo behaviour in ways that require driver adjustment. This section is the planning reference for high-altitude legs.</p>
 
     <div class="info-grid">
@@ -695,7 +966,7 @@
           <td>Cape Town, Durban, Maputo</td>
           <td><span class="mono">0–200 m</span></td>
           <td><span class="sev-ok">Baseline</span></td>
-          <td>Full performance. EGT reference values in Section 1 are calibrated here.</td>
+          <td>Full performance. EGT reference values in Section 2 are calibrated here.</td>
         </tr>
         <tr>
           <td>Johannesburg / Highveld plateau</td>
@@ -735,13 +1006,13 @@
     <div class="xref-bar">
       <span class="xref-label">Related:</span>
       <span class="xref-pill">R4 · 1HZ Engine Training — Turbocharger theory</span>
-      <span class="xref-pill">Section 1 — EGT thresholds (post-turbo readings)</span>
+      <span class="xref-pill">Section 2 — EGT thresholds (post-turbo readings)</span>
     </div>
   </div>
 
-  <!-- ══ S4: COOL-DOWN PROTOCOL ══ -->
+  <!-- ══ S5: COOL-DOWN PROTOCOL ══ -->
   <div id="s-cooldown" class="sa">
-    <div class="section-head">4 — Cool-Down Protocol</div>
+    <div class="section-head">5 — Cool-Down Protocol</div>
     <p class="section-intro">Turbo bearing coking — carbon deposits baked into the bearing housing from hot residual oil after immediate shutdown — is the leading preventable cause of turbo failure. The fix costs nothing: idle time before switch-off. This section defines when and how long.</p>
 
     <div class="diag-group">
@@ -762,7 +1033,7 @@
             <li>
               <span class="cause-num">1</span>
               <span class="cause-text">
-                <span class="cause-label">Under load, the turbo shaft spins at up to 100,000 rpm</span>
+                <span class="cause-label">Under load, the turbo shaft spins at tens of thousands of rpm</span>
                 <span class="cause-note">The bearing is lubricated by pressurised engine oil. At operating temperature, the housing and turbine are at 400–600°C. Oil is continuously circulating, carrying heat away.</span>
               </span>
             </li>
@@ -891,9 +1162,9 @@
     </div>
   </div>
 
-  <!-- ══ S5: SMOKE SIGNALS ══ -->
+  <!-- ══ S6: SMOKE SIGNALS ══ -->
   <div id="s-smoke" class="sa">
-    <div class="section-head">5 — Smoke as Real-Time Feedback</div>
+    <div class="section-head">6 — Smoke as Real-Time Feedback</div>
     <p class="section-intro">Exhaust smoke colour is a direct tuning signal visible in the mirror while driving. Learning to read it gives you real-time information about combustion quality without gauges. This section covers smoke interpretation during normal driving. For smoke associated with fault conditions, see R18 — 1HZ Troubleshooting.</p>
 
     <div class="note-box">
@@ -975,9 +1246,9 @@
     </div>
   </div>
 
-  <!-- ══ S6: INTERCOOLER & BOOST SYSTEM ══ -->
+  <!-- ══ S7: INTERCOOLER & BOOST SYSTEM ══ -->
   <div id="s-intercooler" class="sa">
-    <div class="section-head">6 — Intercooler &amp; Boost System Checks</div>
+    <div class="section-head">7 — Intercooler &amp; Boost System Checks</div>
     <p class="section-intro">Your intercooler was installed July 2012 at 50,637 km and now has approximately 255,000 km on it. The boost system — intercooler, hoses, clamps, and boost compensator line — is a pressurised circuit. Any leak degrades intercooler efficiency, reduces power, and raises EGT. Check this circuit as part of every pre-departure inspection.</p>
 
     <div class="note-box">
@@ -1051,7 +1322,7 @@
             </div>
             <div class="check-step">
               <span class="step-num">2</span>
-              <span><strong>Intercooler to intake manifold hose</strong> — same squeeze test. On a front-mount intercooler, this hose runs from the intercooler outlet back to the intake. Check for oil weeping on the outside of the hose — this indicates a leaking turbo seal pushing oil through the boost circuit.</span>
+              <span><strong>Intercooler to intake manifold hose</strong> — same squeeze test. On this top-mount intercooler, this hose runs from the intercooler outlet down to the intake manifold. Check for oil weeping on the outside of the hose — this indicates a leaking turbo seal pushing oil through the boost circuit.</span>
             </div>
             <div class="check-step">
               <span class="step-num">3</span>
