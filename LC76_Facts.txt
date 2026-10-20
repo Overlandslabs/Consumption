@@ -5,7 +5,7 @@ documents. Update this file FIRST whenever a service, upgrade, or
 status change occurs. Use it as a briefing attachment when asking
 Claude to update any library document.
 
-Last updated: 12 October 2026 (§11B recovery kit: static tow rope added — owner, S5; earlier the same day snatch block and winch extension strap added and jack named ARB — owner rulings 12 Oct 2026; no figure changed)
+Last updated: 20 October 2026 (§2/§3/§4: the 8 Oct 2026 service @ 314,819 km entered — PW Auto Centre invoice 299944 — and the new front shocks fitted 20 Oct 2026 — 4x4 Megaworld invoice 03INV19018; odometer 314,819 km; new EVENT facts service_oct2026 and front_shocks_oct2026, derived oil/brake-fluid/shock clocks re-pointed to them. Earlier, 12 Oct 2026: §11B recovery kit additions)
 Maintained by: Neil / Mary-Ann
 ══════════════════════════════════════════════════════════════════════
 
@@ -112,7 +112,7 @@ Payload:              810 kg factory / ~683 kg as-built (ESTIMATE — same basis
                       (R11 §2) — note this eases the AXLE split but does NOT cut
                       the total, so it does not by itself cure the GVM overload.
 Suspension:           OME medium lift ~50 mm
-                      Front: OME 859 coils + N181 NitroCharger+ shocks
+                      Front: OME 859 coils + 63008 Nitrocharger Plus shocks (fitted 20 Oct 2026)
                       Rear:  OME CS058R leaves + 63111 NitroCharger+ shocks
                       (~400 kg constant-load rating)
 
@@ -126,30 +126,34 @@ Edit a value HERE only, then run lc76_fact_release.py to push it to every
 <span data-fact> in the HTML corpus AND to the <fact:...> readouts in the readable
 lines below. Derived facts carry a formula and NEVER a stored result; kind=EVENT
 mileages are immutable history. Parsed & checked by LC76_Fact_Validator.py.
-  [fact:odometer] value=314546 unit=km as_of=2026-09-15 grade=E2 display="314,546 km" owner=Facts§2
+  [fact:odometer] value=314819 unit=km as_of=2026-10-08 grade=E1 display="314,819 km" owner=Facts§2 note="speedo on PW Auto Centre invoice 299944, 8 Oct 2026 — the October reading"
   [fact:turbo_recon] value=224406 unit=km kind=EVENT grade=E2 display="224,406 km" owner=Facts§2 note="turbo recon Aug 2023"
   [fact:cambelt] value=273023 unit=km kind=EVENT grade=E2 display="273,023 km" owner=Facts§2 note="cambelt fitted Apr 2025"
   [fact:clutch] value=296500 unit=km kind=EVENT grade=E2 display="296,500 km" owner=Facts§2 note="clutch 4 (TT 4WD HD) fitted Feb 2026"
   [fact:gearbox] value=271200 unit=km kind=EVENT grade=E2 display="271,200 km" owner=Facts§2 note="gearbox rebuild Feb 2025 (Cape Transmissions)"
   [fact:injectors] value=310412 unit=km kind=EVENT grade=E2 display="310,412 km" owner=Facts§2 note="injection overhaul Jun 2026 (Udel) — injectors + VE pump"
-  [fact:last_routine_service] value=308248 unit=km kind=EVENT grade=E2 display="308,248 km" owner=Facts§2 note="oil service 14 Apr 2026"
+  [fact:last_routine_service] value=308248 unit=km kind=EVENT grade=E2 display="308,248 km" owner=Facts§2 note="oil service 14 Apr 2026 — no longer the latest; see service_oct2026"
   [fact:crank_fit] value=311263 unit=km kind=EVENT grade=E2 display="311,263 km" owner=Facts§2 note="crank battery fitted 4 Aug 2026"
   [fact:km_since_turbo] derived="odometer - turbo_recon" unit=km approx=yes grade=E2 owner=Facts§2
   [fact:km_since_cambelt] derived="odometer - cambelt" unit=km interval=100000 grade=E2 owner=Facts§2
   [fact:km_since_clutch] derived="odometer - clutch" unit=km approx=yes grade=E2 owner=Facts§2
-  [fact:km_since_gearbox] derived="odometer - gearbox" unit=km interval=40000 grade=E2 owner=Facts§2
+  [fact:km_since_gearbox] derived="odometer - gearbox" unit=km grade=E2 owner=Facts§2 note="km on the Feb 2025 gearbox/drivetrain rebuild — no interval; the oil clock is km_since_gearbox_oil"
+  [fact:service_oct2026] value=314819 unit=km kind=EVENT grade=E1 display="314,819 km" owner=Facts§2 note="PW Auto Centre 8 Oct 2026, invoice 299944 — engine oil + filter kit, all four gear oils, brake & clutch fluid bleed, rear wheel bearings + hub seals, front bearing repack, knuckle kits both sides, rocker cover + intake manifold gaskets"
+  [fact:km_since_gearbox_oil] derived="odometer - service_oct2026" unit=km interval=40000 approx=yes grade=E2 owner=Facts§2
+  [fact:km_since_wheel_bearings] derived="odometer - service_oct2026" unit=km approx=yes grade=E2 owner=Facts§2 note="rear replaced, front repacked 8 Oct 2026; repack interval unset — OI-63"
   [fact:km_since_injectors] derived="odometer - injectors" unit=km approx=yes grade=E2 owner=Facts§2
   [fact:km_since_injpump] derived="odometer - injectors" unit=km approx=yes grade=E2 owner=Facts§2
   [fact:service_jan2026] value=293949 unit=km kind=EVENT grade=E2 display="293,949 km" owner=Facts§2 note="PW Auto Centre Jan 2026 — coolant full change, brake fluid, propshaft grease, front diff oil"
   [fact:km_since_coolant] derived="odometer - service_jan2026" unit=km interval=40000 approx=yes grade=E2 owner=Facts§2
-  [fact:km_since_brakefluid] derived="odometer - service_jan2026" unit=km approx=yes grade=E2 owner=Facts§2
+  [fact:km_since_brakefluid] derived="odometer - service_oct2026" unit=km approx=yes grade=E2 owner=Facts§2
   [fact:service_apr2025] value=273023 unit=km kind=EVENT grade=E2 display="273,023 km" owner=Facts§2 note="PW Auto Centre Apr 2025 275k service — cambelt kit + rear diff oil"
-  [fact:km_since_transfer] derived="odometer - gearbox" unit=km interval=40000 approx=yes grade=E2 owner=Facts§2
-  [fact:km_since_front_diff] derived="odometer - service_jan2026" unit=km interval=40000 approx=yes grade=E2 owner=Facts§2
-  [fact:km_since_rear_diff] derived="odometer - service_apr2025" unit=km interval=40000 approx=yes grade=E2 owner=Facts§2
+  [fact:km_since_transfer] derived="odometer - service_oct2026" unit=km interval=40000 approx=yes grade=E2 owner=Facts§2
+  [fact:km_since_front_diff] derived="odometer - service_oct2026" unit=km interval=40000 approx=yes grade=E2 owner=Facts§2
+  [fact:km_since_rear_diff] derived="odometer - service_oct2026" unit=km interval=40000 approx=yes grade=E2 owner=Facts§2
   [fact:front_shocks] value=221000 unit=km kind=EVENT grade=E2 display="221,000 km" owner=Facts§2 note="OME N181 front shocks, G-Tec Apr 2023"
   [fact:rear_shocks] value=294500 unit=km kind=EVENT grade=E2 display="294,500 km" owner=Facts§2 note="OME 63111 rear shocks + CS058R leaf springs, 4X4 Megaworld Jan 2026"
-  [fact:km_since_front_shocks] derived="odometer - front_shocks" unit=km approx=yes grade=E2 owner=Facts§2
+  [fact:front_shocks_oct2026] value=314819 unit=km kind=EVENT grade=E1 display="314,819 km" owner=Facts§2 note="OME Nitrocharger Plus 63008 front shocks, 4x4 Megaworld 20 Oct 2026, invoice 03INV19018 — odometer not on the invoice, 8 Oct reading used; replaced the leaking N181 pair"
+  [fact:km_since_front_shocks] derived="odometer - front_shocks_oct2026" unit=km approx=yes grade=E2 owner=Facts§2
   [fact:km_since_rear_shocks] derived="odometer - rear_shocks" unit=km approx=yes grade=E2 owner=Facts§2
   [fact:wb_front] value=1160 unit=kg as_of=2026-08-10 grade=E1 display="1,160 kg" owner=Facts§1 note="weighbridge full expedition trim 10 Aug 2026 (max 1,480)"
   [fact:wb_rear] value=2120 unit=kg as_of=2026-08-10 grade=E1 display="2,120 kg" owner=Facts§1 note="weighbridge full expedition trim 10 Aug 2026 — 60 kg under 2,180 axle max (binding)"
@@ -159,39 +163,44 @@ mileages are immutable history. Parsed & checked by LC76_Fact_Validator.py.
 The odometer & component-life values in the lines below are RELEASED from the fact
 store above (released into the readable lines) — do not hand-edit them; edit the store.
 
-Current odometer:     <fact:odometer>314,546 km</fact>  (read 15 Sep 2026)
-Last oil service:     308,248 km  (14 Apr 2026 — PW Auto Centre)
-                      Full filter kit · engine oil · fan belt kit
-                      Propshaft UJ (GUT 21) + sliding assy replaced + balanced
-                      Propshaft & suspension greased
-                      Coolant / brake fluid / PS fluid topped up
-Latest record:        310,412 km  (19 Jun 2026 — Udel fuel-injection overhaul:
-                      VE pump rebuild, 6 injectors reconditioned, valves set)
+Current odometer:     <fact:odometer>314,819 km</fact>  (read 8 Oct 2026 — service invoice)
+Last oil service:     314,819 km  (8 Oct 2026 — PW Auto Centre, invoice 299944)
+                      Engine oil · filter kit (oil, fuel, air — Terrain Tamer)
+                      All four gear oils (gearbox, transfer case, front & rear diff)
+                      Brake & clutch fluid — full bleed and change
+                      Rear wheel bearings (HD kits, new hub seals) · front bearings repacked
+                      Steering knuckle kits both sides + CV grease
+                      Rocker cover gasket + half-moon seal (breather routing checked first)
+                      Intake manifold gasket set (sweating found)
+                      Propshaft & suspension greased · coolant / PS fluid topped up
+Previous oil service: 308,248 km  (14 Apr 2026 — PW Auto Centre)
+Latest record:        314,819 km  (20 Oct 2026 — front shocks, OME Nitrocharger Plus
+                      63008, 4x4 Megaworld; odometer not on that invoice)
 
-Next service due:     ~315,000 km  (manufacturer manual milestone; local-use phase)
-                      or ~328,000 km if on 20,000 km filter interval
+Next oil change due:  ~319,800 km  (8 Oct 2026 @ 314,819 km + the 5,000 km turbo
+                      oil interval — LC76_Service_Checklist.html, master of the schedule)
 
-Km on turbo recon:    <fact:km_since_turbo>~90,140 km</fact>  (recon Aug 2023 @ 224,406 km)
-Km on cambelt:        <fact:km_since_cambelt>41,523 km</fact>   (fitted Apr 2025 @ 273,023 km)
+Km on turbo recon:    <fact:km_since_turbo>~90,413 km</fact>  (recon Aug 2023 @ 224,406 km)
+Km on cambelt:        <fact:km_since_cambelt>41,796 km</fact>   (fitted Apr 2025 @ 273,023 km)
                       Next due: ~373,000 km or Apr 2030 (100,000 km / 5 yr)
 Km on clutch (current Clutch 4, TT 4WD HD):
-                      <fact:km_since_clutch>~18,046 km</fact>  (fitted Feb 2026 @ 296,500 km)
-Km on gearbox rebuild: <fact:km_since_gearbox>43,346 km</fact>  (Cape Transmissions, Feb 2025 @ 271,200 km)
-Km on injectors:      <fact:km_since_injectors>~4,134 km</fact>   (reconditioned Udel, Jun 2026 @ 310,412 km;
+                      <fact:km_since_clutch>~18,319 km</fact>  (fitted Feb 2026 @ 296,500 km)
+Km on gearbox rebuild: <fact:km_since_gearbox>43,619 km</fact>  (Cape Transmissions, Feb 2025 @ 271,200 km)
+Km on gear oils (all four, Oct-26 change): <fact:km_since_gearbox_oil>~0 km</fact>  (changed 8 Oct 2026 @ 314,819 km; 40,000 km interval)
+Km on front shocks:   <fact:km_since_front_shocks>~0 km</fact>  (OME 63008, fitted 20 Oct 2026)
+Km on injectors:      <fact:km_since_injectors>~4,407 km</fact>   (reconditioned Udel, Jun 2026 @ 310,412 km;
                       new nozzles x6 — prior reman Toyota Mar 2025 @ 272,185 km)
-Km on inj pump:       <fact:km_since_injpump>~4,134 km</fact>   (VE pump rebuilt & calibrated Udel, Jun 2026
+Km on inj pump:       <fact:km_since_injpump>~4,407 km</fact>   (VE pump rebuilt & calibrated Udel, Jun 2026
                       @ 310,412 km — prior calibration Mar 2025 @ 272,185 km)
-Km on coolant (Jan-26 full change): <fact:km_since_coolant>~20,597 km</fact>  (full change Jan 2026 @ 293,949 km — flush interval is OI-62, separate)
-Km on brake fluid (Jan-26 change):   <fact:km_since_brakefluid>~20,597 km</fact>  (changed Jan 2026 @ 293,949 km; 2-yr interval)
+Km on coolant (Jan-26 full change): <fact:km_since_coolant>~20,870 km</fact>  (full change Jan 2026 @ 293,949 km — flush interval is OI-62, separate)
+Km on brake fluid (Oct-26 bleed):     <fact:km_since_brakefluid>~0 km</fact>  (full bleed and change, brakes and clutch, 8 Oct 2026 @ 314,819 km; 2-yr interval)
 
-Total maintenance (R): 792,104.65 (Services sheet — the maintenance & repair
-                      ledger of record, as at the 6 Aug 2026 Services/Build
-                      split. Build & accessory cost is capitalised SEPARATELY
-                      (R544,082.76) — see LC76_Build_Register.html. Master of
-                      this figure is the xlsx / R8, not this file; the pre-split
-                      R810,838.32 is superseded.)
-Total service records: 309        (Services line items, as at 6 Aug 2026 —
-                      post-split; the pre-split 315 is superseded.)
+Total maintenance (R): 898,734.26 (Services sheet — the maintenance & repair
+                      ledger of record, at 20 Oct 2026, after the 8 Oct service
+                      and the 20 Oct front shocks. Build & accessory cost is
+                      capitalised SEPARATELY — see LC76_Build_Register.html.
+                      Master of this figure is the xlsx / R8, not this file.)
+Total service records: 338        (Services line items, at 20 Oct 2026.)
 
 
 ═══════════════════════════════════════════════════════════════════
@@ -214,16 +223,16 @@ CRITICAL — NO RECORD:
     replacement record (possibly with radiator Nov 2024, not separately invoiced).
 
 ACTIVE MONITORS:
-  • Rear hub seal leak — monitor (risk of brake shoe contamination). → OI-61.
-  • Fat knuckle grease leak — monitor. → OI-71.
   • Cooling system flush — last flush Aug 2023 @ 224,406 km (event figure).
     Interval & status: → OI-62 (master). The former "~85,000 km ago" verdict is
     WITHDRAWN — it competed with the register on the same event.
   • Radiator quality — Nov 2024 install flagged as inferior quality at install.
     Monitor for leaks; replace with quality unit before departure. → OI-6 (RA-5).
-  • Wheel bearing repack — grease/repack ~245,000 km; bearings REPLACED Feb 2025
-    @ 271,200 km (event figures). Interval & status: → OI-63 (master). The former
-    "~65,000 km ago" verdict is WITHDRAWN — it competed with the register.
+  • Wheel bearing repack — rear bearings REPLACED (HD kits) and front bearings
+    repacked 8 Oct 2026 @ 314,819 km; before that, replaced Feb 2025 @ 271,200 km
+    (event figures). The repack INTERVAL is still unset: → OI-63 (master).
+  • Turbo — oil sweat at the large pipe (workshop, 8 Oct 2026); have it checked.
+    → OI-122 (ADV-017).
   • Gear rattle (drive rattle) — low-RPM in-gear light-load clatter,
     confirmed May 2026 as benign character of the TT 4WD HD clutch damper
     (vanishes on clutch dip; silent in neutral). Diagnosis recorded in R13.
@@ -231,39 +240,56 @@ ACTIVE MONITORS:
 
 RESOLVED / NOW DONE:
   • Free-flow exhaust — fitted 20 May 2026 (was an R31 outstanding upgrade).
+  • Rear hub seal leak — new hub seals with the rear wheel bearing kits,
+    8 Oct 2026 @ 314,819 km. OI-61 closed.
+  • Front knuckle grease leak — knuckle kits both sides + CV grease,
+    8 Oct 2026 @ 314,819 km. OI-71 closed.
+  • Cylinder head oil seepage — breather routing checked, then rocker cover
+    gasket + half-moon seal replaced, 8 Oct 2026 @ 314,819 km. OI-66 closed.
+  • Gearbox, transfer-case and rear-diff oils (overdue) — all four gear oils
+    changed 8 Oct 2026 @ 314,819 km. OI-108 closed.
+  • Front shocks leaking — replaced with OME Nitrocharger Plus 63008,
+    20 Oct 2026.
 
 
 ═══════════════════════════════════════════════════════════════════
 §4  KEY SERVICE DATES (component-level)
 ═══════════════════════════════════════════════════════════════════
 
-Engine oil:           Apr 2026 @ 308,248 km  — next due ~315,000 km
-Oil filter:           Apr 2026 @ 308,248 km
-Fuel filter:          Apr 2026 @ 308,248 km
-Air filter:           Apr 2026 @ 308,248 km
+Engine oil:           Oct 2026 @ 314,819 km  — next due ~319,800 km (5,000 km interval, Service Checklist)
+Oil filter:           Oct 2026 @ 314,819 km
+Fuel filter:          Oct 2026 @ 314,819 km  (also renewed Jun 2026 @ 310,412 km, Udel)
+Air filter:           Oct 2026 @ 314,819 km
 Cabin filter:         Apr 2026 @ 308,248 km
 Fan belt kit:         Apr 2026 @ 308,248 km  (7th fitment since 2019; use PW-sourced belts only)
 Free-flow exhaust:    May 2026 @ 309,968 km  (76 mm, 409 stainless, Powerflow Bellville, R8,500)
 Cambelt + tensioner/idlers: Apr 2025 @ 273,023 km
-Coolant (top-up):     Apr 2026 @ 308,248 km
+Coolant (top-up):     Oct 2026 @ 314,819 km
 Coolant (full change): Jan 2026 @ 293,949 km
 Coolant flush:        Aug 2023 @ 224,406 km  — OVERDUE
 Radiator cap:         Apr 2025 @ 273,023 km
-Brake fluid:          Jan 2026 @ 293,949 km  (topped up Apr 2026) — due Jan 2028
-Clutch fluid:         Apr 2025 @ 273,023 km
+Brake fluid:          Oct 2026 @ 314,819 km  (full bleed and change) — due Oct 2028
+Clutch fluid:         Oct 2026 @ 314,819 km  (bled and changed with the brakes)
 Rear brake shoes:     Jan 2026 @ 293,949 km
 Rear brake drums:     Jan 2026 @ 293,949 km
 Front brake pads:     Feb 2025 @ 271,200 km (Cape Transmissions)
 Front discs (skimmed): Feb 2025 @ 271,200 km
-Gearbox oil:          Feb 2025 @ 271,200 km  (full rebuild)
-Transfer case oil:    Feb 2025 @ 271,200 km  (full rebuild)
-Front diff oil:       Jan 2026 @ 293,949 km
-Rear diff oil:        Apr 2025 @ 273,023 km
-Propshaft grease:     Apr 2026 @ 308,248 km
+Gearbox oil:          Oct 2026 @ 314,819 km  (before: Feb 2025 @ 271,200 km, full rebuild)
+Transfer case oil:    Oct 2026 @ 314,819 km  (before: Feb 2025 @ 271,200 km, full rebuild)
+Front diff oil:       Oct 2026 @ 314,819 km
+Rear diff oil:        Oct 2026 @ 314,819 km
+Propshaft grease:     Oct 2026 @ 314,819 km
 Steering grease:      Apr 2026 @ 308,248 km
-Suspension grease:    Apr 2026 @ 308,248 km
+Suspension grease:    Oct 2026 @ 314,819 km
 Front UJ (GUT 21):    Apr 2026 @ 308,248 km  (replaced + balanced)
 Rear spring kit (OME CS058R + shocks 63111): Jan 2026 @ 294,500 km
+Front shocks (OME Nitrocharger Plus 63008): Oct 2026 @ 314,819 km  (4x4 Megaworld, 20 Oct 2026; replaced the leaking N181 pair from Apr 2023 @ 221,000 km)
+Rear wheel bearings + hub seals (HD kits): Oct 2026 @ 314,819 km
+Front wheel bearings (repacked): Oct 2026 @ 314,819 km
+Steering knuckle kits (both sides) + CV grease: Oct 2026 @ 314,819 km
+Rear axle shaft flanges (machined) + right rear stub axle thread repair: Oct 2026 @ 314,819 km
+Rocker cover gasket + half-moon seal: Oct 2026 @ 314,819 km
+Intake manifold gasket set: Oct 2026 @ 314,819 km
 Front stabiliser bushes: Apr 2025 @ 273,023 km
 Front castor correction / trailing arm bracket: Jun 2025 @ 275,000 km (Suspension City)
 Wheel alignment:      Jan 2026 @ 294,500 km
@@ -344,7 +370,7 @@ Tyre history:
 Clutch 1 (OEM):          0–212,330 km        = 212,330 km ✓
 Clutch 2 (standard):     212,330–224,406 km  = 12,076 km  ✗ (premature)
 Clutch 3 (HD):           224,406–250,894 km  = 26,488 km  ⚠
-Clutch 4 (TT 4WD HD):    Feb 2026 @ 296,500 km — CURRENT (<fact:km_since_clutch>~18,046 km</fact>)
+Clutch 4 (TT 4WD HD):    Feb 2026 @ 296,500 km — CURRENT (<fact:km_since_clutch>~18,319 km</fact>)
 Installer:               Cape Transmissions (Aleric & Donovan)
 
 NOTE: Low-RPM in-gear drive rattle confirmed benign (May 2026) — inherent
