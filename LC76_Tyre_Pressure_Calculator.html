@@ -104,6 +104,10 @@ input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;bac
 
 /* callouts — as .call in the siblings */
 .rationale{border-left:4px solid var(--ochre);background:#FFFBEB;padding:12px 16px;margin:8px 0}
+.laden{border-left:4px solid var(--clay);background:var(--cream);padding:12px 16px;margin:8px 0}
+.laden-head{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--clay);margin-bottom:4px}
+.laden-vals{font-size:17px;font-weight:600;color:var(--bark);line-height:1.5;white-space:pre-line}
+.laden-text{font-size:13.5px;line-height:1.6;color:var(--smoke);margin-top:4px}
 .rationale-head,.reinflation-head{font-size:10px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:4px}
 .rationale-head{color:var(--amber)}
 .rationale-text{font-size:13.5px;line-height:1.6;color:var(--smoke)}
@@ -228,7 +232,7 @@ footer span{color:var(--ochre)}
 <!-- ═══════════════════════════════════════════════════ CALCULATOR PANEL -->
 <div id="panel-calc" class="panel active">
 
-  <div class="lead-note"><strong>R14 (Tyre Management Guide) is the authoritative pressure master.</strong> The KO3 265/75R16 load range D (119/116 S) was fitted Sep 2026. IMPORTANT: at full expedition load the weighbridge measured the rear at ~1,060 kg/tyre, which the KO3 LR-D load table requires ~<strong>3.3 bar (48 psi)</strong> — higher than this tool's highway range. This calculator is a terrain-adjustment guide sized for lighter day loads; for loaded-tar pressures use R14's table and never run the loaded rear below it. Provisional until proven over RA-9.</div>
+  <div class="lead-note"><strong>R14 (Tyre Management Guide) is the authoritative pressure master.</strong> The KO3 265/75R16 load range D (119/116 S) was fitted Sep 2026. IMPORTANT: at full expedition load the weighbridge measured the rear at ~1,060 kg/tyre, for which the light-truck load table (R14 §3) needs about 47 psi, run as <strong>3.3 bar (48 psi)</strong> — higher than this tool's highway range. This calculator is a terrain-adjustment guide sized for lighter day loads; for loaded-tar pressures use R14's table and never run the loaded rear below it. Provisional until proven over RA-9.</div>
 
   <div class="sec-head">Tyre Size</div>
   <div class="size-selector">
@@ -311,6 +315,13 @@ footer span{color:var(--ochre)}
         <div class="result-range" id="rear-range">Range: 2.41–2.76 bar</div>
       </div>
     </div>
+  </div>
+
+  <div class="laden" id="laden-box">
+    <div class="laden-head">Full expedition load — R14</div>
+    <div class="laden-vals" id="laden-vals">Front 2.6 bar (38 psi)
+Rear 3.3 bar (48 psi)</div>
+    <div class="laden-text">At full expedition load use these. The figures above are for lighter loads. The rear on tar is set by the tyre load table: 1,060 kg per tyre needs about 47 psi.</div>
   </div>
 
   <div class="rationale" id="rationale-box">
@@ -654,6 +665,20 @@ function payloadAdj(payload, terrain) {
   return {f: delta * 1.0, r: delta * 1.5};
 }
 
+// ─────────────────────────────────────────────
+// FULL EXPEDITION LOAD — copied from R14 §3 (Tyre Management Guide), the
+// laden rows of its pressure table. R14 is the master: change both together.
+// [front psi, front bar, rear psi, rear bar]
+// ─────────────────────────────────────────────
+var LADEN_R14 = {
+  highway:    [38, '2.6', 48, '3.3'],
+  gravel:     [29, '2.0', 38, '2.6'],
+  corrugated: [26, '1.8', 35, '2.4'],
+  rock:       [26, '1.8', 32, '2.2'],
+  mud:        [23, '1.6', 26, '1.8'],
+  sand:       [20, '1.4', 23, '1.6']
+};
+
 function psiToBar(psi) {
   return (psi * 0.0689476).toFixed(2);
 }
@@ -679,6 +704,10 @@ function render() {
   document.getElementById('rear-bar').innerHTML = psiToBar(rPSI) + ' <span>bar</span>';
   document.getElementById('rear-psi').innerHTML = rPSI + ' <span>PSI</span>';
   document.getElementById('rear-range').textContent = 'Range: ' + psiToBar(d.rl) + '–' + psiToBar(d.rh) + ' bar';
+
+  var L = LADEN_R14[state.terrain];
+  document.getElementById('laden-vals').textContent = L ?
+    'Front ' + L[1] + ' bar (' + L[0] + ' psi)\nRear ' + L[3] + ' bar (' + L[2] + ' psi)' : 'See R14 §3';
 
   document.getElementById('rationale-text').textContent = d.rat;
 
