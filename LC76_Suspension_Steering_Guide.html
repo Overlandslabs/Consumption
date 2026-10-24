@@ -57,7 +57,6 @@
     .comp-grid, .qual-grid { grid-template-columns:1fr; }
     .diag-header { grid-template-columns:1fr; }
     .diag-header > div:last-child { justify-content:flex-start; }
-    .flow-wrap { font-size:11px; }
   }
 
   @media print { .lib-home-btn { display:none !important; } }
@@ -140,18 +139,15 @@
   .tag-planned { background:rgba(59,106,191,.12); color:#3b6abf; border:1px solid rgba(59,106,191,.3); }
 
   /* FLOW DIAGRAM */
-  .flow-wrap { background:var(--steeldk); border:1px solid rgba(255,255,255,.08); padding:16px; margin:14px 0; overflow-x:auto; overscroll-behavior-x:contain; }
-  .flow-title { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--steelmd); margin-bottom:12px; }
-  .flow-row { display:flex; align-items:center; flex-wrap:nowrap; gap:0; margin:4px 0; }
-  .flow-node { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); padding:5px 10px; border-radius:2px; white-space:nowrap; flex-shrink:0; }
-  .flow-node.spring { background:rgba(5,150,105,.2);  border-color:rgba(5,150,105,.4);  color:#6ee7b7; }
-  .flow-node.damp   { background:rgba(224,120,0,.2);  border-color:rgba(224,120,0,.4);  color:#fcd34d; }
-  .flow-node.locate { background:rgba(185,28,28,.25); border-color:rgba(185,28,28,.5);  color:#fca5a5; }
-  .flow-node.steer  { background:rgba(106,112,128,.25); border-color:rgba(106,112,128,.5); color:#d0d6dd; }
-  .flow-arrow { font-size:12px; color:var(--steelmd); padding:0 6px; flex-shrink:0; }
-  .flow-note { font-family:'IBM Plex Mono',monospace; font-size:10px; color:#b0bcc8; margin-left:8px; font-style:italic; }
-  .flow-legend { display:flex; flex-wrap:wrap; gap:10px; margin-top:12px; padding-top:10px; border-top:1px solid rgba(255,255,255,.08); }
-  .flow-legend .flow-node { font-size:9px; padding:3px 7px; }
+  .ss-fig { background:#fff; border:1px solid var(--rule); margin:14px 0 6px; padding:8px 0; }
+  .ss-fig svg { display:block; width:100%; max-width:520px; height:auto; margin:0 auto; }
+  .ss-cap { font-size:13px; color:var(--ink); margin:0 0 8px; }
+  .ss-cap-note { font-size:12px; color:var(--steelmd); margin-bottom:14px; }
+  .ss-how { margin:0 0 16px; }
+  .ss-how p { margin:0 0 8px; }
+  .ss-how p strong { font-weight:600; color:var(--ink); }
+  .ss-how p.ss-how-src { font-size:11.5px; color:var(--steelmd); margin:0; }
+  .ss-how-src a { color:var(--amber); }
 
   /* SPECS TABLE */
   .specs-table { width:100%; border-collapse:collapse; font-size:13px; margin:14px 0; table-layout:fixed; }
@@ -317,12 +313,8 @@
     .risk-high { background: #fde8e8 !important; color: #B91C1C !important; }
     .risk-med  { background: #fef3cd !important; color: #7c4a00 !important; }
     .risk-low  { background: #e8f5e9 !important; color: #1a6b3a !important; }
-    .flow-wrap { break-inside: avoid; background: #2a2f3a !important; }
-    .flow-node        { background: rgba(255,255,255,.1) !important; color: #fff !important; }
-    .flow-node.spring { background: rgba(5,150,105,.2)  !important; color: #6ee7b7 !important; }
-    .flow-node.damp   { background: rgba(224,120,0,.2)  !important; color: #fcd34d !important; }
-    .flow-node.locate { background: rgba(185,28,28,.25) !important; color: #fca5a5 !important; }
-    .flow-node.steer  { background: rgba(106,112,128,.25) !important; color: #d0d6dd !important; }
+    .ss-fig { break-inside: avoid; background: #fff !important; }
+    .ss-fig svg { max-width: 110mm; }
     .diag-group-title { background: #2a2f3a !important; color: #e07800 !important; }
     .diag-header { background: #EDE5D0 !important; }
     .badge-stop    { background: #fde8e8 !important; color: #B91C1C !important; }
@@ -356,7 +348,7 @@
 <div class="sticky-wrap">
   <div class="masthead">
     <a href="index.html" class="lib-home-btn">⌂ Index</a>
-    <div class="mh-eyebrow">Reference · R25<span class="mh-date">Last updated: 20 October 2026</span></div>
+    <div class="mh-eyebrow">Reference · R25<span class="mh-date">Last updated: 24 October 2026</span></div>
     <div class="mh-title">Suspension &amp; Steering Field Guide</div>
     <div class="mh-sub">Architecture, wear, inspection, diagnosis, load limits, chassis &amp; geometry</div>
   </div>
@@ -382,69 +374,155 @@
     <div class="section-head">Suspension &amp; Steering Architecture</div>
     <p class="section-intro">The HZJ76R-RKMRS rides on solid axles at both ends. The front is coil sprung on twin leading arms with a panhard rod for lateral location and a front stabiliser bar. The rear is leaf sprung — multi-leaf packs clamped to the axle with U-bolts, pinned at the front eye and shackled at the rear, locating the axle fore-aft, laterally, and vertically from the leaves alone. No rear control arms, no panhard, no A-frame. Steering is hydraulically-assisted recirculating ball, with a single drag link from the pitman arm to the right knuckle and a tie rod between the knuckles. Everything is mechanical, repairable, and inspectable with hand tools — the same defining strength as the engine.</p>
 
-    <div class="flow-wrap">
-      <div class="flow-title">Front Axle — Coil Sprung, Radius-Arm Located</div>
-      <div class="flow-row">
-        <div class="flow-node spring">Front Coils ×2 (OME 859)</div>
-        <div class="flow-arrow">+</div>
-        <div class="flow-node damp">Front Shocks ×2 (OME 63008)</div>
-        <div class="flow-arrow">+</div>
-        <div class="flow-node locate">Leading Arms L &amp; R</div>
-        <div class="flow-arrow">+</div>
-        <div class="flow-node locate">Front Panhard</div>
-        <div class="flow-note">Springs carry load · shocks damp · arms locate fore-aft · panhard locates side-to-side</div>
-      </div>
-      <div class="flow-row" style="margin-top:8px;">
-        <div class="flow-node locate">Front Stabiliser Bar</div>
-        <div class="flow-arrow">+</div>
-        <div class="flow-node locate">Stabiliser Bushes &amp; Links</div>
-        <div class="flow-note">Reduces body roll in corners — bushes are the wear item</div>
-      </div>
-      <div class="flow-row" style="margin-top:8px;">
-        <div class="flow-node steer">Steering Box (recirc. ball)</div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node steer">Pitman Arm</div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node steer">Drag Link</div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node steer">RH Knuckle Arm</div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node steer">Tie Rod</div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node steer">LH Knuckle</div>
-      </div>
-      <div class="flow-row" style="margin-top:8px;">
-        <div class="flow-node locate">King Pins (upper &amp; lower)</div>
-        <div class="flow-arrow">↔</div>
-        <div class="flow-node locate">Swivel Hub Housing</div>
-        <div class="flow-arrow">↔</div>
-        <div class="flow-node locate">Knuckle / Inner Seal</div>
-        <div class="flow-note">Carry steering loads &amp; seal the front diff CV in oil bath</div>
-      </div>
+    <div class="ss-fig">
+      <svg viewBox="0 0 380 684" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="ssArchT ssArchD" font-family="Oswald, 'Arial Narrow', sans-serif">
+        <title id="ssArchT">Suspension and steering seen from above</title>
+        <desc id="ssArchD">The chassis seen from above with the front at the top. Front axle: a coil spring and a shock absorber at each end, a leading arm on each side running back from the axle to the chassis, a panhard rod across from the axle to the chassis, a stabiliser bar ahead of the axle linked down to it, and king pins in a swivel hub housing at each wheel. Steering: the steering box on the chassis turns the pitman arm, the drag link runs from the pitman arm to the right-hand knuckle arm, and the tie rod joins the two knuckles. Rear axle: a leaf spring pack under each chassis rail, pinned at a fixed hanger at its front eye and hung on a shackle at its rear end, clamped to the axle by two U-bolts, with a shock absorber at each end. Nothing else locates the rear axle.</desc>
+        <defs>
+          <marker id="ss-a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#2a2f3a"/></marker>
+        </defs>
+        <style>
+          .ss-t{font-size:12px;fill:#2a2f3a}
+          .ss-s{font-size:10.5px;fill:#6a7080}
+          .ss-h{font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;letter-spacing:.08em;fill:#6a7080}
+          .ss-ld{stroke:#6a7080;stroke-width:.8;fill:none}
+          .ss-sp{fill:#059669}.ss-dp{fill:#b86800}.ss-lc{fill:#B91C1C}.ss-st{fill:#2563a8}
+        </style>
 
-      <div class="flow-title" style="margin-top:18px;">Rear Axle — Leaf Sprung, Self-Locating</div>
-      <div class="flow-row">
-        <div class="flow-node spring">Rear Leaf Packs ×2 (OME CS058R)</div>
-        <div class="flow-arrow">+</div>
-        <div class="flow-node locate">U-Bolts ×4</div>
-        <div class="flow-arrow">+</div>
-        <div class="flow-node locate">Front Eye (fixed hanger)</div>
-        <div class="flow-arrow">+</div>
-        <div class="flow-node locate">Greasable Shackles (rear)</div>
-        <div class="flow-note">Leaf pack provides springing AND all axle location — fore-aft, lateral, vertical</div>
-      </div>
-      <div class="flow-row" style="margin-top:8px;">
-        <div class="flow-node damp">Rear Shocks ×2 (OME 63111)</div>
-        <div class="flow-arrow">+</div>
-        <div class="flow-node locate">Stone Guard Kit</div>
-        <div class="flow-note">Damping &amp; protection of the leaf pack from stone strikes</div>
-      </div>
+        <!-- chassis rails -->
+        <rect x="146" y="30" width="12" height="600" rx="2" fill="#d4cfc4" stroke="#6a7080" stroke-width="1"/>
+        <rect x="222" y="30" width="12" height="600" rx="2" fill="#d4cfc4" stroke="#6a7080" stroke-width="1"/>
+        <text class="ss-h" x="190" y="20" text-anchor="middle">▲ FRONT</text>
 
-      <div class="flow-legend">
-        <div class="flow-node spring">SPRING (load)</div>
-        <div class="flow-node damp">DAMPER</div>
-        <div class="flow-node locate">LOCATING / STRUCTURAL</div>
-        <div class="flow-node steer">STEERING</div>
+        <!-- ═══ FRONT AXLE ═══ -->
+        <!-- wheels -->
+        <rect x="34" y="132" width="26" height="76" rx="5" fill="#bdb6a6" stroke="#6a7080"/>
+        <rect x="320" y="132" width="26" height="76" rx="5" fill="#bdb6a6" stroke="#6a7080"/>
+        <!-- axle housing -->
+        <rect x="70" y="164" width="240" height="12" rx="3" fill="#d4cfc4" stroke="#6a7080"/>
+        <circle cx="205" cy="170" r="15" fill="#d4cfc4" stroke="#6a7080"/>
+        <!-- swivel hubs / king pins -->
+        <circle cx="70" cy="170" r="11" class="ss-lc"/>
+        <circle cx="310" cy="170" r="11" class="ss-lc"/>
+        <!-- stabiliser bar ahead of axle -->
+        <path d="M112,170 L112,108 L268,108 L268,170" fill="none" stroke="#B91C1C" stroke-width="4" stroke-dasharray="0" />
+        <!-- coils -->
+        <rect x="98" y="158" width="26" height="24" rx="12" class="ss-sp"/>
+        <rect x="256" y="158" width="26" height="24" rx="12" class="ss-sp"/>
+        <!-- shocks -->
+        <rect x="129" y="161" width="10" height="18" rx="2" class="ss-dp"/>
+        <rect x="241" y="161" width="10" height="18" rx="2" class="ss-dp"/>
+        <!-- leading arms -->
+        <path d="M95,178 L148,286" stroke="#B91C1C" stroke-width="5" stroke-linecap="round"/>
+        <path d="M285,178 L232,286" stroke="#B91C1C" stroke-width="5" stroke-linecap="round"/>
+        <circle cx="148" cy="286" r="4" fill="#fff" stroke="#B91C1C" stroke-width="2"/>
+        <circle cx="232" cy="286" r="4" fill="#fff" stroke="#B91C1C" stroke-width="2"/>
+        <!-- panhard rod -->
+        <path d="M178,190 L228,200" stroke="#B91C1C" stroke-width="4" stroke-linecap="round"/>
+        <path d="M178,176 L178,190" stroke="#B91C1C" stroke-width="3"/>
+        <!-- steering -->
+        <rect x="236" y="56" width="22" height="26" rx="3" class="ss-st"/>
+        <path d="M247,82 L247,96" stroke="#2563a8" stroke-width="4" stroke-linecap="round"/>
+        <path d="M247,96 L306,154" stroke="#2563a8" stroke-width="4" stroke-linecap="round"/>
+        <path d="M76,198 L304,198" stroke="#2563a8" stroke-width="3.5" stroke-linecap="round"/>
+        <path d="M70,181 L76,198 M310,181 L304,198" stroke="#2563a8" stroke-width="3.5" stroke-linecap="round"/>
+
+        <!-- front labels -->
+        <text class="ss-t" x="270" y="48">Steering box</text>
+        <text class="ss-s" x="270" y="61">recirculating ball</text>
+        <path class="ss-ld" d="M268,52 L259,62"/>
+        <text class="ss-t" x="282" y="96">Pitman arm</text>
+        <path class="ss-ld" d="M280,92 L251,92"/>
+        <text class="ss-t" x="300" y="124">Drag link</text>
+        <path class="ss-ld" d="M298,120 L281,128"/>
+
+        <text class="ss-t" x="6" y="60">Stabiliser bar</text>
+        <text class="ss-s" x="6" y="73">bushes &amp; links wear</text>
+        <path class="ss-ld" d="M60,77 L114,106"/>
+        <text class="ss-t" x="6" y="104">Coil spring</text>
+        <path class="ss-ld" d="M50,108 L104,160"/>
+
+        <text class="ss-t" x="6" y="236">King pins &amp;</text>
+        <text class="ss-t" x="6" y="250">swivel hub ×2</text>
+        <path class="ss-ld" d="M30,226 L64,180"/>
+        <text class="ss-t" x="6" y="272">Leading arm</text>
+        <text class="ss-t" x="6" y="286">L &amp; R</text>
+        <path class="ss-ld" d="M70,270 L118,228"/>
+        <text class="ss-t" x="6" y="312">Shock</text>
+        <path class="ss-ld" d="M40,306 L133,180"/>
+
+        <text class="ss-t" x="300" y="232">Tie rod</text>
+        <path class="ss-ld" d="M312,222 L300,200"/>
+        <text class="ss-t" x="254" y="262">Panhard rod</text>
+        <path class="ss-ld" d="M252,256 L212,198"/>
+        <text class="ss-t" x="254" y="300">Arm bracket</text>
+        <text class="ss-s" x="254" y="313">on the chassis</text>
+        <path class="ss-ld" d="M252,296 L236,288"/>
+
+        <!-- section labels -->
+        <rect x="70" y="340" width="240" height="17" fill="#fff"/>
+        <rect x="100" y="382" width="180" height="17" fill="#fff"/>
+        <text class="ss-h" x="190" y="352" text-anchor="middle">FRONT: COILS · ARMS · PANHARD</text>
+        <line x1="20" y1="372" x2="360" y2="372" stroke="#d4cfc4" stroke-dasharray="4 4"/>
+        <text class="ss-h" x="190" y="394" text-anchor="middle">REAR: LEAF PACKS ONLY</text>
+
+        <!-- ═══ REAR AXLE ═══ -->
+        <!-- leaf packs under rails -->
+        <rect x="143" y="440" width="18" height="160" rx="9" class="ss-sp"/>
+        <rect x="219" y="440" width="18" height="160" rx="9" class="ss-sp"/>
+        <!-- front eye fixed hanger -->
+        <circle cx="152" cy="440" r="7" fill="#fff" stroke="#B91C1C" stroke-width="3"/>
+        <circle cx="228" cy="440" r="7" fill="#fff" stroke="#B91C1C" stroke-width="3"/>
+        <!-- rear shackles -->
+        <rect x="146" y="600" width="12" height="20" rx="3" fill="#fff" stroke="#B91C1C" stroke-width="3"/>
+        <rect x="222" y="600" width="12" height="20" rx="3" fill="#fff" stroke="#B91C1C" stroke-width="3"/>
+        <!-- wheels -->
+        <rect x="34" y="482" width="26" height="76" rx="5" fill="#bdb6a6" stroke="#6a7080"/>
+        <rect x="320" y="482" width="26" height="76" rx="5" fill="#bdb6a6" stroke="#6a7080"/>
+        <!-- axle -->
+        <rect x="60" y="514" width="260" height="12" rx="3" fill="#d4cfc4" stroke="#6a7080"/>
+        <circle cx="190" cy="520" r="15" fill="#d4cfc4" stroke="#6a7080"/>
+        <!-- U-bolts -->
+        <rect x="139" y="508" width="26" height="24" rx="3" fill="none" stroke="#B91C1C" stroke-width="3"/>
+        <rect x="215" y="508" width="26" height="24" rx="3" fill="none" stroke="#B91C1C" stroke-width="3"/>
+        <!-- shocks -->
+        <rect x="112" y="511" width="10" height="18" rx="2" class="ss-dp"/>
+        <rect x="258" y="511" width="10" height="18" rx="2" class="ss-dp"/>
+
+        <!-- rear labels -->
+        <text class="ss-t" x="6" y="424">Front eye ×2</text>
+        <text class="ss-s" x="6" y="437">fixed hanger, pinned</text>
+        <path class="ss-ld" d="M104,432 L143,440"/>
+        <text class="ss-t" x="252" y="440">Leaf pack</text>
+        <path class="ss-ld" d="M262,446 L238,470"/>
+        <text class="ss-t" x="6" y="580">Shock</text>
+        <path class="ss-ld" d="M40,574 L116,530"/>
+        <text class="ss-t" x="268" y="582">U-bolts ×4</text>
+        <path class="ss-ld" d="M282,572 L240,530"/>
+        <text class="ss-t" x="6" y="614">Shackle ×2</text>
+        <text class="ss-s" x="6" y="627">greasable bushes</text>
+        <path class="ss-ld" d="M68,610 L146,610"/>
+
+        <!-- legend -->
+        <g transform="translate(6,662)">
+          <rect x="0" y="0" width="12" height="12" rx="2" class="ss-sp"/><text class="ss-s" x="16" y="10">Spring</text>
+          <rect x="62" y="0" width="12" height="12" rx="2" class="ss-dp"/><text class="ss-s" x="78" y="10">Damper</text>
+          <rect x="128" y="0" width="12" height="12" rx="2" class="ss-lc"/><text class="ss-s" x="144" y="10">Locates axle</text>
+          <rect x="216" y="0" width="12" height="12" rx="2" class="ss-st"/><text class="ss-s" x="232" y="10">Steering</text>
+          <rect x="288" y="0" width="12" height="12" rx="2" fill="#d4cfc4" stroke="#6a7080"/><text class="ss-s" x="304" y="10">Axle, frame</text>
+        </g>
+      </svg>
+    </div>
+    <p class="ss-cap"><strong>What each part does.</strong> Front: the coil springs carry the load and the shocks damp it; the two leading arms hold the axle fore and aft, and the panhard rod holds it side to side; the stabiliser bar cuts body roll, and its bushes are the wear item; the king pins carry the steering loads, and the swivel hub housing keeps the front CV joint in an oil bath. Steering: the box turns the pitman arm, the drag link pushes the right-hand knuckle, and the tie rod makes the left knuckle follow. Rear: each leaf pack is both the spring and the only thing locating the axle, fore and aft, sideways and up and down. There are no arms and no panhard rod at the back.</p>
+    <p class="ss-cap ss-cap-note">Schematic, not to scale. Seen from above with the front at the top, so the vehicle&rsquo;s right is on the right. Parts are not drawn where they sit under the vehicle; the fitted part numbers are in the table below.</p>
+
+    <div class="comp-card ss-how" id="ss-how">
+      <div class="comp-card-head">How the Steering Works</div>
+      <div class="comp-card-body">
+        <p><strong>Ours: recirculating ball, with hydraulic assist.</strong> The steering wheel turns a threaded shaft inside the steering box. A block rides on that thread on a loop of steel balls, which run round and round as it moves; rolling balls keep friction, wear and play down. The block turns a gear that swings the pitman arm, and the drag link and tie rod carry that movement to the wheels (the drawing above). An engine-driven pump supplies oil pressure that does most of the work. The steering wheel stays mechanically connected to the wheels all the way through, so a failed pump or a slipped belt makes the steering heavy, not lost &mdash; the 76 is steerable without assist, but heavy at low speed (Components: Power Steering Pump).</p>
+        <p><strong>Most modern vehicles: rack and pinion, often electric.</strong> A small gear at the bottom of the steering column moves a toothed bar running across the front of the vehicle, joined to both wheels. Assist is increasingly an electric motor run by sensors and a computer, working only while the wheel is being turned; it saves fuel and can be tuned. Steer-by-wire, with no mechanical link between wheel and road wheels, is starting to appear.</p>
+        <p><strong>Why it matters to us.</strong> There are no electronics in our steering. A fault shows itself by feel, by sound and by the fluid in the reservoir, and a bush mechanic can find it with a pry bar and a torch (Field Diagnosis). An electric system&rsquo;s faults need a scan tool and the maker&rsquo;s service information, and its electric parts are usually replaced rather than repaired.</p>
+        <p class="ss-how-src">Source: <a href="https://steves.co.za/steering-system/">Steve&rsquo;s Auto Clinic, The Steering System</a> (2018) &mdash; a workshop&rsquo;s general explainer, not specific to the 70 Series; it does not describe the inside of our box beyond the recirculating-ball principle.</p>
       </div>
     </div>
 
@@ -916,6 +994,7 @@
             <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Caster incorrectly set.</span><span class="cause-note">Historic issue on this truck — originally mis-set by First Alignment (Johan), corrected June 2025 by Conrad at Suspension City. If self-centring degrades, retest caster with a trusted shop. Conrad is the trusted contact.</span></div></li>
             <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">King pin bearings over-tight or seized.</span><span class="cause-note">Jack the front off the ground and turn each wheel by hand. Should turn freely with light resistance. Notchy or heavy = king pin issue.</span></div></li>
             <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Power steering pump fluid low or air-bound.</span><span class="cause-note">Check reservoir, top up if needed, bleed by lock-to-lock cycling with engine running.</span></div></li>
+            <li><div class="cause-num">4</div><div class="cause-text"><span class="cause-label">Something bent or binding after a hit.</span><span class="cause-note">If it started after a rock, kerb or pothole strike: look for a bent drag link or tie rod and anything rubbing, then have the alignment checked (Post-Impact). Source: <a href="https://steves.co.za/steering-system/">Steve&rsquo;s Auto Clinic, The Steering System</a>.</span></div></li>
           </ul>
         </div>
       </div>
@@ -951,6 +1030,22 @@
             <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">King pin preload over-tight.</span><span class="cause-note">Notchy quality especially at low speed off-road = king pin shim error or seized bearing. Workshop call.</span></div></li>
             <li><div class="cause-num">4</div><div class="cause-text"><span class="cause-label">Steering box top screw over-adjusted.</span><span class="cause-note">If the screw has been wound in to chase a dead spot, it may now be binding the box on lock. Back off slightly and retest.</span></div></li>
           </ul>
+        </div>
+      </div>
+
+      <div class="diag-card">
+        <div class="diag-header" onclick="toggleDiag(this)">
+          <div class="diag-symptom">Squeal from the engine bay when steering</div>
+          <span class="diag-badge badge-monitor">MONITOR</span>
+          <span class="diag-arrow">▼</span>
+        </div>
+        <div class="diag-body">
+          <ul class="cause-list">
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Power steering belt slipping.</span><span class="cause-note">A squeal is usually the belt, not the pump. Look for cracks, a glazed shine, missing chunks or oil on the belt; check its tension. Mark which way it runs before taking it off.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Pulley or tensioner.</span><span class="cause-note">Belt off, spin each pulley by hand: it should turn smoothly and quietly with no wobble.</span></div></li>
+            <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Fluid low or aerated &mdash; the pump.</span><span class="cause-note">A steady whine rather than a squeal points to the pump: low fluid, air in it, or a worn pump (Components: Power Steering Pump). A pump run dry burns out &mdash; top up before driving on.</span></div></li>
+          </ul>
+          <div class="note-box">Source: <a href="https://steves.co.za/steering-system/">Steve&rsquo;s Auto Clinic, The Steering System</a> (2018), general advice, not specific to this vehicle.</div>
         </div>
       </div>
 
