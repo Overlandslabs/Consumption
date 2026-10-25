@@ -57,7 +57,6 @@
     .comp-grid, .qual-grid { grid-template-columns:1fr; }
     .diag-header { grid-template-columns:1fr; }
     .diag-header > div:last-child { justify-content:flex-start; }
-    .flow-wrap { font-size:11px; }
     .racor-card { flex-direction:column; }
   }
 
@@ -141,18 +140,6 @@
   .tag-planned { background:rgba(59,106,191,.12); color:#3b6abf; border:1px solid rgba(59,106,191,.3); }
 
   /* FLOW DIAGRAM */
-  .flow-wrap { background:var(--steeldk); border:1px solid rgba(255,255,255,.08); padding:16px; margin:14px 0; overflow-x:auto; overscroll-behavior-x:contain; }
-  .flow-title { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--steelmd); margin-bottom:12px; }
-  .flow-row { display:flex; align-items:center; flex-wrap:nowrap; gap:0; margin:4px 0; }
-  .flow-node { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); padding:5px 10px; border-radius:2px; white-space:nowrap; flex-shrink:0; }
-  .flow-node.feed   { background:rgba(5,150,105,.2);  border-color:rgba(5,150,105,.4);  color:#6ee7b7; }
-  .flow-node.filt   { background:rgba(224,120,0,.2);  border-color:rgba(224,120,0,.4);  color:#fcd34d; }
-  .flow-node.press  { background:rgba(185,28,28,.25); border-color:rgba(185,28,28,.5);  color:#fca5a5; }
-  .flow-node.ret    { background:rgba(106,112,128,.25); border-color:rgba(106,112,128,.5); color:#d0d6dd; }
-  .flow-arrow { font-size:12px; color:var(--steelmd); padding:0 6px; flex-shrink:0; }
-  .flow-note { font-family:'IBM Plex Mono',monospace; font-size:9px; color:var(--steelmd); margin-left:8px; font-style:italic; }
-  .flow-legend { display:flex; flex-wrap:wrap; gap:10px; margin-top:12px; padding-top:10px; border-top:1px solid rgba(255,255,255,.08); }
-  .flow-legend .flow-node { font-size:9px; padding:3px 7px; }
 
   /* SPECS TABLE */
   .specs-table { width:100%; border-collapse:collapse; font-size:13px; margin:14px 0; table-layout:fixed; }
@@ -303,8 +290,15 @@
   .log-table td.fill { background:var(--paper2); color:var(--steelmd); font-style:italic; font-size:11px; }
 
   /* PRINT */
+  /* DRAWINGS (S12, 25 Oct 2026 — R25 pattern) */
+  .ss-fig { background:#fff; border:1px solid var(--rule); margin:14px 0 6px; padding:8px 0; }
+  .ss-fig svg { display:block; width:100%; max-width:520px; height:auto; margin:0 auto; }
+  .ss-cap { font-size:13px; color:var(--ink); margin:0 0 8px; }
+  .ss-cap-note { font-size:12px; color:var(--steelmd); margin-bottom:14px; }
   @media print {
     @page { margin: 7mm; size: A4; }
+    .ss-fig { break-inside: avoid; background: #fff !important; }
+    .ss-fig svg { max-width: 110mm; }
     * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
     body { font-size: 7.5pt; background: #fff; line-height: 1.35; }
     .sticky-wrap { position: static; }
@@ -331,12 +325,6 @@
     .risk-high { background: #fde8e8 !important; color: #B91C1C !important; }
     .risk-med  { background: #fef3cd !important; color: #7c4a00 !important; }
     .risk-low  { background: #e8f5e9 !important; color: #1a6b3a !important; }
-    .flow-wrap { break-inside: avoid; background: #2a2f3a !important; }
-    .flow-node      { background: rgba(255,255,255,.1) !important; color: #fff !important; }
-    .flow-node.feed  { background: rgba(5,150,105,.2)  !important; color: #6ee7b7 !important; }
-    .flow-node.filt  { background: rgba(224,120,0,.2)  !important; color: #fcd34d !important; }
-    .flow-node.press { background: rgba(185,28,28,.25) !important; color: #fca5a5 !important; }
-    .flow-node.ret   { background: rgba(106,112,128,.25) !important; color: #d0d6dd !important; }
     .diag-group-title { background: #2a2f3a !important; color: #e07800 !important; }
     .diag-header { background: #EDE5D0 !important; }
     .badge-stop    { background: #fde8e8 !important; color: #B91C1C !important; }
@@ -373,7 +361,7 @@
 <div class="sticky-wrap">
   <div class="masthead">
     <a href="index.html" class="lib-home-btn">⌂ Index</a>
-    <div class="mh-eyebrow">Reference · R24<span class="mh-date">Last updated: 24 October 2026</span></div>
+    <div class="mh-eyebrow">Reference · R24<span class="mh-date">Last updated: 25 October 2026</span></div>
     <div class="mh-title">Fuel System &amp; Diesel Quality Guide</div>
     <div class="mh-sub">Architecture, diesel quality, filtration &amp; bad-fuel field protocol</div>
   </div>
@@ -397,56 +385,9 @@
     <div class="section-head">Fuel System Architecture</div>
     <p class="section-intro">The 1HZ is mechanically fuelled — no ECU, no common rail, no electronic injectors. Diesel is lifted from the tank, filtered, pressurised by a Bosch VE rotary injection pump, and delivered to six mechanical injectors via individual hard lines. Return fuel is routed back to the tank. The entire fuel path is mechanical and serviceable in the field with basic tools — this is the engine's defining strength for African overlanding, but it is absolutely dependent on fuel cleanliness.</p>
 
-    <div class="flow-wrap">
-      <div class="flow-title">Fuel Path — Tank to Injectors (Normal Operation)</div>
-      <div class="flow-row">
-        <div class="flow-node feed">Main Tank 145L</div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node feed">Fuel Pickup</div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node filt">Pre-Filter (Flashlube FDF, fitted)</div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node filt">Primary Filter (water separator)</div>
-      </div>
-      <div class="flow-row" style="margin-top:8px;">
-        <div class="flow-node feed">Hand Primer</div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node filt">Secondary Filter (fine)</div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node press">Bosch VE Injection Pump</div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node press">Injectors × 6</div>
-      </div>
-      <div class="flow-row" style="margin-top:8px;">
-        <div class="flow-node press">Injector tips</div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node">Combustion Chamber</div>
-        <div class="flow-note">Mechanical atomisation — no electronic control</div>
-      </div>
-      <div class="flow-row" style="margin-top:8px;">
-        <div class="flow-node ret">Injector Return</div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node ret">Pump Return</div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node ret">Return Line to Tank</div>
-        <div class="flow-note">~60–70% of lifted fuel returns — pump cooling &amp; lubrication</div>
-      </div>
-      <div class="flow-row" style="margin-top:8px;">
-        <div class="flow-node feed">2 × 20L Desert Fox Aux</div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node filt">Transfer funnel + filter</div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node feed">Main Tank</div>
-        <div class="flow-note">Manual transfer — never bypass filtration</div>
-      </div>
-
-      <div class="flow-legend">
-        <div class="flow-node feed">FEED (low pressure)</div>
-        <div class="flow-node filt">FILTRATION</div>
-        <div class="flow-node press">HIGH PRESSURE</div>
-        <div class="flow-node ret">RETURN</div>
-      </div>
-    </div>
+    <div class="ss-fig"><svg viewBox="0 0 380 640" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Fuel path: main tank, Flashlube pre-filter, factory fuel filter with hand pump, injection pump with internal feed pump, six high-pressure lines to six injectors, return from the pump overflow and injector leak-off to the tank; Desert Fox cells through the funnel filter"><defs><marker id="ah-059669" viewBox="0 0 10 10" refX="8" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#059669"/></marker><marker id="ah-B91C1C" viewBox="0 0 10 10" refX="8" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#B91C1C"/></marker><marker id="ah-6a7080" viewBox="0 0 10 10" refX="8" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#6a7080"/></marker><marker id="ah-b86800" viewBox="0 0 10 10" refX="8" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#b86800"/></marker></defs><rect x="0" y="0" width="380" height="640" fill="#fff"/><text x="8" y="16" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#6a7080" text-anchor="start" font-weight="normal">TANK AT THE BACK, ENGINE AT THE FRONT</text><rect x="20" y="30" width="170" height="54" rx="5" fill="#f0fdf8" stroke="#059669" stroke-width="2"/><text x="105" y="54" font-family="'IBM Plex Mono',monospace" font-size="10.5" fill="#2a2f3a" text-anchor="middle" font-weight="bold">MAIN TANK</text><text x="105" y="70" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#2a2f3a" text-anchor="middle" font-weight="normal">145 L · pickup inside</text><rect x="240" y="30" width="130" height="40" rx="5" fill="#f0fdf8" stroke="#059669" stroke-width="2" stroke-dasharray="5 3"/><text x="305" y="47" font-family="'IBM Plex Mono',monospace" font-size="9.5" fill="#2a2f3a" text-anchor="middle" font-weight="bold">2 × 20 L</text><text x="305" y="61" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#2a2f3a" text-anchor="middle" font-weight="normal">Desert Fox cells</text><path d="M290 96 L320 96 L310 112 L300 112 Z" fill="#fffbf0" stroke="#b86800" stroke-width="2"/><polyline points="305,70 305,94" fill="none" stroke="#059669" stroke-width="3" stroke-linejoin="round" marker-end="url(#ah-059669)"/><polyline points="305,112 305,124 150,124 150,88" fill="none" stroke="#059669" stroke-width="3" stroke-linejoin="round" marker-end="url(#ah-059669)"/><text x="284" y="106" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#2a2f3a" text-anchor="end" font-weight="normal">funnel filter</text><text x="250" y="140" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#6a7080" text-anchor="middle" font-weight="normal">never straight in</text><polyline points="70,84 70,150" fill="none" stroke="#059669" stroke-width="5" stroke-linejoin="round" marker-end="url(#ah-059669)"/><rect x="20" y="152" width="170" height="44" rx="5" fill="#fffbf0" stroke="#b86800" stroke-width="2"/><text x="105" y="171" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#2a2f3a" text-anchor="middle" font-weight="bold">FLASHLUBE FDF</text><text x="105" y="186" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#2a2f3a" text-anchor="middle" font-weight="normal">pre-filter · fitted</text><polyline points="70,196 70,232" fill="none" stroke="#059669" stroke-width="5" stroke-linejoin="round" marker-end="url(#ah-059669)"/><rect x="20" y="234" width="170" height="64" rx="5" fill="#fffbf0" stroke="#b86800" stroke-width="2"/><rect x="92" y="222" width="26" height="12" rx="3" fill="#b86800"/><text x="140" y="230" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#2a2f3a" text-anchor="start" font-weight="normal">hand pump</text><text x="105" y="255" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#2a2f3a" text-anchor="middle" font-weight="bold">FACTORY FUEL FILTER</text><text x="105" y="270" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#2a2f3a" text-anchor="middle" font-weight="normal">water separator, drain,</text><text x="105" y="283" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#2a2f3a" text-anchor="middle" font-weight="normal">warning switch</text><polyline points="70,298 70,336" fill="none" stroke="#059669" stroke-width="5" stroke-linejoin="round" marker-end="url(#ah-059669)"/><path d="M200 150 L210 150 L210 334 L200 334" fill="none" stroke="#6a7080" stroke-width="1.5"/><text x="218" y="200" font-family="'IBM Plex Mono',monospace" font-size="9.5" fill="#2a2f3a" text-anchor="start" font-weight="bold">all under suction:</text><text x="218" y="214" font-family="'IBM Plex Mono',monospace" font-size="9.5" fill="#2a2f3a" text-anchor="start" font-weight="normal">the feed pump inside</text><text x="218" y="228" font-family="'IBM Plex Mono',monospace" font-size="9.5" fill="#2a2f3a" text-anchor="start" font-weight="normal">the injection pump</text><text x="218" y="242" font-family="'IBM Plex Mono',monospace" font-size="9.5" fill="#2a2f3a" text-anchor="start" font-weight="normal">draws the fuel</text><text x="218" y="256" font-family="'IBM Plex Mono',monospace" font-size="9.5" fill="#2a2f3a" text-anchor="start" font-weight="normal">through both filters</text><rect x="20" y="338" width="170" height="64" rx="5" fill="#fef7f7" stroke="#B91C1C" stroke-width="2"/><text x="105" y="362" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#2a2f3a" text-anchor="middle" font-weight="bold">INJECTION PUMP</text><text x="105" y="377" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#2a2f3a" text-anchor="middle" font-weight="normal">feed pump inside;</text><text x="105" y="390" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#2a2f3a" text-anchor="middle" font-weight="normal">pressurises and times</text><polyline points="36,402 36,470" fill="none" stroke="#B91C1C" stroke-width="2.5" stroke-linejoin="round"/><rect x="30" y="470" width="12" height="26" rx="2" fill="#B91C1C"/><polyline points="64,402 64,470" fill="none" stroke="#B91C1C" stroke-width="2.5" stroke-linejoin="round"/><rect x="58" y="470" width="12" height="26" rx="2" fill="#B91C1C"/><polyline points="92,402 92,470" fill="none" stroke="#B91C1C" stroke-width="2.5" stroke-linejoin="round"/><rect x="86" y="470" width="12" height="26" rx="2" fill="#B91C1C"/><polyline points="120,402 120,470" fill="none" stroke="#B91C1C" stroke-width="2.5" stroke-linejoin="round"/><rect x="114" y="470" width="12" height="26" rx="2" fill="#B91C1C"/><polyline points="148,402 148,470" fill="none" stroke="#B91C1C" stroke-width="2.5" stroke-linejoin="round"/><rect x="142" y="470" width="12" height="26" rx="2" fill="#B91C1C"/><polyline points="176,402 176,470" fill="none" stroke="#B91C1C" stroke-width="2.5" stroke-linejoin="round"/><rect x="170" y="470" width="12" height="26" rx="2" fill="#B91C1C"/><text x="105" y="516" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#2a2f3a" text-anchor="middle" font-weight="normal">6 steel high-pressure lines</text><text x="105" y="529" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#2a2f3a" text-anchor="middle" font-weight="bold">to 6 injectors</text><polyline points="20,380 10,380 10,57 18,57" fill="none" stroke="#6a7080" stroke-width="3" stroke-linejoin="round" stroke-dasharray="6 3" marker-end="url(#ah-6a7080)"/><polyline points="30,496 10,496 10,380" fill="none" stroke="#6a7080" stroke-width="2" stroke-linejoin="round" stroke-dasharray="6 3"/><text x="258" y="400" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#2a2f3a" text-anchor="start" font-weight="bold">RETURN</text><text x="258" y="466" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#6a7080" text-anchor="start" font-weight="normal">(dashed, left edge)</text><text x="258" y="414" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#2a2f3a" text-anchor="start" font-weight="normal">pump overflow</text><text x="258" y="427" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#2a2f3a" text-anchor="start" font-weight="normal">valve + injector</text><text x="258" y="440" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#2a2f3a" text-anchor="start" font-weight="normal">leak-off, back</text><text x="258" y="453" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#2a2f3a" text-anchor="start" font-weight="normal">to the tank</text><rect x="10" y="581" width="14" height="10" fill="#059669"/><text x="30" y="590" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#2a2f3a" text-anchor="start" font-weight="normal">feed (low pressure, suction)</text><rect x="196" y="581" width="14" height="10" fill="#b86800"/><text x="216" y="590" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#2a2f3a" text-anchor="start" font-weight="normal">filtration</text><rect x="10" y="599" width="14" height="10" fill="#B91C1C"/><text x="30" y="608" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#2a2f3a" text-anchor="start" font-weight="normal">high pressure</text><rect x="196" y="599" width="14" height="10" fill="#6a7080"/><text x="216" y="608" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#2a2f3a" text-anchor="start" font-weight="normal">return (dashed)</text></svg></div>
+    <p class="ss-cap"><strong>How to read it.</strong> The feed pump built into the injection pump draws diesel from the 145 L tank, so the whole feed side &mdash; tank, lines and both filters &mdash; runs under suction. The fuel passes the Flashlube pre-filter first, then the one factory fuel filter, which separates water (drained at its bottom; the warning switch lights the dash lamp) and carries the hand pump on its head for bleeding air. The injection pump pressurises and times the fuel and sends it down six steel lines to the six injectors. Fuel the engine does not use leaves through the pump&rsquo;s overflow valve and the injectors&rsquo; leak-off and returns to the tank, cooling and lubricating the pump on the way. The Desert Fox cells go into the main tank through the funnel filter, never straight in.</p>
+    <p class="ss-cap-note">Schematic, not to scale; parts are not drawn where they sit. Feed pump, filter, overflow and return: Toyota 70 Series engine manual (1990) FU-2 and RM617E FU-1. Tank and cells: Facts &sect;9. One factory filter between the Flashlube and the pump: owner, 25 Oct 2026.</p>
 
     <div class="info-box">
       <strong>Why this matters in Africa:</strong> The Bosch VE rotary pump has tolerances measured in microns. Particulates, water, and the wrong fuel chemistry will destroy it — and a replacement rotary pump is a workshop job, not a bush repair. Every defence against bad fuel in this document is ultimately protecting the pump and injectors. The filters are your firewall. Keep them good.
@@ -489,18 +430,10 @@
       </div>
 
       <div class="comp-card">
-        <div class="comp-card-head">Primary Filter / Water Separator <span class="comp-tag tag-wear">WEAR</span></div>
+        <div class="comp-card-head">Factory Fuel Filter / Water Separator <span class="comp-tag tag-wear">WEAR</span></div>
         <div class="comp-card-body">
-          Spin-on canister filter mounted on the engine bay firewall. Primary role is to trap larger particulates and separate water from the fuel — water sits at the bottom of the bowl and is drained via a tap. This is the <em>first</em> line of defence. Water should be drained at every fill-up in suspect regions. Change the element on schedule or after any bad-fuel event.
+          Spin-on canister filter mounted on the engine bay firewall. Primary role is to trap larger particulates and separate water from the fuel — water sits at the bottom of the bowl and is drained via a tap. With the Flashlube fitted upstream it is the second line of defence, and the only factory filter: there is no separate fine filter on this engine (owner, 25 Oct 2026). The hand pump on its head bleeds air after a filter change. Water should be drained at every fill-up in suspect regions. Change the element on schedule or after any bad-fuel event.
           <br><br>Interval: <span class="mono">10,000 km · earlier in bad regions</span>
-        </div>
-      </div>
-
-      <div class="comp-card">
-        <div class="comp-card-head">Secondary Filter (Fine) <span class="comp-tag tag-wear">WEAR</span></div>
-        <div class="comp-card-body">
-          Fine-element filter downstream of the primary, protecting the injection pump from any particulates the primary missed. Typical rating is 2–5 micron — compared to the primary's ~30 micron. This filter is the last barrier before the pump. A blocked secondary causes progressive power loss and eventually stalling under load. Change it with — or just after — the primary.
-          <br><br>Interval: <span class="mono">10,000–20,000 km · or under-load power loss</span>
         </div>
       </div>
 
@@ -552,7 +485,7 @@
       <div class="comp-card">
         <div class="comp-card-head">Return Line <span class="comp-tag tag-passive">PASSIVE</span></div>
         <div class="comp-card-body">
-          Routes unused diesel from the injection pump and injector tops back to the tank. 60–70% of the fuel lifted from the tank actually returns unused — it is the pump's cooling and lubrication path. A blocked return line causes progressive pump overheating and eventual seizure. Check return flow any time the pump is disturbed.
+          Routes unused diesel from the injection pump and injector tops back to the tank. A large share of the fuel lifted from the tank returns unused — it is the pump's cooling and lubrication path. A blocked return line causes progressive pump overheating and eventual seizure. Check return flow any time the pump is disturbed.
         </div>
       </div>
 
@@ -568,8 +501,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr><td>Primary fuel filter element</td><td class="mono">OEM spin-on · water separator</td><td class="mono">10,000 km / bad-fuel event</td></tr>
-        <tr><td>Secondary fuel filter element</td><td class="mono">OEM fine 2–5 μm</td><td class="mono">10,000–20,000 km</td></tr>
+        <tr><td>Fuel filter element (the one factory filter)</td><td class="mono">OEM spin-on · water separator</td><td class="mono">10,000 km / bad-fuel event</td></tr>
         <tr><td>Water drain from primary bowl</td><td class="mono">Open tap, drain to clear fuel</td><td class="mono">Every refuel in suspect region</td></tr>
         <tr><td>Hand priming after filter change</td><td class="mono">Until plunger goes hard</td><td class="mono">Mandatory</td></tr>
         <tr><td>Injector pop pressure</td><td class="mono">142–152 bar new (70 Series) · 147–157 bar new (105 Series) — OI-125</td><td class="mono">Bench test / workshop</td></tr>
@@ -770,21 +702,14 @@
       <div class="proto-step">
         <div class="proto-num">2</div>
         <div class="proto-body">
-          <div class="proto-label">Stage 2 — Factory Primary Filter (OEM, ~30 μm with water separator)</div>
+          <div class="proto-label">Stage 2 — Factory Fuel Filter (OEM, with water separator and hand pump)</div>
           <div class="proto-note">Second line of defence. With a pre-filter upstream, its life is extended significantly. Drain water bowl at every refuel in suspect regions. Change element on schedule or earlier if bowl shows contamination.</div>
         </div>
       </div>
       <div class="proto-step">
         <div class="proto-num">3</div>
         <div class="proto-body">
-          <div class="proto-label">Stage 3 — Factory Secondary Filter (OEM, 2–5 μm fine)</div>
-          <div class="proto-note">Final barrier before the injection pump. Fine-element filter catches anything the first two layers missed. A blocked secondary is itself a symptom — something got past the earlier stages, investigate upstream. Change with or immediately after the primary.</div>
-        </div>
-      </div>
-      <div class="proto-step">
-        <div class="proto-num">4</div>
-        <div class="proto-body">
-          <div class="proto-label">Stage 4 — Racor RFF8C Filter Funnel (for aux fuel transfer)</div>
+          <div class="proto-label">Stage 3 — Racor RFF8C Filter Funnel (for aux fuel transfer)</div>
           <div class="proto-note">A heavy-duty filter-in-a-funnel used for every transfer from jerry cans or Desert Fox cells to the main tank. This is not a "filter" in the pump sense but the only barrier between dubious aux fuel and the tank. Cheap, effective, and non-negotiable. See the Racor RFF8C funnel box below for what it does and what it does not do.</div>
         </div>
       </div>
@@ -807,7 +732,7 @@
           <strong>What it does not do:</strong>
           <ul style="margin:6px 0 6px 18px; font-size:12px; line-height:1.5;">
             <li>Does not remove <em>emulsified</em> water — water already dissolved or suspended in the fuel as a fine emulsion passes straight through. Emulsified water is what the factory primary filter / water separator is for.</li>
-            <li>Does not catch particulates finer than ~50 micron — that is the secondary filter's job</li>
+            <li>Does not catch particulates finer than ~50 micron — that is the job of the Flashlube and the factory filter</li>
             <li>Does not "clean" already-contaminated fuel in storage — only filters during pour</li>
           </ul>
           <strong>Field discipline:</strong>
@@ -822,7 +747,7 @@
       </div>
 
     <div class="info-box">
-      <strong>The honest limit of the funnel:</strong> The RFF8C is a coarse first line of defence — 50 micron is generous compared to the secondary filter's 2–5 micron, and it is blind to emulsified water. It is exactly the right tool for the job because it is fast, robust, has no consumables, and lets you <em>see</em> the fuel going into the tank. Anything finer than 50 μm or any emulsified water is caught downstream by the pre-filter, primary, and secondary. The system is staged for a reason — do not expect the funnel to do a job it was never designed for.
+      <strong>The honest limit of the funnel:</strong> The RFF8C is a coarse first line of defence — 50 micron is coarse next to the Flashlube's 30 micron and the factory filter, and it is blind to emulsified water. It is exactly the right tool for the job because it is fast, robust, has no consumables, and lets you <em>see</em> the fuel going into the tank. Anything finer than 50 μm or any emulsified water is caught downstream by the Flashlube and the factory filter. The system is staged for a reason — do not expect the funnel to do a job it was never designed for.
     </div>
 
     <div class="sub-head">Filter Change Intervals</div>
@@ -830,18 +755,17 @@
       <thead>
         <tr>
           <th style="width:34%">Condition</th>
-          <th style="width:22%">Pre-Filter</th>
-          <th style="width:22%">Primary</th>
-          <th style="width:22%">Secondary</th>
+          <th style="width:33%">Pre-Filter</th>
+          <th style="width:33%">Factory filter</th>
         </tr>
       </thead>
       <tbody>
-        <tr><td>Good fuel, tar roads</td><td class="mono">15,000 km</td><td class="mono">10,000 km</td><td class="mono">20,000 km</td></tr>
-        <tr><td>Variable quality, mixed driving</td><td class="mono">10,000 km</td><td class="mono">7,500 km</td><td class="mono">15,000 km</td></tr>
-        <tr><td>Poor quality region</td><td class="mono">5,000 km</td><td class="mono">5,000 km</td><td class="mono">10,000 km</td></tr>
-        <tr><td>After bad-fuel event</td><td class="mono">Immediate</td><td class="mono">Immediate</td><td class="mono">Immediate</td></tr>
-        <tr><td>Water in primary bowl</td><td class="mono">Drain &amp; inspect</td><td class="mono">Drain at every fill</td><td class="mono">Inspect element</td></tr>
-        <tr><td>Progressive power loss</td><td class="mono">Inspect first</td><td class="mono">Replace</td><td class="mono">Replace</td></tr>
+        <tr><td>Good fuel, tar roads</td><td class="mono">15,000 km</td><td class="mono">10,000 km</td></tr>
+        <tr><td>Variable quality, mixed driving</td><td class="mono">10,000 km</td><td class="mono">7,500 km</td></tr>
+        <tr><td>Poor quality region</td><td class="mono">5,000 km</td><td class="mono">5,000 km</td></tr>
+        <tr><td>After bad-fuel event</td><td class="mono">Immediate</td><td class="mono">Immediate</td></tr>
+        <tr><td>Water in primary bowl</td><td class="mono">Drain &amp; inspect</td><td class="mono">Drain at every fill</td></tr>
+        <tr><td>Progressive power loss</td><td class="mono">Inspect first</td><td class="mono">Replace</td></tr>
       </tbody>
     </table>
 
@@ -850,15 +774,15 @@
       <li>
         <div class="cl-num">1</div>
         <div class="cl-text">
-          <span class="cl-label">3 × primary filter elements (OEM spin-on)</span>
-          <span class="cl-note">One for scheduled service, one for bad-fuel recovery, one reserve. Verify part number with a diesel-injection specialist before trip.</span>
+          <span class="cl-label">2 × factory fuel filter elements (OEM spin-on, R3)</span>
+          <span class="cl-note">One for scheduled service, one for bad-fuel recovery. Verify part number with a diesel-injection specialist before trip.</span>
         </div>
       </li>
       <li>
         <div class="cl-num">2</div>
         <div class="cl-text">
-          <span class="cl-label">3 × secondary (fine) filter elements</span>
-          <span class="cl-note">Same logic as primary. Keep in sealed bags in a cool, dark part of the vehicle — filter media degrades with heat and UV.</span>
+          <span class="cl-label">2 × Flashlube pre-filter elements</span>
+          <span class="cl-note">Same logic. Keep in sealed bags in a cool, dark part of the vehicle — filter media degrades with heat and UV.</span>
         </div>
       </li>
       <li>
@@ -919,13 +843,13 @@
             <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Failed glow plug(s)</span><span class="cause-note">Most common cause — misdiagnosed as bad fuel. Test each plug individually.</span></div></li>
             <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Water in primary bowl</span><span class="cause-note">Check and drain. Water settles overnight and is drawn on first cold start.</span></div></li>
             <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Air in fuel lines</span><span class="cause-note">Possible after running near-empty or recent filter change. Prime until hard.</span></div></li>
-            <li><div class="cause-num">4</div><div class="cause-text"><span class="cause-label">Partially blocked secondary filter</span><span class="cause-note">Starves pump at low rpm, clears as revs rise. Inspect or replace.</span></div></li>
+            <li><div class="cause-num">4</div><div class="cause-text"><span class="cause-label">Partially blocked fuel filter</span><span class="cause-note">Starves pump at low rpm, clears as revs rise. Inspect or replace.</span></div></li>
           </ul>
           <div class="check-steps">
             <div class="check-step"><div class="step-num">1</div><div>Check primary filter bowl for water. Drain to clear fuel.</div></div>
             <div class="check-step"><div class="step-num">2</div><div>Test each glow plug in turn — failed plugs show no continuity.</div></div>
             <div class="check-step"><div class="step-num">3</div><div>Prime the hand primer until it goes hard — confirms no air lock.</div></div>
-            <div class="check-step"><div class="step-num">4</div><div>If symptom persists, replace secondary filter and re-test.</div></div>
+            <div class="check-step"><div class="step-num">4</div><div>If symptom persists, replace the fuel filter and re-test.</div></div>
           </div>
         </div>
       </div>
@@ -980,14 +904,14 @@
         </div>
         <div class="diag-body">
           <ul class="cause-list">
-            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Blocked secondary filter</span><span class="cause-note">Classic symptom: filter can flow enough at light load but not at full demand.</span></div></li>
-            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Blocked primary filter</span><span class="cause-note">Same logic, one stage earlier. Inspect bowl for contamination.</span></div></li>
+            <li><div class="cause-num">1</div><div class="cause-text"><span class="cause-label">Blocked fuel filter</span><span class="cause-note">Classic symptom: filter can flow enough at light load but not at full demand.</span></div></li>
+            <li><div class="cause-num">2</div><div class="cause-text"><span class="cause-label">Blocked Flashlube pre-filter</span><span class="cause-note">Same logic, one stage earlier. Inspect its bowl for contamination.</span></div></li>
             <li><div class="cause-num">3</div><div class="cause-text"><span class="cause-label">Tank pickup screen partially blocked</span><span class="cause-note">Less common but occurs after years of sediment build-up.</span></div></li>
             <li><div class="cause-num">4</div><div class="cause-text"><span class="cause-label">Fuel cap vent blocked</span><span class="cause-note">Creates vacuum in tank, starves pump. Loosen cap — if symptom clears, vent is the cause.</span></div></li>
           </ul>
           <div class="check-steps">
             <div class="check-step"><div class="step-num">1</div><div>Loosen fuel cap while driving. Symptom clears → vent blocked.</div></div>
-            <div class="check-step"><div class="step-num">2</div><div>Replace secondary filter. Most common cause of this exact symptom.</div></div>
+            <div class="check-step"><div class="step-num">2</div><div>Replace the fuel filter. Most common cause of this exact symptom.</div></div>
             <div class="check-step"><div class="step-num">3</div><div>If unresolved, replace primary and inspect bowl contents carefully.</div></div>
           </div>
         </div>
@@ -1115,15 +1039,15 @@
       <div class="proto-step">
         <div class="proto-num">5</div>
         <div class="proto-body">
-          <div class="proto-label">Replace the primary filter element.</div>
+          <div class="proto-label">Replace the factory fuel filter element.</div>
           <div class="proto-note">Remove the spin-on, drain its contents into the waste container, fit the new element with a light smear of clean diesel on the sealing ring. Tighten by hand plus ¾ turn. Never start dry — always pre-fill the new filter with clean diesel from your reserve if possible.</div>
         </div>
       </div>
       <div class="proto-step">
         <div class="proto-num">6</div>
         <div class="proto-body">
-          <div class="proto-label">Replace the secondary (fine) filter element.</div>
-          <div class="proto-note">Assume it is contaminated. The fine filter is what actually protects the pump — do not skip it even if it "looks fine." Fit the new element the same way: light oil on seal, hand-tight plus ¾ turn.</div>
+          <div class="proto-label">Drain the Flashlube pre-filter and change its element.</div>
+          <div class="proto-note">Assume it is contaminated: it saw the bad fuel first. Change it with the factory filter, so a dirty pre-filter does not load the new factory element. There is no second factory filter to change on this engine.</div>
         </div>
       </div>
       <div class="proto-step">
@@ -1137,7 +1061,7 @@
         <div class="proto-num">8</div>
         <div class="proto-body">
           <div class="proto-label">Prime the fuel system.</div>
-          <div class="proto-note">Operate the hand primer until it goes hard. This confirms filters are full and the pump inlet is pressurised. Crack the bleed screws on the secondary filter if air is stubborn.</div>
+          <div class="proto-note">Operate the hand primer until it goes hard. This confirms filters are full and the pump inlet is pressurised. Crack the bleed screw on the fuel filter housing if air is stubborn.</div>
         </div>
       </div>
     </div>
@@ -1248,7 +1172,7 @@
         <div class="cl-num">7</div>
         <div class="cl-text">
           <span class="cl-label">Drain the primary filter bowl at every fill in suspect regions</span>
-          <span class="cl-note">Cheap insurance. Takes 30 seconds and catches water contamination before it reaches the secondary filter and pump.</span>
+          <span class="cl-note">Cheap insurance. Takes 30 seconds and catches water contamination before it reaches the pump.</span>
         </div>
       </li>
       <li>
@@ -1359,8 +1283,8 @@
       <li>
         <div class="cl-num">2</div>
         <div class="cl-text">
-          <span class="cl-label">Secondary fuel filter — fresh or within interval</span>
-          <span class="cl-note">Same logic. Fine element degrades on the shelf — date matters as much as mileage.</span>
+          <span class="cl-label">Flashlube pre-filter element — fresh or within interval</span>
+          <span class="cl-note">Same logic. Elements degrade on the shelf — date matters as much as mileage.</span>
         </div>
       </li>
       <li>
@@ -1388,7 +1312,7 @@
         <div class="cl-num">6</div>
         <div class="cl-text">
           <span class="cl-label">All low-pressure fuel hoses inspected, no perishing or swelling</span>
-          <span class="cl-note">Feed hoses from tank to primary, primary to secondary, secondary to pump, and return. Replace any hose showing cracks or soft spots.</span>
+          <span class="cl-note">Feed hoses from tank to the Flashlube, Flashlube to the fuel filter, filter to pump, and return. Replace any hose showing cracks or soft spots.</span>
         </div>
       </li>
       <li>
@@ -1444,7 +1368,7 @@
         <div class="cl-num">14</div>
         <div class="cl-text">
           <span class="cl-label">Filter spares count matches R3 stocking list</span>
-          <span class="cl-note">3 × primary, 3 × secondary, 2 × pre-filter minimum. Physical count, not "I remember packing them."</span>
+          <span class="cl-note">2 × factory filter, 2 × pre-filter minimum. Physical count, not "I remember packing them."</span>
         </div>
       </li>
       <li>

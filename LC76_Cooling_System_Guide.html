@@ -126,15 +126,6 @@
   .tag-wear    { background:rgba(192,90,0,.12); color:var(--orange); border:1px solid rgba(192,90,0,.3); }
 
   /* FLOW DIAGRAM */
-  .flow-wrap { background:var(--steeldk); border:1px solid rgba(255,255,255,.08); padding:16px; margin:14px 0; overflow-x:auto; overscroll-behavior-x:contain; }
-  .flow-title { font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--steelmd); margin-bottom:12px; }
-  .flow-row { display:flex; align-items:center; flex-wrap:nowrap; gap:0; margin:4px 0; }
-  .flow-node { font-family:'IBM Plex Mono',monospace; font-size:10px; font-weight:600; color:#fff; background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.2); padding:5px 10px; border-radius:2px; white-space:nowrap; flex-shrink:0; }
-  .flow-node.hot  { background:rgba(185,28,28,.25); border-color:rgba(185,28,28,.5); color:#fca5a5; }
-  .flow-node.cool { background:rgba(5,150,105,.2); border-color:rgba(5,150,105,.4); color:#6ee7b7; }
-  .flow-node.mech { background:rgba(224,120,0,.2); border-color:rgba(224,120,0,.4); color:#fcd34d; }
-  .flow-arrow { font-size:12px; color:var(--steelmd); padding:0 6px; flex-shrink:0; }
-  .flow-note { font-family:'IBM Plex Mono',monospace; font-size:9px; color:var(--steelmd); margin-left:8px; font-style:italic; }
 
   /* SPECS TABLE */
   .specs-table { width:100%; border-collapse:collapse; font-size:13px; margin:14px 0; table-layout:fixed; }
@@ -274,8 +265,15 @@
   .log-table td.fill { background:var(--paper2); color:var(--steelmd); font-style:italic; font-size:11px; }
 
   /* PRINT */
+  /* DRAWINGS (S12, 25 Oct 2026 — R25 pattern) */
+  .ss-fig { background:#fff; border:1px solid var(--rule); margin:14px 0 6px; padding:8px 0; }
+  .ss-fig svg { display:block; width:100%; max-width:520px; height:auto; margin:0 auto; }
+  .ss-cap { font-size:13px; color:var(--ink); margin:0 0 8px; }
+  .ss-cap-note { font-size:12px; color:var(--steelmd); margin-bottom:14px; }
   @media print {
     @page { margin: 7mm; size: A4; }
+    .ss-fig { break-inside: avoid; background: #fff !important; }
+    .ss-fig svg { max-width: 110mm; }
 
     /* Force all background colours and images to print */
     * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
@@ -316,11 +314,6 @@
     .tag-wear    { background: rgba(192,90,0,.12) !important; color: #c05a00 !important; }
 
     /* Flow diagram */
-    .flow-wrap { break-inside: avoid; background: #2a2f3a !important; }
-    .flow-node      { background: rgba(255,255,255,.1) !important; color: #fff !important; border-color: rgba(255,255,255,.2) !important; }
-    .flow-node.hot  { background: rgba(185,28,28,.25) !important; color: #fca5a5 !important; }
-    .flow-node.cool { background: rgba(5,150,105,.2) !important; color: #6ee7b7 !important; }
-    .flow-node.mech { background: rgba(224,120,0,.2) !important; color: #fcd34d !important; }
 
     /* Diag cards */
     .diag-group-title { background: #2a2f3a !important; color: #e07800 !important; }
@@ -372,7 +365,7 @@
 <div class="sticky-wrap">
   <div class="masthead">
     <a href="index.html" class="lib-home-btn">⌂ Index</a>
-    <div class="mh-eyebrow">Reference · R22<span class="mh-date">Last updated: 21 October 2026</span></div>
+    <div class="mh-eyebrow">Reference · R22<span class="mh-date">Last updated: 25 October 2026</span></div>
     <div class="mh-title">1HZ Cooling System Guide</div>
     <div class="mh-sub">System architecture, wear items, service specs, diagnosis &amp; overheating protocol</div>
   </div>
@@ -395,41 +388,9 @@
     <p class="section-intro">The 1HZ runs a conventional pressurised liquid cooling circuit. With the SAC turbo and top-mount intercooler fitted, two further heat paths matter — the turbo (oil-cooled; coolant lines recorded below but not yet confirmed, OI-124) and the intercooler air path. Understanding how these connect is essential for correct diagnosis.</p>
 
     <!-- Coolant flow diagram -->
-    <div class="flow-wrap">
-      <div class="flow-title">Coolant Circuit Flow — Engine Hot (Thermostat Open)</div>
-      <div class="flow-row">
-        <div class="flow-node hot">Engine Block / Head</div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node hot">Turbo Coolant Feed</div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node">Upper Hose</div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node cool">Radiator (top tank)</div>
-      </div>
-      <div class="flow-row" style="margin-top:8px;">
-        <div class="flow-node cool">Radiator (bottom tank)</div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node">Lower Hose</div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node mech">Water Pump</div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node">Engine Block</div>
-      </div>
-      <div class="flow-row" style="margin-top:8px;">
-        <div class="flow-node">Heater Core Feed</div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node">Cabin Heater Core</div>
-        <div class="flow-arrow">→</div>
-        <div class="flow-node">Return to block</div>
-        <div class="flow-note">Parallel circuit — always flowing when engine is running</div>
-      </div>
-      <div class="flow-row" style="margin-top:8px;">
-        <div class="flow-node">Overflow Tank</div>
-        <div class="flow-arrow">↔</div>
-        <div class="flow-node">Radiator Cap</div>
-        <div class="flow-note">Pressure cap vents to overflow; coolant drawn back on cool-down</div>
-      </div>
-    </div>
+    <div class="ss-fig"><svg viewBox="0 0 380 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cooling circuit: water jacket to upper hose, radiator top tank, core and bottom tank, lower hose to the thermostat at the inlet, water pump back into the engine; bypass when cold; heater loop; radiator cap and reservoir; fan; turbo coolant lines not confirmed"><defs><marker id="ah-B91C1C" viewBox="0 0 10 10" refX="8" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#B91C1C"/></marker><marker id="ah-059669" viewBox="0 0 10 10" refX="8" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#059669"/></marker><marker id="ah-6a7080" viewBox="0 0 10 10" refX="8" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#6a7080"/></marker><marker id="ah-b86800" viewBox="0 0 10 10" refX="8" refY="5" markerUnits="userSpaceOnUse" markerWidth="10" markerHeight="10" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#b86800"/></marker></defs><rect x="0" y="0" width="380" height="600" fill="#fff"/><text x="8" y="16" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#6a7080" text-anchor="start" font-weight="normal">FRONT OF VEHICLE  ←</text><rect x="14" y="30" width="70" height="30" rx="5" fill="#f4f2ec" stroke="#6a7080" stroke-width="2"/><text x="49" y="49" font-family="'IBM Plex Mono',monospace" font-size="8.5" fill="#2a2f3a" text-anchor="middle" font-weight="bold">RESERVOIR</text><polyline points="49,60 49,78" fill="none" stroke="#6a7080" stroke-width="2" stroke-linejoin="round" stroke-dasharray="3 3"/><rect x="40" y="78" width="18" height="10" fill="#2a2f3a"/><rect x="20" y="88" width="90" height="300" rx="4" fill="#f0fdf8" stroke="#059669" stroke-width="2"/><line x1="20" y1="120" x2="110" y2="120" stroke="#059669" stroke-width="1.5"/><line x1="20" y1="356" x2="110" y2="356" stroke="#059669" stroke-width="1.5"/><line x1="32" y1="124" x2="32" y2="352" stroke="#059669" stroke-width="1" opacity=".55"/><line x1="44" y1="124" x2="44" y2="352" stroke="#059669" stroke-width="1" opacity=".55"/><line x1="56" y1="124" x2="56" y2="352" stroke="#059669" stroke-width="1" opacity=".55"/><line x1="68" y1="124" x2="68" y2="352" stroke="#059669" stroke-width="1" opacity=".55"/><line x1="80" y1="124" x2="80" y2="352" stroke="#059669" stroke-width="1" opacity=".55"/><line x1="92" y1="124" x2="92" y2="352" stroke="#059669" stroke-width="1" opacity=".55"/><text x="65" y="108" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#2a2f3a" text-anchor="middle" font-weight="normal">top tank</text><text x="65" y="242" font-family="'IBM Plex Mono',monospace" font-size="9.5" fill="#2a2f3a" text-anchor="middle" font-weight="bold">core</text><text x="65" y="376" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#2a2f3a" text-anchor="middle" font-weight="normal">bottom tank</text><text x="65" y="404" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#2a2f3a" text-anchor="middle" font-weight="bold">RADIATOR</text><rect x="138" y="180" width="10" height="120" rx="3" fill="#b86800"/><circle cx="143" cy="240" r="7" fill="#fff" stroke="#b86800" stroke-width="2"/><text x="146" y="316" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#2a2f3a" text-anchor="middle" font-weight="bold">FAN</text><text x="146" y="328" font-family="'IBM Plex Mono',monospace" font-size="8.5" fill="#6a7080" text-anchor="middle" font-weight="normal">viscous</text><text x="146" y="339" font-family="'IBM Plex Mono',monospace" font-size="8.5" fill="#6a7080" text-anchor="middle" font-weight="normal">coupling</text><polyline points="114,200 132,200" fill="none" stroke="#9aa0ab" stroke-width="1.5" stroke-linejoin="round"/><polyline points="114,240 132,240" fill="none" stroke="#9aa0ab" stroke-width="1.5" stroke-linejoin="round"/><polyline points="114,280 132,280" fill="none" stroke="#9aa0ab" stroke-width="1.5" stroke-linejoin="round"/><rect x="176" y="128" width="150" height="214" rx="6" fill="#fef7f7" stroke="#B91C1C" stroke-width="2"/><text x="251" y="220" font-family="'IBM Plex Mono',monospace" font-size="10" fill="#2a2f3a" text-anchor="middle" font-weight="bold">WATER JACKET</text><text x="251" y="236" font-family="'IBM Plex Mono',monospace" font-size="9.5" fill="#2a2f3a" text-anchor="middle" font-weight="normal">block + head</text><text x="251" y="262" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#6a7080" text-anchor="middle" font-weight="normal">coolant picks up</text><text x="251" y="274" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#6a7080" text-anchor="middle" font-weight="normal">engine heat</text><polyline points="300,128 300,100 112,100" fill="none" stroke="#B91C1C" stroke-width="5" stroke-linejoin="round" marker-end="url(#ah-B91C1C)"/><text x="206" y="94" font-family="'IBM Plex Mono',monospace" font-size="9.5" fill="#2a2f3a" text-anchor="middle" font-weight="normal">upper hose (hot)</text><polyline points="110,372 190,372 190,397" fill="none" stroke="#059669" stroke-width="5" stroke-linejoin="round" marker-end="url(#ah-059669)"/><text x="150" y="366" font-family="'IBM Plex Mono',monospace" font-size="9.5" fill="#2a2f3a" text-anchor="middle" font-weight="normal">lower hose</text><circle cx="190" cy="414" r="15" fill="#fff" stroke="#2a2f3a" stroke-width="2"/><line x1="180" y1="414" x2="200" y2="414" stroke="#2a2f3a" stroke-width="2"/><text x="186" y="446" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#2a2f3a" text-anchor="middle" font-weight="bold">THERMOSTAT</text><text x="186" y="458" font-family="'IBM Plex Mono',monospace" font-size="8.5" fill="#6a7080" text-anchor="middle" font-weight="normal">at the inlet,</text><text x="186" y="469" font-family="'IBM Plex Mono',monospace" font-size="8.5" fill="#6a7080" text-anchor="middle" font-weight="normal">with bypass valve</text><polyline points="205,414 258,414" fill="none" stroke="#059669" stroke-width="5" stroke-linejoin="round"/><circle cx="275" cy="414" r="17" fill="#fffbf0" stroke="#b86800" stroke-width="2.5"/><path d="M275 401 L275 427 M262 414 L288 414" stroke="#b86800" stroke-width="2"/><text x="282" y="446" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#2a2f3a" text-anchor="middle" font-weight="bold">WATER PUMP</text><text x="282" y="458" font-family="'IBM Plex Mono',monospace" font-size="8.5" fill="#6a7080" text-anchor="middle" font-weight="normal">belt-driven</text><polyline points="275,397 275,346" fill="none" stroke="#059669" stroke-width="5" stroke-linejoin="round" marker-end="url(#ah-059669)"/><polyline points="180,342 180,396" fill="none" stroke="#6a7080" stroke-width="2" stroke-linejoin="round" stroke-dasharray="4 3" marker-end="url(#ah-6a7080)"/><text x="8" y="492" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#6a7080" text-anchor="start" font-weight="normal">Dashed grey: the bypass. With the engine cold</text><text x="8" y="504" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#6a7080" text-anchor="start" font-weight="normal">the thermostat stays shut and coolant goes</text><text x="8" y="516" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#6a7080" text-anchor="start" font-weight="normal">round the engine only, not the radiator.</text><rect x="300" y="380" width="72" height="40" rx="4" fill="#fff" stroke="#B91C1C" stroke-width="2"/><text x="336" y="397" font-family="'IBM Plex Mono',monospace" font-size="8.5" fill="#2a2f3a" text-anchor="middle" font-weight="bold">HEATER</text><text x="336" y="409" font-family="'IBM Plex Mono',monospace" font-size="8" fill="#6a7080" text-anchor="middle" font-weight="normal">core (cabin)</text><polyline points="318,342 318,378" fill="none" stroke="#B91C1C" stroke-width="3" stroke-linejoin="round" marker-end="url(#ah-B91C1C)"/><polyline points="336,420 336,432 292,426" fill="none" stroke="#059669" stroke-width="3" stroke-linejoin="round" marker-end="url(#ah-059669)"/><rect x="300" y="30" width="72" height="40" rx="5" fill="#f4f2ec" stroke="#6a7080" stroke-width="2" stroke-dasharray="5 3"/><text x="336" y="48" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#2a2f3a" text-anchor="middle" font-weight="bold">TURBO</text><text x="336" y="61" font-family="'IBM Plex Mono',monospace" font-size="8.5" fill="#6a7080" text-anchor="middle" font-weight="normal">coolant?</text><polyline points="336,70 336,128" fill="none" stroke="#6a7080" stroke-width="2" stroke-linejoin="round" stroke-dasharray="4 3"/><text x="216" y="46" font-family="'IBM Plex Mono',monospace" font-size="8.5" fill="#6a7080" text-anchor="end" font-weight="normal">not confirmed</text><text x="216" y="58" font-family="'IBM Plex Mono',monospace" font-size="8.5" fill="#6a7080" text-anchor="end" font-weight="normal">(OI-124)</text><rect x="10" y="531" width="14" height="10" fill="#B91C1C"/><text x="30" y="540" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#2a2f3a" text-anchor="start" font-weight="normal">hot, from the engine</text><rect x="10" y="545" width="14" height="10" fill="#059669"/><text x="30" y="554" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#2a2f3a" text-anchor="start" font-weight="normal">cooled, back to the engine</text><rect x="10" y="559" width="14" height="10" fill="#b86800"/><text x="30" y="568" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#2a2f3a" text-anchor="start" font-weight="normal">pump and fan (moving parts)</text><rect x="10" y="573" width="14" height="10" fill="#6a7080"/><text x="30" y="582" font-family="'IBM Plex Mono',monospace" font-size="9" fill="#2a2f3a" text-anchor="start" font-weight="normal">dashed: bypass / not confirmed</text></svg></div>
+    <p class="ss-cap"><strong>How to read it.</strong> The belt-driven water pump at the front of the block pushes coolant through the water jacket in the block and head, where it picks up the engine&rsquo;s heat. Hot coolant leaves through the upper hose to the radiator&rsquo;s top tank, cools as it falls through the core (the fan and the air from driving pull air through it), and returns from the bottom tank through the lower hose. The thermostat sits at that inlet, where the lower hose meets the engine: cold, it stays shut and its bypass valve sends coolant round the engine only, so it warms up quickly; warm, it opens and lets the radiator flow in. The heater core runs as a side loop to the cabin. The radiator cap holds the system under pressure; expanding coolant goes to the reservoir and is drawn back as it cools. Whether our turbo has coolant lines is not confirmed (OI-124), so it is drawn dashed.</p>
+    <p class="ss-cap-note">Schematic, not to scale; parts are not drawn where they sit. Thermostat on the inlet side with a bypass valve, reservoir and two-valve cap: Toyota 70 Series engine manual (1990) CO-2&ndash;CO-3 and RM617E CO-11. No opening temperature is drawn &mdash; the fitted thermostat&rsquo;s rating is open (OI-125).</p>
 
     <!-- Component cards -->
     <div class="comp-grid">
