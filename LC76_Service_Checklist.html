@@ -10,9 +10,15 @@
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{overflow-x:hidden;overflow-x:clip;overscroll-behavior-x:none}
 body{font-family:Oswald,sans-serif;background:var(--paper);color:var(--steeldk);line-height:1.5;-webkit-font-smoothing:antialiased;min-height:100vh;overflow-x:clip;overscroll-behavior-x:none}
-header{background:var(--ink);color:#fff;padding:18px 24px 14px;position:sticky;top:0;z-index:100}
-header::before{content:"";position:absolute;left:0;right:0;bottom:100%;height:100vh;background:var(--ink)}
-.lib-home-btn{position:absolute;top:50%;right:16px;transform:translateY(-50%);display:inline-flex;align-items:center;gap:5px;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--amber2);background:rgba(232,120,0,.15);border:1px solid var(--amber2);border-radius:20px;padding:6px 12px;min-height:32px;white-space:nowrap;transition:background .2s}
+.sticky-wrap{position:sticky;top:0;z-index:100;background:var(--ink);padding-top:env(safe-area-inset-top)}
+.sticky-wrap::before{content:"";position:absolute;left:0;right:0;bottom:100%;height:100vh;background:var(--ink)}
+.masthead{position:relative;background:var(--ink);color:#fff;padding:18px 24px 14px}
+.toc-bar{background:var(--steeldk);border-top:3px solid var(--amber2);border-bottom:1px solid rgba(255,255,255,.08);padding:0 20px;display:flex;flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.toc-bar::-webkit-scrollbar{display:none}
+.toc-btn{font-family:'IBM Plex Mono',monospace;font-size:.52rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--steelmd);background:none;border:none;padding:10px 12px;cursor:pointer;white-space:nowrap;transition:color .15s}
+.toc-btn:hover{color:#c8bfad}
+.section-empty{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--steelmd);padding:.2rem 0 .1rem}
+.lib-home-btn{position:absolute;top:50%;right:16px;transform:translateY(-50%);display:inline-flex;align-items:center;gap:5px;font-family:'IBM Plex Mono',monospace;font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--amber2);background:rgba(232,120,0,.15);border:1px solid var(--amber2);border-radius:20px;padding:6px 12px;min-height:32px;white-space:nowrap;z-index:10;transition:background .2s}
 .lib-home-btn:hover{background:rgba(232,120,0,.30)}
 .mh-eyebrow{font-family:'IBM Plex Mono',monospace;font-size:.5rem;letter-spacing:.28em;text-transform:uppercase;color:var(--steelmd);margin-bottom:6px}
 .mh-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.6rem,4vw,2.4rem);letter-spacing:.06em;color:var(--amber2);line-height:1}
@@ -33,7 +39,7 @@ header::before{content:"";position:absolute;left:0;right:0;bottom:100%;height:10
 .progress-label{font-family:'IBM Plex Mono',monospace;font-size:.75rem;color:var(--amber2);white-space:nowrap;min-width:90px;text-align:right}
 .reset-btn{font-family:'IBM Plex Mono',monospace;font-size:.7rem;font-weight:600;padding:.35rem .8rem;border:1px solid #555;background:0 0;color:#888;cursor:pointer;border-radius:4px;transition:all .2s;min-height:44px}
 .reset-btn:hover{border-color:#fff;color:#fff}
-main{padding:1.25rem 1.5rem 90px;width:100%}
+main{padding:1.25rem 1.5rem 60px;width:100%}
 .section{margin-bottom:1.5rem}
 .section-header{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:.05em;color:var(--steeldk);border-bottom:2px solid var(--rule);padding-bottom:.3rem;margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
 .section-badge{font-family:'IBM Plex Mono',monospace;font-size:.65rem;font-weight:600;padding:.2rem .5rem;border-radius:3px;background:var(--paper2);color:var(--steelmd)}
@@ -62,12 +68,6 @@ main{padding:1.25rem 1.5rem 90px;width:100%}
 .no-record{font-family:'IBM Plex Mono',monospace;font-size:.62rem;background:#fef2f2;color:var(--red-warn);border:1px solid var(--red-warn);padding:.1rem .4rem;border-radius:3px;margin-left:.4rem;display:inline-block}
 .source-tag{font-family:'IBM Plex Mono',monospace;font-size:.58rem;background:var(--paper2);color:var(--steelmd);border:1px solid var(--rule);padding:.1rem .35rem;border-radius:3px;margin-left:.4rem;vertical-align:middle;display:inline-block}
 .cumulative-notice{font-family:'IBM Plex Mono',monospace;font-size:.68rem;color:var(--steeldk);background:var(--paper2);border:1px solid var(--rule);border-radius:4px;padding:.45rem .75rem;margin-bottom:.85rem;line-height:1.6}
-.print-bar{position:fixed;bottom:0;left:0;right:0;background:var(--ink);padding:.75rem 1.5rem;padding-bottom:calc(.75rem + env(safe-area-inset-bottom));display:flex;gap:.75rem;justify-content:flex-end;z-index:50;border-top:2px solid var(--amber)}
-.print-bar button{font-family:'IBM Plex Mono',monospace;font-size:.8rem;font-weight:600;padding:.6rem 1.25rem;border:2px solid;cursor:pointer;border-radius:4px;min-height:44px;transition:all .2s;-webkit-tap-highlight-color:transparent}
-.btn-print{background:var(--amber2);color:#fff;border-color:var(--amber2)}
-.btn-print:hover{background:#c06800}
-.btn-clear-all{background:0 0;color:#888;border-color:#444}
-.btn-clear-all:hover{color:#fff;border-color:#fff}
 /* Custom confirm overlay — replaces confirm() which is blocked in PWA standalone */
 .confirm-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:999;display:flex;align-items:center;justify-content:center}
 .confirm-box{background:var(--paper2);border:2px solid var(--rule);border-radius:8px;padding:1.5rem;max-width:320px;width:90%;font-family:Oswald,sans-serif}
@@ -77,14 +77,14 @@ main{padding:1.25rem 1.5rem 90px;width:100%}
 .confirm-ok{background:var(--red-warn);color:#fff;border-color:var(--red-warn)}
 .confirm-cancel{background:0 0;color:var(--steeldk);border-color:var(--rule)}
 @media(max-width:600px){
-  header{padding:14px 16px 12px;padding-top:calc(14px + env(safe-area-inset-top))}
+  .masthead{padding:14px 16px 12px}
+  .toc-bar{padding:0 10px}
+  .toc-btn{padding:9px 9px}
   .mh-sub{display:none}
   .interval-bar{padding:.75rem 1rem;gap:.4rem}
   .int-btn{font-size:.68rem;padding:.4rem .65rem;min-height:44px}
   .interval-bar-label{width:100%;margin-bottom:.15rem}
-  main{padding:1rem 1rem 100px}
-  .print-bar{padding:.6rem 1rem;padding-bottom:calc(.6rem + env(safe-area-inset-bottom));gap:.5rem}
-  .print-bar button{font-size:.72rem;padding:.5rem .85rem}
+  main{padding:1rem 1rem 60px}
   .check-item{padding:.6rem .75rem}
   .check-name{font-size:.88rem}
   .check-detail{font-size:.64rem}
@@ -99,12 +99,14 @@ main{padding:1.25rem 1.5rem 90px;width:100%}
   }
   html,body{overflow:visible!important;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
   body{background:#fff;font-size:7.5pt;line-height:1.3}
-  header{position:static!important;padding:3mm 5mm;background:#0d0e12!important;color:#fff!important}
-  header::before{content:none!important}
+  .sticky-wrap{position:static!important;padding-top:0!important}
+  .sticky-wrap::before{content:none!important}
+  .toc-bar{display:none!important}
+  .masthead{padding:3mm 5mm;background:#0d0e12!important;color:#fff!important}
   .mh-eyebrow{font-size:5pt;color:#6a7080!important}
   .mh-title{font-size:14pt;color:#e07800!important}
   .mh-sub{font-size:5pt;color:rgba(255,200,100,.65)!important;display:block!important}
-  .interval-bar,.progress-bar-wrap,.due-notice,.print-bar,.reset-btn,.confirm-overlay,.lib-home-btn{display:none!important}
+  .interval-bar,.progress-bar-wrap,.due-notice,.reset-btn,.confirm-overlay,.lib-home-btn{display:none!important}
   main{padding:2mm 0 0;width:100%}
   .cumulative-notice{font-size:5.5pt;padding:1mm 2mm;margin-bottom:2mm;line-height:1.3;background:#edeae0!important;border-color:#d4cfc4!important}
   .outstanding-header{padding:1.5mm 3mm;border-radius:0;background:#B91C1C!important;color:#fff!important}
@@ -138,12 +140,29 @@ main{padding:1.25rem 1.5rem 90px;width:100%}
 </head>
 <body>
 
-<header>
+<div class="sticky-wrap">
+<div class="masthead">
   <a href="index.html" class="lib-home-btn" title="Library Index">⌂ Index</a>
   <div class="mh-eyebrow">Reference · R8 Supplement<span class="mh-date">Last updated: 26 October 2026</span></div>
   <div class="mh-title">Service Checklist</div>
   <div class="mh-sub">Interval service checklist — 1HZ maintenance schedule &amp; sign-off</div>
-</header>
+</div>
+<nav class="toc-bar" id="tocBar">
+  <button class="toc-btn" data-target="ck-outstanding">Outstanding</button>
+  <button class="toc-btn" data-target="ck-engine">Engine</button>
+  <button class="toc-btn" data-target="ck-fuel-system">Fuel</button>
+  <button class="toc-btn" data-target="ck-fluids">Fluids</button>
+  <button class="toc-btn" data-target="ck-drivetrain">Drivetrain</button>
+  <button class="toc-btn" data-target="ck-cooling">Cooling</button>
+  <button class="toc-btn" data-target="ck-turbo">Turbo</button>
+  <button class="toc-btn" data-target="ck-brakes">Brakes</button>
+  <button class="toc-btn" data-target="ck-suspension">Suspension</button>
+  <button class="toc-btn" data-target="ck-chassis">Chassis</button>
+  <button class="toc-btn" data-target="ck-tyres">Tyres</button>
+  <button class="toc-btn" data-target="ck-electrical">Electrical</button>
+  <button class="toc-btn" data-target="ck-monitors">Monitors</button>
+</nav>
+</div>
 
 <div class="interval-bar" id="intervalBar">
   <span class="interval-bar-label">Interval:</span>
@@ -163,11 +182,6 @@ main{padding:1.25rem 1.5rem 90px;width:100%}
 </div>
 
 <main id="mainContent"></main>
-
-<div class="print-bar">
-  <button class="btn-clear-all" onclick="resetChecks()">Clear All</button>
-  <button class="btn-print" onclick="openPrint()">Print / PDF</button>
-</div>
 
 <!-- Custom confirm overlay — replaces confirm() blocked in PWA standalone mode -->
 <div class="confirm-overlay" id="confirmOverlay" style="display:none">
@@ -391,106 +405,51 @@ function render(){
     + (notDue ? '<br><strong style="color:#B91C1C;">\u26a0 Note:</strong> This interval is not yet due at ' + NEXT_SERVICE_KM.toLocaleString() + ' km (' + KM_SINCE_LAST.toLocaleString() + ' km since last service). Items shown for planning only.' : '')
     + '</div>';
 
-  html += '<div class="outstanding-header"><div class="section-header">\u26a0\ufe0f Outstanding \u2014 Schedule Independently of Mileage Interval <span class="section-badge" id="badge_outstanding">-</span></div></div>'
+  document.getElementById('ck-notice').innerHTML = html;
+
+  html = '<div class="outstanding-header"><div class="section-header">\u26a0\ufe0f Outstanding \u2014 Schedule Independently of Mileage Interval <span class="section-badge" id="badge_outstanding">-</span></div></div>'
        +  '<div class="outstanding-body"><div class="checklist">';
   OUTSTANDING.forEach(function(i){ html += buildItem(i, true); });
+  if(OUTSTANDING.length === 0) html += '<div class="section-empty">None at present.</div>';
   html += '</div></div>';
+  document.getElementById('ck-outstanding').innerHTML = html;
 
   SECTIONS_ORDER.forEach(function(sec){
-    var si = grouped[sec];
-    if(!si || si.length === 0) return;
+    var si = grouped[sec] || [];
     var sd = si.filter(function(i){ return checks[i.id]; }).length;
-    html += '<div class="section"><div class="section-header">' + sec + '<span class="section-badge' + (sd === si.length ? ' done' : '') + '" id="badge_' + sec + '">' + sd + '/' + si.length + '</span></div><div class="checklist">';
-    si.forEach(function(i){ html += buildItem(i, false); });
-    html += '</div></div>';
+    var h = '<div class="section-header">' + sec + '<span class="section-badge' + (sd === si.length && si.length > 0 ? ' done' : '') + '" id="badge_' + sec + '">' + sd + '/' + si.length + '</span></div><div class="checklist">';
+    si.forEach(function(i){ h += buildItem(i, false); });
+    if(si.length === 0) h += '<div class="section-empty">Nothing in this section at the ' + intLabel(currentInterval) + ' km service.</div>';
+    h += '</div>';
+    document.getElementById(secId(sec)).innerHTML = h;
   });
 
-  document.getElementById('mainContent').innerHTML = html;
   updateProgress();
 }
 
-// ── Print / PDF ──────────────────────────────────────────────────────────────
-function openPrint(){
-  var items = getItemsForInterval(currentInterval);
-  var grouped = groupBySection(items);
-
-  function badge(item, isOut){
-    var b = '';
-    if(item.flag === 'critical') b += '<b style="display:inline-block;font-size:5pt;background:#B91C1C;color:#fff;padding:1px 3px;margin-left:2px;border-radius:2px;font-family:monospace">CRITICAL</b>';
-    else if(item.flag === 'warn') b += '<b style="display:inline-block;font-size:5pt;background:#b86800;color:#fff;padding:1px 3px;margin-left:2px;border-radius:2px;font-family:monospace">MONITOR</b>';
-    if(item.noRecord) b += '<b style="display:inline-block;font-size:5pt;background:#fef2f2;color:#B91C1C;border:1px solid #B91C1C;padding:1px 3px;margin-left:2px;border-radius:2px;font-family:monospace">NO RECORD</b>';
-    if(!isOut && item.interval > 5000) b += '<b style="display:inline-block;font-size:5pt;background:#2a2f3a;color:#e07800;padding:1px 3px;margin-left:2px;border-radius:2px;font-family:monospace">' + intLabel(item.interval) + ' km</b>';
-    if(item.src) b += '<b style="display:inline-block;font-size:4pt;background:#edeae0;color:#6a7080;border:1px solid #d4cfc4;padding:1px 3px;margin-left:2px;border-radius:2px;font-family:monospace">' + item.src + '</b>';
-    return b;
-  }
-
-  function itemHTML(item, isOut){
-    var chk = checks[item.id];
-    var borderLeft = item.flag === 'critical' ? 'border-left:3px solid #B91C1C;' : item.flag === 'warn' ? 'border-left:2px solid #e07800;' : '';
-    var bg     = chk ? 'background:#f0faf6;border-color:#059669;' : 'background:#ffffff;';
-    var nameCol = chk ? 'color:#059669;' : 'color:#2a2f3a;';
-    var cbBg   = chk ? 'background:#059669;border-color:#059669;' : 'background:#ffffff;border-color:#aaa;';
-    var tick   = chk ? '<svg width="8" height="7" viewBox="0 0 12 10" fill="none"><polyline points="1,5 4.5,8.5 11,1" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>' : '';
-    return '<div style="display:flex;gap:3mm;align-items:flex-start;' + bg + 'border:1px solid #d4cfc4;' + borderLeft + 'padding:1.5mm 2mm;margin-bottom:1mm;page-break-inside:avoid;break-inside:avoid;">'
-      + '<div style="width:12px;height:12px;min-width:12px;border:1.5px solid #aaa;border-radius:2px;' + cbBg + 'display:flex;align-items:center;justify-content:center;margin-top:1px;flex-shrink:0;">' + tick + '</div>'
-      + '<div style="flex:1;min-width:0;">'
-      + '<div style="font-size:7pt;font-weight:bold;' + nameCol + 'line-height:1.25;">' + item.name + badge(item, isOut) + (item.src ? '<span style="font-size:5pt;font-weight:normal;color:#6a7080;border:0.5pt solid #c8bfad;padding:0 1mm;margin-left:1.5mm;">' + item.src + '</span>' : '') + '</div>'
-      + '<div style="font-size:5.5pt;color:#6a7080;margin-top:1px;line-height:1.3;">' + item.detail + '</div>'
-      + '</div></div>';
-  }
-
-  // Build the print document as a string. The closing script tag is split to prevent HTML parser termination.
-  var scriptOpen  = '<scr' + 'ipt>';
-  var scriptClose = '</sc' + 'ript>';
-
-  var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"><title>LC76 Service Checklist</title>'
-    + '<style>'
-    + '@page{size:A4;margin:7mm}'
-    + '*{box-sizing:border-box;margin:0;padding:0;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;color-adjust:exact!important}'
-    + 'body{font-family:Arial,sans-serif;font-size:7.5pt;line-height:1.3;color:#2a2f3a;background:#fff}'
-    + '</style>'
-    + '</head><body>';
-
-  // Header
-  html += '<div style="background:#0d0e12;color:#fff;padding:3mm 5mm;margin-bottom:3mm;">'
-    + '<div style="font-size:5pt;letter-spacing:.2em;text-transform:uppercase;color:#6a7080;margin-bottom:2px;">Reference \u00b7 R8 Supplement</div>'
-    + '<div style="font-size:14pt;letter-spacing:.06em;color:#e07800;line-height:1;">Service Checklist</div>'
-    + '<div style="font-size:5pt;color:rgba(255,200,100,.7);margin-top:2px;">HZJ76R-RKMRS \u00b7 1HZ + SAC Low-Boost Turbo \u00b7 Last service ' + LAST_SERVICE_KM.toLocaleString() + ' km \u00b7 Next service ' + NEXT_SERVICE_KM.toLocaleString() + ' km</div>'
-    + '</div>';
-
-  // Notice
-  html += '<div style="background:#edeae0;border:1px solid #d4cfc4;font-size:5.5pt;padding:1.5mm 2.5mm;margin-bottom:3mm;font-family:monospace;line-height:1.4;">'
-    + 'Interval: <b>' + intLabel(currentInterval) + ' km</b> \u00b7 Cumulative from 5,000 km \u00a0|\u00a0 FSM = Toyota FSM \u00a0|\u00a0 SH = Service History \u00a0|\u00a0 DOC = Reference docs \u00a0|\u00a0 BOTH = multiple sources \u00a0|\u00a0 ADV = workshop advisory (Advisories sheet)'
-    + '</div>';
-
-  // Outstanding
-  html += '<div style="background:#B91C1C;color:#fff;padding:2mm 3mm;">'
-    + '<div style="font-size:8pt;font-weight:bold;letter-spacing:.04em;text-transform:uppercase;">\u26a0 Outstanding \u2014 Schedule Independently of Mileage Interval</div>'
-    + '</div>'
-    + '<div style="border:2px solid #B91C1C;border-top:none;padding:2mm 3mm;margin-bottom:4mm;">';
-  OUTSTANDING.forEach(function(i){ html += itemHTML(i, true); });
-  html += '</div>';
-
-  // Sections
-  SECTIONS_ORDER.forEach(function(sec){
-    var si = grouped[sec];
-    if(!si || si.length === 0) return;
-    html += '<div style="margin-bottom:3mm;">'
-      + '<div style="font-size:8pt;font-weight:bold;letter-spacing:.04em;text-transform:uppercase;border-bottom:1.5px solid #2a2f3a;padding-bottom:1mm;margin-bottom:2mm;color:#2a2f3a;">' + sec + '</div>';
-    si.forEach(function(i){ html += itemHTML(i, false); });
-    html += '</div>';
-  });
-
-  html += scriptOpen + 'window.onload=function(){window.print();}' + scriptClose + '</body></html>';
-
-  var win = window.open('', '_blank');
-  if(!win){ alert('Pop-up blocked. Please allow pop-ups for this page to use Print / PDF.'); return; }
-  win.document.open();
-  win.document.write(html);
-  win.document.close();
+// Section boxes are made once and only their contents change, so the
+// menu (and the shared current-section highlight) always points at live
+// elements when the interval changes (26 Oct 2026).
+function secId(sec){ return 'ck-' + sec.toLowerCase().replace(/\s+/g, '-'); }
+function buildBoxes(){
+  var main = document.getElementById('mainContent');
+  var h = '<div id="ck-notice"></div><div id="ck-outstanding"></div>';
+  SECTIONS_ORDER.forEach(function(sec){ h += '<div class="section" id="' + secId(sec) + '"></div>'; });
+  main.innerHTML = h;
 }
 
+// Menu: scroll to the section, clear of the sticky header.
+function ckGo(id){
+  var el = document.getElementById(id); if(!el) return;
+  var off = document.querySelector('.sticky-wrap').getBoundingClientRect().height + 8;
+  window.scrollTo({ top: el.getBoundingClientRect().top + window.pageYOffset - off, behavior: 'smooth' });
+}
+document.querySelectorAll('#tocBar .toc-btn').forEach(function(b){
+  b.addEventListener('click', function(){ ckGo(b.getAttribute('data-target')); });
+});
+
 // ── Init ─────────────────────────────────────────────────────────────────────
+buildBoxes();
 updateDueNotice();
 render();
 </script>
