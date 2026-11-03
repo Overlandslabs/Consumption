@@ -22,7 +22,7 @@
 // but any tiles fetched successfully while online are cached opportunistically
 // for later offline reuse via the same runtime fetch handler.
 
-const CACHE = 'lc76-library-v31';
+const CACHE = 'lc76-library-v32';
 
 const CDN_HOSTS = [
   'cdnjs.cloudflare.com',
@@ -37,6 +37,7 @@ const PRECACHE = [
   './manifest.json',
   './manifest-index.json',
   './icon-index-192.svg',
+  './apple-touch-icon-index.png',   // iPhone home-screen icon (3 Nov 2026)
   './Angola_Overland_Profile_2026-04.html',
   './Botswana_Overland_Profile_2026-04.html',
   './LC76_1HZ_Troubleshooting_Guide.html',
