@@ -536,7 +536,9 @@ function onCfgChange(){
 }
 
 // ── State ──
-// Terrain implied avg speeds (km/h) — midpoint of each band
+// Terrain implied avg speeds (km/h) — midpoint of each band. Set by terrain, not
+// by multiplier order: deep sand (x1.55) is driven faster than a rocky track (x1.45)
+// (TA-008, checked 4 Nov 2026).
 var T_SPEED={1.00:105, 1.12:70, 1.25:50, 1.45:12, 1.55:30, 1.80:6};
 var AM=1.00, WM=1.00, HM=1.00;
 var TR=[
@@ -599,7 +601,8 @@ function gAC(){return document.getElementById('cb-ac').checked;}
 function cc(m,kg,bar){
   var alt=parseFloat(document.getElementById('sl-alt').value)||0;
   var acMult=gAC()?1.15:1.0;
-  return getBase()*(1-lp(kg)-bf(bar)-af(alt)-tf(gTemp()))/m/WM/HM/acMult;
+  // floor: the penalties can never take economy to zero or below (TA-008)
+  return getBase()*Math.max(0.1,1-lp(kg)-bf(bar)-af(alt)-tf(gTemp()))/m/WM/HM/acMult;
 }
 function fc(c){return c.toFixed(2);}
 function fl(c){return (100/c).toFixed(1);}
@@ -646,7 +649,7 @@ function upd(){
   document.getElementById('v-temp').innerHTML=temp+'&deg;C';
   var tempPen=tf(temp);
   document.getElementById('v-temp-penalty').textContent=temp===25?'baseline':temp<25?'below baseline (no benefit)':'-'+(tempPen*100).toFixed(1)+'%';
-  document.getElementById('v-ac-penalty').textContent=gAC()?'-15% (AC on)':'';
+  document.getElementById('v-ac-penalty').textContent=gAC()?'+15% fuel (\u221213% km/L)':'';
 
   var cons=cc(AM,kg,bar);
   var range=Math.round(fuel*cons);

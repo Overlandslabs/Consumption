@@ -271,7 +271,7 @@ footer span{color:var(--ochre)}
     </div>
   </div>
 
-
+  <p style="font-size:12px;color:var(--smoke);margin:10px 0 0;line-height:1.5">This planner leaves out heat, air-conditioning and weather, which the Fuel Range Calculator includes &mdash; so the same leg can show slightly better economy here. Keep a margin, or check a hot or windy leg in the Fuel Range Calculator.</p>
 
   <!-- ROUTE LEGS -->
   <div class="sec">Route legs</div>
@@ -394,12 +394,12 @@ function gAlt(){return parseFloat(document.getElementById('v-alt').value)||0}
 function gStartFuel(){return parseFloat(document.getElementById('t-startfuel').value)||145}
 function gMaxFuel(){return gTank()+gJerry()}
 
-function lp(kg){return kg<=REC_LOAD?0:(kg-REC_LOAD)/690*0.12}
+function lp(kg){return kg<=REC_LOAD?0:(kg-REC_LOAD)/683*0.12}  // 683 kg = as-built payload, Facts §1 (TA-008)
 function bf(bar){var d=bar-REC_BAR;return d>=0?-d*0.044:Math.abs(d)*0.116}
 function af(alt){return (alt/1000)*0.035}
 
 function consumption(terrMult, bar){
-  return gBase()*(1-lp(gLoad())-bf(bar)-af(gAlt()))/terrMult;
+  return gBase()*Math.max(0.1,1-lp(gLoad())-bf(bar)-af(gAlt()))/terrMult;  // floor (TA-008)
 }
 
 function setActual(id){

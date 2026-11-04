@@ -295,7 +295,7 @@ footer span{color:var(--ochre)}
   </div>
 
   <div class="gvm-warn" id="gvm-warn">
-    ⚠️ <strong>GVM Warning:</strong> Payload above 620 kg approaches GVM limit (3,000 kg). Verify total loaded weight before departure.
+    ⚠️ <strong>GVM Warning:</strong> Above 500 kg (the Heavy zone) you are close to the as-built payload of about 683 kg (an estimate &mdash; Facts &sect;1), and at full expedition trim the vehicle weighed 280 kg over its 3,000 kg GVM. Weigh before departure.
   </div>
 
   <div class="sec-head">Recommended Pressures</div>
@@ -579,7 +579,9 @@ var state = {
 
 // ─────────────────────────────────────────────
 // PRESSURE DATA
-// Base pressures at medium load (350 kg), front / rear in PSI
+// Base pressures at medium load (350 kg), front / rear in PSI.
+// The engine works in whole psi; every reading is SHOWN bar first, psi second
+// (house style — TA-007, 4 Nov 2026).
 // Organised as [terrain][size] = {f, r, fRange, rRange, rationale, reinflation}
 // ─────────────────────────────────────────────
 var BASE = {
@@ -655,7 +657,9 @@ var BASE = {
 // ─────────────────────────────────────────────
 // PAYLOAD ADJUSTMENT
 // PSI adjustment per 100 kg above/below 350 kg baseline
-// Front axle carries ~45% of load, rear ~55%
+// Each 100 kg adds 1.0 psi front and 1.5 psi rear (sand and mud 0.5 / 1.0):
+// the rear takes 1.5 times the front's share of added load (about 40/60),
+// rear-biased for overland loading (TA-007, corrected 4 Nov 2026)
 // ─────────────────────────────────────────────
 function payloadAdj(payload, terrain) {
   var delta = (payload - 350) / 100;
@@ -736,7 +740,7 @@ function render() {
 
   // Slider fill
   var sl = document.getElementById('payload-slider');
-  var pct = ((pz - 0) / 551 * 100).toFixed(1);
+  var pct = ((pz - 0) / 683 * 100).toFixed(1);  // slider max = as-built payload (Facts §1)
   sl.style.background = 'linear-gradient(to right, var(--clay) ' + pct + '%, var(--border) ' + pct + '%)';
 }
 

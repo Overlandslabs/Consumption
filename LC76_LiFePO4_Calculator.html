@@ -479,12 +479,12 @@
 
   <div class="call am">
     <div class="ci">&#9881;</div>
-    <div class="cb"><strong>DC&ndash;DC charger (alternator charging):</strong> At 23A output and 88% efficiency, 2 hours of driving delivers ~40 Ah to the aux battery. A full 8-hour drive day delivers ~162 Ah &mdash; enough to recover a heavily depleted 300 Ah bank. The 1HZ alternator has ample headroom for a 20&ndash;40A DC&ndash;DC charger. Use driving time efficiently &mdash; the first two hours deliver the most benefit.</div>
+    <div class="cb"><strong>DC&ndash;DC charger (alternator charging):</strong> At 23A output, less a 12% margin for taper and losses, 2 hours of driving delivers ~40 Ah to the aux battery. A full 8-hour drive day delivers ~162 Ah &mdash; enough to recover most of a heavily depleted 210 Ah bank. The 1HZ alternator has ample headroom for a 20&ndash;40A DC&ndash;DC charger. Use driving time efficiently &mdash; the first two hours deliver the most benefit.</div>
   </div>
 
   <div class="call am">
     <div class="ci">&#9728;</div>
-    <div class="cb"><strong>Solar panel or blanket:</strong> A 200W panel at 5 peak sun hours with 72% combined efficiency (heat, angle, dust, controller losses) delivers <strong>~60 Ah/day</strong> on a clear African day. At the 65.3 Ah/day reference load, solar alone is roughly break-even on a clear day &mdash; a short drive covers cloud or a heavier load. Dust on the panel or blanket costs 10&ndash;30% output &mdash; clean every 3&ndash;5 days. Park solar-side in full sun.</div>
+    <div class="cb"><strong>Solar panel or blanket:</strong> A 200W panel at 5 peak sun hours with 72% combined efficiency (heat, angle, dust, controller losses) delivers <strong>~56 Ah/day</strong> on a clear African day (worked at the battery's 12.8 V). At the 65.3 Ah/day reference load, solar alone falls a little short on a clear day &mdash; a short drive covers cloud or a heavier load. Dust on the panel or blanket costs 10&ndash;30% output &mdash; clean every 3&ndash;5 days. Park solar-side in full sun.</div>
   </div>
 
   <div class="call inf">
@@ -654,8 +654,8 @@ function upd(){
 
   var usable = cap*(1-minSoc)*(1-loss);
   var avail  = Math.max(0, cap*(soc-minSoc)*(1-loss));
-  var altAh  = driveH*dcdc*0.88;
-  var solAh  = (solW*psh*peff)/12;
+  var altAh  = driveH*dcdc*0.88;  // the charger's output is already its set current; 0.88 is a planning margin for taper and cable losses (TA-010)
+  var solAh  = (solW*psh*peff)/12.8;  // 12.8 V LiFePO4 nominal (TA-010)
   var totalLoad = rows.reduce(function(s,r){return s+r.amps*r.hrs;},0);
   var net    = altAh+solAh-totalLoad;
   var socEnd = Math.min(1, Math.max(minSoc, soc+net/cap));
@@ -704,9 +704,9 @@ function upd(){
   document.getElementById('ab-cap').textContent  = cap+' Ah';
   document.getElementById('ab-usable').textContent = usable.toFixed(0)+' Ah ('+Math.round((1-minSoc)*100)+'% DoD × '+Math.round((1-loss)*100)+'% eff)';
   document.getElementById('ab-avail').textContent  = avail.toFixed(0)+' Ah (from '+Math.round(soc*100)+'% SOC)';
-  document.getElementById('ab-sol-f').textContent  = solW+'W × '+psh+'h × '+Math.round(peff*100)+'% ÷ 12V';
+  document.getElementById('ab-sol-f').textContent  = solW+'W × '+psh+'h × '+Math.round(peff*100)+'% ÷ 12.8V';
   document.getElementById('ab-sol').textContent    = solAh.toFixed(1)+' Ah';
-  document.getElementById('ab-alt-f').textContent  = dcdc+'A × '+driveH+'h × 88% eff';
+  document.getElementById('ab-alt-f').textContent  = dcdc+'A × '+driveH+'h × 88% (12% margin for taper and losses)';
   document.getElementById('ab-alt').textContent    = altAh.toFixed(1)+' Ah';
   document.getElementById('ab-load').textContent   = totalLoad.toFixed(1)+' Ah';
   document.getElementById('ab-net').textContent    = (net>=0?'+':'')+net.toFixed(1)+' Ah';
@@ -754,7 +754,7 @@ function updMulti(){
   var driveH = parseFloat(document.getElementById('sl-mddrive').value)||0;
   var totalLoad = rows.reduce(function(s,r){return s+r.amps*r.hrs;},0);
 
-  var solAh   = (solW*sun.h*peff)/12;
+  var solAh   = (solW*sun.h*peff)/12.8;
   var driveAh = driveH*dcdc*0.88;
   var floor   = minSoc*cap;
   var statNet = solAh - totalLoad;
