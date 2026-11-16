@@ -11,8 +11,8 @@ R14 that misses the calculator would leave the calculator showing a pressure
 R14 no longer supports. This check compares the two.
 
 WHAT IT DOES. Reads the six laden rows of R14 §3 (tar loaded, gravel laden,
-corrugated laden, rock, mud, sand soft) — front psi, front bar, rear psi,
-rear bar — and the calculator's LADEN_R14 entries for the same six terrains,
+corrugated laden, rock, mud, sand soft) — shown bar first on the page since 16 Nov 2026, and read here
+as front psi, front bar, rear psi, rear bar — and the calculator's LADEN_R14 entries for the same six terrains,
 plus the box's default (tar) text. Prints each pair.
     PASS   every value matches
     FAIL   any value differs, or any row / entry cannot be found (a probe
@@ -52,16 +52,28 @@ def cells(row_html):
 def r14_values(path):
     t = open(path, encoding='utf-8').read()
     found = {}
+    header_ok = False
     for row in re.findall(r'<tr\b.*?</tr>', t, re.S):
         c = cells(row)
         if len(c) < 5:
             continue
+        if c[0] == 'Terrain':
+            # The columns are read by position, so the header must say what
+            # each position holds. A changed header is a FAIL, never a guess.
+            if c[1:5] != ['Front (bar)', 'Front (PSI)', 'Rear (bar)', 'Rear (PSI)']:
+                raise SystemExit('FAIL  R14: pressure-table header is %s — expected '
+                                 'Front (bar), Front (PSI), Rear (bar), Rear (PSI)' % c[1:5])
+            header_ok = True
         for label, key in ROWS:
             if c[0] == label:
                 if key in found:
                     raise SystemExit('FAIL  R14: row "%s" appears more than once' % label)
-                # Front psi, Front bar, Rear psi, Rear bar
-                found[key] = (c[1], c[2], c[3], c[4])
+                # R14 shows bar first (16 Nov 2026): Front bar, Front psi,
+                # Rear bar, Rear psi. Returned as psi, bar, psi, bar — the
+                # order the calculator's LADEN_R14 entries are held in.
+                found[key] = (c[2], c[1], c[4], c[3])
+    if not header_ok:
+        raise SystemExit('FAIL  R14: pressure-table header row not found')
     return found
 
 
