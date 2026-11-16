@@ -1,0 +1,34 @@
+# LC76 library — the standing checks, run by GitHub on every commit.
+# Added 16 Nov 2026 (owner ruling, proposal P2). No AI is involved in this file:
+# it runs lc76_run_checks.py, the same command a session runs before it delivers.
+# A green tick on a commit means all seven blocking checks passed.
+# A red cross means one failed: open the run and read the SUMMARY at the bottom.
+name: LC76 checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install the headless browser (margin check)
+        run: |
+          python -m pip install --quiet playwright
+          python -m playwright install --with-deps chromium
+      - name: Run every check
+        run: python lc76_run_checks.py
