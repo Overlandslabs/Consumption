@@ -73,7 +73,7 @@ open_ids = [oi for oi,_ in entries]
 closed_ids = [int(x) for x in re.findall(r'\bOI-(\d+)\s*·', closed)]
 maxoi = max(open_ids + closed_ids)
 if PI:
-    pit = open(PI, encoding="utf-8").read().split("\nPRIOR (")[0]
+    pit = open(PI, encoding="utf-8").read().split("\nPRIOR (")[0].split("\u25bc\u25bc\u25bc START")[0]
     m = re.search(r'next free\s+OI-(\d+)', pit)
     if m:
         nf = int(m.group(1))
