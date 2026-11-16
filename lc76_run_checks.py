@@ -16,11 +16,12 @@ WHAT IT RUNS, in this order:
   4. Open items        LC76_OIR_Validator.py      register schema; next-free
   5. Laden pressures   lc76_laden_check.py        calculator copy = R14
   6. Page structure    lc76_structure_check.py    tags, ids, script syntax
-  7. Screen margins    lc76_margin_check.py       nothing runs to the edge
-  8. Negative claims   lc76_basis_scan.py         REPORT ONLY — never blocks
+  7. Dashboard         lc76_dashboard_build.py    dashboard = the register
+  8. Screen margins    lc76_margin_check.py       nothing runs to the edge
+  9. Negative claims   lc76_basis_scan.py         REPORT ONLY — never blocks
 Each check's own output is printed in full, then one summary table.
 
-Exit code 1 if any of checks 1–7 fails, or cannot run. A check that cannot
+Exit code 1 if any of checks 1–8 fails, or cannot run. A check that cannot
 run is a FAIL, not a skip: a probe that reads nothing has found nothing.
 
 ONE STANDING EXCLUSION. The stale-terms check is run without
@@ -29,13 +30,13 @@ quotes retired terms on purpose (three fail-tier hits, all in that file, at
 HEAD 9946fba, 16 Nov 2026). Run lc76_currency_gate.py on its own to see them.
 
 HONEST LIMIT. These checks catch SHAPE and DRIFT, not TRUTH: an invented
-figure in a well-formed sentence passes all eight. The TOC index contract,
+figure in a well-formed sentence passes all nine. The TOC index contract,
 the colour-PDF print check and reading a changed page by eye are still done
 in session. --fast leaves out the margin check (the only one that needs a
 browser, about a minute) and says so in the summary.
 
 USAGE
-  python3 lc76_run_checks.py          all eight
+  python3 lc76_run_checks.py          all nine
   python3 lc76_run_checks.py --fast   without the margin check
 Governance tool — NOT precached, no CACHE bump.
 """
@@ -59,6 +60,7 @@ def checks(fast):
                         'LC76_Project_Instructions.txt'], True),
         ('Laden pressures', ['lc76_laden_check.py'], True),
         ('Page structure', ['lc76_structure_check.py'], True),
+        ('Dashboard', ['lc76_dashboard_build.py', '--check'], True),
     ]
     if not fast:
         out.append(('Screen margins', ['lc76_margin_check.py'], True))

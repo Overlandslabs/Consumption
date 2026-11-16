@@ -742,7 +742,8 @@ AUDIT, GOVERNANCE & DATA (internal — not field-reference)
                                          session, 16 Nov 2026). The one entry
                                          point: runs the fact validator, fact
                                          gate, currency gate, register validator,
-                                         laden check, structure check and margin
+                                         laden check, structure check, dashboard
+                                         check (added 16 Nov 2026, S42) and margin
                                          check, and the basis scan as a report.
                                          Exit 1 if any blocking check fails or
                                          cannot run. The currency gate is run
@@ -751,13 +752,25 @@ AUDIT, GOVERNANCE & DATA (internal — not field-reference)
                                          terms). --fast leaves out the margin
                                          check. Governance tool — NOT precached,
                                          no CACHE bump.
+  lc76_dashboard_build.py                DASHBOARD BUILD (one-hundred-and-fourteenth
+                                         session, 16 Nov 2026, OI-133). Builds the
+                                         cards, counters and filter counts of
+                                         LC76_Open_Items_Dashboard.html from
+                                         LC76_Open_Items_Register.txt; rewrites
+                                         only what sits between the page's marker
+                                         comments. --check fails when the page is
+                                         not what the register gives (run by
+                                         lc76_run_checks.py as 'Dashboard').
+                                         Reads no clock: the same register always
+                                         gives the same page. Governance tool —
+                                         NOT precached, no CACHE bump.
   .github/workflows/lc76-checks.yml      AUTOMATIC CHECKS (16 Nov 2026). GitHub
                                          runs lc76_run_checks.py on every commit
                                          to main and on every pull request; no AI
                                          is involved. A green tick = all blocking
                                          checks passed. Not a library file — NOT
                                          precached, no CACHE bump.
-  LC76_Open_Items_Dashboard.html         OPEN ITEMS DASHBOARD — WIRED 30 Jul 2026 16 Nov 2026 (S41): OI-133 card added by script — 65 open, one card per register item (the generator is still not in the repo: OI-133). 16 Nov 2026 (S39): OI-132 card added by script — 64 open, one card per register item. EARLIER 4 Nov 2026 (S37): regenerated from the ninety-sixth update — 63 open.
+  LC76_Open_Items_Dashboard.html         OPEN ITEMS DASHBOARD — WIRED 30 Jul 2026 16 Nov 2026 (S42): now BUILT by lc76_dashboard_build.py and checked by lc76_run_checks.py — never edited by hand; 64 open, every dated note shown. EARLIER: 16 Nov 2026 (S41): OI-133 card added by script — 65 open, one card per register item (the generator is still not in the repo: OI-133). 16 Nov 2026 (S39): OI-132 card added by script — 64 open, one card per register item. EARLIER 4 Nov 2026 (S37): regenerated from the ninety-sixth update — 63 open.
                                          (Audit of Truth Session 6, OI-59 CLOSED). A
                                          DERIVED VIEW generated from LC76_Open_Items_
                                          Register.txt by parser; the register remains the
