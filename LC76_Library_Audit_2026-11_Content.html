@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>LC76 Content Currency &amp; Completeness Audit — November 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:      #1C1410;
+    --paper:    #F5EDDA;
+    --paper2:   #EDE5D0;
+    --amber:    #b86800;
+    --amber2:   #e07800;
+    --rule:     #d4cfc4;
+    --steeldk:  #2a2f3a;
+    --steelmd:  #6a7080;
+    --red-warn: #B91C1C;
+    --green-ok: #059669;
+    --orange:   #c05a00;
+    --border:   #c8bfad;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { overflow-x:hidden; overflow-x:clip; overscroll-behavior-x:none; }
+  body {
+    overflow-x:clip; overscroll-behavior-x:none;
+    font-family:'Oswald','Arial Narrow',sans-serif; font-weight:300;
+    background:var(--paper); color:var(--ink); line-height:1.55; font-size:14px;
+  }
+  .sticky-wrap { position:sticky; top:0; z-index:100; background:var(--ink); padding-top:env(safe-area-inset-top); }
+  .sticky-wrap::before { content:""; position:absolute; left:0; right:0; bottom:100%; height:100vh; background:var(--ink); }
+  .masthead { background:var(--ink); padding:18px 24px 14px; position:relative; }
+  .lib-home-btn {
+    display:inline-flex; align-items:center; gap:5px;
+    font-family:'IBM Plex Mono',monospace; font-size:9px; font-weight:600;
+    letter-spacing:.14em; text-transform:uppercase; text-decoration:none;
+    color:var(--amber2); background:rgba(232,120,0,.15);
+    border:1px solid var(--amber2); border-radius:20px;
+    padding:6px 12px; min-height:32px; white-space:nowrap;
+    position:absolute; top:50%; right:16px; transform:translateY(-50%);
+  }
+  .mh-eyebrow { font-family:'IBM Plex Mono',monospace; font-size:.5rem; letter-spacing:.28em; text-transform:uppercase; color:var(--steelmd); margin-bottom:6px; }
+  .mh-title { font-family:'Bebas Neue',sans-serif; font-size:clamp(1.8rem,5vw,2.6rem); letter-spacing:.06em; color:var(--amber2); line-height:1; }
+  .mh-sub { font-family:'IBM Plex Mono',monospace; font-size:.54rem; letter-spacing:.12em; color:rgba(255,200,100,.65); margin-top:5px; }
+  .mh-vehicle-unused { font-family:'IBM Plex Mono',monospace; font-size:.48rem; letter-spacing:.08em; color:var(--steelmd); margin-top:8px; }
+  nav.toc::-webkit-scrollbar{display:none}
+  .toc{ background:var(--steeldk); padding:7px 24px; display:flex; align-items:center; gap:5px; flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scrollbar-width:none; border-bottom:2px solid var(--amber); }
+  .toc-btn { font-family:'IBM Plex Mono',monospace; font-size:.48rem; color:rgba(255,255,255,.45); background:none; border:1px solid transparent; padding:3px 7px; cursor:pointer; letter-spacing:.1em; text-transform:uppercase; white-space:nowrap; }
+  .toc-btn:hover { color:var(--amber2); border-color:rgba(255,255,255,.2); }
+  .toc-btn.active { color:var(--amber2); border-color:var(--amber2); background:rgba(232,120,0,.1); }
+  main { padding:28px 5% 80px; max-width:100%; }
+  h2 { font-family:'Bebas Neue',sans-serif; font-size:1.5rem; letter-spacing:.05em; color:var(--ink); margin:26px 0 4px; padding-bottom:5px; border-bottom:2px solid var(--amber); scroll-margin-top:150px; }
+  h2:first-of-type { margin-top:0; }
+  h3 { font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--amber); margin:18px 0 6px; padding-left:8px; border-left:3px solid var(--amber2); }
+  p { margin-bottom:10px; }
+  .section-intro { font-size:13px; color:var(--steelmd); font-style:italic; margin-bottom:12px; }
+  .box { background:#fff; border:1px solid var(--border); border-left:3px solid var(--amber2); padding:10px 13px; margin:12px 0; font-size:13px; }
+  .box.crit { border-left-color:var(--red-warn); background:#fef6f6; }
+  .box.ok { border-left-color:var(--green-ok); background:#f4fbf8; }
+  table { width:100%; border-collapse:collapse; margin:12px 0; font-size:12px; background:#fff; }
+  caption { font-family:'IBM Plex Mono',monospace; font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--steelmd); text-align:left; padding-bottom:5px; }
+  th { background:var(--steeldk); color:var(--amber2); font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.08em; text-transform:uppercase; text-align:left; padding:7px 8px; font-weight:600; }
+  td { padding:6px 8px; border-bottom:1px solid var(--rule); vertical-align:top; }
+  tbody tr:nth-child(even) { background:var(--paper2); }
+  .mono { font-family:'IBM Plex Mono',monospace; font-size:11px; }
+  .tag { font-family:'IBM Plex Mono',monospace; font-size:8px; font-weight:600; letter-spacing:.06em; padding:2px 6px; border-radius:2px; white-space:nowrap; }
+  .t-crit  { background:#fde8e8; color:var(--red-warn); border:1px solid #f8b4b4; }
+  .t-high  { background:#fff0e0; color:var(--orange); border:1px solid #f5c88a; }
+  .t-med   { background:#fef9e7; color:#8a6100; border:1px solid #ecd9a0; }
+  .t-low   { background:#eef1f5; color:var(--steelmd); border:1px solid #ccd3dd; }
+  .t-fixed { background:#e6f6ef; color:var(--green-ok); border:1px solid #a8ddc6; }
+  .t-open  { background:#fde8e8; color:var(--red-warn); border:1px solid #f8b4b4; }
+  .footer { margin-top:40px; padding:14px 5%; background:var(--steeldk); color:var(--steelmd); font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.06em; line-height:1.7; }
+  @media (max-width:600px) {
+    .masthead { padding:14px 16px 12px; }
+    .mh-title { font-size:clamp(1.6rem,6vw,2.4rem); }
+    nav.toc { flex-wrap:nowrap; overflow-x:auto; overscroll-behavior-x:contain; -webkit-overflow-scrolling:touch; scrollbar-width:none; }
+    nav.toc::-webkit-scrollbar { display:none; }
+    table { display:block; overflow-x:auto; overscroll-behavior-x:contain; }
+  }
+  @media print {
+    @page { margin:7mm; }
+    body { font-size:7.5pt; background:#fff !important; color:#000 !important; }
+    .sticky-wrap { position:static !important; }
+    .sticky-wrap::before { display:none !important; }
+    nav.toc, .lib-home-btn { display:none !important; }
+    .masthead { background:#1C1410 !important; }
+    .mh-title { color:#e07800 !important; font-size:14pt !important; }
+    .mh-eyebrow, .mh-vehicle { color:#6a7080 !important; }
+    h2 { font-size:11pt !important; border-bottom:1.5pt solid #b86800 !important; break-after:avoid; }
+    h3 { color:#b86800 !important; border-left:2pt solid #e07800 !important; break-after:avoid; }
+    th { background:#2a2f3a !important; color:#e07800 !important; font-size:6.5pt !important; }
+    td { font-size:6.5pt !important; }
+    table { break-inside:auto; }
+    thead { display:table-header-group; }
+    .box { break-inside:avoid; border-left:2pt solid #e07800 !important; }
+    .footer { background:#2a2f3a !important; color:#6a7080 !important; font-size:6pt !important; }
+  }
+  .num { text-align:center; font-family:'IBM Plex Mono',monospace; font-size:11px; }
+  .dim { color:var(--steelmd); font-size:10px; }
+  tr.tot td { font-weight:600; background:#fff7ea !important; border-top:2px solid var(--amber); }
+  .tw { overflow-x:auto; overscroll-behavior-x:contain; }
+  ol.tight li, ul.tight li { margin:0 0 6px 20px; }
+</style>
+
+</head>
+<body>
+<div class="sticky-wrap">
+  <div class="masthead">
+    <a href="index.html" class="lib-home-btn">&#8962; Index</a>
+    <div class="mh-eyebrow">Overland Reference Library &middot; Internal Audit</div>
+    <div class="mh-title">Content Audit &mdash; November 2026</div>
+    <div class="mh-sub">Current, complete, accurate, consistent &middot; findings F75&ndash;F203 &middot; issued 17 Nov 2026</div>
+  </div>
+  <nav class="toc">
+    <button class="toc-btn" data-target="s-scope">What This Is</button>
+    <button class="toc-btn" data-target="s-verdict">Verdict</button>
+    <button class="toc-btn" data-target="s-first">Fix First</button>
+    <button class="toc-btn" data-target="s-decide">Your Decisions</button>
+    <button class="toc-btn" data-target="s-given">Answers Given</button>
+    <button class="toc-btn" data-target="s-register">All Findings</button>
+    <button class="toc-btn" data-target="s-profiles">Profiles</button>
+    <button class="toc-btn" data-target="s-clean">Clean &amp; Not Checked</button>
+    <button class="toc-btn" data-target="s-plan">Fix Programme</button>
+  </nav>
+</div>
+
+<main>
+
+<h2 id="s-scope">01 &middot; What This Is</h2>
+<p class="section-intro">Asked for by the owner, 16 November 2026: &ldquo;i want an audit performed similar to the 21 july one&rdquo;. Tracked as OI-134.</p>
+<p>The same five tests as July, page by page: <strong>currency</strong> (does it describe the vehicle and kit as they are now), <strong>completeness</strong> (against a checklist written before the page was opened), <strong>accuracy</strong> (figures against Facts, the two Toyota engine manuals and the owning page), <strong>consistency</strong> (one owner per topic; copies agree) and <strong>field fitness</strong> (usable under stress, on a phone).</p>
+<h3>Your three rulings, 16 Nov 2026</h3>
+<ol class="tight">
+<li><strong>Findings first.</strong> The audit lists; you rule; only then is anything fixed. No library page was changed by the audit.</li>
+<li><strong>Profiles counted, not refreshed.</strong> Their prices, fees and security lines are sized for the EX-10 refresh, not checked.</li>
+<li><strong>All five tiers.</strong> Done in thirteen sittings, A to F2, on 16&ndash;17 Nov 2026, each delivered as its own pull request: #8 to #19 merged by you and proved landed; this report is #20.</li>
+</ol>
+<h3>What was read</h3>
+<p>Tiers 1 to 3 &mdash; 38 pages &mdash; were read in full (three of them from the data inside their scripts), first line to last. Profiles were counted by script; the 21 framework pages were swept by script for the stale terms and figures this audit found, with full reads only where the sweep pointed. The self-audit (E3) took every page change Claude made since the July audit closed: new figures and telephone numbers on the ten Tier 1 pages were listed by script and traced by hand; the changes to the other pages were covered only where Sessions D and E read those pages in full. A finding was written down only after it was checked on the page; a &ldquo;not found&rdquo; says where the search was made.</p>
+<div class="box">The working papers hold every finding with its quoted words, the checklists and what was not checked: <span class="mono">claude/LC76_Content_Audit_2026-11_Working.md</span>, <span class="mono">_Part2.md</span> and <span class="mono">_Part3.md</span> in project knowledge. This page summarises them; where the two differ, the working paper&rsquo;s quotation of the page is the evidence.</div>
+
+<h2 id="s-verdict">02 &middot; Verdict</h2>
+<div class="tw"><table>
+<caption>Findings by session and grade</caption>
+<thead><tr><th style="width:7%">Session</th><th>Scope</th><th style="width:13%">Findings</th><th style="width:8%">High</th><th style="width:9%">Medium</th><th style="width:8%">Low</th></tr></thead>
+<tbody>
+<tr><td class="mono">A</td><td>Set-up and whole-library sweep<br><span class="mono dim">all 70 pages, by script</span></td><td class="mono">F75–F78</td><td class="num">—</td><td class="num">1</td><td class="num">3</td></tr>
+<tr><td class="mono">B1</td><td>Tier 1 — the emergency stack<br><span class="mono dim">R1, R10, R43, R29</span></td><td class="mono">F79–F95</td><td class="num">2</td><td class="num">9</td><td class="num">6</td></tr>
+<tr><td class="mono">B2</td><td>Tier 1 — the rest<br><span class="mono dim">R9, R42, R35, R36, R17, R18</span></td><td class="mono">F96–F110</td><td class="num">—</td><td class="num">7</td><td class="num">8</td></tr>
+<tr><td class="mono">C1</td><td>Tier 2 — the border paperwork<br><span class="mono dim">R39, the affidavit, R15, R2</span></td><td class="mono">F111–F120</td><td class="num">—</td><td class="num">4</td><td class="num">6</td></tr>
+<tr><td class="mono">C2</td><td>Tier 2 — the plans<br><span class="mono dim">R38, R23, R37</span></td><td class="mono">F121–F135</td><td class="num">—</td><td class="num">6</td><td class="num">9</td></tr>
+<tr><td class="mono">D1</td><td>Tier 3a — engine<br><span class="mono dim">R4, R21, R22, R24</span></td><td class="mono">F136–F150</td><td class="num">1</td><td class="num">8</td><td class="num">6</td></tr>
+<tr><td class="mono">D2</td><td>Tier 3a — driveline, brakes, tyres<br><span class="mono dim">R13, R14, R40, R34, R25</span></td><td class="mono">F151–F160</td><td class="num">—</td><td class="num">6</td><td class="num">4</td></tr>
+<tr><td class="mono">D3</td><td>Tier 3a — repair kit<br><span class="mono dim">R20, R27, R3</span></td><td class="mono">F161–F173</td><td class="num">—</td><td class="num">7</td><td class="num">6</td></tr>
+<tr><td class="mono">E1</td><td>Tier 3b — electrical<br><span class="mono dim">R5, R7, R26, R32</span></td><td class="mono">F174–F183</td><td class="num">1</td><td class="num">3</td><td class="num">6</td></tr>
+<tr><td class="mono">E2</td><td>Tier 3b — service<br><span class="mono dim">R8, the Service Checklist, the current ledger, the Build Register, R31</span></td><td class="mono">F184–F190</td><td class="num">—</td><td class="num">4</td><td class="num">3</td></tr>
+<tr><td class="mono">E3</td><td>The self-audit<br><span class="mono dim">every page change Claude made since 22 Jul 2026</span></td><td class="mono">F191–F195</td><td class="num">1</td><td class="num">2</td><td class="num">2</td></tr>
+<tr><td class="mono">F1</td><td>Tier 4 profiles (counted) and Tier 5 framework (swept)<br><span class="mono dim">ten profiles, 21 framework pages</span></td><td class="mono">F196–F202</td><td class="num">—</td><td class="num">2</td><td class="num">5</td></tr>
+<tr><td class="mono">F2</td><td>The report<br><span class="mono dim">this page</span></td><td class="mono">F203</td><td class="num">—</td><td class="num">—</td><td class="num">1</td></tr>
+<tr class="tot"><td class="mono" colspan="2">Total — 129 findings</td><td class="mono">F75–F203</td><td class="num">5</td><td class="num">59</td><td class="num">65</td></tr>
+</tbody></table></div>
+<p><strong>No critical finding. Five high, fifty-nine medium, sixty-five low.</strong> The library is sound in structure &mdash; links, anchors, the index and the automatic checks all hold &mdash; and most of its content is current. What it suffers from is drift: a fact changes on the vehicle or by your ruling, the owning page is corrected, and copies elsewhere are not. Much of what was found is of that kind.</p>
+<div class="box crit"><strong>Three patterns account for most of what was found.</strong><br>
+<strong>1. Copies that disagree with their owner</strong> &mdash; the overheating drill three ways (F138, F167), who to ring first (F79), the jacking point (F152), jump-starting (F174), the bleed point (F141).<br>
+<strong>2. Figures with no source</strong> &mdash; thermostat, compression, fuel range, fuse ratings, socket sizes, voltage bands. Several came from generic guides or planning drawings and were never traced to this vehicle (F89, F127, F128, F139, F176, F181).<br>
+<strong>3. Status lines overtaken by the 2026 work</strong> &mdash; pages still describing the April service, the old shocks, the Maxxis tyres, the Willard battery, the Karoo loop as ahead (F97, F155, F163, F184, F178, F121).</div>
+
+<h2 id="s-first">03 &middot; Fix First</h2>
+<p class="section-intro">The five high findings. Each could send a crew member the wrong way in an emergency or a breakdown.</p>
+<div class="tw"><table><thead><tr><th style="width:8%">#</th><th style="width:20%">Page</th><th>Why it matters</th><th style="width:26%">What fixes it</th></tr></thead><tbody>
+<tr><td class="mono">F191</td><td>R10 §5, rabies</td><td>&ldquo;48 hours at the very latest&rdquo; reads as a deadline. Treatment after a bite is given however late; someone reaching a clinic on day four could decide it is too late. Claude wrote this line on 2 Nov.</td><td>&ldquo;Go the same day. If you cannot, still go &mdash; however late.&rdquo; Checked again at the first-aid course (OI-4).</td></tr>
+<tr><td class="mono">F136 F161</td><td>R34, R1, R4, R20, R23, R13, R3, R30</td><td>Eight pages say brake and clutch share a reservoir (one, R13, only hedges). You said they are separate. The diagnosis built on it sends the crew to the clutch slave when the brakes are leaking.</td><td>The line into Facts; a stale-terms row so no copy survives; the eight pages rewritten.</td></tr>
+<tr><td class="mono">F174</td><td>R27</td><td>The field page says jump-start from the LiFePO4 house bank. R26, R32 and R5 forbid it.</td><td>R27 follows R26: the jump pack first, another vehicle second, never the house bank.</td></tr>
+<tr><td class="mono">F79</td><td>R29 §2, R10 §9, R43</td><td>The emergency pages disagree on who to ring first.</td><td>You ruled &ldquo;medevac first&rdquo;: R29&rsquo;s table changes to match the drill; where Cross Country sits second is still to settle.</td></tr>
+<tr><td class="mono">F81</td><td>R10 §8</td><td>&ldquo;Maximum safe wading: below the air intake&rdquo; &mdash; read literally, roof height.</td><td>R10 points to R28 §4 (about 800 mm; door seals and breathers set the limit).</td></tr>
+</tbody></table></div>
+<p>Close behind them, all medium and all on the emergency or field pages: the lightning crouch (F82), the checkpoint drive-through (F96), cover that does not exist stated as held (F80, F99, F197), an untested satphone call called proven (F88), the inReach SOS sequence (F84), the bead-seat ignition method (F154), the jacking point (F152), six nuts on a five-nut wheel (F151), the EGT ceiling (F85, F137) and the overheating drill (F138, F167).</p>
+
+<h2 id="s-decide">04 &middot; Your Decisions</h2>
+<p class="section-intro">The fixes below cannot be written until you rule, or until a fact is read off the vehicle or a source is found. The rest can be fixed on the evidence already in the working papers.</p>
+<div class="tw"><table><thead><tr><th style="width:12%">#</th><th>Question</th></tr></thead><tbody>
+<tr><td class="mono">F175</td><td>Which daily house load stands &mdash; 65.3 Ah (the calculator) or about 77 Ah (R5&rsquo;s rows)? Autonomy and charge times follow from it (F177).</td></tr>
+<tr><td class="mono">F185 F186 F140</td><td>The service intervals that disagree: coolant flush (40,000 or 100,000 km), fuel filter (10,000, 20,000 or 30,000 km), Flashlube element, injectors, brake-lining check, glow plugs. The Service Checklist then leads.</td></tr>
+<tr><td class="mono">F111</td><td>Which countries the route covers, and where that list lives until EX-9 rules (six, ten and sixteen are all on the pages).</td></tr>
+<tr><td class="mono">F83</td><td>Where country emergency numbers live &mdash; R10, R29 or each profile.</td></tr>
+<tr><td class="mono">F87</td><td>Does R1 carry an emergency-numbers block, or are three statements that say it does corrected?</td></tr>
+<tr><td class="mono">F102</td><td>A seventh habit in R35 (what not to tell strangers), or the Project Instructions sentence that relies on it changed.</td></tr>
+<tr><td class="mono">F154</td><td>The aerosol-ignition bead-seat method in R14: remove it, or keep it with a source.</td></tr>
+<tr><td class="mono">F100 F162 F135</td><td>Which recovery gaps R9 gains; which spares are carried (R3 becomes the one list, with weights for OI-103); whether a departure countdown is built.</td></tr>
+<tr><td class="mono">F187 F190</td><td>A register item for the rear disc-brake decision (the Snyman assessment is still planned); whether the insurance schedule row for the recovery kit is restated.</td></tr>
+<tr><td class="mono">Read off the vehicle</td><td>Where the Flashlube is mounted (F76); the bleed-screw spanner size (F141); socket sizes for glow plugs and crank bolt (F89); a coolant warning light (F166); battery heater (F179); winch feed (F180); fuse ratings (F176, OI-127); vacuum pump place (F157); the inReach SOS sequence (F84, or take Garmin&rsquo;s manual); the extinguisher&rsquo;s size and service date (F101).</td></tr>
+<tr><td class="mono">From invoices, the workshop or the manuals</td><td>The coolant product (F147) and the knuckle grease (F165) from the Oct 2026 invoice or workshop; the brake fluid spec from the owner&rsquo;s manual (F157); the gear and axle ratios from the manual or plate (F158); a source for the EGT ceiling (F85, F137); the thermostat read off the fitted part (F128, F139, OI-70).</td></tr>
+<tr><td class="mono">From you, smaller</td><td>The revised insurance schedule (F75, OI-106); the inReach test dates for R38 (F121); which provider numbers to test-dial from the satphone (F88, OI-3); whether a kill switch is fitted (F105); where the fire blanket is kept (F113); whether the Karoo review still runs (F133, OI-13); which workshops the pages should name (F134); the route-dependent lines wait on EX-9 (F110, F122).</td></tr>
+</tbody></table></div>
+
+<h2 id="s-given">05 &middot; Answers Already Given</h2>
+<div class="tw"><table><thead><tr><th style="width:12%">#</th><th>Your answer (17 Nov 2026)</th><th style="width:36%">What it settles</th></tr></thead><tbody>
+<tr><td class="mono">F79</td><td>&ldquo;Medevac first&rdquo;</td><td>R29&rsquo;s who-to-ring table changes to match the drill.</td></tr>
+<tr><td class="mono">F84</td><td>&ldquo;cant remember&rdquo;</td><td>Not settled &mdash; the device or Garmin&rsquo;s manual decides.</td></tr>
+<tr><td class="mono">F88</td><td>&ldquo;missed call to mary ann&rsquo;s cell&rdquo;</td><td>No provider number has been dialled; F88 raised to medium.</td></tr>
+<tr><td class="mono">F101</td><td>One extinguisher (under the driver&rsquo;s seat), two Fire Strykers, a fire blanket; no second extinguisher.</td><td>R42 &sect;1 becomes the kit as carried, via Facts.</td></tr>
+<tr><td class="mono">F118</td><td>&ldquo;we will carry a police clearance certificacte&rdquo;</td><td>R39 &sect;3 lists it, with the engine-number check.</td></tr>
+<tr><td class="mono">F129 &rarr; F136</td><td>&ldquo;the vehicle has a seperate resivoir for clutch and breaks&rdquo;</td><td>Raised F136 (eight pages wrong).</td></tr>
+<tr><td class="mono">F141</td><td>&ldquo;black bleed pump sits on top of the fuel filter&rdquo;</td><td>R4 &sect;5.2&ndash;&sect;5.3 are the lines to correct.</td></tr>
+<tr><td class="mono">F166</td><td>&ldquo;there is a temp gauge in the vehicle&rdquo;</td><td>Gauge confirmed; a warning light still to check.</td></tr>
+<tr><td class="mono">F187</td><td>&ldquo;Snyman assessment still on the cards&rdquo;</td><td>The date is stale, not the event.</td></tr>
+<tr><td class="mono">F190</td><td>&ldquo;we do not carry a kinetic rope / snatch strap&rdquo;</td><td>The Build Register row overstates the kit.</td></tr>
+</tbody></table></div>
+
+<h2 id="s-register">06 &middot; All Findings</h2>
+<p class="section-intro">One line each. The working papers hold the quoted words, the sources and the suggested fix for every one.</p>
+<h3>Session A · Set-up and whole-library sweep</h3><div class="tw"><table><thead><tr><th style="width:9%">#</th><th style="width:11%">Grade</th><th style="width:22%">Where</th><th>What</th></tr></thead><tbody>
+<tr><td class="mono">F75</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R29</td><td>Cross-border condition worded for a date now past (&quot;before about 14 Nov 2026&quot;); restate from the revised schedule (OI-106).</td></tr>
+<tr><td class="mono">F76</td><td><span class="tag t-low">LOW</span></td><td class="mono">R4 §5B.4</td><td>Flashlube pre-filter shown as fitted but still &quot;to be plumbed&quot;; where it is mounted to come from the owner.</td></tr>
+<tr><td class="mono">F77</td><td><span class="tag t-low">LOW</span></td><td class="mono">R31</td><td>&quot;Cost TBC (OI-8)&quot; on the electrical row — OI-8 closed; the cost is in the Build Register.</td></tr>
+<tr><td class="mono">F78</td><td><span class="tag t-low">LOW</span></td><td class="mono">R8 §3</td><td>Turbo sweat called a new item; OI-122 closed — already inside OI-123.</td></tr>
+</tbody></table></div>
+<h3>Session B1 · Tier 1 — the emergency stack</h3><div class="tw"><table><thead><tr><th style="width:9%">#</th><th style="width:11%">Grade</th><th style="width:22%">Where</th><th>What</th></tr></thead><tbody>
+<tr><td class="mono">F79</td><td><span class="tag t-high">HIGH</span></td><td class="mono">R10 §9, R43 §4/§7 and cheat card, R29 §2</td><td>Who to ring first: the drill pages ring the medevac control room, R29&#x27;s table rings Cross Country first. Ruled: medevac first — R29 changes.</td></tr>
+<tr><td class="mono">F80</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R10, R43</td><td>ER24 and Genesis lines read as cover abroad; R29 says Genesis has none and ER24 is own cost. Membership position to go beside each number.</td></tr>
+<tr><td class="mono">F81</td><td><span class="tag t-high">HIGH</span></td><td class="mono">R10 §8</td><td>Maximum wading &quot;below air intake (snorkel height)&quot;; R28 §4 owns crossings — about 800 mm, door seals and breathers set the limit.</td></tr>
+<tr><td class="mono">F82</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R10 §7</td><td>Lightning crouch, which the US Weather Service stopped recommending in 2008.</td></tr>
+<tr><td class="mono">F83</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R10 §9</td><td>Local emergency numbers for SA, Botswana and Namibia, unsourced and unlabelled; Namibia&#x27;s 211111 is Windhoek only. Where country numbers live is your ruling.</td></tr>
+<tr><td class="mono">F84</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R10, R43, R29 §3</td><td>Two versions of the inReach SOS press; Garmin&#x27;s manual says lift the cap, hold, countdown. Your memory did not settle it — check on the device or take the manual&#x27;s wording.</td></tr>
+<tr><td class="mono">F85</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R10 §3, R21, R18</td><td>&quot;650°C pre-turbo hard ceiling&quot; beside a gauge that reads after the turbo — about 500°C on the gauge, below the working band. Settle in R21.</td></tr>
+<tr><td class="mono">F86</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R1</td><td>Engine oil 11.3 L shown with no caveat; Toyota&#x27;s manuals give 9.5 and 9.3 L (OI-125).</td></tr>
+<tr><td class="mono">F87</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R1, R29 §2, PI §6</td><td>Three statements say R1 carries the emergency numbers and schemes; R1 carries none. Your ruling which changes.</td></tr>
+<tr><td class="mono">F88</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R29 §2, R43</td><td>&quot;AMREF proven from the satphone&quot; — the only test was a call to Mary-Ann&#x27;s cell (raised from LOW on your answer). Provider test-dials still owed (OI-3).</td></tr>
+<tr><td class="mono">F89</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R10 §8</td><td>Hydro-lock recovery gives 10 mm and 22 mm socket sizes and a rand figure with no source.</td></tr>
+<tr><td class="mono">F90</td><td><span class="tag t-low">LOW</span></td><td class="mono">R29 §8</td><td>A side note about RA-6 left attached to the overload task.</td></tr>
+<tr><td class="mono">F91</td><td><span class="tag t-low">LOW</span></td><td class="mono">Register CDR table, R29 §2</td><td>Owners given as R29 §6 and §7 (now §2 and §3); R43 missing from R29&#x27;s list of copies.</td></tr>
+<tr><td class="mono">F92</td><td><span class="tag t-low">LOW</span></td><td class="mono">R10 §5–§7</td><td>Cards checked on 25 Oct (anaphylaxis dose, burns, choking, heat stroke) carry no source line.</td></tr>
+<tr><td class="mono">F93</td><td><span class="tag t-low">LOW</span></td><td class="mono">R43</td><td>No talk/standby time, position-off-the-satphone steps, SIM PIN, or how home rings the +870 number; a past Karoo line.</td></tr>
+<tr><td class="mono">F94</td><td><span class="tag t-low">LOW</span></td><td class="mono">R1</td><td>Rims wording, the weighed 3,280 kg missing, no pressures or engine limits, several capacities untraced.</td></tr>
+<tr><td class="mono">F95</td><td><span class="tag t-low">LOW</span></td><td class="mono">R10</td><td>Generic-guide wording (Park, children, PLB row, embassy registration) and three small contradictions.</td></tr>
+</tbody></table></div>
+<h3>Session B2 · Tier 1 — the rest</h3><div class="tw"><table><thead><tr><th style="width:9%">#</th><th style="width:11%">Grade</th><th style="width:22%">Where</th><th>What</th></tr></thead><tbody>
+<tr><td class="mono">F96</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R10 §11 vs R35 §3</td><td>R10 says drive through a suspicious checkpoint; R35, the owner, says stop, windows up, offer to follow to a police post.</td></tr>
+<tr><td class="mono">F97</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R18</td><td>Valve clearances &quot;NO RECORD — CRITICAL&quot; and injector lines written before the June 2026 work the same page records.</td></tr>
+<tr><td class="mono">F98</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R18</td><td>&quot;The 1HZ has pushrods and rocker arms&quot; — it is an overhead-cam engine with shims (both Toyota manuals).</td></tr>
+<tr><td class="mono">F99</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R17 §9</td><td>Says travel evacuation cover and AMREF membership exist; R29 shows both undecided.</td></tr>
+<tr><td class="mono">F100</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R9</td><td>Gaps: recovering alone, righting a rolled vehicle, a vehicle stalled in water, checks after a recovery.</td></tr>
+<tr><td class="mono">F101</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R42 §1</td><td>A standard, not a record of what is carried. Ruled: one extinguisher, two Fire Strykers, a blanket — into Facts, then R42.</td></tr>
+<tr><td class="mono">F102</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R35 §8 vs PI §6</td><td>The Project Instructions rely on an R35 habit protecting the named insurer and schemes; no such habit is on the page.</td></tr>
+<tr><td class="mono">F103</td><td><span class="tag t-low">LOW</span></td><td class="mono">R17, R10, R2</td><td>Four daily drinking-water figures; R12 should own one.</td></tr>
+<tr><td class="mono">F104</td><td><span class="tag t-low">LOW</span></td><td class="mono">R17 vs R10</td><td>Heat stroke, malaria standby and bloody diarrhoea lines differ between the two pages.</td></tr>
+<tr><td class="mono">F105</td><td><span class="tag t-low">LOW</span></td><td class="mono">R35 §6</td><td>Camp siting pointed to R28 (it is R36 §3); kill-switch &quot;if fitted&quot; with no record.</td></tr>
+<tr><td class="mono">F106</td><td><span class="tag t-low">LOW</span></td><td class="mono">R36</td><td>Two wrong pointers, bees and baboons missing from the print card, dog lines.</td></tr>
+<tr><td class="mono">F107</td><td><span class="tag t-low">LOW</span></td><td class="mono">R42</td><td>Small pointer and wording mismatches with R10 and R1 (bonnet, burns, gas bottle size).</td></tr>
+<tr><td class="mono">F108</td><td><span class="tag t-low">LOW</span></td><td class="mono">R18</td><td>Displacement, compression ratio and coolant figures differ across pages; untraced baselines; small pointer slips.</td></tr>
+<tr><td class="mono">F109</td><td><span class="tag t-low">LOW</span></td><td class="mono">R9</td><td>Header tile &quot;9,500+ lb min winch rating&quot; against §3&#x27;s own 10,850 lb; five kit rows still general specs.</td></tr>
+<tr><td class="mono">F110</td><td><span class="tag t-low">LOW</span></td><td class="mono">R17</td><td>&quot;16 countries&quot; and off-route countries; a dated Ebola line on a rule card; kit items on both R10 and R17.</td></tr>
+</tbody></table></div>
+<h3>Session C1 · Tier 2 — the border paperwork</h3><div class="tw"><table><thead><tr><th style="width:9%">#</th><th style="width:11%">Grade</th><th style="width:22%">Where</th><th>What</th></tr></thead><tbody>
+<tr><td class="mono">F111</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R39, R15, R17, R29</td><td>The route is stated four ways (six, ten, sixteen countries). One home for the country list until EX-9.</td></tr>
+<tr><td class="mono">F112</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R39</td><td>Red &quot;fill-in&quot; fields include passport and IDP numbers — filled in as asked, they would publish identifiers.</td></tr>
+<tr><td class="mono">F113</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R2</td><td>Fire-kit check names gauges (plural) and a door-pocket stick; not the kit as carried.</td></tr>
+<tr><td class="mono">F114</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R2 vs R39</td><td>The border-day documents (carnet, Yellow Card, yellow fever, licences, IDPs, cash, SARS declaration) are not on the checklist; affidavit line too narrow.</td></tr>
+<tr><td class="mono">F115</td><td><span class="tag t-low">LOW</span></td><td class="mono">R29, R15, R39</td><td>Mozambique and the COMESA Yellow Card stated two ways, unsourced.</td></tr>
+<tr><td class="mono">F116</td><td><span class="tag t-low">LOW</span></td><td class="mono">R15, R17, R39</td><td>Yellow-fever rule given three ways; R15&#x27;s reasons wrong.</td></tr>
+<tr><td class="mono">F117</td><td><span class="tag t-low">LOW</span></td><td class="mono">R39 vs R15</td><td>Kenya carnet &quot;effectively expected&quot; vs &quot;required&quot; (KRA notice).</td></tr>
+<tr><td class="mono">F118</td><td><span class="tag t-low">LOW</span></td><td class="mono">R39 vs R15</td><td>Police clearance missing from R39. Ruled: carried — R39 §3 lists it with the engine-number check.</td></tr>
+<tr><td class="mono">F119</td><td><span class="tag t-low">LOW</span></td><td class="mono">R15</td><td>Five cards past their own six-month currency rule; insurance line not pointed to R29; three unsourced figures.</td></tr>
+<tr><td class="mono">F120</td><td><span class="tag t-low">LOW</span></td><td class="mono">R2</td><td>Old kit names (IPF spots, gooseneck tow bar), &quot;PLB&quot; not carried, spare pressure ambiguous.</td></tr>
+</tbody></table></div>
+<h3>Session C2 · Tier 2 — the plans</h3><div class="tw"><table><thead><tr><th style="width:9%">#</th><th style="width:11%">Grade</th><th style="width:22%">Where</th><th>What</th></tr></thead><tbody>
+<tr><td class="mono">F121</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R38 §1</td><td>The fail-safe device table is still a placeholder &quot;before the Karoo loop&quot;; the inReach is owned and tested.</td></tr>
+<tr><td class="mono">F122</td><td><span class="tag t-low">LOW</span></td><td class="mono">R38 §4</td><td>EX-9 still waiting on profiles that all exist.</td></tr>
+<tr><td class="mono">F123</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R38 §5 A10</td><td>Assumption trigger &quot;265/75 set not fitted ~2027&quot; — fitted Sep 2026.</td></tr>
+<tr><td class="mono">F124</td><td><span class="tag t-low">LOW</span></td><td class="mono">R37 §7</td><td>Practice day &quot;before the December trip&quot; — there is no December trip.</td></tr>
+<tr><td class="mono">F125</td><td><span class="tag t-low">LOW</span></td><td class="mono">R37 §2</td><td>Snatch-block redirect; the block stays home, the ring does the job.</td></tr>
+<tr><td class="mono">F126</td><td><span class="tag t-low">LOW</span></td><td class="mono">R10</td><td>Two pointers into R37 §2 belong to §3 and §5.</td></tr>
+<tr><td class="mono">F127</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R23 §2</td><td>Compression &quot;healthy &gt;3,000 kPa, investigate &lt;2,500&quot;; Toyota: 3,628 standard, 2,648 minimum.</td></tr>
+<tr><td class="mono">F128</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R23 §3</td><td>Thermostat 82/95°C and a part number that trace to nothing; Toyota 74–78°C; the fitted part decides (OI-125, OI-70).</td></tr>
+<tr><td class="mono">F129</td><td><span class="tag t-low">LOW</span></td><td class="mono">R23</td><td>Nozzle, cap and belt figures that trace to nothing; clutch reservoir question (answered — F136).</td></tr>
+<tr><td class="mono">F130</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R23 §1</td><td>The triage table a workshop sees first contradicts the page body (pre-filter, wheel bearings).</td></tr>
+<tr><td class="mono">F131</td><td><span class="tag t-low">LOW</span></td><td class="mono">R23</td><td>Headings still say valves and injectors are undone; the brief asks for work just done.</td></tr>
+<tr><td class="mono">F132</td><td><span class="tag t-low">LOW</span></td><td class="mono">R23 §1</td><td>&quot;Five Readiness Actions&quot; (there are ten) tracked in the wrong place; &quot;before the Karoo loop&quot;.</td></tr>
+<tr><td class="mono">F133</td><td><span class="tag t-low">LOW</span></td><td class="mono">R23 §7</td><td>RA-8 done; the Karoo review row blank (OI-13). Correction (F202a): the itinerary already carries its dates.</td></tr>
+<tr><td class="mono">F134</td><td><span class="tag t-low">LOW</span></td><td class="mono">R23 §6</td><td>Undated dealer claims; a full name; the 2026 workshops left out.</td></tr>
+<tr><td class="mono">F135</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">Library-wide</td><td>No countdown to departure anywhere — lead times for carnet, yellow fever, IDPs, licences, medevac, test-dials, home.</td></tr>
+</tbody></table></div>
+<h3>Session D1 · Tier 3a — engine</h3><div class="tw"><table><thead><tr><th style="width:9%">#</th><th style="width:11%">Grade</th><th style="width:22%">Where</th><th>What</th></tr></thead><tbody>
+<tr><td class="mono">F136</td><td><span class="tag t-high">HIGH</span></td><td class="mono">R34, R1, R4, R20, R23, R13 (+R3, R30 — F161)</td><td>The library says the brake and clutch share a reservoir; you said they are separate. Diagnosis built on it sends the crew to the clutch for a brake leak.</td></tr>
+<tr><td class="mono">F137</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R21 §2</td><td>R21&#x27;s own EGT limits disagree (bands, table, the pre-turbo note runs the wrong way).</td></tr>
+<tr><td class="mono">F138</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R22 vs R4</td><td>Overheating: R22 says stop the engine, R4 says idle first.</td></tr>
+<tr><td class="mono">F139</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R22, R4</td><td>Thermostat 82/88/97°C stated, contradicting each page&#x27;s own Toyota note.</td></tr>
+<tr><td class="mono">F140</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R24, R23, Service Checklist</td><td>Fuel filter interval given four ways; Flashlube interval two.</td></tr>
+<tr><td class="mono">F141</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R4, R24</td><td>Bleed point given two ways. Ruled: the black hand pump on the fuel-filter head — R4 §5.2–§5.3 change.</td></tr>
+<tr><td class="mono">F142</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R24</td><td>Injection pump &quot;driven off the timing belt&quot; — it is gear-driven (both manuals).</td></tr>
+<tr><td class="mono">F143</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R24 vs R4</td><td>Fuel range ~1,400 km vs 900–1,000 km. Settled by F202b: measured 7.05 km/L gives about 1,020 km on 145 L.</td></tr>
+<tr><td class="mono">F144</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R4 §11</td><td>Birfield placed at the inner end of the axle in two headings; it sits in the knuckle.</td></tr>
+<tr><td class="mono">F145</td><td><span class="tag t-low">LOW</span></td><td class="mono">R21</td><td>Stale turbo and intercooler kilometres, past Snyman date, Ethiopia, untraced percentages.</td></tr>
+<tr><td class="mono">F146</td><td><span class="tag t-low">LOW</span></td><td class="mono">R22</td><td>Intercooler &quot;in front of the radiator&quot;; belt and pressure figures untraced; belt layout.</td></tr>
+<tr><td class="mono">F147</td><td><span class="tag t-low">LOW</span></td><td class="mono">R22 vs R4, R1, R23</td><td>Two different Toyota coolant products named; Facts holds none.</td></tr>
+<tr><td class="mono">F148</td><td><span class="tag t-low">LOW</span></td><td class="mono">R4</td><td>Fluid table credited to Toyota but lists oil brands; several untraced figures; head material (settled: cast iron).</td></tr>
+<tr><td class="mono">F149</td><td><span class="tag t-low">LOW</span></td><td class="mono">R4 §5B</td><td>A named person in a forward-looking line; reserve-fuel rule three ways; old costs.</td></tr>
+<tr><td class="mono">F150</td><td><span class="tag t-low">LOW</span></td><td class="mono">R24</td><td>Duplicate spares rows, an overtaken item, off-route countries, a drain-plug contradiction.</td></tr>
+</tbody></table></div>
+<h3>Session D2 · Tier 3a — driveline, brakes, tyres</h3><div class="tw"><table><thead><tr><th style="width:9%">#</th><th style="width:11%">Grade</th><th style="width:22%">Where</th><th>What</th></tr></thead><tbody>
+<tr><td class="mono">F151</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R40 §2, §6</td><td>&quot;Hand-tighten all six&quot; and a six-stud star order on a five-nut wheel. The five-nut order given in the finding was from memory — source it at fix time.</td></tr>
+<tr><td class="mono">F152</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R14 §9 vs R40</td><td>R14 jacks the front on the chassis rail; R40, the owner, jacks under the axle.</td></tr>
+<tr><td class="mono">F153</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R14 §11</td><td>Compressor check 3.1 bar where the laden rear needs 3.3–3.4; jack sized to 3,000 not the weighed 3,280 kg.</td></tr>
+<tr><td class="mono">F154</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R14 §10 vs R40</td><td>R14 adds an ignite-the-aerosol bead-seat method R40 does not carry and its safety limit bypasses.</td></tr>
+<tr><td class="mono">F155</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R25</td><td>Three lines still describe the old 2023 front shocks.</td></tr>
+<tr><td class="mono">F156</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R25</td><td>Load section gives factory figures only, not the weighed 3,280 kg (OI-103).</td></tr>
+<tr><td class="mono">F157</td><td><span class="tag t-low">LOW</span></td><td class="mono">R34</td><td>DOT 3 vs DOT 4 unsourced; no vacuum-pump row (RM617E confirms the pump; its place to be read on the engine).</td></tr>
+<tr><td class="mono">F158</td><td><span class="tag t-low">LOW</span></td><td class="mono">R13</td><td>Gear and axle ratios untraced; a wrong pointer; an unsourced speed; a named supplier.</td></tr>
+<tr><td class="mono">F159</td><td><span class="tag t-low">LOW</span></td><td class="mono">R14</td><td>285/75 still offered; Maxxis reasoning; casing weight two ways; supplier names.</td></tr>
+<tr><td class="mono">F160</td><td><span class="tag t-low">LOW</span></td><td class="mono">R25</td><td>Steering-box kilometres, U-bolt count, stone-guard place, an unrecorded torque.</td></tr>
+</tbody></table></div>
+<h3>Session D3 · Tier 3a — repair kit</h3><div class="tw"><table><thead><tr><th style="width:9%">#</th><th style="width:11%">Grade</th><th style="width:22%">Where</th><th>What</th></tr></thead><tbody>
+<tr><td class="mono">F161</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R3, R30, R20</td><td>The shared-reservoir statement on two more pages and in four more R20 lines (F136 widens).</td></tr>
+<tr><td class="mono">F162</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R3</td><td>Other pages tell the crew to carry spares R3 does not list; no weights (OI-103).</td></tr>
+<tr><td class="mono">F163</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R20 11.1</td><td>&quot;OME shocks at 305k km are well past life&quot; — front new Oct 2026, rear Jan 2026.</td></tr>
+<tr><td class="mono">F164</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R20, R3</td><td>&quot;Extend breathers to snorkel height before crossings&quot; — extended breathers are fitted.</td></tr>
+<tr><td class="mono">F165</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R20 vs R3</td><td>Two different Birfield greases; Facts has not recorded what went in. (&quot;LMX is lithium-complex&quot; was from memory.)</td></tr>
+<tr><td class="mono">F166</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R27 vs R4</td><td>&quot;No temperature warning light&quot; vs &quot;or the coolant warning light illuminates&quot;. You confirmed a gauge; a warning light still to check.</td></tr>
+<tr><td class="mono">F167</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R27</td><td>A third overheating drill (idle and add water) against R22 (F138 widens).</td></tr>
+<tr><td class="mono">F168</td><td><span class="tag t-low">LOW</span></td><td class="mono">R27</td><td>Intercooler &quot;in front of the radiator&quot; (it is the A/C condenser); intercooler hoses listed as coolant hoses.</td></tr>
+<tr><td class="mono">F169</td><td><span class="tag t-low">LOW</span></td><td class="mono">R27 vs R13</td><td>Starter inhibit in gear vs cranking in gear. Settled: it cranks in gear (owner, Oct 2026) — R27 is wrong.</td></tr>
+<tr><td class="mono">F170</td><td><span class="tag t-low">LOW</span></td><td class="mono">R20, R27, R3</td><td>Earlier findings widen (fluids, thermostat, coolant, oil, compression, jacking, U-bolts, gearbox oil brand).</td></tr>
+<tr><td class="mono">F171</td><td><span class="tag t-low">LOW</span></td><td class="mono">R27</td><td>Sump material, washers, two speed limits, strap ratings, PLB lines.</td></tr>
+<tr><td class="mono">F172</td><td><span class="tag t-low">LOW</span></td><td class="mono">R3</td><td>Belt count, untraced timing, a bead-seat contradiction, R20 pointers into R3 that do not land.</td></tr>
+<tr><td class="mono">F173</td><td><span class="tag t-low">LOW</span></td><td class="mono">R20</td><td>No cards for the half-moon seal and intake gasket renewed Oct 2026; untraced figures. Correction (F194a): the transfer-case 2.1 L is sourced.</td></tr>
+</tbody></table></div>
+<h3>Session E1 · Tier 3b — electrical</h3><div class="tw"><table><thead><tr><th style="width:9%">#</th><th style="width:11%">Grade</th><th style="width:22%">Where</th><th>What</th></tr></thead><tbody>
+<tr><td class="mono">F174</td><td><span class="tag t-high">HIGH</span></td><td class="mono">R27 vs R26, R32, R5</td><td>R27 tells the crew to jump-start from the LiFePO4 house bank; the owning pages forbid it (BMS, cells, cabling).</td></tr>
+<tr><td class="mono">F175</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R5 §5</td><td>The daily-load rows add to 76.9 Ah; the total says 65.3. Your ruling on which load stands.</td></tr>
+<tr><td class="mono">F176</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R5 §4, §9; R7</td><td>Fuse and cable figures from a March 2026 planning drawing shown as fitted — including the &quot;30A fuse&quot; July removed from R18.</td></tr>
+<tr><td class="mono">F177</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R5, R7</td><td>Autonomy to the 30% alarm and to the 20% floor confused; three charge-time figures for one case.</td></tr>
+<tr><td class="mono">F178</td><td><span class="tag t-low">LOW</span></td><td class="mono">R7</td><td>Willard crank battery still in the wiring flow; BMV-712 &quot;no display&quot;; wrong Facts section.</td></tr>
+<tr><td class="mono">F179</td><td><span class="tag t-low">LOW</span></td><td class="mono">R26, R5</td><td>&quot;No battery heater fitted&quot; stated four times; Facts leaves it open.</td></tr>
+<tr><td class="mono">F180</td><td><span class="tag t-low">LOW</span></td><td class="mono">R26</td><td>&quot;The winch runs off the crank&quot; stated as fact; inferred from a typical layout.</td></tr>
+<tr><td class="mono">F181</td><td><span class="tag t-low">LOW</span></td><td class="mono">R5, R26</td><td>Three LiFePO4 voltage bands, none sourced; two teaching slips.</td></tr>
+<tr><td class="mono">F182</td><td><span class="tag t-low">LOW</span></td><td class="mono">R4, R1, R10, R32, R18</td><td>Compression ratio given as 22, 22.4 and 22.5:1; Facts holds none.</td></tr>
+<tr><td class="mono">F183</td><td><span class="tag t-low">LOW</span></td><td class="mono">R32, R5</td><td>Untraced figures, undated prices, supplier names; R5&#x27;s jump-start card omits the ARB pack.</td></tr>
+</tbody></table></div>
+<h3>Session E2 · Tier 3b — service</h3><div class="tw"><table><thead><tr><th style="width:9%">#</th><th style="width:11%">Grade</th><th style="width:22%">Where</th><th>What</th></tr></thead><tbody>
+<tr><td class="mono">F184</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R8 §2, §5–§7, §9</td><td>R8 is written round the April 2026 service well beyond the two sections OI-123 covers, with no notice.</td></tr>
+<tr><td class="mono">F185</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">Service Checklist, R8</td><td>Coolant flush shown 86,006 km overdue on a 100,000 km interval; Facts counts the Jan 2026 change on 40,000 km. Your ruling on the interval.</td></tr>
+<tr><td class="mono">F186</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">Service Checklist</td><td>Injectors, tyre rotation and intercooler lines stale; figures typed by hand; two intervals differ from R8.</td></tr>
+<tr><td class="mono">F187</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R31, R8, R21, R23, R11</td><td>Five pages wait on the &quot;Snyman assessment (May 2026)&quot;. You said it is still planned: the date is stale; the rear-disc decision has no register item.</td></tr>
+<tr><td class="mono">F188</td><td><span class="tag t-low">LOW</span></td><td class="mono">Service Checklist, R8, R31</td><td>Earlier findings widen into the service pages.</td></tr>
+<tr><td class="mono">F189</td><td><span class="tag t-low">LOW</span></td><td class="mono">R31</td><td>KO3 row still &quot;fit ~2027&quot;; stale totals and kilometres.</td></tr>
+<tr><td class="mono">F190</td><td><span class="tag t-low">LOW</span></td><td class="mono">Build Register; ledgers; R8</td><td>Recovery-kit row lists a kinetic rope and snatch strap — you confirmed neither is carried; record counts (explained in F194e).</td></tr>
+</tbody></table></div>
+<h3>Session E3 · The self-audit</h3><div class="tw"><table><thead><tr><th style="width:9%">#</th><th style="width:11%">Grade</th><th style="width:22%">Where</th><th>What</th></tr></thead><tbody>
+<tr><td class="mono">F191</td><td><span class="tag t-high">HIGH</span></td><td class="mono">R10 §5</td><td>Rabies card: &quot;48 hours at the very latest&quot;. Treatment is given however late; someone bitten days ago could read it as too late. A Claude edit of 2 Nov.</td></tr>
+<tr><td class="mono">F192</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">Register, OI-48 closed-log entry</td><td>Claude&#x27;s July record says R5 already summed to 65.3 (it did not) and is the root of F177. Annotated.</td></tr>
+<tr><td class="mono">F193</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">July F65 fix</td><td>The &quot;30A fuse&quot; was removed from R18 only — a one-page hunt, not a sweep; it survives in R5 (F176).</td></tr>
+<tr><td class="mono">F194</td><td><span class="tag t-low">LOW</span></td><td class="mono">This audit</td><td>Corrections to F173, F187, F151, F165, F157 and F190 (annotations).</td></tr>
+<tr><td class="mono">F195</td><td><span class="tag t-low">LOW</span></td><td class="mono">R9</td><td>Tow-ball warning carries three unsourced figures.</td></tr>
+</tbody></table></div>
+<h3>Session F1 · Tier 4 profiles (counted) and Tier 5 framework (swept)</h3><div class="tw"><table><thead><tr><th style="width:9%">#</th><th style="width:11%">Grade</th><th style="width:22%">Where</th><th>What</th></tr></thead><tbody>
+<tr><td class="mono">F196</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">Water Budget Calculator; R12</td><td>Opens at a 70 L &quot;main tank&quot;; you carry three 20 L containers, 60 L — days of water overstated.</td></tr>
+<tr><td class="mono">F197</td><td><span class="tag t-med">MEDIUM</span></td><td class="mono">R16</td><td>Pre-departure checklist ticks an AMREF membership and travel insurance as bought; both undecided (OI-43). F88 and F121 widen.</td></tr>
+<tr><td class="mono">F198</td><td><span class="tag t-low">LOW</span></td><td class="mono">index.html</td><td>Five profile cards carry diesel prices, against the index card rule.</td></tr>
+<tr><td class="mono">F199</td><td><span class="tag t-low">LOW</span></td><td class="mono">Tanzania profile</td><td>&quot;Not necessarily a matched AT811&quot; — the KO3 is fitted.</td></tr>
+<tr><td class="mono">F200</td><td><span class="tag t-low">LOW</span></td><td class="mono">How To Use</td><td>Describes the delivery route before pull requests.</td></tr>
+<tr><td class="mono">F201</td><td><span class="tag t-low">LOW</span></td><td class="mono">R11, R12, R41</td><td>Earlier findings widen (Snyman, PLB, Karoo loop).</td></tr>
+<tr><td class="mono">F202</td><td><span class="tag t-low">LOW</span></td><td class="mono">This audit</td><td>Corrections: F133 (Karoo dates already restored); F143 settled by the measured 7.05 km/L.</td></tr>
+</tbody></table></div>
+<h3>Session F2 · The report</h3><div class="tw"><table><thead><tr><th style="width:9%">#</th><th style="width:11%">Grade</th><th style="width:22%">Where</th><th>What</th></tr></thead><tbody>
+<tr><td class="mono">F203</td><td><span class="tag t-low">LOW</span></td><td class="mono">Working paper Part 3 §12.3; register header</td><td>Session E1&#x27;s tally was written &quot;1 high, 4 medium, 5 low&quot;; the table holds 1 high, 3 medium, 6 low. Found while counting for this report; annotated in the working paper and on OI-134, the original lines left as written.</td></tr>
+</tbody></table></div>
+
+<h2 id="s-profiles">07 &middot; Profiles &mdash; Counted for EX-10</h2>
+<p>All nine country profiles now carry the parts section July found missing on six (the Kalahari terrain profile has none by design), and every masthead date matches its latest changelog entry. The &ldquo;Data verified&rdquo; line July recommended (F72) is on the five profiles retrofitted in July and missing from the four built after &mdash; Mozambique, Malawi, Zimbabwe, Kenya &mdash; and from the Kalahari terrain profile, which carries &ldquo;Compiled 29 April 2026&rdquo;.</p>
+<div class="tw"><table><caption>Perishable lines counted by pattern, 17 Nov 2026 &mdash; a size for the refresh, not a list of errors</caption>
+<thead><tr><th>Profile</th><th>Masthead</th><th>&ldquo;Data verified&rdquo;</th><th class="num">Price lines</th><th class="num">Fee amounts</th><th class="num">Years 2010&ndash;25</th></tr></thead><tbody>
+<tr><td>001 Angola</td><td>4 Nov 2026</td><td>22 Jul 2026</td><td class="num">5</td><td class="num">12</td><td class="num">18</td></tr>
+<tr><td>002 Namibia</td><td>16 Nov 2026</td><td>22 Jul 2026</td><td class="num">5</td><td class="num">11</td><td class="num">17</td></tr>
+<tr><td>003 Botswana</td><td>24 Oct 2026</td><td>22 Jul 2026</td><td class="num">5</td><td class="num">11</td><td class="num">3</td></tr>
+<tr><td>004 Zambia</td><td>16 Nov 2026</td><td>22 Jul 2026</td><td class="num">9</td><td class="num">73</td><td class="num">12</td></tr>
+<tr><td>005 Kalahari (terrain)</td><td>1 Nov 2026</td><td>none</td><td class="num">0</td><td class="num">0</td><td class="num">6</td></tr>
+<tr><td>006 Tanzania</td><td>4 Nov 2026</td><td>22 Jul 2026</td><td class="num">5</td><td class="num">56</td><td class="num">9</td></tr>
+<tr><td>007 Mozambique</td><td>18 Oct 2026</td><td>none</td><td class="num">3</td><td class="num">4</td><td class="num">6</td></tr>
+<tr><td>008 Malawi</td><td>1 Nov 2026</td><td>none</td><td class="num">5</td><td class="num">9</td><td class="num">2</td></tr>
+<tr><td>009 Zimbabwe</td><td>16 Nov 2026</td><td>none</td><td class="num">4</td><td class="num">11</td><td class="num">7</td></tr>
+<tr><td>010 Kenya</td><td>24 Oct 2026</td><td>none</td><td class="num">5</td><td class="num">20</td><td class="num">14</td></tr>
+</tbody></table></div>
+
+<h2 id="s-clean">08 &middot; Clean, and Not Checked</h2>
+<h3>Verified clean &mdash; recorded so the next audit does not re-chase them</h3>
+<ul class="tight">
+<li>Links, anchors and the 558 Cross-Reference Index rows: none broken (Session A).</li>
+<li>Every international emergency number is the same on R10, R43 and R29; the satphone rule on short-dial codes is on all three.</li>
+<li>R9&rsquo;s recovery arithmetic recomputed at 3,280 kg and holds; R14&rsquo;s load-table arithmetic holds; the laden pressures agree with the calculator.</li>
+<li>The Owner-Authority Affidavit: every identifier blank; the public fields agree with Facts.</li>
+<li>R2&rsquo;s count (70 items, 40 critical) is right; R39&rsquo;s licence and disc dates agree with Facts.</li>
+<li>The engine&rsquo;s drive layout is right on R4 and R21, and the interference warning on R4, R18 and R21; R18&rsquo;s manual-sourced spec cards carry page references.</li>
+<li>The fitted electrical parts on R5, R7, R26 and R32 match Facts; R26 leaves its fuse table blank rather than guess.</li>
+<li>The current ledger and the Build Register add up to their page totals; the Manjaro rows reconcile to the invoice.</li>
+<li>The July F65 fix holds on R18; every emergency number added since July is in international form or labelled.</li>
+<li>The fuel calculators carry Facts &sect;9 and the measured 7.05 km/L; How To Use shows the mastership map.</li>
+</ul>
+<h3>Not checked</h3>
+<ul class="tight">
+<li>Medical content was not judged clinically; it waits for the first-aid course and the travel doctor (OI-4, OI-74).</li>
+<li>Outside facts &mdash; fees, visas, permits, provider prices, carnet terms &mdash; were not re-checked at their sources, except where a finding needed it.</li>
+<li>The framework pages were swept, not read line by line; the histories and philosophy pages only swept.</li>
+<li>No page was read on a phone screen or printed as a PDF.</li>
+<li>The workbook sheets themselves were not opened; the pages were checked against Facts and each other.</li>
+</ul>
+<h3>Lessons for the method</h3>
+<ul class="tight">
+<li><strong>The self-audit earned its place again.</strong> It found the rabies line (F191), a July record that called a wrong table right (F192) and a July fix made on one page only (F193). All three are Claude&rsquo;s own work.</li>
+<li><strong>Claude&rsquo;s own count is not evidence.</strong> Two corrections lists (F194, F202) and a mis-added tally (F203) were caught in this audit itself; two findings rested on memory (F151, F165). A separate agent that had not seen the audit reviewed this report before it reached you: it recounted every grade and total (all agreed), re-found fifteen findings on the live pages, including all five high ones, and found six places where this page claimed more than the working papers support. All six were corrected before issue.</li>
+<li><strong>The stale-terms check only knows what it has been told.</strong> It passed while eight pages said &ldquo;shared reservoir&rdquo; and a profile said &ldquo;AT811&rdquo;. Every fix that retires a term should add its row first: shared reservoir, Willard 650, the timing belt driving the pump, the IPF spots and gooseneck tow bar, the snatch block, the AT811 in profiles.</li>
+</ul>
+
+<h2 id="s-plan">09 &middot; Proposed Fix Programme</h2>
+<p class="section-intro">A proposal for your ruling. Each fix session is one pull request; any that touches a safety page or a vehicle figure is read by a separate agent first, as the delivery rule requires.</p>
+<div class="tw"><table><thead><tr><th style="width:16%">Session</th><th>Findings</th><th style="width:30%">Needs first</th></tr></thead><tbody>
+<tr><td><strong>Fix 1 &mdash; emergency and field pages</strong></td><td>F191, F136/F161, F174, F79/F80/F87/F88/F91, F81, F82, F89, F96, F99, F197, F100, F101, F141, F151, F152, F153, F154, F84, F138/F167, F166, F97/F98, F121</td><td>Your rulings on F87, F100 and F154; the inReach sequence for F84; socket and spanner sizes, the warning light and the extinguisher label read off the vehicle.</td></tr>
+<tr><td><strong>Fix 2 &mdash; engine figures into Facts, then the pages</strong></td><td>F85/F137, F86/F148, F127, F128/F139, F130, F140, F142, F143, F144, F146, F147, F157, F165, F182, F108</td><td>A source for the EGT ceiling; the coolant and grease products; the thermostat read off the part (OI-70).</td></tr>
+<tr><td><strong>Fix 3 &mdash; electrical</strong></td><td>F175&ndash;F181, F183, F176 with a library sweep for fuse and cable figures (F193)</td><td>Your ruling on the daily load; OI-127 for fuse ratings.</td></tr>
+<tr><td><strong>Fix 4 &mdash; service pages and R8</strong></td><td>F184&ndash;F190, F155, F156, F162, F163, F164, F196</td><td>Your ruling on the intervals; OI-123 widened to all of R8.</td></tr>
+<tr><td><strong>Fix 5 &mdash; paperwork and route</strong></td><td>F112 (privacy, first), F111, F113&ndash;F120, F75, F83, F102, F122&ndash;F124, F135</td><td>Your ruling on the route list, country numbers and the R35 habit; the revised insurance schedule (OI-106).</td></tr>
+<tr><td><strong>Fix 6 &mdash; tidy</strong></td><td>The remaining low findings, page by page</td><td>Nothing.</td></tr>
+</tbody></table></div>
+<div class="box ok"><strong>How OI-134 closes.</strong> On your ruling of this programme, OI-134 closes with this report as its evidence, and each fix session you accept is opened as its own item, so the register shows what is left.</div>
+
+</main>
+
+<div class="footer">
+LC76 OVERLAND REFERENCE LIBRARY &middot; CONTENT CURRENCY &amp; COMPLETENESS AUDIT &middot; NOVEMBER 2026 (issued 17 Nov 2026)<br>
+Thirteen sittings, A&ndash;F2, 16&ndash;17 Nov 2026, each read at a noted commit and delivered by pull request; findings F75&ndash;F203; tracked as OI-134.<br>
+Evidence: the working papers in project knowledge (claude/LC76_Content_Audit_2026-11_Working.md, _Part2.md, _Part3.md). This is a governance document &mdash; not a field reference, not precached.
+</div>
+
+<script>
+(function(){
+  var btns = document.querySelectorAll('.toc-btn');
+  btns.forEach(function(b){
+    b.addEventListener('click', function(){
+      var el = document.getElementById(b.dataset.target);
+      if (!el) return;
+      var top = el.getBoundingClientRect().top + window.pageYOffset
+              - document.querySelector('.sticky-wrap').offsetHeight - 8;
+      window.scrollTo({ top: top, behavior: 'smooth' });
+    });
+  });
+  var secs = document.querySelectorAll('main h2[id]');
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (!e.isIntersecting) return;
+      btns.forEach(function(b){
+        b.classList.toggle('active', b.dataset.target === e.target.id);
+      });
+    });
+  }, { rootMargin: '-160px 0px -70% 0px', threshold: 0 });
+  secs.forEach(function(s){ obs.observe(s); });
+})();
+</script>
+</body>
+</html>
