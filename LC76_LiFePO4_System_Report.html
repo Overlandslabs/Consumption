@@ -163,7 +163,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 
 <div class="std-header">
   <a href="index.html" class="lib-home-btn">⌂ Index</a>
-  <div class="std-eyebrow">Reference · R7<span class="mh-date">Last updated: 13 October 2026</span></div>
+  <div class="std-eyebrow">Reference · R7<span class="mh-date">Last updated: 18 November 2026</span></div>
   <div class="std-title">LiFePO4 House System — As Fitted</div>
   <div class="std-sub">Daily load, charge profile &amp; system topology — as installed</div>
 </div>
@@ -194,9 +194,9 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
   <thead><tr><th>Parameter</th><th>Value</th><th>Notes</th></tr></thead>
   <tbody>
     <tr><td>Daily draw</td><td class="mono">65.3 Ah/day</td><td>Fridge dominant at 45 Ah/day (38°C). All accessories included; no Starlink carried.</td></tr>
-    <tr><td>Wild-camp autonomy</td><td class="mono">~2.6 days</td><td>No input, to the 30% alarm. Daily drive tops up via the DC-DC.</td></tr>
+    <tr><td>Wild-camp autonomy</td><td class="mono">~2.25 days</td><td>No input, to the 30% alarm (~2.6 days to the 20% floor). Daily drive tops up via the DC-DC.</td></tr>
     <tr><td>House capacity</td><td class="mono">210 Ah</td><td>Enertec Power+ LiFePO4. 168 Ah usable at 80% DoD. Internal BMS.</td></tr>
-    <tr><td>Solar yield</td><td class="mono">~65 Ah/day</td><td>Hardkorr 200 W portable blanket in SA conditions.</td></tr>
+    <tr><td>Solar yield</td><td class="mono">~56 Ah/day</td><td>Hardkorr 200 W portable blanket, clear day (LiFePO4 Calculator).</td></tr>
   </tbody>
 </table>
 
@@ -290,7 +290,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
     <tr><td>Low-temperature charge cutoff</td><td>Handled by the battery BMS</td><td>Enertec BMS</td></tr>
   </tbody>
 </table>
-<p class="p" style="font-size:12.5px"><strong>Why this table exists:</strong> these are the settings to verify in VictronConnect after any firmware update, factory reset, or device replacement — and the settings a workshop must be given if anyone else touches the system. Temp-comp and equalisation are the two that do real damage if a lead-acid default creeps back in. Full authoritative block: Facts §5.</p>
+<p class="p" style="font-size:12.5px"><strong>Why this table exists:</strong> these are the settings to verify in VictronConnect after any firmware update, factory reset, or device replacement — and the settings a workshop must be given if anyone else touches the system. Temp-comp and equalisation are the two that do real damage if a lead-acid default creeps back in. Full authoritative block: Facts §8.</p>
 
 <table class="spec-table">
   <caption>SmartSolar MPPT 100/30 — Solar Controller</caption>
@@ -298,7 +298,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
   <tbody>
     <tr><td>Panel</td><td>Hardkorr 200 W portable blanket</td></tr>
     <tr><td>Max PV</td><td>100 V / 440 W (12 V system)</td></tr>
-    <tr><td>Yield</td><td class="v-good">~65 Ah/day in SA conditions</td></tr>
+    <tr><td>Yield</td><td class="v-good">~56 Ah/day on a clear day (LiFePO4 Calculator)</td></tr>
     <tr><td>Efficiency</td><td class="v-good">Up to 98% · partial-shade tracking</td></tr>
   </tbody>
 </table>
@@ -318,7 +318,7 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
   <caption>BMV-712 Smart (500A shunt) — Battery Monitor</caption>
   <thead><tr><th>Spec</th><th>Value</th></tr></thead>
   <tbody>
-    <tr><td>Display</td><td>None — read in VictronConnect (Bluetooth)</td></tr>
+    <tr><td>Display</td><td>Round LCD display on the panel, plus VictronConnect (Bluetooth)</td></tr>
     <tr><td>Reads</td><td class="v-good">SoC%, V, A, consumed Ah, time-to-go</td></tr>
     <tr><td>Shunt</td><td>500 A / 50 mV precision · on battery negative</td></tr>
   </tbody>
@@ -350,9 +350,9 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
 <div class="diagram-wrap"><pre>
 <strong>As Installed · LC76 SW 1HZ</strong>
 
-[ HARDKORR 200W BLANKET ] ──4mm² + SB50──► <strong>SmartSolar MPPT 100/30</strong> ──► [ ENERTEC 210Ah LiFePO4 ]
+[ HARDKORR 200W BLANKET ] ──solar lead──► <strong>SmartSolar MPPT 100/30</strong> ──► [ ENERTEC 210Ah LiFePO4 ]
 
-[ CRANK · WILLARD 650 ] ──► <strong>Orion XS 50A Non-isolated (~30A cap)</strong> ──► [ ENERTEC 210Ah ]
+[ CRANK · ENERTEC 650B-BLS ] ──► <strong>Orion XS 50A Non-isolated (~30A cap)</strong> ──► [ ENERTEC 210Ah ]
 
 [ 230V SHORE · EZ-Lock inlet ] ──► <strong>MultiPlus 12/500</strong> ──► [ ENERTEC 210Ah ] ──► AC out
 
@@ -436,10 +436,10 @@ body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:
   <tbody>
     <tr><td>House capacity</td><td class="mono">210 Ah</td><td>168 Ah usable at 80% DoD. Internal BMS + Bluetooth.</td></tr>
     <tr><td>Daily DoD</td><td class="mono">~31%</td><td>At 65.3 Ah/day — moderate, low-stress zone.</td></tr>
-    <tr><td>Wild-camp autonomy</td><td class="mono">~2.6 days</td><td>No input, to the 30% alarm.</td></tr>
+    <tr><td>Wild-camp autonomy</td><td class="mono">~2.25 days</td><td>No input, to the 30% alarm (~2.6 days to the 20% floor).</td></tr>
     <tr><td>Load ceiling</td><td class="mono">105 A</td><td>Hard BMS discharge limit — total continuous 12 V budget.</td></tr>
     <tr><td>AC output</td><td class="mono">~430 W</td><td>MultiPlus 12/500 continuous. Shore charging at 20 A.</td></tr>
-    <tr><td>Solar yield</td><td class="mono">~65 Ah/day</td><td>Hardkorr 200 W → SmartSolar MPPT 100/30.</td></tr>
+    <tr><td>Solar yield</td><td class="mono">~56 Ah/day</td><td>Hardkorr 200 W → SmartSolar MPPT 100/30.</td></tr>
     <tr><td>Alternator charge</td><td class="mono">~30 A</td><td>DC-DC cap in VictronConnect — protects the 1HZ alternator.</td></tr>
     <tr><td>Monitoring</td><td class="mono">2 apps</td><td>VictronConnect (electronics) + BMS app (battery).</td></tr>
   </tbody>
