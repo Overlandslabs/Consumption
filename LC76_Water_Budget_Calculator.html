@@ -193,7 +193,7 @@
   <div class="cm-title">Water Budget <em>Calculator</em></div>
   <div class="cm-sub">Daily consumption, tank autonomy &amp; resupply planning</div>
   <div class="cm-specs">
-    <div>Main tank: <span id="hd-tank">70 L</span></div>
+    <div>Water carried: <span id="hd-tank">60 L</span></div>
     <div>People: <span id="hd-pax">2</span></div>
     <div>Resupply: <span id="hd-resupply">5 days</span></div>
     <div>Daily use: <span id="hd-daily">— L/day</span></div>
@@ -206,8 +206,8 @@
   <!-- TANK SUMMARY CARDS -->
   <div class="sec">Tank summary &mdash; <span style="font-weight:300;letter-spacing:.05em;text-transform:none;font-size:11px;">current capacity and projected figures</span></div>
   <div class="cap-grid">
-    <div class="cc"><div class="cl">Total capacity</div><div class="cv" id="d-cap">70 L</div><div class="cs">Usable tank volume</div></div>
-    <div class="cc p"><div class="cl">Available now</div><div class="cv" id="d-avail">70 L</div><div class="cs">From current fill level</div></div>
+    <div class="cc"><div class="cl">Total capacity</div><div class="cv" id="d-cap">60 L</div><div class="cs">Three 20 L containers</div></div>
+    <div class="cc p"><div class="cl">Available now</div><div class="cv" id="d-avail">60 L</div><div class="cs">From current fill level</div></div>
     <div class="cc"><div class="cl">Daily consumption</div><div class="cv" id="d-daily">— L</div><div class="cs">All activities combined</div></div>
     <div class="cc warn"><div class="cl">Autonomy</div><div class="cv" id="d-auto">— days</div><div class="cs">Days to reserve threshold</div></div>
   </div>
@@ -216,9 +216,9 @@
   <div class="sec">Tank settings &mdash; <span style="font-weight:300;letter-spacing:.05em;text-transform:none;font-size:11px;">adjust to match your actual containers and fill level</span></div>
 
   <div class="sblock">
-    <div class="slabelwrap"><div class="slabel">Total tank capacity</div><div class="sval" id="v-cap">70 L</div></div>
-    <div class="srow"><input type="range" id="sl-cap" min="10" max="200" step="5" value="70" oninput="syncV('v-cap',this.value,' L');updateSliderFill(this);upd()"></div>
-    <div class="snote">Total usable litres across all containers (built-in tank + jerry cans + collapsibles). Typical expedition setup: 40&ndash;120 L.</div>
+    <div class="slabelwrap"><div class="slabel">Total water carried</div><div class="sval" id="v-cap">60 L</div></div>
+    <div class="srow"><input type="range" id="sl-cap" min="10" max="200" step="5" value="60" oninput="syncV('v-cap',this.value,' L');updateSliderFill(this);upd()"></div>
+    <div class="snote">Total usable litres across all containers. This vehicle carries three 20 L containers &mdash; 60 L (R12). Change it if you carry more.</div>
   </div>
 
   <div class="sblock">
@@ -407,7 +407,7 @@
 
 <footer>
   <div>LC76 SW 1HZ &middot; Water Budget Calculator</div>
-  <div>Resupply target: <span id="ft-resupply">5 days</span> &middot; Capacity: <span id="ft-cap">70 L</span> &middot; People: <span id="ft-pax">2</span></div>
+  <div>Resupply target: <span id="ft-resupply">5 days</span> &middot; Capacity: <span id="ft-cap">60 L</span> &middot; People: <span id="ft-pax">2</span></div>
   <div>Estimates only &mdash; verify against actual consumption. Add 25% buffer for hot conditions.</div>
 </footer>
 
@@ -523,7 +523,7 @@ function syncDays(id,val){document.getElementById(id).textContent=val+' day'+(va
 
 /* ─── MAIN CALCULATION ─── */
 function upd(){
-  var cap      = parseFloat(document.getElementById('sl-cap').value)||70;
+  var cap      = parseFloat(document.getElementById('sl-cap').value)||60;
   var fillPct  = parseFloat(document.getElementById('sl-fill').value)/100;
   var pax      = parseFloat(document.getElementById('sl-pax').value)||1;
   var resPct   = parseFloat(document.getElementById('sl-res').value)/100;
