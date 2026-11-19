@@ -198,6 +198,47 @@ self.addEventListener('install', function (e) {
   self.skipWaiting();
 });
 
+// Update whole library (added 19 Nov 2026, owner ruling): the index page's
+// "Update whole library" button sends {type:'lc76-refresh-all'} with a
+// MessageChannel port. Every PRECACHE file is fetched fresh from the network
+// (bypassing the browser's HTTP cache) and written over its cached copy, so
+// pages the reader has not opened since an edit are brought up to date too.
+// Progress goes back on the port; a file that fails keeps its old copy.
+// Library files only: the map library and map tiles (cross-origin) were
+// stored at install, rarely change, and the tile servers ask users not to
+// bulk-download, so this button leaves them alone.
+// Six fetches at a time so a phone on a weak signal is not swamped.
+self.addEventListener('message', function (e) {
+  if (!e.data || e.data.type !== 'lc76-refresh-all') return;
+  var port = e.ports && e.ports[0];
+  if (!port) return;
+  var list = PRECACHE.filter(function (u) { return !/^https?:\/\//i.test(u); });
+  var total = list.length, done = 0, failed = 0, next = 0;
+  e.waitUntil(caches.open(CACHE).then(function (cache) {
+    function one(url) {
+      var req = new Request(url, { cache: 'reload' });
+      return fetch(req).then(function (resp) {
+        var ok = resp && resp.status === 200 && resp.type === 'basic';
+        if (!ok) { throw new Error('status ' + (resp && resp.status)); }
+        return cache.put(req, resp);
+      }).then(function () { done++; }, function () { failed++; })
+        .then(function () {
+          port.postMessage({ type: 'progress', done: done, failed: failed, total: total });
+        });
+    }
+    function worker() {
+      if (next >= total) return Promise.resolve();
+      var url = list[next++];
+      return one(url).then(worker);
+    }
+    var lanes = [];
+    for (var i = 0; i < 6; i++) { lanes.push(worker()); }
+    return Promise.all(lanes).then(function () {
+      port.postMessage({ type: 'complete', done: done, failed: failed, total: total });
+    });
+  }));
+});
+
 // Activate: drop old caches.
 self.addEventListener('activate', function (e) {
   e.waitUntil(
