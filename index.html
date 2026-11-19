@@ -22,6 +22,11 @@ header{background:var(--ink);color:#fff;padding:2rem;padding-top:calc(2rem + env
 .header-title .accent{color:var(--amber2)}
 .header-subtitle{font-family:IBM Plex Mono,monospace;font-size:.85rem;color:var(--amber);margin-bottom:.5rem}
 .header-meta{font-family:IBM Plex Mono,monospace;font-size:.75rem;color:var(--steelmd)}
+.lib-update{margin-top:.9rem;display:flex;flex-wrap:wrap;align-items:center;gap:.4rem .9rem}
+.lib-update button{font-family:IBM Plex Mono,monospace;font-size:.75rem;text-transform:uppercase;letter-spacing:1px;background:transparent;color:var(--amber2);border:1px solid var(--amber2);border-radius:3px;padding:.5rem .8rem;cursor:pointer}
+.lib-update button:disabled{opacity:.6;cursor:default}
+.lib-update-status{font-family:IBM Plex Mono,monospace;font-size:.72rem;color:#c9c4b8;line-height:1.4}
+@media print{.lib-update{display:none}}
 .status-bar{background:var(--steeldk);color:#fff;padding:1rem 1.5rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem}
 .status-item{text-align:center}
 .status-value{font-family:Bebas Neue,sans-serif;font-size:1.8rem;color:var(--amber2);display:block}
@@ -99,6 +104,10 @@ footer{margin-top:0.5cm;padding:0.3cm;border-top:1pt solid #ccc}
 <h1 class="header-title"><span class="accent">LC76</span> OVERLAND REFERENCE LIBRARY</h1>
 <p class="header-subtitle">2009 Land Cruiser 76 Series • 1HZ 4.2L Diesel • SAC Turbo</p>
 <p class="header-meta">Last Updated: 19 November 2026</p>
+<div class="lib-update">
+<button type="button" id="libUpdateBtn">&#8635; Update whole library</button>
+<span class="lib-update-status" id="libUpdateStatus" aria-live="polite"></span>
+</div>
 </header>
 
 <div class="status-bar">
@@ -887,6 +896,77 @@ if ('serviceWorker' in navigator) {
     });
   });
 }
+
+// Update whole library (19 Nov 2026): one tap, with a signal, fetches every
+// library page fresh into the offline copy. The work is done by sw.js (the
+// 'lc76-refresh-all' message); this only asks and reports. The date of the
+// last complete update is kept on this phone only.
+(function () {
+  var btn = document.getElementById('libUpdateBtn');
+  var out = document.getElementById('libUpdateStatus');
+  if (!btn || !out) return;
+  var KEY = 'lc76-last-full-update';
+  function say(t) { out.textContent = t; }
+  function lastLine() {
+    var v = null;
+    try { v = localStorage.getItem(KEY); } catch (e) {}
+    say(v ? 'Whole library last updated on this phone: ' + v
+          : 'Not yet updated with this button on this phone.');
+  }
+  lastLine();
+  if (!('serviceWorker' in navigator)) {
+    btn.disabled = true;
+    say('This browser cannot keep the library offline.');
+    return;
+  }
+  btn.addEventListener('click', function () {
+    if (navigator.onLine === false) { say('No signal. Try again when you are online.'); return; }
+    btn.disabled = true;
+    say('Starting…');
+    var heard = false;
+    var timer = setTimeout(function () {
+      if (!heard) {
+        btn.disabled = false;
+        say('No answer from the offline store. Close the library fully, reopen it with a signal, and try again.');
+      }
+    }, 20000);
+    navigator.serviceWorker.ready.then(function (reg) {
+      return reg.update().catch(function () {}).then(function () {
+        return navigator.serviceWorker.ready;
+      });
+    }).then(function (reg) {
+      var sw = reg.active;
+      if (!sw) { throw new Error('no active worker'); }
+      var ch = new MessageChannel();
+      ch.port1.onmessage = function (ev) {
+        var m = ev.data || {};
+        heard = true;
+        if (m.type === 'progress') {
+          say('Updating… ' + (m.done + m.failed) + ' of ' + m.total);
+        } else if (m.type === 'complete') {
+          clearTimeout(timer);
+          btn.disabled = false;
+          if (m.failed === 0) {
+            var d = new Date();
+            var stamp = d.toLocaleDateString('en-ZA', { day: 'numeric', month: 'long', year: 'numeric' })
+                      + ', ' + d.toLocaleTimeString('en-ZA', { hour: '2-digit', minute: '2-digit' });
+            try { localStorage.setItem(KEY, stamp); } catch (e) {}
+            say('Done: all ' + m.total + ' files updated. Reloading…');
+            setTimeout(function () { location.reload(); }, 1500);
+          } else {
+            say('Updated ' + m.done + ' of ' + m.total + '. ' + m.failed +
+                ' could not be fetched and keep their old copy. Try again with a better signal.');
+          }
+        }
+      };
+      sw.postMessage({ type: 'lc76-refresh-all' }, [ch.port2]);
+    }).catch(function () {
+      clearTimeout(timer);
+      btn.disabled = false;
+      say('The offline store is not ready yet. Reopen the library with a signal and try again.');
+    });
+  });
+})();
 
 // TOC navigation: scroll to section with offset for sticky bar
 document.querySelectorAll('.toc-btn').forEach(function(btn){
