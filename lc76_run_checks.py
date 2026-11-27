@@ -19,6 +19,8 @@ WHAT IT RUNS, in this order:
   7. Dashboard         lc76_dashboard_build.py    dashboard = the register
   8. Screen margins    lc76_margin_check.py       nothing runs to the edge
   9. Negative claims   lc76_basis_scan.py         REPORT ONLY — never blocks
+ 10. Printed book      book/lc76_book_check.py    REPORT ONLY — lists chapters changed since
+                                                 the printed edition was built (27 Nov 2026)
 Each check's own output is printed in full, then one summary table.
 
 Exit code 1 if any of checks 1–8 fails, or cannot run. A check that cannot
@@ -65,6 +67,7 @@ def checks(fast):
     if not fast:
         out.append(('Screen margins', ['lc76_margin_check.py'], True))
     out.append(('Negative claims', ['lc76_basis_scan.py'], False))
+    out.append(('Printed book', ['book/lc76_book_check.py'], False))
     return out
 
 
