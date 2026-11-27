@@ -1,0 +1,381 @@
+/* LC76 Field Handbook — THE book template (v2, 24 Nov 2026).
+   One stylesheet for the whole book. No library page CSS is carried into print.
+   Blocks allowed, and nothing else:
+     1 chapter opener   2 h2 / h3 (h4)   3 paragraph   4 bullet list   5 numbered steps
+     6 notice (DANGER / WARNING / CAUTION / NOTICE / NOTE)   7 table   8 checklist
+     9 spec rows   10 fault card   11 figure
+   Layout: two columns flowing top to bottom; full width only for the opener, h2,
+   tables of 3+ columns and figures.
+   COLOUR (v3, owner 24 Nov 2026: 'a better colour template is needed'): every chapter has a
+   colour family set by the build — --ch (solid), --ch-dk (dark, for coloured text), --ch-md
+   (mid tint), --ch-lt (pale tint), --ch-xl (faintest). Solid colour carries only large white
+   type (opener title, section number, edge-tab number, step badges). Reading text is always
+   dark on white or on a pale tint.
+   Basis: Butterick, Practical Typography (line length; 40-60 characters in a column);
+   ANSI Z535.6 (signal words and colours); Tracks4Africa guides (A4, two columns,
+   white pages, colour for headings and tabs). */
+
+@font-face { font-family: Oswald; font-weight: 300; src: url(file://FONTS/fontsource-oswald-5.3.0/files/oswald-latin-300-normal.woff2); }
+@font-face { font-family: Oswald; font-weight: 400; src: url(file://FONTS/fontsource-oswald-5.3.0/files/oswald-latin-400-normal.woff2); }
+@font-face { font-family: Oswald; font-weight: 500; src: url(file://FONTS/fontsource-oswald-5.3.0/files/oswald-latin-500-normal.woff2); }
+@font-face { font-family: Oswald; font-weight: 600; src: url(file://FONTS/fontsource-oswald-5.3.0/files/oswald-latin-600-normal.woff2); }
+@font-face { font-family: Oswald; font-weight: 300; src: url(file://FONTS/fontsource-oswald-5.3.0/files/oswald-latin-ext-300-normal.woff2); unicode-range: U+0100-024F, U+1E00-1EFF; }
+@font-face { font-family: Oswald; font-weight: 500; src: url(file://FONTS/fontsource-oswald-5.3.0/files/oswald-latin-ext-500-normal.woff2); unicode-range: U+0100-024F, U+1E00-1EFF; }
+@font-face { font-family: Bebas; src: url(file://FONTS/fontsource-bebas-neue-5.3.0/files/bebas-neue-latin-400-normal.woff2); }
+@font-face { font-family: Plex; font-weight: 400; src: url(file://FONTS/fontsource-ibm-plex-mono-5.3.0/files/ibm-plex-mono-latin-400-normal.woff2); }
+@font-face { font-family: Plex; font-weight: 600; src: url(file://FONTS/fontsource-ibm-plex-mono-5.3.0/files/ibm-plex-mono-latin-600-normal.woff2); }
+
+/* ---------- page ---------- */
+@page { size: A4; margin: 17mm 18mm 18mm 22mm;
+  @bottom-right { content: counter(page); font: 600 8.5pt Plex; color: #4a505c; }
+  @top-right { content: string(cht); font: 600 7pt Plex; color: #4a505c; text-transform: uppercase; letter-spacing: .08em; }
+}
+@page :left { margin: 17mm 22mm 18mm 18mm;
+  @bottom-left { content: counter(page); font: 600 8.5pt Plex; color: #4a505c; }
+  @bottom-right { content: none; }
+  @top-left { content: "LC76 Field Handbook"; font: 400 7pt Plex; color: #4a505c; text-transform: uppercase; letter-spacing: .08em; }
+  @top-right { content: none; }
+}
+@page :first { @bottom-right { content: none; } @top-right { content: none; } }
+
+html { font-family: Oswald, 'DejaVu Sans Condensed', sans-serif; font-weight: 400; font-size: 9.5pt;
+       line-height: 1.38; color: #0d0e12; hyphens: manual; }
+body { margin: 0; }
+strong, b { font-weight: 600; }
+.sym { font-family: 'DejaVu Sans Condensed', sans-serif; font-weight: normal; }
+
+/* ---------- cover (full bleed, drawn by the build) ---------- */
+@page cover { margin: 0; @top-left { content: none; } @top-right { content: none; } @bottom-left { content: none; } @bottom-right { content: none; } }
+.cover { page: cover; break-after: page; width: 210mm; height: 297mm; box-sizing: border-box;
+         background: #15171d url(COVER) no-repeat 0 0 / 210mm 297mm; color: #ffffff; padding: 20mm 18mm 0; }
+.cv-eyebrow { font: 600 10pt Plex; letter-spacing: .35em; text-transform: uppercase; color: #f5a524; }
+.cv-title { font: 400 104pt/.82 Bebas; letter-spacing: .01em; margin: 3mm 0 0; color: #ffffff; }
+.cv-title2 { font: 400 50pt/.9 Bebas; letter-spacing: .04em; color: #f5a524; margin: 1mm 0 0; }
+.cv-sub { font: 500 11pt Oswald; letter-spacing: .06em; color: #edeae0; margin-top: 3mm; text-transform: uppercase; }
+.cv-foot { font: 400 7.5pt/1.6 Plex; color: #c9c3b5; margin-top: 168mm; }
+/* ---------- front matter ---------- */
+.title-page { break-after: page; padding-top: 60mm; }
+.tp-eyebrow { font: 600 9pt Plex; letter-spacing: .2em; text-transform: uppercase; color: #b86800; }
+.title-page { border-left: 9mm solid #B91C1C; padding-left: 8mm; margin-left: -4mm; }
+.tp-title { font: 400 58pt/0.95 Bebas; margin: 5mm 0 4mm; }
+.tp-sub { font-size: 12pt; color: #2a2f3a; border-top: 1.5pt solid #b86800; padding-top: 3mm; }
+.tp-ed { font: 400 8.5pt/1.6 Plex; margin-top: 30mm; color: #2a2f3a; }
+.contents { break-after: page; }
+.contents h2 { margin-top: 0; }
+.contents ol { list-style: none; padding: 0; margin: 0; font-size: 11pt; }
+.contents li { border-bottom: 0.5pt solid #d4cfc4; padding: 1.1mm 0 1.1mm 0; font-size: 10pt; }
+.contents li .chip { display: inline-block; width: 7mm; height: 4.6mm; margin-right: 3mm; vertical-align: -0.8mm;
+                     color: #fff; font: 400 11pt/4.8mm Bebas; text-align: center; }
+.contents li.plan { color: #6a7080; }
+.contents li.toc-part { border: 0; padding: 4mm 0 1mm; font: 600 8pt Plex; letter-spacing: .14em; text-transform: uppercase; }
+.contents .here { font: 600 7pt Plex; color: #fff; background: #0d0e12; padding: .3mm 1.4mm; margin-left: 2mm; letter-spacing: .06em; }
+.contents li.sub { font-size: 9.5pt; padding: 1mm 0 1mm 6mm; border-bottom: 0; }
+.contents a { color: #0d0e12; text-decoration: none; }
+.contents a::after { content: leader('.') target-counter(attr(href), page); font: 600 9pt Plex; }
+.contents .cols-toc { columns: 2; column-gap: 10mm; }
+.contents ol > li { text-indent: 0; margin: 0; }
+.contents ol > li::before { content: none; display: none; }
+.contents li.toc-part { break-after: avoid; }
+.contents li .chip { text-indent: 0; }
+
+/* ---------- 1 chapter opener (full width) ---------- */
+.chapter { break-before: page; }
+.ch-open { margin: 0 0 4mm; padding: 6mm 7mm 5mm; background-color: var(--ch); background-image: url(CONTOURS);
+            background-size: cover; color: #ffffff; display: flex; justify-content: space-between; align-items: flex-end; }
+.ch-open .ch-big { font: 400 78pt/0.8 Bebas; color: rgba(255,255,255,.28); margin: 0 0 -1mm 6mm; }
+.ch-num { font: 600 8.5pt Plex; letter-spacing: .22em; text-transform: uppercase; color: #ffffff; }
+.ch-num .big { float: none; }
+.ch-open h1 { font: 400 38pt/0.95 Bebas; margin: 2mm 0 1.5mm; string-set: cht content(); color: #ffffff; letter-spacing: .01em; }
+.ch-sub { margin: 0; font-size: 11pt; font-weight: 500; color: #ffffff; }
+.cols.glance { background: var(--ch-lt); border-top: 0; padding: 2mm 3mm 0; margin: -4mm 0 4mm; }
+.cite { font-style: normal; font: 600 7.5pt Plex; letter-spacing: .08em; text-transform: uppercase; }
+/* the introduction is one page (owner ruling, 24 Nov 2026) */
+.intro { font-size: 8.8pt; line-height: 1.33; }
+.intro .ch-open { padding: 4.5mm 6mm 4mm; margin-bottom: 3mm; }
+.intro .ch-open h1 { font-size: 30pt; } .intro .ch-open .ch-big { font-size: 60pt; }
+.intro p.quote { margin: 0 14mm 2.5mm; padding: 1.5mm 0; font-size: 11pt; }
+.intro p.lead { font-size: 9.8pt; margin-bottom: 2.5mm; }
+.intro h2 { margin: 3mm 0 2mm; font-size: 16pt; padding-top: 1.4mm; padding-bottom: 1.1mm; }
+.intro .aside { padding: 1.6mm 2.6mm .4mm; margin: 1mm 0 2mm; }
+.intro .aside .as-head { font-size: 12pt; }
+.intro p { margin-bottom: 1.2mm; }
+.intro p.signoff { margin-top: 1mm; font-size: 16pt; }
+
+/* ---------- 2 headings ---------- */
+h2 { font: 400 19pt/1 Bebas; margin: 6mm 0 3mm; padding: 1.8mm 3mm 1.4mm 0; background: var(--ch);
+     color: #ffffff; break-after: avoid; letter-spacing: .015em; }
+h2 .h2-n { display: inline-block; font: 400 19pt/1 Bebas; background: var(--ch-dk); color: #ffffff;
+           padding: 1.8mm 2.8mm 1.4mm; margin: -1.8mm 3mm -1.4mm 0; min-width: 6mm; text-align: center; }
+.contents h2 { background: #0d0e12; padding-left: 3mm; }
+h2.non { padding-left: 3mm; }
+h3 { font: 400 13.5pt/1.1 Bebas; margin: 3.8mm 0 1.2mm; padding: 1.1mm 2mm .8mm 2.4mm; break-after: avoid;
+     letter-spacing: .015em; color: var(--ch-dk); background: var(--ch-lt); border-left: 3pt solid var(--ch); }
+h3.alert { color: #8f1414; background: #fbeaea; border-left-color: #B91C1C; }
+h4 { font: 600 9.5pt/1.25 Oswald; margin: 2.5mm 0 .8mm; break-after: avoid; color: var(--ch-dk); }
+.cols > h3:first-child, .cols > .keep:first-child > h3:first-child { margin-top: 0; }
+p.why { font-style: italic; font-weight: 400; color: #2a2f3a; margin: 0 0 1.6mm; break-after: avoid; }
+.keep { break-inside: avoid; }   /* heading + why + first block, small only */
+
+/* ---------- 3 paragraph ---------- */
+p { margin: 0 0 1.6mm; orphans: 2; widows: 2; }
+.cols > p > strong:first-child, li > strong:first-child { color: var(--ch-dk); }
+
+/* ---------- 4 bullet list (also the ✓ / ✗ list and the decision flow) ---------- */
+ul, ol { margin: 0 0 2mm; padding-left: 4.2mm; }
+li { margin: 0 0 .8mm; orphans: 2; widows: 2; }
+ul { list-style-type: square; }
+ul > li::marker { color: var(--ch); }   /* no ::marker content: crashes WeasyPrint 70 */
+li > ul, li > ol { margin: .8mm 0 0; }
+ul > li.sub { list-style: none; padding-left: 3.2mm; }
+ul.mark { list-style: none; padding-left: 4.6mm; }
+ul.mark > li { text-indent: -4.6mm; }
+ul.mark .mk { display: inline-block; width: 4.6mm; text-indent: 0; font-family: 'DejaVu Sans Condensed', sans-serif; font-weight: bold; }
+ul.mark .mk.no { color: #B91C1C; }
+ul.mark .mk.yes { color: #047857; }
+ul.flow { list-style: none; padding: 2mm 2.4mm 1.2mm 7mm; background: var(--ch-xl); border-left: 2.2pt solid var(--ch); }
+ul.flow > li { text-indent: -4.6mm; margin-bottom: .3mm; }
+ul.flow > li.out { padding-left: 4.6mm; }
+ul.flow .mk { display: inline-block; width: 4.6mm; text-indent: 0; font-family: 'DejaVu Sans Condensed', sans-serif; font-weight: bold; color: var(--ch); }
+
+/* ---------- 5 numbered steps: numbers in one vertical line, run-over under the text ---------- */
+ol { list-style: none; padding-left: 6.4mm; }
+ol > li { text-indent: -6.4mm; margin-bottom: 1.2mm; }
+ol > li::before { content: counter(list-item); display: inline-block; text-indent: 0; box-sizing: border-box;
+                  width: 4.6mm; height: 4.6mm; border-radius: 2.3mm; margin-right: 1.8mm; vertical-align: .1mm;
+                  background: var(--ch); color: #ffffff; font: 600 7pt/4.6mm Plex; text-align: center; }
+ol.key > li::before { background: #ffffff; color: var(--ch-dk); border: 1pt solid var(--ch-dk); line-height: 4.2mm; }
+
+/* ---------- 6 notices (ANSI Z535.6 signal words) ---------- */
+.notice { margin: 1.5mm 0 2.6mm; border: .75pt solid var(--nc); break-inside: avoid; }
+.notice .nbar { font: 600 7.5pt/1 Plex; letter-spacing: .1em; text-transform: uppercase;
+                background: var(--nc); color: var(--nt); padding: 1.3mm 2.2mm 1.1mm; }
+.notice .nbar .sym { font-size: 8pt; margin-right: 1mm; }
+.notice .nbody { padding: 1.6mm 2.4mm .6mm; background: var(--np); }
+.notice .nbody p { margin-bottom: 1.2mm; }
+.n-danger  { --nc: #C8102E; --nt: #ffffff; --np: #fdf1f2; }
+.n-warning { --nc: #F07C00; --nt: #0d0e12; --np: #fff6ec; }
+.n-caution { --nc: #F2C200; --nt: #0d0e12; --np: #fffbe8; }
+.n-notice  { --nc: #1F4E8C; --nt: #ffffff; --np: #f1f5fa; }
+.n-notice .nbar { font-style: italic; }
+.n-note    { --nc: #1d6b70; --nt: #ffffff; --np: #eef6f6; }
+
+/* ---------- 7 table ---------- */
+table { width: 100%; border-collapse: collapse; margin: 1.5mm 0 3mm; font-size: 8.5pt; line-height: 1.3; }
+th { font: 600 6.8pt/1.25 Plex; text-transform: uppercase; letter-spacing: .04em; text-align: left;
+     color: #ffffff; background: var(--ch); padding: 1.5mm 1.6mm; vertical-align: bottom; }
+td { border-bottom: .5pt solid var(--ch-md); padding: 1.2mm 1.6mm; vertical-align: top; }
+tr:nth-child(even) td { background: var(--ch-xl); }
+td:first-child { font-weight: 500; }
+tr { break-inside: avoid; }
+thead { display: table-header-group; }
+td .crit, td .warn, td .ok { font: 600 7pt Plex; text-transform: uppercase; }
+td .crit { color: #B91C1C; } td .warn { color: #9a5200; } td .ok { color: #047857; }
+
+/* ---------- 8 checklist ---------- */
+ul.check { list-style: none; padding: 2mm 2.4mm 1.2mm 7.4mm; background: var(--ch-xl); border-left: 2.2pt solid var(--ch); }
+ul.check > li { text-indent: -5mm; margin-bottom: .7mm; }
+ul.check .box { display: inline-block; box-sizing: border-box; width: 2.8mm; height: 2.8mm; border: 1pt solid var(--ch-dk); background: #fff;
+                margin-right: 2.2mm; vertical-align: -.3mm; text-indent: 0; }
+
+/* ---------- 9 spec rows ---------- */
+table.spec { font-size: 9pt; margin: 0 0 3mm; }
+table.spec td { padding: 1mm 1.6mm 1mm 0; }
+table.spec td { border-bottom: .5pt solid var(--ch-md); background: none !important; }
+table.spec td.k { font: 400 6.8pt/1.3 Plex; text-transform: uppercase; letter-spacing: .02em; color: var(--ch-dk); width: 62%; padding-top: 1.5mm; }
+table.spec td.v { font: 400 12pt/1 Bebas; color: var(--ch-dk); letter-spacing: .02em; }
+
+/* ---------- 10 fault card: plain headed text ---------- */
+.fault h4 { font-size: 10pt; }
+.fault .fl { font: 600 7pt Plex; text-transform: uppercase; letter-spacing: .06em; color: var(--ch); margin: 1mm 0 .4mm; }
+
+/* ---------- 11 figure ---------- */
+.figure { margin: 1mm 0 3mm; break-inside: avoid; text-align: center; }
+.figure svg { width: 100%; max-height: 125mm; height: auto; }
+.figure { background: #ffffff; border: .75pt solid var(--ch-md); padding: 2mm 3mm 1.6mm; }
+.figure .cap { text-align: left; font: 400 7.2pt/1.35 Plex; color: var(--ch-dk); margin-top: 1mm; border-top: .5pt solid var(--ch-md); padding-top: 1mm; }
+.legend { font: 400 7.2pt/1.6 Plex; color: #2a2f3a; margin: 0 0 3mm; }
+.legend span { white-space: nowrap; margin-right: 4mm; }
+.legend i { display: inline-block; width: 7mm; height: 1.4mm; margin-right: 1.4mm; vertical-align: middle; }
+
+/* ---------- layout: two columns flowing top to bottom ---------- */
+.cols { columns: 2; column-gap: 10mm; }
+a.xref { color: #0d0e12; text-decoration: none; font-weight: 400; }
+a.xref::after { content: " (p. " target-counter(attr(href), page) ")"; }
+/* a heading names the chapter, without its page number; a link in a coloured bar keeps the bar's text colour */
+th a.xref, h2 a.xref, h3 a.xref, h4 a.xref { color: inherit; font-weight: inherit; }
+th a.xref::after, h2 a.xref::after, h3 a.xref::after, h4 a.xref::after { content: none; }
+.one { margin: 0 0 1mm; }
+/* modular layout (25 Nov 2026): clear space between a column block and whatever follows it */
+.cols { margin-bottom: 4.5mm; }
+.cols.glance { margin-bottom: 4mm; }
+.one { margin-bottom: 3.5mm; }
+.cols + table, .one + table, .cols + .figure, .one + .figure, .cols + .wide, .cols + .legend { margin-top: 0; }
+table { margin-bottom: 5mm; }
+.figure { margin-bottom: 5mm; }
+.mhead { margin-top: 5mm; }
+.mhead > h3 { margin-top: 0; }
+.mod { break-inside: avoid; margin: 0 0 4mm; }
+.mod > h3:first-child, .mod > h4:first-child { margin-top: 0; }
+.colbrk { break-before: column; }
+.mhead > h4.fault { margin-top: 0; }
+.mhead { break-after: avoid; }
+
+/* ---------- 12 prose blocks (introduction and Part 1 essays) ---------- */
+p.quote { font: italic 400 12.5pt/1.35 Oswald; color: var(--ch-dk); text-align: center; margin: 2mm 14mm 5mm;
+          padding: 3mm 0; border-top: 1pt solid var(--ch-md); border-bottom: 1pt solid var(--ch-md); }
+p.lead { font-size: 11pt; line-height: 1.42; font-weight: 400; color: #0d0e12; margin: 1mm 0 4mm;
+         padding-left: 4mm; border-left: 3pt solid var(--ch); }
+p.h2sub { font: 400 7.5pt Plex; text-transform: uppercase; letter-spacing: .08em; color: var(--ch-dk); margin: -1.8mm 0 3mm; }
+p.kicker { font: italic 400 10.5pt/1.4 Oswald; color: var(--ch-dk); margin: 0 0 3mm; padding-left: 3mm; border-left: 2pt solid var(--ch); }
+p.signoff { font: 400 18pt Bebas; color: var(--ch); text-align: right; margin-top: 4mm; letter-spacing: .03em; }
+.aside { background: var(--ch-lt); border-left: 3pt solid var(--ch); padding: 2.2mm 3mm 1mm; margin: 2mm 0 3mm; break-inside: avoid; }
+.aside .as-label { font: 600 7pt Plex; text-transform: uppercase; letter-spacing: .1em; color: var(--ch-dk); margin-bottom: 1mm; }
+.aside .as-head { font: 400 13pt/1.1 Bebas; color: var(--ch-dk); margin-bottom: 1mm; letter-spacing: .02em; }
+.aside ul { margin-bottom: 1mm; }
+.aside p { margin-bottom: 1.2mm; }
+.closing { background-color: var(--ch); background-image: url(CONTOURS); background-size: cover; color: #fff;
+           text-align: center; padding: 9mm 6mm 7mm; margin: 6mm 0 2mm; break-inside: avoid; }
+.closing .cl-big { font: 400 30pt/1 Bebas; letter-spacing: .03em; }
+.closing .cl-sign { font: 600 8pt Plex; letter-spacing: .25em; text-transform: uppercase; margin-top: 3mm; }
+.refs p.ref, p.ref { font-size: 8pt; line-height: 1.35; margin-bottom: 1.4mm; }
+ol.refl { padding-left: 6mm; font-size: 7.5pt; line-height: 1.35; }
+ol.refl > li { text-indent: 0; }
+ol.refl > li::before { content: none; display: none; }
+ol.refl { list-style: decimal; }
+ol.refl > li::marker { font: 600 6.8pt Plex; color: var(--ch-dk); }
+sup { font-size: 6pt; line-height: 0; color: var(--ch-dk); }
+
+/* ---------- notes page (end of each field chapter) ---------- */
+.notes { break-before: page; }
+.notes h2 { margin-top: 0; }
+.notes .nline { border-bottom: .6pt solid var(--ch-md); height: 9mm; }
+
+/* ---------- part divider (full bleed, part colour) ---------- */
+@page part { margin: 0; @top-left { content: none; } @top-right { content: none; } @bottom-left { content: none; } @bottom-right { content: none; } }
+.part { page: part; break-before: page; break-after: page; width: 210mm; height: 297mm; box-sizing: border-box;
+        background-image: url(CONTOURS); background-size: 210mm 297mm; color: #fff; padding: 118mm 20mm 0; }
+.part .part-num { font: 600 11pt Plex; letter-spacing: .35em; text-transform: uppercase; }
+.part .part-title { font: 400 72pt/.9 Bebas; margin-top: 4mm; letter-spacing: .01em; }
+.part .part-list { font: 500 11pt/1.7 Oswald; margin-top: 10mm; color: rgba(255,255,255,.88); }
+
+/* ---------- batch 2: fault heads, tags, chains, Q&A, risk bands ---------- */
+/* a fault card heading names the fault: it must read as a heading at a glance (owner, 25 Nov 2026) */
+h4.fault { font: 400 12.5pt/1.1 Bebas; letter-spacing: .02em; color: var(--ch-dk); margin: 3.6mm 0 1.4mm;
+           padding: 1mm 0 .8mm 2.2mm; border-left: 3pt solid var(--ch); border-bottom: .75pt solid var(--ch-md); break-after: avoid; }
+h4.fault .fbadge { font-size: 6.4pt; vertical-align: 1mm; }
+.fbadge { display: inline-block; font: 600 6.6pt/1 Plex; letter-spacing: .06em; text-transform: uppercase;
+          padding: .8mm 1.4mm .6mm; margin-left: 1.2mm; vertical-align: .3mm; }
+.fbadge.stop { background: #B91C1C; color: #fff; }
+.fbadge.caution { background: #F07C00; color: #0d0e12; }
+.fbadge.ok { background: #047857; color: #fff; }
+.fbadge.plain { background: var(--ch-md); color: var(--ch-dk); }
+p.limit { font-size: 8.8pt; color: #5a1010; }
+p.chain { background: var(--ch-xl); border-left: 2.2pt solid var(--ch); padding: 1.8mm 2.4mm; line-height: 1.55; }
+p.chain .cstep { font-weight: 500; }
+p.chain .arr, .flow .arr { color: var(--ch); font-weight: bold; }
+ul.flow .mk.lbl { width: auto; min-width: 4.6mm; margin-right: 1.4mm; font: 600 7pt Plex; color: var(--ch-dk); }
+ul.flow.tree { padding-left: 3mm; }
+ul.flow.tree > li { text-indent: 0; padding-left: 0; }
+ul.flow.tree > li.q { margin-top: 1.4mm; } ul.flow.tree > li.q:first-child { margin-top: 0; }
+ul.flow.tree > li.out { padding-left: 4mm; }
+ul.flow.tree > li.key { margin-top: 1.2mm; }
+ul.qa { list-style: none; padding: 2mm 2.4mm 1mm 3mm; background: var(--ch-xl); border-left: 2.2pt solid var(--ch); }
+ul.qa > li { margin-bottom: 1.6mm; }
+ul.qa .tq { color: var(--ch-dk); }
+.aside.r-high { border-left-color: #B91C1C; background: #fbeaea; } .aside.r-high .as-head { color: #8f1414; }
+.aside.r-med { border-left-color: #F07C00; background: #fff4e6; } .aside.r-med .as-head { color: #8a4300; }
+.aside.r-low { border-left-color: #047857; background: #e9f6f1; } .aside.r-low .as-head { color: #035c43; }
+table.spec td.v2 { font-weight: 500; font-size: 8.6pt; }
+table.spec td.v2.bad { color: #B91C1C; font-weight: 600; }
+.swatch { display: inline-block; width: 3.2mm; height: 3.2mm; border: .6pt solid #0d0e12; margin-right: 1.6mm; vertical-align: -.3mm; }
+.h3tag { font: 400 6.8pt Plex; letter-spacing: .06em; text-transform: uppercase; color: var(--ch-dk); margin-left: 1.6mm; }
+
+/* Part 1 essays */
+.small-type { font-size: 8.5pt; }
+
+/* 25 Nov 2026: system group headings in fault sections stand above their fault cards */
+h3.grp { font-size: 16pt; padding: 1.6mm 2.4mm 1.2mm; background: var(--ch-md); border-left-width: 4pt; margin-top: 4mm; }
+.mod:last-child { margin-bottom: 0; }
+.cols.glance + h2 { margin-top: 2mm; }
+.ch-open { padding: 5mm 7mm 4mm; }
+.ch-open h1 { margin: 1.5mm 0 1mm; }
+
+/* 25 Nov 2026: a link in the at-a-glance panel reads like the other values; a repeated reference drops its page */
+table.spec td a.xref, table.spec td a.xref::after { font: inherit; color: inherit; letter-spacing: inherit; }
+a.xref.again::after { content: none; }
+
+/* 25 Nov 2026: a numbered item keeps the library's own number (figure keys match the drawing's numbers) */
+ol > li.v::before { content: attr(value); }
+
+/* 25 Nov 2026: decision tree drawn like the library's — question boxes, outcome boxes in their colours */
+.dtree { break-inside: avoid; background: var(--ch-xl); border-left: 3pt solid var(--ch); padding: 3mm 3.5mm 2.5mm; margin: 1mm 0 4mm; }
+.dt-title { font: 600 7pt Plex; letter-spacing: .12em; text-transform: uppercase; color: var(--ch-dk); margin-bottom: 2.4mm; }
+.dt-q { margin: 0 0 1.2mm; }
+.dt-b { display: flex; align-items: flex-start; margin: 0 0 1.2mm 3mm; padding-left: 4mm; border-left: 1.2pt solid var(--ch-md); }
+.dt-l { flex: none; min-width: 11mm; font: 600 7pt Plex, 'DejaVu Sans Condensed', sans-serif; letter-spacing: .04em; color: var(--ch-dk); padding-top: 1.3mm; }
+.dt-down { margin: 0 0 1.2mm 3mm; padding: .6mm 0 .6mm 4mm; border-left: 1.2pt solid var(--ch-md); }
+.dt-arr { font-family: 'DejaVu Sans Condensed', sans-serif; font-weight: bold; color: var(--ch-dk); margin: 0 1.2mm; }
+.tn { display: inline-block; font: 600 8.6pt/1.3 Oswald; padding: .9mm 2mm .8mm; border: .9pt solid #8a8f9a; background: #ffffff; color: #0d0e12; }
+.tn.start { background: #fdf0dc; border-color: #e07800; color: #7a3e00; }
+.tn.ask   { background: #e8eef9; border-color: #3b6abf; color: #1e3a70; }
+.tn.stop  { background: #fbeaea; border-color: #B91C1C; color: #8f1414; }
+.tn.fix   { background: #e6f4ee; border-color: #059669; color: #035c43; }
+.tn.limp  { background: #fdeee0; border-color: #c05a00; color: #7a3a00; }
+.dt-key { margin-top: 2.4mm; padding-top: 2mm; border-top: .6pt solid var(--ch-md); }
+.dt-key .tn { font-size: 7.6pt; margin: 0 1.6mm 1mm 0; }
+.tn a.xref { font-weight: inherit; color: inherit; }
+ul.mark .mk.arw { color: var(--ch); }
+
+/* 26 Nov 2026 (batch 4, Part 3): checklist item numbers and frequencies, the text diagram, Ohm's triangle, rows in colour */
+ul.check .cnum { font: 600 7pt Plex; letter-spacing: .04em; text-transform: uppercase; color: var(--ch-dk); margin-right: 1.6mm; }
+pre.tdiag { font: 400 6.2pt/1.5 'DejaVu Sans Mono', monospace; color: #0d0e12; text-align: left; margin: 0; white-space: pre; }
+p.tri { text-align: center; line-height: 2.1; }
+p.tri .tn { margin: 0 1mm; }
+table.spec td.v2.warnv { color: #9a5200; } table.spec td.v2.okv { color: #047857; }
+ul.zones { list-style: none; padding-left: 4.4mm; }
+ul.zones > li { text-indent: -4.4mm; }
+
+/* 26 Nov 2026 (owner on batch 4): field-fix cards set for reading; cards for symbols, formulas, chemistries */
+p.lab { margin-bottom: 1.8mm; }
+p.lab .fl, p.carry .fl { display: block; font: 600 6.8pt/1.3 Plex; letter-spacing: .08em; text-transform: uppercase; color: var(--ch-dk); margin: 0 0 .4mm; }
+p.carry { background: var(--ch-xl); border-left: 2.2pt solid var(--ch); padding: 1.4mm 2.4mm; margin: 1mm 0 2.4mm; font-size: 9pt; }
+ol.fsteps { margin-bottom: 2.4mm; }
+ol.fsteps > li > strong:first-child { color: var(--ch-dk); }
+.cards { display: grid; grid-template-columns: 1fr 1fr; column-gap: 4mm; row-gap: 4mm; margin: 1mm 0 5mm; }
+.cards.c3 { grid-template-columns: 1fr 1fr 1fr; }
+.cardc { background: var(--ch-xl); border: .75pt solid var(--ch-md); border-top: 3pt solid var(--ch); padding: 2.4mm 3mm 1.2mm; break-inside: avoid; }
+.cardc .as-label { font: 600 6.8pt Plex; text-transform: uppercase; letter-spacing: .1em; color: var(--ch-dk); margin-bottom: .8mm; }
+.cardc .as-head { font: 400 13.5pt/1.1 Bebas; color: var(--ch-dk); margin-bottom: 1.4mm; letter-spacing: .02em; }
+.cardc .sbig { font: 400 24pt/.9 Bebas; color: var(--ch); margin-right: 2.4mm; vertical-align: -1.2mm; }
+.cardc p { margin-bottom: 1.2mm; font-size: 9pt; }
+.cardc p.feq { font: 400 13pt/1.1 Bebas; color: var(--ch-dk); letter-spacing: .03em; border-top: .5pt solid var(--ch-md); padding-top: 1.2mm; }
+.cardc p.feq.big { font-size: 17pt; border-top: 0; padding-top: 0; }
+.cardc p.fex { color: #2a2f3a; }
+.cardc ul { font-size: 8.8pt; margin-bottom: 1mm; }
+.cardc .fbadge { margin-left: 0; }
+
+/* 26 Nov 2026 (batch 5, Part 4): checklist rows, part banners, cascades, rescue stack */
+ul.check.rows > li { margin-bottom: 1.6mm; }
+ul.check.rows .fbadge { font-size: 6pt; vertical-align: .4mm; }
+h2.pb { background: var(--ch-dk); }
+ul.orders { list-style: none; padding-left: 0; }
+ul.orders > li { margin-bottom: 1.4mm; }
+ul.orders .cnum, ul.check .cnum { font: 600 7pt Plex; letter-spacing: .04em; text-transform: uppercase; color: var(--ch-dk); margin-right: 1.6mm; }
+ol.stack { margin-bottom: 1.4mm; }
+ol.stack .fbadge { font-size: 6pt; }
+p.limit2 { font-size: 8.8pt; color: #2a2f3a; font-style: italic; }
+table.spec.wide-k td.k { width: 24%; }
+ul > li.gh { list-style: none; margin: 2.2mm 0 .8mm -4.2mm; font: 600 7pt Plex; letter-spacing: .1em; text-transform: uppercase; color: var(--ch-dk); }
+ul > li.gh:first-child { margin-top: 0; }
+.fbadge, .tn { text-indent: 0; }
+/* 26 Nov 2026 (owner: reference card 'disjointed'): the spec sheet — groups flow down two columns, no boxes side by side */
+h4.sg { font: 600 7.4pt Plex; letter-spacing: .08em; text-transform: uppercase; color: var(--ch-dk); background: var(--ch-lt);
+        border-left: 3pt solid var(--ch); padding: 1.1mm 2mm .9mm; margin: 3.2mm 0 .6mm; }
+.cols.sheet > h4.sg:first-child { margin-top: 0; }
+.cols.sheet table.spec { margin-bottom: 1mm; }
+.cols.sheet table.spec td.k { width: 42%; }
+.cols.sheet table.spec td.v2 { font-size: 8.8pt; }
+/* 27 Nov 2026 (owner: ch. 7 'bland', figures larger): run-in headings in the essays */
+p.runin { margin-top: 3.2mm; padding-top: 2mm; border-top: .75pt solid var(--ch-md); }
+p.runin > strong:first-child { display: block; font: 400 15pt/1 Bebas; letter-spacing: .02em; color: var(--ch-dk); margin-bottom: 1mm; }
+.cols.prose > p.runin:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
